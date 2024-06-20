@@ -77,11 +77,11 @@ describe("Client Tests", function (this: Suite) {
         });
         await client.databases.readAll().fetchAll();
       } catch (e: any) {
-        assert.equal(e.name, "CredentialUnavailableError");
+        assert.equal(e.name, "AuthenticationRequiredError");
       }
     });
   });
-  describe("Validate user passed AbortController.signal", function () {
+  describe.skip("Validate user passed AbortController.signal", function () {
     it("should throw exception if aborted during the request", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {

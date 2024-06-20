@@ -67,6 +67,7 @@ export class ChangeFeedIterator<T> {
 
 // @public
 export interface ChangeFeedIteratorOptions {
+    changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
     maxItemCount?: number;
     sessionToken?: string;
@@ -86,6 +87,14 @@ export class ChangeFeedIteratorResponse<T> {
     readonly subStatusCode?: number;
 }
 
+// @public (undocumented)
+export enum ChangeFeedMode {
+    // (undocumented)
+    AllVersionsAndDeletes = "Full-Fidelity Feed",
+    // (undocumented)
+    LatestVersion = "Incremental Feed"
+}
+
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
@@ -93,6 +102,13 @@ export interface ChangeFeedOptions {
     sessionToken?: string;
     startFromBeginning?: boolean;
     startTime?: Date;
+}
+
+// @public
+export class ChangeFeedPolicy {
+    constructor(retentionDuration: ChangeFeedRetentionTimeSpan);
+    // (undocumented)
+    retentionDuration: number;
 }
 
 // @public
@@ -115,6 +131,11 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public (undocumented)
+export class ChangeFeedRetentionTimeSpan {
+    static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
 }
 
 // @public
@@ -465,6 +486,7 @@ export const Constants: {
         ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
+        ChangeFeedWireFormatVersion: string;
         ActivityId: string;
         CorrelatedActivityId: string;
         PreTriggerInclude: string;
@@ -577,6 +599,8 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
 };
 
 // @public
@@ -612,6 +636,7 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    changeFeedPolicy?: ChangeFeedPolicy;
     computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;

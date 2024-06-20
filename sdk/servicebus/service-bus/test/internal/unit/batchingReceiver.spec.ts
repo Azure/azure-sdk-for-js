@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 import * as sinon from "sinon";
 import { EventEmitter } from "events";
@@ -16,7 +16,6 @@ import {
 } from "../../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
-import { AbortController } from "@azure/abort-controller";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import {
   Receiver as RheaPromiseReceiver,

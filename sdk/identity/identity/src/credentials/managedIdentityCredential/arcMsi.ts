@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import {
   PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { GetTokenOptions } from "@azure/core-auth";
-import { readFile } from "fs";
+
 import { AuthenticationError } from "../../errors";
-import { credentialLogger } from "../../util/logging";
+import { GetTokenOptions } from "@azure/core-auth";
 import { IdentityClient } from "../../client/identityClient";
-import { mapScopesToResource } from "./utils";
-import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { azureArcAPIVersion } from "./constants";
+import { credentialLogger } from "../../util/logging";
+import fs from "node:fs";
+import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - Azure Arc MSI";
 const logger = credentialLogger(msiName);
@@ -61,21 +62,6 @@ function prepareRequestOptions(
 }
 
 /**
- * Retrieves the file contents at the given path using promises.
- * Useful since `fs`'s readFileSync locks the thread, and to avoid extra dependencies.
- */
-function readFileAsync(path: string, options: { encoding: BufferEncoding }): Promise<string> {
-  return new Promise((resolve, reject) =>
-    readFile(path, options, (err, data) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    }),
-  );
-}
-
-/**
  * Does a request to the authentication provider that results in a file path.
  */
 async function filePathRequest(
@@ -100,6 +86,50 @@ async function filePathRequest(
     return authHeader.split("=").slice(1)[0];
   } catch (e: any) {
     throw Error(`Invalid www-authenticate header format: ${authHeader}`);
+  }
+}
+
+export function platformToFilePath(): string {
+  switch (process.platform) {
+    case "win32":
+      if (!process.env.PROGRAMDATA) {
+        throw new Error(`${msiName}: PROGRAMDATA environment variable has no value.`);
+      }
+      return `${process.env.PROGRAMDATA}\\AzureConnectedMachineAgent\\Tokens`;
+    case "linux":
+      return "/var/opt/azcmagent/tokens";
+    default:
+      throw new Error(`${msiName}: Unsupported platform ${process.platform}.`);
+  }
+}
+
+/**
+ * Validates that a given Azure Arc MSI file path is valid for use.
+ *
+ * A valid file will:
+ * 1. Be in the expected path for the current platform.
+ * 2. Have a `.key` extension.
+ * 3. Be at most 4096 bytes in size.
+ */
+export function validateKeyFile(filePath?: string): asserts filePath is string {
+  if (!filePath) {
+    throw new Error(`${msiName}: Failed to find the token file.`);
+  }
+
+  if (!filePath.endsWith(".key")) {
+    throw new Error(`${msiName}: unexpected file path from HIMDS service: ${filePath}.`);
+  }
+
+  const expectedPath = platformToFilePath();
+  if (!filePath.startsWith(expectedPath)) {
+    throw new Error(`${msiName}: unexpected file path from HIMDS service: ${filePath}.`);
+  }
+
+  const stats = fs.statSync(filePath);
+  if (stats.size > 4096) {
+    throw new Error(
+      `${msiName}: The file at ${filePath} is larger than expected at ${stats.size} bytes.`,
+    );
   }
 }
 
@@ -150,12 +180,9 @@ export const arcMsi: MSI = {
     };
 
     const filePath = await filePathRequest(identityClient, requestOptions);
+    validateKeyFile(filePath);
 
-    if (!filePath) {
-      throw new Error(`${msiName}: Failed to find the token file.`);
-    }
-
-    const key = await readFileAsync(filePath, { encoding: "utf-8" });
+    const key = await fs.promises.readFile(filePath, { encoding: "utf-8" });
     requestOptions.headers?.set("Authorization", `Basic ${key}`);
 
     const request = createPipelineRequest({

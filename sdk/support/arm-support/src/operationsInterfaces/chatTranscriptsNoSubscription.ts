@@ -19,7 +19,7 @@ import {
 export interface ChatTranscriptsNoSubscription {
   /**
    * Lists all chat transcripts for a support ticket
-   * @param supportTicketName Support ticket name.
+   * @param supportTicketName Support ticket name
    * @param options The options parameters.
    */
   list(

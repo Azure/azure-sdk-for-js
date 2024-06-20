@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ProtectionContainerOperationResultsGetOptionalParams,
-  ProtectionContainerOperationResultsGetResponse
+  ProtectionContainerOperationResultsGetResponse,
 } from "../models";
 
 /** Class containing ProtectionContainerOperationResults operations. */
 export class ProtectionContainerOperationResultsImpl
-  implements ProtectionContainerOperationResults {
+  implements ProtectionContainerOperationResults
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -45,7 +46,7 @@ export class ProtectionContainerOperationResultsImpl
     fabricName: string,
     containerName: string,
     operationId: string,
-    options?: ProtectionContainerOperationResultsGetOptionalParams
+    options?: ProtectionContainerOperationResultsGetOptionalParams,
   ): Promise<ProtectionContainerOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -54,9 +55,9 @@ export class ProtectionContainerOperationResultsImpl
         fabricName,
         containerName,
         operationId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -64,18 +65,17 @@ export class ProtectionContainerOperationResultsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerResource
+      bodyMapper: Mappers.ProtectionContainerResource,
     },
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -85,8 +85,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.fabricName,
     Parameters.operationId,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

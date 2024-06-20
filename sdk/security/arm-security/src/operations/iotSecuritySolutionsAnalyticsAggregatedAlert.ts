@@ -21,13 +21,14 @@ import {
   IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams,
   IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse,
   IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams,
-  IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse
+  IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IotSecuritySolutionsAnalyticsAggregatedAlert operations. */
 export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
-  implements IotSecuritySolutionsAnalyticsAggregatedAlert {
+  implements IotSecuritySolutionsAnalyticsAggregatedAlert
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -48,7 +49,7 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
   public list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   ): PagedAsyncIterableIterator<IoTSecurityAggregatedAlert> {
     const iter = this.listPagingAll(resourceGroupName, solutionName, options);
     return {
@@ -66,9 +67,9 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
           resourceGroupName,
           solutionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +77,7 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
     resourceGroupName: string,
     solutionName: string,
     options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IoTSecurityAggregatedAlert[]> {
     let result: IotSecuritySolutionsAnalyticsAggregatedAlertListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
         resourceGroupName,
         solutionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +105,12 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
   private async *listPagingAll(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   ): AsyncIterableIterator<IoTSecurityAggregatedAlert> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       solutionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +126,11 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
   private _list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsAggregatedAlertListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -146,11 +147,11 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
     resourceGroupName: string,
     solutionName: string,
     aggregatedAlertName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, aggregatedAlertName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -166,11 +167,11 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
     resourceGroupName: string,
     solutionName: string,
     aggregatedAlertName: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, aggregatedAlertName, options },
-      dismissOperationSpec
+      dismissOperationSpec,
     );
   }
 
@@ -186,11 +187,11 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
     resourceGroupName: string,
     solutionName: string,
     nextLink: string,
-    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams
+    options?: IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -198,89 +199,86 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedAlertList
+      bodyMapper: Mappers.IoTSecurityAggregatedAlertList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion5, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedAlert
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.solutionName,
-    Parameters.aggregatedAlertName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IoTSecurityAggregatedAlert,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion19],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.solutionName,
+    Parameters.aggregatedAlertName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const dismissOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}/dismiss",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}/dismiss",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.solutionName,
-    Parameters.aggregatedAlertName
+    Parameters.aggregatedAlertName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedAlertList
+      bodyMapper: Mappers.IoTSecurityAggregatedAlertList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.solutionName
+    Parameters.resourceGroupName,
+    Parameters.solutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

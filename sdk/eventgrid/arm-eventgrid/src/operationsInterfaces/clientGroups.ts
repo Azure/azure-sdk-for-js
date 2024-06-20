@@ -15,7 +15,7 @@ import {
   ClientGroupsGetResponse,
   ClientGroupsCreateOrUpdateOptionalParams,
   ClientGroupsCreateOrUpdateResponse,
-  ClientGroupsDeleteOptionalParams
+  ClientGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ClientGroups {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: ClientGroupsListByNamespaceOptionalParams
+    options?: ClientGroupsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<ClientGroup>;
   /**
    * Get properties of a client group.
@@ -43,7 +43,7 @@ export interface ClientGroups {
     resourceGroupName: string,
     namespaceName: string,
     clientGroupName: string,
-    options?: ClientGroupsGetOptionalParams
+    options?: ClientGroupsGetOptionalParams,
   ): Promise<ClientGroupsGetResponse>;
   /**
    * Create or update a client group with the specified parameters.
@@ -58,7 +58,7 @@ export interface ClientGroups {
     namespaceName: string,
     clientGroupName: string,
     clientGroupInfo: ClientGroup,
-    options?: ClientGroupsCreateOrUpdateOptionalParams
+    options?: ClientGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClientGroupsCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface ClientGroups {
     namespaceName: string,
     clientGroupName: string,
     clientGroupInfo: ClientGroup,
-    options?: ClientGroupsCreateOrUpdateOptionalParams
+    options?: ClientGroupsCreateOrUpdateOptionalParams,
   ): Promise<ClientGroupsCreateOrUpdateResponse>;
   /**
    * Delete an existing client group.
@@ -91,7 +91,7 @@ export interface ClientGroups {
     resourceGroupName: string,
     namespaceName: string,
     clientGroupName: string,
-    options?: ClientGroupsDeleteOptionalParams
+    options?: ClientGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing client group.
@@ -104,6 +104,6 @@ export interface ClientGroups {
     resourceGroupName: string,
     namespaceName: string,
     clientGroupName: string,
-    options?: ClientGroupsDeleteOptionalParams
+    options?: ClientGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

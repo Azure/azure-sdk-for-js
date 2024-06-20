@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "prebuild": "rimraf dist/"
+    "prebuild": "rimraf --glob dist/"
   },
   "repository": {
     "type": "git",

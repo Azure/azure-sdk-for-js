@@ -64,6 +64,7 @@ export interface AgentPool extends SubResource {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -223,6 +224,11 @@ export interface AgentPoolUpgradeSettings {
     drainTimeoutInMinutes?: number;
     maxSurge?: string;
     nodeSoakDurationInMinutes?: number;
+}
+
+// @public
+export interface AgentPoolWindowsProfile {
+    disableOutboundNat?: boolean;
 }
 
 // @public
@@ -455,9 +461,6 @@ export interface IstioComponents {
 // @public
 export interface IstioEgressGateway {
     enabled: boolean;
-    nodeSelector?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -810,6 +813,7 @@ export type KubernetesSupportPlan = string;
 // @public
 export interface KubernetesVersion {
     capabilities?: KubernetesVersionCapabilities;
+    isDefault?: boolean;
     isPreview?: boolean;
     patchVersions?: {
         [propertyName: string]: KubernetesPatchVersion;
@@ -936,6 +940,7 @@ export interface ManagedCluster extends TrackedResource {
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfile;
     readonly maxAgentPools?: number;
+    metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
@@ -1039,6 +1044,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -1072,6 +1078,11 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
 export interface ManagedClusterAzureMonitorProfileMetrics {
     enabled: boolean;
     kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+}
+
+// @public
+export interface ManagedClusterCostAnalysis {
+    enabled?: boolean;
 }
 
 // @public
@@ -1144,6 +1155,11 @@ export interface ManagedClusterLoadBalancerProfileOutboundIPs {
 // @public
 export interface ManagedClusterManagedOutboundIPProfile {
     count?: number;
+}
+
+// @public
+export interface ManagedClusterMetricsProfile {
+    costAnalysis?: ManagedClusterCostAnalysis;
 }
 
 // @public

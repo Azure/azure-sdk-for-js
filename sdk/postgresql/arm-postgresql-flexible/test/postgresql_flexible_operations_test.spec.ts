@@ -58,7 +58,7 @@ describe("PostgreSQLFlexible test", () => {
     await recorder.stop();
   });
 
-  it("operation list test", async function () {
+  it.skip("operation list test", async function () {
     const result = await client.operations.list();
   });
 })

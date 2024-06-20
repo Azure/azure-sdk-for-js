@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BatchEndpoint,
   BatchEndpointsListOptionalParams,
@@ -20,7 +20,7 @@ import {
   BatchEndpointsCreateOrUpdateOptionalParams,
   BatchEndpointsCreateOrUpdateResponse,
   BatchEndpointsListKeysOptionalParams,
-  BatchEndpointsListKeysResponse
+  BatchEndpointsListKeysResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface BatchEndpoints {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
+    options?: BatchEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<BatchEndpoint>;
   /**
    * Delete Batch Inference Endpoint (asynchronous).
@@ -48,8 +48,8 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: BatchEndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Batch Inference Endpoint (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -61,7 +61,7 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
+    options?: BatchEndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a batch inference endpoint by name.
@@ -74,7 +74,7 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchEndpointsGetOptionalParams
+    options?: BatchEndpointsGetOptionalParams,
   ): Promise<BatchEndpointsGetResponse>;
   /**
    * Update a batch inference endpoint (asynchronous).
@@ -89,10 +89,10 @@ export interface BatchEndpoints {
     workspaceName: string,
     endpointName: string,
     body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
+    options?: BatchEndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchEndpointsUpdateResponse>,
       BatchEndpointsUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface BatchEndpoints {
     workspaceName: string,
     endpointName: string,
     body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
+    options?: BatchEndpointsUpdateOptionalParams,
   ): Promise<BatchEndpointsUpdateResponse>;
   /**
    * Creates a batch inference endpoint (asynchronous).
@@ -124,10 +124,10 @@ export interface BatchEndpoints {
     workspaceName: string,
     endpointName: string,
     body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
+    options?: BatchEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchEndpointsCreateOrUpdateResponse>,
       BatchEndpointsCreateOrUpdateResponse
     >
   >;
@@ -144,7 +144,7 @@ export interface BatchEndpoints {
     workspaceName: string,
     endpointName: string,
     body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
+    options?: BatchEndpointsCreateOrUpdateOptionalParams,
   ): Promise<BatchEndpointsCreateOrUpdateResponse>;
   /**
    * Lists batch Inference Endpoint keys.
@@ -157,6 +157,6 @@ export interface BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchEndpointsListKeysOptionalParams
+    options?: BatchEndpointsListKeysOptionalParams,
   ): Promise<BatchEndpointsListKeysResponse>;
 }

@@ -16,7 +16,7 @@ import { HybridComputeManagementClient } from "../hybridComputeManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,8 +27,6 @@ import {
   LicensesListBySubscriptionNextOptionalParams,
   LicensesListBySubscriptionOptionalParams,
   LicensesListBySubscriptionResponse,
-  LicensesValidateLicenseOptionalParams,
-  LicensesValidateLicenseResponse,
   LicensesCreateOrUpdateOptionalParams,
   LicensesCreateOrUpdateResponse,
   LicenseUpdate,
@@ -38,7 +36,7 @@ import {
   LicensesGetResponse,
   LicensesDeleteOptionalParams,
   LicensesListByResourceGroupNextResponse,
-  LicensesListBySubscriptionNextResponse
+  LicensesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +59,7 @@ export class LicensesImpl implements Licenses {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: LicensesListByResourceGroupOptionalParams
+    options?: LicensesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<License> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -78,16 +76,16 @@ export class LicensesImpl implements Licenses {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: LicensesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<License[]> {
     let result: LicensesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +100,7 @@ export class LicensesImpl implements Licenses {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,11 +111,11 @@ export class LicensesImpl implements Licenses {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: LicensesListByResourceGroupOptionalParams
+    options?: LicensesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<License> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,7 +126,7 @@ export class LicensesImpl implements Licenses {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: LicensesListBySubscriptionOptionalParams
+    options?: LicensesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<License> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -143,13 +141,13 @@ export class LicensesImpl implements Licenses {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: LicensesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<License[]> {
     let result: LicensesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -170,93 +168,11 @@ export class LicensesImpl implements Licenses {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: LicensesListBySubscriptionOptionalParams
+    options?: LicensesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<License> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
-  }
-
-  /**
-   * The operation to validate a license.
-   * @param parameters Parameters supplied to the license validation operation.
-   * @param options The options parameters.
-   */
-  async beginValidateLicense(
-    parameters: License,
-    options?: LicensesValidateLicenseOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<LicensesValidateLicenseResponse>,
-      LicensesValidateLicenseResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<LicensesValidateLicenseResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { parameters, options },
-      spec: validateLicenseOperationSpec
-    });
-    const poller = await createHttpPoller<
-      LicensesValidateLicenseResponse,
-      OperationState<LicensesValidateLicenseResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to validate a license.
-   * @param parameters Parameters supplied to the license validation operation.
-   * @param options The options parameters.
-   */
-  async beginValidateLicenseAndWait(
-    parameters: License,
-    options?: LicensesValidateLicenseOptionalParams
-  ): Promise<LicensesValidateLicenseResponse> {
-    const poller = await this.beginValidateLicense(parameters, options);
-    return poller.pollUntilDone();
   }
 
   /**
@@ -270,7 +186,7 @@ export class LicensesImpl implements Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: License,
-    options?: LicensesCreateOrUpdateOptionalParams
+    options?: LicensesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LicensesCreateOrUpdateResponse>,
@@ -279,21 +195,20 @@ export class LicensesImpl implements Licenses {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LicensesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +217,8 @@ export class LicensesImpl implements Licenses {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,22 +226,22 @@ export class LicensesImpl implements Licenses {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, licenseName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       LicensesCreateOrUpdateResponse,
       OperationState<LicensesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -343,13 +258,13 @@ export class LicensesImpl implements Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: License,
-    options?: LicensesCreateOrUpdateOptionalParams
+    options?: LicensesCreateOrUpdateOptionalParams,
   ): Promise<LicensesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       licenseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -365,7 +280,7 @@ export class LicensesImpl implements Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: LicenseUpdate,
-    options?: LicensesUpdateOptionalParams
+    options?: LicensesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LicensesUpdateResponse>,
@@ -374,21 +289,20 @@ export class LicensesImpl implements Licenses {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LicensesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -397,8 +311,8 @@ export class LicensesImpl implements Licenses {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -406,22 +320,22 @@ export class LicensesImpl implements Licenses {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, licenseName, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       LicensesUpdateResponse,
       OperationState<LicensesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -438,13 +352,13 @@ export class LicensesImpl implements Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: LicenseUpdate,
-    options?: LicensesUpdateOptionalParams
+    options?: LicensesUpdateOptionalParams,
   ): Promise<LicensesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       licenseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -458,11 +372,11 @@ export class LicensesImpl implements Licenses {
   get(
     resourceGroupName: string,
     licenseName: string,
-    options?: LicensesGetOptionalParams
+    options?: LicensesGetOptionalParams,
   ): Promise<LicensesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, licenseName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -475,25 +389,24 @@ export class LicensesImpl implements Licenses {
   async beginDelete(
     resourceGroupName: string,
     licenseName: string,
-    options?: LicensesDeleteOptionalParams
+    options?: LicensesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -502,8 +415,8 @@ export class LicensesImpl implements Licenses {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -511,19 +424,19 @@ export class LicensesImpl implements Licenses {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, licenseName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -538,12 +451,12 @@ export class LicensesImpl implements Licenses {
   async beginDeleteAndWait(
     resourceGroupName: string,
     licenseName: string,
-    options?: LicensesDeleteOptionalParams
+    options?: LicensesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       licenseName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -555,11 +468,11 @@ export class LicensesImpl implements Licenses {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: LicensesListByResourceGroupOptionalParams
+    options?: LicensesListByResourceGroupOptionalParams,
   ): Promise<LicensesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -568,11 +481,11 @@ export class LicensesImpl implements Licenses {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: LicensesListBySubscriptionOptionalParams
+    options?: LicensesListBySubscriptionOptionalParams,
   ): Promise<LicensesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -585,11 +498,11 @@ export class LicensesImpl implements Licenses {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: LicensesListByResourceGroupNextOptionalParams
+    options?: LicensesListByResourceGroupNextOptionalParams,
   ): Promise<LicensesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -600,65 +513,36 @@ export class LicensesImpl implements Licenses {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: LicensesListBySubscriptionNextOptionalParams
+    options?: LicensesListBySubscriptionNextOptionalParams,
   ): Promise<LicensesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const validateLicenseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/validateLicense",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.License
-    },
-    201: {
-      bodyMapper: Mappers.License
-    },
-    202: {
-      bodyMapper: Mappers.License
-    },
-    204: {
-      bodyMapper: Mappers.License
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     201: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     202: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     204: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -666,32 +550,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.licenseName
+    Parameters.licenseName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     201: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     202: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     204: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -699,37 +582,35 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.licenseName
+    Parameters.licenseName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.License
+      bodyMapper: Mappers.License,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.licenseName
+    Parameters.licenseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -737,93 +618,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.licenseName
+    Parameters.licenseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LicensesListResult
+      bodyMapper: Mappers.LicensesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/licenses",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/licenses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LicensesListResult
+      bodyMapper: Mappers.LicensesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LicensesListResult
+      bodyMapper: Mappers.LicensesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LicensesListResult
+      bodyMapper: Mappers.LicensesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

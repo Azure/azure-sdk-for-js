@@ -14,7 +14,7 @@ import {
   InformationProtectionPoliciesGetOptionalParams,
   InformationProtectionPoliciesGetResponse,
   InformationProtectionPoliciesCreateOrUpdateOptionalParams,
-  InformationProtectionPoliciesCreateOrUpdateResponse
+  InformationProtectionPoliciesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface InformationProtectionPolicies {
    */
   list(
     scope: string,
-    options?: InformationProtectionPoliciesListOptionalParams
+    options?: InformationProtectionPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<InformationProtectionPolicy>;
   /**
    * Details of the information protection policy.
@@ -42,7 +42,7 @@ export interface InformationProtectionPolicies {
   get(
     scope: string,
     informationProtectionPolicyName: InformationProtectionPolicyName,
-    options?: InformationProtectionPoliciesGetOptionalParams
+    options?: InformationProtectionPoliciesGetOptionalParams,
   ): Promise<InformationProtectionPoliciesGetResponse>;
   /**
    * Details of the information protection policy.
@@ -57,6 +57,6 @@ export interface InformationProtectionPolicies {
     scope: string,
     informationProtectionPolicyName: InformationProtectionPolicyName,
     informationProtectionPolicy: InformationProtectionPolicy,
-    options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams
+    options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<InformationProtectionPoliciesCreateOrUpdateResponse>;
 }

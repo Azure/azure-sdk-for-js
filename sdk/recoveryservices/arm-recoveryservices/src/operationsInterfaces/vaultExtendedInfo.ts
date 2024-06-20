@@ -13,7 +13,7 @@ import {
   VaultExtendedInfoCreateOrUpdateOptionalParams,
   VaultExtendedInfoCreateOrUpdateResponse,
   VaultExtendedInfoUpdateOptionalParams,
-  VaultExtendedInfoUpdateResponse
+  VaultExtendedInfoUpdateResponse,
 } from "../models";
 
 /** Interface representing a VaultExtendedInfo. */
@@ -27,7 +27,7 @@ export interface VaultExtendedInfo {
   get(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultExtendedInfoGetOptionalParams
+    options?: VaultExtendedInfoGetOptionalParams,
   ): Promise<VaultExtendedInfoGetResponse>;
   /**
    * Create vault extended info.
@@ -40,7 +40,7 @@ export interface VaultExtendedInfo {
     resourceGroupName: string,
     vaultName: string,
     resourceExtendedInfoDetails: VaultExtendedInfoResource,
-    options?: VaultExtendedInfoCreateOrUpdateOptionalParams
+    options?: VaultExtendedInfoCreateOrUpdateOptionalParams,
   ): Promise<VaultExtendedInfoCreateOrUpdateResponse>;
   /**
    * Update vault extended info.
@@ -53,6 +53,6 @@ export interface VaultExtendedInfo {
     resourceGroupName: string,
     vaultName: string,
     resourceExtendedInfoDetails: VaultExtendedInfoResource,
-    options?: VaultExtendedInfoUpdateOptionalParams
+    options?: VaultExtendedInfoUpdateOptionalParams,
   ): Promise<VaultExtendedInfoUpdateResponse>;
 }

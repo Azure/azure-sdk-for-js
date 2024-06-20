@@ -61,7 +61,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mocha": "^10.0.0",
-    "c8": "^9.1.0",
+    "nyc": "^15.1.0",
     "rimraf": "^5.0.5",
     "uglify-js": "^3.4.9",
     "@types/chai-as-promised": "^7.1.0",
@@ -110,7 +110,7 @@
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "dev-tool run extract-api",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "build:samples": "echo Skipped."
   },

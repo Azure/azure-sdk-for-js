@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for PostgreSQLManagementFlexibleServerClient.",
-  "version": "8.0.0-beta.6",
+  "version": "8.0.0-beta.7",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -12,8 +12,8 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
     "@azure/core-client": "^1.7.0",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.12.0",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.14.0",
     "tslib": "^2.2.0"
   },
   "keywords": [
@@ -40,7 +40,6 @@
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
-    "esm": "^3.2.18",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -76,9 +75,8 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "prepack": "npm run build",
     "pack": "npm pack 2>&1",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
-    "audit": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",
     "build:browser": "echo skipped",

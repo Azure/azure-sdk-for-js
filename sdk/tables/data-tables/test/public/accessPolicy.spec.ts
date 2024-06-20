@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { TableClient } from "../../src";
 import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 describe(`Access Policy operations`, function () {
   let client: TableClient;
@@ -25,7 +25,7 @@ describe(`Access Policy operations`, function () {
   });
 
   before(async function (this: Context) {
-    if (!isNode) {
+    if (!isNodeLike) {
       this.skip();
     }
 
@@ -36,7 +36,7 @@ describe(`Access Policy operations`, function () {
   });
 
   after(async function () {
-    if (!isPlaybackMode() && isNode) {
+    if (!isPlaybackMode() && isNodeLike) {
       await unrecordedClient.deleteTable();
     }
   });

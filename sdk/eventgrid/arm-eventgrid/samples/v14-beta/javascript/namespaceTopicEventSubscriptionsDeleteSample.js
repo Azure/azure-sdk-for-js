@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an existing event subscription of a namespace topic.
  *
  * @summary Delete an existing event subscription of a namespace topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopicEventSubscriptions_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NamespaceTopicEventSubscriptions_Delete.json
  */
 async function namespaceTopicEventSubscriptionsDelete() {
   const subscriptionId =

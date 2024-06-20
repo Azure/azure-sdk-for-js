@@ -19,9 +19,6 @@ import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-let connectionStringNotPresentWarning = false;
-let tokenCredentialsNotPresentWarning = false;
-
 export interface CredsAndEndpoint {
   credential: TokenCredential;
   endpoint: string;
@@ -30,21 +27,14 @@ export interface CredsAndEndpoint {
 export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
-      APPCONFIG_CONNECTION_STRING:
-        "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
-      AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azuretenantid",
     },
-    sanitizerOptions: {
-      connectionStringSanitizers: [
-        {
-          fakeConnString: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
-          actualConnString: env.APPCONFIG_CONNECTION_STRING,
-        },
-      ],
-    },
+    removeCentralSanitizers: [
+      "AZSDK3447", // .key in the body is not a secret for key-value App Config pair
+      "AZSDK3490", // etag value in If-Match header is not a secret and is needed for etag test
+      "AZSDK2030", // operation-location header is not a secret and is needed for long running operation tests
+      "AZSDK3493", // .name in the body is not a secret
+    ],
   };
 
   const recorder = new Recorder(that.currentTest);
@@ -52,45 +42,18 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
   return recorder;
 }
 
-export function getTokenAuthenticationCredential(): CredsAndEndpoint {
-  const requiredEnvironmentVariables = [
-    "AZ_CONFIG_ENDPOINT",
-    "AZURE_CLIENT_ID",
-    "AZURE_TENANT_ID",
-    "AZURE_CLIENT_SECRET",
-  ];
-
-  for (const name of requiredEnvironmentVariables) {
-    const value = env[name];
-
-    if (value == null) {
-      if (tokenCredentialsNotPresentWarning) {
-        tokenCredentialsNotPresentWarning = true;
-      }
-
-      throw new Error("Invalid value for requiredEnvironmentVariables");
-    }
-  }
-
-  return {
-    credential: createTestCredential(),
-    endpoint: env["AZ_CONFIG_ENDPOINT"]!,
-  };
-}
-
 export function createAppConfigurationClientForTests(
-  options?: AppConfigurationClientOptions,
+  options?: AppConfigurationClientOptions & {
+    testCredential?: TokenCredential;
+  },
 ): AppConfigurationClient {
-  const connectionString = env["APPCONFIG_CONNECTION_STRING"];
-
-  if (connectionString == null) {
-    if (!connectionStringNotPresentWarning) {
-      connectionStringNotPresentWarning = true;
-    }
+  const endpoint = env["AZ_CONFIG_ENDPOINT"];
+  const credential = options?.testCredential ?? createTestCredential();
+  if (endpoint == null) {
     throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
   }
 
-  return new AppConfigurationClient(connectionString, options);
+  return new AppConfigurationClient(endpoint, credential, options);
 }
 
 export async function deleteKeyCompletely(

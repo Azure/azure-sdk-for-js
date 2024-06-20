@@ -13,7 +13,7 @@ import chai from "chai";
 import { createMockServer } from "./utils/mockService";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 type ResultError = { type: "error"; context: OnSendEventsErrorContext };
 type ResultSuccess = { type: "success"; context: OnSendEventsSuccessContext };

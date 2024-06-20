@@ -18,7 +18,7 @@ scoped results.
  *
  * @summary Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
 scoped results.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/BackupPolicies_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupPolicies_List.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM() {
   const subscriptionId =
@@ -42,7 +42,7 @@ scoped results.
  *
  * @summary Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
 scoped results.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/V2Policy/v2-List-Policies.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/v2-List-Policies.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVMWithBothV1AndV2Policies() {
   const subscriptionId =
@@ -66,7 +66,7 @@ scoped results.
  *
  * @summary Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
 scoped results.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureWorkload/BackupPolicies_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupPolicies_List.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorkload() {
   const subscriptionId =

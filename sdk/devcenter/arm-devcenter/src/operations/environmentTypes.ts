@@ -26,7 +26,7 @@ import {
   EnvironmentTypesUpdateOptionalParams,
   EnvironmentTypesUpdateResponse,
   EnvironmentTypesDeleteOptionalParams,
-  EnvironmentTypesListByDevCenterNextResponse
+  EnvironmentTypesListByDevCenterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,12 +51,12 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: EnvironmentTypesListByDevCenterOptionalParams
+    options?: EnvironmentTypesListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentType> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +73,9 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
           resourceGroupName,
           devCenterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
     resourceGroupName: string,
     devCenterName: string,
     options?: EnvironmentTypesListByDevCenterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EnvironmentType[]> {
     let result: EnvironmentTypesListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
       result = await this._listByDevCenter(
         resourceGroupName,
         devCenterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
         resourceGroupName,
         devCenterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: EnvironmentTypesListByDevCenterOptionalParams
+    options?: EnvironmentTypesListByDevCenterOptionalParams,
   ): AsyncIterableIterator<EnvironmentType> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +135,11 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: EnvironmentTypesListByDevCenterOptionalParams
+    options?: EnvironmentTypesListByDevCenterOptionalParams,
   ): Promise<EnvironmentTypesListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
-      listByDevCenterOperationSpec
+      listByDevCenterOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
     resourceGroupName: string,
     devCenterName: string,
     environmentTypeName: string,
-    options?: EnvironmentTypesGetOptionalParams
+    options?: EnvironmentTypesGetOptionalParams,
   ): Promise<EnvironmentTypesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, environmentTypeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,11 +175,11 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
     devCenterName: string,
     environmentTypeName: string,
     body: EnvironmentType,
-    options?: EnvironmentTypesCreateOrUpdateOptionalParams
+    options?: EnvironmentTypesCreateOrUpdateOptionalParams,
   ): Promise<EnvironmentTypesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, environmentTypeName, body, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -196,11 +196,11 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
     devCenterName: string,
     environmentTypeName: string,
     body: EnvironmentTypeUpdate,
-    options?: EnvironmentTypesUpdateOptionalParams
+    options?: EnvironmentTypesUpdateOptionalParams,
   ): Promise<EnvironmentTypesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, environmentTypeName, body, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -215,11 +215,11 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
     resourceGroupName: string,
     devCenterName: string,
     environmentTypeName: string,
-    options?: EnvironmentTypesDeleteOptionalParams
+    options?: EnvironmentTypesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, environmentTypeName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -234,11 +234,11 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: EnvironmentTypesListByDevCenterNextOptionalParams
+    options?: EnvironmentTypesListByDevCenterNextOptionalParams,
   ): Promise<EnvironmentTypesListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
-      listByDevCenterNextOperationSpec
+      listByDevCenterNextOperationSpec,
     );
   }
 }
@@ -246,38 +246,36 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentTypeListResult
+      bodyMapper: Mappers.EnvironmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentType
+      bodyMapper: Mappers.EnvironmentType,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -285,22 +283,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.environmentTypeName
+    Parameters.environmentTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentType
+      bodyMapper: Mappers.EnvironmentType,
+    },
+    201: {
+      bodyMapper: Mappers.EnvironmentType,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
@@ -309,23 +309,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.environmentTypeName
+    Parameters.environmentTypeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentType
+      bodyMapper: Mappers.EnvironmentType,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
@@ -334,22 +333,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.environmentTypeName
+    Parameters.environmentTypeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/environmentTypes/{environmentTypeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -357,29 +355,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.environmentTypeName
+    Parameters.environmentTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentTypeListResult
+      bodyMapper: Mappers.EnvironmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

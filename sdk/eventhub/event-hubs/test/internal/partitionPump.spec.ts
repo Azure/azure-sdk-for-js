@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { toProcessingSpanOptions } from "../../src/partitionPump";
 import Sinon from "sinon";
@@ -35,7 +35,7 @@ testWithServiceTypes(() => {
           const requiredEventProperties = {
             body: "",
             enqueuedTimeUtc,
-            offset: 0,
+            offset: "0",
             partitionKey: null,
             sequenceNumber: 0,
             properties: {

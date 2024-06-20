@@ -117,6 +117,9 @@ export {
   ChangeFeedIteratorResponse,
   ChangeFeedStartFrom,
   FeedRange,
+  ChangeFeedMode,
+  ChangeFeedPolicy,
+  ChangeFeedRetentionTimeSpan,
 } from "./client/ChangeFeed";
 export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 

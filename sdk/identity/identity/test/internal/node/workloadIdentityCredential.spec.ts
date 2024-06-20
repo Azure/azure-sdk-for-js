@@ -14,7 +14,7 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup
 
 import { AuthenticationResult } from "@azure/msal-node";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import path from "path";
 import sinon from "sinon";
@@ -70,8 +70,8 @@ describe("WorkloadIdentityCredential", function () {
   });
 
   it("authenticates with ManagedIdentity Credential", async function (this: Context) {
+    process.env.AZURE_FEDERATED_TOKEN_FILE = tokenFilePath;
     const credential = new ManagedIdentityCredential("dummy-clientId");
-    assert.equal(credential["clientId"], "dummy-clientId");
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());

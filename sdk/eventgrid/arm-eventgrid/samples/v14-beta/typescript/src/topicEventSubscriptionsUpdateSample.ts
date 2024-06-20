@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   EventSubscriptionUpdateParameters,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update an existing event subscription for a topic.
  *
  * @summary Update an existing event subscription for a topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/TopicEventSubscriptions_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicEventSubscriptions_Update.json
  */
 async function topicEventSubscriptionsUpdate() {
   const subscriptionId =
@@ -34,14 +34,14 @@ async function topicEventSubscriptionsUpdate() {
   const eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters = {
     destination: {
       endpointType: "WebHook",
-      endpointUrl: "https://requestb.in/15ksip71"
+      endpointUrl: "https://requestb.in/15ksip71",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
@@ -49,7 +49,7 @@ async function topicEventSubscriptionsUpdate() {
     resourceGroupName,
     topicName,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

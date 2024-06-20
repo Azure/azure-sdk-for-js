@@ -16,7 +16,7 @@ import {
   DatastoresCreateOrUpdateOptionalParams,
   DatastoresCreateOrUpdateResponse,
   DatastoresListSecretsOptionalParams,
-  DatastoresListSecretsResponse
+  DatastoresListSecretsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Datastores {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
+    options?: DatastoresListOptionalParams,
   ): PagedAsyncIterableIterator<Datastore>;
   /**
    * Delete datastore.
@@ -44,7 +44,7 @@ export interface Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresDeleteOptionalParams
+    options?: DatastoresDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get datastore.
@@ -57,7 +57,7 @@ export interface Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresGetOptionalParams
+    options?: DatastoresGetOptionalParams,
   ): Promise<DatastoresGetResponse>;
   /**
    * Create or update datastore.
@@ -72,7 +72,7 @@ export interface Datastores {
     workspaceName: string,
     name: string,
     body: Datastore,
-    options?: DatastoresCreateOrUpdateOptionalParams
+    options?: DatastoresCreateOrUpdateOptionalParams,
   ): Promise<DatastoresCreateOrUpdateResponse>;
   /**
    * Get datastore secrets.
@@ -85,6 +85,6 @@ export interface Datastores {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresListSecretsOptionalParams
+    options?: DatastoresListSecretsOptionalParams,
   ): Promise<DatastoresListSecretsResponse>;
 }

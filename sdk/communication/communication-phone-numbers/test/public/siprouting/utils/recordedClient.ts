@@ -15,12 +15,12 @@ import {
 import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { randomUUID } from "@azure/core-util";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -64,6 +64,10 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: sanitizerOptions,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createRecorder(context: Test | undefined): Promise<Recorder> {

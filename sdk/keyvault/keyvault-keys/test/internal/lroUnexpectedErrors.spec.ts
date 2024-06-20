@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { RestError } from "@azure/core-rest-pipeline";
 import { DeleteKeyPoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "../../src/lro/recover/poller";

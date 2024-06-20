@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FhirServicePatchResource,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch FHIR Service details.
  *
  * @summary Patch FHIR Service details.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/fhirservices/FhirServices_Patch.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_Patch.json
  */
 async function updateAFhirService() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function updateAFhirService() {
   const fhirServiceName = "fhirservice1";
   const workspaceName = "workspace1";
   const fhirservicePatchResource: FhirServicePatchResource = {
-    tags: { tagKey: "tagValue" }
+    tags: { tagKey: "tagValue" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function updateAFhirService() {
     resourceGroupName,
     fhirServiceName,
     workspaceName,
-    fhirservicePatchResource
+    fhirservicePatchResource,
   );
   console.log(result);
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.1 (Unreleased)
+## 4.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,53 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- `OnBehalfOfCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29890](https://github.com/Azure/azure-sdk-for-js/pull/29890)
+- `InteractiveBrowserCredential` migrated to use MSALClient internally instead of MSALNode flow in Node. This is an internal refactoring and should not result in any behavioral changes. [#29894](https://github.com/Azure/azure-sdk-for-js/pull/29894)
+
+## 4.3.0 (2024-06-18)
+
+### Features Added
+
+- Added `AzurePipelinesCredential` for supporting workload identity federation in Azure Pipelines with service connections.
+
+## 4.3.0-beta.2 (2024-06-10)
+
+### Bugs Fixed
+
+- Managed identity bug fixes
+
+## 4.2.1 (2024-06-10)
+
+### Bugs Fixed
+
+- Managed identity bug fixes
+
+## 4.3.0-beta.1 (2024-05-08)
+
+### Features Added
+
+- Introducing a new credential `AzurePipelinesCredential` for supporting workload identity federation in Azure Pipelines with service connections. [#29392](https://github.com/Azure/azure-sdk-for-js/pull/29392)
+
+### Bug Fixes
+
+- `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential` no longer try silent authentication unnecessarily as per the MSAL guidelines. For more information please refer to [the Entra documentation on token caching](https://learn.microsoft.com/entra/identity-platform/msal-acquire-cache-tokens#recommended-call-pattern-for-public-client-applications). [#29405](https://github.com/Azure/azure-sdk-for-js/pull/29405)
+
+### Other Changes
+
+- `DeviceCodeCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29405](https://github.com/Azure/azure-sdk-for-js/pull/29405)
+- `UsernamePasswordCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29656](https://github.com/Azure/azure-sdk-for-js/pull/29656)
+- `AuthorizationCodeCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29831](https://github.com/Azure/azure-sdk-for-js/pull/29831)
+
+## 4.2.0 (2024-04-30)
+
+### Features Added
+
+- Adds support for `getBearerTokenProvider` that returns a callback function to get a token for a given scope. This is useful for scenarios where an explicit Entra token is needed without having to worry about the token refreshing details.
+
+### Other Changes
+
+- `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#28873](https://github.com/Azure/azure-sdk-for-js/pull/28873)
 
 ## 4.1.0 (2024-04-09)
 
@@ -346,7 +393,7 @@
 
 After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` package. This version includes the best parts of v1, plus several improvements.
 
-This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
+This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/e24cd753e1b84bc8959d8e1f55bfa9176cab88a9/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
 
 ### Features Added
 
@@ -439,7 +486,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - In v1 of Identity some `getToken` calls could resolve with `null` in the case the authentication request succeeded with a malformed output. In v2, issues with the `getToken` method will always throw errors.
 - Breaking changes to InteractiveBrowserCredential
 
-  - The `InteractiveBrowserCredential` will use the [Auth Code Flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions. Learn how to migrate in the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md). Read more about the latest `InteractiveBrowserCredential` [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
+  - The `InteractiveBrowserCredential` will use the [Auth Code Flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions. Learn how to migrate in the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/e24cd753e1b84bc8959d8e1f55bfa9176cab88a9/sdk/identity/identity/migration-v1-v2.md). Read more about the latest `InteractiveBrowserCredential` [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
   - The default client ID used for `InteractiveBrowserCredential` was viable only in Node.js and not for the browser. Therefore, on v2 client ID is a required parameter when using this credential in browser apps.
   - Identity v2 also removes the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option wasn't being used. Instead of using this option, use MSAL directly. For more information, see [Authenticating with the @azure/msal-browser Public Client](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-the-azuremsal-browser-public-client).
   - In Identity v2, `VisualStudioCodeCredential` throws a `CredentialUnavailableError` unless the new [@azure/identity-vscode](https://www.npmjs.com/package/@azure/identity-vscode) plugin is used.

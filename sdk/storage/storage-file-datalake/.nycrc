@@ -8,6 +8,7 @@
       "dist-esm/storage-file-datalake/src/models.js",
       "dist-esm/storage-file-datalake/src/index.browser.js",
       "dist-esm/storage-file-datalake/src/utils/utils.browser.js",
+      "dist-esm/storage-file-datalake/src/credentials/StorageSharedKeyCredential.browser.js",
       "dist-esm/storage-file-datalake/src/generated/src/storageClient.js"
     ],
     "reporter": [

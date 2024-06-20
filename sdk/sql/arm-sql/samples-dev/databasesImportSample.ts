@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ImportExistingDatabaseDefinition,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -39,12 +39,12 @@ async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWith
       sqlServerResourceId:
         "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr",
       storageAccountResourceId:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink"
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink",
     },
     storageKey:
       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
     storageKeyType: "StorageAccessKey",
-    storageUri: "https://test.blob.core.windows.net/test.bacpac"
+    storageUri: "https://test.blob.core.windows.net/test.bacpac",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -52,7 +52,7 @@ async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWith
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -78,7 +78,7 @@ async function importsToAnExistingEmptyDatabase() {
     storageKey:
       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
     storageKeyType: "StorageAccessKey",
-    storageUri: "https://test.blob.core.windows.net/test.bacpac"
+    storageUri: "https://test.blob.core.windows.net/test.bacpac",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -86,7 +86,7 @@ async function importsToAnExistingEmptyDatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

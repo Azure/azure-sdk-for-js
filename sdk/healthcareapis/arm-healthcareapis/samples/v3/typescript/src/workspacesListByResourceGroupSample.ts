@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the available workspaces under the specified resource group.
  *
  * @summary Lists all the available workspaces under the specified resource group.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/workspaces/Workspaces_ListByResourceGroup.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/workspaces/Workspaces_ListByResourceGroup.json
  */
 async function getWorkspacesByResourceGroup() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getWorkspacesByResourceGroup() {
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.workspaces.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

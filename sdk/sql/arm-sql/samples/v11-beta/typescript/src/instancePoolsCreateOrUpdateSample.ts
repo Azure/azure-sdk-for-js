@@ -35,14 +35,14 @@ async function createAnInstancePoolWithAllProperties() {
     subnetId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Network/virtualNetworks/myvnet/subnets/mysubnet1",
     tags: { a: "b" },
-    vCores: 8
+    vCores: 8,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.instancePools.beginCreateOrUpdateAndWait(
     resourceGroupName,
     instancePoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -65,14 +65,14 @@ async function createAnInstancePoolWithMinProperties() {
     sku: { name: "GP_Gen5", family: "Gen5", tier: "GeneralPurpose" },
     subnetId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Network/virtualNetworks/myvnet/subnets/mysubnet1",
-    vCores: 8
+    vCores: 8,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.instancePools.beginCreateOrUpdateAndWait(
     resourceGroupName,
     instancePoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
