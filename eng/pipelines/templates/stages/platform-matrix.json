@@ -12,7 +12,7 @@
         "OSVmImage": "env:LINUXVMIMAGE",
         "Pool": "env:LINUXPOOL"
       },
-      "macos-11": {
+      "macos-latest": {
         "OSVmImage": "env:MACVMIMAGE",
         "Pool": "env:MACPOOL"
       }

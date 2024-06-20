@@ -89,7 +89,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "^1.0.0",
-    "@azure/core-client": "^1.0.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-util": "^1.3.2",
