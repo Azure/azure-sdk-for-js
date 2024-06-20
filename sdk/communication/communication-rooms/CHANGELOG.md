@@ -12,7 +12,9 @@
 
 ## 1.0.0 (2023-06-12)
 
-General Availability version of the Azure Communication Services Rooms JavaScript SDK.
+### Features Added
+
+- General Availability version of the Azure Communication Services Rooms JavaScript SDK.
 
 ## 1.0.0-beta.2 (2023-05-17)
 
