@@ -7,16 +7,32 @@ import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal
 import { hashObject } from "../../utils/hashObject";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
-import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
+import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap";
 import { OrderByComparator } from "../orderByComparator";
 
-/** @hidden */
+/**
+ * @hidden
+ * Represents an endpoint in handling an non-streaming order by distinct query.
+ */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
-  private aggregateMap: NonStreamingOrderByMap<NonStreamingOrderByResult>; // map to store distinct values before storing in pq.
-  private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>; // pq to compute final orderBy results
-  private finalResultArray: NonStreamingOrderByResult[]; // result array to store final sorted and orderBy results.
+  /**
+   * A Map that holds the distinct values of the items before storing in priority queue.
+   */
+  private aggregateMap: NonStreamingOrderByMap<NonStreamingOrderByResult>;
+  /**
+   * A priority queue to compute the final sorted results.
+   */
+  private nonStreamingOrderByPQ: FixedSizePriorityQueue<NonStreamingOrderByResult>;
+  /**
+   * Array to store the final sorted results.
+   */
+  private finalResultArray: NonStreamingOrderByResult[];
+
   private sortOrders: string[];
+  /**
+   * Flag to determine if all results are fetched from backend and results can be returned.
+   */
   private isCompleted: boolean = false;
 
   constructor(
@@ -31,7 +47,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         return comparator.compareItems(a, b);
       },
     );
-    this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
+    this.nonStreamingOrderByPQ = new FixedSizePriorityQueue<NonStreamingOrderByResult>(
       (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
         return comparator.compareItems(b, a);
       },
@@ -40,8 +56,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
   }
 
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
-    if (this.priorityQueueBufferSize === 0) {
+    // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
+    if (this.priorityQueueBufferSize <= 0) {
       return {
         result: undefined,
         headers: getInitialHeader(),
@@ -49,7 +65,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     }
 
     let resHeaders = getInitialHeader();
-    if (!this.isCompleted && this.executionContext.hasMoreResults()) {
+    // If there are more results in backend, keep filling map.
+    if (this.executionContext.hasMoreResults()) {
       // Grab the next result
       const { result, headers } = (await this.executionContext.nextItem(
         diagnosticNode,
@@ -61,40 +78,49 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         this.aggregateMap.set(key, result);
       }
 
-      if (!this.executionContext.hasMoreResults()) {
-        this.isCompleted = true;
-        await this.buildFinalResultArray();
+      // return {} to signal that there are more results to fetch.
+      if (this.executionContext.hasMoreResults()) {
+        return {
+          result: {},
+          headers: resHeaders,
+        };
       }
     }
+
+    // If all results are fetched from backend, prepare final results
+    if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
+      this.isCompleted = true;
+      await this.buildFinalResultArray();
+    }
+
+    // Return final results from final array.
     if (this.isCompleted) {
-      // start returning the results if final result is computed.
       if (this.finalResultArray.length > 0) {
         return {
           result: this.finalResultArray.shift(),
           headers: resHeaders,
         };
       } else {
+        // Signal that there are no more results.
         return {
           result: undefined,
-          headers: getInitialHeader(),
+          headers: resHeaders,
         };
       }
-    } else {
-      // keep returning empty till final results are getting computed.
-      return {
-        result: {},
-        headers: resHeaders,
-      };
     }
   }
+
   /**
    * Build final sorted result array from which responses will be served.
    */
   private async buildFinalResultArray(): Promise<void> {
-    const allValues = this.aggregateMap.getAllValues();
+    // Fetch all distinct values from the map and store in priority queue.
+    const allValues = this.aggregateMap.getAllValuesAndReset();
     for (const value of allValues) {
       this.nonStreamingOrderByPQ.enqueue(value);
     }
+
+    // Compute the final result array size based on offset and limit.
     const offSet = this.queryInfo.offset ? this.queryInfo.offset : 0;
     const queueSize = this.nonStreamingOrderByPQ.size();
     const finalArraySize = queueSize - offSet;
@@ -103,7 +129,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       this.finalResultArray = [];
     } else {
       this.finalResultArray = new Array(finalArraySize);
-
+      // Only keep the final result array size number of items in the final result array and discard the rest.
       for (let count = finalArraySize - 1; count >= 0; count--) {
         this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue()?.payload;
       }

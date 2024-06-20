@@ -5,10 +5,21 @@ import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
-import { NonStreamingOrderByPriorityQueue } from "../../utils/nonStreamingOrderByPriorityQueue";
+import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import { getInitialHeader } from "../headerUtils";
+
+/**
+ * @hidden
+ * Represents an endpoint in handling an non-streaming order by query.
+ */
 export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
-  private nonStreamingOrderByPQ: NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>;
+  /**
+   * A priority queue to store the final sorted results.
+   */
+  private nonStreamingOrderByPQ: FixedSizePriorityQueue<NonStreamingOrderByResult>;
+  /**
+   * Flag to determine if all results are fetched from backend and results can be returned from priority queue.
+   */
   private isCompleted: boolean = false;
   /**
    * Represents an endpoint in handling an non-streaming order by query. For each processed orderby
@@ -20,11 +31,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private sortOrders: any[],
-    private priorityQueueBufferSize: number = 2000,
+    private priorityQueueBufferSize: number,
     private offset: number = 0,
   ) {
     const comparator = new OrderByComparator(this.sortOrders);
-    this.nonStreamingOrderByPQ = new NonStreamingOrderByPriorityQueue<NonStreamingOrderByResult>(
+    this.nonStreamingOrderByPQ = new FixedSizePriorityQueue<NonStreamingOrderByResult>(
       (a: NonStreamingOrderByResult, b: NonStreamingOrderByResult) => {
         return comparator.compareItems(b, a);
       },
@@ -33,33 +44,35 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   }
 
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    if (
-      this.priorityQueueBufferSize <= 0 ||
-      (this.isCompleted && this.nonStreamingOrderByPQ.isEmpty())
-    ) {
+    // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
+    if (this.priorityQueueBufferSize <= 0) {
       return {
         result: undefined,
         headers: getInitialHeader(),
       };
     }
 
-    if (this.isCompleted && !this.nonStreamingOrderByPQ.isEmpty()) {
-      const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
-      return {
-        result: item,
-        headers: getInitialHeader(),
-      };
-    }
+    let resHeaders = getInitialHeader();
+
+    // If there are more results in backend, keep filling pq.
     if (this.executionContext.hasMoreResults()) {
       const { result: item, headers } = await this.executionContext.nextItem(diagnosticNode);
+      resHeaders = headers;
       if (item !== undefined) {
         this.nonStreamingOrderByPQ.enqueue(item);
       }
-      return {
-        result: {},
-        headers,
-      };
-    } else {
+
+      // If the backend has more results to fetch, return {} to signal that there are more results to fetch.
+      if (this.executionContext.hasMoreResults()) {
+        return {
+          result: {},
+          headers: resHeaders,
+        };
+      }
+    }
+    // If all results are fetched from backend, prepare final results
+    if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
+      // Set isCompleted to true.
       this.isCompleted = true;
       // Reverse the priority queue to get the results in the correct order
       this.nonStreamingOrderByPQ = this.nonStreamingOrderByPQ.reverse();
@@ -73,17 +86,21 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         this.nonStreamingOrderByPQ.dequeue();
         this.offset--;
       }
-
+    }
+    // Return final results from pq.
+    if (this.isCompleted) {
+      // If pq is not empty, return the result from pq.
       if (!this.nonStreamingOrderByPQ.isEmpty()) {
         const item = this.nonStreamingOrderByPQ.dequeue()?.payload;
         return {
           result: item,
-          headers: getInitialHeader(),
+          headers: resHeaders,
         };
       } else {
+        // If pq is empty, return undefined to signal that there are no more results.
         return {
           result: undefined,
-          headers: getInitialHeader(),
+          headers: resHeaders,
         };
       }
     }
