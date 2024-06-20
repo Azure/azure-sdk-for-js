@@ -211,6 +211,10 @@ jobs:
             pwsh: true
             ScriptType: InlineScript
             Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries"
@@ -228,6 +232,10 @@ jobs:
             workingDirectory: $(PackageTestPath)
             ScriptType: InlineScript
             Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
               node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries"
@@ -247,6 +255,10 @@ jobs:
             workingDirectory: $(PackagePath)
             ScriptType: InlineScript
             Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
               node ../../../common/scripts/install-run-rushx.js execute:samples
               exit $LASTEXITCODE
           displayName: "Execute Samples"
