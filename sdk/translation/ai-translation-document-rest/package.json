@@ -51,13 +51,13 @@
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@typespec/ts-http-runtime": "1.0.0-alpha.20240314.2",
+    "@typespec/ts-http-runtime": "1.0.0-alpha.20240611.3",
     "@azure/core-paging": "^1.2.0",
     "@azure/core-lro": "^2.5.4"
   },
   "devDependencies": {
     "@azure/storage-blob": "^12.23.0",
-    "@microsoft/api-extractor": "^7.40.3",
+    "@microsoft/api-extractor": "^7.47.0",
     "rimraf": "^5.0.5",
     "autorest": "latest",
     "@types/node": "^18.0.0",
@@ -70,7 +70,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-recorder": "^3.5.2",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
     "cross-env": "^7.0.2",
@@ -89,7 +89,7 @@
     "nyc": "^15.1.0",
     "ts-node": "^10.0.0",
     "prettier": "^3.2.5",
-    "tshy": "1.11.1"
+    "tshy": "1.15.1"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

@@ -11652,20 +11652,21 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-GxgQrupheeQL/BUk0m1bDW52kEpY/jIkoDUnVxoFS16kYNI7wlXzT6dcDhvruAYQ11agszfC158HK4hr4qEDsA==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-EI2wvQOpF4k+oWYDcur8FMIYu7eNQfHMjB+igeRst0b5LuR02DDy5zn1t3KUlspUw6oDXme9YaRO4MUNBh0B8g==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.1.0
-      '@azure-tools/test-recorder': 3.5.0
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@azure/identity': 4.2.0
-      '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
+      '@azure/identity': 4.2.1
+      '@azure/storage-blob': 12.23.0
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.36)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.33
-      '@typespec/ts-http-runtime': 1.0.0-alpha.20240314.2
+      '@types/node': 18.19.36
+      '@typespec/ts-http-runtime': 1.0.0-alpha.20240611.3
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11684,12 +11685,12 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.4.0
       nyc: 15.1.0
-      prettier: 3.3.0
+      prettier: 3.3.2
       rimraf: 5.0.7
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
-      tshy: 1.11.1
-      tslib: 2.6.2
+      ts-node: 10.9.2(@types/node@18.19.36)(typescript@5.4.5)
+      tshy: 1.15.1
+      tslib: 2.6.3
       typescript: 5.4.5
     transitivePeerDependencies:
       - '@swc/core'
