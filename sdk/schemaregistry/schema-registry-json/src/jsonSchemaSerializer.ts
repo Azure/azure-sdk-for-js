@@ -3,7 +3,7 @@
 
 import {
   DeserializeOptions,
-  JsonSerializerOptions,
+  JsonSchemaSerializerOptions,
   MessageAdapter,
   MessageContent,
 } from "./models";
@@ -52,14 +52,14 @@ const cacheOptions: LRUCacheOptions<string, any, unknown> = {
  * Json serializer that obtains schemas from a schema registry and does not
  * pack schemas into its payloads.
  */
-export class JsonSerializer<MessageT = MessageContent> {
+export class JsonSchemaSerializer<MessageT = MessageContent> {
   /**
    * Creates a new serializer.
    *
    * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    */
-  constructor(client: SchemaRegistry, options?: JsonSerializerOptions<MessageT>) {
+  constructor(client: SchemaRegistry, options?: JsonSchemaSerializerOptions<MessageT>) {
     this.registry = client;
     this.schemaGroup = options?.groupName;
     this.messageAdapter = options?.messageAdapter;
