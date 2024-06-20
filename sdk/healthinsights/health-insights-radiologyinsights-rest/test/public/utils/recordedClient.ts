@@ -7,7 +7,7 @@ import {
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { Context } from "mocha";
 import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 import "./env";
@@ -48,21 +48,8 @@ export async function createClient(recorder: Recorder): Promise<AzureHealthInsig
   return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
 }
 
-export function isBrowser(): boolean {
-  return typeof process !== "undefined";
-}
-
 export async function createDefaultClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
   const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
-  if (isBrowser()) {
-    const credential = new InteractiveBrowserCredential({
-      clientId: envSetupForPlayback.AZURE_CLIENT_ID,
-      tenantId: envSetupForPlayback.AZURE_TENANT_ID,
-      redirectUri: "http://localhost:1337",
-    });
-    return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
-  } else {
-    // Handle non-browser environment
-    return AHIClient(endpoint, new DefaultAzureCredential(), recorder.configureClientOptions({}));
-  }
+  const credential = new DefaultAzureCredential();
+  return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
 }
