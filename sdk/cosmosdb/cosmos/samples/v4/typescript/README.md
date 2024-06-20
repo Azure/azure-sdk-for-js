@@ -11,26 +11,29 @@ urlFragment: cosmos-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cosmos DB in some common scenarios.
 
-| **File Name**                                                                                                     | **Description**                                                                                     |
-| ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [AADAuth.ts][aadauth]                                                                                             | Uses AAD credentials to authenticate with the CosmosClient.                                         |
-| [AlterQueryThroughput.ts][alterquerythroughput]                                                                   | Updates a container offer to change query throughput.                                               |
-| [Bulk.ts][bulk]                                                                                                   | Shows a simple bulk call with each BulkOperation type.                                              |
-| [BulkUpdateWithSproc.ts][bulkupdatewithsproc]                                                                     | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
-| [ChangeFeed.ts][changefeed]                                                                                       | Demonstrates using a ChangeFeed.                                                                    |
-| [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.ts][changefeediterator_changefeedhierarchicalpartitionkey] | Demonstrates using a ChangeFeed for a partition key                                                 |
-| [ChangeFeedIterator\ChangeFeedIteratorEntireContainer.ts][changefeediterator_changefeediteratorentirecontainer]   | Demonstrates using a ChangeFeed for entire container                                                |
-| [ChangeFeedIterator\ChangeFeedIteratorEpkRange.ts][changefeediterator_changefeediteratorepkrange]                 | Demonstrates using a ChangeFeed for an epk range                                                    |
-| [ChangeFeedIterator\ChangeFeedPartitionKey.ts][changefeediterator_changefeedpartitionkey]                         | Demonstrates using a ChangeFeed for a partition key                                                 |
-| [ContainerManagement.ts][containermanagement]                                                                     | Demonstrates container create, read, delete and reading all containers belonging to a database.     |
-| [DatabaseManagement.ts][databasemanagement]                                                                       | Demonstrates database create, read, delete and reading all databases.                               |
-| [Diagnostics.ts][diagnostics]                                                                                     | Demonstrates usage of CosmosDiagnostic Object.                                                      |
-| [HierarchicalPartitioning.ts][hierarchicalpartitioning]                                                           | Shows various operations on containers with Hierarchical Partitioning.                              |
-| [IndexManagement.ts][indexmanagement]                                                                             | Shows various ways to manage indexing items or changing container index policies.                   |
-| [ItemManagement.ts][itemmanagement]                                                                               | Demonstrates item creation, read, delete and reading all items belonging to a container.            |
-| [QueryThroughput.ts][querythroughput]                                                                             | Demonstrates query throughput scenarios.                                                            |
-| [SasTokenAuth.ts][sastokenauth]                                                                                   | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
-| [ServerSideScripts.ts][serversidescripts]                                                                         | Demonstrates using stored procedures for server side run functions                                  |
+| **File Name**                                                                                                           | **Description**                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [AADAuth.ts][aadauth]                                                                                                   | Uses AAD credentials to authenticate with the CosmosClient.                                         |
+| [AlterQueryThroughput.ts][alterquerythroughput]                                                                         | Updates a container offer to change query throughput.                                               |
+| [Bulk.ts][bulk]                                                                                                         | Shows a simple bulk call with each BulkOperation type.                                              |
+| [BulkUpdateWithSproc.ts][bulkupdatewithsproc]                                                                           | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
+| [ChangeFeed.ts][changefeed]                                                                                             | Demonstrates using a ChangeFeed.                                                                    |
+| [ChangeFeedIterator\ChangeFeedFullFidelityEntireContainer.ts][changefeediterator_changefeedfullfidelityentirecontainer] | Demonstrates using a ChangeFeed for entire container with AllVersionsAndDeletes mode                |
+| [ChangeFeedIterator\ChangeFeedFullFidelityEpkRange.ts][changefeediterator_changefeedfullfidelityepkrange]               | Demonstrates using a ChangeFeed for an epk range with AllVersionsAndDeletes mode                    |
+| [ChangeFeedIterator\ChangeFeedFullFidelityPartitionKey.ts][changefeediterator_changefeedfullfidelitypartitionkey]       | Demonstrates using a ChangeFeed for a partition key with AllVersionsAndDeletes mode                 |
+| [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.ts][changefeediterator_changefeedhierarchicalpartitionkey]       | Demonstrates using a ChangeFeed for a partition key                                                 |
+| [ChangeFeedIterator\ChangeFeedIteratorEntireContainer.ts][changefeediterator_changefeediteratorentirecontainer]         | Demonstrates using a ChangeFeed for entire container                                                |
+| [ChangeFeedIterator\ChangeFeedIteratorEpkRange.ts][changefeediterator_changefeediteratorepkrange]                       | Demonstrates using a ChangeFeed for an epk range                                                    |
+| [ChangeFeedIterator\ChangeFeedPartitionKey.ts][changefeediterator_changefeedpartitionkey]                               | Demonstrates using a ChangeFeed for a partition key                                                 |
+| [ContainerManagement.ts][containermanagement]                                                                           | Demonstrates container create, read, delete and reading all containers belonging to a database.     |
+| [DatabaseManagement.ts][databasemanagement]                                                                             | Demonstrates database create, read, delete and reading all databases.                               |
+| [Diagnostics.ts][diagnostics]                                                                                           | Demonstrates usage of CosmosDiagnostic Object.                                                      |
+| [HierarchicalPartitioning.ts][hierarchicalpartitioning]                                                                 | Shows various operations on containers with Hierarchical Partitioning.                              |
+| [IndexManagement.ts][indexmanagement]                                                                                   | Shows various ways to manage indexing items or changing container index policies.                   |
+| [ItemManagement.ts][itemmanagement]                                                                                     | Demonstrates item creation, read, delete and reading all items belonging to a container.            |
+| [QueryThroughput.ts][querythroughput]                                                                                   | Demonstrates query throughput scenarios.                                                            |
+| [SasTokenAuth.ts][sastokenauth]                                                                                         | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_      |
+| [ServerSideScripts.ts][serversidescripts]                                                                               | Demonstrates using stored procedures for server side run functions                                  |
 
 ## Prerequisites
 
@@ -89,6 +92,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Bulk.ts
 [bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/BulkUpdateWithSproc.ts
 [changefeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeed.ts
+[changefeediterator_changefeedfullfidelityentirecontainer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedFullFidelityEntireContainer.ts
+[changefeediterator_changefeedfullfidelityepkrange]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedFullFidelityEpkRange.ts
+[changefeediterator_changefeedfullfidelitypartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedFullFidelityPartitionKey.ts
 [changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedHierarchicalPartitionKey.ts
 [changefeediterator_changefeediteratorentirecontainer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorEntireContainer.ts
 [changefeediterator_changefeediteratorepkrange]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorEpkRange.ts
