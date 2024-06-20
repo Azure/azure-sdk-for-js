@@ -28,8 +28,8 @@ describe("TranslationFilter tests", () => {
   });
 
   it ("Translation Statuses Filter By Status", async () => {
-    createTranslationJobs(1, 1, "Succeeded", client);
-    const cancelledIds = createTranslationJobs(1, 1, "Cancelled", client);
+    createTranslationJobs(1, 1, "Succeeded");
+    const cancelledIds = createTranslationJobs(1, 1, "Cancelled");
 
     // list translations with filter
     let cancelledStatusList: string[] = [ "Cancelled", "Cancelling" ];
@@ -56,7 +56,7 @@ describe("TranslationFilter tests", () => {
   });
 
   it ("Translation Statuses Filter By Id", async () => {
-    const allIds = createTranslationJobs(2, 1, "Succeeded", client);
+    const allIds = createTranslationJobs(2, 1, "Succeeded");
     let targetIds: string[] = [];
     targetIds.push((await allIds)[0]);
 
@@ -80,7 +80,7 @@ describe("TranslationFilter tests", () => {
 
   it ("Translation Statuses Filter By Created After", async () => {
     const testStartTime = new Date();
-    const targetIds = createTranslationJobs(1, 1, "Succeeded", client);
+    const targetIds = createTranslationJobs(1, 1, "Succeeded");
 
     //get Translation Status
     const queryParams = {
@@ -102,13 +102,13 @@ describe("TranslationFilter tests", () => {
   });
 
   it ("Translation Statuses Filter By Created Before", async () => {    
-    const targetIds = createTranslationJobs(1, 1, "Succeeded", client);
+    const targetIds = createTranslationJobs(1, 1, "Succeeded");
     for (let i = 0; i < (await targetIds).length; i++) {
         console.log(`targetIds[${i}]:`, (await targetIds)[i]);
     }
     
     const endDateTime = new Date();
-    createTranslationJobs(1, 1, "Succeeded", client);
+    createTranslationJobs(1, 1, "Succeeded");
 
     // getting only translations from the last hour
     const startDateTime = new Date();
@@ -141,7 +141,7 @@ describe("TranslationFilter tests", () => {
   });
 
   it ("Translation Statuses Filter By Created On", async () => {    
-    createTranslationJobs(3, 1, "Succeeded", client);   
+    createTranslationJobs(3, 1, "Succeeded");   
     
     // Add filter
     const startDateTime = new Date();
@@ -168,9 +168,7 @@ describe("TranslationFilter tests", () => {
     }
   });
   
-});
-
-async function createTranslationJobs(jobsCount: number, docsPerJob: number, jobTerminalStatus: string , client: DocumentTranslationClient) {
+  async function createTranslationJobs(jobsCount: number, docsPerJob: number, jobTerminalStatus: string) {
     // create source container
     if (jobTerminalStatus.includes("cancelled")) {
         docsPerJob = 20; // in order to avoid job completing before canceling
@@ -211,12 +209,12 @@ async function createTranslationJobs(jobsCount: number, docsPerJob: number, jobT
 
     // ensure that cancel status has propagated before returning
     if (jobTerminalStatus.includes("cancelled")) {
-        waitForJobCancellation(translationIds, client);
+        waitForJobCancellation(translationIds);
     }
     return translationIds;
-}
+  }
 
-async function waitForJobCancellation(translationIds: string[], client: DocumentTranslationClient): Promise<void> {
+async function waitForJobCancellation(translationIds: string[]): Promise<void> {
     const retryCount = 10; 
 
     for (const translationId of translationIds) {
@@ -232,6 +230,7 @@ async function waitForJobCancellation(translationIds: string[], client: Document
             }            
         } while (translationStatus && (translationStatus.body as TranslationStatusOutput).summary.cancelled > 0 && retriesLeft > 0);
     }
-}
+  }
 
+});
    

@@ -28,7 +28,7 @@ describe("DocumentFilter tests", () => {
   });
 
   it ("Document Statuses Filter By Status", async () => {
-    const result = createSingleTranslationJob(5, client);    
+    const result = createSingleTranslationJob(5);    
     const operationLocationUrl = (await result).headers["operation-location"]
     const operationId = getTranslationOperationID(operationLocationUrl);
     
@@ -54,7 +54,7 @@ describe("DocumentFilter tests", () => {
   });
 
   it ("Document Statuses Filter By ID", async () => {
-    const result = createSingleTranslationJob(2, client);    
+    const result = createSingleTranslationJob(2);    
     const operationLocationUrl = (await result).headers["operation-location"]
     const operationId = getTranslationOperationID(operationLocationUrl);
 
@@ -92,7 +92,7 @@ describe("DocumentFilter tests", () => {
   });
 
   it ("Document Statuses Filter By Created After", async () => {
-    const result = createSingleTranslationJob(5, client);    
+    const result = createSingleTranslationJob(5);    
     const operationLocationUrl = (await result).headers["operation-location"]
     const operationId = getTranslationOperationID(operationLocationUrl);
     
@@ -142,7 +142,7 @@ describe("DocumentFilter tests", () => {
   });
 
   it ("Document Statuses Filter By Created Before", async () => {
-    const result = createSingleTranslationJob(5, client);    
+    const result = createSingleTranslationJob(5);    
     const operationLocationUrl = (await result).headers["operation-location"]
     const operationId = getTranslationOperationID(operationLocationUrl);
     
@@ -212,7 +212,7 @@ describe("DocumentFilter tests", () => {
   });
  
   it ("Document Statuses Filter By Created On", async () => {
-    const result = createSingleTranslationJob(3, client);    
+    const result = createSingleTranslationJob(3);    
     const operationLocationUrl = (await result).headers["operation-location"]
     const operationId = getTranslationOperationID(operationLocationUrl);
     
@@ -238,31 +238,30 @@ describe("DocumentFilter tests", () => {
       throw "get documents status job error:" + response.body;
     }
   });
+  async function createSingleTranslationJob(count: number) {
+    const testDocs: TestDocument[] = createDummyTestDocuments(count);
+    const sourceUrl = await createSourceContainer(testDocs);
+    const sourceInput = createSourceInput(sourceUrl);
   
-});
-
-async function createSingleTranslationJob(count: number, client: DocumentTranslationClient) {
-  const testDocs: TestDocument[] = createDummyTestDocuments(count);
-  const sourceUrl = await createSourceContainer(testDocs);
-  const sourceInput = createSourceInput(sourceUrl);
-
-  const targetUrl = await createTargetContainer();
-  const targetInput = createTargetInput(targetUrl, "fr");
-  const batchRequest = createBatchRequest(sourceInput, [targetInput]);
-
-  //Start translation
-  const batchRequests = {inputs: [batchRequest]};
-  const response = await client.path("/document/batches").post({
-    body: batchRequests
-  }); 
-  if (isUnexpected(response)) {
-    throw "start translation job error:" + response.body;
+    const targetUrl = await createTargetContainer();
+    const targetInput = createTargetInput(targetUrl, "fr");
+    const batchRequest = createBatchRequest(sourceInput, [targetInput]);
+  
+    //Start translation
+    const batchRequests = {inputs: [batchRequest]};
+    const response = await client.path("/document/batches").post({
+      body: batchRequests
+    }); 
+    if (isUnexpected(response)) {
+      throw "start translation job error:" + response.body;
+    }
+  
+    // Wait until the operation completes
+    const poller = getLongRunningPoller(client, response, testPollingOptions);  
+    const result = await (await poller).pollUntilDone();
+    assert.equal(result.status, "200");
+    
+    return response as StartTranslation202Response;
   }
 
-  // Wait until the operation completes
-  const poller = getLongRunningPoller(client, response, testPollingOptions);  
-  const result = await (await poller).pollUntilDone();
-  assert.equal(result.status, "200");
-  
-  return response as StartTranslation202Response;
-}
+});

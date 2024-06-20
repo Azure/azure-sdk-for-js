@@ -5,7 +5,7 @@ import {
   //Recorder,
   env,
 } from "@azure-tools/test-recorder";
-import { ContainerClient, ContainerSASPermissions } from "@azure/storage-blob";
+import { BlobClient, ContainerClient, ContainerSASPermissions } from "@azure/storage-blob";
 import { TestDocument, createTestDocument } from '../utils/TestDocument';
 
 const { BlobServiceClient } = require("@azure/storage-blob");
@@ -41,6 +41,43 @@ export async function createTargetContainer(documents?: TestDocument[]): Promise
   return `${sasUrl}`;
 }
 
+export async function createGlossaryContainer(): Promise<string> {
+  const glossaryName = "validGlossary.csv";
+  const glossaryContent = "test, glossaryTest";
+  const documents: TestDocument[] = [
+    createTestDocument(glossaryName, glossaryContent)
+  ];
+  const containerName = `glossary-${getUniqueName()}`;
+  const containerClient = await createContainer(containerName, documents);
+
+  const sasUrl = await containerClient.generateSasUrl({
+    permissions: ContainerSASPermissions.parse("rwl"),
+    expiresOn: getDateOneDayAfter(),
+  });
+  // Extract the base URL and query parameters
+  const urlParts = `${sasUrl}`.split('?');
+  const baseUrl = urlParts[0];
+  const queryParams = urlParts[1];
+
+  // Add the document name to the base URL
+  const newUrl = `${baseUrl}/${glossaryName}?${queryParams}`;
+  return `${newUrl}`;
+}
+
+export async function createTargetContainerWithInfo(documents?: TestDocument[]): Promise<Map<string, string>> {
+  const containerName = `target-${getUniqueName()}`;
+  const containerClient = await createContainer(containerName, documents);
+
+  const sasUrl = await containerClient.generateSasUrl({
+    permissions: ContainerSASPermissions.parse("rwl"),
+    expiresOn: getDateOneDayAfter(),
+  });
+  const containerValuesMap: Map<string, string> = new Map();
+  containerValuesMap.set("sasUrl", sasUrl);
+  containerValuesMap.set("containerName", containerName);
+  return containerValuesMap;
+}
+
 async function createContainer(containerName: string, documents?: TestDocument[]): Promise<ContainerClient> {
   const blobServiceClient = BlobServiceClient.fromConnectionString(env.DOCUMENT_TRANSLATION_CONNECTION_STRING);
   const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -60,6 +97,17 @@ async function uploadDocuments(containerClient: ContainerClient, documents: Test
   }
 }
 
+export async function downloadDocument(containerName: string, documentName: string) {
+  const blobClient = new BlobClient(
+    env.DOCUMENT_TRANSLATION_CONNECTION_STRING as string,
+    containerName,
+    documentName
+  )
+  const downloadBlockBlobResponse = await blobClient.download();
+  const downloaded = (await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)).toString();
+  return downloaded;
+}
+
 function getUniqueName(): string {
   const randomNumber = Math.floor(Math.random() * 1e10);
   return randomNumber.toString().padStart(10, '0');
@@ -71,3 +119,19 @@ function getDateOneDayAfter(): Date {
   nextDayDate.setDate(currentDate.getDate() + 1);
   return nextDayDate;
 }
+
+
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream: NodeJS.ReadableStream | undefined): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    readableStream?.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+    });
+    readableStream?.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    readableStream?.on("error", reject);
+  });
+}
+
