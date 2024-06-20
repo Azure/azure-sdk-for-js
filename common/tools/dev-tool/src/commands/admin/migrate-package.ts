@@ -164,22 +164,24 @@ function fixTestingImports(packageFolder: string): void {
     }
 
     if (sourceFile.getBaseName().endsWith(".spec.ts")) {
-      // If the file ends with .spec.ts, add the import statement
-      const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
-        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-        return moduleSpecifier === "sinon" || moduleSpecifier === "@azure-tools/test-recorder";
-      });
+      if (!sourceFile.getImportDeclaration("vitest")) {
+        // If the file ends with .spec.ts, add the import statement
+        const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
+          const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+          return moduleSpecifier === "sinon" || moduleSpecifier === "@azure-tools/test-recorder";
+        });
 
-      const viTestImports = ["describe", "it", "assert"];
-      // Insert typical mocking imports if needed
-      if (hasMocking) {
-        viTestImports.push("expect, vi, beforeEach, afterEach");
+        const viTestImports = ["describe", "it", "assert"];
+        // Insert typical mocking imports if needed
+        if (hasMocking) {
+          viTestImports.push("expect, vi, beforeEach, afterEach");
+        }
+
+        sourceFile.addImportDeclaration({
+          namedImports: viTestImports,
+          moduleSpecifier: "vitest",
+        });
       }
-
-      sourceFile.addImportDeclaration({
-        namedImports: viTestImports,
-        moduleSpecifier: "vitest",
-      });
     }
 
     const modulesToRemove = ["chai", "chai-as-promised", "chai-exclude", "sinon", "mocha"];
@@ -233,19 +235,19 @@ function fixSourceFiles(packageFolder: string): void {
         }
       }
 
-      // Fix some sinon
-      if (statement.getText().match(/sinon\.stub/gi)) {
-        statement.replaceWithText(statement.getText().replace(/sinon\.stub/gi, "vi.spyOn"));
-      }
+      const patternsToReplace = [
+        { pattern: /sinon\.stub/gi, replace: "vi.spyOn" },
+        { pattern: /\(this: Context\)/g, replace: "(ctx)" },
+        { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
+        { pattern: /\(!this\.currentTest\?\.\isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
+        { pattern: /this\.skip\(\);/g, replace: "ctx.task.skip();" },
+      ];
 
-      // If statement is a beforeEach, then fix the function
-      if (statement.getText().match(/\(this: Context\)/g)) {
-        statement.replaceWithText(statement.getText().replace(/\(this: Context\)/g, "(ctx)"));
-      }
-
-      // If statement has a recorder, fix the context
-      if (statement.getText().match(/\(this.currentTest\)/g)) {
-        statement.replaceWithText(statement.getText().replace(/\(this.currentTest\)/g, "(ctx)"));
+      // Replace the patterns in the source file
+      for (const { pattern, replace } of patternsToReplace) {
+        if (pattern.test(statement.getText())) {
+          statement.replaceWithText(statement.getText().replace(pattern, replace));
+        }
       }
     }
 
@@ -451,6 +453,18 @@ async function addNewPackages(packageJson: any): Promise<void> {
       captureOutput: true,
     });
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
+  }
+
+  const packagesToUpdate = [
+    { package: "@azure-tools/test-credential", version: "^2.0.0" },
+    { package: "@azure-tools/test-recorder", version: "^4.1.0" },
+  ];
+
+  // Update additional if there
+  for (const { package: packageName, version } of packagesToUpdate) {
+    if (packageJson.devDependencies[packageName]) {
+      packageJson.devDependencies[packageName] = version;
+    }
   }
 }
 
