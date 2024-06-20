@@ -1,0 +1,236 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches?api-version=2024-05-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "345",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "inputs": [
+          {
+            "source": {
+              "sourceUrl": "https://fakeStorageName.blob.core.windows.net/source-4892155869?sv=Sanitized&se=2024-06-20T16%3A50%3A52Z&sr=c&sp=rwl&sig=Sanitized"
+            },
+            "targets": [
+              {
+                "targetUrl": "https://fakeStorageName.blob.core.windows.net/target-0110450665?sv=Sanitized&se=2024-06-20T16%3A50%3A52Z&sr=c&sp=rwl&sig=Sanitized",
+                "language": "fr"
+              }
+            ]
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "3fa9cdf0-b72c-4492-b1b4-5523dabdd011",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Jun 2024 16:50:52 GMT",
+        "Operation-Location": "https://example.com",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "3fa9cdf0-b72c-4492-b1b4-5523dabdd011"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "status": "NotStarted"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/5db402e7-963d-49d2-af05-5a614ad6caa6?api-version=2024-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "e5b7f301-25c7-40ea-968b-d927862ead36",
+        "Cache-Control": "public, max-age=1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Jun 2024 16:50:52 GMT",
+        "ETag": "\"03F04F9CE3201499836A787D914309238A29AD83C99F61CEF2C100352E9E5369\"",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "e5b7f301-25c7-40ea-968b-d927862ead36"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "createdDateTimeUtc": "2024-06-19T16:50:53.099807Z",
+        "lastActionDateTimeUtc": "2024-06-19T16:50:53.0998079Z",
+        "status": "NotStarted",
+        "summary": {
+          "total": 0,
+          "failed": 0,
+          "success": 0,
+          "inProgress": 0,
+          "notYetStarted": 0,
+          "cancelled": 0,
+          "totalCharacterCharged": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/5db402e7-963d-49d2-af05-5a614ad6caa6?api-version=2024-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "1e7c66fc-4b2e-4e33-9eca-73830ae5e8fb",
+        "Cache-Control": "public, max-age=1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Jun 2024 16:50:54 GMT",
+        "ETag": "\"C1035474F87AED43ED0DE452CCE75B71FEB0E6B12407E1F38A71BD2AF2490BC0\"",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "1e7c66fc-4b2e-4e33-9eca-73830ae5e8fb"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "createdDateTimeUtc": "2024-06-19T16:50:53.099807Z",
+        "lastActionDateTimeUtc": "2024-06-19T16:50:53.6311787Z",
+        "status": "NotStarted",
+        "summary": {
+          "total": 1,
+          "failed": 0,
+          "success": 0,
+          "inProgress": 0,
+          "notYetStarted": 1,
+          "cancelled": 0,
+          "totalCharacterCharged": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/5db402e7-963d-49d2-af05-5a614ad6caa6?api-version=2024-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "19188ba1-3ea5-415d-9937-1bb725193cc0",
+        "Cache-Control": "public, max-age=1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Jun 2024 16:50:55 GMT",
+        "ETag": "\"A40D02F7D910F9E1F739D088678637FF5CB31C784687B43EEBECF5B9FFBCD283\"",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "19188ba1-3ea5-415d-9937-1bb725193cc0"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "createdDateTimeUtc": "2024-06-19T16:50:53.099807Z",
+        "lastActionDateTimeUtc": "2024-06-19T16:50:55.2855935Z",
+        "status": "Failed",
+        "error": {
+          "code": "InvalidRequest",
+          "message": "The document does not have any translatable text.",
+          "target": "Operation",
+          "innerError": {
+            "code": "NoTranslatableText",
+            "message": "The document does not have any translatable text."
+          }
+        },
+        "summary": {
+          "total": 1,
+          "failed": 1,
+          "success": 0,
+          "inProgress": 0,
+          "notYetStarted": 0,
+          "cancelled": 0,
+          "totalCharacterCharged": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/5db402e7-963d-49d2-af05-5a614ad6caa6?api-version=2024-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d9273de8-dc2d-48f5-a4ba-012326c7692a",
+        "Cache-Control": "public, max-age=1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Jun 2024 16:50:55 GMT",
+        "ETag": "\"A40D02F7D910F9E1F739D088678637FF5CB31C784687B43EEBECF5B9FFBCD283\"",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "d9273de8-dc2d-48f5-a4ba-012326c7692a"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "createdDateTimeUtc": "2024-06-19T16:50:53.099807Z",
+        "lastActionDateTimeUtc": "2024-06-19T16:50:55.2855935Z",
+        "status": "Failed",
+        "error": {
+          "code": "InvalidRequest",
+          "message": "The document does not have any translatable text.",
+          "target": "Operation",
+          "innerError": {
+            "code": "NoTranslatableText",
+            "message": "The document does not have any translatable text."
+          }
+        },
+        "summary": {
+          "total": 1,
+          "failed": 1,
+          "success": 0,
+          "inProgress": 0,
+          "notYetStarted": 0,
+          "cancelled": 0,
+          "totalCharacterCharged": 0
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

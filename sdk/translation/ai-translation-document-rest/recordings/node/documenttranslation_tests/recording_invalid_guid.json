@@ -1,0 +1,98 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches?api-version=2024-05-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "345",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "inputs": [
+          {
+            "source": {
+              "sourceUrl": "https://fakeStorageName.blob.core.windows.net/source-5532610948?sv=Sanitized&se=2024-06-20T19%3A38%3A08Z&sr=c&sp=rwl&sig=Sanitized"
+            },
+            "targets": [
+              {
+                "targetUrl": "https://fakeStorageName.blob.core.windows.net/target-2371238430?sv=Sanitized&se=2024-06-20T19%3A38%3A08Z&sr=c&sp=rwl&sig=Sanitized",
+                "language": "fr"
+              }
+            ]
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "c689679a-e2b5-4e55-8267-f1b1430268f9",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Jun 2024 19:38:08 GMT",
+        "Operation-Location": "https://example.com",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "c689679a-e2b5-4e55-8267-f1b1430268f9"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "status": "NotStarted"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/d2bdb9eb-86ff-4a37-8ce3-031aec7f3429/documents/Foo%20Bar?api-version=2024-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "apim-request-id": "6010814b-3460-40e4-8556-0a7c77ee9ff1",
+        "Content-Length": "0",
+        "Date": "Wed, 19 Jun 2024 19:38:08 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "6010814b-3460-40e4-8556-0a7c77ee9ff1"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://Sanitized.cognitiveservices.azure.com/translator/document/batches/d2bdb9eb-86ff-4a37-8ce3-031aec7f3429/documents/%20?api-version=2024-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "Sanitized",
+        "User-Agent": "azsdk-js-ai-translation-document-rest/1.0.0-beta.1 core-rest-pipeline/1.16.0 Node/20.12.1 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "apim-request-id": "ae3f33e2-2b79-4d99-aa4f-be5c4d2ed72e",
+        "Content-Length": "0",
+        "Date": "Wed, 19 Jun 2024 19:38:08 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-region": "West US",
+        "X-RequestId": "ae3f33e2-2b79-4d99-aa4f-be5c4d2ed72e"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}
