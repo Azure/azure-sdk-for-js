@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { NonStreamingOrderByPriorityQueue } from "../../../../src/utils/nonStreamingOrderByPriorityQueue";
+import { FixedSizePriorityQueue } from "../../../../src/utils/fixedSizePriorityQueue";
 
-describe("NonStreamingOrderByPriorityQueue", () => {
+describe("FixedSizePriorityQueue", () => {
   it("should enqueue items", () => {
-    const queue = new NonStreamingOrderByPriorityQueue<number>((a, b) => b - a, 2);
+    const queue = new FixedSizePriorityQueue<number>((a, b) => b - a, 2);
     queue.enqueue(3);
     queue.enqueue(1);
     queue.enqueue(2);
@@ -14,7 +14,7 @@ describe("NonStreamingOrderByPriorityQueue", () => {
 
   it("should dequeue items in correct order", () => {
     // collect the top 2 elements in descending order
-    const queue = new NonStreamingOrderByPriorityQueue<number>((a, b) => b - a, 2);
+    const queue = new FixedSizePriorityQueue<number>((a, b) => b - a, 2);
     queue.enqueue(3);
     queue.enqueue(1);
     assert.equal(queue.peek(), 1);
@@ -26,7 +26,7 @@ describe("NonStreamingOrderByPriorityQueue", () => {
     assert.equal(topElements[1], 2);
 
     // collect the top 2 elements in ascending order
-    const queue2 = new NonStreamingOrderByPriorityQueue<number>((a, b) => a - b, 2);
+    const queue2 = new FixedSizePriorityQueue<number>((a, b) => a - b, 2);
     queue2.enqueue(3);
     queue2.enqueue(1);
     assert.equal(queue2.peek(), 3);
@@ -38,7 +38,7 @@ describe("NonStreamingOrderByPriorityQueue", () => {
     assert.equal(topElements2[1], 2);
 
     // collect the top 4 elements in descending order
-    const queue3 = new NonStreamingOrderByPriorityQueue<number>((a, b) => b - a, 4);
+    const queue3 = new FixedSizePriorityQueue<number>((a, b) => b - a, 4);
     queue3.enqueue(3);
     queue3.enqueue(3);
     queue3.enqueue(1);
@@ -55,7 +55,7 @@ describe("NonStreamingOrderByPriorityQueue", () => {
     assert.equal(topElements3[3], 2);
 
     // collect the top 4 elements in ascending order
-    const queue4 = new NonStreamingOrderByPriorityQueue<number>((a, b) => a - b, 4);
+    const queue4 = new FixedSizePriorityQueue<number>((a, b) => a - b, 4);
     queue4.enqueue(3);
     queue4.enqueue(3);
     queue4.enqueue(1);
@@ -73,7 +73,7 @@ describe("NonStreamingOrderByPriorityQueue", () => {
   });
 
   it("should return correct size and emptiness", () => {
-    const queue = new NonStreamingOrderByPriorityQueue<number>((a, b) => a - b);
+    const queue = new FixedSizePriorityQueue<number>((a, b) => a - b, 2);
     assert.equal(queue.isEmpty(), true);
     queue.enqueue(5);
     assert.equal(queue.size(), 1);
@@ -84,7 +84,7 @@ describe("NonStreamingOrderByPriorityQueue", () => {
   });
 
   it("should peek at the top element", () => {
-    const queue = new NonStreamingOrderByPriorityQueue<number>((a, b) => a - b, 2);
+    const queue = new FixedSizePriorityQueue<number>((a, b) => a - b, 2);
     queue.enqueue(3);
     queue.enqueue(1);
     assert.equal(queue.peek(), 3);
@@ -92,7 +92,7 @@ describe("NonStreamingOrderByPriorityQueue", () => {
   });
 
   it("should retrieve top elements in correct order", () => {
-    const queue = new NonStreamingOrderByPriorityQueue<number>((a, b) => a - b, 2);
+    const queue = new FixedSizePriorityQueue<number>((a, b) => a - b, 2);
     queue.enqueue(3);
     queue.enqueue(1);
     queue.enqueue(2);

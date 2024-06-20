@@ -5,7 +5,7 @@ import { ExecutionContext } from "../../../../src/queryExecutionContext";
 import { NonStreamingOrderByDistinctEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent";
 import { QueryInfo } from "../../../../src/request/ErrorResponse";
 
-describe("NonStreamingOrderByEndpointComponent", () => {
+describe("NonStreamingOrderByDistinctEndpointComponent", () => {
   it("should initialize correctly with sort orders and priority queue buffer size", () => {
     const executionContext: ExecutionContext = {} as ExecutionContext;
     const queryInfo: QueryInfo = {

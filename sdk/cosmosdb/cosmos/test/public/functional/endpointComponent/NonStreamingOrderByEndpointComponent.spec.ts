@@ -44,14 +44,18 @@ describe("NonStreamingOrderByEndpointComponent", () => {
       }),
     } as ExecutionContext;
     const sortOrders = ["Ascending"];
-    const component = new NonStreamingOrderByEndpointComponent(mockExecutionContext, sortOrders);
+    const component = new NonStreamingOrderByEndpointComponent(
+      mockExecutionContext,
+      sortOrders,
+      2000,
+    );
 
     let count = 1;
     let result_id = 1;
     // call nextItem, for first 100 items it will give empty result
     while (component.hasMoreResults()) {
       const response = await component.nextItem({} as any);
-      if (count < 100) {
+      if (count < 99) {
         assert.deepStrictEqual(response.result, {});
       } else {
         assert.deepStrictEqual(response.result, { id: result_id++ });
