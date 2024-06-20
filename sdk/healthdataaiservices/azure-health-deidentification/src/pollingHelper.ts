@@ -134,7 +134,6 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       } finally {
         inputAbortSignal?.removeEventListener("abort", abortListener);
       }
-      console.log(response)
       const lroResponse = getLroResponse(response as TResult);
       lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
       return lroResponse;
