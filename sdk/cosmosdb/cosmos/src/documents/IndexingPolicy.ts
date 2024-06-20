@@ -50,8 +50,13 @@ export interface Index {
   dataType: keyof typeof DataType;
   precision?: number;
 }
+
+/**
+ * Represents a composite path in the indexing policy.
+ */
 export interface CompositePath {
+  /** The path in the JSON document to include in the composite index. */
   path: string;
+  /** The order of the composite index, either "ascending" or "descending". */
   order: "ascending" | "descending";
-  [key: string]: any;
 }

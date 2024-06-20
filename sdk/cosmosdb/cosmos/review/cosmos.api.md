@@ -327,13 +327,9 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
-// @public (undocumented)
+// @public
 export interface CompositePath {
-    // (undocumented)
-    [key: string]: any;
-    // (undocumented)
     order: "ascending" | "descending";
-    // (undocumented)
     path: string;
 }
 
