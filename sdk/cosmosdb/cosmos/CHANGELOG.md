@@ -10,6 +10,7 @@
 - Composite Indexing [#21115](https://github.com/Azure/azure-sdk-for-js/issues/21115)
 - Correlated Activity Id [#2692245](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2692245)
 - Split/Merge proof for Bulk API [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
+- Vector Search feature
 - Improved samples
 
 #### Change Feed - All versions and deletes mode
