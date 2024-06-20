@@ -4,6 +4,8 @@
 
 The first preview of the Azure Communication Recipient Verification client library has the following features:
 
+### Features Added
+
 - Verifying code for a phone number
 - Request a verification code to a phone number(US)
 - Removing a verified/pending phone number
