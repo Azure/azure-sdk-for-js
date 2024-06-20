@@ -9,7 +9,13 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { CosmosClient, IndexKind, DataType } from "@azure/cosmos";
+import {
+  CosmosClient,
+  IndexKind,
+  DataType,
+  ContainerDefinition,
+  IndexingMode,
+} from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -235,6 +241,44 @@ async function run(): Promise<void> {
   // You can still read the item by its id
   console.log("Can still item.read() using '" + item4 && item4.id + "'");
   await item.read();
+
+  logStep("Composite Indexes");
+  console.log("create container with composite indexes");
+  const containerDefWithCompositeIndexes: ContainerDefinition = {
+    id: "containerWithCompositeIndexingPolicy",
+    indexingPolicy: {
+      automatic: true,
+      indexingMode: IndexingMode.consistent,
+      includedPaths: [
+        {
+          path: "/*",
+        },
+      ],
+      excludedPaths: [
+        {
+          path: '/"systemMetadata"/*',
+        },
+      ],
+      compositeIndexes: [
+        [
+          { path: "/field", order: "ascending" },
+          { path: "/key", order: "ascending" },
+        ],
+      ],
+    },
+  };
+  const containerWithCompositeIndexes = (
+    await database.containers.create(containerDefWithCompositeIndexes)
+  ).container;
+  await containerWithCompositeIndexes.items.create({ id: "1", key: "1", field: "2" });
+  await containerWithCompositeIndexes.items.create({ id: "2", key: "2", field: "1" });
+  const iterator = containerWithCompositeIndexes.items.query(
+    "SELECT * FROM r ORDER BY r.field, r.key",
+  );
+  const response = await iterator.fetchAll();
+  console.log("ORDER BY Query results: ", response.resources);
+  await containerWithCompositeIndexes.delete();
+
   await finish();
 }
 
