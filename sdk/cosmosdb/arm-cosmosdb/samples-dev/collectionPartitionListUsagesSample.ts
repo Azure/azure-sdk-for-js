@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the usages (most recent storage data) for the given collection, split by partition.
  *
  * @summary Retrieves the usages (most recent storage data) for the given collection, split by partition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCollectionPartitionGetUsages.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBCollectionPartitionGetUsages.json
  */
 async function cosmosDbCollectionGetUsages() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

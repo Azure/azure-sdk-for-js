@@ -18,17 +18,11 @@ dotenv.config();
  * This sample demonstrates how to Get private DNS zone suffix in the cloud.
  *
  * @summary Get private DNS zone suffix in the cloud.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/preview/2021-12-01-preview/examples/GetPrivateDnsZoneSuffix.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/GetPrivateDnsZoneSuffix.json
  */
 async function getPrivateDnsZoneSuffix() {
-  const subscriptionId =
-    process.env["MYSQL_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new MySQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId
-  );
+  const client = new MySQLManagementFlexibleServerClient(credential);
   const result = await client.getPrivateDnsZoneSuffix.execute();
   console.log(result);
 }

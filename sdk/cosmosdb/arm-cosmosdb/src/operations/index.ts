@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./networkSecurityPerimeterConfigurations";
 export * from "./databaseAccounts";
 export * from "./operations";
 export * from "./database";
@@ -29,7 +30,6 @@ export * from "./locations";
 export * from "./dataTransferJobs";
 export * from "./cassandraClusters";
 export * from "./cassandraDataCenters";
-export * from "./mongoClusters";
 export * from "./notebookWorkspaces";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";

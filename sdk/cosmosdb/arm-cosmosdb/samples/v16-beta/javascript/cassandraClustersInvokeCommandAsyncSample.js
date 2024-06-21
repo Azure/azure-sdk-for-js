@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance asynchronously
  *
  * @summary Invoke a command like nodetool for cassandra maintenance asynchronously
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraCommandAsync.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraCommandAsync.json
  */
 async function cosmosDbManagedCassandraCommandAsync() {
   const subscriptionId =

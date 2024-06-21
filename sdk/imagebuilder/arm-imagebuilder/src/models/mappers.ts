@@ -20,19 +20,19 @@ export const ImageTemplateListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ImageTemplate"
-            }
-          }
-        }
+              className: "ImageTemplate",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateSource: coreClient.CompositeMapper = {
@@ -42,18 +42,18 @@ export const ImageTemplateSource: coreClient.CompositeMapper = {
     uberParent: "ImageTemplateSource",
     polymorphicDiscriminator: {
       serializedName: "type",
-      clientName: "type"
+      clientName: "type",
     },
     modelProperties: {
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateCustomizer: coreClient.CompositeMapper = {
@@ -63,24 +63,24 @@ export const ImageTemplateCustomizer: coreClient.CompositeMapper = {
     uberParent: "ImageTemplateCustomizer",
     polymorphicDiscriminator: {
       serializedName: "type",
-      clientName: "type"
+      clientName: "type",
     },
     modelProperties: {
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplatePropertiesOptimize: coreClient.CompositeMapper = {
@@ -92,28 +92,29 @@ export const ImageTemplatePropertiesOptimize: coreClient.CompositeMapper = {
         serializedName: "vmBoot",
         type: {
           name: "Composite",
-          className: "ImageTemplatePropertiesOptimizeVmBoot"
-        }
-      }
-    }
-  }
+          className: "ImageTemplatePropertiesOptimizeVmBoot",
+        },
+      },
+    },
+  },
 };
 
-export const ImageTemplatePropertiesOptimizeVmBoot: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ImageTemplatePropertiesOptimizeVmBoot",
-    modelProperties: {
-      state: {
-        serializedName: "state",
-        type: {
-          name: "Enum",
-          allowedValues: ["Enabled", "Disabled"]
-        }
-      }
-    }
-  }
-};
+export const ImageTemplatePropertiesOptimizeVmBoot: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ImageTemplatePropertiesOptimizeVmBoot",
+      modelProperties: {
+        state: {
+          serializedName: "state",
+          type: {
+            name: "Enum",
+            allowedValues: ["Enabled", "Disabled"],
+          },
+        },
+      },
+    },
+  };
 
 export const ImageTemplatePropertiesValidate: coreClient.CompositeMapper = {
   type: {
@@ -124,15 +125,15 @@ export const ImageTemplatePropertiesValidate: coreClient.CompositeMapper = {
         defaultValue: false,
         serializedName: "continueDistributeOnFailure",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       sourceValidationOnly: {
         defaultValue: false,
         serializedName: "sourceValidationOnly",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       inVMValidations: {
         serializedName: "inVMValidations",
@@ -141,13 +142,13 @@ export const ImageTemplatePropertiesValidate: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ImageTemplateInVMValidator"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ImageTemplateInVMValidator",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateInVMValidator: coreClient.CompositeMapper = {
@@ -157,24 +158,24 @@ export const ImageTemplateInVMValidator: coreClient.CompositeMapper = {
     uberParent: "ImageTemplateInVMValidator",
     polymorphicDiscriminator: {
       serializedName: "type",
-      clientName: "type"
+      clientName: "type",
     },
     modelProperties: {
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateDistributor: coreClient.CompositeMapper = {
@@ -184,57 +185,58 @@ export const ImageTemplateDistributor: coreClient.CompositeMapper = {
     uberParent: "ImageTemplateDistributor",
     polymorphicDiscriminator: {
       serializedName: "type",
-      clientName: "type"
+      clientName: "type",
     },
     modelProperties: {
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       runOutputName: {
         constraints: {
-          Pattern: new RegExp("^[A-Za-z0-9-_.]{1,64}$")
+          Pattern: new RegExp("^[A-Za-z0-9-_.]{1,64}$"),
         },
         serializedName: "runOutputName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       artifactTags: {
         serializedName: "artifactTags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
-export const ImageTemplatePropertiesErrorHandling: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ImageTemplatePropertiesErrorHandling",
-    modelProperties: {
-      onCustomizerError: {
-        serializedName: "onCustomizerError",
-        type: {
-          name: "String"
-        }
+export const ImageTemplatePropertiesErrorHandling: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ImageTemplatePropertiesErrorHandling",
+      modelProperties: {
+        onCustomizerError: {
+          serializedName: "onCustomizerError",
+          type: {
+            name: "String",
+          },
+        },
+        onValidationError: {
+          serializedName: "onValidationError",
+          type: {
+            name: "String",
+          },
+        },
       },
-      onValidationError: {
-        serializedName: "onValidationError",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const ProvisioningError: coreClient.CompositeMapper = {
   type: {
@@ -244,17 +246,17 @@ export const ProvisioningError: coreClient.CompositeMapper = {
       provisioningErrorCode: {
         serializedName: "provisioningErrorCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateLastRunStatus: coreClient.CompositeMapper = {
@@ -265,14 +267,14 @@ export const ImageTemplateLastRunStatus: coreClient.CompositeMapper = {
       startTime: {
         serializedName: "startTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endTime: {
         serializedName: "endTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       runState: {
         serializedName: "runState",
@@ -284,9 +286,9 @@ export const ImageTemplateLastRunStatus: coreClient.CompositeMapper = {
             "Succeeded",
             "PartiallySucceeded",
             "Failed",
-            "Canceled"
-          ]
-        }
+            "Canceled",
+          ],
+        },
       },
       runSubState: {
         serializedName: "runSubState",
@@ -298,18 +300,18 @@ export const ImageTemplateLastRunStatus: coreClient.CompositeMapper = {
             "Customizing",
             "Optimizing",
             "Validating",
-            "Distributing"
-          ]
-        }
+            "Distributing",
+          ],
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateVmProfile: coreClient.CompositeMapper = {
@@ -321,18 +323,18 @@ export const ImageTemplateVmProfile: coreClient.CompositeMapper = {
         defaultValue: "",
         serializedName: "vmSize",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       osDiskSizeGB: {
         defaultValue: 0,
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
         },
         serializedName: "osDiskSizeGB",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
@@ -340,20 +342,20 @@ export const ImageTemplateVmProfile: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       vnetConfig: {
         serializedName: "vnetConfig",
         type: {
           name: "Composite",
-          className: "VirtualNetworkConfig"
-        }
-      }
-    }
-  }
+          className: "VirtualNetworkConfig",
+        },
+      },
+    },
+  },
 };
 
 export const VirtualNetworkConfig: coreClient.CompositeMapper = {
@@ -364,18 +366,40 @@ export const VirtualNetworkConfig: coreClient.CompositeMapper = {
       subnetId: {
         serializedName: "subnetId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      containerInstanceSubnetId: {
+        serializedName: "containerInstanceSubnetId",
+        type: {
+          name: "String",
+        },
       },
       proxyVmSize: {
         defaultValue: "",
         serializedName: "proxyVmSize",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImageTemplateAutoRun: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageTemplateAutoRun",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled"],
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateIdentity: coreClient.CompositeMapper = {
@@ -387,20 +411,20 @@ export const ImageTemplateIdentity: coreClient.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["UserAssigned", "None"]
-        }
+          allowedValues: ["UserAssigned", "None"],
+        },
       },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UserAssignedIdentity: coreClient.CompositeMapper = {
@@ -412,18 +436,18 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       clientId: {
         serializedName: "clientId",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -435,32 +459,32 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -471,41 +495,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -517,11 +541,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -533,22 +557,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -558,10 +582,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -571,13 +595,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -589,19 +613,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateUpdateParameters: coreClient.CompositeMapper = {
@@ -613,47 +637,55 @@ export const ImageTemplateUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ImageTemplateIdentity"
-        }
+          className: "ImageTemplateIdentity",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ImageTemplateUpdateParametersProperties"
-        }
-      }
-    }
-  }
+          className: "ImageTemplateUpdateParametersProperties",
+        },
+      },
+    },
+  },
 };
 
-export const ImageTemplateUpdateParametersProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ImageTemplateUpdateParametersProperties",
-    modelProperties: {
-      distribute: {
-        serializedName: "distribute",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageTemplateDistributor"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+export const ImageTemplateUpdateParametersProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ImageTemplateUpdateParametersProperties",
+      modelProperties: {
+        distribute: {
+          serializedName: "distribute",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ImageTemplateDistributor",
+              },
+            },
+          },
+        },
+        vmProfile: {
+          serializedName: "vmProfile",
+          type: {
+            name: "Composite",
+            className: "ImageTemplateVmProfile",
+          },
+        },
+      },
+    },
+  };
 
 export const RunOutputCollection: coreClient.CompositeMapper = {
   type: {
@@ -667,19 +699,19 @@ export const RunOutputCollection: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "RunOutput"
-            }
-          }
-        }
+              className: "RunOutput",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TriggerCollection: coreClient.CompositeMapper = {
@@ -695,19 +727,19 @@ export const TriggerCollection: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Trigger"
-            }
-          }
-        }
+              className: "Trigger",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TriggerProperties: coreClient.CompositeMapper = {
@@ -717,22 +749,22 @@ export const TriggerProperties: coreClient.CompositeMapper = {
     uberParent: "TriggerProperties",
     polymorphicDiscriminator: {
       serializedName: "kind",
-      clientName: "kind"
+      clientName: "kind",
     },
     modelProperties: {
       kind: {
         serializedName: "kind",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         type: {
           name: "Composite",
-          className: "TriggerStatus"
-        }
+          className: "TriggerStatus",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
@@ -745,12 +777,12 @@ export const TriggerProperties: coreClient.CompositeMapper = {
             "Succeeded",
             "Failed",
             "Deleting",
-            "Canceled"
-          ]
-        }
-      }
-    }
-  }
+            "Canceled",
+          ],
+        },
+      },
+    },
+  },
 };
 
 export const TriggerStatus: coreClient.CompositeMapper = {
@@ -762,25 +794,25 @@ export const TriggerStatus: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       time: {
         serializedName: "time",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const OperationListResult: coreClient.CompositeMapper = {
@@ -795,19 +827,19 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -818,37 +850,37 @@ export const Operation: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -859,29 +891,29 @@ export const OperationDisplay: coreClient.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PlatformImagePurchasePlan: coreClient.CompositeMapper = {
@@ -893,25 +925,25 @@ export const PlatformImagePurchasePlan: coreClient.CompositeMapper = {
         serializedName: "planName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       planProduct: {
         serializedName: "planProduct",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       planPublisher: {
         serializedName: "planPublisher",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TargetRegion: coreClient.CompositeMapper = {
@@ -923,27 +955,27 @@ export const TargetRegion: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       replicaCount: {
         defaultValue: 1,
         constraints: {
-          InclusiveMinimum: 1
+          InclusiveMinimum: 1,
         },
         serializedName: "replicaCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       storageAccountType: {
         serializedName: "storageAccountType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DistributeVersioner: coreClient.CompositeMapper = {
@@ -953,18 +985,18 @@ export const DistributeVersioner: coreClient.CompositeMapper = {
     uberParent: "DistributeVersioner",
     polymorphicDiscriminator: {
       serializedName: "scheme",
-      clientName: "scheme"
+      clientName: "scheme",
     },
     modelProperties: {
       scheme: {
         serializedName: "scheme",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplatePlatformImageSource: coreClient.CompositeMapper = {
@@ -979,43 +1011,43 @@ export const ImageTemplatePlatformImageSource: coreClient.CompositeMapper = {
       publisher: {
         serializedName: "publisher",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       offer: {
         serializedName: "offer",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       version: {
         serializedName: "version",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       exactVersion: {
         serializedName: "exactVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       planInfo: {
         serializedName: "planInfo",
         type: {
           name: "Composite",
-          className: "PlatformImagePurchasePlan"
-        }
-      }
-    }
-  }
+          className: "PlatformImagePurchasePlan",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateManagedImageSource: coreClient.CompositeMapper = {
@@ -1031,39 +1063,41 @@ export const ImageTemplateManagedImageSource: coreClient.CompositeMapper = {
         serializedName: "imageId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ImageTemplateSharedImageVersionSource: coreClient.CompositeMapper = {
-  serializedName: "SharedImageVersion",
-  type: {
-    name: "Composite",
-    className: "ImageTemplateSharedImageVersionSource",
-    uberParent: "ImageTemplateSource",
-    polymorphicDiscriminator: ImageTemplateSource.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ImageTemplateSource.type.modelProperties,
-      imageVersionId: {
-        serializedName: "imageVersionId",
-        required: true,
-        type: {
-          name: "String"
-        }
+export const ImageTemplateSharedImageVersionSource: coreClient.CompositeMapper =
+  {
+    serializedName: "SharedImageVersion",
+    type: {
+      name: "Composite",
+      className: "ImageTemplateSharedImageVersionSource",
+      uberParent: "ImageTemplateSource",
+      polymorphicDiscriminator:
+        ImageTemplateSource.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ImageTemplateSource.type.modelProperties,
+        imageVersionId: {
+          serializedName: "imageVersionId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        exactVersion: {
+          serializedName: "exactVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      exactVersion: {
-        serializedName: "exactVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const ImageTemplateShellCustomizer: coreClient.CompositeMapper = {
   serializedName: "Shell",
@@ -1078,15 +1112,15 @@ export const ImageTemplateShellCustomizer: coreClient.CompositeMapper = {
       scriptUri: {
         serializedName: "scriptUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sha256Checksum: {
         defaultValue: "",
         serializedName: "sha256Checksum",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inline: {
         serializedName: "inline",
@@ -1094,13 +1128,13 @@ export const ImageTemplateShellCustomizer: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateRestartCustomizer: coreClient.CompositeMapper = {
@@ -1116,65 +1150,66 @@ export const ImageTemplateRestartCustomizer: coreClient.CompositeMapper = {
       restartCommand: {
         serializedName: "restartCommand",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restartCheckCommand: {
         serializedName: "restartCheckCommand",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restartTimeout: {
         serializedName: "restartTimeout",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ImageTemplateWindowsUpdateCustomizer: coreClient.CompositeMapper = {
-  serializedName: "WindowsUpdate",
-  type: {
-    name: "Composite",
-    className: "ImageTemplateWindowsUpdateCustomizer",
-    uberParent: "ImageTemplateCustomizer",
-    polymorphicDiscriminator:
-      ImageTemplateCustomizer.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ImageTemplateCustomizer.type.modelProperties,
-      searchCriteria: {
-        serializedName: "searchCriteria",
-        type: {
-          name: "String"
-        }
-      },
-      filters: {
-        serializedName: "filters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      updateLimit: {
-        defaultValue: 0,
-        constraints: {
-          InclusiveMinimum: 0
+export const ImageTemplateWindowsUpdateCustomizer: coreClient.CompositeMapper =
+  {
+    serializedName: "WindowsUpdate",
+    type: {
+      name: "Composite",
+      className: "ImageTemplateWindowsUpdateCustomizer",
+      uberParent: "ImageTemplateCustomizer",
+      polymorphicDiscriminator:
+        ImageTemplateCustomizer.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ImageTemplateCustomizer.type.modelProperties,
+        searchCriteria: {
+          serializedName: "searchCriteria",
+          type: {
+            name: "String",
+          },
         },
-        serializedName: "updateLimit",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+        filters: {
+          serializedName: "filters",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        updateLimit: {
+          defaultValue: 0,
+          constraints: {
+            InclusiveMinimum: 0,
+          },
+          serializedName: "updateLimit",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const ImageTemplatePowerShellCustomizer: coreClient.CompositeMapper = {
   serializedName: "PowerShell",
@@ -1189,15 +1224,15 @@ export const ImageTemplatePowerShellCustomizer: coreClient.CompositeMapper = {
       scriptUri: {
         serializedName: "scriptUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sha256Checksum: {
         defaultValue: "",
         serializedName: "sha256Checksum",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inline: {
         serializedName: "inline",
@@ -1205,24 +1240,24 @@ export const ImageTemplatePowerShellCustomizer: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       runElevated: {
         defaultValue: false,
         serializedName: "runElevated",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       runAsSystem: {
         defaultValue: false,
         serializedName: "runAsSystem",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       validExitCodes: {
         serializedName: "validExitCodes",
@@ -1230,13 +1265,13 @@ export const ImageTemplatePowerShellCustomizer: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Number"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "Number",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateFileCustomizer: coreClient.CompositeMapper = {
@@ -1252,24 +1287,24 @@ export const ImageTemplateFileCustomizer: coreClient.CompositeMapper = {
       sourceUri: {
         serializedName: "sourceUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sha256Checksum: {
         defaultValue: "",
         serializedName: "sha256Checksum",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       destination: {
         serializedName: "destination",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateShellValidator: coreClient.CompositeMapper = {
@@ -1285,15 +1320,15 @@ export const ImageTemplateShellValidator: coreClient.CompositeMapper = {
       scriptUri: {
         serializedName: "scriptUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sha256Checksum: {
         defaultValue: "",
         serializedName: "sha256Checksum",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inline: {
         serializedName: "inline",
@@ -1301,13 +1336,13 @@ export const ImageTemplateShellValidator: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplatePowerShellValidator: coreClient.CompositeMapper = {
@@ -1323,15 +1358,15 @@ export const ImageTemplatePowerShellValidator: coreClient.CompositeMapper = {
       scriptUri: {
         serializedName: "scriptUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sha256Checksum: {
         defaultValue: "",
         serializedName: "sha256Checksum",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inline: {
         serializedName: "inline",
@@ -1339,24 +1374,24 @@ export const ImageTemplatePowerShellValidator: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       runElevated: {
         defaultValue: false,
         serializedName: "runElevated",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       runAsSystem: {
         defaultValue: false,
         serializedName: "runAsSystem",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       validExitCodes: {
         serializedName: "validExitCodes",
@@ -1364,13 +1399,13 @@ export const ImageTemplatePowerShellValidator: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Number"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "Number",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateFileValidator: coreClient.CompositeMapper = {
@@ -1386,53 +1421,54 @@ export const ImageTemplateFileValidator: coreClient.CompositeMapper = {
       sourceUri: {
         serializedName: "sourceUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sha256Checksum: {
         defaultValue: "",
         serializedName: "sha256Checksum",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       destination: {
         serializedName: "destination",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ImageTemplateManagedImageDistributor: coreClient.CompositeMapper = {
-  serializedName: "ManagedImage",
-  type: {
-    name: "Composite",
-    className: "ImageTemplateManagedImageDistributor",
-    uberParent: "ImageTemplateDistributor",
-    polymorphicDiscriminator:
-      ImageTemplateDistributor.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ImageTemplateDistributor.type.modelProperties,
-      imageId: {
-        serializedName: "imageId",
-        required: true,
-        type: {
-          name: "String"
-        }
+export const ImageTemplateManagedImageDistributor: coreClient.CompositeMapper =
+  {
+    serializedName: "ManagedImage",
+    type: {
+      name: "Composite",
+      className: "ImageTemplateManagedImageDistributor",
+      uberParent: "ImageTemplateDistributor",
+      polymorphicDiscriminator:
+        ImageTemplateDistributor.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ImageTemplateDistributor.type.modelProperties,
+        imageId: {
+          serializedName: "imageId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        location: {
+          serializedName: "location",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const ImageTemplateSharedImageDistributor: coreClient.CompositeMapper = {
   serializedName: "SharedImage",
@@ -1448,8 +1484,8 @@ export const ImageTemplateSharedImageDistributor: coreClient.CompositeMapper = {
         serializedName: "galleryImageId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       replicationRegions: {
         serializedName: "replicationRegions",
@@ -1457,23 +1493,23 @@ export const ImageTemplateSharedImageDistributor: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       excludeFromLatest: {
         defaultValue: false,
         serializedName: "excludeFromLatest",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       storageAccountType: {
         serializedName: "storageAccountType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetRegions: {
         serializedName: "targetRegions",
@@ -1482,20 +1518,20 @@ export const ImageTemplateSharedImageDistributor: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TargetRegion"
-            }
-          }
-        }
+              className: "TargetRegion",
+            },
+          },
+        },
       },
       versioning: {
         serializedName: "versioning",
         type: {
           name: "Composite",
-          className: "DistributeVersioner"
-        }
-      }
-    }
-  }
+          className: "DistributeVersioner",
+        },
+      },
+    },
+  },
 };
 
 export const ImageTemplateVhdDistributor: coreClient.CompositeMapper = {
@@ -1511,11 +1547,11 @@ export const ImageTemplateVhdDistributor: coreClient.CompositeMapper = {
       uri: {
         serializedName: "uri",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -1528,18 +1564,18 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: coreClient.CompositeMapper = {
@@ -1547,9 +1583,9 @@ export const ProxyResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const SourceImageTriggerProperties: coreClient.CompositeMapper = {
@@ -1560,9 +1596,9 @@ export const SourceImageTriggerProperties: coreClient.CompositeMapper = {
     uberParent: "TriggerProperties",
     polymorphicDiscriminator: TriggerProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...TriggerProperties.type.modelProperties
-    }
-  }
+      ...TriggerProperties.type.modelProperties,
+    },
+  },
 };
 
 export const DistributeVersionerLatest: coreClient.CompositeMapper = {
@@ -1577,15 +1613,15 @@ export const DistributeVersionerLatest: coreClient.CompositeMapper = {
       major: {
         defaultValue: -1,
         constraints: {
-          InclusiveMinimum: -1
+          InclusiveMinimum: -1,
         },
         serializedName: "major",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const DistributeVersionerSource: coreClient.CompositeMapper = {
@@ -1596,9 +1632,9 @@ export const DistributeVersionerSource: coreClient.CompositeMapper = {
     uberParent: "DistributeVersioner",
     polymorphicDiscriminator: DistributeVersioner.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DistributeVersioner.type.modelProperties
-    }
-  }
+      ...DistributeVersioner.type.modelProperties,
+    },
+  },
 };
 
 export const ImageTemplate: coreClient.CompositeMapper = {
@@ -1611,15 +1647,15 @@ export const ImageTemplate: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ImageTemplateIdentity"
-        }
+          className: "ImageTemplateIdentity",
+        },
       },
       source: {
         serializedName: "properties.source",
         type: {
           name: "Composite",
-          className: "ImageTemplateSource"
-        }
+          className: "ImageTemplateSource",
+        },
       },
       customize: {
         serializedName: "properties.customize",
@@ -1628,24 +1664,24 @@ export const ImageTemplate: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ImageTemplateCustomizer"
-            }
-          }
-        }
+              className: "ImageTemplateCustomizer",
+            },
+          },
+        },
       },
       optimize: {
         serializedName: "properties.optimize",
         type: {
           name: "Composite",
-          className: "ImageTemplatePropertiesOptimize"
-        }
+          className: "ImageTemplatePropertiesOptimize",
+        },
       },
       validate: {
         serializedName: "properties.validate",
         type: {
           name: "Composite",
-          className: "ImageTemplatePropertiesValidate"
-        }
+          className: "ImageTemplatePropertiesValidate",
+        },
       },
       distribute: {
         serializedName: "properties.distribute",
@@ -1654,17 +1690,17 @@ export const ImageTemplate: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ImageTemplateDistributor"
-            }
-          }
-        }
+              className: "ImageTemplateDistributor",
+            },
+          },
+        },
       },
       errorHandling: {
         serializedName: "properties.errorHandling",
         type: {
           name: "Composite",
-          className: "ImageTemplatePropertiesErrorHandling"
-        }
+          className: "ImageTemplatePropertiesErrorHandling",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
@@ -1677,57 +1713,71 @@ export const ImageTemplate: coreClient.CompositeMapper = {
             "Succeeded",
             "Failed",
             "Deleting",
-            "Canceled"
-          ]
-        }
+            "Canceled",
+          ],
+        },
       },
       provisioningError: {
         serializedName: "properties.provisioningError",
         type: {
           name: "Composite",
-          className: "ProvisioningError"
-        }
+          className: "ProvisioningError",
+        },
       },
       lastRunStatus: {
         serializedName: "properties.lastRunStatus",
         type: {
           name: "Composite",
-          className: "ImageTemplateLastRunStatus"
-        }
+          className: "ImageTemplateLastRunStatus",
+        },
       },
       buildTimeoutInMinutes: {
         defaultValue: 0,
         constraints: {
           InclusiveMaximum: 960,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
         },
         serializedName: "properties.buildTimeoutInMinutes",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       vmProfile: {
         serializedName: "properties.vmProfile",
         type: {
           name: "Composite",
-          className: "ImageTemplateVmProfile"
-        }
+          className: "ImageTemplateVmProfile",
+        },
       },
       stagingResourceGroup: {
         serializedName: "properties.stagingResourceGroup",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       exactStagingResourceGroup: {
         serializedName: "properties.exactStagingResourceGroup",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      autoRun: {
+        serializedName: "properties.autoRun",
+        type: {
+          name: "Composite",
+          className: "ImageTemplateAutoRun",
+        },
+      },
+      managedResourceTags: {
+        serializedName: "properties.managedResourceTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const RunOutput: coreClient.CompositeMapper = {
@@ -1739,14 +1789,14 @@ export const RunOutput: coreClient.CompositeMapper = {
       artifactId: {
         serializedName: "properties.artifactId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       artifactUri: {
         serializedName: "properties.artifactUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
@@ -1759,12 +1809,12 @@ export const RunOutput: coreClient.CompositeMapper = {
             "Succeeded",
             "Failed",
             "Deleting",
-            "Canceled"
-          ]
-        }
-      }
-    }
-  }
+            "Canceled",
+          ],
+        },
+      },
+    },
+  },
 };
 
 export const Trigger: coreClient.CompositeMapper = {
@@ -1776,15 +1826,15 @@ export const Trigger: coreClient.CompositeMapper = {
       kind: {
         serializedName: "properties.kind",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "properties.status",
         type: {
           name: "Composite",
-          className: "TriggerStatus"
-        }
+          className: "TriggerStatus",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
@@ -1797,28 +1847,29 @@ export const Trigger: coreClient.CompositeMapper = {
             "Succeeded",
             "Failed",
             "Deleting",
-            "Canceled"
-          ]
-        }
-      }
-    }
-  }
+            "Canceled",
+          ],
+        },
+      },
+    },
+  },
 };
 
-export const VirtualMachineImageTemplatesDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineImageTemplatesDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const VirtualMachineImageTemplatesDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "VirtualMachineImageTemplatesDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const TriggersDeleteHeaders: coreClient.CompositeMapper = {
   type: {
@@ -1828,11 +1879,11 @@ export const TriggersDeleteHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export let discriminators = {
@@ -1844,7 +1895,8 @@ export let discriminators = {
   DistributeVersioner: DistributeVersioner,
   "ImageTemplateSource.PlatformImage": ImageTemplatePlatformImageSource,
   "ImageTemplateSource.ManagedImage": ImageTemplateManagedImageSource,
-  "ImageTemplateSource.SharedImageVersion": ImageTemplateSharedImageVersionSource,
+  "ImageTemplateSource.SharedImageVersion":
+    ImageTemplateSharedImageVersionSource,
   "ImageTemplateCustomizer.Shell": ImageTemplateShellCustomizer,
   "ImageTemplateCustomizer.WindowsRestart": ImageTemplateRestartCustomizer,
   "ImageTemplateCustomizer.WindowsUpdate": ImageTemplateWindowsUpdateCustomizer,
@@ -1858,5 +1910,5 @@ export let discriminators = {
   "ImageTemplateDistributor.VHD": ImageTemplateVhdDistributor,
   "TriggerProperties.SourceImage": SourceImageTriggerProperties,
   "DistributeVersioner.Latest": DistributeVersionerLatest,
-  "DistributeVersioner.Source": DistributeVersionerSource
+  "DistributeVersioner.Source": DistributeVersionerSource,
 };
