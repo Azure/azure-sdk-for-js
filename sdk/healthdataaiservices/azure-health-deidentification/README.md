@@ -3,11 +3,11 @@
 `@azure-rest/azure-health-deidentification` is a managed service that enables users to tag, redact, or surrogate health data.
 
 <!-- **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library** -->
-
+<!-- TODO Fix links once they are live use placeholden until then -->
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/azure-health-deidentification)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/azure-health-deidentification?view=azure-node-preview)
+- [API reference documentation](https://www.microsoft.com/en-us/industry/health/microsoft-cloud-for-healthcare)
 
 ## Getting started
 
