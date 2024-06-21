@@ -2,8 +2,6 @@
 
 ## 1.1.0 (2024-04-15)
 
-### Features Added
-
 - General Availability version of PSTN dial-out capability feature
 
 ## 1.1.0-beta.1 (2023-09-21)
@@ -14,9 +12,7 @@
 
 ## 1.0.0 (2023-06-12)
 
-### Features Added
-
-- General Availability version of the Azure Communication Services Rooms JavaScript SDK.
+General Availability version of the Azure Communication Services Rooms JavaScript SDK.
 
 ## 1.0.0-beta.2 (2023-05-17)
 
