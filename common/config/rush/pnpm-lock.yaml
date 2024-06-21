@@ -14917,7 +14917,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-lEShiHD/vbZhcHK95Y7WYRftes2RYc/nQrFCzexyxpI16A+z4spr93SlTsxQJpLWFFDTWk1nq3kD2/RgBrjSag==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-5eg+6Pjh49yXK9Qg3kmYXvdCn4Km22UUQw/5/eSke7nAR+y+/hn4qYrM3lsBs5o4NpQEiDp6pIVKZeggO/f7cQ==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -14937,6 +14937,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.37)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.6
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
