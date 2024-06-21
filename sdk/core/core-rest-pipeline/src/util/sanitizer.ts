@@ -119,6 +119,15 @@ export class Sanitizer {
           // When using sendOperationRequest, the request carries a massive
           // field with the autorest spec. No need to log it.
           return undefined;
+        } else if (
+          key === "_httpMessage" ||
+          key === "_readableState" ||
+          key === "_writableState" ||
+          key === "_parent" ||
+          key === "_tlsOptions"
+        ) {
+          // some proxy agent internal properties that we don't need to log.
+          return undefined;
         } else if (Array.isArray(value) || isObject(value)) {
           if (seen.has(value)) {
             return "[Circular]";
