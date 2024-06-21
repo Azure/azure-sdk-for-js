@@ -2,7 +2,7 @@
     
 ## 5.0.0 (2024-06-28)
     
-**Features Added**
+### Features Added
 
   - Added operation group IscsiPaths
   - Added Interface AddonListResult
@@ -164,7 +164,7 @@
   - Added Enum KnownVirtualMachineProvisioningState
   - Added Enum KnownWorkloadNetworkProvisioningState
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation WorkloadNetworks.beginUpdateDhcp has a new signature
   - Operation WorkloadNetworks.beginUpdateDhcpAndWait has a new signature
@@ -190,7 +190,7 @@
     
 ## 4.0.0 (2023-08-10)
     
-**Features**
+### Features Added
 
   - Added Interface ErrorDetail
   - Interface ErrorResponse has a new optional parameter error
@@ -199,7 +199,7 @@
   - Interface PrivateCloudUpdateProperties has a new optional parameter extendedNetworkBlocks
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface ErrorResponse no longer has parameter additionalInfo
   - Interface ErrorResponse no longer has parameter code
@@ -210,7 +210,7 @@
     
 ## 3.2.0 (2022-10-20)
     
-**Features**
+### Features Added
 
   - Added operation Clusters.listZones
   - Added operation WorkloadNetworks.get
@@ -265,19 +265,19 @@
     
 ## 3.1.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  revert credential scopes
 
 ## 3.1.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  fix better user experience of credential scopes in government cloud
 
 ## 3.1.0 (2022-07-05)
     
-**Features**
+### Features Added
 
   - Added Interface Addon
   - Added Interface AddonHcxProperties
