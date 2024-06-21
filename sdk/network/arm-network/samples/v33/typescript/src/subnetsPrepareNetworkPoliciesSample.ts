@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Prepares a subnet by applying network intent policies.
  *
  * @summary Prepares a subnet by applying network intent policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SubnetPrepareNetworkPolicies.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SubnetPrepareNetworkPolicies.json
  */
 async function prepareNetworkPolicies() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
