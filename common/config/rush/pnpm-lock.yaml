@@ -18614,7 +18614,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-DlHVUQIvEl58yL7VZqdmRFAG78YY2/lZeyjasxPqt8A1L849+ZZnroxxr+zneEGQmoi0XjBamJRqyPoDzh+XHw==, tarball: file:projects/cosmos.tgz}    
+    resolution: {integrity: sha512-DlHVUQIvEl58yL7VZqdmRFAG78YY2/lZeyjasxPqt8A1L849+ZZnroxxr+zneEGQmoi0XjBamJRqyPoDzh+XHw==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
