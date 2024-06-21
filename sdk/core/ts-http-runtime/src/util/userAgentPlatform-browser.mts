@@ -31,24 +31,13 @@ interface NavigatorEx extends Navigator {
 function getBrandVersionString(
   brands: { brand: string; version: string }[],
 ): { brand: string; version: string } | undefined {
-  // Check for Microsoft Edge
-  const edge = brands.find((b) => b.brand === "Microsoft Edge");
-  if (edge) {
-    return edge;
+  const brandOrder = ["Google Chrome", "Microsoft Edge", "Brave", "Chromium"];
+  for (const brand of brandOrder) {
+    const foundBrand = brands.find((b) => b.brand === brand);
+    if (foundBrand) {
+      return foundBrand;
+    }
   }
-
-  // Check for Chrome
-  const chrome = brands.find((b) => b.brand === "Google Chrome");
-  if (chrome) {
-    return chrome;
-  }
-
-  // Check for Chromium
-  const chromium = brands.find((b) => b.brand === "Chromium");
-  if (chromium) {
-    return chromium;
-  }
-
   return undefined;
 }
 
