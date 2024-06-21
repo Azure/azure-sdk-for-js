@@ -2,7 +2,7 @@
     
 ## 6.0.0 (2024-06-07)
     
-**Features**
+### Features Added
 
   - Added operation group RoutingInfo
   - Added operation MobileNetworks.listSimGroups
@@ -43,7 +43,7 @@
   - Interface SignalingConfiguration has a new optional parameter nasEncryption
   - Added Enum KnownNasEncryptionType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
         [propertyName: string]: UserAssignedIdentity;
@@ -54,7 +54,7 @@
     
 ## 5.0.0 (2024-03-21)
     
-**Features**
+### Features Added
 
   - Added operation group ExtendedUeInformation
   - Added operation group UeInformation
@@ -95,14 +95,14 @@
   - Added Enum KnownUeState
   - Added Enum KnownUeUsageSetting
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation MobileNetworks.updateTags has a new signature
     
     
 ## 4.0.0 (2023-10-31)
     
-**Features**
+### Features Added
 
   - Added Interface EventHubConfiguration
   - Added Interface NASRerouteConfiguration
@@ -119,13 +119,13 @@
   - Enum KnownInstallationReason has a new value UserPlaneAccessVirtualIpv4AddressesHasChanged
   - Enum KnownInstallationReason has a new value UserPlaneDataInterfaceHasChanged
     
-**Breaking Changes**
+### Breaking Changes
 
   - Parameter totalBytesPerSession has a more constraining minimum value
     
 ## 3.0.0 (2023-07-05)
     
-**Features**
+### Features Added
 
   - Added operation group DiagnosticsPackages
   - Added operation group PacketCaptures
@@ -184,7 +184,7 @@
   - Added Enum KnownPacketCaptureStatus
   - Added Enum KnownReinstallRequired
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation PacketCoreControlPlanes.updateTags has a new signature
   - Operation SimGroups.updateTags has a new signature
@@ -199,7 +199,7 @@
     
 ## 2.0.0 (2023-01-06)
     
-**Features**
+### Features Added
 
   - Added operation PacketCoreControlPlanes.beginCollectDiagnosticsPackage
   - Added operation PacketCoreControlPlanes.beginCollectDiagnosticsPackageAndWait
@@ -226,7 +226,7 @@
   - Added Type Alias SimsBulkUploadEncryptedResponse
   - Added Type Alias SimsBulkUploadResponse
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group PacketCoreControlPlaneOperations
   - Removed operation group SimOperations
