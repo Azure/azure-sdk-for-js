@@ -266,6 +266,13 @@ export interface GenerateClientTokenOptions extends OperationOptions {
    * The groups to join when the client connects
    */
   groups?: string[];
+
+  /**
+   * The type of client
+   * * `default`: Default WebPubSub Client
+   * * `mqtt`: MQTT Client
+   */
+  clientType?: string;
 }
 
 /**
