@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a Target Type resources for given location.
  *
  * @summary Get a Target Type resources for given location.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/GetTargetType.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetTargetType.json
  */
 async function getATargetTypeForWestus2Location() {
   const subscriptionId =

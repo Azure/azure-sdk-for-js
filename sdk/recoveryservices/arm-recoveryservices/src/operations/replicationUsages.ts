@@ -15,7 +15,7 @@ import { RecoveryServicesClient } from "../recoveryServicesClient";
 import {
   ReplicationUsage,
   ReplicationUsagesListOptionalParams,
-  ReplicationUsagesListResponse
+  ReplicationUsagesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationUsagesListOptionalParams
+    options?: ReplicationUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationUsage> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -58,9 +58,9 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -68,7 +68,7 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
     resourceGroupName: string,
     vaultName: string,
     options?: ReplicationUsagesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ReplicationUsage[]> {
     let result: ReplicationUsagesListResponse;
     result = await this._list(resourceGroupName, vaultName, options);
@@ -78,12 +78,12 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationUsagesListOptionalParams
+    options?: ReplicationUsagesListOptionalParams,
   ): AsyncIterableIterator<ReplicationUsage> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -98,11 +98,11 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationUsagesListOptionalParams
+    options?: ReplicationUsagesListOptionalParams,
   ): Promise<ReplicationUsagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -110,21 +110,20 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationUsageList
-    }
+      bodyMapper: Mappers.ReplicationUsageList,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

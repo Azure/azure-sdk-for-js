@@ -37,6 +37,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   enableLiveMetrics?: boolean;
   /** Enable Standard Metrics feature */
   enableStandardMetrics?: boolean;
+  /** Enable log sampling based on trace (Default true) */
+  enableTraceBasedSamplingForLogs?: boolean;
 
   private _resource: Resource = Resource.empty();
 
@@ -60,8 +62,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
-    this.enableLiveMetrics = false;
+    this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
+    this.enableTraceBasedSamplingForLogs = true;
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
@@ -88,13 +91,22 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.instrumentationOptions,
       );
       this.resource = Object.assign(this.resource, options.resource);
-      this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      this.samplingRatio =
+        options.samplingRatio !== undefined ? options.samplingRatio : this.samplingRatio;
       this.browserSdkLoaderOptions = Object.assign(
         this.browserSdkLoaderOptions,
         options.browserSdkLoaderOptions,
       );
-      this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
-      this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
+      this.enableLiveMetrics =
+        options.enableLiveMetrics != undefined ? options.enableLiveMetrics : this.enableLiveMetrics;
+      this.enableStandardMetrics =
+        options.enableStandardMetrics != undefined
+          ? options.enableStandardMetrics
+          : this.enableStandardMetrics;
+      this.enableTraceBasedSamplingForLogs =
+        options.enableTraceBasedSamplingForLogs != undefined
+          ? options.enableTraceBasedSamplingForLogs
+          : this.enableTraceBasedSamplingForLogs;
     }
     // JSON configuration will take precedence over other settings
     this._mergeConfig();
@@ -117,6 +129,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         jsonConfig.enableStandardMetrics !== undefined
           ? jsonConfig.enableStandardMetrics
           : this.enableStandardMetrics;
+      this.enableTraceBasedSamplingForLogs =
+        jsonConfig.enableTraceBasedSamplingForLogs !== undefined
+          ? jsonConfig.enableTraceBasedSamplingForLogs
+          : this.enableTraceBasedSamplingForLogs;
       this.azureMonitorExporterOptions = Object.assign(
         this.azureMonitorExporterOptions,
         jsonConfig.azureMonitorExporterOptions,

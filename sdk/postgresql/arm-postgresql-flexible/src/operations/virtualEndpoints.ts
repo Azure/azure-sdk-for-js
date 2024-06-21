@@ -16,7 +16,7 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   VirtualEndpointsDeleteResponse,
   VirtualEndpointsGetOptionalParams,
   VirtualEndpointsGetResponse,
-  VirtualEndpointsListByServerNextResponse
+  VirtualEndpointsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,12 +58,12 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: VirtualEndpointsListByServerOptionalParams
+    options?: VirtualEndpointsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<VirtualEndpointResource> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     options?: VirtualEndpointsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualEndpointResource[]> {
     let result: VirtualEndpointsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -106,7 +106,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: VirtualEndpointsListByServerOptionalParams
+    options?: VirtualEndpointsListByServerOptionalParams,
   ): AsyncIterableIterator<VirtualEndpointResource> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,7 +142,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResource,
-    options?: VirtualEndpointsCreateOptionalParams
+    options?: VirtualEndpointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualEndpointsCreateResponse>,
@@ -151,21 +151,20 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -174,8 +173,8 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -183,8 +182,8 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -195,9 +194,9 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         serverName,
         virtualEndpointName,
         parameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       VirtualEndpointsCreateResponse,
@@ -205,7 +204,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -224,14 +223,14 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResource,
-    options?: VirtualEndpointsCreateOptionalParams
+    options?: VirtualEndpointsCreateOptionalParams,
   ): Promise<VirtualEndpointsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       serverName,
       virtualEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -250,7 +249,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResourceForPatch,
-    options?: VirtualEndpointsUpdateOptionalParams
+    options?: VirtualEndpointsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualEndpointsUpdateResponse>,
@@ -259,21 +258,20 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -282,8 +280,8 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -291,8 +289,8 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -303,9 +301,9 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         serverName,
         virtualEndpointName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       VirtualEndpointsUpdateResponse,
@@ -313,7 +311,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -333,14 +331,14 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResourceForPatch,
-    options?: VirtualEndpointsUpdateOptionalParams
+    options?: VirtualEndpointsUpdateOptionalParams,
   ): Promise<VirtualEndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       serverName,
       virtualEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -356,7 +354,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     virtualEndpointName: string,
-    options?: VirtualEndpointsDeleteOptionalParams
+    options?: VirtualEndpointsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualEndpointsDeleteResponse>,
@@ -365,21 +363,20 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualEndpointsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -388,8 +385,8 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -397,15 +394,15 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, virtualEndpointName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       VirtualEndpointsDeleteResponse,
@@ -413,7 +410,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -430,13 +427,13 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     virtualEndpointName: string,
-    options?: VirtualEndpointsDeleteOptionalParams
+    options?: VirtualEndpointsDeleteOptionalParams,
   ): Promise<VirtualEndpointsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       virtualEndpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -452,11 +449,11 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     virtualEndpointName: string,
-    options?: VirtualEndpointsGetOptionalParams
+    options?: VirtualEndpointsGetOptionalParams,
   ): Promise<VirtualEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, virtualEndpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -469,11 +466,11 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: VirtualEndpointsListByServerOptionalParams
+    options?: VirtualEndpointsListByServerOptionalParams,
   ): Promise<VirtualEndpointsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -488,11 +485,11 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: VirtualEndpointsListByServerNextOptionalParams
+    options?: VirtualEndpointsListByServerNextOptionalParams,
   ): Promise<VirtualEndpointsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -500,25 +497,24 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     201: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     202: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     204: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
@@ -527,32 +523,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.virtualEndpointName
+    Parameters.virtualEndpointName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     201: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     202: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     204: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
@@ -561,32 +556,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.virtualEndpointName
+    Parameters.virtualEndpointName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualEndpointsDeleteHeaders
+      headersMapper: Mappers.VirtualEndpointsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.VirtualEndpointsDeleteHeaders
+      headersMapper: Mappers.VirtualEndpointsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.VirtualEndpointsDeleteHeaders
+      headersMapper: Mappers.VirtualEndpointsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.VirtualEndpointsDeleteHeaders
+      headersMapper: Mappers.VirtualEndpointsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -594,22 +588,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.virtualEndpointName
+    Parameters.virtualEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualEndpointResource
+      bodyMapper: Mappers.VirtualEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -617,51 +610,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.virtualEndpointName
+    Parameters.virtualEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualEndpointsListResult
+      bodyMapper: Mappers.VirtualEndpointsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualEndpointsListResult
+      bodyMapper: Mappers.VirtualEndpointsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

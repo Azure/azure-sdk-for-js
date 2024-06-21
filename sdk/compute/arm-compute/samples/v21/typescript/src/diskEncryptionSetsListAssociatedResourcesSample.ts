@@ -31,7 +31,7 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   const resArray = new Array();
   for await (let item of client.diskEncryptionSets.listAssociatedResources(
     resourceGroupName,
-    diskEncryptionSetName
+    diskEncryptionSetName,
   )) {
     resArray.push(item);
   }

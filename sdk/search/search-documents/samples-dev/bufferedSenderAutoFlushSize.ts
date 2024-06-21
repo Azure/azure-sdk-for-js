@@ -5,15 +5,15 @@
  * @summary Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.
  */
 
+import { DefaultAzureCredential } from "@azure/identity";
 import {
-  SearchIndexingBufferedSender,
-  AzureKeyCredential,
-  SearchClient,
   GeographyPoint,
+  SearchClient,
   SearchIndexClient,
+  SearchIndexingBufferedSender,
 } from "@azure/search-documents";
-import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
+import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -26,7 +26,6 @@ dotenv.config();
  * by default.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-4";
 
 function getDocumentsArray(size: number): Hotel[] {
@@ -58,15 +57,15 @@ function getDocumentsArray(size: number): Hotel[] {
   return array;
 }
 
-async function main() {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+async function main(): Promise<void> {
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
   console.log(`Running SearchIndexingBufferedSender-uploadDocuments-With Auto Flush Sizes Sample`);
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
@@ -105,9 +104,9 @@ async function main() {
     });
 
     const documents: Hotel[] = getDocumentsArray(1001);
-    bufferedClient.uploadDocuments(documents);
+    await bufferedClient.uploadDocuments(documents);
 
-    await WAIT_TIME;
+    await delay(WAIT_TIME);
 
     let count = await searchClient.getDocumentsCount();
     while (count !== documents.length) {
@@ -122,7 +121,6 @@ async function main() {
   } finally {
     await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
-  await delay(WAIT_TIME);
 }
 
 main();

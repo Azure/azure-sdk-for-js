@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get an execution of an Experiment resource.
  *
  * @summary Get an execution of an Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/GetExperimentExecution.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetExperimentExecution.json
  */
 async function getTheExecutionOfAExperiment() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getTheExecutionOfAExperiment() {
   const result = await client.experiments.getExecution(
     resourceGroupName,
     experimentName,
-    executionId
+    executionId,
   );
   console.log(result);
 }

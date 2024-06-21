@@ -28,7 +28,7 @@ async function workloadNetworksListDnsServices() {
   const resArray = new Array();
   for await (let item of client.workloadNetworks.listDnsServices(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
   )) {
     resArray.push(item);
   }

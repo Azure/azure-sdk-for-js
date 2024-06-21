@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DedicatedHostUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostUpdateMaximumSetGen() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function dedicatedHostUpdateMaximumSetGen() {
     autoReplaceOnFailure: true,
     instanceView: {
       availableCapacity: {
-        allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }]
+        allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
       },
       statuses: [
         {
@@ -42,13 +42,13 @@ async function dedicatedHostUpdateMaximumSetGen() {
           displayStatus: "aaaaaa",
           level: "Info",
           message: "a",
-          time: new Date("2021-11-30T12:58:26.522Z")
-        }
-      ]
+          time: new Date("2021-11-30T12:58:26.522Z"),
+        },
+      ],
     },
     licenseType: "Windows_Server_Hybrid",
     platformFaultDomain: 1,
-    tags: { key8813: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" }
+    tags: { key8813: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -56,7 +56,7 @@ async function dedicatedHostUpdateMaximumSetGen() {
     resourceGroupName,
     hostGroupName,
     hostName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -65,7 +65,7 @@ async function dedicatedHostUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostUpdateMinimumSetGen() {
   const subscriptionId =
@@ -81,7 +81,7 @@ async function dedicatedHostUpdateMinimumSetGen() {
     resourceGroupName,
     hostGroupName,
     hostName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -90,7 +90,7 @@ async function dedicatedHostUpdateMinimumSetGen() {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
  */
 async function dedicatedHostUpdateResize() {
   const subscriptionId =
@@ -106,7 +106,7 @@ async function dedicatedHostUpdateResize() {
     resourceGroupName,
     hostGroupName,
     hostName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -17,7 +17,7 @@ import {
   ServicesListOptionalParams,
   ServicesListResponse,
   ServicesGetOptionalParams,
-  ServicesGetResponse
+  ServicesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class ServicesImpl implements Services {
    * @param options The options parameters.
    */
   public list(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): PagedAsyncIterableIterator<Service> {
     const iter = this.listPagingAll(options);
     return {
@@ -59,13 +59,13 @@ export class ServicesImpl implements Services {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ServicesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Service[]> {
     let result: ServicesListResponse;
     result = await this._list(options);
@@ -73,7 +73,7 @@ export class ServicesImpl implements Services {
   }
 
   private async *listPagingAll(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): AsyncIterableIterator<Service> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -91,7 +91,7 @@ export class ServicesImpl implements Services {
    * @param options The options parameters.
    */
   private _list(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): Promise<ServicesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -103,11 +103,11 @@ export class ServicesImpl implements Services {
    */
   get(
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse> {
     return this.client.sendOperationRequest(
       { serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -119,30 +119,30 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicesListResult
+      bodyMapper: Mappers.ServicesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Support/services/{serviceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Service
+      bodyMapper: Mappers.Service,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.serviceName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

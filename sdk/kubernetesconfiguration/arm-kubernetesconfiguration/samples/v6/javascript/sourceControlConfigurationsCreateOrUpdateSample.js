@@ -51,7 +51,7 @@ async function createSourceControlConfiguration() {
     clusterResourceName,
     clusterName,
     sourceControlConfigurationName,
-    sourceControlConfiguration
+    sourceControlConfiguration,
   );
   console.log(result);
 }

@@ -12,7 +12,7 @@ import {
   QuotasListOptionalParams,
   QuotaUpdateParameters,
   QuotasUpdateOptionalParams,
-  QuotasUpdateResponse
+  QuotasUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,7 +25,7 @@ export interface Quotas {
    */
   list(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceQuota>;
   /**
    * Update quota for each VM family in workspace.
@@ -36,6 +36,6 @@ export interface Quotas {
   update(
     location: string,
     parameters: QuotaUpdateParameters,
-    options?: QuotasUpdateOptionalParams
+    options?: QuotasUpdateOptionalParams,
   ): Promise<QuotasUpdateResponse>;
 }

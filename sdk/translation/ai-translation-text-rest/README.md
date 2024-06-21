@@ -304,7 +304,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [translator_resource_create]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
 [translator_auth]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#authentication
 [service_errors]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#errors
-[translator_client_class]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-text-rest/src/generated/clientDefinitions.ts
+[translator_client_class]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-translation-text/texttranslationclient
 [languages_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-languages
 [translate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate
 [transliterate_doc]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-transliterate

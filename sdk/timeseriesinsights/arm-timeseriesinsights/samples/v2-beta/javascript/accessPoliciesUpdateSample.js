@@ -32,7 +32,7 @@ async function accessPoliciesUpdate() {
     resourceGroupName,
     environmentName,
     accessPolicyName,
-    accessPolicyUpdateParameters
+    accessPolicyUpdateParameters,
   );
   console.log(result);
 }

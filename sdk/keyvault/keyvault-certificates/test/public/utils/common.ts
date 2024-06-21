@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env } from "@azure-tools/test-recorder";
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
+import { SupportedVersions, supports, TestFunctionWrapper } from "@azure-tools/test-utils";
 import { CertificateClientOptions } from "../../../src";
 
 export function getKeyvaultName(): string {

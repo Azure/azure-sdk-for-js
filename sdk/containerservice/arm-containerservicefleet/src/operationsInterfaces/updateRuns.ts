@@ -16,10 +16,13 @@ import {
   UpdateRunsCreateOrUpdateOptionalParams,
   UpdateRunsCreateOrUpdateResponse,
   UpdateRunsDeleteOptionalParams,
+  SkipProperties,
+  UpdateRunsSkipOptionalParams,
+  UpdateRunsSkipResponse,
   UpdateRunsStartOptionalParams,
   UpdateRunsStartResponse,
   UpdateRunsStopOptionalParams,
-  UpdateRunsStopResponse
+  UpdateRunsStopResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +37,7 @@ export interface UpdateRuns {
   listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: UpdateRunsListByFleetOptionalParams
+    options?: UpdateRunsListByFleetOptionalParams,
   ): PagedAsyncIterableIterator<UpdateRun>;
   /**
    * Get a UpdateRun
@@ -47,7 +50,7 @@ export interface UpdateRuns {
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
-    options?: UpdateRunsGetOptionalParams
+    options?: UpdateRunsGetOptionalParams,
   ): Promise<UpdateRunsGetResponse>;
   /**
    * Create a UpdateRun
@@ -62,7 +65,7 @@ export interface UpdateRuns {
     fleetName: string,
     updateRunName: string,
     resource: UpdateRun,
-    options?: UpdateRunsCreateOrUpdateOptionalParams
+    options?: UpdateRunsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<UpdateRunsCreateOrUpdateResponse>,
@@ -82,7 +85,7 @@ export interface UpdateRuns {
     fleetName: string,
     updateRunName: string,
     resource: UpdateRun,
-    options?: UpdateRunsCreateOrUpdateOptionalParams
+    options?: UpdateRunsCreateOrUpdateOptionalParams,
   ): Promise<UpdateRunsCreateOrUpdateResponse>;
   /**
    * Delete a UpdateRun
@@ -95,7 +98,7 @@ export interface UpdateRuns {
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
-    options?: UpdateRunsDeleteOptionalParams
+    options?: UpdateRunsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a UpdateRun
@@ -108,8 +111,43 @@ export interface UpdateRuns {
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
-    options?: UpdateRunsDeleteOptionalParams
+    options?: UpdateRunsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param updateRunName The name of the UpdateRun resource.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginSkip(
+    resourceGroupName: string,
+    fleetName: string,
+    updateRunName: string,
+    body: SkipProperties,
+    options?: UpdateRunsSkipOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<UpdateRunsSkipResponse>,
+      UpdateRunsSkipResponse
+    >
+  >;
+  /**
+   * Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param updateRunName The name of the UpdateRun resource.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginSkipAndWait(
+    resourceGroupName: string,
+    fleetName: string,
+    updateRunName: string,
+    body: SkipProperties,
+    options?: UpdateRunsSkipOptionalParams,
+  ): Promise<UpdateRunsSkipResponse>;
   /**
    * Starts an UpdateRun.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -121,7 +159,7 @@ export interface UpdateRuns {
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
-    options?: UpdateRunsStartOptionalParams
+    options?: UpdateRunsStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<UpdateRunsStartResponse>,
@@ -139,7 +177,7 @@ export interface UpdateRuns {
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
-    options?: UpdateRunsStartOptionalParams
+    options?: UpdateRunsStartOptionalParams,
   ): Promise<UpdateRunsStartResponse>;
   /**
    * Stops an UpdateRun.
@@ -152,7 +190,7 @@ export interface UpdateRuns {
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
-    options?: UpdateRunsStopOptionalParams
+    options?: UpdateRunsStopOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<UpdateRunsStopResponse>,
@@ -170,6 +208,6 @@ export interface UpdateRuns {
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
-    options?: UpdateRunsStopOptionalParams
+    options?: UpdateRunsStopOptionalParams,
   ): Promise<UpdateRunsStopResponse>;
 }

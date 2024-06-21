@@ -32,7 +32,7 @@ export class ApplicationInsightsClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.20`;
+    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.24`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

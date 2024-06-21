@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set.
  *
  * @summary The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_RetrieveBootDiagnosticsData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_RetrieveBootDiagnosticsData.json
  */
 async function retrieveBootDiagnosticsDataOfAVirtualMachine() {
   const subscriptionId =
@@ -31,17 +31,17 @@ async function retrieveBootDiagnosticsDataOfAVirtualMachine() {
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const sasUriExpirationTimeInMinutes = 60;
-  const options: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams = {
-    sasUriExpirationTimeInMinutes
-  };
+  const options: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams =
+    { sasUriExpirationTimeInMinutes };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMs.retrieveBootDiagnosticsData(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    options
-  );
+  const result =
+    await client.virtualMachineScaleSetVMs.retrieveBootDiagnosticsData(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options,
+    );
   console.log(result);
 }
 

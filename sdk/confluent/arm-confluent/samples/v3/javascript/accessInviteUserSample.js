@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Invite user to the organization
  *
  * @summary Invite user to the organization
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_InviteUser.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_InviteUser.json
  */
 async function accessInviteUser() {
   const subscriptionId =

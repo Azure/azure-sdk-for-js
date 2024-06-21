@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the existing custom domains within an endpoint.
  *
  * @summary Lists all of the existing custom domains within an endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/CustomDomains_ListByEndpoint.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_ListByEndpoint.json
  */
 async function customDomainsListByEndpoint() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function customDomainsListByEndpoint() {
   for await (let item of client.customDomains.listByEndpoint(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   )) {
     resArray.push(item);
   }

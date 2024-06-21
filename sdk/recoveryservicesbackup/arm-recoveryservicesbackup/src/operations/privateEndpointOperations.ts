@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   PrivateEndpointGetOperationStatusOptionalParams,
-  PrivateEndpointGetOperationStatusResponse
+  PrivateEndpointGetOperationStatusResponse,
 } from "../models";
 
 /** Class containing PrivateEndpointOperations operations. */
 export class PrivateEndpointOperationsImpl
-  implements PrivateEndpointOperations {
+  implements PrivateEndpointOperations
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -43,7 +44,7 @@ export class PrivateEndpointOperationsImpl
     resourceGroupName: string,
     privateEndpointConnectionName: string,
     operationId: string,
-    options?: PrivateEndpointGetOperationStatusOptionalParams
+    options?: PrivateEndpointGetOperationStatusOptionalParams,
   ): Promise<PrivateEndpointGetOperationStatusResponse> {
     return this.client.sendOperationRequest(
       {
@@ -51,9 +52,9 @@ export class PrivateEndpointOperationsImpl
         resourceGroupName,
         privateEndpointConnectionName,
         operationId,
-        options
+        options,
       },
-      getOperationStatusOperationSpec
+      getOperationStatusOperationSpec,
     );
   }
 }
@@ -61,16 +62,15 @@ export class PrivateEndpointOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}/operationsStatus/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}/operationsStatus/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -79,8 +79,8 @@ const getOperationStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

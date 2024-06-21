@@ -51,7 +51,7 @@ testWithServiceTypes((serviceVersion) => {
     let producerClient: EventHubProducerClient;
     let hubInfo: EventHubProperties;
     let partitionId: string;
-    let lastEnqueuedOffset: number;
+    let lastEnqueuedOffset: string;
 
     before("validate environment", async function (): Promise<void> {
       should.exist(
@@ -406,7 +406,7 @@ testWithServiceTypes((serviceVersion) => {
       const eventData: ReceivedEventData = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
-        offset: 0,
+        offset: "0",
         sequenceNumber: 0,
         partitionKey: null,
         properties: {
@@ -424,7 +424,7 @@ testWithServiceTypes((serviceVersion) => {
       const eventData: ReceivedEventData = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
-        offset: 0,
+        offset: "0",
         sequenceNumber: 0,
         partitionKey: null,
         getRawAmqpMessage() {

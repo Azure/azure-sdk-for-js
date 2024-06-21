@@ -1,319 +1,303 @@
 parameters:
   Artifacts: []
   TestPipeline: false
-  ArtifactName: 'not-specified'
+  ArtifactName: not-specified
   DependsOn: Build
-  Registry: 'https://registry.npmjs.org/'
-  PrivateRegistry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
+  Registry: https://registry.npmjs.org/
+  PrivateRegistry: https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
   ServiceDirectory: ''
 
+
 stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
-    - ${{ each artifact in parameters.Artifacts }}:
-      - stage:
-        variables:
-        - template: /eng/pipelines/templates/variables/globals.yml
-        displayName: 'Release: ${{artifact.name}}'
-        dependsOn: ${{parameters.DependsOn}}
-        condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
-        jobs:
-          - deployment: TagRepository
-            displayName: "Create release tag"
-            condition: ne(variables['Skip.TagRepository'], 'true')
-            environment: github
+      - ${{ each artifact in parameters.Artifacts }}:
+          - stage:
+            variables:
+              - template: /eng/pipelines/templates/variables/globals.yml
+            displayName: 'Release: ${{artifact.name}}'
+            dependsOn: ${{parameters.DependsOn}}
+            condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
+            jobs:
+              - deployment: TagRepository
+                displayName: Create release tag
+                condition: ne(variables['Skip.TagRepository'], 'true')
+                environment: github
+                pool:
+                  name: azsdk-pool-mms-ubuntu-2004-general
+                  image: azsdk-pool-mms-ubuntu-2004-1espt
+                  os: linux
+                strategy:
+                  runOnce:
+                    deploy:
+                      steps:
+                        - checkout: self
+                        - template: /eng/common/pipelines/templates/steps/retain-run.yml
+                        - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+                          parameters:
+                            PackageName: '@azure/template'
+                            ServiceDirectory: template
+                            TestPipeline: ${{ parameters.TestPipeline }}
+                        - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
+                          parameters:
+                            PackageName: ${{artifact.name}}
+                            ServiceName: ${{parameters.ServiceDirectory}}
+                            ForRelease: true
+                        - template: /eng/common/pipelines/templates/steps/verify-restapi-spec-location.yml
+                          parameters:
+                            PackageName: ${{artifact.name}}
+                            ServiceDirectory: ${{parameters.ServiceDirectory}}
+                            ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}
+                        - pwsh: >
+                            Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
+                          workingDirectory: $(Pipeline.Workspace)
+                          displayName: Output Visible Artifacts
+                        - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                          parameters:
+                            ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                            PackageRepository: Npm
+                            ReleaseSha: $(Build.SourceVersion)
+                            RepoId: Azure/azure-sdk-for-js
+                            WorkingDirectory: $(System.DefaultWorkingDirectory)
+              - ${{if ne(artifact.skipPublishPackage, 'true')}}:
+                  - deployment: PublishPackage
+                    displayName: Publish to npmjs
+                    condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+                    environment: npm
+                    dependsOn: TagRepository
+                    pool:
+                      name: azsdk-pool-mms-ubuntu-2004-general
+                      image: azsdk-pool-mms-ubuntu-2004-1espt
+                      os: linux
+                    strategy:
+                      runOnce:
+                        deploy:
+                          steps:
+                            - checkout: self
+                            - script: |
+                                export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                                echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
+                              displayName: Detecting package archive
+                            - pwsh: |
+                                write-host "$(Package.Archive)"
+                                $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
+                                write-host "Tag: $($result.Tag)"
+                                write-host "Additional tag: $($result.AdditionalTag)"
+                                echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
+                                echo "##vso[task.setvariable variable=AdditionalTag]$($result.AdditionalTag)"
+                              condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
+                              displayName: Set Tag and Additional Tag
+                            - script: >
+                                npm install $(Package.Archive)
+                              displayName: Validating package can be installed
+                              condition: succeeded()
+                            - template: /eng/pipelines/templates/steps/npm-release-task.yml
+                              parameters:
+                                ArtifactName: ${{parameters.ArtifactName}}
+                                Artifact: ${{artifact}}
+                                Registry: ${{parameters.Registry}}
+                                PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                                Tag: "$(Tag)"
+                                AdditionalTag: "$(AdditionalTag)"
+                            - pwsh: >
+                                write-host "$(Package.Archive)"
 
-            pool:
-              name: azsdk-pool-mms-ubuntu-2004-general
-              vmImage: MMSUbuntu20.04
+                                eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
+                              displayName: Cleanup Npm Next Tag
+                              condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
+                            - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+                              parameters:
+                                ArtifactPath: $(Pipeline.Workspace)/packages
+                                Artifacts: ${{parameters.Artifacts}}
+                                ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
+                                MarkPackageAsShipped: true
+                                ArtifactName: ${{parameters.ArtifactName}}
+                                PackageName: ${{artifact.name}}
+              - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
+                  - deployment: PublishDocs
+                    displayName: Docs.MS Release
+                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    environment: githubio
+                    dependsOn: PublishPackage
+                    pool:
+                      name: azsdk-pool-mms-ubuntu-2004-general
+                      image: azsdk-pool-mms-ubuntu-2004-1espt
+                      os: linux
+                    strategy:
+                      runOnce:
+                        deploy:
+                          steps:
+                            - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+                              parameters:
+                                Paths:
+                                  - sdk/**/*.md
+                                  - .github/CODEOWNERS
+                            - download: current
+                            - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+                            - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
+                              parameters:
+                                PackageInfoLocations:
+                                  - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
+                                RepoId: Azure/azure-sdk-for-js
+                                WorkingDirectory: $(System.DefaultWorkingDirectory)
+                                TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+                                TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+                                Language: javascript
+                                SparseCheckoutPaths:
+                                  - docs-ref-services/
+                                  - metadata/
+                                  - ci-configs/packages-latest.json
+                                  - ci-configs/packages-preview.json
+              - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
+                  - deployment: PublishDocsGitHubIO
+                    displayName: Publish Docs to GitHubIO Blob Storage
+                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    environment: githubio
+                    dependsOn: PublishPackage
+                    pool:
+                      name: azsdk-pool-mms-win-2022-general
+                      image: azsdk-pool-mms-win-2022-1espt
+                      os: windows
+                    strategy:
+                      runOnce:
+                        deploy:
+                          steps:
+                            - checkout: self
+                            - pwsh: |
+                                Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
+                              workingDirectory: $(Pipeline.Workspace)
+                              displayName: Output Visible Artifacts
+                            - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
+                              parameters:
+                                FolderForUpload: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                                BlobName: $(azure-sdk-docs-prod-blob-name)
+                                TargetLanguage: javascript
+                                ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                                ScriptPath: eng/common/scripts/copy-docs-to-blobstorage.ps1
+              - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
+                  - deployment: UpdatePackageVersion
+                    displayName: Update Package Version
+                    condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
+                    environment: github
+                    dependsOn: PublishPackage
+                    pool:
+                      name: azsdk-pool-mms-ubuntu-2004-general
+                      image: azsdk-pool-mms-ubuntu-2004-1espt
+                      os: linux
+                    strategy:
+                      runOnce:
+                        deploy:
+                          steps:
+                            - checkout: self
+                            - template: /eng/pipelines/templates/steps/common.yml
+                            - bash: |
+                                npm install
+                              workingDirectory: ./eng/tools/versioning
+                              displayName: Install versioning tool dependencies
 
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - checkout: self
-                    - template: /eng/common/pipelines/templates/steps/retain-run.yml
-                    - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-                      parameters:
-                        PackageName: "@azure/template"
-                        ServiceDirectory: "template"
-                        TestPipeline: ${{ parameters.TestPipeline }}
-                    - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
-                      parameters:
-                        PackageName: ${{artifact.name}}
-                        ServiceName: ${{parameters.ServiceDirectory}}
-                        ForRelease: true
-                    - template: /eng/common/pipelines/templates/steps/verify-restapi-spec-location.yml
-                      parameters:
-                        PackageName: ${{artifact.name}}
-                        ServiceDirectory: ${{parameters.ServiceDirectory}}
-                        ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}
-                    - pwsh: |
-                        Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
-                      workingDirectory: $(Pipeline.Workspace)
-                      displayName: Output Visible Artifacts
-                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-                      parameters:
-                        ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                        PackageRepository: Npm
-                        ReleaseSha: $(Build.SourceVersion)
-                        RepoId: Azure/azure-sdk-for-js
-                        WorkingDirectory: $(System.DefaultWorkingDirectory)
+                            - bash: |
+                                node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
+                              displayName: Increment package version
 
-          - ${{if ne(artifact.skipPublishPackage, 'true')}}:
-            - deployment: PublishPackage
-              displayName: "Publish to npmjs"
-              condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-              environment: npm
-              dependsOn: TagRepository
+                            - bash: |
+                                node common/scripts/install-run-rush.js install
+                              displayName: "Install dependencies"
 
-              pool:
-                name: azsdk-pool-mms-ubuntu-2004-general
-                vmImage: MMSUbuntu20.04
+                            # Disabled until packages can be updated to support ES2019 syntax.
+                            # - bash: |
+                            #     npm install -g ./common/tools/dev-tool
+                            #     npm install ./eng/tools/eng-package-utils
+                            #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
+                            #   displayName: Update samples
 
-              strategy:
-                runOnce:
-                  deploy:
-                    steps:
-                      - checkout: self
-                      - script: |
-                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
-                          echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
-                        displayName: Detecting package archive
-
-                      - pwsh: |
-                          write-host "$(Package.Archive)"
-                          $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
-                          write-host "Tag: $($result.Tag)"
-                          write-host "Additional tag: $($result.AdditionalTag)"
-                          echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
-                          echo "##vso[task.setvariable variable=AdditionalTag]$($result.AdditionalTag)"
-                        condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
-                        displayName: 'Set Tag and Additional Tag'
-
-                      - script: |
-                          npm install $(Package.Archive)
-                        displayName: 'Validating package can be installed'
-                        condition: succeeded()
-
-                      - task: PowerShell@2
-                        displayName: 'Publish to npmjs.org'
-                        inputs:
-                          targetType: filePath
-                          filePath: "eng/tools/publish-to-npm.ps1"
-                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
-                          pwsh: true
-                        condition: succeeded()
-
-                      - pwsh: |
-                          write-host "$(Package.Archive)"
-                          eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
-                        displayName: 'Cleanup Npm Next Tag'
-                        condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
-
-
-          - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
-            - deployment: PublishDocs
-              displayName: Docs.MS Release
-              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
-              environment: githubio
-              dependsOn: PublishPackage
-
-              pool:
-                name: azsdk-pool-mms-ubuntu-2004-general
-                vmImage: MMSUbuntu20.04
-
-              strategy:
-                runOnce:
-                  deploy:
-                    steps:
-                      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
-                        parameters:
-                          Paths:
-                            - sdk/**/*.md
-                            - .github/CODEOWNERS
-                      - download: current
-                      
-                      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-
-                      - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
-                        parameters:
-                          PackageInfoLocations:
-                            - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
-                          RepoId: Azure/azure-sdk-for-js
-                          WorkingDirectory: $(System.DefaultWorkingDirectory)
-                          TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
-                          TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-                          Language: 'javascript'
-                          SparseCheckoutPaths:
-                            - docs-ref-services/
-                            - metadata/
-                            - ci-configs/packages-latest.json
-                            - ci-configs/packages-preview.json
-
-          - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
-            - deployment: PublishDocsGitHubIO
-              displayName: Publish Docs to GitHubIO Blob Storage
-              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
-              environment: githubio
-              dependsOn: PublishPackage
-
-              pool:
-                name: azsdk-pool-mms-win-2022-general
-                vmImage: MMS2022
-
-              strategy:
-                runOnce:
-                  deploy:
-                    steps:
-                      - checkout: self
-                      - pwsh: |
-                          Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
-                        workingDirectory: $(Pipeline.Workspace)
-                        displayName: Output Visible Artifacts
-                      - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
-                        parameters:
-                          FolderForUpload: '$(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}'
-                          BlobSASKey: '$(azure-sdk-docs-prod-sas)'
-                          BlobName: '$(azure-sdk-docs-prod-blob-name)'
-                          TargetLanguage: 'javascript'
-                          ArtifactLocation: '$(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}'
-                          # we override the regular script path because we have cloned the build tools repo as a separate artifact.
-                          ScriptPath: 'eng/common/scripts/copy-docs-to-blobstorage.ps1'
-
-          - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
-            - deployment: UpdatePackageVersion
-              displayName: "Update Package Version"
-              condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
-              environment: github
-              dependsOn: PublishPackage
-
-              pool:
-                name: azsdk-pool-mms-ubuntu-2004-general
-                vmImage: MMSUbuntu20.04
-
-              strategy:
-                runOnce:
-                  deploy:
-                    steps:
-                      - checkout: self
-
-                      - template: /eng/pipelines/templates/steps/common.yml
-
-                      - bash: |
-                          npm install
-                        workingDirectory: ./eng/tools/versioning
-                        displayName: Install versioning tool dependencies
-
-                      - bash: |
-                          node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
-                        displayName: Increment package version
-
-                      - bash: |
-                          node common/scripts/install-run-rush.js install
-                        displayName: "Install dependencies"
-
-                      # Disabled until packages can be updated to support ES2019 syntax.
-                      # - bash: |
-                      #     npm install -g ./common/tools/dev-tool
-                      #     npm install ./eng/tools/eng-package-utils
-                      #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                      #   displayName: Update samples
-
-                      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-                        parameters:
-                          RepoName: azure-sdk-for-js
-                          PRBranchName: post-release-automation-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
-                          CommitMsg: "Post release automated changes for ${{ artifact.name }}"
-                          PRTitle: "Post release automated changes for ${{ parameters.ServiceDirectory }} releases"
-                          CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
-
-
+                            - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+                              parameters:
+                                RepoName: azure-sdk-for-js
+                                PRBranchName: post-release-automation-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
+                                CommitMsg: Post release automated changes for ${{ artifact.name }}
+                                PRTitle: Post release automated changes for ${{ parameters.ServiceDirectory }} releases
+                                CloseAfterOpenForTesting: ${{ parameters.TestPipeline }}
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}
     variables:
-    - template: /eng/pipelines/templates/variables/globals.yml
+      - template: /eng/pipelines/templates/variables/globals.yml
     jobs:
-    - job: PublishPackages
-      # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
-      # If SetDevVersion is set to false then we should skip integration job even for scheduled runs.
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
-      displayName: Publish package to daily feed
-      pool:
-        name: azsdk-pool-mms-ubuntu-2004-general
-        vmImage: MMSUbuntu20.04
-      steps:
-        - checkout: self
-        - download: current
-          artifact: ${{parameters.ArtifactName}}
-          timeoutInMinutes: 5
-        - ${{ each artifact in parameters.Artifacts }}:
-          - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
-            - pwsh: |
-                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
-                Write-Host "Detected package name: $($detectedPackageName)"
-                if ($detectedPackageName -notmatch "-alpha")
-                {
-                  Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step. VersionPolicy should be client or core in rush.json to get alpha version build."
-                  exit 1
-                }
-                echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
-                if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
-                  $npmToken="$(azure-sdk-npm-token)"
-                  $registry="${{parameters.Registry}}"
-                }
-                else {
-                  $npmToken="$(azure-sdk-devops-npm-token)"
-                  $registry="${{parameters.PrivateRegistry}}"
-                }
-                echo "##vso[task.setvariable variable=NpmToken]$npmToken"
-                echo "##vso[task.setvariable variable=Registry]$registry"
-              displayName: Detecting package archive_${{artifact.name}}
+      - job: PublishPackages
+        condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+        displayName: Publish package to daily feed
+        pool:
+          name: azsdk-pool-mms-ubuntu-2004-general
+          image: azsdk-pool-mms-ubuntu-2004-1espt
+          os: linux
+        steps:
+          - checkout: self
+          - download: current
+            artifact: ${{parameters.ArtifactName}}
+            timeoutInMinutes: 5
+          - ${{ each artifact in parameters.Artifacts }}:
+              - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
+                  - pwsh: |
+                      $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
+                      Write-Host "Detected package name: $($detectedPackageName)"
+                      if ($detectedPackageName -notmatch "-alpha")
+                      {
+                        Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step. VersionPolicy should be client or core in rush.json to get alpha version build."
+                        exit 1
+                      }
+                      echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
+                      if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
+                        $npmToken="$(azure-sdk-npm-token)"
+                        $registry="${{parameters.Registry}}"
+                      }
+                      else {
+                        $npmToken="$(azure-sdk-devops-npm-token)"
+                        $registry="${{parameters.PrivateRegistry}}"
+                      }
+                      echo "##vso[task.setvariable variable=NpmToken]$npmToken"
+                      echo "##vso[task.setvariable variable=Registry]$registry"
+                    displayName: Detecting package archive_${{artifact.name}}
+                  - template: /eng/pipelines/templates/steps/npm-release-task.yml
+                    parameters:
+                      ArtifactName: ${{parameters.ArtifactName}}
+                      Artifact: ${{artifact}}
+                      Registry: ${{parameters.Registry}}
+                      PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                      Tag: "dev"
 
-            - task: PowerShell@2
-              displayName: "Publish_${{artifact.name}} to dev feed"
-              inputs:
-                targetType: filePath
-                filePath: "eng/tools/publish-to-npm.ps1"
-                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
-
-    - job: PublishDocsToNightlyBranch
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
-      dependsOn: PublishPackages
-      pool:
-        name: azsdk-pool-mms-ubuntu-2004-general
-        vmImage: MMSUbuntu20.04
-
-      steps:
-        - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
-          parameters:
-            Paths:
-              - sdk/**/*.md
-              - .github/CODEOWNERS
-        - download: current
-        - pwsh: |
-            Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
-          displayName: Show visible artifacts
-
-        - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-
-        - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
-          parameters:
-            PackageInfoLocations:
-              - ${{ each artifact in parameters.Artifacts }}:
-                - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
-                  - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
-            RepoId: Azure/azure-sdk-for-js
-            WorkingDirectory: $(System.DefaultWorkingDirectory)
-            TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
-            TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-            Language: 'javascript'
-            DailyDocsBuild: true
-            SparseCheckoutPaths:
-              - docs-ref-services/
-              - metadata/
-              - ci-configs/packages-latest.json
-              - ci-configs/packages-preview.json
-
-        - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml
+      - job: PublishDocsToNightlyBranch
+        condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
+        dependsOn: PublishPackages
+        pool:
+          name: azsdk-pool-mms-ubuntu-2004-general
+          image: azsdk-pool-mms-ubuntu-2004-1espt
+          os: linux
+        steps:
+          - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+            parameters:
+              Paths:
+                - sdk/**/*.md
+                - .github/CODEOWNERS
+          - download: current
+          - pwsh: |
+              Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
+            displayName: Show visible artifacts
+          - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+          - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
+            parameters:
+              PackageInfoLocations:
+                - ${{ each artifact in parameters.Artifacts }}:
+                    - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
+                        - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
+              RepoId: Azure/azure-sdk-for-js
+              WorkingDirectory: $(System.DefaultWorkingDirectory)
+              TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+              TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+              Language: javascript
+              DailyDocsBuild: true
+              SparseCheckoutPaths:
+                - docs-ref-services/
+                - metadata/
+                - ci-configs/packages-latest.json
+                - ci-configs/packages-preview.json
+          - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml

@@ -15,7 +15,7 @@ import {
   DeploymentsGetResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
-  DeploymentsDeleteOptionalParams
+  DeploymentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Deployments {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeploymentsListByDeviceGroupOptionalParams
+    options?: DeploymentsListByDeviceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Deployment>;
   /**
    * Get a Deployment. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -54,7 +54,7 @@ export interface Deployments {
     productName: string,
     deviceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse>;
   /**
    * Create a Deployment. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -75,7 +75,7 @@ export interface Deployments {
     deviceGroupName: string,
     deploymentName: string,
     resource: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -101,7 +101,7 @@ export interface Deployments {
     deviceGroupName: string,
     deploymentName: string,
     resource: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse>;
   /**
    * Delete a Deployment. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -120,7 +120,7 @@ export interface Deployments {
     productName: string,
     deviceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Deployment. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -139,6 +139,6 @@ export interface Deployments {
     productName: string,
     deviceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void>;
 }

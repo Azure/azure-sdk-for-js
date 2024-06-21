@@ -29,7 +29,7 @@ async function getAllRegulatoryComplianceControlsDetailsAndStateForSelectedStand
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.regulatoryComplianceControls.list(
-    regulatoryComplianceStandardName
+    regulatoryComplianceStandardName,
   )) {
     resArray.push(item);
   }

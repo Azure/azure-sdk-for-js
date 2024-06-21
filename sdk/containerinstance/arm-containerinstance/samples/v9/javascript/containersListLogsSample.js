@@ -31,7 +31,7 @@ async function containerListLogs() {
     resourceGroupName,
     containerGroupName,
     containerName,
-    options
+    options,
   );
   console.log(result);
 }

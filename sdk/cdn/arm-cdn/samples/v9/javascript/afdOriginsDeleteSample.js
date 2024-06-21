@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an existing origin within an origin group.
  *
  * @summary Deletes an existing origin within an origin group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDOrigins_Delete.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOrigins_Delete.json
  */
 async function afdOriginsDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

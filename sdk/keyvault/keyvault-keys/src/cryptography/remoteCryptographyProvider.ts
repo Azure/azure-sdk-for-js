@@ -34,7 +34,7 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { createKeyVaultChallengeCallbacks } from "../../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { tracingClient } from "../tracing";
 
 /**

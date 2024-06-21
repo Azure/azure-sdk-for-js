@@ -18,7 +18,7 @@ import {
   QuotaUsagesListNextOptionalParams,
   QuotaUsagesListOptionalParams,
   QuotaUsagesListResponse,
-  QuotaUsagesListNextResponse
+  QuotaUsagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class QuotaUsagesImpl implements QuotaUsages {
    */
   public list(
     locationName: string,
-    options?: QuotaUsagesListOptionalParams
+    options?: QuotaUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaUsage> {
     const iter = this.listPagingAll(locationName, options);
     return {
@@ -56,14 +56,14 @@ export class QuotaUsagesImpl implements QuotaUsages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     locationName: string,
     options?: QuotaUsagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QuotaUsage[]> {
     let result: QuotaUsagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class QuotaUsagesImpl implements QuotaUsages {
 
   private async *listPagingAll(
     locationName: string,
-    options?: QuotaUsagesListOptionalParams
+    options?: QuotaUsagesListOptionalParams,
   ): AsyncIterableIterator<QuotaUsage> {
     for await (const page of this.listPagingPage(locationName, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class QuotaUsagesImpl implements QuotaUsages {
    */
   private _list(
     locationName: string,
-    options?: QuotaUsagesListOptionalParams
+    options?: QuotaUsagesListOptionalParams,
   ): Promise<QuotaUsagesListResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -116,11 +116,11 @@ export class QuotaUsagesImpl implements QuotaUsages {
   private _listNext(
     locationName: string,
     nextLink: string,
-    options?: QuotaUsagesListNextOptionalParams
+    options?: QuotaUsagesListNextOptionalParams,
   ): Promise<QuotaUsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,43 +128,42 @@ export class QuotaUsagesImpl implements QuotaUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/resourceType/flexibleServers/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/resourceType/flexibleServers/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaUsagesListResult
+      bodyMapper: Mappers.QuotaUsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaUsagesListResult
+      bodyMapper: Mappers.QuotaUsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

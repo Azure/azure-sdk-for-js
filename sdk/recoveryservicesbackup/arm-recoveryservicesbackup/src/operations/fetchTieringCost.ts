@@ -14,13 +14,13 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   FetchTieringCostInfoRequestUnion,
   FetchTieringCostPostOptionalParams,
-  FetchTieringCostPostResponse
+  FetchTieringCostPostResponse,
 } from "../models";
 
 /** Class containing FetchTieringCost operations. */
@@ -49,7 +49,7 @@ export class FetchTieringCostImpl implements FetchTieringCost {
     resourceGroupName: string,
     vaultName: string,
     parameters: FetchTieringCostInfoRequestUnion,
-    options?: FetchTieringCostPostOptionalParams
+    options?: FetchTieringCostPostOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FetchTieringCostPostResponse>,
@@ -58,21 +58,20 @@ export class FetchTieringCostImpl implements FetchTieringCost {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FetchTieringCostPostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -81,8 +80,8 @@ export class FetchTieringCostImpl implements FetchTieringCost {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -90,22 +89,22 @@ export class FetchTieringCostImpl implements FetchTieringCost {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, parameters, options },
-      spec: postOperationSpec
+      spec: postOperationSpec,
     });
     const poller = await createHttpPoller<
       FetchTieringCostPostResponse,
       OperationState<FetchTieringCostPostResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -125,13 +124,13 @@ export class FetchTieringCostImpl implements FetchTieringCost {
     resourceGroupName: string,
     vaultName: string,
     parameters: FetchTieringCostInfoRequestUnion,
-    options?: FetchTieringCostPostOptionalParams
+    options?: FetchTieringCostPostOptionalParams,
   ): Promise<FetchTieringCostPostResponse> {
     const poller = await this.beginPost(
       resourceGroupName,
       vaultName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -140,25 +139,24 @@ export class FetchTieringCostImpl implements FetchTieringCost {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/fetchTieringCost",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/fetchTieringCost",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TieringCostInfo
+      bodyMapper: Mappers.TieringCostInfo,
     },
     201: {
-      bodyMapper: Mappers.TieringCostInfo
+      bodyMapper: Mappers.TieringCostInfo,
     },
     202: {
-      bodyMapper: Mappers.TieringCostInfo
+      bodyMapper: Mappers.TieringCostInfo,
     },
     204: {
-      bodyMapper: Mappers.TieringCostInfo
+      bodyMapper: Mappers.TieringCostInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
@@ -166,9 +164,9 @@ const postOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vaultName1
+    Parameters.vaultName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

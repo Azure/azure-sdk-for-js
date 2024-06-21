@@ -9,12 +9,13 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   QuantumWorkspace as QuantumWorkspaceMapper,
   TagsObject as TagsObjectMapper,
-  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper
+  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
+  APIKeys as APIKeysMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -24,9 +25,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,33 +36,37 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-10-preview",
+    defaultValue: "2023-11-13-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -70,20 +75,23 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"),
+    },
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -93,19 +101,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const quantumWorkspace: OperationParameter = {
   parameterPath: "quantumWorkspace",
-  mapper: QuantumWorkspaceMapper
+  mapper: QuantumWorkspaceMapper,
 };
 
 export const workspaceTags: OperationParameter = {
   parameterPath: "workspaceTags",
-  mapper: TagsObjectMapper
+  mapper: TagsObjectMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -114,10 +122,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const locationName: OperationURLParameter = {
@@ -126,12 +134,17 @@ export const locationName: OperationURLParameter = {
     serializedName: "locationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const checkNameAvailabilityParameters: OperationParameter = {
   parameterPath: "checkNameAvailabilityParameters",
-  mapper: CheckNameAvailabilityParametersMapper
+  mapper: CheckNameAvailabilityParametersMapper,
+};
+
+export const keySpecification: OperationParameter = {
+  parameterPath: "keySpecification",
+  mapper: APIKeysMapper,
 };

@@ -166,12 +166,45 @@ export interface AmazonRdsForOracleTableDataset extends Dataset {
 }
 
 // @public
+export type AmazonRdsForSqlAuthenticationType = string;
+
+// @public
 export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: any;
+    applicationIntent?: any;
+    authenticationType?: AmazonRdsForSqlAuthenticationType;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    database?: any;
+    encrypt?: any;
+    encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    password?: SecretBaseUnion;
+    pooling?: any;
+    server?: any;
+    trustServerCertificate?: any;
+    type: "AmazonRdsForSqlServer";
+    userName?: any;
+}
+
+// @public
+export interface AmazonRdsForSqlServerLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: AmazonRdsForSqlAuthenticationType;
+    connectionString?: any;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
-    type: "AmazonRdsForSqlServer";
     userName?: any;
 }
 
@@ -747,7 +780,7 @@ export interface AzureFunctionActivity extends ExecutionActivity {
     body?: any;
     functionName: any;
     headers?: {
-        [propertyName: string]: string;
+        [propertyName: string]: any;
     };
     method: AzureFunctionActivityMethod;
     type: "AzureFunctionActivity";
@@ -953,30 +986,115 @@ export interface AzureSearchLinkedService extends LinkedService {
 }
 
 // @public
+export type AzureSqlDatabaseAuthenticationType = string;
+
+// @public
 export interface AzureSqlDatabaseLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    applicationIntent?: any;
+    authenticationType?: AzureSqlDatabaseAuthenticationType;
     azureCloudType?: any;
-    connectionString: any;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
     credential?: CredentialReference;
+    database?: any;
+    encrypt?: any;
     encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
     password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    server?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    trustServerCertificate?: any;
     type: "AzureSqlDatabase";
+    userName?: any;
 }
 
 // @public
-export interface AzureSqlDWLinkedService extends LinkedService {
+export interface AzureSqlDatabaseLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: AzureSqlDatabaseAuthenticationType;
     azureCloudType?: any;
-    connectionString: any;
+    connectionString?: any;
     credential?: CredentialReference;
     encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    userName?: any;
+}
+
+// @public
+export type AzureSqlDWAuthenticationType = string;
+
+// @public
+export interface AzureSqlDWLinkedService extends LinkedService {
+    applicationIntent?: any;
+    authenticationType?: AzureSqlDWAuthenticationType;
+    azureCloudType?: any;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    credential?: CredentialReference;
+    database?: any;
+    encrypt?: any;
+    encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    server?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    trustServerCertificate?: any;
     type: "AzureSqlDW";
+    userName?: any;
+}
+
+// @public
+export interface AzureSqlDWLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    authenticationType?: AzureSqlDWAuthenticationType;
+    azureCloudType?: any;
+    connectionString?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    userName?: any;
 }
 
 // @public
@@ -988,17 +1106,60 @@ export interface AzureSqlDWTableDataset extends Dataset {
 }
 
 // @public
+export type AzureSqlMIAuthenticationType = string;
+
+// @public
 export interface AzureSqlMILinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    applicationIntent?: any;
+    authenticationType?: AzureSqlMIAuthenticationType;
     azureCloudType?: any;
-    connectionString: any;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
     credential?: CredentialReference;
+    database?: any;
+    encrypt?: any;
     encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
     password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    server?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    trustServerCertificate?: any;
     type: "AzureSqlMI";
+    userName?: any;
+}
+
+// @public
+export interface AzureSqlMILinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: AzureSqlMIAuthenticationType;
+    azureCloudType?: any;
+    connectionString?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    userName?: any;
 }
 
 // @public
@@ -1475,7 +1636,7 @@ export interface CopySource {
     maxConcurrentConnections?: any;
     sourceRetryCount?: any;
     sourceRetryWait?: any;
-    type: "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "LakeHouseTableSource" | "SnowflakeSource" | "SnowflakeV2Source" | "AzureDatabricksDeltaLakeSource" | "WarehouseSource" | "SharePointOnlineListSource" | "SalesforceV2Source" | "SalesforceServiceCloudV2Source";
+    type: "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "PostgreSqlV2Source" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GoogleBigQueryV2Source" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "LakeHouseTableSource" | "SnowflakeSource" | "SnowflakeV2Source" | "AzureDatabricksDeltaLakeSource" | "WarehouseSource" | "SharePointOnlineListSource" | "SalesforceV2Source" | "SalesforceServiceCloudV2Source" | "ServiceNowV2Source";
 }
 
 // @public (undocumented)
@@ -1614,22 +1775,22 @@ interface Credential_2 {
     [property: string]: any;
     annotations?: any[];
     description?: string;
-    type: "ManagedIdentity" | "ServicePrincipal";
+    type: "ServicePrincipal" | "ManagedIdentity";
 }
 export { Credential_2 as Credential }
 
 // @public
 export interface CredentialListResponse {
     nextLink?: string;
-    value: ManagedIdentityCredentialResource[];
+    value: CredentialResource[];
 }
 
 // @public
 export interface CredentialOperations {
-    createOrUpdate(resourceGroupName: string, factoryName: string, credentialName: string, credential: ManagedIdentityCredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams): Promise<CredentialOperationsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, factoryName: string, credentialName: string, credential: CredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams): Promise<CredentialOperationsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams): Promise<CredentialOperationsGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams): PagedAsyncIterableIterator<ManagedIdentityCredentialResource>;
+    listByFactory(resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams): PagedAsyncIterableIterator<CredentialResource>;
 }
 
 // @public
@@ -1638,7 +1799,7 @@ export interface CredentialOperationsCreateOrUpdateOptionalParams extends coreCl
 }
 
 // @public
-export type CredentialOperationsCreateOrUpdateResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsCreateOrUpdateResponse = CredentialResource;
 
 // @public
 export interface CredentialOperationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1650,7 +1811,7 @@ export interface CredentialOperationsGetOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsGetResponse = CredentialResource;
 
 // @public
 export interface CredentialOperationsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
@@ -1682,7 +1843,7 @@ export interface CredentialResource extends SubResource {
 }
 
 // @public (undocumented)
-export type CredentialUnion = Credential_2 | ManagedIdentityCredential | ServicePrincipalCredential;
+export type CredentialUnion = Credential_2 | ServicePrincipalCredential | ManagedIdentityCredential;
 
 // @public
 export interface CustomActivity extends ExecutionActivity {
@@ -2102,7 +2263,7 @@ export interface Dataset {
     };
     schema?: any;
     structure?: any;
-    type: "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakeHouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable";
+    type: "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "PostgreSqlV2Table" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GoogleBigQueryV2Object" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakeHouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable" | "ServiceNowV2Object";
 }
 
 // @public
@@ -2223,7 +2384,7 @@ export interface DatasetStorageFormat {
 export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
 
 // @public (undocumented)
-export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | SapOdpResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SnowflakeV2Dataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset | LakeHouseTableDataset | SalesforceV2ObjectDataset | SalesforceServiceCloudV2ObjectDataset | WarehouseTableDataset;
+export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | PostgreSqlV2TableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | SapOdpResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GoogleBigQueryV2ObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SnowflakeV2Dataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset | LakeHouseTableDataset | SalesforceV2ObjectDataset | SalesforceServiceCloudV2ObjectDataset | WarehouseTableDataset | ServiceNowV2ObjectDataset;
 
 // @public
 export interface DataworldLinkedService extends LinkedService {
@@ -2443,6 +2604,7 @@ export interface DynamicsCrmEntityDataset extends Dataset {
 // @public
 export interface DynamicsCrmLinkedService extends LinkedService {
     authenticationType: any;
+    credential?: CredentialReference;
     deploymentType: any;
     encryptedCredential?: string;
     hostName?: any;
@@ -2763,6 +2925,17 @@ export interface Expression {
     type: "Expression";
     value: string;
 }
+
+// @public
+export interface ExpressionV2 {
+    operands?: ExpressionV2[];
+    operators?: string[];
+    type?: ExpressionV2Type;
+    value?: string;
+}
+
+// @public
+export type ExpressionV2Type = string;
 
 // @public
 export interface Factories {
@@ -3252,6 +3425,34 @@ export interface GoogleBigQueryObjectDataset extends Dataset {
 export interface GoogleBigQuerySource extends TabularSource {
     query?: any;
     type: "GoogleBigQuerySource";
+}
+
+// @public
+export type GoogleBigQueryV2AuthenticationType = string;
+
+// @public
+export interface GoogleBigQueryV2LinkedService extends LinkedService {
+    authenticationType: GoogleBigQueryV2AuthenticationType;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    keyFileContent?: SecretBaseUnion;
+    projectId: any;
+    refreshToken?: SecretBaseUnion;
+    type: "GoogleBigQueryV2";
+}
+
+// @public
+export interface GoogleBigQueryV2ObjectDataset extends Dataset {
+    dataset?: any;
+    table?: any;
+    type: "GoogleBigQueryV2Object";
+}
+
+// @public
+export interface GoogleBigQueryV2Source extends TabularSource {
+    query?: any;
+    type: "GoogleBigQueryV2Source";
 }
 
 // @public
@@ -4247,6 +4448,12 @@ export enum KnownAmazonRdsForOraclePartitionOption {
 }
 
 // @public
+export enum KnownAmazonRdsForSqlAuthenticationType {
+    SQL = "SQL",
+    Windows = "Windows"
+}
+
+// @public
 export enum KnownAvroCompressionCodec {
     Bzip2 = "bzip2",
     Deflate = "deflate",
@@ -4270,6 +4477,30 @@ export enum KnownAzureFunctionActivityMethod {
 export enum KnownAzureSearchIndexWriteBehaviorType {
     Merge = "Merge",
     Upload = "Upload"
+}
+
+// @public
+export enum KnownAzureSqlDatabaseAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SQL = "SQL",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownAzureSqlDWAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SQL = "SQL",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownAzureSqlMIAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SQL = "SQL",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
@@ -4416,6 +4647,15 @@ export enum KnownEventSubscriptionStatus {
 }
 
 // @public
+export enum KnownExpressionV2Type {
+    Binary = "Binary",
+    Constant = "Constant",
+    Field = "Field",
+    NAry = "NAry",
+    Unary = "Unary"
+}
+
+// @public
 export enum KnownFactoryIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
@@ -4453,6 +4693,12 @@ export enum KnownGoogleAdWordsAuthenticationType {
 
 // @public
 export enum KnownGoogleBigQueryAuthenticationType {
+    ServiceAuthentication = "ServiceAuthentication",
+    UserAuthentication = "UserAuthentication"
+}
+
+// @public
+export enum KnownGoogleBigQueryV2AuthenticationType {
     ServiceAuthentication = "ServiceAuthentication",
     UserAuthentication = "UserAuthentication"
 }
@@ -4874,6 +5120,12 @@ export enum KnownServiceNowAuthenticationType {
 }
 
 // @public
+export enum KnownServiceNowV2AuthenticationType {
+    Basic = "Basic",
+    OAuth2 = "OAuth2"
+}
+
+// @public
 export enum KnownServicePrincipalCredentialType {
     ServicePrincipalCert = "ServicePrincipalCert",
     ServicePrincipalKey = "ServicePrincipalKey"
@@ -4943,6 +5195,12 @@ export enum KnownSqlPartitionOption {
     DynamicRange = "DynamicRange",
     None = "None",
     PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
+}
+
+// @public
+export enum KnownSqlServerAuthenticationType {
+    SQL = "SQL",
+    Windows = "Windows"
 }
 
 // @public
@@ -5107,6 +5365,7 @@ export interface LakeHouseReadSettings extends StoreReadSettings {
 
 // @public
 export interface LakeHouseTableDataset extends Dataset {
+    schemaTypePropertiesSchema?: any;
     table?: any;
     type: "LakeHouseTable";
 }
@@ -5176,7 +5435,7 @@ export interface LinkedService {
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SnowflakeV2" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "LakeHouse" | "SalesforceV2" | "SalesforceServiceCloudV2" | "Warehouse";
+    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "PostgreSqlV2" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "GoogleBigQueryV2" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SnowflakeV2" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "LakeHouse" | "SalesforceV2" | "SalesforceServiceCloudV2" | "Warehouse" | "ServiceNowV2";
 }
 
 // @public
@@ -5247,7 +5506,7 @@ export interface LinkedServicesListByFactoryOptionalParams extends coreClient.Op
 export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse;
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | GoogleSheetsLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SnowflakeV2LinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService | LakeHouseLinkedService | SalesforceV2LinkedService | SalesforceServiceCloudV2LinkedService | WarehouseLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | PostgreSqlV2LinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | GoogleSheetsLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GoogleBigQueryV2LinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SnowflakeV2LinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService | LakeHouseLinkedService | SalesforceV2LinkedService | SalesforceServiceCloudV2LinkedService | WarehouseLinkedService | ServiceNowV2LinkedService;
 
 // @public
 export interface LogLocationSettings {
@@ -5306,11 +5565,6 @@ export interface MagentoSource extends TabularSource {
 export interface ManagedIdentityCredential extends Credential_2 {
     resourceId?: string;
     type: "ManagedIdentity";
-}
-
-// @public
-export interface ManagedIdentityCredentialResource extends SubResource {
-    properties: ManagedIdentityCredential;
 }
 
 // @public
@@ -6492,6 +6746,43 @@ export interface PostgreSqlTableDataset extends Dataset {
 }
 
 // @public
+export interface PostgreSqlV2LinkedService extends LinkedService {
+    commandTimeout?: any;
+    connectionTimeout?: any;
+    database: any;
+    encoding?: any;
+    encryptedCredential?: string;
+    logParameters?: any;
+    password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    port?: any;
+    readBufferSize?: any;
+    schema?: any;
+    server: any;
+    sslCertificate?: any;
+    sslKey?: any;
+    sslMode: any;
+    sslPassword?: any;
+    timezone?: any;
+    trustServerCertificate?: any;
+    type: "PostgreSqlV2";
+    username: any;
+}
+
+// @public
+export interface PostgreSqlV2Source extends TabularSource {
+    query?: any;
+    type: "PostgreSqlV2Source";
+}
+
+// @public
+export interface PostgreSqlV2TableDataset extends Dataset {
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    type: "PostgreSqlV2Table";
+}
+
+// @public
 export interface PowerQuerySink extends DataFlowSink {
     script?: string;
 }
@@ -7006,6 +7297,7 @@ export interface SalesforceServiceCloudV2Sink extends CopySink {
 export interface SalesforceServiceCloudV2Source extends CopySource {
     additionalColumns?: any;
     includeDeletedObjects?: any;
+    query?: any;
     soqlQuery?: any;
     type: "SalesforceServiceCloudV2Source";
 }
@@ -7063,6 +7355,7 @@ export type SalesforceV2SinkWriteBehavior = string;
 // @public
 export interface SalesforceV2Source extends TabularSource {
     includeDeletedObjects?: any;
+    query?: any;
     soqlQuery?: any;
     type: "SalesforceV2Source";
 }
@@ -7360,7 +7653,7 @@ export type ScriptActivityParameterType = string;
 export interface ScriptActivityScriptBlock {
     parameters?: ScriptActivityParameter[];
     text: any;
-    type: ScriptType;
+    type: any;
 }
 
 // @public
@@ -7486,6 +7779,34 @@ export interface ServiceNowObjectDataset extends Dataset {
 export interface ServiceNowSource extends TabularSource {
     query?: any;
     type: "ServiceNowSource";
+}
+
+// @public
+export type ServiceNowV2AuthenticationType = string;
+
+// @public
+export interface ServiceNowV2LinkedService extends LinkedService {
+    authenticationType: ServiceNowV2AuthenticationType;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    endpoint: any;
+    grantType?: any;
+    password?: SecretBaseUnion;
+    type: "ServiceNowV2";
+    username?: any;
+}
+
+// @public
+export interface ServiceNowV2ObjectDataset extends Dataset {
+    tableName?: any;
+    type: "ServiceNowV2Object";
+}
+
+// @public
+export interface ServiceNowV2Source extends TabularSource {
+    expression?: ExpressionV2;
+    type: "ServiceNowV2Source";
 }
 
 // @public
@@ -7842,12 +8163,68 @@ export interface SqlPartitionSettings {
 }
 
 // @public
+export type SqlServerAuthenticationType = string;
+
+// @public
+export interface SqlServerBaseLinkedServiceTypeProperties {
+    applicationIntent?: any;
+    commandTimeout?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    database?: any;
+    encrypt?: any;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    pooling?: any;
+    server?: any;
+    trustServerCertificate?: any;
+}
+
+// @public
 export interface SqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: any;
+    applicationIntent?: any;
+    authenticationType?: SqlServerAuthenticationType;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    database?: any;
+    encrypt?: any;
+    encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    password?: SecretBaseUnion;
+    pooling?: any;
+    server?: any;
+    trustServerCertificate?: any;
+    type: "SqlServer";
+    userName?: any;
+}
+
+// @public
+export interface SqlServerLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: SqlServerAuthenticationType;
+    connectionString?: any;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
-    type: "SqlServer";
     userName?: any;
 }
 
@@ -8260,11 +8637,11 @@ export interface SynapseSparkJobReference {
 export interface TabularSource extends CopySource {
     additionalColumns?: any;
     queryTimeout?: any;
-    type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "WarehouseSource" | "SalesforceV2Source";
+    type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "PostgreSqlV2Source" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GoogleBigQueryV2Source" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "WarehouseSource" | "SalesforceV2Source" | "ServiceNowV2Source";
 }
 
 // @public (undocumented)
-export type TabularSourceUnion = TabularSource | AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapOdpSource | SapTableSource | SqlSource | SqlServerSource | AmazonRdsForSqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource | WarehouseSource | SalesforceV2Source;
+export type TabularSourceUnion = TabularSource | AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | PostgreSqlV2Source | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapOdpSource | SapTableSource | SqlSource | SqlServerSource | AmazonRdsForSqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GoogleBigQueryV2Source | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource | WarehouseSource | SalesforceV2Source | ServiceNowV2Source;
 
 // @public
 export interface TabularTranslator extends CopyTranslator {
@@ -8761,7 +9138,7 @@ export interface WebActivity extends ExecutionActivity {
     datasets?: DatasetReference[];
     disableCertValidation?: boolean;
     headers?: {
-        [propertyName: string]: string;
+        [propertyName: string]: any;
     };
     httpRequestTimeout?: any;
     linkedServices?: LinkedServiceReference[];
@@ -8812,7 +9189,7 @@ export interface WebHookActivity extends ControlActivity {
     authentication?: WebActivityAuthentication;
     body?: any;
     headers?: {
-        [propertyName: string]: string;
+        [propertyName: string]: any;
     };
     method: WebHookActivityMethod;
     policy?: SecureInputOutputPolicy;

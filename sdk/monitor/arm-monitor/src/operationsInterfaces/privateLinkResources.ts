@@ -10,7 +10,7 @@ import {
   PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
   PrivateLinkResourcesListByPrivateLinkScopeResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models";
 
 /** Interface representing a PrivateLinkResources. */
@@ -24,7 +24,7 @@ export interface PrivateLinkResources {
   listByPrivateLinkScope(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
+    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
   ): Promise<PrivateLinkResourcesListByPrivateLinkScopeResponse>;
   /**
    * Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
@@ -37,6 +37,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     scopeName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

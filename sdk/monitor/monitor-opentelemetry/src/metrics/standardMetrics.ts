@@ -21,6 +21,7 @@ import {
   isSyntheticLoad,
   isTraceTelemetry,
 } from "./utils";
+import { StandardMetricIds } from "./types";
 
 /**
  * Azure Monitor Standard Metrics
@@ -45,35 +46,35 @@ export class StandardMetrics {
    */
   constructor(config: InternalConfig, options?: { collectionInterval: number }) {
     this._config = config;
-    const meterProviderConfig: MeterProviderOptions = {
-      resource: this._config.resource,
-    };
-    this._meterProvider = new MeterProvider(meterProviderConfig);
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this._meterProvider.addMetricReader(this._metricReader);
+    const meterProviderConfig: MeterProviderOptions = {
+      resource: this._config.resource,
+      readers: [this._metricReader],
+    };
+    this._meterProvider = new MeterProvider(meterProviderConfig);
     this._meter = this._meterProvider.getMeter("AzureMonitorStandardMetricsMeter");
     this._incomingRequestDurationHistogram = this._meter.createHistogram(
-      "azureMonitor.http.requestDuration",
+      StandardMetricIds.REQUEST_DURATION,
       {
         valueType: ValueType.DOUBLE,
       },
     );
     this._outgoingRequestDurationHistogram = this._meter.createHistogram(
-      "azureMonitor.http.dependencyDuration",
+      StandardMetricIds.DEPENDENCIES_DURATION,
       {
         valueType: ValueType.DOUBLE,
       },
     );
 
-    this._exceptionsCounter = this._meter.createCounter("azureMonitor.exceptionCount", {
+    this._exceptionsCounter = this._meter.createCounter(StandardMetricIds.EXCEPTIONS_COUNT, {
       valueType: ValueType.INT,
     });
-    this._tracesCounter = this._meter.createCounter("azureMonitor.traceCount", {
+    this._tracesCounter = this._meter.createCounter(StandardMetricIds.TRACES_COUNT, {
       valueType: ValueType.INT,
     });
   }

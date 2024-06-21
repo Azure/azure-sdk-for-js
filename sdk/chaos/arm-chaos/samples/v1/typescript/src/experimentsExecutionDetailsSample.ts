@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Execution details of an experiment resource.
  *
  * @summary Execution details of an experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/DetailsExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DetailsExperiment.json
  */
 async function getExperimentExecutionDetails() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getExperimentExecutionDetails() {
   const result = await client.experiments.executionDetails(
     resourceGroupName,
     experimentName,
-    executionId
+    executionId,
   );
   console.log(result);
 }

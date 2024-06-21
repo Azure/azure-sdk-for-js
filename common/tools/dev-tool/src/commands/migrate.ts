@@ -5,7 +5,7 @@ import { METADATA_KEY, ProjectInfo, resolveProject, resolveRoot } from "../util/
 import { createPrinter } from "../util/printer";
 import { leafCommand } from "../framework/command";
 import { makeCommandInfo } from "../framework/command";
-import { cwd } from "process";
+import { cwd } from "node:process";
 import {
   listAppliedMigrations,
   getMigrationById,

@@ -28,14 +28,11 @@ parameters:
 
 jobs:
   - job: "Build"
-    variables:
-      Codeql.Enabled: true
-      Codeql.BuildIdentifier: ${{ parameters.ServiceDirectory }}
-      Codeql.SkipTaskAutoInjection: false
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      vmImage: MMSUbuntu20.04
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
+      os: linux
 
     steps:
       - script: |
@@ -55,8 +52,9 @@ jobs:
   - job: "Analyze"
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      vmImage: MMSUbuntu20.04
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
+      os: linux
 
     steps:
       - template: ../steps/common.yml
@@ -67,19 +65,12 @@ jobs:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestPipeline: ${{ parameters.TestPipeline }}
 
-  - job: Compliance
-    pool:
-      name: azsdk-pool-mms-win-2022-general
-      vmImage: MMS2022
-    steps:
-      - template: /eng/common/pipelines/templates/steps/credscan.yml
-        parameters:
-          ServiceDirectory: ${{ parameters.ServiceDirectory }}
-
   - ${{ if ne(parameters.RunUnitTests, false) }}:
-      - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+      - template: /eng/common/pipelines/templates/jobs/generate-job-matrix.yml
         parameters:
           JobTemplatePath: /eng/pipelines/templates/jobs/ci.tests.yml
+          OsVmImage: $(LINUXVMIMAGE)
+          Pool: $(LINUXPOOL)
           MatrixConfigs: ${{ parameters.MatrixConfigs }}
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}

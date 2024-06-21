@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-config-include rule.
- * @author Wei Jun Tan
+ *
  */
 
-import { RuleTester } from "eslint";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-config-include";
 
 //------------------------------------------------------------------------------
@@ -97,13 +97,7 @@ const exampleTsconfigBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester({ testTsConfig: true });
 
 ruleTester.run("ts-config-include", rule, {
   valid: [
@@ -120,7 +114,7 @@ ruleTester.run("ts-config-include", rule, {
     {
       // incorrect format but in a file we don't care about
       code: '{"include": []}',
-      filename: "not_tsconfig.json",
+      filename: "not_package.json",
     },
   ],
   invalid: [

@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -28,13 +28,14 @@ import {
   ExtendedServerBlobAuditingPoliciesGetResponse,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse,
-  ExtendedServerBlobAuditingPoliciesListByServerNextResponse
+  ExtendedServerBlobAuditingPoliciesListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExtendedServerBlobAuditingPolicies operations. */
 export class ExtendedServerBlobAuditingPoliciesImpl
-  implements ExtendedServerBlobAuditingPolicies {
+  implements ExtendedServerBlobAuditingPolicies
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -55,12 +56,12 @@ export class ExtendedServerBlobAuditingPoliciesImpl
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +78,9 @@ export class ExtendedServerBlobAuditingPoliciesImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +88,7 @@ export class ExtendedServerBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExtendedServerBlobAuditingPolicy[]> {
     let result: ExtendedServerBlobAuditingPoliciesListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class ExtendedServerBlobAuditingPoliciesImpl
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +116,12 @@ export class ExtendedServerBlobAuditingPoliciesImpl
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
   ): AsyncIterableIterator<ExtendedServerBlobAuditingPolicy> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +137,11 @@ export class ExtendedServerBlobAuditingPoliciesImpl
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
   ): Promise<ExtendedServerBlobAuditingPoliciesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -154,11 +155,11 @@ export class ExtendedServerBlobAuditingPoliciesImpl
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams,
   ): Promise<ExtendedServerBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,7 +175,7 @@ export class ExtendedServerBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>,
@@ -183,21 +184,20 @@ export class ExtendedServerBlobAuditingPoliciesImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +206,8 @@ export class ExtendedServerBlobAuditingPoliciesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,22 +215,22 @@ export class ExtendedServerBlobAuditingPoliciesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse,
       OperationState<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -248,13 +248,13 @@ export class ExtendedServerBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -271,11 +271,11 @@ export class ExtendedServerBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerNextOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesListByServerNextOptionalParams,
   ): Promise<ExtendedServerBlobAuditingPoliciesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -283,94 +283,91 @@ export class ExtendedServerBlobAuditingPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.blobAuditingPolicyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion9],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.blobAuditingPolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
     201: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
     202: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
     204: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters71,
-  queryParameters: [Parameters.apiVersion8],
+  requestBody: Parameters.parameters73,
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.blobAuditingPolicyName
+    Parameters.blobAuditingPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

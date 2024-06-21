@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the quota and actual usage of the CDN profiles under the given subscription.
  *
  * @summary Check the quota and actual usage of the CDN profiles under the given subscription.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/ResourceUsage_List.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/ResourceUsage_List.json
  */
 async function resourceUsageList() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

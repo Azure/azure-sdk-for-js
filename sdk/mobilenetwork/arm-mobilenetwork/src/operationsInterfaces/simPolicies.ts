@@ -18,7 +18,7 @@ import {
   SimPoliciesCreateOrUpdateResponse,
   TagsObject,
   SimPoliciesUpdateTagsOptionalParams,
-  SimPoliciesUpdateTagsResponse
+  SimPoliciesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface SimPolicies {
   listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SimPoliciesListByMobileNetworkOptionalParams
+    options?: SimPoliciesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<SimPolicy>;
   /**
    * Deletes the specified SIM policy.
@@ -46,7 +46,7 @@ export interface SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams
+    options?: SimPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified SIM policy.
@@ -59,7 +59,7 @@ export interface SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams
+    options?: SimPoliciesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified SIM policy.
@@ -72,7 +72,7 @@ export interface SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    options?: SimPoliciesGetOptionalParams
+    options?: SimPoliciesGetOptionalParams,
   ): Promise<SimPoliciesGetResponse>;
   /**
    * Creates or updates a SIM policy. Must be created in the same location as its parent mobile network.
@@ -87,7 +87,7 @@ export interface SimPolicies {
     mobileNetworkName: string,
     simPolicyName: string,
     parameters: SimPolicy,
-    options?: SimPoliciesCreateOrUpdateOptionalParams
+    options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SimPoliciesCreateOrUpdateResponse>,
@@ -107,7 +107,7 @@ export interface SimPolicies {
     mobileNetworkName: string,
     simPolicyName: string,
     parameters: SimPolicy,
-    options?: SimPoliciesCreateOrUpdateOptionalParams
+    options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SimPoliciesCreateOrUpdateResponse>;
   /**
    * Updates SIM policy tags.
@@ -122,6 +122,6 @@ export interface SimPolicies {
     mobileNetworkName: string,
     simPolicyName: string,
     parameters: TagsObject,
-    options?: SimPoliciesUpdateTagsOptionalParams
+    options?: SimPoliciesUpdateTagsOptionalParams,
   ): Promise<SimPoliciesUpdateTagsResponse>;
 }

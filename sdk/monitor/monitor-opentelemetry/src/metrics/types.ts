@@ -27,20 +27,13 @@ export interface MetricDependencyDimensions extends StandardMetricBaseDimensions
   operationSynthetic?: string;
 }
 
-export enum StandardMetricNames {
-  HTTP_REQUEST_DURATION = "azureMonitor.http.requestDuration",
-  HTTP_DEPENDENCY_DURATION = "azureMonitor.http.dependencyDuration",
-  EXCEPTION_COUNT = "azureMonitor.exceptionCount",
-  TRACE_COUNT = "azureMonitor.traceCount",
-}
-
 export enum PerformanceCounterMetricNames {
-  PRIVATE_BYTES = "\\Process(??APP_WIN32_PROC??)\\Private Bytes",
-  AVAILABLE_BYTES = "\\Memory\\Available Bytes",
-  PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
-  PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
-  REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
-  REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
+  PRIVATE_BYTES = "Private_Bytes",
+  AVAILABLE_BYTES = "Available_Bytes",
+  PROCESSOR_TIME = "Processor_Time",
+  PROCESS_TIME = "Process_Time",
+  REQUEST_RATE = "Request_Rate",
+  REQUEST_DURATION = "Request_Execution_Time",
 }
 
 export type MetricDimensionTypeKeys =
@@ -71,3 +64,10 @@ export const StandardMetricPropertyNames: { [key in MetricDimensionTypeKeys]: st
   metricId: "_MS.MetricId",
   IsAutocollected: "_MS.IsAutocollected",
 };
+
+export enum StandardMetricIds {
+  REQUEST_DURATION = "requests/duration",
+  DEPENDENCIES_DURATION = "dependencies/duration",
+  EXCEPTIONS_COUNT = "exceptions/count",
+  TRACES_COUNT = "traces/count",
+}

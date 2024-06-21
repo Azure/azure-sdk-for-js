@@ -42,6 +42,7 @@ import {
   MetricNamespace,
   TimeSeriesElement,
   createMetricsQueryResult,
+  getMetricByName,
 } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "@azure/core-client";
 import {
@@ -59,10 +60,7 @@ import {
   MetricsBatchBatchResponse as GeneratedMetricsBatchResponse,
   MetricsBatchBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
 } from "../generated/metricBatch/src";
-import {
-  MetricResultsResponseValuesItem,
-  MetricsBatchOptionalParams,
-} from "../models/publicBatchModels";
+import { MetricsQueryResourcesOptions } from "../models/publicBatchModels";
 
 /**
  * @internal
@@ -193,16 +191,17 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetricsBatchQuery(
-  metricsBatchQueryOptions: MetricsBatchOptionalParams | undefined,
+  metricsQueryResourcesOptions: MetricsQueryResourcesOptions | undefined,
 ): GeneratedMetricsBatchOptionalParams {
-  if (!metricsBatchQueryOptions) {
+  if (!metricsQueryResourcesOptions) {
     return {};
   }
 
   return {
-    starttime: metricsBatchQueryOptions.startTime?.toISOString(),
-    endtime: metricsBatchQueryOptions.endTime?.toISOString(),
-    ...metricsBatchQueryOptions,
+    starttime: metricsQueryResourcesOptions.startTime?.toISOString(),
+    endtime: metricsQueryResourcesOptions.endTime?.toISOString(),
+    rollupby: metricsQueryResourcesOptions.rollUpBy,
+    ...metricsQueryResourcesOptions,
   };
 }
 
@@ -217,7 +216,7 @@ export function convertRequestForMetrics(
     return {};
   }
 
-  const { orderBy, aggregations, metricNamespace, timespan, granularity, ...rest } =
+  const { orderBy, aggregations, metricNamespace, timespan, granularity, rollUpBy, ...rest } =
     queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
@@ -242,6 +241,9 @@ export function convertRequestForMetrics(
   }
   if (granularity) {
     obj.interval = granularity;
+  }
+  if (rollUpBy) {
+    obj.rollupby = rollUpBy;
   }
   return obj;
 }
@@ -315,34 +317,33 @@ export function convertRequestOptionsForMetricsDefinitions(
 }
 
 export function convertResponseForMetricBatch(
-  generatedResponse?: GeneratedMetricsBatchResponse,
-): Array<MetricResultsResponseValuesItem> {
-  if (!generatedResponse) return [];
+  generatedResponse: GeneratedMetricsBatchResponse,
+): MetricsQueryResult[] {
+  const result: Array<MetricsQueryResult> = [];
 
-  const batch: Array<MetricResultsResponseValuesItem> | undefined = generatedResponse?.values?.map(
-    (genDef) => {
-      const response: MetricResultsResponseValuesItem = {
-        startTime: genDef.starttime,
-        endTime: genDef.endtime,
-        interval: genDef.interval,
-        namespace: genDef.namespace,
-        resourceRegion: genDef.resourceregion,
-        resourceId: genDef.resourceid,
-        value: genDef.value.map((genValue) => {
-          return {
-            ...genValue,
-            displayDescription: genValue.displayDescription ?? "",
-          };
-        }),
-      };
+  generatedResponse?.values?.forEach((genDef) => {
+    const response: MetricsQueryResult = {
+      timespan: {
+        startTime: new Date(genDef.starttime),
+        endTime: new Date(genDef.endtime),
+      },
+      granularity: genDef.interval,
+      namespace: genDef.namespace,
+      resourceRegion: genDef.resourceregion,
+      resourceId: genDef.resourceid,
+      metrics: genDef.value.map((genValue) => {
+        return {
+          ...genValue,
+          description: genValue.displayDescription ?? "",
+          name: genValue.name.value,
+        };
+      }),
+      getMetricByName,
+    };
+    result.push(response);
+  });
 
-      return response;
-    },
-  );
-
-  if (!batch) return [];
-
-  return batch;
+  return result;
 }
 
 /**

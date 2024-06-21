@@ -5,14 +5,10 @@
  * @summary Demonstrates vector search
  */
 
-import {
-  AzureKeyCredential,
-  SearchClient,
-  GeographyPoint,
-  SearchIndexClient,
-} from "@azure/search-documents";
-import { createIndex, WAIT_TIME, delay } from "./setup";
+import { DefaultAzureCredential } from "@azure/identity";
+import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
+import { createIndex, delay, WAIT_TIME } from "./setup";
 
 import * as dotenv from "dotenv";
 import { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } from "./vectors";
@@ -22,16 +18,15 @@ dotenv.config();
  * This sample is to demonstrate the use of SearchClient's vector search feature.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-7";
 
-async function main() {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+async function main(): Promise<void> {
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
 
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
@@ -81,30 +76,32 @@ async function main() {
     await delay(WAIT_TIME);
 
     const searchResults = await searchClient.search("*", {
-      vectorQueries: [
-        {
-          kind: "vector",
-          fields: ["descriptionVectorEn"],
-          kNearestNeighborsCount: 3,
-          // An embedding of the query "What are the most luxurious hotels?"
-          vector: luxuryQueryVector,
-        },
-        // Multi-vector search is supported
-        {
-          kind: "vector",
-          fields: ["descriptionVectorFr"],
-          kNearestNeighborsCount: 3,
-          vector: luxuryQueryVector,
-        },
-        // The index can be configured with a vectorizer to generate text embeddings
-        // from a text query
-        {
-          kind: "text",
-          fields: ["descriptionVectorFr"],
-          kNearestNeighborsCount: 3,
-          text: "What are the most luxurious hotels?",
-        },
-      ],
+      vectorSearchOptions: {
+        queries: [
+          {
+            kind: "vector",
+            fields: ["descriptionVectorEn"],
+            kNearestNeighborsCount: 3,
+            // An embedding of the query "What are the most luxurious hotels?"
+            vector: luxuryQueryVector,
+          },
+          // Multi-vector search is supported
+          {
+            kind: "vector",
+            fields: ["descriptionVectorFr"],
+            kNearestNeighborsCount: 3,
+            vector: luxuryQueryVector,
+          },
+          // The index can be configured with a vectorizer to generate text embeddings
+          // from a text query
+          {
+            kind: "text",
+            fields: ["descriptionVectorFr"],
+            kNearestNeighborsCount: 3,
+            text: "What are the most luxurious hotels?",
+          },
+        ],
+      },
     });
 
     for await (const result of searchResults.results) {

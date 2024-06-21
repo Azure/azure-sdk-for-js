@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import {
   AdmRegistrationDescription,
   AdmTemplateRegistrationDescription,
@@ -41,7 +42,6 @@ import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../../src/serializers/registrationSerializer.js";
-import { assert } from "@azure/test-utils";
 
 const ADM_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -730,6 +730,11 @@ describe("serializeRegistrationDescription", () => {
 
     const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
 
+    // Check for ordering of the fields
+    // Bug: https://github.com/Azure/azure-sdk-for-js/issues/29081
+    assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH><Auth>{Auth Secret}</Auth>") !== -1);
+
+    // Check the fields
     assert.isTrue(xml.indexOf("<BrowserRegistrationDescription") !== -1);
     assert.isTrue(xml.indexOf("<Endpoint>https://www.microsoft.com/</Endpoint>") !== -1);
     assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH>") !== -1);

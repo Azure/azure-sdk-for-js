@@ -120,6 +120,18 @@ export type AcsChatParticipantRemovedFromThreadWithUserEventData = AcsChatThread
 };
 
 // @public
+export type AcsChatThreadCreatedEventData = AcsChatThreadEventInThreadBase & {
+    createdByCommunicationIdentifier: CommunicationIdentifierModel;
+    properties: {
+        [propertyName: string]: any;
+    };
+    metadata: {
+        [propertyName: string]: string;
+    };
+    participants: AcsChatThreadParticipant[];
+};
+
+// @public
 export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
     properties: {
@@ -132,7 +144,19 @@ export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
 };
 
 // @public
+export type AcsChatThreadDeletedEventData = AcsChatThreadEventInThreadBase & {
+    deletedByCommunicationIdentifier: CommunicationIdentifierModel;
+    deleteTime: string;
+};
+
+// @public
 export type AcsChatThreadEventBase = AcsChatEventBase & {
+    createTime: string;
+    version: number;
+};
+
+// @public
+export type AcsChatThreadEventInThreadBase = AcsChatEventInThreadBase & {
     createTime: string;
     version: number;
 };
@@ -145,6 +169,18 @@ export interface AcsChatThreadParticipant {
     };
     participantCommunicationIdentifier: CommunicationIdentifierModel;
 }
+
+// @public
+export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThreadBase & {
+    editedByCommunicationIdentifier: CommunicationIdentifierModel;
+    editTime: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    metadata: {
+        [propertyName: string]: string;
+    };
+};
 
 // @public
 export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventBase & {
@@ -213,6 +249,86 @@ export interface AcsIncomingCallEventData {
     serverCallId: string;
     toCommunicationIdentifier: CommunicationIdentifierModel;
 }
+
+// @public
+export type AcsInteractiveReplyKind = string;
+
+// @public
+export interface AcsMessageButtonContent {
+    payload: string;
+    text: string;
+}
+
+// @public
+export interface AcsMessageChannelEventError {
+    channelCode: string;
+    channelMessage: string;
+}
+
+// @public
+export type AcsMessageChannelKind = string;
+
+// @public
+export interface AcsMessageContext {
+    from: string;
+    messageId: string;
+}
+
+// @public
+export type AcsMessageDeliveryStatus = string;
+
+// @public
+export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
+    messageId: string;
+    status: AcsMessageDeliveryStatus;
+    channelKind: AcsMessageChannelKind;
+};
+
+// @public
+export interface AcsMessageEventData {
+    error: AcsMessageChannelEventError;
+    from: string;
+    receivedTimestamp: string;
+    to: string;
+}
+
+// @public
+export interface AcsMessageInteractiveButtonReplyContent {
+    buttonId: string;
+    title: string;
+}
+
+// @public
+export interface AcsMessageInteractiveContent {
+    buttonReply: AcsMessageInteractiveButtonReplyContent;
+    listReply: AcsMessageInteractiveListReplyContent;
+    replyKind: AcsInteractiveReplyKind;
+}
+
+// @public
+export interface AcsMessageInteractiveListReplyContent {
+    description: string;
+    listItemId: string;
+    title: string;
+}
+
+// @public
+export interface AcsMessageMediaContent {
+    caption: string;
+    fileName: string;
+    mediaId: string;
+    mimeType: string;
+}
+
+// @public
+export type AcsMessageReceivedEventData = AcsMessageEventData & {
+    content: string;
+    channelKind: AcsMessageChannelKind;
+    mediaContent: AcsMessageMediaContent;
+    context: AcsMessageContext;
+    button: AcsMessageButtonContent;
+    interactiveContent: AcsMessageInteractiveContent;
+};
 
 // @public
 export interface AcsRecordingChunkInfo {
@@ -379,6 +495,9 @@ export interface AcsRouterQueueDetails {
 }
 
 // @public
+export type AcsRouterUpdatedWorkerProperty = string;
+
+// @public
 export type AcsRouterWorkerDeletedEventData = AcsRouterWorkerEventData & {};
 
 // @public
@@ -478,6 +597,21 @@ export interface AcsRouterWorkerSelector {
 export type AcsRouterWorkerSelectorState = string;
 
 // @public
+export interface AcsRouterWorkerUpdatedEventData {
+    channelConfigurations: AcsRouterChannelConfiguration[];
+    labels: {
+        [propertyName: string]: string;
+    };
+    queueAssignments: AcsRouterQueueDetails[];
+    tags: {
+        [propertyName: string]: string;
+    };
+    totalCapacity: number;
+    updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
+    workerId: string;
+}
+
+// @public
 export interface AcsSmsDeliveryAttempt {
     segmentsFailed: number;
     segmentsSucceeded: number;
@@ -513,6 +647,26 @@ export interface AcsUserDisconnectedEventData {
 
 // @public
 export type AcsUserEngagement = string;
+
+// @public
+export interface ApiCenterApiDefinitionAddedEventData {
+    description: string;
+    specification: ApiCenterApiSpecification;
+    title: string;
+}
+
+// @public
+export interface ApiCenterApiDefinitionUpdatedEventData {
+    description: string;
+    specification: ApiCenterApiSpecification;
+    title: string;
+}
+
+// @public
+export interface ApiCenterApiSpecification {
+    name: string;
+    version: string;
+}
 
 // @public
 export interface ApiManagementApiCreatedEventData {
@@ -788,10 +942,15 @@ export type CommunicationCloudEnvironmentModel = string;
 // @public
 export interface CommunicationIdentifierModel {
     communicationUser?: CommunicationUserIdentifierModel;
+    kind?: CommunicationIdentifierModelKind;
+    microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
     microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
     phoneNumber?: PhoneNumberIdentifierModel;
     rawId: string;
 }
+
+// @public
+export type CommunicationIdentifierModelKind = string;
 
 // @public
 export interface CommunicationUserIdentifierModel {
@@ -1312,6 +1471,34 @@ export const enum KnownAcsEmailDeliveryReportStatus {
 }
 
 // @public
+export const enum KnownAcsInteractiveReplyKind {
+    ButtonReply = "buttonReply",
+    ListReply = "listReply",
+    Unknown = "unknown"
+}
+
+// @public
+export const enum KnownAcsMessageChannelKind {
+    Whatsapp = "whatsapp"
+}
+
+// @public
+export const enum KnownAcsMessageDeliveryStatus {
+    // (undocumented)
+    Delivered = "delivered",
+    // (undocumented)
+    Failed = "failed",
+    // (undocumented)
+    Read = "read",
+    // (undocumented)
+    Sent = "sent",
+    // (undocumented)
+    Unknown = "unknown",
+    // (undocumented)
+    Warning = "warning"
+}
+
+// @public
 export const enum KnownAcsRouterJobStatus {
     // (undocumented)
     Assigned = "Assigned",
@@ -1352,6 +1539,22 @@ export const enum KnownAcsRouterLabelOperator {
     // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
     NotEqual = "NotEqual"
+}
+
+// @public
+export const enum KnownAcsRouterUpdatedWorkerProperty {
+    // (undocumented)
+    AvailableForOffers = "AvailableForOffers",
+    // (undocumented)
+    ChannelConfigurations = "ChannelConfigurations",
+    // (undocumented)
+    Labels = "Labels",
+    // (undocumented)
+    QueueAssignments = "QueueAssignments",
+    // (undocumented)
+    Tags = "Tags",
+    // (undocumented)
+    TotalCapacity = "TotalCapacity"
 }
 
 // @public
@@ -1398,6 +1601,20 @@ export const enum KnownCommunicationCloudEnvironmentModel {
     Gcch = "gcch",
     // (undocumented)
     Public = "public"
+}
+
+// @public
+export const enum KnownCommunicationIdentifierModelKind {
+    // (undocumented)
+    CommunicationUser = "communicationUser",
+    // (undocumented)
+    MicrosoftTeamsApp = "microsoftTeamsApp",
+    // (undocumented)
+    MicrosoftTeamsUser = "microsoftTeamsUser",
+    // (undocumented)
+    PhoneNumber = "phoneNumber",
+    // (undocumented)
+    Unknown = "unknown"
 }
 
 // @public
@@ -1944,6 +2161,12 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
 }
 
 // @public
+export interface MicrosoftTeamsAppIdentifierModel {
+    appId: string;
+    cloud?: CommunicationCloudEnvironmentModel;
+}
+
+// @public
 export interface MicrosoftTeamsUserIdentifierModel {
     cloud?: CommunicationCloudEnvironmentModel;
     isAnonymous?: boolean;
@@ -2448,6 +2671,8 @@ export interface SubscriptionValidationEventData {
 
 // @public
 export interface SystemEventNameToEventData {
+    "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
+    "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
     "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
     "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
     "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
@@ -2490,6 +2715,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
     "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+    "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
+    "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -2498,9 +2725,12 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
+    "Microsoft.Communication.ChatThreadCreated": AcsChatThreadCreatedEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
+    "Microsoft.Communication.ChatThreadDeleted": AcsChatThreadDeletedEventData;
     "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
     "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
+    "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
     "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
@@ -2528,6 +2758,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
     "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
     "Microsoft.Communication.RouterWorkerRegistered": AcsRouterWorkerRegisteredEventData;
+    "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;

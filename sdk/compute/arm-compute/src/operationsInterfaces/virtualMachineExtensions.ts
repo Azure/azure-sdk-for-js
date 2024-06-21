@@ -18,7 +18,7 @@ import {
   VirtualMachineExtensionsGetOptionalParams,
   VirtualMachineExtensionsGetResponse,
   VirtualMachineExtensionsListOptionalParams,
-  VirtualMachineExtensionsListResponse
+  VirtualMachineExtensionsListResponse,
 } from "../models";
 
 /** Interface representing a VirtualMachineExtensions. */
@@ -36,7 +36,7 @@ export interface VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtension,
-    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams
+    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineExtensionsCreateOrUpdateResponse>,
@@ -56,7 +56,7 @@ export interface VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtension,
-    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams
+    options?: VirtualMachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineExtensionsCreateOrUpdateResponse>;
   /**
    * The operation to update the extension.
@@ -71,7 +71,7 @@ export interface VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtensionUpdate,
-    options?: VirtualMachineExtensionsUpdateOptionalParams
+    options?: VirtualMachineExtensionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineExtensionsUpdateResponse>,
@@ -91,7 +91,7 @@ export interface VirtualMachineExtensions {
     vmName: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineExtensionUpdate,
-    options?: VirtualMachineExtensionsUpdateOptionalParams
+    options?: VirtualMachineExtensionsUpdateOptionalParams,
   ): Promise<VirtualMachineExtensionsUpdateResponse>;
   /**
    * The operation to delete the extension.
@@ -104,7 +104,7 @@ export interface VirtualMachineExtensions {
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    options?: VirtualMachineExtensionsDeleteOptionalParams
+    options?: VirtualMachineExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the extension.
@@ -117,7 +117,7 @@ export interface VirtualMachineExtensions {
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    options?: VirtualMachineExtensionsDeleteOptionalParams
+    options?: VirtualMachineExtensionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to get the extension.
@@ -130,7 +130,7 @@ export interface VirtualMachineExtensions {
     resourceGroupName: string,
     vmName: string,
     vmExtensionName: string,
-    options?: VirtualMachineExtensionsGetOptionalParams
+    options?: VirtualMachineExtensionsGetOptionalParams,
   ): Promise<VirtualMachineExtensionsGetResponse>;
   /**
    * The operation to get all extensions of a Virtual Machine.
@@ -141,6 +141,6 @@ export interface VirtualMachineExtensions {
   list(
     resourceGroupName: string,
     vmName: string,
-    options?: VirtualMachineExtensionsListOptionalParams
+    options?: VirtualMachineExtensionsListOptionalParams,
   ): Promise<VirtualMachineExtensionsListResponse>;
 }

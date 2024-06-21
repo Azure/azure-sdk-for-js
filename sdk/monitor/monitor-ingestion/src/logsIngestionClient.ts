@@ -9,14 +9,21 @@ import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
 import { isError } from "@azure/core-util";
+import { KnownMonitorAudience } from "./constants";
 /**
  * Options for Monitor Logs Ingestion Client
  */
 export interface LogsIngestionClientOptions extends CommonClientOptions {
   /** Api Version */
   apiVersion?: string;
+
+  /**
+   * The Audience to use for authentication with Microsoft Entra ID. The
+   * audience is not considered when using a shared key.
+   * {@link KnownMonitorAudience} can be used interchangeably with audience
+   */
+  audience?: string;
 }
-const defaultIngestionScope = "https://monitor.azure.com//.default";
 const DEFAULT_MAX_CONCURRENCY = 5;
 
 /**
@@ -39,10 +46,14 @@ export class LogsIngestionClient {
     tokenCredential: TokenCredential,
     options?: LogsIngestionClientOptions,
   ) {
+    const scope: string = options?.audience
+      ? `${options.audience}/.default`
+      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+
     this.endpoint = endpoint;
     this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
       ...options,
-      credentialScopes: defaultIngestionScope,
+      credentialScopes: scope,
     });
     // adding gzipping policy because this is a single method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);

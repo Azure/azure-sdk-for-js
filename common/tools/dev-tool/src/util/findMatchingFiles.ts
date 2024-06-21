@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 import fs from "fs-extra";
-import path from "path";
+import path from "node:path";
 import { createPrinter } from "./printer";
 import { shouldSkip } from "./samples/configuration";
 

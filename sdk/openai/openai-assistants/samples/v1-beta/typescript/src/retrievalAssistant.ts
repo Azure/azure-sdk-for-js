@@ -20,7 +20,7 @@ export async function main() {
   const uploadAssistantFile = await assistantsClient.files.uploadFile(uint8array, "assistants", { filename });
   console.log(uploadAssistantFile);
   const fileAssistantResponse = await assistantsClient.assistants.createAssistant({
-    model: "gpt-4-1106-preview",
+    model: "gpt-4-0125-Preview",
     name: "JS SDK Test Assistant - Retrieval",
     instructions: "Please address the user as Jane Doe. The user has a premium account.",
     tools: [{ type: "retrieval" }],

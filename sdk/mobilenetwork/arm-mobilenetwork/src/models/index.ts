@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ExtendedUeInfoPropertiesUnion =
+  | ExtendedUeInfoProperties
+  | UeInfo5G
+  | UeInfo4G;
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -67,6 +72,12 @@ export interface InterfaceProperties {
   ipv4Subnet?: string;
   /** The default IPv4 gateway (router). */
   ipv4Gateway?: string;
+  /** VLAN identifier of the network interface. Example: 501. */
+  vlanId?: number;
+  /** The list of IPv4 addresses, for a multi-node system. */
+  ipv4AddressList?: string[];
+  /** The IPv4 addresses of the endpoints to send BFD probes to. */
+  bfdIpv4Endpoints?: string[];
 }
 
 /** The network address and port translation settings to use for the attached data network. */
@@ -196,12 +207,60 @@ export interface DiagnosticsPackageListResult {
   readonly nextLink?: string;
 }
 
-/** Public land mobile network (PLMN) ID. */
+/** Public land mobile network (PLMN) ID. This is made up of the mobile country code and mobile network code, as defined in https://www.itu.int/rec/T-REC-E.212. The values 001-01 and 001-001 can be used for testing and the values 999-99 and 999-999 can be used on internal private networks. */
 export interface PlmnId {
   /** Mobile country code (MCC). */
   mcc: string;
   /** Mobile network code (MNC). */
   mnc: string;
+}
+
+/** Configuration relating to SUPI concealment. */
+export interface PublicLandMobileNetworkHomeNetworkPublicKeys {
+  /** This provides a mapping to identify which public key has been used for SUPI concealment using the Profile A Protection Scheme. */
+  profileA?: HomeNetworkPublicKey[];
+  /** This provides a mapping to identify which public key has been used for SUPI concealment using the Profile B Protection Scheme. */
+  profileB?: HomeNetworkPublicKey[];
+}
+
+/** A key used for SUPI concealment. */
+export interface HomeNetworkPublicKey {
+  /** The Home Network Public Key Identifier determines which public key was used to generate the SUCI sent to the AMF. See TS 23.003 Section 2.2B Section 5. */
+  id: number;
+  /** The URL of Azure Key Vault secret containing the private key, versioned or unversioned. For example: https://contosovault.vault.azure.net/secrets/mySuciPrivateKey/562a4bb76b524a1493a6afe8e536ee78. */
+  url?: string;
+}
+
+/** Managed service identity (User assigned identity) */
+export interface ManagedServiceIdentity {
+  /** Type of managed service identity (currently only UserAssigned allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Identity and Tags object for patch operations. */
+export interface IdentityAndTagsObject {
+  /** The managed service identity associated with this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Response for mobile networks API service call. */
@@ -213,6 +272,29 @@ export interface MobileNetworkListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Response for list SIM groups API service call. */
+export interface SimGroupListResult {
+  /** A list of SIM groups in a resource group. */
+  value?: SimGroup[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An Azure key vault key. */
+export interface KeyVaultKey {
+  /** The key URL, unversioned. For example: https://contosovault.vault.azure.net/keys/azureKey. */
+  keyUrl?: string;
+}
+
+/** Reference to a mobile network resource. */
+export interface MobileNetworkResourceId {
+  /** Mobile network resource ID. */
+  id: string;
 }
 
 /** List of the operations. */
@@ -422,6 +504,8 @@ export interface EventHubConfiguration {
 export interface SignalingConfiguration {
   /** Configuration enabling 4G NAS reroute. */
   nasReroute?: NASRerouteConfiguration;
+  /** An ordered list of NAS encryption algorithms, used to encrypt control plane traffic between the UE and packet core, in order from most to least preferred. If not specified, the packet core will use a built-in default ordering. */
+  nasEncryption?: NasEncryptionType[];
 }
 
 /** Configuration enabling NAS reroute. */
@@ -430,34 +514,17 @@ export interface NASRerouteConfiguration {
   macroMmeGroupId: number;
 }
 
-/** Managed service identity (User assigned identity) */
-export interface ManagedServiceIdentity {
-  /** Type of managed service identity (currently only UserAssigned allowed). */
-  type: ManagedServiceIdentityType;
-  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
+export interface HomeNetworkPrivateKeysProvisioning {
   /**
-   * The principal ID of the assigned identity.
+   * The provisioning state of the private keys for SUPI concealment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
+  readonly state: HomeNetworkPrivateKeysProvisioningState;
 }
 
-/** Identity and Tags object for patch operations. */
-export interface IdentityAndTagsObject {
-  /** The managed service identity associated with this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
+export interface UserConsentConfiguration {
+  /** Allow Microsoft to access non-PII telemetry information from the packet core. */
+  allowSupportTelemetryAccess?: boolean;
 }
 
 /** Response for packet core control planes API service call. */
@@ -477,6 +544,46 @@ export interface PacketCoreControlPlaneCollectDiagnosticsPackage {
   storageAccountBlobUrl: string;
 }
 
+/** Response for the list routing information API service call. */
+export interface RoutingInfoListResult {
+  /** A list of the routing information for the packet core control plane */
+  value?: RoutingInfoModel[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An IPv4 route. */
+export interface Ipv4Route {
+  /** The destination IPv4 prefix. */
+  destination?: string;
+  /** A list of next hops for the destination. */
+  nextHops?: Ipv4RouteNextHop[];
+}
+
+/** The next hop in an IPv4 route. */
+export interface Ipv4RouteNextHop {
+  /** The next hop address. */
+  address?: string;
+  /** The priority of this next hop. Next hops with lower preference values are preferred. */
+  priority?: number;
+}
+
+export interface UserPlaneDataRoutesItem {
+  /** Reference to an attached data network resource. */
+  attachedDataNetwork?: AttachedDataNetworkResourceId;
+  /** A list of IPv4 routes. */
+  routes?: Ipv4Route[];
+}
+
+/** Reference to an attached data network resource. */
+export interface AttachedDataNetworkResourceId {
+  /** Attached data network resource ID. */
+  id: string;
+}
+
 /** Platform specific packet core control plane version properties. */
 export interface Platform {
   /** The platform type where this version can be deployed. */
@@ -491,6 +598,8 @@ export interface Platform {
   recommendedVersion?: RecommendedVersion;
   /** Indicates whether this version is obsoleted for this platform. */
   obsoleteVersion?: ObsoleteVersion;
+  /** The list of versions to which a high availability upgrade from this version is supported. */
+  haUpgradesAvailable?: string[];
 }
 
 /** Response for packet core control plane version API service call. */
@@ -631,12 +740,6 @@ export interface SimStaticIpProperties {
   slice?: SliceResourceId;
   /** The static IP configuration for the SIM to use at the defined network scope. */
   staticIp?: SimStaticIpPropertiesStaticIp;
-}
-
-/** Reference to an attached data network resource. */
-export interface AttachedDataNetworkResourceId {
-  /** Attached data network resource ID. */
-  id: string;
 }
 
 /** Reference to a slice resource. */
@@ -782,27 +885,26 @@ export interface SimNameAndEncryptedProperties {
   encryptedCredentials?: string;
 }
 
-/** An Azure key vault key. */
-export interface KeyVaultKey {
-  /** The key URL, unversioned. For example: https://contosovault.vault.azure.net/keys/azureKey. */
-  keyUrl?: string;
+/** The SIMs to move. */
+export interface SimMove {
+  /** The SIM Group where the SIMs should be moved. */
+  targetSimGroupId?: SimGroupResourceId;
+  /** A list of SIM resource names to be moved. */
+  sims?: string[];
 }
 
-/** Reference to a mobile network resource. */
-export interface MobileNetworkResourceId {
-  /** Mobile network resource ID. */
+/** Reference to a SIM group resource. */
+export interface SimGroupResourceId {
+  /** SIM group resource ID. */
   id: string;
 }
 
-/** Response for list SIM groups API service call. */
-export interface SimGroupListResult {
-  /** A list of SIM groups in a resource group. */
-  value?: SimGroup[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The SIMs to clone. */
+export interface SimClone {
+  /** The SIM Group where the SIMs should be cloned. */
+  targetSimGroupId?: SimGroupResourceId;
+  /** A list of SIM resource names to be cloned. */
+  sims?: string[];
 }
 
 /** Per-slice settings */
@@ -910,10 +1012,31 @@ export interface SliceListResult {
   readonly nextLink?: string;
 }
 
-/** Reference to a SIM group resource. */
-export interface SimGroupResourceId {
-  /** SIM group resource ID. */
-  id: string;
+/** Extended UE Information Properties. */
+export interface ExtendedUeInfoProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ratType: "5G" | "4G";
+  /** The timestamp of last UE info read from the packet core (UTC). */
+  lastReadAt?: Date;
+}
+
+/** Response for packet core list UEs API call. */
+export interface UeInfoList {
+  /** A list of UEs in a packet core and their basic information. */
+  value?: UeInfo[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** DNN and UE IP address */
+export interface DnnIpPair {
+  /** Data network name */
+  dnn?: string;
+  /** IPv4 address. */
+  ipV4Addr?: string;
 }
 
 /** Allocation and Retention Priority (ARP) parameters. */
@@ -926,6 +1049,55 @@ export interface Arp {
   preemptVuln: PreemptionVulnerability;
 }
 
+/** UE Session Info for 5G. */
+export interface UeSessionInfo5G {
+  /** PDU session identifier */
+  pduSessionId: number;
+  /** Data network name */
+  dnn: string;
+  /** Packet Data Network Type */
+  pdnType: PdnType;
+  qosFlow: UeQOSFlow[];
+  /** Uplink bit rate. */
+  uplink: string;
+  /** Downlink bit rate. */
+  downlink: string;
+  /** IPv4 address. */
+  ipV4Addr?: string;
+  /** Slice/service type (SST). */
+  sst: number;
+  /** Slice differentiator (SD). */
+  sd?: string;
+}
+
+/** QoS Flow */
+export interface UeQOSFlow {
+  /** Qos Flow Identifier */
+  qfi: number;
+  /** 5G QoS Identifier. */
+  fiveqi: number;
+  /** Uplink bit rate. */
+  uplinkGbrUplink?: string;
+  /** Downlink bit rate. */
+  downlinkGbrDownlink?: string;
+  /** Uplink bit rate. */
+  uplinkMbrUplink?: string;
+  /** Downlink bit rate. */
+  downlinkMbrDownlink?: string;
+}
+
+/** UE Session Info for 4G */
+export interface UeSessionInfo4G {
+  /** EPS bearer identifier */
+  ebi: number;
+  /** Access point name */
+  apn: string;
+  /** Packet Data Network Type */
+  pdnType: PdnType;
+  /** IPv4 address. */
+  ipV4Addr?: string;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -936,6 +1108,12 @@ export interface TrackedResource extends Resource {
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
+
+/** Configuration relating to a particular PLMN */
+export interface PublicLandMobileNetwork extends PlmnId {
+  /** Configuration relating to SUPI concealment. */
+  homeNetworkPublicKeys?: PublicLandMobileNetworkHomeNetworkPublicKeys;
+}
 
 /** Data flow policy rule QoS policy */
 export interface PccRuleQosPolicy extends QosPolicy {
@@ -956,6 +1134,138 @@ export interface EncryptedSimPropertiesFormat
   extends CommonSimPropertiesFormat {
   /** The encrypted SIM credentials. */
   encryptedCredentials?: string;
+}
+
+/** UE Information for 5G. */
+export interface UeInfo5G extends ExtendedUeInfoProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ratType: "5G";
+  /** Subscription Permanent Identifier */
+  supi: string;
+  /** Permanent Equipment Identifier */
+  pei?: string;
+  sessionInfo?: UeSessionInfo5G[];
+  /** Per-UE transport network layer association */
+  perUeTnla?: string;
+  /** The AMF UE NGAP ID */
+  amfUeNgapId?: number;
+  /** The RAN UE NGAP ID */
+  ranUeNgapId?: number;
+  /** Last Visited TAI */
+  lastVisitedTai?: string;
+  /** Allowed Network Slice Selection Assistance Information */
+  allowedNssai?: Snssai[];
+  /** State of the UE. */
+  ueState?: UeState;
+  /** Radio connection establishment cause */
+  rrcEstablishmentCause?: RrcEstablishmentCause;
+  /** The UE's usage setting */
+  ueUsageSetting?: UeUsageSetting;
+  /** The timestamp of last activity of UE (UTC). */
+  lastActivityTime?: Date;
+  /** NG-eNodeB identifier */
+  ngeNbId?: string;
+  /** eNodeB identifier */
+  eNbId?: string;
+  /** N3 IWF identifier */
+  n3IwfId?: string;
+  /** W-AGF identifier */
+  wagfId?: string;
+  /** TNGF identifier */
+  tngfId?: string;
+  /** Network identifier */
+  nid?: string;
+  bitLength?: number;
+  gNBValue?: string;
+  /** Mobile country code (MCC). */
+  mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
+  /** Mobile network code (MNC). */
+  mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
+  /** Location Type */
+  locationType?: string;
+  /** Type Allocation Code of UE */
+  tac?: string;
+  /** Mobile country code (MCC). */
+  mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
+  /** Mobile network code (MNC). */
+  mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
+  /** 5G Temporary Mobile Subscriber Identity */
+  fivegTmsi: number;
+  /** AMF region identifier */
+  regionId: number;
+  /** AMF set identifier */
+  setId: number;
+  /** AMF pointer */
+  pointer: number;
+  /** Mobile country code (MCC). */
+  mccInfoFivegGutiPlmnMcc: string;
+  /** Mobile network code (MNC). */
+  mncInfoFivegGutiPlmnMnc: string;
+}
+
+/** UE Information for 4G. */
+export interface UeInfo4G extends ExtendedUeInfoProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ratType: "4G";
+  /** International mobile subscriber identifier */
+  imsi: string;
+  /** International mobile equipment identity */
+  imei?: string;
+  /** International mobile equipment identity – software version */
+  imeisv?: string;
+  sessionInfo?: UeSessionInfo4G[];
+  /** Per-UE transport network layer association */
+  perUeTnla?: string;
+  /** MME S1AP identifier */
+  mmeS1ApId?: number;
+  /** eNodeB S1AP identifier */
+  enbS1ApId?: number;
+  /** Last Visited TAI */
+  lastVisitedTai?: string;
+  /** State of the UE. */
+  ueState?: UeState;
+  /** Radio connection establishment cause */
+  rrcEstablishmentCause?: RrcEstablishmentCause;
+  /** The UE's usage setting */
+  ueUsageSetting?: UeUsageSetting;
+  /** The timestamp of last activity of UE (UTC). */
+  lastActivityTime?: Date;
+  /** NG-eNodeB identifier */
+  ngeNbId?: string;
+  /** eNodeB identifier */
+  eNbId?: string;
+  /** N3 IWF identifier */
+  n3IwfId?: string;
+  /** W-AGF identifier */
+  wagfId?: string;
+  /** TNGF identifier */
+  tngfId?: string;
+  /** Network identifier */
+  nid?: string;
+  bitLength?: number;
+  gNBValue?: string;
+  /** Mobile country code (MCC). */
+  mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
+  /** Mobile network code (MNC). */
+  mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
+  /** Location Type */
+  locationType?: string;
+  /** Type Allocation Code of UE */
+  tac?: string;
+  /** Mobile country code (MCC). */
+  mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
+  /** Mobile network code (MNC). */
+  mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
+  /** MME Temporary Mobile Subscriber Identity */
+  mTmsi: number;
+  /** MME group identifier */
+  groupId: number;
+  /** MME code */
+  code: number;
+  /** Mobile country code (MCC). */
+  mccInfoGutiPlmnMcc: string;
+  /** Mobile network code (MNC). */
+  mncInfoGutiPlmnMnc: string;
 }
 
 /** Attached data network resource. Must be created in the same location as its parent packet core data plane. */
@@ -1001,18 +1311,37 @@ export interface DataNetwork extends TrackedResource {
 
 /** Mobile network resource. */
 export interface MobileNetwork extends TrackedResource {
+  /** The identity used to retrieve any private keys used for SUPI concealment from Azure key vault. */
+  identity?: ManagedServiceIdentity;
   /**
    * The provisioning state of the mobile network resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** The unique public land mobile network identifier for the network. This is made up of the mobile country code and mobile network code, as defined in https://www.itu.int/rec/T-REC-E.212. The values 001-01 and 001-001 can be used for testing and the values 999-99 and 999-999 can be used on internal private networks. */
+  /** The unique public land mobile network identifier for the network. If both 'publicLandMobileNetworks' and 'publicLandMobileNetworkIdentifier' are specified, then the 'publicLandMobileNetworks' will take precedence. */
   publicLandMobileNetworkIdentifier: PlmnId;
+  /** A list of public land mobile networks including their identifiers. If both 'publicLandMobileNetworks' and 'publicLandMobileNetworkIdentifier' are specified, then the 'publicLandMobileNetworks' will take precedence. */
+  publicLandMobileNetworks?: PublicLandMobileNetwork[];
   /**
    * The mobile network resource identifier
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceKey?: string;
+}
+
+/** SIM group resource. */
+export interface SimGroup extends TrackedResource {
+  /** The identity used to retrieve the encryption key from Azure key vault. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * The provisioning state of the SIM group resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** A key to encrypt the SIM data that belongs to this SIM group. */
+  encryptionKey?: KeyVaultKey;
+  /** Mobile network that this SIM group belongs to. The mobile network must be in the same location as the SIM group. */
+  mobileNetwork?: MobileNetworkResourceId;
 }
 
 /** Packet core control plane resource. */
@@ -1062,6 +1391,13 @@ export interface PacketCoreControlPlane extends TrackedResource {
   signaling?: SignalingConfiguration;
   /** Settings to allow interoperability with third party components e.g. RANs and UEs. */
   interopSettings?: Record<string, unknown>;
+  /**
+   * The provisioning state of the secret containing private keys and keyIds for SUPI concealment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly homeNetworkPrivateKeysProvisioning?: HomeNetworkPrivateKeysProvisioning;
+  /** The user consent configuration for the packet core. */
+  userConsent?: UserConsentConfiguration;
 }
 
 /** Packet core data plane resource. Must be created in the same location as its parent packet core control plane. */
@@ -1090,21 +1426,6 @@ export interface Service extends TrackedResource {
   serviceQosPolicy?: QosPolicy;
   /** The set of data flow policy rules that make up this service. */
   pccRules: PccRuleConfiguration[];
-}
-
-/** SIM group resource. */
-export interface SimGroup extends TrackedResource {
-  /** The identity used to retrieve the encryption key from Azure key vault. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * The provisioning state of the SIM group resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** A key to encrypt the SIM data that belongs to this SIM group. */
-  encryptionKey?: KeyVaultKey;
-  /** Mobile network that this SIM group belongs to. The mobile network must be in the same location as the SIM group. */
-  mobileNetwork?: MobileNetworkResourceId;
 }
 
 /** SIM policy resource. */
@@ -1216,6 +1537,16 @@ export interface PacketCapture extends ProxyResource {
   readonly outputFiles?: string[];
 }
 
+/** Routing information */
+export interface RoutingInfoModel extends ProxyResource {
+  /** A list of IPv4 routes. */
+  controlPlaneAccessRoutes?: Ipv4Route[];
+  /** A list of IPv4 routes. */
+  userPlaneAccessRoutes?: Ipv4Route[];
+  /** A list of attached data networks and their IPv4 routes. */
+  userPlaneDataRoutes?: UserPlaneDataRoutesItem[];
+}
+
 /** Packet core control plane version resource. */
 export interface PacketCoreControlPlaneVersion extends ProxyResource {
   /**
@@ -1272,6 +1603,35 @@ export interface Sim extends ProxyResource {
   operatorKeyCode?: string;
 }
 
+/** Extended User Equipment (UE) information. */
+export interface ExtendedUeInfo extends ProxyResource {
+  /** Extended UE Information Properties. */
+  properties: ExtendedUeInfoPropertiesUnion;
+}
+
+/** Basic UE Information. */
+export interface UeInfo extends ProxyResource {
+  /** RAT Type */
+  ratType: RatType;
+  /** State of the UE. */
+  ueState: UeState;
+  ueIpAddresses?: DnnIpPair[];
+  /** The timestamp of last list UEs call to the packet core (UTC). */
+  lastReadAt?: Date;
+}
+
+/** Defines headers for Sims_move operation. */
+export interface SimsMoveHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Sims_clone operation. */
+export interface SimsCloneHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Unknown */
@@ -1287,7 +1647,7 @@ export enum KnownProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -1310,7 +1670,7 @@ export enum KnownNaptEnabled {
   /** NAPT is enabled */
   Enabled = "Enabled",
   /** NAPT is disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1332,7 +1692,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1356,7 +1716,7 @@ export enum KnownDiagnosticsPackageStatus {
   /** Collected */
   Collected = "Collected",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -1371,6 +1731,24 @@ export enum KnownDiagnosticsPackageStatus {
  */
 export type DiagnosticsPackageStatus = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link PacketCaptureStatus} that the service accepts. */
 export enum KnownPacketCaptureStatus {
   /** NotStarted */
@@ -1380,7 +1758,7 @@ export enum KnownPacketCaptureStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -1400,7 +1778,7 @@ export enum KnownDesiredInstallationState {
   /** Don't install the packet core. */
   Uninstalled = "Uninstalled",
   /** Install the packet core. */
-  Installed = "Installed"
+  Installed = "Installed",
 }
 
 /**
@@ -1432,7 +1810,7 @@ export enum KnownInstallationState {
   /** The packet core is rolling back to its previous version. */
   RollingBack = "RollingBack",
   /** The packet core is in failed state. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1457,7 +1835,7 @@ export enum KnownReinstallRequired {
   /** A reinstall of the packet core is required. */
   Required = "Required",
   /** A reinstall of the packet core is not required. */
-  NotRequired = "NotRequired"
+  NotRequired = "NotRequired",
 }
 
 /**
@@ -1489,7 +1867,7 @@ export enum KnownInstallationReason {
   /** A reinstall is required as the packet core is running with out-of-date control plane access network virtual IP address. */
   ControlPlaneAccessVirtualIpv4AddressesHasChanged = "ControlPlaneAccessVirtualIpv4AddressesHasChanged",
   /** A reinstall is required as the packet core is running with out-of-date user plane access network virtual IP address. */
-  UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged"
+  UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged",
 }
 
 /**
@@ -1514,7 +1892,7 @@ export enum KnownPlatformType {
   /** If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. */
   AKSHCI = "AKS-HCI",
   /** If this option is chosen, you must set one of "azureStackHciCluster", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. */
-  ThreePAzureStackHCI = "3P-AZURE-STACK-HCI"
+  ThreePAzureStackHCI = "3P-AZURE-STACK-HCI",
 }
 
 /**
@@ -1538,7 +1916,7 @@ export enum KnownBillingSku {
   /** 5 Gbps, 500 active SIMs plan */
   G5 = "G5",
   /** 10 Gbps, 1000 active SIMs plan */
-  G10 = "G10"
+  G10 = "G10",
 }
 
 /**
@@ -1559,7 +1937,7 @@ export enum KnownAuthenticationType {
   /** Use AAD SSO to authenticate the user (this requires internet access). */
   AAD = "AAD",
   /** Use locally stored passwords to authenticate the user. */
-  Password = "Password"
+  Password = "Password",
 }
 
 /**
@@ -1579,7 +1957,7 @@ export enum KnownCertificateProvisioningState {
   /** The certificate has been provisioned. */
   Provisioned = "Provisioned",
   /** The certificate failed to be provisioned. The "reason" property explains why. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1593,23 +1971,47 @@ export enum KnownCertificateProvisioningState {
  */
 export type CertificateProvisioningState = string;
 
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
-export enum KnownManagedServiceIdentityType {
-  /** None */
-  None = "None",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned"
+/** Known values of {@link NasEncryptionType} that the service accepts. */
+export enum KnownNasEncryptionType {
+  /** NAS signaling is not encrypted. */
+  NEA0EEA0 = "NEA0/EEA0",
+  /** NAS signaling is encrypted with SNOW 3G cipher. */
+  NEA1EEA1 = "NEA1/EEA1",
+  /**  NAS signaling is encrypted with AES cipher. */
+  NEA2EEA2 = "NEA2/EEA2",
 }
 
 /**
- * Defines values for ManagedServiceIdentityType. \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ * Defines values for NasEncryptionType. \
+ * {@link KnownNasEncryptionType} can be used interchangeably with NasEncryptionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **UserAssigned**
+ * **NEA0\/EEA0**: NAS signaling is not encrypted. \
+ * **NEA1\/EEA1**: NAS signaling is encrypted with SNOW 3G cipher. \
+ * **NEA2\/EEA2**:  NAS signaling is encrypted with AES cipher.
  */
-export type ManagedServiceIdentityType = string;
+export type NasEncryptionType = string;
+
+/** Known values of {@link HomeNetworkPrivateKeysProvisioningState} that the service accepts. */
+export enum KnownHomeNetworkPrivateKeysProvisioningState {
+  /** Provisioning of the private keys for SUPI concealment has not been attempted. */
+  NotProvisioned = "NotProvisioned",
+  /** The private keys for SUPI concealment are successfully provisioned. */
+  Provisioned = "Provisioned",
+  /** Provisioning of the private keys for SUPI concealment has failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for HomeNetworkPrivateKeysProvisioningState. \
+ * {@link KnownHomeNetworkPrivateKeysProvisioningState} can be used interchangeably with HomeNetworkPrivateKeysProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotProvisioned**: Provisioning of the private keys for SUPI concealment has not been attempted. \
+ * **Provisioned**: The private keys for SUPI concealment are successfully provisioned. \
+ * **Failed**: Provisioning of the private keys for SUPI concealment has failed.
+ */
+export type HomeNetworkPrivateKeysProvisioningState = string;
 
 /** Known values of {@link VersionState} that the service accepts. */
 export enum KnownVersionState {
@@ -1624,7 +2026,7 @@ export enum KnownVersionState {
   /** This version is active and suitable for production use. */
   Active = "Active",
   /** This version is deprecated and is no longer supported. */
-  Deprecated = "Deprecated"
+  Deprecated = "Deprecated",
 }
 
 /**
@@ -1646,7 +2048,7 @@ export enum KnownRecommendedVersion {
   /** This is the recommended version to use for new packet core control plane deployments. */
   Recommended = "Recommended",
   /** This is not the recommended version to use for new packet core control plane deployments. */
-  NotRecommended = "NotRecommended"
+  NotRecommended = "NotRecommended",
 }
 
 /**
@@ -1664,7 +2066,7 @@ export enum KnownObsoleteVersion {
   /** This version is obsolete for use in new packet core control plane deployments. */
   Obsolete = "Obsolete",
   /** This version is not obsolete for use in new packet core control plane deployments. */
-  NotObsolete = "NotObsolete"
+  NotObsolete = "NotObsolete",
 }
 
 /**
@@ -1682,7 +2084,7 @@ export enum KnownPreemptionCapability {
   /** Cannot preempt */
   NotPreempt = "NotPreempt",
   /** May preempt */
-  MayPreempt = "MayPreempt"
+  MayPreempt = "MayPreempt",
 }
 
 /**
@@ -1700,7 +2102,7 @@ export enum KnownPreemptionVulnerability {
   /** Cannot be preempted */
   NotPreemptable = "NotPreemptable",
   /** May be preempted */
-  Preemptable = "Preemptable"
+  Preemptable = "Preemptable",
 }
 
 /**
@@ -1718,7 +2120,7 @@ export enum KnownTrafficControlPermission {
   /** Traffic matching this rule is allowed to flow. */
   Enabled = "Enabled",
   /** Traffic matching this rule is not allowed to flow. */
-  Blocked = "Blocked"
+  Blocked = "Blocked",
 }
 
 /**
@@ -1738,7 +2140,7 @@ export enum KnownSdfDirection {
   /** Traffic flowing from the data network to the UE. */
   Downlink = "Downlink",
   /** Traffic flowing both to and from the UE. */
-  Bidirectional = "Bidirectional"
+  Bidirectional = "Bidirectional",
 }
 
 /**
@@ -1759,7 +2161,7 @@ export enum KnownSimState {
   /** The SIM is enabled. */
   Enabled = "Enabled",
   /** The SIM cannot be enabled because some of the associated configuration is invalid. */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -1786,7 +2188,7 @@ export enum KnownSiteProvisioningState {
   /** The resource is provisioned on this site. */
   Provisioned = "Provisioned",
   /** The resource failed to be provisioned on this site. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1808,7 +2210,7 @@ export enum KnownPduSessionType {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -1820,6 +2222,114 @@ export enum KnownPduSessionType {
  * **IPv6**
  */
 export type PduSessionType = string;
+
+/** Known values of {@link RatType} that the service accepts. */
+export enum KnownRatType {
+  /** FourG */
+  FourG = "4G",
+  /** FiveG */
+  FiveG = "5G",
+}
+
+/**
+ * Defines values for RatType. \
+ * {@link KnownRatType} can be used interchangeably with RatType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **4G** \
+ * **5G**
+ */
+export type RatType = string;
+
+/** Known values of {@link UeState} that the service accepts. */
+export enum KnownUeState {
+  /** Connected */
+  Connected = "Connected",
+  /** Idle */
+  Idle = "Idle",
+  /** Detached */
+  Detached = "Detached",
+  /** Deregistered */
+  Deregistered = "Deregistered",
+  /** Unknown */
+  Unknown = "Unknown",
+}
+
+/**
+ * Defines values for UeState. \
+ * {@link KnownUeState} can be used interchangeably with UeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Connected** \
+ * **Idle** \
+ * **Detached** \
+ * **Deregistered** \
+ * **Unknown**
+ */
+export type UeState = string;
+
+/** Known values of {@link RrcEstablishmentCause} that the service accepts. */
+export enum KnownRrcEstablishmentCause {
+  /** Emergency */
+  Emergency = "Emergency",
+  /** MobileOriginatedSignaling */
+  MobileOriginatedSignaling = "MobileOriginatedSignaling",
+  /** MobileTerminatedSignaling */
+  MobileTerminatedSignaling = "MobileTerminatedSignaling",
+  /** MobileOriginatedData */
+  MobileOriginatedData = "MobileOriginatedData",
+  /** MobileTerminatedData */
+  MobileTerminatedData = "MobileTerminatedData",
+  /** SMS */
+  SMS = "SMS",
+}
+
+/**
+ * Defines values for RrcEstablishmentCause. \
+ * {@link KnownRrcEstablishmentCause} can be used interchangeably with RrcEstablishmentCause,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Emergency** \
+ * **MobileOriginatedSignaling** \
+ * **MobileTerminatedSignaling** \
+ * **MobileOriginatedData** \
+ * **MobileTerminatedData** \
+ * **SMS**
+ */
+export type RrcEstablishmentCause = string;
+
+/** Known values of {@link UeUsageSetting} that the service accepts. */
+export enum KnownUeUsageSetting {
+  /** VoiceCentric */
+  VoiceCentric = "VoiceCentric",
+  /** DataCentric */
+  DataCentric = "DataCentric",
+}
+
+/**
+ * Defines values for UeUsageSetting. \
+ * {@link KnownUeUsageSetting} can be used interchangeably with UeUsageSetting,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VoiceCentric** \
+ * **DataCentric**
+ */
+export type UeUsageSetting = string;
+
+/** Known values of {@link PdnType} that the service accepts. */
+export enum KnownPdnType {
+  /** IPV4 */
+  IPV4 = "IPV4",
+}
+
+/**
+ * Defines values for PdnType. \
+ * {@link KnownPdnType} can be used interchangeably with PdnType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPV4**
+ */
+export type PdnType = string;
 /** Defines values for CoreNetworkType. */
 export type CoreNetworkType = "5GC" | "EPC" | "EPC + 5GC";
 
@@ -1863,14 +2373,16 @@ export interface AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreDataPlane operation. */
-export type AttachedDataNetworksListByPacketCoreDataPlaneResponse = AttachedDataNetworkListResult;
+export type AttachedDataNetworksListByPacketCoreDataPlaneResponse =
+  AttachedDataNetworkListResult;
 
 /** Optional parameters. */
 export interface AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreDataPlaneNext operation. */
-export type AttachedDataNetworksListByPacketCoreDataPlaneNextResponse = AttachedDataNetworkListResult;
+export type AttachedDataNetworksListByPacketCoreDataPlaneNextResponse =
+  AttachedDataNetworkListResult;
 
 /** Optional parameters. */
 export interface DataNetworksDeleteOptionalParams
@@ -1954,14 +2466,16 @@ export interface DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlane operation. */
-export type DiagnosticsPackagesListByPacketCoreControlPlaneResponse = DiagnosticsPackageListResult;
+export type DiagnosticsPackagesListByPacketCoreControlPlaneResponse =
+  DiagnosticsPackageListResult;
 
 /** Optional parameters. */
 export interface DiagnosticsPackagesListByPacketCoreControlPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlaneNext operation. */
-export type DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse = DiagnosticsPackageListResult;
+export type DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse =
+  DiagnosticsPackageListResult;
 
 /** Optional parameters. */
 export interface MobileNetworksDeleteOptionalParams
@@ -2013,18 +2527,34 @@ export interface MobileNetworksListByResourceGroupOptionalParams
 export type MobileNetworksListByResourceGroupResponse = MobileNetworkListResult;
 
 /** Optional parameters. */
+export interface MobileNetworksListSimGroupsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSimGroups operation. */
+export type MobileNetworksListSimGroupsResponse = SimGroupListResult;
+
+/** Optional parameters. */
 export interface MobileNetworksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type MobileNetworksListBySubscriptionNextResponse = MobileNetworkListResult;
+export type MobileNetworksListBySubscriptionNextResponse =
+  MobileNetworkListResult;
 
 /** Optional parameters. */
 export interface MobileNetworksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type MobileNetworksListByResourceGroupNextResponse = MobileNetworkListResult;
+export type MobileNetworksListByResourceGroupNextResponse =
+  MobileNetworkListResult;
+
+/** Optional parameters. */
+export interface MobileNetworksListSimGroupsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSimGroupsNext operation. */
+export type MobileNetworksListSimGroupsNextResponse = SimGroupListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2085,14 +2615,16 @@ export interface PacketCapturesListByPacketCoreControlPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlane operation. */
-export type PacketCapturesListByPacketCoreControlPlaneResponse = PacketCaptureListResult;
+export type PacketCapturesListByPacketCoreControlPlaneResponse =
+  PacketCaptureListResult;
 
 /** Optional parameters. */
 export interface PacketCapturesListByPacketCoreControlPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlaneNext operation. */
-export type PacketCapturesListByPacketCoreControlPlaneNextResponse = PacketCaptureListResult;
+export type PacketCapturesListByPacketCoreControlPlaneNextResponse =
+  PacketCaptureListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesDeleteOptionalParams
@@ -2120,7 +2652,8 @@ export interface PacketCoreControlPlanesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PacketCoreControlPlanesCreateOrUpdateResponse = PacketCoreControlPlane;
+export type PacketCoreControlPlanesCreateOrUpdateResponse =
+  PacketCoreControlPlane;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesUpdateTagsOptionalParams
@@ -2134,14 +2667,16 @@ export interface PacketCoreControlPlanesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PacketCoreControlPlanesListBySubscriptionResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListBySubscriptionResponse =
+  PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PacketCoreControlPlanesListByResourceGroupResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListByResourceGroupResponse =
+  PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesRollbackOptionalParams
@@ -2177,63 +2712,93 @@ export interface PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
 }
 
 /** Contains response data for the collectDiagnosticsPackage operation. */
-export type PacketCoreControlPlanesCollectDiagnosticsPackageResponse = AsyncOperationStatus;
+export type PacketCoreControlPlanesCollectDiagnosticsPackageResponse =
+  AsyncOperationStatus;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PacketCoreControlPlanesListBySubscriptionNextResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListBySubscriptionNextResponse =
+  PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type PacketCoreControlPlanesListByResourceGroupNextResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListByResourceGroupNextResponse =
+  PacketCoreControlPlaneListResult;
+
+/** Optional parameters. */
+export interface RoutingInfoListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RoutingInfoListResponse = RoutingInfoListResult;
+
+/** Optional parameters. */
+export interface RoutingInfoGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoutingInfoGetResponse = RoutingInfoModel;
+
+/** Optional parameters. */
+export interface RoutingInfoListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RoutingInfoListNextResponse = RoutingInfoListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PacketCoreControlPlaneVersionsGetResponse = PacketCoreControlPlaneVersion;
+export type PacketCoreControlPlaneVersionsGetResponse =
+  PacketCoreControlPlaneVersion;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PacketCoreControlPlaneVersionsListResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBySubscription operation. */
-export type PacketCoreControlPlaneVersionsGetBySubscriptionResponse = PacketCoreControlPlaneVersion;
+export type PacketCoreControlPlaneVersionsGetBySubscriptionResponse =
+  PacketCoreControlPlaneVersion;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PacketCoreControlPlaneVersionsListBySubscriptionResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListBySubscriptionResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PacketCoreControlPlaneVersionsListNextResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListNextResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PacketCoreControlPlaneVersionsListBySubscriptionNextResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListBySubscriptionNextResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreDataPlanesDeleteOptionalParams
@@ -2275,14 +2840,16 @@ export interface PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlane operation. */
-export type PacketCoreDataPlanesListByPacketCoreControlPlaneResponse = PacketCoreDataPlaneListResult;
+export type PacketCoreDataPlanesListByPacketCoreControlPlaneResponse =
+  PacketCoreDataPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreDataPlanesListByPacketCoreControlPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlaneNext operation. */
-export type PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse = PacketCoreDataPlaneListResult;
+export type PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse =
+  PacketCoreDataPlaneListResult;
 
 /** Optional parameters. */
 export interface ServicesDeleteOptionalParams
@@ -2401,6 +2968,28 @@ export interface SimsBulkUploadEncryptedOptionalParams
 
 /** Contains response data for the bulkUploadEncrypted operation. */
 export type SimsBulkUploadEncryptedResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimsMoveOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the move operation. */
+export type SimsMoveResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimsCloneOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the clone operation. */
+export type SimsCloneResponse = AsyncOperationStatus;
 
 /** Optional parameters. */
 export interface SimsListByGroupNextOptionalParams
@@ -2624,6 +3213,27 @@ export interface SlicesListByMobileNetworkNextOptionalParams
 
 /** Contains response data for the listByMobileNetworkNext operation. */
 export type SlicesListByMobileNetworkNextResponse = SliceListResult;
+
+/** Optional parameters. */
+export interface ExtendedUeInformationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExtendedUeInformationGetResponse = ExtendedUeInfo;
+
+/** Optional parameters. */
+export interface UeInformationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UeInformationListResponse = UeInfoList;
+
+/** Optional parameters. */
+export interface UeInformationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UeInformationListNextResponse = UeInfoList;
 
 /** Optional parameters. */
 export interface MobileNetworkManagementClientOptionalParams

@@ -3,7 +3,6 @@ mpodwysocki is not a public member of Azure.
 minhanh-phan is not a public member of Azure.
 anilba06 is not a public member of Azure.
 dpwatrous is not a public member of Azure.
-There are no owners defined for CODEOWNERS entry.
 danielav7 is not a public member of Azure.
 miguhern is not a public member of Azure.
 RoyHerrod is not a public member of Azure.
@@ -18,8 +17,10 @@ KarishmaGhiya is not a public member of Azure.
 schaabs is not a public member of Azure.
 EmmaZhu is not a public member of Azure.
 RamonArguelles is not a public member of Azure.
+sagivf is not a public member of Azure.
 MaryGao is not a public member of Azure.
 JacksonWeber is not a public member of Azure.
+Aviv-Yaniv is not a public member of Azure.
 adamedx is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 Azure/aks-pm is an invalid team. Ensure the team exists and has write permissions.
 liadtal is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.

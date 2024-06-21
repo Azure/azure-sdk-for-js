@@ -329,6 +329,12 @@ export interface DiagnosticsUploadConfiguration {
 }
 
 // @public
+export interface DnnIpPair {
+    dnn?: string;
+    ipV4Addr?: string;
+}
+
+// @public
 export interface EncryptedSimPropertiesFormat extends CommonSimPropertiesFormat {
     encryptedCredentials?: string;
 }
@@ -370,7 +376,47 @@ export interface EventHubConfiguration {
 }
 
 // @public
+export interface ExtendedUeInfo extends ProxyResource {
+    properties: ExtendedUeInfoPropertiesUnion;
+}
+
+// @public
+export interface ExtendedUeInfoProperties {
+    lastReadAt?: Date;
+    ratType: "5G" | "4G";
+}
+
+// @public (undocumented)
+export type ExtendedUeInfoPropertiesUnion = ExtendedUeInfoProperties | UeInfo5G | UeInfo4G;
+
+// @public
+export interface ExtendedUeInformation {
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, ueId: string, options?: ExtendedUeInformationGetOptionalParams): Promise<ExtendedUeInformationGetResponse>;
+}
+
+// @public
+export interface ExtendedUeInformationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExtendedUeInformationGetResponse = ExtendedUeInfo;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public (undocumented)
+export interface HomeNetworkPrivateKeysProvisioning {
+    readonly state: HomeNetworkPrivateKeysProvisioningState;
+}
+
+// @public
+export type HomeNetworkPrivateKeysProvisioningState = string;
+
+// @public
+export interface HomeNetworkPublicKey {
+    id: number;
+    url?: string;
+}
 
 // @public
 export interface HttpsServerCertificate {
@@ -403,10 +449,25 @@ export type InstallationState = string;
 
 // @public
 export interface InterfaceProperties {
+    bfdIpv4Endpoints?: string[];
     ipv4Address?: string;
+    ipv4AddressList?: string[];
     ipv4Gateway?: string;
     ipv4Subnet?: string;
     name?: string;
+    vlanId?: number;
+}
+
+// @public
+export interface Ipv4Route {
+    destination?: string;
+    nextHops?: Ipv4RouteNextHop[];
+}
+
+// @public
+export interface Ipv4RouteNextHop {
+    address?: string;
+    priority?: number;
 }
 
 // @public
@@ -459,6 +520,13 @@ export enum KnownDiagnosticsPackageStatus {
 }
 
 // @public
+export enum KnownHomeNetworkPrivateKeysProvisioningState {
+    Failed = "Failed",
+    NotProvisioned = "NotProvisioned",
+    Provisioned = "Provisioned"
+}
+
+// @public
 export enum KnownInstallationReason {
     ControlPlaneAccessInterfaceHasChanged = "ControlPlaneAccessInterfaceHasChanged",
     ControlPlaneAccessVirtualIpv4AddressesHasChanged = "ControlPlaneAccessVirtualIpv4AddressesHasChanged",
@@ -497,6 +565,13 @@ export enum KnownNaptEnabled {
 }
 
 // @public
+export enum KnownNasEncryptionType {
+    NEA0EEA0 = "NEA0/EEA0",
+    NEA1EEA1 = "NEA1/EEA1",
+    NEA2EEA2 = "NEA2/EEA2"
+}
+
+// @public
 export enum KnownObsoleteVersion {
     NotObsolete = "NotObsolete",
     Obsolete = "Obsolete"
@@ -508,6 +583,11 @@ export enum KnownPacketCaptureStatus {
     NotStarted = "NotStarted",
     Running = "Running",
     Stopped = "Stopped"
+}
+
+// @public
+export enum KnownPdnType {
+    IPV4 = "IPV4"
 }
 
 // @public
@@ -546,6 +626,12 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRatType {
+    FiveG = "5G",
+    FourG = "4G"
+}
+
+// @public
 export enum KnownRecommendedVersion {
     NotRecommended = "NotRecommended",
     Recommended = "Recommended"
@@ -555,6 +641,16 @@ export enum KnownRecommendedVersion {
 export enum KnownReinstallRequired {
     NotRequired = "NotRequired",
     Required = "Required"
+}
+
+// @public
+export enum KnownRrcEstablishmentCause {
+    Emergency = "Emergency",
+    MobileOriginatedData = "MobileOriginatedData",
+    MobileOriginatedSignaling = "MobileOriginatedSignaling",
+    MobileTerminatedData = "MobileTerminatedData",
+    MobileTerminatedSignaling = "MobileTerminatedSignaling",
+    SMS = "SMS"
 }
 
 // @public
@@ -588,6 +684,21 @@ export enum KnownTrafficControlPermission {
 }
 
 // @public
+export enum KnownUeState {
+    Connected = "Connected",
+    Deregistered = "Deregistered",
+    Detached = "Detached",
+    Idle = "Idle",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownUeUsageSetting {
+    DataCentric = "DataCentric",
+    VoiceCentric = "VoiceCentric"
+}
+
+// @public
 export enum KnownVersionState {
     Active = "Active",
     Deprecated = "Deprecated",
@@ -607,7 +718,7 @@ export interface LocalDiagnosticsAccessConfiguration {
 export interface ManagedServiceIdentity {
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
@@ -616,8 +727,10 @@ export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MobileNetwork extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     readonly provisioningState?: ProvisioningState;
     publicLandMobileNetworkIdentifier: PlmnId;
+    publicLandMobileNetworks?: PublicLandMobileNetwork[];
     readonly serviceKey?: string;
 }
 
@@ -642,6 +755,8 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     diagnosticsPackages: DiagnosticsPackages;
     // (undocumented)
+    extendedUeInformation: ExtendedUeInformation;
+    // (undocumented)
     mobileNetworks: MobileNetworks;
     // (undocumented)
     operations: Operations;
@@ -653,6 +768,8 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
     // (undocumented)
     packetCoreDataPlanes: PacketCoreDataPlanes;
+    // (undocumented)
+    routingInfo: RoutingInfo;
     // (undocumented)
     services: Services;
     // (undocumented)
@@ -667,6 +784,8 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     slices: Slices;
     // (undocumented)
     subscriptionId?: string;
+    // (undocumented)
+    ueInformation: UeInformation;
 }
 
 // @public
@@ -690,7 +809,8 @@ export interface MobileNetworks {
     get(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksGetOptionalParams): Promise<MobileNetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: MobileNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
     listBySubscription(options?: MobileNetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, parameters: TagsObject, options?: MobileNetworksUpdateTagsOptionalParams): Promise<MobileNetworksUpdateTagsResponse>;
+    listSimGroups(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksListSimGroupsOptionalParams): PagedAsyncIterableIterator<SimGroup>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, parameters: IdentityAndTagsObject, options?: MobileNetworksUpdateTagsOptionalParams): Promise<MobileNetworksUpdateTagsResponse>;
 }
 
 // @public
@@ -744,6 +864,20 @@ export interface MobileNetworksListBySubscriptionOptionalParams extends coreClie
 export type MobileNetworksListBySubscriptionResponse = MobileNetworkListResult;
 
 // @public
+export interface MobileNetworksListSimGroupsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MobileNetworksListSimGroupsNextResponse = SimGroupListResult;
+
+// @public
+export interface MobileNetworksListSimGroupsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MobileNetworksListSimGroupsResponse = SimGroupListResult;
+
+// @public
 export interface MobileNetworksUpdateTagsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -761,6 +895,9 @@ export interface NaptConfiguration {
 
 // @public
 export type NaptEnabled = string;
+
+// @public
+export type NasEncryptionType = string;
 
 // @public
 export interface NASRerouteConfiguration {
@@ -896,6 +1033,7 @@ export interface PacketCoreControlPlane extends TrackedResource {
     coreNetworkTechnology?: CoreNetworkType;
     diagnosticsUpload?: DiagnosticsUploadConfiguration;
     eventHub?: EventHubConfiguration;
+    readonly homeNetworkPrivateKeysProvisioning?: HomeNetworkPrivateKeysProvisioning;
     identity?: ManagedServiceIdentity;
     installation?: Installation;
     readonly installedVersion?: string;
@@ -908,6 +1046,7 @@ export interface PacketCoreControlPlane extends TrackedResource {
     sites: SiteResourceId[];
     sku: BillingSku;
     ueMtu?: number;
+    userConsent?: UserConsentConfiguration;
     version?: string;
 }
 
@@ -1173,6 +1312,9 @@ export interface PccRuleQosPolicy extends QosPolicy {
 }
 
 // @public
+export type PdnType = string;
+
+// @public
 export type PduSessionType = string;
 
 // @public
@@ -1184,6 +1326,7 @@ export interface PinholeTimeouts {
 
 // @public
 export interface Platform {
+    haUpgradesAvailable?: string[];
     maximumPlatformSoftwareVersion?: string;
     minimumPlatformSoftwareVersion?: string;
     obsoleteVersion?: ObsoleteVersion;
@@ -1237,6 +1380,17 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface PublicLandMobileNetwork extends PlmnId {
+    homeNetworkPublicKeys?: PublicLandMobileNetworkHomeNetworkPublicKeys;
+}
+
+// @public
+export interface PublicLandMobileNetworkHomeNetworkPublicKeys {
+    profileA?: HomeNetworkPublicKey[];
+    profileB?: HomeNetworkPublicKey[];
+}
+
+// @public
 export interface QosPolicy {
     allocationAndRetentionPriorityLevel?: number;
     fiveQi?: number;
@@ -1244,6 +1398,9 @@ export interface QosPolicy {
     preemptionCapability?: PreemptionCapability;
     preemptionVulnerability?: PreemptionVulnerability;
 }
+
+// @public
+export type RatType = string;
 
 // @public
 export type RecommendedVersion = string;
@@ -1258,6 +1415,49 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface RoutingInfo {
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, options?: RoutingInfoGetOptionalParams): Promise<RoutingInfoGetResponse>;
+    list(resourceGroupName: string, packetCoreControlPlaneName: string, options?: RoutingInfoListOptionalParams): PagedAsyncIterableIterator<RoutingInfoModel>;
+}
+
+// @public
+export interface RoutingInfoGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoGetResponse = RoutingInfoModel;
+
+// @public
+export interface RoutingInfoListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoListNextResponse = RoutingInfoListResult;
+
+// @public
+export interface RoutingInfoListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoListResponse = RoutingInfoListResult;
+
+// @public
+export interface RoutingInfoListResult {
+    readonly nextLink?: string;
+    value?: RoutingInfoModel[];
+}
+
+// @public
+export interface RoutingInfoModel extends ProxyResource {
+    controlPlaneAccessRoutes?: Ipv4Route[];
+    userPlaneAccessRoutes?: Ipv4Route[];
+    userPlaneDataRoutes?: UserPlaneDataRoutesItem[];
+}
+
+// @public
+export type RrcEstablishmentCause = string;
 
 // @public
 export type SdfDirection = string;
@@ -1346,6 +1546,7 @@ export type ServicesUpdateTagsResponse = Service;
 
 // @public
 export interface SignalingConfiguration {
+    nasEncryption?: NasEncryptionType[];
     nasReroute?: NASRerouteConfiguration;
 }
 
@@ -1365,6 +1566,12 @@ export interface Sim extends ProxyResource {
     staticIpConfiguration?: SimStaticIpProperties[];
     readonly vendorKeyFingerprint?: string;
     readonly vendorName?: string;
+}
+
+// @public
+export interface SimClone {
+    sims?: string[];
+    targetSimGroupId?: SimGroupResourceId;
 }
 
 // @public
@@ -1464,6 +1671,12 @@ export type SimGroupsUpdateTagsResponse = SimGroup;
 export interface SimListResult {
     readonly nextLink?: string;
     value?: Sim[];
+}
+
+// @public
+export interface SimMove {
+    sims?: string[];
+    targetSimGroupId?: SimGroupResourceId;
 }
 
 // @public
@@ -1595,10 +1808,14 @@ export interface Sims {
     beginBulkUploadAndWait(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimsBulkUploadResponse>;
     beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadEncryptedResponse>, SimsBulkUploadEncryptedResponse>>;
     beginBulkUploadEncryptedAndWait(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimsBulkUploadEncryptedResponse>;
+    beginClone(resourceGroupName: string, simGroupName: string, parameters: SimClone, options?: SimsCloneOptionalParams): Promise<SimplePollerLike<OperationState<SimsCloneResponse>, SimsCloneResponse>>;
+    beginCloneAndWait(resourceGroupName: string, simGroupName: string, parameters: SimClone, options?: SimsCloneOptionalParams): Promise<SimsCloneResponse>;
     beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<void>;
+    beginMove(resourceGroupName: string, simGroupName: string, parameters: SimMove, options?: SimsMoveOptionalParams): Promise<SimplePollerLike<OperationState<SimsMoveResponse>, SimsMoveResponse>>;
+    beginMoveAndWait(resourceGroupName: string, simGroupName: string, parameters: SimMove, options?: SimsMoveOptionalParams): Promise<SimsMoveResponse>;
     get(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsGetOptionalParams): Promise<SimsGetResponse>;
     listByGroup(resourceGroupName: string, simGroupName: string, options?: SimsListByGroupOptionalParams): PagedAsyncIterableIterator<Sim>;
 }
@@ -1629,6 +1846,20 @@ export interface SimsBulkUploadOptionalParams extends coreClient.OperationOption
 
 // @public
 export type SimsBulkUploadResponse = AsyncOperationStatus;
+
+// @public
+export interface SimsCloneHeaders {
+    location?: string;
+}
+
+// @public
+export interface SimsCloneOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsCloneResponse = AsyncOperationStatus;
 
 // @public
 export interface SimsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1665,6 +1896,20 @@ export interface SimsListByGroupOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type SimsListByGroupResponse = SimListResult;
+
+// @public
+export interface SimsMoveHeaders {
+    location?: string;
+}
+
+// @public
+export interface SimsMoveOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsMoveResponse = AsyncOperationStatus;
 
 // @public
 export type SimState = string;
@@ -1892,9 +2137,171 @@ export interface TrackedResource extends Resource {
 export type TrafficControlPermission = string;
 
 // @public
+export interface UeInfo extends ProxyResource {
+    lastReadAt?: Date;
+    ratType: RatType;
+    // (undocumented)
+    ueIpAddresses?: DnnIpPair[];
+    ueState: UeState;
+}
+
+// @public
+export interface UeInfo4G extends ExtendedUeInfoProperties {
+    // (undocumented)
+    bitLength?: number;
+    code: number;
+    eNbId?: string;
+    enbS1ApId?: number;
+    // (undocumented)
+    gNBValue?: string;
+    groupId: number;
+    imei?: string;
+    imeisv?: string;
+    imsi: string;
+    lastActivityTime?: Date;
+    lastVisitedTai?: string;
+    locationType?: string;
+    mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
+    mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
+    mccInfoGutiPlmnMcc: string;
+    mmeS1ApId?: number;
+    mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
+    mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
+    mncInfoGutiPlmnMnc: string;
+    mTmsi: number;
+    n3IwfId?: string;
+    ngeNbId?: string;
+    nid?: string;
+    perUeTnla?: string;
+    ratType: "4G";
+    rrcEstablishmentCause?: RrcEstablishmentCause;
+    // (undocumented)
+    sessionInfo?: UeSessionInfo4G[];
+    tac?: string;
+    tngfId?: string;
+    ueState?: UeState;
+    ueUsageSetting?: UeUsageSetting;
+    wagfId?: string;
+}
+
+// @public
+export interface UeInfo5G extends ExtendedUeInfoProperties {
+    allowedNssai?: Snssai[];
+    amfUeNgapId?: number;
+    // (undocumented)
+    bitLength?: number;
+    eNbId?: string;
+    fivegTmsi: number;
+    // (undocumented)
+    gNBValue?: string;
+    lastActivityTime?: Date;
+    lastVisitedTai?: string;
+    locationType?: string;
+    mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
+    mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
+    mccInfoFivegGutiPlmnMcc: string;
+    mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
+    mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
+    mncInfoFivegGutiPlmnMnc: string;
+    n3IwfId?: string;
+    ngeNbId?: string;
+    nid?: string;
+    pei?: string;
+    perUeTnla?: string;
+    pointer: number;
+    ranUeNgapId?: number;
+    ratType: "5G";
+    regionId: number;
+    rrcEstablishmentCause?: RrcEstablishmentCause;
+    // (undocumented)
+    sessionInfo?: UeSessionInfo5G[];
+    setId: number;
+    supi: string;
+    tac?: string;
+    tngfId?: string;
+    ueState?: UeState;
+    ueUsageSetting?: UeUsageSetting;
+    wagfId?: string;
+}
+
+// @public
+export interface UeInfoList {
+    readonly nextLink?: string;
+    value?: UeInfo[];
+}
+
+// @public
+export interface UeInformation {
+    list(resourceGroupName: string, packetCoreControlPlaneName: string, options?: UeInformationListOptionalParams): PagedAsyncIterableIterator<UeInfo>;
+}
+
+// @public
+export interface UeInformationListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UeInformationListNextResponse = UeInfoList;
+
+// @public
+export interface UeInformationListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UeInformationListResponse = UeInfoList;
+
+// @public
+export interface UeQOSFlow {
+    downlinkGbrDownlink?: string;
+    downlinkMbrDownlink?: string;
+    fiveqi: number;
+    qfi: number;
+    uplinkGbrUplink?: string;
+    uplinkMbrUplink?: string;
+}
+
+// @public
+export interface UeSessionInfo4G {
+    apn: string;
+    ebi: number;
+    ipV4Addr?: string;
+    pdnType: PdnType;
+}
+
+// @public
+export interface UeSessionInfo5G {
+    dnn: string;
+    downlink: string;
+    ipV4Addr?: string;
+    pdnType: PdnType;
+    pduSessionId: number;
+    // (undocumented)
+    qosFlow: UeQOSFlow[];
+    sd?: string;
+    sst: number;
+    uplink: string;
+}
+
+// @public
+export type UeState = string;
+
+// @public
+export type UeUsageSetting = string;
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public (undocumented)
+export interface UserConsentConfiguration {
+    allowSupportTelemetryAccess?: boolean;
+}
+
+// @public (undocumented)
+export interface UserPlaneDataRoutesItem {
+    attachedDataNetwork?: AttachedDataNetworkResourceId;
+    routes?: Ipv4Route[];
 }
 
 // @public

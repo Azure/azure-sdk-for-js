@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { MetricsBatchQueryClient, MetricResultsResponseValuesItem } from "../../src";
+import { MetricsClient, MetricsQueryResult } from "../../src";
 import {
   RecorderAndMetricsBatchQueryClient,
   createRecorderAndMetricsBatchQueryClient,
@@ -16,7 +16,7 @@ describe.skip("MetricsBatchClient live tests", function () {
   let resourceIds: string[];
   let metricsNamespace: string;
   let metricNames: string[];
-  let metricsBatchQueryClient: MetricsBatchQueryClient;
+  let metricsBatchQueryClient: MetricsClient;
 
   beforeEach(async function (this: Context) {
     const recordedClient: RecorderAndMetricsBatchQueryClient =
@@ -34,7 +34,7 @@ describe.skip("MetricsBatchClient live tests", function () {
 
   it("batch query with no resource ids", async () => {
     try {
-      await metricsBatchQueryClient.queryBatch([], metricsNamespace, metricNames);
+      await metricsBatchQueryClient.queryResources([], metricNames, metricsNamespace);
       assert.fail("Code should not reach here.");
     } catch (e) {
       assert.equal(1, 1);
@@ -42,19 +42,19 @@ describe.skip("MetricsBatchClient live tests", function () {
   });
 
   it("batch query for 2 resource ids", async () => {
-    const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
+    const result: MetricsQueryResult[] = await metricsBatchQueryClient.queryResources(
       resourceIds,
-      metricsNamespace,
       metricNames,
+      metricsNamespace,
     );
     assert.equal(result.length, 2);
   });
 
   it("batch query for 1 resource id", async () => {
-    const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
+    const result: MetricsQueryResult[] = await metricsBatchQueryClient.queryResources(
       [resourceIds[0]],
-      metricsNamespace,
       metricNames,
+      metricsNamespace,
     );
     assert.equal(result.length, 1);
   });

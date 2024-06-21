@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -34,7 +34,7 @@ import {
   RuleSetsCreateResponse,
   RuleSetsDeleteOptionalParams,
   RuleSetsListByProfileNextResponse,
-  RuleSetsListResourceUsageNextResponse
+  RuleSetsListResourceUsageNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,12 +60,12 @@ export class RuleSetsImpl implements RuleSets {
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: RuleSetsListByProfileOptionalParams
+    options?: RuleSetsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<RuleSet> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return {
       next() {
@@ -82,9 +82,9 @@ export class RuleSetsImpl implements RuleSets {
           resourceGroupName,
           profileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     options?: RuleSetsListByProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RuleSet[]> {
     let result: RuleSetsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class RuleSetsImpl implements RuleSets {
       result = await this._listByProfile(
         resourceGroupName,
         profileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +112,7 @@ export class RuleSetsImpl implements RuleSets {
         resourceGroupName,
         profileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,12 +124,12 @@ export class RuleSetsImpl implements RuleSets {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: RuleSetsListByProfileOptionalParams
+    options?: RuleSetsListByProfileOptionalParams,
   ): AsyncIterableIterator<RuleSet> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
       profileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,13 +147,13 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsListResourceUsageOptionalParams
+    options?: RuleSetsListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
       profileName,
       ruleSetName,
-      options
+      options,
     );
     return {
       next() {
@@ -171,9 +171,9 @@ export class RuleSetsImpl implements RuleSets {
           profileName,
           ruleSetName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -182,7 +182,7 @@ export class RuleSetsImpl implements RuleSets {
     profileName: string,
     ruleSetName: string,
     options?: RuleSetsListResourceUsageOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: RuleSetsListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
@@ -191,7 +191,7 @@ export class RuleSetsImpl implements RuleSets {
         resourceGroupName,
         profileName,
         ruleSetName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -204,7 +204,7 @@ export class RuleSetsImpl implements RuleSets {
         profileName,
         ruleSetName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -217,13 +217,13 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsListResourceUsageOptionalParams
+    options?: RuleSetsListResourceUsageOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
       profileName,
       ruleSetName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -239,11 +239,11 @@ export class RuleSetsImpl implements RuleSets {
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: RuleSetsListByProfileOptionalParams
+    options?: RuleSetsListByProfileOptionalParams,
   ): Promise<RuleSetsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listByProfileOperationSpec
+      listByProfileOperationSpec,
     );
   }
 
@@ -260,11 +260,11 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsGetOptionalParams
+    options?: RuleSetsGetOptionalParams,
   ): Promise<RuleSetsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, ruleSetName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -280,11 +280,11 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsCreateOptionalParams
+    options?: RuleSetsCreateOptionalParams,
   ): Promise<RuleSetsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, ruleSetName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -301,25 +301,24 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsDeleteOptionalParams
+    options?: RuleSetsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -328,8 +327,8 @@ export class RuleSetsImpl implements RuleSets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -337,20 +336,20 @@ export class RuleSetsImpl implements RuleSets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, ruleSetName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -369,13 +368,13 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsDeleteOptionalParams
+    options?: RuleSetsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       ruleSetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -392,11 +391,11 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsListResourceUsageOptionalParams
+    options?: RuleSetsListResourceUsageOptionalParams,
   ): Promise<RuleSetsListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, ruleSetName, options },
-      listResourceUsageOperationSpec
+      listResourceUsageOperationSpec,
     );
   }
 
@@ -412,11 +411,11 @@ export class RuleSetsImpl implements RuleSets {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: RuleSetsListByProfileNextOptionalParams
+    options?: RuleSetsListByProfileNextOptionalParams,
   ): Promise<RuleSetsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listByProfileNextOperationSpec
+      listByProfileNextOperationSpec,
     );
   }
 
@@ -434,11 +433,11 @@ export class RuleSetsImpl implements RuleSets {
     profileName: string,
     ruleSetName: string,
     nextLink: string,
-    options?: RuleSetsListResourceUsageNextOptionalParams
+    options?: RuleSetsListResourceUsageNextOptionalParams,
   ): Promise<RuleSetsListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, ruleSetName, nextLink, options },
-      listResourceUsageNextOperationSpec
+      listResourceUsageNextOperationSpec,
     );
   }
 }
@@ -446,38 +445,15 @@ export class RuleSetsImpl implements RuleSets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleSetListResult
+      bodyMapper: Mappers.RuleSetListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RuleSet
+      bodyMapper: Mappers.AfdErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -485,25 +461,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.ruleSetName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RuleSet,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+    Parameters.ruleSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleSet
+      bodyMapper: Mappers.RuleSet,
     },
     201: {
-      bodyMapper: Mappers.RuleSet
+      bodyMapper: Mappers.RuleSet,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -511,14 +507,13 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -526,8 +521,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -535,22 +530,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listResourceUsageOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/usages",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UsagesListResult
+      bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -558,42 +552,21 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleSetListResult
+      bodyMapper: Mappers.RuleSetListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName1,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UsagesListResult
+      bodyMapper: Mappers.AfdErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
   },
   urlParameters: [
     Parameters.$host,
@@ -601,8 +574,29 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.nextLink,
-    Parameters.ruleSetName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UsagesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+    Parameters.nextLink,
+    Parameters.ruleSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

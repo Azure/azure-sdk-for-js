@@ -11,7 +11,7 @@ import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByServerOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse
+  PrivateEndpointConnectionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface PrivateEndpointConnections {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: PrivateEndpointConnectionsListByServerOptionalParams
+    options?: PrivateEndpointConnectionsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets a private endpoint connection.
@@ -39,6 +39,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
 }

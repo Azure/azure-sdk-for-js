@@ -11,10 +11,11 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  NetworkSecurityPerimeterConfigurationsImpl,
   DatabaseAccountsImpl,
   OperationsImpl,
   DatabaseImpl,
@@ -28,12 +29,14 @@ import {
   CollectionPartitionImpl,
   PartitionKeyRangeIdImpl,
   PartitionKeyRangeIdRegionImpl,
+  GraphResourcesImpl,
   SqlResourcesImpl,
   MongoDBResourcesImpl,
   TableResourcesImpl,
   CassandraResourcesImpl,
   GremlinResourcesImpl,
   LocationsImpl,
+  DataTransferJobsImpl,
   CassandraClustersImpl,
   CassandraDataCentersImpl,
   NotebookWorkspacesImpl,
@@ -51,9 +54,14 @@ import {
   RestorableGremlinResourcesImpl,
   RestorableTablesImpl,
   RestorableTableResourcesImpl,
-  ServiceImpl
+  ServiceImpl,
+  ThroughputPoolsImpl,
+  ThroughputPoolImpl,
+  ThroughputPoolAccountsImpl,
+  ThroughputPoolAccountImpl,
 } from "./operations";
 import {
+  NetworkSecurityPerimeterConfigurations,
   DatabaseAccounts,
   Operations,
   Database,
@@ -67,12 +75,14 @@ import {
   CollectionPartition,
   PartitionKeyRangeId,
   PartitionKeyRangeIdRegion,
+  GraphResources,
   SqlResources,
   MongoDBResources,
   TableResources,
   CassandraResources,
   GremlinResources,
   Locations,
+  DataTransferJobs,
   CassandraClusters,
   CassandraDataCenters,
   NotebookWorkspaces,
@@ -90,7 +100,11 @@ import {
   RestorableGremlinResources,
   RestorableTables,
   RestorableTableResources,
-  Service
+  Service,
+  ThroughputPools,
+  ThroughputPool,
+  ThroughputPoolAccounts,
+  ThroughputPoolAccount,
 } from "./operationsInterfaces";
 import { CosmosDBManagementClientOptionalParams } from "./models";
 
@@ -102,13 +116,13 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: CosmosDBManagementClientOptionalParams
+    options?: CosmosDBManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -123,10 +137,10 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     }
     const defaults: CosmosDBManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cosmosdb/15.6.1`;
+    const packageDetails = `azsdk-js-arm-cosmosdb/16.0.0-beta.8`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -136,20 +150,21 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -159,7 +174,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -169,9 +184,9 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -179,7 +194,9 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-15";
+    this.apiVersion = options.apiVersion || "2024-05-15-preview";
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
@@ -193,12 +210,14 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.collectionPartition = new CollectionPartitionImpl(this);
     this.partitionKeyRangeId = new PartitionKeyRangeIdImpl(this);
     this.partitionKeyRangeIdRegion = new PartitionKeyRangeIdRegionImpl(this);
+    this.graphResources = new GraphResourcesImpl(this);
     this.sqlResources = new SqlResourcesImpl(this);
     this.mongoDBResources = new MongoDBResourcesImpl(this);
     this.tableResources = new TableResourcesImpl(this);
     this.cassandraResources = new CassandraResourcesImpl(this);
     this.gremlinResources = new GremlinResourcesImpl(this);
     this.locations = new LocationsImpl(this);
+    this.dataTransferJobs = new DataTransferJobsImpl(this);
     this.cassandraClusters = new CassandraClustersImpl(this);
     this.cassandraDataCenters = new CassandraDataCentersImpl(this);
     this.notebookWorkspaces = new NotebookWorkspacesImpl(this);
@@ -210,7 +229,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.restorableSqlResources = new RestorableSqlResourcesImpl(this);
     this.restorableMongodbDatabases = new RestorableMongodbDatabasesImpl(this);
     this.restorableMongodbCollections = new RestorableMongodbCollectionsImpl(
-      this
+      this,
     );
     this.restorableMongodbResources = new RestorableMongodbResourcesImpl(this);
     this.restorableGremlinDatabases = new RestorableGremlinDatabasesImpl(this);
@@ -219,6 +238,10 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.restorableTables = new RestorableTablesImpl(this);
     this.restorableTableResources = new RestorableTableResourcesImpl(this);
     this.service = new ServiceImpl(this);
+    this.throughputPools = new ThroughputPoolsImpl(this);
+    this.throughputPool = new ThroughputPoolImpl(this);
+    this.throughputPoolAccounts = new ThroughputPoolAccountsImpl(this);
+    this.throughputPoolAccount = new ThroughputPoolAccountImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -231,7 +254,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -245,11 +268,12 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
   databaseAccounts: DatabaseAccounts;
   operations: Operations;
   database: Database;
@@ -263,12 +287,14 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   collectionPartition: CollectionPartition;
   partitionKeyRangeId: PartitionKeyRangeId;
   partitionKeyRangeIdRegion: PartitionKeyRangeIdRegion;
+  graphResources: GraphResources;
   sqlResources: SqlResources;
   mongoDBResources: MongoDBResources;
   tableResources: TableResources;
   cassandraResources: CassandraResources;
   gremlinResources: GremlinResources;
   locations: Locations;
+  dataTransferJobs: DataTransferJobs;
   cassandraClusters: CassandraClusters;
   cassandraDataCenters: CassandraDataCenters;
   notebookWorkspaces: NotebookWorkspaces;
@@ -287,4 +313,8 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   restorableTables: RestorableTables;
   restorableTableResources: RestorableTableResources;
   service: Service;
+  throughputPools: ThroughputPools;
+  throughputPool: ThroughputPool;
+  throughputPoolAccounts: ThroughputPoolAccounts;
+  throughputPoolAccount: ThroughputPoolAccount;
 }

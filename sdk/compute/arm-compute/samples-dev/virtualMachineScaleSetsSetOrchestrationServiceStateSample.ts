@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   OrchestrationServiceStateInput,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
  * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen() {
   const subscriptionId =
@@ -31,15 +31,16 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
-    serviceName: "AutomaticRepairs"
+    serviceName: "AutomaticRepairs",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -47,7 +48,7 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen() {
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
  * @summary Changes ServiceState property for a given service
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen() {
   const subscriptionId =
@@ -57,15 +58,16 @@ async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
-    serviceName: "AutomaticRepairs"
+    serviceName: "AutomaticRepairs",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 

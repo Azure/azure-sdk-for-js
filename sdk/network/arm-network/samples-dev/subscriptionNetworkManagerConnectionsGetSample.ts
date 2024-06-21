@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a specified connection created by this subscription.
  *
  * @summary Get a specified connection created by this subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerConnectionSubscriptionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerConnectionSubscriptionGet.json
  */
 async function getSubscriptionNetworkManagerConnection() {
   const subscriptionId =

@@ -4,6 +4,8 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
 
 # Table of contents
 
+- [Javascript Codegen Quick Start for Test](#javascript-codegen-quick-start-for-test)
+- [Table of contents](#table-of-contents)
 - [Background](#background)
 - [Prerequisites](#prerequisites)
 - [How to run test](#how-to-run-test)
@@ -23,7 +25,10 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
       - [AzureAD OAuth2 Authentication](#azuread-oauth2-authentication)
       - [API Key Authentication](#api-key-authentication)
   - [Example 1: Basic RLC test interaction and recording for Azure data-plane service](#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service)
+    - [`glossary.spec.ts`](#glossaryspects)
+    - [`utils/recordedClient.ts`](#utilsrecordedclientts)
   - [Example 2: Basic HLC test interaction and recording for Azure management service](#example-2-basic-hlc-test-interaction-and-recording-for-azure-management-service)
+    - [`monitor.spec.ts`](#monitorspects)
 
 # Background
 
@@ -172,6 +177,10 @@ Example `assets.json` with an empty tag:
 }
 ```
 
+After init the assets.json file, [run your test with record mode](#run-tests-in-record-mode)
+
+`Notice`: If you have already run tests in record mode before, you need to re-run the tests again to make sure that your records can be pushed later.
+
 Then go to the next step to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
 
 #### Existing package - Tests have been pushed before
@@ -180,7 +189,7 @@ At this point, you should have an `assets.json` file under your SDK. `sdk/<servi
 With asset sync enabled, there is one extra step that must be taken before you create a PR with changes to recorded tests: you must push the new recordings to the assets repo. This is done with the following command:
 
  `Notice`:
-       the tests have to be recorded using the `TEST_MODE=record`, then the recording files will be generate. And then you can push them to `assets repo`
+       the tests have to be recorded using the `TEST_MODE=record` environment variable in order for the recording files to be generated, then you can push them to `assets repo`
 
 ```bash
 npx dev-tool test-proxy push
@@ -224,7 +233,7 @@ Adding runnable tests requires both a good understanding of the service, and the
 
 ### Client authentication
 
-There are several ways to authenticate to Azure and most common ways are AzureAD OAuth2 authentication and API key authentication. Before adding tests you are supposed to know what your services support and ensure you or service principal have rights to perform actions in test.
+There are several ways to authenticate to Azure and most common ways are AzureAD OAuth2 authentication and API key authentication. Before adding tests you are expected to know what your services support and ensure you or service principal have rights to perform actions in test.
 
 #### AzureAD OAuth2 Authentication
 

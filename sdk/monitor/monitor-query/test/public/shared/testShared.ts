@@ -9,12 +9,7 @@ import {
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { createClientLogger } from "@azure/logger";
-import {
-  LogsQueryClient,
-  LogsTable,
-  MetricsQueryClient,
-  MetricsBatchQueryClient,
-} from "../../../src";
+import { LogsQueryClient, LogsTable, MetricsQueryClient, MetricsClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
@@ -33,6 +28,9 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 export interface RecorderAndLogsClient {
   client: LogsQueryClient;
@@ -45,7 +43,7 @@ export interface RecorderAndMetricsClient {
 }
 
 export interface RecorderAndMetricsBatchQueryClient {
-  client: MetricsBatchQueryClient;
+  client: MetricsClient;
   // recorder: Recorder;
 }
 
@@ -54,7 +52,7 @@ export async function createRecorderAndMetricsBatchQueryClient(): Promise<Record
   const testCredential = createTestCredential();
   const batchEndPoint =
     env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
-  const client = new MetricsBatchQueryClient(batchEndPoint, testCredential);
+  const client = new MetricsClient(batchEndPoint, testCredential);
 
   return {
     client: client,
@@ -89,10 +87,10 @@ export async function createRecorderAndMetricsClient(
   recorder: Recorder,
 ): Promise<RecorderAndMetricsClient> {
   await recorder.start(recorderOptions);
-  const client = new MetricsQueryClient(
-    createTestCredential(),
-    recorder.configureClientOptions({}),
-  );
+  const client = new MetricsQueryClient(createTestCredential(), {
+    audience: "https://management.azure.com",
+    ...recorder.configureClientOptions({}),
+  });
 
   return {
     client: client,

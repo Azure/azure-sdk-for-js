@@ -22,7 +22,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -60,7 +60,20 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces create test", async function () {
-    const res = await client.namespaces.createOrUpdate(resourceGroup, nameSpaceName, { location: location });
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup,
+      nameSpaceName,
+      {
+        networkAcls: {
+          ipRules: [
+            { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
+          ],
+          publicNetworkRule: { rights: ["Listen"] },
+        },
+        zoneRedundancy: "Enabled",
+        sku: { name: "Standard", tier: "Standard" },
+        tags: { tag1: "value1", tag2: "value2" },
+        location: location
+      }, testPollingOptions);
     assert.equal(res.name, nameSpaceName);
   });
 
@@ -71,6 +84,7 @@ describe("NotificationHubs test", () => {
 
   it("notificationHubs create test", async function () {
     const res = await client.notificationHubs.createOrUpdate(resourceGroup, nameSpaceName, notificationhubsName, { location: location });
+    await delay(100000);
     assert.equal(res.name, notificationhubsName);
   });
 
@@ -97,6 +111,6 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, nameSpaceName, testPollingOptions);
+    const res = await client.namespaces.delete(resourceGroup, nameSpaceName);
   });
 });

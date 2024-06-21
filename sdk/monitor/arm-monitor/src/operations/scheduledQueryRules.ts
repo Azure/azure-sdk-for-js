@@ -30,7 +30,7 @@ import {
   ScheduledQueryRulesUpdateResponse,
   ScheduledQueryRulesDeleteOptionalParams,
   ScheduledQueryRulesListBySubscriptionNextResponse,
-  ScheduledQueryRulesListByResourceGroupNextResponse
+  ScheduledQueryRulesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ScheduledQueryRulesListBySubscriptionOptionalParams
+    options?: ScheduledQueryRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ScheduledQueryRuleResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -66,13 +66,13 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ScheduledQueryRulesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ScheduledQueryRuleResource[]> {
     let result: ScheduledQueryRulesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ScheduledQueryRulesListBySubscriptionOptionalParams
+    options?: ScheduledQueryRulesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ScheduledQueryRuleResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -107,7 +107,7 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ScheduledQueryRulesListByResourceGroupOptionalParams
+    options?: ScheduledQueryRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ScheduledQueryRuleResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -124,16 +124,16 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ScheduledQueryRulesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ScheduledQueryRuleResource[]> {
     let result: ScheduledQueryRulesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -148,7 +148,7 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -159,11 +159,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ScheduledQueryRulesListByResourceGroupOptionalParams
+    options?: ScheduledQueryRulesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ScheduledQueryRuleResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -174,11 +174,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ScheduledQueryRulesListBySubscriptionOptionalParams
+    options?: ScheduledQueryRulesListBySubscriptionOptionalParams,
   ): Promise<ScheduledQueryRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -189,11 +189,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ScheduledQueryRulesListByResourceGroupOptionalParams
+    options?: ScheduledQueryRulesListByResourceGroupOptionalParams,
   ): Promise<ScheduledQueryRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -206,11 +206,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
   get(
     resourceGroupName: string,
     ruleName: string,
-    options?: ScheduledQueryRulesGetOptionalParams
+    options?: ScheduledQueryRulesGetOptionalParams,
   ): Promise<ScheduledQueryRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -225,11 +225,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
     resourceGroupName: string,
     ruleName: string,
     parameters: ScheduledQueryRuleResource,
-    options?: ScheduledQueryRulesCreateOrUpdateOptionalParams
+    options?: ScheduledQueryRulesCreateOrUpdateOptionalParams,
   ): Promise<ScheduledQueryRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -244,11 +244,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
     resourceGroupName: string,
     ruleName: string,
     parameters: ScheduledQueryRuleResourcePatch,
-    options?: ScheduledQueryRulesUpdateOptionalParams
+    options?: ScheduledQueryRulesUpdateOptionalParams,
   ): Promise<ScheduledQueryRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -261,11 +261,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
   delete(
     resourceGroupName: string,
     ruleName: string,
-    options?: ScheduledQueryRulesDeleteOptionalParams
+    options?: ScheduledQueryRulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -276,11 +276,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ScheduledQueryRulesListBySubscriptionNextOptionalParams
+    options?: ScheduledQueryRulesListBySubscriptionNextOptionalParams,
   ): Promise<ScheduledQueryRulesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -293,11 +293,11 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ScheduledQueryRulesListByResourceGroupNextOptionalParams
+    options?: ScheduledQueryRulesListByResourceGroupNextOptionalParams,
   ): Promise<ScheduledQueryRulesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -305,173 +305,167 @@ export class ScheduledQueryRulesImpl implements ScheduledQueryRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/scheduledQueryRules",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/scheduledQueryRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection
+      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection
+      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduledQueryRuleResource
+      bodyMapper: Mappers.ScheduledQueryRuleResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduledQueryRuleResource
+      bodyMapper: Mappers.ScheduledQueryRuleResource,
     },
     201: {
-      bodyMapper: Mappers.ScheduledQueryRuleResource
+      bodyMapper: Mappers.ScheduledQueryRuleResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduledQueryRuleResource
+      bodyMapper: Mappers.ScheduledQueryRuleResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection
+      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection
+      bodyMapper: Mappers.ScheduledQueryRuleResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

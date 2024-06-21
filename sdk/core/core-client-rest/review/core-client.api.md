@@ -154,7 +154,7 @@ export type PathUncheckedResponse = HttpResponse & {
 };
 
 // @public
-export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
+export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown, __legacyError?: unknown) => void;
 
 // @public
 export type RequestParameters = {

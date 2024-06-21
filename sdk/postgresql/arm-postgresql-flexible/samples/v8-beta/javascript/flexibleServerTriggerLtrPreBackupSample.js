@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to PreBackup operation performs all the checks that are needed for the subsequent long term retention backup operation to succeed.
  *
  * @summary PreBackup operation performs all the checks that are needed for the subsequent long term retention backup operation to succeed.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/LongTermRetentionPreBackup.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/LongTermRetentionPreBackup.json
  */
 async function samplePrebackup() {
   const subscriptionId =

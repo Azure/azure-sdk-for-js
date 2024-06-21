@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an IoT Connector FHIR destination.
  *
  * @summary Deletes an IoT Connector FHIR destination.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_fhirdestination_Delete.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_fhirdestination_Delete.json
  */
 async function deleteAnIoTConnectorDestination() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function deleteAnIoTConnectorDestination() {
     resourceGroupName,
     workspaceName,
     iotConnectorName,
-    fhirDestinationName
+    fhirDestinationName,
   );
   console.log(result);
 }

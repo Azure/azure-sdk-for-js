@@ -30,7 +30,7 @@ async function getsAListOfPreconfiguredEndpoints() {
   const resArray = new Array();
   for await (let item of client.preconfiguredEndpoints.list(
     resourceGroupName,
-    profileName
+    profileName,
   )) {
     resArray.push(item);
   }

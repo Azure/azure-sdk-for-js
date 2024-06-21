@@ -199,6 +199,7 @@ export interface StoragePipelineOptions {
   httpClient?: IHttpClient;
   /**
    * The audience used to retrieve an AAD token.
+   * By default, audience 'https://storage.azure.com/.default' will be used.
    */
   audience?: string | string[];
 }

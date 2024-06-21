@@ -24,7 +24,13 @@ import {
   SimsBulkDeleteResponse,
   EncryptedSimUploadList,
   SimsBulkUploadEncryptedOptionalParams,
-  SimsBulkUploadEncryptedResponse
+  SimsBulkUploadEncryptedResponse,
+  SimMove,
+  SimsMoveOptionalParams,
+  SimsMoveResponse,
+  SimClone,
+  SimsCloneOptionalParams,
+  SimsCloneResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +45,7 @@ export interface Sims {
   listByGroup(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListByGroupOptionalParams
+    options?: SimsListByGroupOptionalParams,
   ): PagedAsyncIterableIterator<Sim>;
   /**
    * Deletes the specified SIM.
@@ -52,7 +58,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    options?: SimsDeleteOptionalParams
+    options?: SimsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified SIM.
@@ -65,7 +71,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    options?: SimsDeleteOptionalParams
+    options?: SimsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified SIM.
@@ -78,7 +84,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    options?: SimsGetOptionalParams
+    options?: SimsGetOptionalParams,
   ): Promise<SimsGetResponse>;
   /**
    * Creates or updates a SIM.
@@ -93,7 +99,7 @@ export interface Sims {
     simGroupName: string,
     simName: string,
     parameters: Sim,
-    options?: SimsCreateOrUpdateOptionalParams
+    options?: SimsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SimsCreateOrUpdateResponse>,
@@ -113,7 +119,7 @@ export interface Sims {
     simGroupName: string,
     simName: string,
     parameters: Sim,
-    options?: SimsCreateOrUpdateOptionalParams
+    options?: SimsCreateOrUpdateOptionalParams,
   ): Promise<SimsCreateOrUpdateResponse>;
   /**
    * Bulk upload SIMs to a SIM group.
@@ -126,7 +132,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimUploadList,
-    options?: SimsBulkUploadOptionalParams
+    options?: SimsBulkUploadOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SimsBulkUploadResponse>,
@@ -144,7 +150,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimUploadList,
-    options?: SimsBulkUploadOptionalParams
+    options?: SimsBulkUploadOptionalParams,
   ): Promise<SimsBulkUploadResponse>;
   /**
    * Bulk delete SIMs from a SIM group.
@@ -157,7 +163,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimDeleteList,
-    options?: SimsBulkDeleteOptionalParams
+    options?: SimsBulkDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SimsBulkDeleteResponse>,
@@ -175,7 +181,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimDeleteList,
-    options?: SimsBulkDeleteOptionalParams
+    options?: SimsBulkDeleteOptionalParams,
   ): Promise<SimsBulkDeleteResponse>;
   /**
    * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
@@ -188,7 +194,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: EncryptedSimUploadList,
-    options?: SimsBulkUploadEncryptedOptionalParams
+    options?: SimsBulkUploadEncryptedOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SimsBulkUploadEncryptedResponse>,
@@ -206,6 +212,62 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: EncryptedSimUploadList,
-    options?: SimsBulkUploadEncryptedOptionalParams
+    options?: SimsBulkUploadEncryptedOptionalParams,
   ): Promise<SimsBulkUploadEncryptedResponse>;
+  /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  beginMove(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsMoveResponse>, SimsMoveResponse>
+  >;
+  /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  beginMoveAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<SimsMoveResponse>;
+  /**
+   * Clone SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to clone the SIMs.
+   * @param options The options parameters.
+   */
+  beginClone(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsCloneResponse>, SimsCloneResponse>
+  >;
+  /**
+   * Clone SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to clone the SIMs.
+   * @param options The options parameters.
+   */
+  beginCloneAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<SimsCloneResponse>;
 }

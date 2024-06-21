@@ -29,7 +29,7 @@ async function updatesASqlVirtualMachineGroupTags() {
   const result = await client.sqlVirtualMachineGroups.beginUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

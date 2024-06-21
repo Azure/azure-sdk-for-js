@@ -12,6 +12,8 @@ Customers with an [Azure support plan](https://azure.microsoft.com/support/optio
 We use [GitHub Issues](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to track bugs, questions, and feature requests.
 GitHub issues are free, but **response time is not guaranteed.** See [GitHub issues support process](https://devblogs.microsoft.com/azure-sdk/github-issue-support-process/) for more details.
 
+To ensure the relevance and manageability of our issue queue, we have an automated process that will close issues that are over two years old and have not been updated in the last 30 days. This measure is designed to help us respond to and resolve current issues more efficiently. We appreciate your understanding and cooperation in maintaining a focused and up-to-date issue tracking system.
+
 ### Community resources
 
 - Take a look at the [Azure SDK blog](https://devblogs.microsoft.com/azure-sdk/).
@@ -32,6 +34,11 @@ Further information, including the MSRC PGP key, can be found in the [Security T
 ## Microsoft Support Policy
 
 The Azure SDK libraries for JavaScript will not be guaranteed to work on Node.js versions that have reached their end of life. Dropping support for such Node.js versions may be done without increasing the major version of the Azure SDK libraries.
+
+We will announce Node.js engine support changes 3 to 6 months beforehand via:
+
+- The [Azure SDK Blog](https://devblogs.microsoft.com/azure-sdk/).
+- A [pinned issue](https://github.com/Azure/azure-sdk-for-js/issues).
 
 We strongly recommend migration to [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) to be eligible for technical support. In terms of browsers, we support latest versions of Safari, Chrome, Edge and Firefox.
 

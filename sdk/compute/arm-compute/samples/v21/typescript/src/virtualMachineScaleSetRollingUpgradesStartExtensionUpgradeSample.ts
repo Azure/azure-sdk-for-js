@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
  *
  * @summary Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_RollingUpgrade.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_RollingUpgrade.json
  */
 async function startAnExtensionRollingUpgrade() {
   const subscriptionId =
@@ -28,10 +28,11 @@ async function startAnExtensionRollingUpgrade() {
   const vmScaleSetName = "{vmss-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetRollingUpgrades.beginStartExtensionUpgradeAndWait(
-    resourceGroupName,
-    vmScaleSetName
-  );
+  const result =
+    await client.virtualMachineScaleSetRollingUpgrades.beginStartExtensionUpgradeAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+    );
   console.log(result);
 }
 

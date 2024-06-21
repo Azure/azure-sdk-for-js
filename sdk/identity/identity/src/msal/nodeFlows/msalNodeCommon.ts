@@ -5,7 +5,12 @@ import * as msalNode from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AppType, AuthenticationRecord, MsalResult } from "../types";
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import {
+  CACHE_CAE_SUFFIX,
+  CACHE_NON_CAE_SUFFIX,
+  DEFAULT_TOKEN_CACHE_NAME,
+  DeveloperSignOnClientId,
+} from "../../constants";
 import { CredentialLogger, formatSuccess } from "../../util/logging";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
@@ -33,8 +38,8 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
-import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 
 /**
@@ -126,12 +131,13 @@ export abstract class MsalNode implements MsalFlow {
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
+      const cacheBaseName = options.tokenCachePersistenceOptions.name || DEFAULT_TOKEN_CACHE_NAME;
       const nonCaeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_NON_CAE_SUFFIX}`,
+        name: `${cacheBaseName}.${CACHE_NON_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       const caeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_CAE_SUFFIX}`,
+        name: `${cacheBaseName}.${CACHE_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       this.createCachePlugin = () => persistenceProvider!(nonCaeOptions);
@@ -159,10 +165,7 @@ export abstract class MsalNode implements MsalFlow {
       );
     }
 
-    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
-    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
-      this.azureRegion = "AUTO_DISCOVER";
-    }
+    this.azureRegion = calculateRegionalAuthority(options.regionalAuthority);
   }
 
   /**
@@ -445,7 +448,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         this.cachedClaims = optionsClaims;
       }
       if (this.cachedClaims && !optionsClaims) {
-        (options as any).claims = this.cachedClaims;
+        options.claims = this.cachedClaims;
       }
       // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);

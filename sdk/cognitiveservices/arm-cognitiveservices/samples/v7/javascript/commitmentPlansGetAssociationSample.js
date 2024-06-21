@@ -29,7 +29,7 @@ async function getCommitmentPlan() {
   const result = await client.commitmentPlans.getAssociation(
     resourceGroupName,
     commitmentPlanName,
-    commitmentPlanAssociationName
+    commitmentPlanAssociationName,
   );
   console.log(result);
 }

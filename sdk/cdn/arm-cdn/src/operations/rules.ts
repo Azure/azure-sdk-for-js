@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   RulesUpdateOptionalParams,
   RulesUpdateResponse,
   RulesDeleteOptionalParams,
-  RulesListByRuleSetNextResponse
+  RulesListByRuleSetNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,13 +60,13 @@ export class RulesImpl implements Rules {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RulesListByRuleSetOptionalParams
+    options?: RulesListByRuleSetOptionalParams,
   ): PagedAsyncIterableIterator<Rule> {
     const iter = this.listByRuleSetPagingAll(
       resourceGroupName,
       profileName,
       ruleSetName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class RulesImpl implements Rules {
           profileName,
           ruleSetName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class RulesImpl implements Rules {
     profileName: string,
     ruleSetName: string,
     options?: RulesListByRuleSetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Rule[]> {
     let result: RulesListByRuleSetResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class RulesImpl implements Rules {
         resourceGroupName,
         profileName,
         ruleSetName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +117,7 @@ export class RulesImpl implements Rules {
         profileName,
         ruleSetName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,13 +130,13 @@ export class RulesImpl implements Rules {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RulesListByRuleSetOptionalParams
+    options?: RulesListByRuleSetOptionalParams,
   ): AsyncIterableIterator<Rule> {
     for await (const page of this.listByRuleSetPagingPage(
       resourceGroupName,
       profileName,
       ruleSetName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,11 +154,11 @@ export class RulesImpl implements Rules {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RulesListByRuleSetOptionalParams
+    options?: RulesListByRuleSetOptionalParams,
   ): Promise<RulesListByRuleSetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, ruleSetName, options },
-      listByRuleSetOperationSpec
+      listByRuleSetOperationSpec,
     );
   }
 
@@ -176,11 +176,11 @@ export class RulesImpl implements Rules {
     profileName: string,
     ruleSetName: string,
     ruleName: string,
-    options?: RulesGetOptionalParams
+    options?: RulesGetOptionalParams,
   ): Promise<RulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, ruleSetName, ruleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,27 +200,26 @@ export class RulesImpl implements Rules {
     ruleSetName: string,
     ruleName: string,
     rule: Rule,
-    options?: RulesCreateOptionalParams
+    options?: RulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -229,8 +228,8 @@ export class RulesImpl implements Rules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -238,8 +237,8 @@ export class RulesImpl implements Rules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -251,9 +250,9 @@ export class RulesImpl implements Rules {
         ruleSetName,
         ruleName,
         rule,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       RulesCreateResponse,
@@ -261,7 +260,7 @@ export class RulesImpl implements Rules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -283,7 +282,7 @@ export class RulesImpl implements Rules {
     ruleSetName: string,
     ruleName: string,
     rule: Rule,
-    options?: RulesCreateOptionalParams
+    options?: RulesCreateOptionalParams,
   ): Promise<RulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -291,7 +290,7 @@ export class RulesImpl implements Rules {
       ruleSetName,
       ruleName,
       rule,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -312,27 +311,26 @@ export class RulesImpl implements Rules {
     ruleSetName: string,
     ruleName: string,
     ruleUpdateProperties: RuleUpdateParameters,
-    options?: RulesUpdateOptionalParams
+    options?: RulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -341,8 +339,8 @@ export class RulesImpl implements Rules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -350,8 +348,8 @@ export class RulesImpl implements Rules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -363,9 +361,9 @@ export class RulesImpl implements Rules {
         ruleSetName,
         ruleName,
         ruleUpdateProperties,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       RulesUpdateResponse,
@@ -373,7 +371,7 @@ export class RulesImpl implements Rules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -395,7 +393,7 @@ export class RulesImpl implements Rules {
     ruleSetName: string,
     ruleName: string,
     ruleUpdateProperties: RuleUpdateParameters,
-    options?: RulesUpdateOptionalParams
+    options?: RulesUpdateOptionalParams,
   ): Promise<RulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -403,7 +401,7 @@ export class RulesImpl implements Rules {
       ruleSetName,
       ruleName,
       ruleUpdateProperties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -422,25 +420,24 @@ export class RulesImpl implements Rules {
     profileName: string,
     ruleSetName: string,
     ruleName: string,
-    options?: RulesDeleteOptionalParams
+    options?: RulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -449,8 +446,8 @@ export class RulesImpl implements Rules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -458,20 +455,20 @@ export class RulesImpl implements Rules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, ruleSetName, ruleName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -491,14 +488,14 @@ export class RulesImpl implements Rules {
     profileName: string,
     ruleSetName: string,
     ruleName: string,
-    options?: RulesDeleteOptionalParams
+    options?: RulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       ruleSetName,
       ruleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -517,11 +514,11 @@ export class RulesImpl implements Rules {
     profileName: string,
     ruleSetName: string,
     nextLink: string,
-    options?: RulesListByRuleSetNextOptionalParams
+    options?: RulesListByRuleSetNextOptionalParams,
   ): Promise<RulesListByRuleSetNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, ruleSetName, nextLink, options },
-      listByRuleSetNextOperationSpec
+      listByRuleSetNextOperationSpec,
     );
   }
 }
@@ -529,39 +526,15 @@ export class RulesImpl implements Rules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByRuleSetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleListResult
+      bodyMapper: Mappers.RuleListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName1,
-    Parameters.ruleSetName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.AfdErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -570,31 +543,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.ruleSetName,
-    Parameters.ruleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Rule,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+    Parameters.ruleSetName,
+    Parameters.ruleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     201: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     202: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     204: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.rule,
   queryParameters: [Parameters.apiVersion],
@@ -604,32 +598,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.ruleSetName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     201: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     202: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     204: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.ruleUpdateProperties,
   queryParameters: [Parameters.apiVersion],
@@ -639,15 +632,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.ruleSetName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/ruleSets/{ruleSetName}/rules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -655,8 +647,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -665,21 +657,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.ruleSetName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByRuleSetNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleListResult
+      bodyMapper: Mappers.RuleListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -687,8 +679,8 @@ const listByRuleSetNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.nextLink,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

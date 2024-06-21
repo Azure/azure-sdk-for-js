@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all enabled features for a workspace
@@ -18,19 +21,26 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/WorkspaceFeature/list.json
  */
 async function listWorkspaceFeatures() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.workspaceFeatures.list(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listWorkspaceFeatures().catch(console.error);
+async function main() {
+  listWorkspaceFeatures();
+}
+
+main().catch(console.error);

@@ -30,7 +30,7 @@ async function createExtension() {
     configurationProtectedSettings: { omsagentSecretKey: "secretKeyValue01" },
     configurationSettings: {
       omsagentEnvClusterName: "clusterName1",
-      omsagentSecretWsid: "a38cef99-5a89-52ed-b6db-22095c23664b",
+      omsagentSecretWsid: "fakeTokenPlaceholder",
     },
     extensionType: "azuremonitor-containers",
     releaseTrain: "Preview",
@@ -44,7 +44,7 @@ async function createExtension() {
     clusterResourceName,
     clusterName,
     extensionName,
-    extension
+    extension,
   );
   console.log(result);
 }
@@ -80,7 +80,7 @@ async function createExtensionWithPlan() {
     clusterResourceName,
     clusterName,
     extensionName,
-    extension
+    extension,
   );
   console.log(result);
 }

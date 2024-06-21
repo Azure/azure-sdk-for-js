@@ -28,7 +28,7 @@ async function listNetworkExperimentProfilesInAResourceGroup() {
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.networkExperimentProfiles.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

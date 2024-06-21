@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of executions of an Experiment resource.
  *
  * @summary Get a list of executions of an Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/ListExperimentExecutions.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListExperimentExecutions.json
  */
 async function listAllExecutionsOfAnExperiment() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listAllExecutionsOfAnExperiment() {
   const resArray = new Array();
   for await (let item of client.experiments.listAllExecutions(
     resourceGroupName,
-    experimentName
+    experimentName,
   )) {
     resArray.push(item);
   }

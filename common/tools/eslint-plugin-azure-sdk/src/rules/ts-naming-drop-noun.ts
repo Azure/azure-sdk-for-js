@@ -3,44 +3,53 @@
 
 /**
  * @file Rule to require client methods returning an instance of the client to not include the client name in the method name.
- * @author Arpan Laha
+ *
  */
 
-import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { getPublicMethods, getRuleMetaData } from "../utils";
-import { Rule } from "eslint";
-import { TSESTree } from "@typescript-eslint/experimental-utils";
+import { getPublicMethods, createRule } from "../utils";
+import { TSESTree } from "@typescript-eslint/utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-naming-drop-noun",
-    "require client methods returning an instance of the client to not include the client name in the method name",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener =>
-    ({
-      // callback functions
-
+export default createRule({
+  name: "ts-naming-drop-noun",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "require client methods returning an instance of the client to not include the client name in the method name",
+      recommended: "recommended",
+    },
+    messages: {
+      ClassNameInMethodName:
+        "{{className}}'s method {{methodName}} returns an instance of {{className}} and shouldn't include {{serviceName}} in its name",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
+    return {
       // call on Client classes
-      "ClassDeclaration[id.name=/Client$/]": (node: ClassDeclaration): void => {
+      "ClassDeclaration[id.name=/Client$/]": (node: TSESTree.ClassDeclaration): void => {
         const className = node.id!.name;
 
-        getPublicMethods(node).forEach((method: MethodDefinition): void => {
-          const TSFunction = method.value as TSESTree.FunctionExpression;
+        for (const method of getPublicMethods(node)) {
+          const TSFunction = method.value;
 
           // check for proper return type configuration
           if (
             TSFunction.returnType !== undefined &&
             TSFunction.returnType.typeAnnotation.type === "TSTypeReference"
           ) {
-            const typeIdentifier = TSFunction.returnType.typeAnnotation.typeName as Identifier;
+            const typeIdentifier = TSFunction.returnType.typeAnnotation
+              .typeName as TSESTree.Identifier;
 
             // if return type is the class
             if (typeIdentifier.name === className) {
-              const methodIdentifier = method.key as Identifier;
+              const methodIdentifier = method.key as TSESTree.Identifier;
               const methodName = methodIdentifier.name;
               const serviceName = className.substring(0, className.indexOf("Client"));
               const regex = new RegExp(serviceName, "i");
@@ -49,12 +58,18 @@ export = {
               if (regex.test(methodName)) {
                 context.report({
                   node: method,
-                  message: `${className}'s method ${methodName} returns an instance of ${className} and shouldn't include ${serviceName} in its name`,
+                  messageId: "ClassNameInMethodName",
+                  data: {
+                    className,
+                    methodName,
+                    serviceName,
+                  },
                 });
               }
             }
           }
-        });
+        }
       },
-    }) as Rule.RuleListener,
-};
+    };
+  },
+});

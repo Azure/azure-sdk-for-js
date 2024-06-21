@@ -16,7 +16,7 @@ import { HybridComputeManagementClient } from "../hybridComputeManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -40,7 +40,7 @@ import {
   PrivateLinkScopesGetValidationDetailsForMachineOptionalParams,
   PrivateLinkScopesGetValidationDetailsForMachineResponse,
   PrivateLinkScopesListNextResponse,
-  PrivateLinkScopesListByResourceGroupNextResponse
+  PrivateLinkScopesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +61,7 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
    * @param options The options parameters.
    */
   public list(
-    options?: PrivateLinkScopesListOptionalParams
+    options?: PrivateLinkScopesListOptionalParams,
   ): PagedAsyncIterableIterator<HybridComputePrivateLinkScope> {
     const iter = this.listPagingAll(options);
     return {
@@ -76,13 +76,13 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PrivateLinkScopesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<HybridComputePrivateLinkScope[]> {
     let result: PrivateLinkScopesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
   }
 
   private async *listPagingAll(
-    options?: PrivateLinkScopesListOptionalParams
+    options?: PrivateLinkScopesListOptionalParams,
   ): AsyncIterableIterator<HybridComputePrivateLinkScope> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -117,7 +117,7 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: PrivateLinkScopesListByResourceGroupOptionalParams
+    options?: PrivateLinkScopesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<HybridComputePrivateLinkScope> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -134,16 +134,16 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PrivateLinkScopesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<HybridComputePrivateLinkScope[]> {
     let result: PrivateLinkScopesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -158,7 +158,7 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -169,11 +169,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PrivateLinkScopesListByResourceGroupOptionalParams
+    options?: PrivateLinkScopesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<HybridComputePrivateLinkScope> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -184,7 +184,7 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
    * @param options The options parameters.
    */
   private _list(
-    options?: PrivateLinkScopesListOptionalParams
+    options?: PrivateLinkScopesListOptionalParams,
   ): Promise<PrivateLinkScopesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -196,11 +196,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: PrivateLinkScopesListByResourceGroupOptionalParams
+    options?: PrivateLinkScopesListByResourceGroupOptionalParams,
   ): Promise<PrivateLinkScopesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -213,25 +213,24 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
   async beginDelete(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopesDeleteOptionalParams
+    options?: PrivateLinkScopesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -240,8 +239,8 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -249,19 +248,19 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, scopeName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -276,12 +275,12 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
   async beginDeleteAndWait(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopesDeleteOptionalParams
+    options?: PrivateLinkScopesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       scopeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -295,11 +294,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
   get(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkScopesGetOptionalParams
+    options?: PrivateLinkScopesGetOptionalParams,
   ): Promise<PrivateLinkScopesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scopeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -316,11 +315,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
     resourceGroupName: string,
     scopeName: string,
     parameters: HybridComputePrivateLinkScope,
-    options?: PrivateLinkScopesCreateOrUpdateOptionalParams
+    options?: PrivateLinkScopesCreateOrUpdateOptionalParams,
   ): Promise<PrivateLinkScopesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scopeName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -335,11 +334,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
     resourceGroupName: string,
     scopeName: string,
     privateLinkScopeTags: TagsResource,
-    options?: PrivateLinkScopesUpdateTagsOptionalParams
+    options?: PrivateLinkScopesUpdateTagsOptionalParams,
   ): Promise<PrivateLinkScopesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scopeName, privateLinkScopeTags, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -352,11 +351,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
   getValidationDetails(
     location: string,
     privateLinkScopeId: string,
-    options?: PrivateLinkScopesGetValidationDetailsOptionalParams
+    options?: PrivateLinkScopesGetValidationDetailsOptionalParams,
   ): Promise<PrivateLinkScopesGetValidationDetailsResponse> {
     return this.client.sendOperationRequest(
       { location, privateLinkScopeId, options },
-      getValidationDetailsOperationSpec
+      getValidationDetailsOperationSpec,
     );
   }
 
@@ -370,11 +369,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
   getValidationDetailsForMachine(
     resourceGroupName: string,
     machineName: string,
-    options?: PrivateLinkScopesGetValidationDetailsForMachineOptionalParams
+    options?: PrivateLinkScopesGetValidationDetailsForMachineOptionalParams,
   ): Promise<PrivateLinkScopesGetValidationDetailsForMachineResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, options },
-      getValidationDetailsForMachineOperationSpec
+      getValidationDetailsForMachineOperationSpec,
     );
   }
 
@@ -385,11 +384,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
    */
   private _listNext(
     nextLink: string,
-    options?: PrivateLinkScopesListNextOptionalParams
+    options?: PrivateLinkScopesListNextOptionalParams,
   ): Promise<PrivateLinkScopesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -402,11 +401,11 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PrivateLinkScopesListByResourceGroupNextOptionalParams
+    options?: PrivateLinkScopesListByResourceGroupNextOptionalParams,
   ): Promise<PrivateLinkScopesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -414,46 +413,43 @@ export class PrivateLinkScopesImpl implements PrivateLinkScopes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/privateLinkScopes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/privateLinkScopes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult
+      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult
+      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -461,79 +457,76 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName
+    Parameters.scopeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScope
+      bodyMapper: Mappers.HybridComputePrivateLinkScope,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName
+    Parameters.scopeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScope
+      bodyMapper: Mappers.HybridComputePrivateLinkScope,
     },
     201: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScope
+      bodyMapper: Mappers.HybridComputePrivateLinkScope,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName
+    Parameters.scopeName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScope
+      bodyMapper: Mappers.HybridComputePrivateLinkScope,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.privateLinkScopeTags,
   queryParameters: [Parameters.apiVersion],
@@ -541,92 +534,90 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName
+    Parameters.scopeName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getValidationDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/privateLinkScopes/{privateLinkScopeId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/privateLinkScopes/{privateLinkScopeId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkScopeValidationDetails
+      bodyMapper: Mappers.PrivateLinkScopeValidationDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.privateLinkScopeId
+    Parameters.privateLinkScopeId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getValidationDetailsForMachineOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/privateLinkScopes/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/privateLinkScopes/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkScopeValidationDetails
+      bodyMapper: Mappers.PrivateLinkScopeValidationDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName2
+    Parameters.machineName2,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult
+      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult
+      bodyMapper: Mappers.HybridComputePrivateLinkScopeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

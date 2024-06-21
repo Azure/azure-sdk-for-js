@@ -15,7 +15,7 @@ import { ComputeManagementClient } from "../computeManagementClient";
 import {
   VirtualMachineSize,
   VirtualMachineSizesListOptionalParams,
-  VirtualMachineSizesListResponse
+  VirtualMachineSizesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
    */
   public list(
     location: string,
-    options?: VirtualMachineSizesListOptionalParams
+    options?: VirtualMachineSizesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineSize> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -54,14 +54,14 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: VirtualMachineSizesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<VirtualMachineSize[]> {
     let result: VirtualMachineSizesListResponse;
     result = await this._list(location, options);
@@ -70,7 +70,7 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
 
   private async *listPagingAll(
     location: string,
-    options?: VirtualMachineSizesListOptionalParams
+    options?: VirtualMachineSizesListOptionalParams,
   ): AsyncIterableIterator<VirtualMachineSize> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -85,11 +85,11 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
    */
   private _list(
     location: string,
-    options?: VirtualMachineSizesListOptionalParams
+    options?: VirtualMachineSizesListOptionalParams,
   ): Promise<VirtualMachineSizesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -97,23 +97,22 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/vmSizes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/vmSizes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineSizeListResult
+      bodyMapper: Mappers.VirtualMachineSizeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

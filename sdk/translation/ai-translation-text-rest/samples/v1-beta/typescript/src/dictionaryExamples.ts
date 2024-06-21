@@ -22,7 +22,7 @@ export async function main() {
 
   const translateCedential: TranslatorCredential = {
     key: apiKey,
-    region
+    region,
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
@@ -32,7 +32,8 @@ export async function main() {
     queryParameters: {
       to: "es",
       from: "en",
-  }});
+    },
+  });
 
   if (isUnexpected(dictionaryResponse)) {
     throw dictionaryResponse.body.error;
@@ -41,13 +42,13 @@ export async function main() {
   const dictionaryExamples = dictionaryResponse.body;
   for (const dictionaryExample of dictionaryExamples) {
     console.log(
-      `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`
+      `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`,
     );
     const firstExample = dictionaryExample?.examples[0];
     console.log(
       `Example: '${
         firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix
-      }'.`
+      }'.`,
     );
   }
 }

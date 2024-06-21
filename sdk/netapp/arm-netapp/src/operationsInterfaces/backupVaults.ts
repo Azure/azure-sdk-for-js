@@ -19,7 +19,7 @@ import {
   BackupVaultsUpdateOptionalParams,
   BackupVaultsUpdateResponse,
   BackupVaultsDeleteOptionalParams,
-  BackupVaultsDeleteResponse
+  BackupVaultsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface BackupVaults {
   listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: BackupVaultsListByNetAppAccountOptionalParams
+    options?: BackupVaultsListByNetAppAccountOptionalParams,
   ): PagedAsyncIterableIterator<BackupVault>;
   /**
    * Get the Backup Vault
@@ -47,7 +47,7 @@ export interface BackupVaults {
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    options?: BackupVaultsGetOptionalParams
+    options?: BackupVaultsGetOptionalParams,
   ): Promise<BackupVaultsGetResponse>;
   /**
    * Create or update the specified Backup Vault in the NetApp account
@@ -62,7 +62,7 @@ export interface BackupVaults {
     accountName: string,
     backupVaultName: string,
     body: BackupVault,
-    options?: BackupVaultsCreateOrUpdateOptionalParams
+    options?: BackupVaultsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupVaultsCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface BackupVaults {
     accountName: string,
     backupVaultName: string,
     body: BackupVault,
-    options?: BackupVaultsCreateOrUpdateOptionalParams
+    options?: BackupVaultsCreateOrUpdateOptionalParams,
   ): Promise<BackupVaultsCreateOrUpdateResponse>;
   /**
    * Patch the specified NetApp Backup Vault
@@ -97,7 +97,7 @@ export interface BackupVaults {
     accountName: string,
     backupVaultName: string,
     body: BackupVaultPatch,
-    options?: BackupVaultsUpdateOptionalParams
+    options?: BackupVaultsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupVaultsUpdateResponse>,
@@ -117,7 +117,7 @@ export interface BackupVaults {
     accountName: string,
     backupVaultName: string,
     body: BackupVaultPatch,
-    options?: BackupVaultsUpdateOptionalParams
+    options?: BackupVaultsUpdateOptionalParams,
   ): Promise<BackupVaultsUpdateResponse>;
   /**
    * Delete the specified Backup Vault
@@ -130,7 +130,7 @@ export interface BackupVaults {
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    options?: BackupVaultsDeleteOptionalParams
+    options?: BackupVaultsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupVaultsDeleteResponse>,
@@ -148,6 +148,6 @@ export interface BackupVaults {
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    options?: BackupVaultsDeleteOptionalParams
+    options?: BackupVaultsDeleteOptionalParams,
   ): Promise<BackupVaultsDeleteResponse>;
 }

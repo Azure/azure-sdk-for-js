@@ -1,7 +1,12 @@
-import path from "path";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
+import path from "node:path";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toPosixWrapper<T extends (...args: any[]) => any>(f: T): T {
   const wrapped = (...args: Parameters<T>): ReturnType<T> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newArgs = args.map((arg: any) =>
       typeof arg === "string" ? arg.replace(/\\/g, "/") : arg,
     ) as Parameters<T>;
