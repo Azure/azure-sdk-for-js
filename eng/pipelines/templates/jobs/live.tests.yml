@@ -252,6 +252,8 @@ jobs:
           displayName: "Execute Samples"
           env:
             TEST_MODE: "live"
+            # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
+            # so "execute samples" step correctly picks up Powershell credential.
             AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost" 
             SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
@@ -286,6 +288,8 @@ jobs:
           workingDirectory: $(PackagePath)
           env:
             TEST_MODE: "live"
+            # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
+            # so "execute samples" step correctly picks up Powershell credential.
             AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost" 
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
