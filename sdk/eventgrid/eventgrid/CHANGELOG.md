@@ -1,14 +1,12 @@
 # Release History
 
-## 5.5.1 (Unreleased)
+## 5.6.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.Communication.AdvancedMessageAnalysisCompleted`
 
 ## 5.5.0 (2026-06-11)
 

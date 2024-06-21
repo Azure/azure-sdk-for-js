@@ -7106,6 +7106,59 @@ export const AcsMessageChannelEventError: coreClient.CompositeMapper = {
   }
 };
 
+export const AcsMessageLanguageDetection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsMessageLanguageDetection",
+    modelProperties: {
+      language: {
+        serializedName: "language",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      confidenceScore: {
+        serializedName: "confidenceScore",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      translation: {
+        serializedName: "translation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsMessageSentiment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsMessageSentiment",
+    modelProperties: {
+      score: {
+        serializedName: "score",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PolicyInsightsPolicyStateCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9232,6 +9285,63 @@ export const AcsMessageDeliveryStatusUpdatedEventData: coreClient.CompositeMappe
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsMessageAnalysisCompleted: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsMessageAnalysisCompleted",
+    modelProperties: {
+      ...AcsMessageEventData.type.modelProperties,
+      originalMessage: {
+        serializedName: "originalMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      channelKind: {
+        serializedName: "channelType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      intentAnalysis: {
+        serializedName: "intentAnalysis",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyPhraseExtraction: {
+        serializedName: "keyPhraseExtraction",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      languageDetection: {
+        serializedName: "languageDetection",
+        type: {
+          name: "Composite",
+          className: "AcsMessageLanguageDetection"
+        }
+      },
+      sentiments: {
+        serializedName: "sentiments",
+        type: {
+          name: "Composite",
+          className: "AcsMessageSentiment"
         }
       }
     }
