@@ -3,7 +3,7 @@
 ## 1.0.0-beta.2 (2024-06-17)
 Compared with version 1.0.0-beta.1
     
-**Features**
+### Features Added
 
   - Added operation group SystemVersions
   - Added operation AutonomousDatabases.beginRestore
@@ -41,7 +41,7 @@ Compared with version 1.0.0-beta.1
   - Interface AutonomousDatabaseUpdateProperties has a new optional parameter longTermBackupSchedule
   - Added Enum KnownRepeatCadenceType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AutonomousDatabaseBackupProperties no longer has parameter autonomousDatabaseId
   - Interface AutonomousDatabaseBackupProperties no longer has parameter databaseSizeInTBs
