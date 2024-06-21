@@ -2,7 +2,7 @@
     
 ## 5.0.0 (2024-06-28)
     
-**Features**
+**Features Added**
 
   - Added operation group IscsiPaths
   - Added Interface AddonListResult
