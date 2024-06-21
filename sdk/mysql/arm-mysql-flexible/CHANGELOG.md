@@ -1,9 +1,9 @@
 # Release History
     
-## 4.0.0-beta.2 (2024-06-06)
+## 4.0.0-beta.2 (2024-06-28)
 Compared with version 3.1.0
     
-**Features**
+### Features Added
 
   - Added operation group AdvancedThreatProtectionSettings
   - Added operation group AzureADAdministrators
@@ -209,7 +209,7 @@ Compared with version 3.1.0
   - Added Enum KnownResetAllToDefault
   - Added Enum KnownServerSkuTier
 
-**Breaking Changes**
+### Breaking Changes
 
   - Class MySQLManagementFlexibleServerClient has a new signature
   - Interface Configuration no longer has parameter systemData
@@ -231,7 +231,7 @@ Compared with version 3.1.0
     
 ## 4.0.0-beta.1 (2023-05-06)
     
-**Features**
+### Features Added
 
   - Added operation group AzureADAdministrators
   - Added operation group BackupAndExport
@@ -322,14 +322,14 @@ Compared with version 3.1.0
   - Added Enum KnownResetAllToDefault
   - Interface MySQLManagementFlexibleServerClientOptionalParams no longer has parameter apiVersion
 
-**Breaking Changes**
+### Breaking Changes
 
   - Class MySQLManagementFlexibleServerClient no longer has parameter apiVersion
     
     
 ## 3.1.0 (2022-12-22)
     
-**Features**
+### Features Added
 
   - Added Interface Configuration
   - Added Interface Database
@@ -343,7 +343,7 @@ Compared with version 3.1.0
     
 ## 3.0.0 (2022-04-25)
     
-**Breaking Changes**
+### Breaking Changes
 
   - Interface ServerForUpdate no longer has parameter dataEncryption
   - Interface ServerForUpdate no longer has parameter identity
