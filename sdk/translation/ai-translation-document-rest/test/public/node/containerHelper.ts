@@ -21,7 +21,8 @@ export const TWO_TEST_DOCUMENTS: TestDocument[] = [
 ];
 
 export async function createSourceContainer(recorder: Recorder, documents: TestDocument[]): Promise<string> {
-  const containerName = `source-${getUniqueName()}`;
+  const containerName = recorder.variable("sourceContainer", `source-${getUniqueName()}`);
+  //const containerName = `source-${getUniqueName()}`;
   const containerClient = await createContainer(recorder, containerName, documents);
 
   const sasUrl = await containerClient.generateSasUrl({
@@ -32,7 +33,8 @@ export async function createSourceContainer(recorder: Recorder, documents: TestD
 }
 
 export async function createTargetContainer(recorder: Recorder, documents?: TestDocument[]): Promise<string> {
-  const containerName = `target-${getUniqueName()}`;
+  const containerName = recorder.variable("targetContainer", `target-${getUniqueName()}`);
+  //const containerName = `target-${getUniqueName()}`;
   const containerClient = await createContainer(recorder, containerName, documents);
 
   const sasUrl = await containerClient.generateSasUrl({
