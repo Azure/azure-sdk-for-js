@@ -14,7 +14,7 @@ import {
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
 import { IdentityTestContext } from "../../httpRequests";
-import { ManagedIdentityCredential } from "../../../src";
+import { LegacyMsiProvider } from "../../../src/credentials/managedIdentityCredential/legacyMsiProvider";
 import { RestError } from "@azure/core-rest-pipeline";
 import Sinon from "sinon";
 import { assert } from "chai";
@@ -56,7 +56,7 @@ describe("ManagedIdentityCredential", function () {
   it("sends an authorization request with a modified resource name", async function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
+      credential: new LegacyMsiProvider("client", {
         authorityHost: "https://login.microsoftonline.com",
       }),
       insecureResponses: [
@@ -92,7 +92,7 @@ describe("ManagedIdentityCredential", function () {
   it("sends an authorization request with an unmodified resource name", async () => {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["someResource"],
-      credential: new ManagedIdentityCredential(),
+      credential: new LegacyMsiProvider(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
@@ -127,7 +127,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
+      credential: new LegacyMsiProvider("client", {
         loggingOptions: { allowLoggingAccountIdentifiers: true },
       }),
       insecureResponses: [
@@ -167,7 +167,7 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["someResource"],
       getTokenOptions: { tenantId: "TENANT-ID" } as GetTokenOptions,
-      credential: new ManagedIdentityCredential(),
+      credential: new LegacyMsiProvider(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
@@ -192,7 +192,7 @@ describe("ManagedIdentityCredential", function () {
 
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      credential: new LegacyMsiProvider(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
         {
           error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 }),
@@ -211,7 +211,7 @@ describe("ManagedIdentityCredential", function () {
 
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      credential: new LegacyMsiProvider(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         { error: new RestError(errorMessage, { statusCode: 500 }) },
@@ -230,7 +230,7 @@ describe("ManagedIdentityCredential", function () {
 
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      credential: new LegacyMsiProvider(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         { error: netError },
@@ -249,7 +249,7 @@ describe("ManagedIdentityCredential", function () {
 
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
+      credential: new LegacyMsiProvider(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         { error: hostError },
@@ -268,7 +268,7 @@ describe("ManagedIdentityCredential", function () {
 
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential(),
+      credential: new LegacyMsiProvider(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         { error: netError },
@@ -282,7 +282,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI returns error on 403", async function () {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient"),
+      credential: new LegacyMsiProvider("errclient"),
       insecureResponses: [
         createResponse(403, {
           message:
@@ -297,7 +297,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient", {
+      credential: new LegacyMsiProvider("errclient", {
         authorityHost: "https://login.microsoftonline.com",
       }),
       insecureResponses: [
@@ -315,7 +315,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries up to a limit on 404", async function () {
-    const credential = new ManagedIdentityCredential("errclient");
+    const credential = new LegacyMsiProvider("errclient");
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: credential,
@@ -328,17 +328,13 @@ describe("ManagedIdentityCredential", function () {
         createResponse(404),
       ],
     });
-    assert.ok(
-      error!.message!.indexOf(
-        `Failed to retrieve IMDS token after ${credential["msiRetryConfig"].maxRetries} retries.`,
-      ) > -1,
-    );
+    assert.match(error!.message, /Failed to retrieve IMDS token after \d+ retries./);
   });
 
   it("IMDS MSI retries also retries on 503s", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient"),
+      credential: new LegacyMsiProvider("errclient"),
       insecureResponses: [
         // Any response on the ping request is fine, since it means that the endpoint is indeed there.
         createResponse(503),
@@ -357,7 +353,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI retries also retries on 500s", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient"),
+      credential: new LegacyMsiProvider("errclient"),
       insecureResponses: [
         // Any response on the ping request is fine, since it means that the endpoint is indeed there.
         createResponse(500, {}),
@@ -376,7 +372,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI stops after 3 retries if the ping always gets 503s", async function () {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient"),
+      credential: new LegacyMsiProvider("errclient"),
       insecureResponses: [
         // Any response on the ping request is fine, since it means that the endpoint is indeed there.
         createResponse(503, {}, { "Retry-After": "2" }),
@@ -398,7 +394,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI stops after 3 retries if the ping always gets 500s", async function () {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient"),
+      credential: new LegacyMsiProvider("errclient"),
       insecureResponses: [
         // Any response on the ping request is fine, since it means that the endpoint is indeed there.
         createResponse(500, {}),
@@ -420,7 +416,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI accepts a custom set of retries, even when client Id is passed through the first parameter", async function () {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient", {
+      credential: new LegacyMsiProvider("errclient", {
         retryOptions: {
           maxRetries: 4,
         },
@@ -448,7 +444,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI accepts a custom set of retries, even when client Id is not passed through the first parameter", async function () {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential({
+      credential: new LegacyMsiProvider({
         retryOptions: {
           maxRetries: 4,
         },
@@ -488,7 +484,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({
+      credential: new LegacyMsiProvider({
         resourceId: "resource-id",
       }),
       insecureResponses: [
@@ -512,7 +508,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new LegacyMsiProvider("client"),
       insecureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -531,7 +527,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function () {
-    const credential = new ManagedIdentityCredential("errclient");
+    const credential = new LegacyMsiProvider("errclient");
     const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
@@ -570,7 +566,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new LegacyMsiProvider("client"),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -608,7 +604,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new LegacyMsiProvider("client"),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -646,7 +642,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+      credential: new LegacyMsiProvider({ resourceId: "RESOURCE-ID" }),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -682,7 +678,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.MSI_ENDPOINT = "https://endpoint";
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential(),
+      credential: new LegacyMsiProvider(),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -701,7 +697,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.MSI_ENDPOINT = "https://endpoint";
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({ clientId: "CLIENT-ID" }),
+      credential: new LegacyMsiProvider({ clientId: "CLIENT-ID" }),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -722,7 +718,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.MSI_ENDPOINT = "https://endpoint";
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+      credential: new LegacyMsiProvider({ resourceId: "RESOURCE-ID" }),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -741,12 +737,12 @@ describe("ManagedIdentityCredential", function () {
   it("authorization request fails with client id passed in an Cloud Shell environment", async function (this: Context) {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
-    const msiGetTokenSpy = Sinon.spy(ManagedIdentityCredential.prototype, "getToken");
+    const msiGetTokenSpy = Sinon.spy(LegacyMsiProvider.prototype, "getToken");
     const loggerSpy = Sinon.spy(logger, "warning");
     setLogLevel("warning");
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new LegacyMsiProvider("client"),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -791,7 +787,7 @@ describe("ManagedIdentityCredential", function () {
 
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
-        credential: new ManagedIdentityCredential(),
+        credential: new LegacyMsiProvider(),
         insecureResponses: [
           createResponse(
             401,
@@ -846,7 +842,7 @@ describe("ManagedIdentityCredential", function () {
 
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
-        credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+        credential: new LegacyMsiProvider({ resourceId: "RESOURCE-ID" }),
         insecureResponses: [
           createResponse(
             401,
@@ -902,7 +898,7 @@ describe("ManagedIdentityCredential", function () {
 
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
-        credential: new ManagedIdentityCredential({ clientId: "CLIENT-ID" }),
+        credential: new LegacyMsiProvider({ clientId: "CLIENT-ID" }),
         insecureResponses: [
           createResponse(
             401,
@@ -966,7 +962,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new LegacyMsiProvider("client"),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -1008,7 +1004,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+      credential: new LegacyMsiProvider({ resourceId: "RESOURCE-ID" }),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -1041,7 +1037,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("calls to AppTokenProvider for MI token caching support", async () => {
-    const credential: any = new ManagedIdentityCredential("client");
+    const credential: any = new LegacyMsiProvider("client");
     const confidentialSpy = Sinon.spy(credential.confidentialApp, "SetAppTokenProvider");
 
     // Trigger App Service behavior by setting environment variables
