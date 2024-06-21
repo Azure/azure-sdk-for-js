@@ -15933,7 +15933,7 @@ packages:
     dev: false
 
   file:projects/arm-mysql-flexible.tgz:
-    resolution: {integrity: sha512-D92vkLIVvVNfsCD5tV00nDZ1UzywbbuT3idzJNR57wZn46qWIhxHRlCDfO5BUZtC1XCVJlYWQ+imh6yaVj6iIQ==, tarball: file:projects/arm-mysql-flexible.tgz}
+    resolution: {integrity: sha512-McijmAxlBxBqzw1JD4tRq0vCH/CTTdfXODnLpI/7NP+SXQwoBn8ffrBrCLG+DGY78+KNlPSca7quuLGoFwm4Mw==, tarball: file:projects/arm-mysql-flexible.tgz}
     name: '@rush-temp/arm-mysql-flexible'
     version: 0.0.0
     dependencies:
@@ -15953,6 +15953,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.37)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.6
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the servers in a given resource group.
  *
  * @summary List all the servers in a given resource group.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServersListByResourceGroup.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServersListByResourceGroup.json
  */
 async function listServersInAResourceGroup() {
   const subscriptionId =

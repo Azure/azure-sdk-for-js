@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the server log files in a given server.
  *
  * @summary List all the server log files in a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/LogFiles/preview/2021-12-01-preview/examples/LogFilesListByServer.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/LogFiles/preview/2023-06-01-preview/examples/LogFilesListByServer.json
  */
 async function listAllServerLogFilesForAServer() {
   const subscriptionId =
