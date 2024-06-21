@@ -4817,12 +4817,6 @@ packages:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
     dev: false
 
-  /dbly-linked-list@0.3.4:
-    resolution: {integrity: sha512-327vOlwspi9i1T3Kc9yZhRUR8qDdgMQ4HmXsFDDCQ/HTc3sNe7gnF5b0UrsnaOJ0rvmG7yBZpK0NoOux9rKYKw==}
-    dependencies:
-      lodash.isequal: 4.5.0
-    dev: false
-
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     dependencies:
@@ -8525,12 +8519,6 @@ packages:
 
   /querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
-    dev: false
-
-  /queue-fifo@0.2.6:
-    resolution: {integrity: sha512-rwlnZHAaTmWEGKC7ziasK8u4QnZW/uN6kSiG+tHNf/1GA+R32FArZi18s3SYUpKcA0Y6jJoUDn5GT3Anoc2mWw==}
-    dependencies:
-      dbly-linked-list: 0.3.4
     dev: false
 
   /queue-microtask@1.2.3:
@@ -18626,7 +18614,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-r351RyeW1riyyDox0ex9OnmDAjhShEmXoBGDG/MF22Faa2WUoyF9CzIGHNgKI2NpJWfL0AhUb4pfo3nrvj015g==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-DlHVUQIvEl58yL7VZqdmRFAG78YY2/lZeyjasxPqt8A1L849+ZZnroxxr+zneEGQmoi0XjBamJRqyPoDzh+XHw==, tarball: file:projects/cosmos.tgz}    
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -18657,7 +18645,6 @@ packages:
       nock: 12.0.3
       node-abort-controller: 3.1.1
       priorityqueuejs: 2.0.0
-      queue-fifo: 0.2.6
       requirejs: 2.3.6
       rimraf: 3.0.2
       semaphore: 1.1.0
