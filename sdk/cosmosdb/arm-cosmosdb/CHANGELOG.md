@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 16.0.0-beta.9 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 16.0.0-beta.8 (2024-06-17)
 Compared with version 15.6.0
     
