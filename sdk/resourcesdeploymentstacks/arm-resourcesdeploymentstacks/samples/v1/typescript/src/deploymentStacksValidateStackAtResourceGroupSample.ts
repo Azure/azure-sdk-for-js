@@ -18,12 +18,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Creates or updates a Deployment stack at Resource Group scope.
+ * This sample demonstrates how to Runs preflight validation on the Resource Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
  *
- * @summary Creates or updates a Deployment stack at Resource Group scope.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackResourceGroupCreate.json
+ * @summary Runs preflight validation on the Resource Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackResourceGroupValidate.json
  */
-async function deploymentStacksResourceGroupCreateOrUpdate() {
+async function deploymentStacksResourceGroupValidate() {
   const subscriptionId =
     process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -32,10 +32,9 @@ async function deploymentStacksResourceGroupCreateOrUpdate() {
     "deploymentStacksRG";
   const deploymentStackName = "simpleDeploymentStack";
   const deploymentStack: DeploymentStack = {
-    location: "eastus",
     properties: {
       actionOnUnmanage: {
-        managementGroups: "detach",
+        managementGroups: "delete",
         resourceGroups: "delete",
         resources: "delete",
       },
@@ -46,13 +45,14 @@ async function deploymentStacksResourceGroupCreateOrUpdate() {
         mode: "denyDelete",
       },
       parameters: { parameter1: { value: "a string" } },
+      templateLink: { uri: "https://example.com/exampleTemplate.json" },
     },
     tags: { tagkey: "tagVal" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential, subscriptionId);
   const result =
-    await client.deploymentStacks.beginCreateOrUpdateAtResourceGroupAndWait(
+    await client.deploymentStacks.beginValidateStackAtResourceGroupAndWait(
       resourceGroupName,
       deploymentStackName,
       deploymentStack,
@@ -61,7 +61,7 @@ async function deploymentStacksResourceGroupCreateOrUpdate() {
 }
 
 async function main() {
-  deploymentStacksResourceGroupCreateOrUpdate();
+  deploymentStacksResourceGroupValidate();
 }
 
 main().catch(console.error);

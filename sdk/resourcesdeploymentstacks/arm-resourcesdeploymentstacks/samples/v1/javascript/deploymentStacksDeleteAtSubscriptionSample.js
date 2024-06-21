@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DeploymentStacksClient } = require("@azure/arm-resourcesdeploymentstacks");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a Deployment stack by name at Subscription scope. When operation completes, status code 200 returned without content.
@@ -28,9 +26,7 @@ async function deploymentStacksSubscriptionDelete() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential, subscriptionId);
   const result =
-    await client.deploymentStacks.beginDeleteAtSubscriptionAndWait(
-      deploymentStackName,
-    );
+    await client.deploymentStacks.beginDeleteAtSubscriptionAndWait(deploymentStackName);
   console.log(result);
 }
 

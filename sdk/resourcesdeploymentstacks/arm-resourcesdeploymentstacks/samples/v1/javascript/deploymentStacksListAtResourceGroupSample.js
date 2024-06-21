@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DeploymentStacksClient } = require("@azure/arm-resourcesdeploymentstacks");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the Deployment stacks within the specified Resource Group.
@@ -25,14 +23,11 @@ async function deploymentStacksResourceGroupList() {
     process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["RESOURCESDEPLOYMENTSTACKS_RESOURCE_GROUP"] ||
-    "deploymentStacksRG";
+    process.env["RESOURCESDEPLOYMENTSTACKS_RESOURCE_GROUP"] || "deploymentStacksRG";
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deploymentStacks.listAtResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (let item of client.deploymentStacks.listAtResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

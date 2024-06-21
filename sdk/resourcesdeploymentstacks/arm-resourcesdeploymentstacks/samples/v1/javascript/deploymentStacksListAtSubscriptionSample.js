@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DeploymentStacksClient } = require("@azure/arm-resourcesdeploymentstacks");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the Deployment stacks within the specified Subscription.

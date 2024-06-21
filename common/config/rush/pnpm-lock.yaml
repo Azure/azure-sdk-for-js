@@ -17324,7 +17324,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcesdeploymentstacks.tgz:
-    resolution: {integrity: sha512-3TrFzbMf1E+Z76GNjygfkMXorCtAdXGg3FePSKNhRcZZTsv1HS5XjzJcPOv0NDWn7kEe3ZqMLkf4Lqs9niUp7w==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-a1w3buJ3831zgiCbjmWSsSxAQsmMoFR+ijxuesoiUzgl+GuDbRCWcnX97KYlVQrrh6d1zSAFl1s1sN7vEtofnw==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     name: '@rush-temp/arm-resourcesdeploymentstacks'
     version: 0.0.0
     dependencies:
@@ -17344,6 +17344,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.37)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.6
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:

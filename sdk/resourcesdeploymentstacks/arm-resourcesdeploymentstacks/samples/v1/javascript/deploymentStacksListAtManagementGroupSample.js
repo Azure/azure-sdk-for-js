@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { DeploymentStacksClient } = require("@azure/arm-resourcesdeploymentstacks");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the Deployment stacks within the specified Management Group.
@@ -25,9 +23,7 @@ async function deploymentStacksManagementGroupList() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential);
   const resArray = new Array();
-  for await (let item of client.deploymentStacks.listAtManagementGroup(
-    managementGroupId,
-  )) {
+  for await (let item of client.deploymentStacks.listAtManagementGroup(managementGroupId)) {
     resArray.push(item);
   }
   console.log(resArray);

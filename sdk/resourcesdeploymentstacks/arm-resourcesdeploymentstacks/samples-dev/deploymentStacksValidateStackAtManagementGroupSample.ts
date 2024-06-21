@@ -18,26 +18,21 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Creates or updates a Deployment stack at Resource Group scope.
+ * This sample demonstrates how to Runs preflight validation on the Management Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
  *
- * @summary Creates or updates a Deployment stack at Resource Group scope.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackResourceGroupCreate.json
+ * @summary Runs preflight validation on the Management Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackManagementGroupValidate.json
  */
-async function deploymentStacksResourceGroupCreateOrUpdate() {
-  const subscriptionId =
-    process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["RESOURCESDEPLOYMENTSTACKS_RESOURCE_GROUP"] ||
-    "deploymentStacksRG";
+async function deploymentStacksManagementGroupValidate() {
+  const managementGroupId = "myMg";
   const deploymentStackName = "simpleDeploymentStack";
   const deploymentStack: DeploymentStack = {
     location: "eastus",
     properties: {
       actionOnUnmanage: {
         managementGroups: "detach",
-        resourceGroups: "delete",
-        resources: "delete",
+        resourceGroups: "detach",
+        resources: "detach",
       },
       denySettings: {
         applyToChildScopes: false,
@@ -46,14 +41,15 @@ async function deploymentStacksResourceGroupCreateOrUpdate() {
         mode: "denyDelete",
       },
       parameters: { parameter1: { value: "a string" } },
+      templateLink: { uri: "https://example.com/exampleTemplate.json" },
     },
     tags: { tagkey: "tagVal" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new DeploymentStacksClient(credential, subscriptionId);
+  const client = new DeploymentStacksClient(credential);
   const result =
-    await client.deploymentStacks.beginCreateOrUpdateAtResourceGroupAndWait(
-      resourceGroupName,
+    await client.deploymentStacks.beginValidateStackAtManagementGroupAndWait(
+      managementGroupId,
       deploymentStackName,
       deploymentStack,
     );
@@ -61,7 +57,7 @@ async function deploymentStacksResourceGroupCreateOrUpdate() {
 }
 
 async function main() {
-  deploymentStacksResourceGroupCreateOrUpdate();
+  deploymentStacksManagementGroupValidate();
 }
 
 main().catch(console.error);
