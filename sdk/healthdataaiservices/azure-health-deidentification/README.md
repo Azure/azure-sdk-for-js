@@ -7,7 +7,6 @@
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/azure-health-deidentification)
-- [API reference documentation](https://www.microsoft.com/en-us/industry/health/microsoft-cloud-for-healthcare)
 
 ## Getting started
 
