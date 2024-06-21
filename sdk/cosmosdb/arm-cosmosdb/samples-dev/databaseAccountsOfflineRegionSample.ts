@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Offline the specified region for the specified Azure Cosmos DB database account.
  *
  * @summary Offline the specified region for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBDatabaseAccountOfflineRegion.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBDatabaseAccountOfflineRegion.json
  */
 async function cosmosDbDatabaseAccountOfflineRegion() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

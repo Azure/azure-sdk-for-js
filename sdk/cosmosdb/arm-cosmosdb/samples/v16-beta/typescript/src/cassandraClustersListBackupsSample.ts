@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the backups of this cluster that are available to restore.
  *
  * @summary List the backups of this cluster that are available to restore.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraBackupsList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraBackupsList.json
  */
 async function cosmosDbManagedCassandraBackupsList() {
   const subscriptionId =

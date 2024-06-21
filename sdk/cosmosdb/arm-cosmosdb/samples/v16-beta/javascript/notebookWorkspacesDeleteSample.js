@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the notebook workspace for a Cosmos DB account.
  *
  * @summary Deletes the notebook workspace for a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBNotebookWorkspaceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBNotebookWorkspaceDelete.json
  */
 async function cosmosDbNotebookWorkspaceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

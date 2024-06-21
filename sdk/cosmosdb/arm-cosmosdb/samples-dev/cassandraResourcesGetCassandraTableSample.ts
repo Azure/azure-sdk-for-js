@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the Cassandra table under an existing Azure Cosmos DB database account.
  *
  * @summary Gets the Cassandra table under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCassandraTableGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBCassandraTableGet.json
  */
 async function cosmosDbCassandraTableGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

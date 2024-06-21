@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the ThroughputPools in a given resource group.
  *
  * @summary List all the ThroughputPools in a given resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/throughputPool/CosmosDBThroughputPoolList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/throughputPool/CosmosDBThroughputPoolList.json
  */
 async function cosmosDbThroughputPoolListByResourceGroup() {
   const subscriptionId =

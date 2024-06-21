@@ -6,7 +6,12 @@
  * @azsdk-weight 3
  */
 
-import { EventGridClient, CloudEvent, ReceiveResult } from "@azure/eventgrid-namespaces";
+import {
+  EventGridSenderClient,
+  EventGridReceiverClient,
+  CloudEvent,
+  ReceiveResult,
+} from "@azure/eventgrid-namespaces";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import * as dotenv from "dotenv";
@@ -16,12 +21,18 @@ dotenv.config();
 
 const endpoint = process.env["EVENT_GRID_NAMESPACES_ENDPOINT"] ?? "https://endpoint";
 const key = process.env["EVENT_GRID_NAMESPACES_KEY"] ?? "api_key";
-const eventSubscripionName = process.env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
+const eventSubscriptionName = process.env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
 const topicName = process.env["TOPIC_NAME"] ?? "testtopic1";
 
 export async function main(): Promise<void> {
   // Create the client used to publish events
-  const client = new EventGridClient(endpoint, new AzureKeyCredential(key));
+  const senderClient = new EventGridSenderClient(endpoint, new AzureKeyCredential(key), topicName);
+  const receiverClient = new EventGridReceiverClient(
+    endpoint,
+    new AzureKeyCredential(key),
+    topicName,
+    eventSubscriptionName,
+  );
 
   // publishes a single cloud event
   const eventId: string = `singleEventIdV210001`;
@@ -33,17 +44,14 @@ export async function main(): Promise<void> {
     data: {
       resourceUri: "https://dummyurl.com",
     },
-    specversion: "1.0",
+    specVersion: "1.0",
   };
   // Publish the Cloud Event
-  await client.publishCloudEvent(cloudEvent, topicName);
+  await senderClient.sendEvents(cloudEvent);
   // Receive the Published Cloud Event
-  const receiveResult: ReceiveResult = await client.receiveCloudEvents(
-    topicName,
-    eventSubscripionName,
-  );
+  const receiveResult: ReceiveResult<any> = await receiverClient.receiveEvents();
   // The Received Cloud Event ID must be equal to the ID of the Event that was published.
-  console.log(`Received Event ID: ${receiveResult.value[0].event.id}`);
+  console.log(`Received Event ID: ${receiveResult.details[0].event.id}`);
 }
 
 main().catch((err) => {
