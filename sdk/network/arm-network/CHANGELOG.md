@@ -2,7 +2,7 @@
     
 ## 33.2.0 (2024-06-07)
     
-**Features**
+### Features Added
 
   - Added operation group FirewallPolicyDeployments
   - Added operation group FirewallPolicyDrafts
@@ -79,7 +79,7 @@
     
 ## 33.1.0 (2024-02-02)
     
-**Features**
+### Features Added
 
   - Interface BastionHost has a new optional parameter zones
   - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
@@ -88,7 +88,7 @@
     
 ## 33.0.0 (2023-12-07)
     
-**Features**
+### Features Added
 
   - Added Interface BastionShareableLinkTokenListRequest
   - Added Interface DdosCustomPoliciesDeleteHeaders
@@ -107,14 +107,14 @@
   - Enum KnownVirtualNetworkGatewaySkuTier has a new value ErGwScale
   - Enum KnownWebApplicationFirewallAction has a new value JSChallenge
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter routingConfiguration of interface NetworkVirtualApplianceConnection is changed from RoutingConfigurationNfv to RoutingConfiguration
     
     
 ## 32.2.0 (2023-09-07)
     
-**Features**
+### Features Added
 
   - Added Interface BastionHostPropertiesFormatNetworkAcls
   - Added Interface IPRule
@@ -130,7 +130,7 @@
     
 ## 32.1.0 (2023-08-08)
     
-**Features**
+### Features Added
 
   - Added operation LoadBalancers.migrateToIpBased
   - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
@@ -146,7 +146,7 @@
     
 ## 32.0.0 (2023-07-06)
     
-**Features**
+### Features Added
 
   - Added Type Alias AdminState
   - Interface ActiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
@@ -167,14 +167,14 @@
   - Added Enum KnownAdminState
   - Class NetworkManagementClient has a new signature
 
-**Breaking Changes**
+### Breaking Changes
 
   - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
     
     
 ## 31.0.0 (2023-05-19)
     
-**Features**
+### Features Added
 
   - Added operation group NetworkVirtualApplianceConnections
   - Added operation AzureFirewalls.beginPacketCapture
@@ -249,7 +249,7 @@
   - Enum KnownNetworkInterfaceAuxiliaryMode has a new value AcceleratedConnections
   - Enum KnownWebApplicationFirewallRuleType has a new value RateLimitRule
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
   - Interface Subnet no longer has parameter applicationGatewayIpConfigurations
@@ -259,7 +259,7 @@
     
 ## 30.2.0 (2023-03-07)
     
-**Features**
+### Features Added
 
   - Added Type Alias WebApplicationFirewallState
   - Interface ExpressRouteCircuit has a new optional parameter authorizationStatus
@@ -306,7 +306,7 @@
     
 ## 30.1.0 (2022-12-13)
     
-**Features**
+### Features Added
 
   - Added Interface DdosProtectionPlansDeleteHeaders
   - Added Interface DelegationProperties
@@ -324,7 +324,7 @@
     
 ## 30.0.0 (2022-09-29)
     
-**Features**
+### Features Added
 
   - Added operation group ApplicationGatewayWafDynamicManifests
   - Added operation group ApplicationGatewayWafDynamicManifestsDefault
@@ -460,7 +460,7 @@
   - Enum KnownNetworkIntentPolicyBasedService has a new value AllowRulesOnly
   - Enum KnownWebApplicationFirewallTransform has a new value Uppercase
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface DdosCustomPolicy no longer has parameter protocolCustomSettings
   - Interface DdosCustomPolicy no longer has parameter publicIPAddresses
@@ -476,7 +476,7 @@
     
 ## 29.0.0 (2022-08-02)
     
-**Features**
+### Features Added
 
   - Added operation group AdminRuleCollections
   - Added operation group AdminRules
@@ -889,7 +889,7 @@
   - Enum KnownEndpointType has a new value AzureVmss
   - Enum KnownWebApplicationFirewallOperator has a new value Any
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface NetworkManagementClientOptionalParams no longer has parameter apiVersion
   - Class NetworkManagementClient no longer has parameter apiVersion
@@ -897,7 +897,7 @@
     
 ## 28.0.0 (2022-05-18)
     
-**Features**
+### Features Added
 
   - Added operation group ConfigurationPolicyGroups
   - Added operation group ExpressRoutePortAuthorizations
@@ -969,7 +969,7 @@
   - Enum KnownApplicationGatewayProtocol has a new value Tcp
   - Enum KnownApplicationGatewayProtocol has a new value Tls
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownOrderByOrder
   - Removed Enum KnownSingleQueryResultDirection
@@ -979,7 +979,7 @@
     
 ## 27.0.0 (2022-04-27)
     
-**Features**
+### Features Added
 
   - Added Type Alias SingleQueryResultDirection
   - Added Type Alias SingleQueryResultMode
@@ -988,7 +988,7 @@
   - Added Enum KnownSingleQueryResultMode
   - Added Enum KnownSingleQueryResultSeverity
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownEnum69
   - Removed Enum KnownEnum70
