@@ -90,9 +90,6 @@ var blobStorageSASUri = listAccountSAS(storageAccount.name, '2023-01-01', {
   signedExpiry: dateTimeAdd(deploymentTime, 'PT4H')
 }).accountSasToken
 
-var blobStorageConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-
 output DEID_SERVICE_ENDPOINT string = testDeidService.properties.serviceUrl
-output STORAGE_ACCOUNT_CONNECTION_STRING string = blobStorageConnectionString
-output STORAGE_ACCOUNT_SAS_URI string = '${storageAccount.properties.primaryEndpoints.blob}${blobContainerName}?${blobStorageSASUri}'
 output STORAGE_CONTAINER_NAME string = container.name
+output STORAGE_ACCOUNT_NAME string = storageAccount.name

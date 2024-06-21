@@ -14,18 +14,16 @@ param (
     [string] $TestApplicationSecret
 )
 
-# Retrieve the connection string from environment variables
-$connectionString = $DeploymentOutputs['STORAGE_ACCOUNT_CONNECTION_STRING']
+$storageAccountName = $DeploymentOutputs['STORAGE_ACCOUNT_NAME']
 $containerName = $DeploymentOutputs['STORAGE_CONTAINER_NAME']
 $deIdServiceEndpoint = $DeploymentOutputs['DEID_SERVICE_ENDPOINT']
-$storageAccountSasUri = $DeploymentOutputs['STORAGE_ACCOUNT_SAS_URI']
 $testMode = "playback"
 
 # Set the local folder path to upload
 $localFolderPath = "test\public\data\example_patient_1"
 
 # Check if the connection string is present
-if ([string]::IsNullOrWhiteSpace($connectionString)) {
+if ([string]::IsNullOrWhiteSpace($storageAccountName)) {
     Write-Host "Error: Azure Storage connection string not found in environment variables."
     exit 1
 }
@@ -34,7 +32,7 @@ if ([string]::IsNullOrWhiteSpace($connectionString)) {
 Import-Module Az.Storage
 
 # Connect to the storage account
-$storageContext = New-AzStorageContext -ConnectionString $connectionString
+$storageContext = New-AzStorageContext -StorageAccountName $storageAccountName -UseConnectedAccount
 Get-AzStorageContainer -Name $containerName -Context $storageContext
 
 # Upload the folder and its contents to the container
@@ -52,6 +50,14 @@ Get-ChildItem -Path $localFolderPath -Recurse | ForEach-Object {
 }
 
 Write-Host "Folder '$localFolderPath' uploaded to container '$containerName' successfully."
+
+# Generate a SAS token for the container using User delegation key
+$storageAccountSasUri = New-AzStorageContainerSASToken -Context $storageContext `
+    -Name $containerName `
+    -Permission racwl `
+    -StartTime (Get-Date) `
+    -ExpiryTime (Get-Date).AddHours(24) `
+    -FullUri
 
 $deIdServiceEndpoint = $deIdServiceEndpoint -replace '^https://', ''
 # Create the content for the .env file
