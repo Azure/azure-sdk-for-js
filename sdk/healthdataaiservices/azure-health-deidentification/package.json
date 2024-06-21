@@ -59,7 +59,7 @@
       "productSlugs": [],
       "apiRefLink": "https://docs.microsoft.com/javascript/api/",
       "requiredResources": {
-        "De-identification Service": "https://www.microsoft.com/en-us/industry/health/microsoft-cloud-for-healthcare"
+        "De-identification Service": "https://docs.microsoft.com/javascript/api/"
       }
     }
   },
