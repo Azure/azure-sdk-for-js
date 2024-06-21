@@ -81,15 +81,6 @@ resource batchRole 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' 
   }
 }
 
-// https://learn.microsoft.com/en-us/rest/api/storagerp/storage-accounts/list-account-sas?view=rest-storagerp-2023-01-01&tabs=HTTP
-var blobStorageSASUri = listAccountSAS(storageAccount.name, '2023-01-01', {
-  signedProtocol: 'https'
-  signedResourceTypes: 'sco'
-  signedPermission: 'rwlca'
-  signedServices: 'b'
-  signedExpiry: dateTimeAdd(deploymentTime, 'PT4H')
-}).accountSasToken
-
 output DEID_SERVICE_ENDPOINT string = testDeidService.properties.serviceUrl
 output STORAGE_CONTAINER_NAME string = container.name
 output STORAGE_ACCOUNT_NAME string = storageAccount.name
