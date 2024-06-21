@@ -13,29 +13,30 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Gets information about a mongo cluster firewall rule.
+ * This sample demonstrates how to Refreshes any information about the association.
  *
- * @summary Gets information about a mongo cluster firewall rule.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleGet.json
+ * @summary Refreshes any information about the association.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/NetworkSecurityPerimeterConfigurationReconcile.json
  */
-async function getTheFirewallRuleOfTheMongoCluster() {
+async function networkSecurityPerimeterConfigurationList() {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "TestGroup";
-  const mongoClusterName = "myMongoCluster";
-  const firewallRuleName = "rule1";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "res4410";
+  const accountName = "sto8607";
+  const networkSecurityPerimeterConfigurationName =
+    "dbedb4e0-40e6-4145-81f3-f1314c150774.resourceAssociation1";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.getFirewallRule(
+  const result = await client.networkSecurityPerimeterConfigurations.beginReconcileAndWait(
     resourceGroupName,
-    mongoClusterName,
-    firewallRuleName,
+    accountName,
+    networkSecurityPerimeterConfigurationName,
   );
   console.log(result);
 }
 
 async function main() {
-  getTheFirewallRuleOfTheMongoCluster();
+  networkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);

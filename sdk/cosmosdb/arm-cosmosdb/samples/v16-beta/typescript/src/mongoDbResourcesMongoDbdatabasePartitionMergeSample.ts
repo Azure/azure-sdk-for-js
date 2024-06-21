@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Merges the partitions of a MongoDB database
  *
  * @summary Merges the partitions of a MongoDB database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBDatabasePartitionMerge.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBMongoDBDatabasePartitionMerge.json
  */
 async function cosmosDbMongoDbdatabasePartitionMerge() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

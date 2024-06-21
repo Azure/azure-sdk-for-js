@@ -10505,6 +10505,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.5.2:
+    resolution: {integrity: sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.38:
     resolution: {integrity: sha512-fYmIy7fKTSFAhG3fuPlubeGaMoAd6r0rSnfEsO5nEY55i26KSLt9EH7PLQiiqPUhNqYIJvSkTy1oArIcXAbPbA==}
     dev: false
@@ -13335,7 +13341,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-GGy8dALPNH00ih/OHVYVwA2J9MW//0KUgLLgxYLkHacj7N+mdhkGyN+VAcH/oqm97eULj89bxZ0LWXrd9FGoTg==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-UBxnLX9i36ODGBSAXT4SlvK5bjikhB2A4lg1V+7Av1n/SXvtLtzb1GmVEuKwyNoFCLKBOo07pr2T0y5Neb7ERA==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -13355,6 +13361,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.37)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.6
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -20019,7 +20026,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.4.5
+      '@_ts/max': /typescript@5.5.2
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.37)

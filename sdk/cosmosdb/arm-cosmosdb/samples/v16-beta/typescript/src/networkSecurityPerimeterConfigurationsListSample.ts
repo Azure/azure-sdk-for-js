@@ -15,29 +15,31 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a mongo cluster.
+ * This sample demonstrates how to Gets list of effective Network Security Perimeter Configuration for cosmos db account
  *
- * @summary Deletes a mongo cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterDelete.json
+ * @summary Gets list of effective Network Security Perimeter Configuration for cosmos db account
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/NetworkSecurityPerimeterConfigurationList.json
  */
-async function deleteTheMongoCluster() {
+async function namspaceNetworkSecurityPerimeterConfigurationList() {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "TestResourceGroup";
-  const mongoClusterName = "myMongoCluster";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "res4410";
+  const accountName = "cosmosTest";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.beginDeleteAndWait(
+  const resArray = new Array();
+  for await (let item of client.networkSecurityPerimeterConfigurations.list(
     resourceGroupName,
-    mongoClusterName,
-  );
-  console.log(result);
+    accountName,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  deleteTheMongoCluster();
+  namspaceNetworkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);
