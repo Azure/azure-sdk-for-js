@@ -70,6 +70,8 @@ import {
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
   PageRange,
+  BlobGetAccountInfoHeaders,
+  ContainerGetAccountInfoHeaders,
 } from "./generated/src/models";
 import {
   WithResponse,
@@ -122,6 +124,11 @@ export type BlobDownloadResponseModel = WithResponse<
 export type BlobGetPropertiesResponseModel = WithResponse<
   BlobGetPropertiesHeaders,
   BlobGetPropertiesHeaders
+>;
+/** Contains response data for the getAccountInfo operation. */
+export type BlobGetAccountInfoResponse = WithResponse<
+  BlobGetAccountInfoHeaders,
+  BlobGetAccountInfoHeaders
 >;
 /** Contains response data for the query operation. */
 export type BlobQueryResponseModel = WithResponse<BlobQueryResponseInternal, BlobQueryHeaders>;
@@ -184,6 +191,11 @@ export type BlockBlobUploadResponse = WithResponse<BlockBlobUploadHeaders, Block
 export type ContainerCreateResponse = WithResponse<ContainerCreateHeaders, ContainerCreateHeaders>;
 /** Contains response data for the delete operation. */
 export type ContainerDeleteResponse = WithResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>;
+/** Contains response data for the getAccountInfo operation. */
+export type ContainerGetAccountInfoResponse = WithResponse<
+  ContainerGetAccountInfoHeaders,
+  ContainerGetAccountInfoHeaders
+>;
 /** Contains response data for the getProperties operation. */
 export type ContainerGetPropertiesResponse = WithResponse<
   ContainerGetPropertiesHeaders,
@@ -288,6 +300,7 @@ export {
   BlobDeleteImmutabilityPolicyHeaders,
   BlobDownloadHeaders,
   BlobDownloadResponseInternal,
+  BlobGetAccountInfoHeaders,
   BlobGetPropertiesHeaders,
   BlobGetTagsHeaders,
   BlobTags,
@@ -311,6 +324,7 @@ export {
   ContainerCreateHeaders,
   ContainerDeleteHeaders,
   ContainerGetAccessPolicyHeaders,
+  ContainerGetAccountInfoHeaders,
   ContainerGetPropertiesHeaders,
   ContainerListBlobFlatSegmentHeaders,
   ContainerListBlobHierarchySegmentHeaders,

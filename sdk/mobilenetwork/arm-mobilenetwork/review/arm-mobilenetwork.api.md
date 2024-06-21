@@ -449,10 +449,25 @@ export type InstallationState = string;
 
 // @public
 export interface InterfaceProperties {
+    bfdIpv4Endpoints?: string[];
     ipv4Address?: string;
+    ipv4AddressList?: string[];
     ipv4Gateway?: string;
     ipv4Subnet?: string;
     name?: string;
+    vlanId?: number;
+}
+
+// @public
+export interface Ipv4Route {
+    destination?: string;
+    nextHops?: Ipv4RouteNextHop[];
+}
+
+// @public
+export interface Ipv4RouteNextHop {
+    address?: string;
+    priority?: number;
 }
 
 // @public
@@ -547,6 +562,13 @@ export enum KnownManagedServiceIdentityType {
 export enum KnownNaptEnabled {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownNasEncryptionType {
+    NEA0EEA0 = "NEA0/EEA0",
+    NEA1EEA1 = "NEA1/EEA1",
+    NEA2EEA2 = "NEA2/EEA2"
 }
 
 // @public
@@ -696,7 +718,7 @@ export interface LocalDiagnosticsAccessConfiguration {
 export interface ManagedServiceIdentity {
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
@@ -747,6 +769,8 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     packetCoreDataPlanes: PacketCoreDataPlanes;
     // (undocumented)
+    routingInfo: RoutingInfo;
+    // (undocumented)
     services: Services;
     // (undocumented)
     simGroups: SimGroups;
@@ -785,6 +809,7 @@ export interface MobileNetworks {
     get(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksGetOptionalParams): Promise<MobileNetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: MobileNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
     listBySubscription(options?: MobileNetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
+    listSimGroups(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksListSimGroupsOptionalParams): PagedAsyncIterableIterator<SimGroup>;
     updateTags(resourceGroupName: string, mobileNetworkName: string, parameters: IdentityAndTagsObject, options?: MobileNetworksUpdateTagsOptionalParams): Promise<MobileNetworksUpdateTagsResponse>;
 }
 
@@ -839,6 +864,20 @@ export interface MobileNetworksListBySubscriptionOptionalParams extends coreClie
 export type MobileNetworksListBySubscriptionResponse = MobileNetworkListResult;
 
 // @public
+export interface MobileNetworksListSimGroupsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MobileNetworksListSimGroupsNextResponse = SimGroupListResult;
+
+// @public
+export interface MobileNetworksListSimGroupsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MobileNetworksListSimGroupsResponse = SimGroupListResult;
+
+// @public
 export interface MobileNetworksUpdateTagsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -856,6 +895,9 @@ export interface NaptConfiguration {
 
 // @public
 export type NaptEnabled = string;
+
+// @public
+export type NasEncryptionType = string;
 
 // @public
 export interface NASRerouteConfiguration {
@@ -1004,6 +1046,7 @@ export interface PacketCoreControlPlane extends TrackedResource {
     sites: SiteResourceId[];
     sku: BillingSku;
     ueMtu?: number;
+    userConsent?: UserConsentConfiguration;
     version?: string;
 }
 
@@ -1283,6 +1326,7 @@ export interface PinholeTimeouts {
 
 // @public
 export interface Platform {
+    haUpgradesAvailable?: string[];
     maximumPlatformSoftwareVersion?: string;
     minimumPlatformSoftwareVersion?: string;
     obsoleteVersion?: ObsoleteVersion;
@@ -1370,6 +1414,46 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface RoutingInfo {
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, options?: RoutingInfoGetOptionalParams): Promise<RoutingInfoGetResponse>;
+    list(resourceGroupName: string, packetCoreControlPlaneName: string, options?: RoutingInfoListOptionalParams): PagedAsyncIterableIterator<RoutingInfoModel>;
+}
+
+// @public
+export interface RoutingInfoGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoGetResponse = RoutingInfoModel;
+
+// @public
+export interface RoutingInfoListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoListNextResponse = RoutingInfoListResult;
+
+// @public
+export interface RoutingInfoListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoListResponse = RoutingInfoListResult;
+
+// @public
+export interface RoutingInfoListResult {
+    readonly nextLink?: string;
+    value?: RoutingInfoModel[];
+}
+
+// @public
+export interface RoutingInfoModel extends ProxyResource {
+    controlPlaneAccessRoutes?: Ipv4Route[];
+    userPlaneAccessRoutes?: Ipv4Route[];
+    userPlaneDataRoutes?: UserPlaneDataRoutesItem[];
 }
 
 // @public
@@ -1462,6 +1546,7 @@ export type ServicesUpdateTagsResponse = Service;
 
 // @public
 export interface SignalingConfiguration {
+    nasEncryption?: NasEncryptionType[];
     nasReroute?: NASRerouteConfiguration;
 }
 
@@ -1481,6 +1566,12 @@ export interface Sim extends ProxyResource {
     staticIpConfiguration?: SimStaticIpProperties[];
     readonly vendorKeyFingerprint?: string;
     readonly vendorName?: string;
+}
+
+// @public
+export interface SimClone {
+    sims?: string[];
+    targetSimGroupId?: SimGroupResourceId;
 }
 
 // @public
@@ -1580,6 +1671,12 @@ export type SimGroupsUpdateTagsResponse = SimGroup;
 export interface SimListResult {
     readonly nextLink?: string;
     value?: Sim[];
+}
+
+// @public
+export interface SimMove {
+    sims?: string[];
+    targetSimGroupId?: SimGroupResourceId;
 }
 
 // @public
@@ -1711,10 +1808,14 @@ export interface Sims {
     beginBulkUploadAndWait(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimsBulkUploadResponse>;
     beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadEncryptedResponse>, SimsBulkUploadEncryptedResponse>>;
     beginBulkUploadEncryptedAndWait(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimsBulkUploadEncryptedResponse>;
+    beginClone(resourceGroupName: string, simGroupName: string, parameters: SimClone, options?: SimsCloneOptionalParams): Promise<SimplePollerLike<OperationState<SimsCloneResponse>, SimsCloneResponse>>;
+    beginCloneAndWait(resourceGroupName: string, simGroupName: string, parameters: SimClone, options?: SimsCloneOptionalParams): Promise<SimsCloneResponse>;
     beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<void>;
+    beginMove(resourceGroupName: string, simGroupName: string, parameters: SimMove, options?: SimsMoveOptionalParams): Promise<SimplePollerLike<OperationState<SimsMoveResponse>, SimsMoveResponse>>;
+    beginMoveAndWait(resourceGroupName: string, simGroupName: string, parameters: SimMove, options?: SimsMoveOptionalParams): Promise<SimsMoveResponse>;
     get(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsGetOptionalParams): Promise<SimsGetResponse>;
     listByGroup(resourceGroupName: string, simGroupName: string, options?: SimsListByGroupOptionalParams): PagedAsyncIterableIterator<Sim>;
 }
@@ -1745,6 +1846,20 @@ export interface SimsBulkUploadOptionalParams extends coreClient.OperationOption
 
 // @public
 export type SimsBulkUploadResponse = AsyncOperationStatus;
+
+// @public
+export interface SimsCloneHeaders {
+    location?: string;
+}
+
+// @public
+export interface SimsCloneOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsCloneResponse = AsyncOperationStatus;
 
 // @public
 export interface SimsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1781,6 +1896,20 @@ export interface SimsListByGroupOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type SimsListByGroupResponse = SimListResult;
+
+// @public
+export interface SimsMoveHeaders {
+    location?: string;
+}
+
+// @public
+export interface SimsMoveOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsMoveResponse = AsyncOperationStatus;
 
 // @public
 export type SimState = string;
@@ -2162,6 +2291,17 @@ export type UeUsageSetting = string;
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public (undocumented)
+export interface UserConsentConfiguration {
+    allowSupportTelemetryAccess?: boolean;
+}
+
+// @public (undocumented)
+export interface UserPlaneDataRoutesItem {
+    attachedDataNetwork?: AttachedDataNetworkResourceId;
+    routes?: Ipv4Route[];
 }
 
 // @public

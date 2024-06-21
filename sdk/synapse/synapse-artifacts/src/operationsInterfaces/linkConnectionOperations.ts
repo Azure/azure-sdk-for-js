@@ -29,7 +29,7 @@ import {
   UpdateLandingZoneCredential,
   LinkConnectionUpdateLandingZoneCredentialOptionalParams,
   LinkConnectionPauseOptionalParams,
-  LinkConnectionResumeOptionalParams
+  LinkConnectionResumeOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface LinkConnectionOperations {
    * @param options The options parameters.
    */
   listByWorkspace(
-    options?: LinkConnectionListByWorkspaceOptionalParams
+    options?: LinkConnectionListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkConnectionResource>;
   /**
    * Creates or updates a link connection
@@ -51,7 +51,7 @@ export interface LinkConnectionOperations {
   createOrUpdate(
     linkConnectionName: string,
     linkConnection: LinkConnectionResource,
-    options?: LinkConnectionCreateOrUpdateOptionalParams
+    options?: LinkConnectionCreateOrUpdateOptionalParams,
   ): Promise<LinkConnectionCreateOrUpdateResponse>;
   /**
    * Get a link connection
@@ -60,7 +60,7 @@ export interface LinkConnectionOperations {
    */
   get(
     linkConnectionName: string,
-    options?: LinkConnectionGetOptionalParams
+    options?: LinkConnectionGetOptionalParams,
   ): Promise<LinkConnectionGetResponse>;
   /**
    * Delete a link connection
@@ -69,7 +69,7 @@ export interface LinkConnectionOperations {
    */
   delete(
     linkConnectionName: string,
-    options?: LinkConnectionDeleteOptionalParams
+    options?: LinkConnectionDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Edit tables for a link connection
@@ -80,7 +80,7 @@ export interface LinkConnectionOperations {
   editTables(
     linkConnectionName: string,
     editTablesRequest: EditTablesRequest,
-    options?: LinkConnectionEditTablesOptionalParams
+    options?: LinkConnectionEditTablesOptionalParams,
   ): Promise<void>;
   /**
    * Start a link connection. It may take a few minutes from Starting to Running, monitor the status with
@@ -90,7 +90,7 @@ export interface LinkConnectionOperations {
    */
   start(
     linkConnectionName: string,
-    options?: LinkConnectionStartOptionalParams
+    options?: LinkConnectionStartOptionalParams,
   ): Promise<void>;
   /**
    * Stop a link connection. It may take a few minutes from Stopping to stopped, monitor the status with
@@ -100,7 +100,7 @@ export interface LinkConnectionOperations {
    */
   stop(
     linkConnectionName: string,
-    options?: LinkConnectionStopOptionalParams
+    options?: LinkConnectionStopOptionalParams,
   ): Promise<void>;
   /**
    * Get the detailed status of a link connection
@@ -109,7 +109,7 @@ export interface LinkConnectionOperations {
    */
   getDetailedStatus(
     linkConnectionName: string,
-    options?: LinkConnectionGetDetailedStatusOptionalParams
+    options?: LinkConnectionGetDetailedStatusOptionalParams,
   ): Promise<LinkConnectionGetDetailedStatusResponse>;
   /**
    * List the link tables of a link connection
@@ -118,7 +118,7 @@ export interface LinkConnectionOperations {
    */
   listLinkTables(
     linkConnectionName: string,
-    options?: LinkConnectionListLinkTablesOptionalParams
+    options?: LinkConnectionListLinkTablesOptionalParams,
   ): Promise<LinkConnectionListLinkTablesResponse>;
   /**
    * Query the link table status of a link connection
@@ -129,7 +129,7 @@ export interface LinkConnectionOperations {
   queryTableStatus(
     linkConnectionName: string,
     queryTableStatusRequest: QueryTableStatusRequest,
-    options?: LinkConnectionQueryTableStatusOptionalParams
+    options?: LinkConnectionQueryTableStatusOptionalParams,
   ): Promise<LinkConnectionQueryTableStatusResponse>;
   /**
    * Update landing zone credential of a link connection
@@ -140,7 +140,7 @@ export interface LinkConnectionOperations {
   updateLandingZoneCredential(
     linkConnectionName: string,
     updateLandingZoneCredentialRequest: UpdateLandingZoneCredential,
-    options?: LinkConnectionUpdateLandingZoneCredentialOptionalParams
+    options?: LinkConnectionUpdateLandingZoneCredentialOptionalParams,
   ): Promise<void>;
   /**
    * Pause a link connection. It may take a few minutes from Pausing to Paused, monitor the status with
@@ -150,7 +150,7 @@ export interface LinkConnectionOperations {
    */
   pause(
     linkConnectionName: string,
-    options?: LinkConnectionPauseOptionalParams
+    options?: LinkConnectionPauseOptionalParams,
   ): Promise<void>;
   /**
    * Resume a link connection. It may take a few minutes from Resuming to Running, monitor the status
@@ -160,6 +160,6 @@ export interface LinkConnectionOperations {
    */
   resume(
     linkConnectionName: string,
-    options?: LinkConnectionResumeOptionalParams
+    options?: LinkConnectionResumeOptionalParams,
   ): Promise<void>;
 }

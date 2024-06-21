@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayWithFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -50,7 +50,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayWithFilter() {
  * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayWithoutFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

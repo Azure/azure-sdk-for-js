@@ -95,7 +95,7 @@ jobs:
                 ArmTemplateParameters: $(ArmTemplateParameters)
                 UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
                 ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-                SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
+                SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/deploy-test-resources.yml
             parameters:
@@ -106,7 +106,7 @@ jobs:
               ArmTemplateParameters: $(ArmTemplateParameters)
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
               ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-              SubscriptionConfigurationFilePath: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePath }}
+              SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -152,24 +152,51 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
 
-      - pwsh: |
-          Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
-          for ($i = 0; $i -lt 10; $i++) {
-              try {
-                  Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
-                  exit 0
-              } catch {
-                  Write-Warning "Failed to successfully connect to browser credential relay. Retrying..."
-                  Start-Sleep 6
+      - ${{ if eq('true', parameters.UseFederatedAuth) }}:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            pwsh: true
+            ScriptType: InlineScript
+            Inline: |
+              Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+              for ($i = 0; $i -lt 10; $i++) {
+                  try {
+                      Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
+                      exit 0
+                  } catch {
+                      Write-Warning "Failed to successfully connect to browser credential relay. Retrying..."
+                      Start-Sleep 6
+                  }
               }
-          }
-          Write-Error "Could not connect to browser credential relay."
-          exit 1
-        displayName: "Start browser credential relay"
-        condition: and(succeeded(), eq(variables['TestType'], 'browser'))
-        env:
-          TEST_MODE: "live"
-          ${{ insert }}: ${{ parameters.EnvVars }}
+              Write-Error "Could not connect to browser credential relay."
+              exit 1
+          displayName: "Start browser credential relay"
+          condition: and(succeeded(), eq(variables['TestType'], 'browser'))
+          env:
+            TEST_MODE: "live"
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+      - ${{ else }}:
+        - pwsh: |
+            Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+            for ($i = 0; $i -lt 10; $i++) {
+                try {
+                    Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
+                    exit 0
+                } catch {
+                    Write-Warning "Failed to successfully connect to browser credential relay. Retrying..."
+                    Start-Sleep 6
+                }
+            }
+            Write-Error "Could not connect to browser credential relay."
+            exit 1
+          displayName: "Start browser credential relay"
+          condition: and(succeeded(), eq(variables['TestType'], 'browser'))
+          env:
+            TEST_MODE: "live"
+            ${{ insert }}: ${{ parameters.EnvVars }}
 
       - template: ../steps/use-node-test-version.yml
 
@@ -191,6 +218,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - task: AzurePowerShell@5
@@ -207,6 +235,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - ${{ parameters.PostSteps }}
@@ -223,6 +252,7 @@ jobs:
           displayName: "Execute Samples"
           env:
             TEST_MODE: "live"
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 

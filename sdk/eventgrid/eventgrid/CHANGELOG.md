@@ -1,5 +1,15 @@
 # Release History
 
+## 5.5.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 5.5.0 (2026-06-11)
 
 ### Features Added
@@ -371,4 +381,4 @@ now see compliation issues if they try to treat these properties as strings (pre
 
 - This release is a preview of our efforts to create a client library that is user friendly and
   idiomatic to the JavaScript ecosystem. The reasons for most of the changes in this update can be found in the
-  [Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+  [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_design.html).
