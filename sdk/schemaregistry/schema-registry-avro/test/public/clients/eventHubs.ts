@@ -15,7 +15,6 @@ import {
 import { MessagingTestClient } from "./models";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { DefaultAzureCredential } from "@azure/identity";
 
 export function createEventHubsClient(settings: {
   eventHubAvroHostName: string;
@@ -41,7 +40,6 @@ export function createEventHubsClient(settings: {
           throw ctx.error;
         },
       };
-      DefaultAzureCredential
       producer = new EventHubBufferedProducerClient(
         eventHubAvroHostName,
         eventHubName,
