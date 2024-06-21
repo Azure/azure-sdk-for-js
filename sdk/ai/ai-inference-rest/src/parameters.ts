@@ -36,6 +36,7 @@ export interface GetChatCompletionsBodyParam {
       | ChatCompletionsToolSelectionPreset
       | ChatCompletionsNamedToolSelection;
     seed?: number;
+    model?: string;
   };
 }
 

@@ -244,6 +244,7 @@ export interface GetChatCompletionsBodyParam {
         tools?: Array<ChatCompletionsToolDefinition>;
         tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
         seed?: number;
+        model?: string;
     };
 }
 
