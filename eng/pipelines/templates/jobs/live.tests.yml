@@ -218,6 +218,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - task: AzurePowerShell@5
@@ -234,6 +235,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - ${{ parameters.PostSteps }}
@@ -250,6 +252,7 @@ jobs:
           displayName: "Execute Samples"
           env:
             TEST_MODE: "live"
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 

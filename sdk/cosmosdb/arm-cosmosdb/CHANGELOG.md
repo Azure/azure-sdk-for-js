@@ -3,7 +3,7 @@
 ## 16.0.0-beta.8 (2024-06-17)
 Compared with version 15.6.0
     
-**Features**
+### Features Added
 
   - Added operation group DataTransferJobs
   - Added operation group GraphResources
@@ -339,7 +339,7 @@ Compared with version 15.6.0
   - Enum KnownStatus has a new value Succeeded
   - Enum KnownStatus has a new value Updating
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface CommandPostBody no longer has parameter readwrite
   - Interface ErrorResponse no longer has parameter code
@@ -355,7 +355,7 @@ Compared with version 15.6.0
     
 ## 16.0.0-beta.7 (2024-03-08)
     
-**Features**
+### Features Added
 
   - Added operation group DataTransferJobs
   - Added operation group GraphResources
@@ -696,14 +696,14 @@ Compared with version 15.6.0
         [propertyName: string]: string;
     } to Record<string, unknown>
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface CommandPostBody no longer has parameter readwrite
     
     
 ## 15.6.0 (2023-12-25)
     
-**Features**
+### Features Added
 
   - Added Interface ComputedProperty
   - Added Interface ResourceRestoreParameters
@@ -748,7 +748,7 @@ Compared with version 15.6.0
     
 ## 15.6.0-beta.1 (2023-11-21)
     
-**Features**
+### Features Added
 
   - Added operation group DataTransferJobs
   - Added operation group GraphResources
@@ -1035,7 +1035,7 @@ Compared with version 15.6.0
   
 ## 15.5.0 (2023-05-11)
     
-**Features**
+### Features Added
 
   - Added Interface ContinuousModeProperties
   - Added Type Alias ContinuousTier
@@ -1049,7 +1049,7 @@ Compared with version 15.6.0
     
 ## 15.4.0 (2023-04-23)
     
-**Features**
+### Features Added
 
   - Added Interface AuthenticationMethodLdapProperties
   - Added Interface CassandraError
@@ -1075,7 +1075,7 @@ Compared with version 15.6.0
     
 ## 15.3.0 (2023-02-10)
     
-**Features**
+### Features Added
 
   - Added operation group RestorableGremlinDatabases
   - Added operation group RestorableGremlinGraphs
@@ -1220,7 +1220,7 @@ Compared with version 15.6.0
     
 ## 15.2.0 (2022-09-05)
     
-**Features**
+### Features Added
 
   - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinition
   - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinitionAndWait
@@ -1270,7 +1270,7 @@ Compared with version 15.6.0
     
 ## 15.1.0 (2022-07-18)
     
-**Features**
+### Features Added
 
   - Added operation group Service
   - Added Interface CassandraKeyspaceCreateUpdateParameters
