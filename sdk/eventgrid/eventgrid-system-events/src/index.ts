@@ -91,9 +91,9 @@ export {
   AcsRecordingFileStatusUpdatedEventData,
   AcsRecordingStorageInfo,
   AcsRecordingChunkInfo,
-  recordingContentType as RecordingContentType,
-  recordingChannelType as RecordingChannelType,
-  recordingFormatType as RecordingFormatType,
+  RecordingContentType,
+  RecordingChannelType,
+  RecordingFormatType,
   AcsEmailDeliveryReportReceivedEventData,
   AcsEmailDeliveryReportStatus,
   AcsEmailDeliveryReportStatusDetails,
@@ -316,6 +316,9 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ServiceApiVersions,
   MediaJobOutputUnion,
+  AcsMessageAnalysisCompletedEventData,
+  AcsMessageLanguageDetection,
+  AcsMessageSentiment,
 } from "./cadl-generated";
 
 export {

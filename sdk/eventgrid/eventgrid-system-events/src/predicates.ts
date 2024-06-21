@@ -212,6 +212,7 @@ import {
   AcsMessageDeliveryStatusUpdatedEventData,
   AcsMessageReceivedEventData,
   AcsRouterWorkerUpdatedEventData,
+  AcsMessageAnalysisCompletedEventData,
 } from "./cadl-generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -640,6 +641,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.RouterWorkerUpdated" event. */
   "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageAnalysisCompleted" event. */
+  "Microsoft.Communication.AdvancedMessageAnalysisCompleted": AcsMessageAnalysisCompletedEventData;
 }
 
 /**
