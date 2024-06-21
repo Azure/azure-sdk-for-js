@@ -1,18 +1,60 @@
 # Release History
-
-## 5.0.1 (Unreleased)
-
+    
+## 6.0.0 (2024-06-07)
+    
 ### Features Added
+
+  - Added operation group RoutingInfo
+  - Added operation MobileNetworks.listSimGroups
+  - Added operation Sims.beginClone
+  - Added operation Sims.beginCloneAndWait
+  - Added operation Sims.beginMove
+  - Added operation Sims.beginMoveAndWait
+  - Added Interface Ipv4Route
+  - Added Interface Ipv4RouteNextHop
+  - Added Interface MobileNetworksListSimGroupsNextOptionalParams
+  - Added Interface MobileNetworksListSimGroupsOptionalParams
+  - Added Interface RoutingInfoGetOptionalParams
+  - Added Interface RoutingInfoListNextOptionalParams
+  - Added Interface RoutingInfoListOptionalParams
+  - Added Interface RoutingInfoListResult
+  - Added Interface RoutingInfoModel
+  - Added Interface SimClone
+  - Added Interface SimMove
+  - Added Interface SimsCloneHeaders
+  - Added Interface SimsCloneOptionalParams
+  - Added Interface SimsMoveHeaders
+  - Added Interface SimsMoveOptionalParams
+  - Added Interface UserConsentConfiguration
+  - Added Interface UserPlaneDataRoutesItem
+  - Added Type Alias MobileNetworksListSimGroupsNextResponse
+  - Added Type Alias MobileNetworksListSimGroupsResponse
+  - Added Type Alias NasEncryptionType
+  - Added Type Alias RoutingInfoGetResponse
+  - Added Type Alias RoutingInfoListNextResponse
+  - Added Type Alias RoutingInfoListResponse
+  - Added Type Alias SimsCloneResponse
+  - Added Type Alias SimsMoveResponse
+  - Interface InterfaceProperties has a new optional parameter bfdIpv4Endpoints
+  - Interface InterfaceProperties has a new optional parameter ipv4AddressList
+  - Interface InterfaceProperties has a new optional parameter vlanId
+  - Interface PacketCoreControlPlane has a new optional parameter userConsent
+  - Interface Platform has a new optional parameter haUpgradesAvailable
+  - Interface SignalingConfiguration has a new optional parameter nasEncryption
+  - Added Enum KnownNasEncryptionType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
+    
+    
 ## 5.0.0 (2024-03-21)
     
-**Features**
+### Features Added
 
   - Added operation group ExtendedUeInformation
   - Added operation group UeInformation
@@ -53,14 +95,14 @@
   - Added Enum KnownUeState
   - Added Enum KnownUeUsageSetting
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation MobileNetworks.updateTags has a new signature
     
     
 ## 4.0.0 (2023-10-31)
     
-**Features**
+### Features Added
 
   - Added Interface EventHubConfiguration
   - Added Interface NASRerouteConfiguration
@@ -77,13 +119,13 @@
   - Enum KnownInstallationReason has a new value UserPlaneAccessVirtualIpv4AddressesHasChanged
   - Enum KnownInstallationReason has a new value UserPlaneDataInterfaceHasChanged
     
-**Breaking Changes**
+### Breaking Changes
 
   - Parameter totalBytesPerSession has a more constraining minimum value
     
 ## 3.0.0 (2023-07-05)
     
-**Features**
+### Features Added
 
   - Added operation group DiagnosticsPackages
   - Added operation group PacketCaptures
@@ -142,7 +184,7 @@
   - Added Enum KnownPacketCaptureStatus
   - Added Enum KnownReinstallRequired
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation PacketCoreControlPlanes.updateTags has a new signature
   - Operation SimGroups.updateTags has a new signature
@@ -157,7 +199,7 @@
     
 ## 2.0.0 (2023-01-06)
     
-**Features**
+### Features Added
 
   - Added operation PacketCoreControlPlanes.beginCollectDiagnosticsPackage
   - Added operation PacketCoreControlPlanes.beginCollectDiagnosticsPackageAndWait
@@ -184,7 +226,7 @@
   - Added Type Alias SimsBulkUploadEncryptedResponse
   - Added Type Alias SimsBulkUploadResponse
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group PacketCoreControlPlaneOperations
   - Removed operation group SimOperations

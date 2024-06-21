@@ -22,6 +22,7 @@ import {
   OperationsImpl,
   PacketCapturesImpl,
   PacketCoreControlPlanesImpl,
+  RoutingInfoImpl,
   PacketCoreControlPlaneVersionsImpl,
   PacketCoreDataPlanesImpl,
   ServicesImpl,
@@ -41,6 +42,7 @@ import {
   Operations,
   PacketCaptures,
   PacketCoreControlPlanes,
+  RoutingInfo,
   PacketCoreControlPlaneVersions,
   PacketCoreDataPlanes,
   Services,
@@ -102,7 +104,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/5.0.1`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -156,7 +158,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
+    this.apiVersion = options.apiVersion || "2024-04-01";
     this.attachedDataNetworks = new AttachedDataNetworksImpl(this);
     this.dataNetworks = new DataNetworksImpl(this);
     this.diagnosticsPackages = new DiagnosticsPackagesImpl(this);
@@ -164,6 +166,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.packetCaptures = new PacketCapturesImpl(this);
     this.packetCoreControlPlanes = new PacketCoreControlPlanesImpl(this);
+    this.routingInfo = new RoutingInfoImpl(this);
     this.packetCoreControlPlaneVersions =
       new PacketCoreControlPlaneVersionsImpl(this);
     this.packetCoreDataPlanes = new PacketCoreDataPlanesImpl(this);
@@ -213,6 +216,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   packetCaptures: PacketCaptures;
   packetCoreControlPlanes: PacketCoreControlPlanes;
+  routingInfo: RoutingInfo;
   packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
   packetCoreDataPlanes: PacketCoreDataPlanes;
   services: Services;
