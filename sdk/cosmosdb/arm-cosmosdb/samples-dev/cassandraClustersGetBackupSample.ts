@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of an individual backup of this cluster that is available to restore.
  *
  * @summary Get the properties of an individual backup of this cluster that is available to restore.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraBackup.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraBackup.json
  */
 async function cosmosDbManagedCassandraBackup() {
   const subscriptionId =

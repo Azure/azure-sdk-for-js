@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all triggers for the specified Image Template resource
  *
  * @summary List all triggers for the specified Image Template resource
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/ListTriggers.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/ListTriggers.json
  */
 async function listTriggersByImageTemplate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listTriggersByImageTemplate() {
   const resArray = new Array();
   for await (let item of client.triggers.listByImageTemplate(
     resourceGroupName,
-    imageTemplateName
+    imageTemplateName,
   )) {
     resArray.push(item);
   }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Resumes a Data Transfer Job.
  *
  * @summary Resumes a Data Transfer Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobResume.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobResume.json
  */
 async function cosmosDbDataTransferJobResume() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

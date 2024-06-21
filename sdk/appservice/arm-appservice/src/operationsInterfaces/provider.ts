@@ -18,7 +18,7 @@ import {
   CsmOperationDescription,
   ProviderListOperationsOptionalParams,
   ProviderGetWebAppStacksOptionalParams,
-  ProviderGetAvailableStacksOnPremOptionalParams
+  ProviderGetAvailableStacksOnPremOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,14 +29,14 @@ export interface Provider {
    * @param options The options parameters.
    */
   listAvailableStacks(
-    options?: ProviderGetAvailableStacksOptionalParams
+    options?: ProviderGetAvailableStacksOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationStackResource>;
   /**
    * Description for Get available Function app frameworks and their versions
    * @param options The options parameters.
    */
   listFunctionAppStacks(
-    options?: ProviderGetFunctionAppStacksOptionalParams
+    options?: ProviderGetFunctionAppStacksOptionalParams,
   ): PagedAsyncIterableIterator<FunctionAppStack>;
   /**
    * Description for Get available Function app frameworks and their versions for location
@@ -45,7 +45,7 @@ export interface Provider {
    */
   listFunctionAppStacksForLocation(
     location: string,
-    options?: ProviderGetFunctionAppStacksForLocationOptionalParams
+    options?: ProviderGetFunctionAppStacksForLocationOptionalParams,
   ): PagedAsyncIterableIterator<FunctionAppStack>;
   /**
    * Description for Get available Web app frameworks and their versions for location
@@ -54,7 +54,7 @@ export interface Provider {
    */
   listWebAppStacksForLocation(
     location: string,
-    options?: ProviderGetWebAppStacksForLocationOptionalParams
+    options?: ProviderGetWebAppStacksForLocationOptionalParams,
   ): PagedAsyncIterableIterator<WebAppStack>;
   /**
    * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes
@@ -62,20 +62,20 @@ export interface Provider {
    * @param options The options parameters.
    */
   listOperations(
-    options?: ProviderListOperationsOptionalParams
+    options?: ProviderListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<CsmOperationDescription>;
   /**
    * Description for Get available Web app frameworks and their versions
    * @param options The options parameters.
    */
   listWebAppStacks(
-    options?: ProviderGetWebAppStacksOptionalParams
+    options?: ProviderGetWebAppStacksOptionalParams,
   ): PagedAsyncIterableIterator<WebAppStack>;
   /**
    * Description for Get available application frameworks and their versions
    * @param options The options parameters.
    */
   listAvailableStacksOnPrem(
-    options?: ProviderGetAvailableStacksOnPremOptionalParams
+    options?: ProviderGetAvailableStacksOnPremOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationStackResource>;
 }

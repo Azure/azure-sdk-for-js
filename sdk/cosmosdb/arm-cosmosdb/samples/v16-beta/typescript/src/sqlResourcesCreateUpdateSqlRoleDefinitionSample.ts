@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB SQL Role Definition.
  *
  * @summary Creates or updates an Azure Cosmos DB SQL Role Definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlRoleDefinitionCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBSqlRoleDefinitionCreateUpdate.json
  */
 async function cosmosDbSqlRoleDefinitionCreateUpdate() {
   const subscriptionId =
