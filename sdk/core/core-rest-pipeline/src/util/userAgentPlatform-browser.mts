@@ -31,7 +31,7 @@ interface NavigatorEx extends Navigator {
 function getBrandVersionString(
   brands: { brand: string; version: string }[],
 ): { brand: string; version: string } | undefined {
-  const brandOrder = ["Google Chrome", "Microsoft Edge", "Brave", "Chromium"];
+  const brandOrder = ["Google Chrome", "Microsoft Edge", "Opera", "Brave", "Chromium"];
   for (const brand of brandOrder) {
     const foundBrand = brands.find((b) => b.brand === brand);
     if (foundBrand) {
@@ -55,7 +55,7 @@ export async function setPlatformSpecificData(map: Map<string, string>): Promise
     osPlatform = `${entropyValues.architecture}-${entropyValues.platform}-${entropyValues.platformVersion}`;
 
     // Get the brand and version
-    const brand = getBrandVersionString(entropyValues.brands);
+    const brand = getBrandVersionString(localNavigator.userAgentData.brands);
     if (brand) {
       map.set(brand.brand, brand.version);
     }
