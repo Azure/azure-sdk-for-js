@@ -13,33 +13,27 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Generate wallet action on Autonomous Database
+ * This sample demonstrates how to This operation shrinks the current allocated storage down to the current actual used data storage.
  *
- * @summary Generate wallet action on Autonomous Database
- * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabase_generateWallet.json
+ * @summary This operation shrinks the current allocated storage down to the current actual used data storage.
+ * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabase_shrink.json
  */
-async function generateWalletActionOnAutonomousDatabase() {
+async function performShrinkActionOnAutonomousDatabase() {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
   const autonomousdatabasename = "databasedb1";
-  const body = {
-    generateType: "Single",
-    isRegional: false,
-    password: "ExamplePassword12345",
-  };
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.autonomousDatabases.generateWallet(
+  const result = await client.autonomousDatabases.beginShrinkAndWait(
     resourceGroupName,
     autonomousdatabasename,
-    body,
   );
   console.log(result);
 }
 
 async function main() {
-  generateWalletActionOnAutonomousDatabase();
+  performShrinkActionOnAutonomousDatabase();
 }
 
 main().catch(console.error);

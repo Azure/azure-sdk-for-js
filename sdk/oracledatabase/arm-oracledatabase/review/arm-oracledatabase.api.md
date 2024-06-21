@@ -52,14 +52,15 @@ export type AutonomousDatabaseBackupLifecycleState = string;
 
 // @public
 export interface AutonomousDatabaseBackupListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: AutonomousDatabaseBackup[];
 }
 
 // @public
 export interface AutonomousDatabaseBackupProperties {
-    readonly autonomousDatabaseId: string;
-    readonly databaseSizeInTBs?: number;
+    readonly autonomousDatabaseOcid?: string;
+    readonly backupType?: AutonomousDatabaseBackupType;
+    readonly databaseSizeInTbs?: number;
     readonly dbVersion?: string;
     displayName?: string;
     readonly isAutomatic?: boolean;
@@ -69,10 +70,10 @@ export interface AutonomousDatabaseBackupProperties {
     readonly ocid?: string;
     readonly provisioningState?: AzureResourceProvisioningState;
     retentionPeriodInDays?: number;
-    readonly sizeInTBs?: number;
+    readonly sizeInTbs?: number;
     readonly timeAvailableTil?: Date;
     readonly timeEnded?: string;
-    readonly type?: AutonomousDatabaseBackupType;
+    readonly timeStarted?: string;
 }
 
 // @public
@@ -205,8 +206,10 @@ export interface AutonomousDatabaseBaseProperties {
     localAdgAutoFailoverMaxDataLossLimit?: number;
     readonly localDisasterRecoveryType?: DisasterRecoveryType;
     readonly localStandbyDb?: AutonomousDatabaseStandbySummary;
+    longTermBackupSchedule?: LongTermBackUpScheduleDetails;
     readonly memoryPerOracleComputeUnitInGbs?: number;
     ncharacterSet?: string;
+    readonly nextLongTermBackupTimeStamp?: Date;
     readonly ocid?: string;
     readonly ociUrl?: string;
     openMode?: OpenModeType;
@@ -252,7 +255,7 @@ export interface AutonomousDatabaseCharacterSet extends ProxyResource {
 
 // @public
 export interface AutonomousDatabaseCharacterSetListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: AutonomousDatabaseCharacterSet[];
 }
 
@@ -306,7 +309,7 @@ export type AutonomousDatabaseLifecycleState = string;
 
 // @public
 export interface AutonomousDatabaseListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: AutonomousDatabase[];
 }
 
@@ -317,7 +320,7 @@ export interface AutonomousDatabaseNationalCharacterSet extends ProxyResource {
 
 // @public
 export interface AutonomousDatabaseNationalCharacterSetListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: AutonomousDatabaseNationalCharacterSet[];
 }
 
@@ -366,6 +369,10 @@ export interface AutonomousDatabases {
     beginDeleteAndWait(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams): Promise<AutonomousDatabasesDeleteResponse>;
     beginFailover(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesFailoverOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesFailoverResponse>, AutonomousDatabasesFailoverResponse>>;
     beginFailoverAndWait(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesFailoverOptionalParams): Promise<AutonomousDatabasesFailoverResponse>;
+    beginRestore(resourceGroupName: string, autonomousdatabasename: string, body: RestoreAutonomousDatabaseDetails, options?: AutonomousDatabasesRestoreOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesRestoreResponse>, AutonomousDatabasesRestoreResponse>>;
+    beginRestoreAndWait(resourceGroupName: string, autonomousdatabasename: string, body: RestoreAutonomousDatabaseDetails, options?: AutonomousDatabasesRestoreOptionalParams): Promise<AutonomousDatabasesRestoreResponse>;
+    beginShrink(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesShrinkOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesShrinkResponse>, AutonomousDatabasesShrinkResponse>>;
+    beginShrinkAndWait(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesShrinkOptionalParams): Promise<AutonomousDatabasesShrinkResponse>;
     beginSwitchover(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesSwitchoverOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesSwitchoverResponse>, AutonomousDatabasesSwitchoverResponse>>;
     beginSwitchoverAndWait(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesSwitchoverOptionalParams): Promise<AutonomousDatabasesSwitchoverResponse>;
     beginUpdate(resourceGroupName: string, autonomousdatabasename: string, properties: AutonomousDatabaseUpdate, options?: AutonomousDatabasesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesUpdateResponse>, AutonomousDatabasesUpdateResponse>>;
@@ -463,6 +470,36 @@ export interface AutonomousDatabasesListBySubscriptionOptionalParams extends cor
 export type AutonomousDatabasesListBySubscriptionResponse = AutonomousDatabaseListResult;
 
 // @public
+export interface AutonomousDatabasesRestoreHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AutonomousDatabasesRestoreOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutonomousDatabasesRestoreResponse = AutonomousDatabase;
+
+// @public
+export interface AutonomousDatabasesShrinkHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AutonomousDatabasesShrinkOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutonomousDatabasesShrinkResponse = AutonomousDatabase;
+
+// @public
 export interface AutonomousDatabasesSwitchoverHeaders {
     location?: string;
     retryAfter?: number;
@@ -527,6 +564,7 @@ export interface AutonomousDatabaseUpdateProperties {
     isMtlsConnectionRequired?: boolean;
     licenseModel?: LicenseModel;
     localAdgAutoFailoverMaxDataLossLimit?: number;
+    longTermBackupSchedule?: LongTermBackUpScheduleDetails;
     openMode?: OpenModeType;
     peerDbId?: string;
     permissionLevel?: PermissionLevelType;
@@ -574,7 +612,7 @@ export interface AutonomousDbVersion extends ProxyResource {
 
 // @public
 export interface AutonomousDbVersionListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: AutonomousDbVersion[];
 }
 
@@ -617,7 +655,7 @@ export type CloudExadataInfrastructureLifecycleState = string;
 
 // @public
 export interface CloudExadataInfrastructureListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: CloudExadataInfrastructure[];
 }
 
@@ -793,7 +831,7 @@ export type CloudVmClusterLifecycleState = string;
 
 // @public
 export interface CloudVmClusterListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: CloudVmCluster[];
 }
 
@@ -825,7 +863,7 @@ export interface CloudVmClusterProperties {
     readonly listenerPort?: number;
     memorySizeInGbs?: number;
     readonly nodeCount?: number;
-    nsgCidrs?: NSGCidr[];
+    nsgCidrs?: NsgCidr[];
     readonly nsgUrl?: string;
     readonly ocid?: string;
     readonly ociUrl?: string;
@@ -841,7 +879,7 @@ export interface CloudVmClusterProperties {
     storageSizeInGbs?: number;
     subnetId: string;
     readonly subnetOcid?: string;
-    readonly systemVersion?: string;
+    systemVersion?: string;
     readonly timeCreated?: Date;
     timeZone?: string;
     readonly vipIds?: string[];
@@ -1092,7 +1130,7 @@ export type DbNodeActionEnum = string;
 
 // @public
 export interface DbNodeListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: DbNode[];
 }
 
@@ -1180,7 +1218,7 @@ export interface DbServer extends ProxyResource {
 
 // @public
 export interface DbServerListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: DbServer[];
 }
 
@@ -1256,7 +1294,7 @@ export interface DbSystemShape extends ProxyResource {
 
 // @public
 export interface DbSystemShapeListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: DbSystemShape[];
 }
 
@@ -1324,7 +1362,7 @@ export interface DnsPrivateView extends ProxyResource {
 
 // @public
 export interface DnsPrivateViewListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: DnsPrivateView[];
 }
 
@@ -1377,7 +1415,7 @@ export interface DnsPrivateZone extends ProxyResource {
 
 // @public
 export interface DnsPrivateZoneListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: DnsPrivateZone[];
 }
 
@@ -1481,7 +1519,7 @@ export interface GiVersion extends ProxyResource {
 
 // @public
 export interface GiVersionListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: GiVersion[];
 }
 
@@ -1874,6 +1912,14 @@ export enum KnownRefreshableStatusType {
 }
 
 // @public
+export enum KnownRepeatCadenceType {
+    Monthly = "Monthly",
+    OneTime = "OneTime",
+    Weekly = "Weekly",
+    Yearly = "Yearly"
+}
+
+// @public
 export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -1934,12 +1980,6 @@ export enum KnownValidationStatus {
 }
 
 // @public
-export enum KnownVersions {
-    V20230901 = "2023-09-01-preview",
-    VInternalApi = "internal"
-}
-
-// @public
 export enum KnownVirtualNetworkAddressLifecycleState {
     Available = "Available",
     Failed = "Failed",
@@ -1966,6 +2006,14 @@ export enum KnownZoneType {
 export type LicenseModel = string;
 
 // @public
+export interface LongTermBackUpScheduleDetails {
+    isDisabled?: boolean;
+    repeatCadence?: RepeatCadenceType;
+    retentionPeriodInDays?: number;
+    timeOfBackup?: Date;
+}
+
+// @public
 export interface MaintenanceWindow {
     customActionTimeoutInMins?: number;
     daysOfWeek?: DayOfWeek[];
@@ -1988,7 +2036,7 @@ export interface Month {
 export type MonthName = string;
 
 // @public
-export interface NSGCidr {
+export interface NsgCidr {
     destinationPortRange?: PortRange;
     source: string;
 }
@@ -2084,6 +2132,8 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
+    systemVersions: SystemVersions;
+    // (undocumented)
     virtualNetworkAddresses: VirtualNetworkAddresses;
 }
 
@@ -2102,7 +2152,7 @@ export interface OracleSubscription extends ProxyResource {
 
 // @public
 export interface OracleSubscriptionListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: OracleSubscription[];
 }
 
@@ -2250,7 +2300,7 @@ export type OracleSubscriptionsUpdateResponse = OracleSubscription;
 
 // @public
 export interface OracleSubscriptionUpdate {
-    plan?: ResourcePlanTypeUpdate;
+    plan?: PlanUpdate;
     properties?: OracleSubscriptionUpdateProperties;
 }
 
@@ -2280,6 +2330,15 @@ export interface Plan {
     product: string;
     promotionCode?: string;
     publisher: string;
+    version?: string;
+}
+
+// @public
+export interface PlanUpdate {
+    name?: string;
+    product?: string;
+    promotionCode?: string;
+    publisher?: string;
     version?: string;
 }
 
@@ -2334,6 +2393,9 @@ export type RefreshableModelType = string;
 export type RefreshableStatusType = string;
 
 // @public
+export type RepeatCadenceType = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -2342,16 +2404,12 @@ export interface Resource {
 }
 
 // @public
-export interface ResourcePlanTypeUpdate {
-    name?: string;
-    product?: string;
-    promotionCode?: string;
-    publisher?: string;
-    version?: string;
-}
+export type ResourceProvisioningState = string;
 
 // @public
-export type ResourceProvisioningState = string;
+export interface RestoreAutonomousDatabaseDetails {
+    timestamp: Date;
+}
 
 // @public
 export type RoleType = string;
@@ -2406,6 +2464,56 @@ export interface SystemData {
 }
 
 // @public
+export interface SystemVersion extends ProxyResource {
+    properties?: SystemVersionProperties;
+}
+
+// @public
+export interface SystemVersionListResult {
+    nextLink?: string;
+    value: SystemVersion[];
+}
+
+// @public
+export interface SystemVersionProperties {
+    readonly systemVersion: string;
+}
+
+// @public
+export interface SystemVersions {
+    get(location: string, systemversionname: string, options?: SystemVersionsGetOptionalParams): Promise<SystemVersionsGetResponse>;
+    listByLocation(location: string, options?: SystemVersionsListByLocationOptionalParams): PagedAsyncIterableIterator<SystemVersion>;
+}
+
+// @public
+export interface SystemVersionsFilter {
+    giVersion: string;
+    isLatestVersion?: boolean;
+    shape: string;
+}
+
+// @public
+export interface SystemVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SystemVersionsGetResponse = SystemVersion;
+
+// @public
+export interface SystemVersionsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SystemVersionsListByLocationNextResponse = SystemVersionListResult;
+
+// @public
+export interface SystemVersionsListByLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SystemVersionsListByLocationResponse = SystemVersionListResult;
+
+// @public
 export type TlsAuthenticationType = string;
 
 // @public
@@ -2433,9 +2541,6 @@ export interface ValidationResult {
 
 // @public
 export type ValidationStatus = string;
-
-// @public
-export type Versions = string;
 
 // @public
 export interface VirtualNetworkAddress extends ProxyResource {
@@ -2507,7 +2612,7 @@ export type VirtualNetworkAddressLifecycleState = string;
 
 // @public
 export interface VirtualNetworkAddressListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: VirtualNetworkAddress[];
 }
 

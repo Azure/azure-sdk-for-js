@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PeerDbDetails,
+  RestoreAutonomousDatabaseDetails,
   OracleDatabaseManagementClient,
 } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,22 +18,24 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Perform failover action on Autonomous Database
+ * This sample demonstrates how to Restores an Autonomous Database based on the provided request parameters.
  *
- * @summary Perform failover action on Autonomous Database
- * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabase_failover.json
+ * @summary Restores an Autonomous Database based on the provided request parameters.
+ * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabase_restore.json
  */
-async function autonomousDatabasesFailover() {
+async function autonomousDatabasesRestore() {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
   const autonomousdatabasename = "databasedb1";
-  const body: PeerDbDetails = { peerDbId: "peerDbId" };
+  const body: RestoreAutonomousDatabaseDetails = {
+    timestamp: new Date("2024-04-23T00:00:00.000Z"),
+  };
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.autonomousDatabases.beginFailoverAndWait(
+  const result = await client.autonomousDatabases.beginRestoreAndWait(
     resourceGroupName,
     autonomousdatabasename,
     body,
@@ -42,22 +44,24 @@ async function autonomousDatabasesFailover() {
 }
 
 /**
- * This sample demonstrates how to Perform failover action on Autonomous Database
+ * This sample demonstrates how to Restores an Autonomous Database based on the provided request parameters.
  *
- * @summary Perform failover action on Autonomous Database
- * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabase_failover.json
+ * @summary Restores an Autonomous Database based on the provided request parameters.
+ * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabase_restore.json
  */
-async function performFailoverActionOnAutonomousDatabase() {
+async function performRestoreActionOnAutonomousDatabase() {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
   const autonomousdatabasename = "databasedb1";
-  const body: PeerDbDetails = { peerDbId: "peerDbId" };
+  const body: RestoreAutonomousDatabaseDetails = {
+    timestamp: new Date("2024-04-23T00:00:00.000Z"),
+  };
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.autonomousDatabases.beginFailoverAndWait(
+  const result = await client.autonomousDatabases.beginRestoreAndWait(
     resourceGroupName,
     autonomousdatabasename,
     body,
@@ -66,8 +70,8 @@ async function performFailoverActionOnAutonomousDatabase() {
 }
 
 async function main() {
-  autonomousDatabasesFailover();
-  performFailoverActionOnAutonomousDatabase();
+  autonomousDatabasesRestore();
+  performRestoreActionOnAutonomousDatabase();
 }
 
 main().catch(console.error);
