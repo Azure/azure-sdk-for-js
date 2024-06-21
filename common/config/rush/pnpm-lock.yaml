@@ -3925,6 +3925,17 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: false
 
+  /@typespec/ts-http-runtime@1.0.0-alpha.20240314.2:
+    resolution: {integrity: sha512-Rc/bFkKLbrEo9KKXiSdRYNSmosZ1W6ycQKEKScpXvK4jaXFNyCvmS0tLv7rEN4EzEEds2fPzEHNtX4e8gMu/lA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
@@ -11668,16 +11679,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.1.0
+      '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@azure/identity': 4.2.1
+      '@azure/identity': 4.3.0
       '@azure/storage-blob': 12.23.0
-      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.36)
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.37)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.36
-      '@typespec/ts-http-runtime': 1.0.0-alpha.20240611.3
+      '@types/node': 18.19.37
+      '@typespec/ts-http-runtime': 1.0.0-alpha.20240314.2
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11699,7 +11710,7 @@ packages:
       prettier: 3.3.2
       rimraf: 5.0.7
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.36)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.37)(typescript@5.4.5)
       tshy: 1.15.1
       tslib: 2.6.3
       typescript: 5.4.5
