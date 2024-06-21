@@ -2,7 +2,7 @@
     
 ## 2.1.0 (2024-06-13)
     
-**Features**
+### Features Added
 
   - Added Interface Recurrence
   - Added Interface Time
@@ -24,7 +24,7 @@
     
 ## 2.0.0 (2023-10-07)
     
-**Features**
+### Features Added
 
   - Added Interface AzureKeyVaultSmbCredentials
   - Added Interface AzureStorageSmbFileShareEndpointProperties
@@ -47,7 +47,7 @@
   - Interface Project no longer has parameter systemData
   - Interface StorageMover no longer has parameter systemData
   
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new required parameter endpointType
   - Interface EndpointBaseUpdateProperties has a new required parameter endpointType
@@ -57,7 +57,7 @@
     
 ## 2.0.0-beta.1 (2023-07-12)
     
-**Features**
+### Features Added
 
   - Added Interface AzureKeyVaultSmbCredentials
   - Added Interface AzureStorageSmbFileShareEndpointProperties
@@ -80,7 +80,7 @@
   - Interface Project no longer has parameter systemData
   - Interface StorageMover no longer has parameter systemData
   
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new required parameter endpointType
   - Interface EndpointBaseUpdateProperties has a new required parameter endpointType
