@@ -469,7 +469,6 @@ export class Items {
     options?: RequestOptions,
   ): Promise<BulkOperationResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      //TODO: verify it seperatly before pushing
       const partitionKeyRanges = (
         await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
       ).getOrderedParitionKeyRanges();
