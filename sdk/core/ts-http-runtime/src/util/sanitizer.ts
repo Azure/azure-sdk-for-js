@@ -142,7 +142,7 @@ export class Sanitizer {
   }
 
   public sanitizeUrl(value: string): string {
-    if (typeof value !== "string" || value === null) {
+    if (typeof value !== "string" || value === null || value === "") {
       return value;
     }
 
