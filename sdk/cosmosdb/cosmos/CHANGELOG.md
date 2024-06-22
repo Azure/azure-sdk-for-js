@@ -4,14 +4,64 @@
 
 ### Features Added
 
+- Vector Search
 - All versions and delete mode in change feed [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
 - Bypassing integrated cache [#2257127](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2257127)
 - Computed Properties [#2472654](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2472654)
 - Composite Indexing [#21115](https://github.com/Azure/azure-sdk-for-js/issues/21115)
 - Correlated Activity Id [#2692245](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2692245)
 - Split/Merge proof for Bulk API [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
-- Vector Search feature
 - Improved samples
+
+#### Vector Search
+
+- This feature adds vector indexes, vector embedding policy and vector queries to enable vector similarity search in Cosmos DB JS SDK.
+
+```js
+// define vector indexing policy
+const vectorEmbeddingPolicy = {
+  vectorEmbeddings: [
+    {
+      path: "/vector1",
+      dataType: VectorEmbeddingDataType.UInt8,
+      dimensions: 1000,
+      distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+    },
+    {
+      path: "/vector2",
+      dataType: VectorEmbeddingDataType.Int8,
+      dimensions: 200,
+      distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
+    },
+    {
+      path: "/vector3",
+      dataType: VectorEmbeddingDataType.UInt8,
+      dimensions: 400,
+      distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+    },
+  ],
+};
+
+// add vector indexes in Indexing Policy
+const indexingPolicy = {
+  automatic: true,
+  indexingMode: "consistent",
+  vectorIndexes: [
+    { path: "/vector1", type: VectorIndexType.Flat },
+    { path: "/vector2", type: VectorIndexType.QuantizedFlat },
+    { path: "/vector3", type: VectorIndexType.DiskANN },
+  ],
+};
+
+// define and create container with vector Embedding Policy
+const containerDefinition = {
+  id: containerId,
+  partitionKey: { path: "/id" },
+  indexingPolicy: indexingPolicy,
+  vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+};
+await database.containers.createIfNotExists(containerDefinition);
+```
 
 #### Change Feed - All versions and deletes mode
 
