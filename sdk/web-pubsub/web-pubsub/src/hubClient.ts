@@ -271,8 +271,8 @@ export interface GenerateClientTokenOptions extends OperationOptions {
 
   /**
    * The type of client
-   * * `default`: Default WebPubSub Client
-   * * `mqtt`: MQTT Client
+   * * `default`: Default WebPubSub Client. Example Service URL: _wss://{webPubSubHost}/client/mqtt/hubs/{hubName}_
+   * * `mqtt`: MQTT Client. Example Service URL: _ws://{webPubSubHost}/client/hubs/{hubName}_
    */
   clientType?: ClientType;
 }
