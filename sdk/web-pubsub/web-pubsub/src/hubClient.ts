@@ -236,7 +236,7 @@ export interface HubHasPermissionOptions extends OperationOptions {
   targetName?: string;
 }
 
-export type ClientType = "default" | "mqtt" 
+export type ClientType = "default" | "mqtt";
 
 /**
  * Options for generating a token to connect a client to the Azure Web Pubsub service.
