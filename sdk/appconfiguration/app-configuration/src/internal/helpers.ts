@@ -113,7 +113,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatFiltersAndSelect(
   listConfigOptions: ListRevisionsOptions,
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "tags"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -122,6 +122,7 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
+    tags: listConfigOptions.tagsFilter,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
@@ -138,7 +139,10 @@ export function formatFiltersAndSelect(
  */
 export function formatConfigurationSettingsFiltersAndSelect(
   listConfigOptions: SendConfigurationSettingsOptions,
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+): Pick<
+  GetKeyValuesOptionalParams,
+  "key" | "label" | "select" | "acceptDatetime" | "snapshot" | "tags"
+> {
   const { snapshotName: snapshot, ...options } = listConfigOptions;
   return {
     ...formatFiltersAndSelect(options),

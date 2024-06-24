@@ -108,7 +108,9 @@ export async function toSortedArray(
   settings.sort((a, b) =>
     compareFn
       ? compareFn(a, b)
-      : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`),
+      : `${a.key}-${a.label}-${a.value}-${a.tags}`.localeCompare(
+          `${b.key}-${b.label}-${b.value}-${b.tags}`,
+        ),
   );
 
   return settings;
@@ -144,7 +146,7 @@ export async function toSortedSnapshotArray(
 }
 
 export function assertEqualSettings(
-  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
+  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly" | "tags">[],
   actual: ConfigurationSetting[],
 ): void {
   actual = actual.map((setting) => {
@@ -153,6 +155,7 @@ export function assertEqualSettings(
       label: setting.label || undefined,
       value: setting.value,
       isReadOnly: setting.isReadOnly,
+      tags: setting.tags,
     };
   });
 

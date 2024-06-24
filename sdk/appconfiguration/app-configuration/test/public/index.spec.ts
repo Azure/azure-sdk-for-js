@@ -549,39 +549,6 @@ describe("AppConfigurationClient", () => {
         },
       );
     });
-
-    it("Using `tagsFilter`", async () => {
-      const setting1: ConfigurationSettingParam = {
-        key: recorder.variable("getConfigTest", `getConfigTest${Math.floor(Math.random() * 1000)}`),
-        value: "value that will not be retrieved",
-        label: "a label",
-        tags: {
-          "tag1": "value1",
-          "tag2": "value2",
-        }
-      };
-
-      const setting2: ConfigurationSettingParam = {
-        key: recorder.variable("getConfigTest", `getConfigTest${Math.floor(Math.random() * 1000)}`),
-        value: "value that will not be retrieved",
-        label: "a label",
-        tags: {
-          "tag1": "test",
-          "tag2": "value2",
-        }
-      };
-
-      const setting3: ConfigurationSettingParam = {
-        key: recorder.variable("getConfigTest", `getConfigTest${Math.floor(Math.random() * 1000)}`),
-        value: "value that will not be retrieved",
-        label: "a label",
-        tags: {
-          "tag1": "value1",
-          "tag2": "value2",
-        }
-      };
-      // TODO: Add test for filter by tags
-    });
   });
 
   describe("listConfigurationSettings", () => {
@@ -592,12 +559,16 @@ describe("AppConfigurationClient", () => {
     /** Simulating a setting in production that will be made read only */
     const productionASettingId: Pick<
       ConfigurationSetting,
-      "key" | "label" | "value" | "contentType"
+      "key" | "label" | "value" | "contentType" | "tags"
     > = {
       key: "",
       label: "",
       value: "[A] production value",
       contentType: "a content type",
+      tags: {
+        production: "A",
+        value: "A",
+      },
     };
 
     const keys: {
@@ -632,16 +603,28 @@ describe("AppConfigurationClient", () => {
       listConfigSettingA = await client.addConfigurationSetting({
         key: keys.listConfigSettingA,
         value: "[A] value",
+        tags: {
+          production: "A",
+          value: "A",
+        },
       });
 
       await client.addConfigurationSetting({
         key: keys.listConfigSettingB,
         label: uniqueLabel,
         value: "[B] production value",
+        tags: {
+          production: "B",
+          value: "B",
+        },
       });
       await client.addConfigurationSetting({
         key: keys.listConfigSettingB,
         value: "[B] value",
+        tags: {
+          production: "B",
+          value: "B",
+        },
       });
     });
 
@@ -727,6 +710,36 @@ describe("AppConfigurationClient", () => {
             value: "[A] value",
             label: undefined,
             isReadOnly: false,
+          },
+        ],
+        byKeySettings,
+      );
+    });
+
+    it("exact match on tags", async () => {
+      const byTagsIterator = client.listConfigurationSettings({ tagsFilter: ["production=A"] });
+      const byKeySettings = await toSortedArray(byTagsIterator);
+      assertEqualSettings(
+        [
+          {
+            key: keys.listConfigSettingA,
+            value: "[A] production value",
+            label: uniqueLabel,
+            isReadOnly: true,
+            tags: {
+              production: "A",
+              value: "A",
+            },
+          },
+          {
+            key: keys.listConfigSettingA,
+            value: "[A] value",
+            label: undefined,
+            isReadOnly: false,
+            tags: {
+              production: "A",
+              value: "A",
+            },
           },
         ],
         byKeySettings,

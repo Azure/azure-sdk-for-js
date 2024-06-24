@@ -323,7 +323,7 @@ export interface ListConfigurationSettingsForSnapshotOptions
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
   /**
-   * etag
+   * Etags list for page
    */
   pageEtags?: string[];
 }

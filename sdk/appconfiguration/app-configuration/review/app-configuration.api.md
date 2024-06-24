@@ -239,6 +239,7 @@ export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
     keyFilter?: string;
     labelFilter?: string;
+    tagsFilter?: string[];
 }
 
 // @public

@@ -1,0 +1,1469 @@
+Found configuration in /home/codespace/workspace/rush.json
+
+[1mRush Multi-Project Build Tool 5.120.6[33m[39m[22m - Node.js 18.19.0 (LTS)
+> "dev-tool run test:node-tsx-ts -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'"
+
+[test-info] ===TEST_MODE="live"===
+[node-tests] 
+[node-tests] 
+[node-tests]   AppConfigurationClient
+[node-tests]     listConfigurationSettings
+[node-tests] azure:test-recorder:info [Recorder#constructor] Creating a recorder instance in live mode
+[node-tests] azure:identity:info EnvironmentCredential => Found the following environment variables: 
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 03eaa130-0826-446a-a396-c7beb92be33b
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => Using the scope https://mappconfjs-azconfig-resource-js.azconfig.io/.default
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:identity:info ChainedTokenCredential => getToken() => Result for AzurePowerShellCredential: SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A77039?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "03eaa130-0826-446a-a396-c7beb92be33b",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "03eaa130-0826-446a-a396-c7beb92be33b",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:core-rest-pipeline:info No cached TLS Agent exist, creating a new Agent
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"WIMdGHGcjuOKEMNFZa72_kt2ZmfdvOCgOXTAxPuqNEA\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDU4;sn=2773058",
+[node-tests]   "x-ms-request-id": "efb05874-9656-46b7-abb0-18a9376b5106",
+[node-tests]   "x-ms-correlation-request-id": "efb05874-9656-46b7-abb0-18a9376b5106",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 03eaa130-0826-446a-a396-c7beb92be33b
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [setReadOnly] Setting read-only status to ${readOnly}
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 50486c80-828e-4b2e-a777-e0d34d229042
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/locks/listConfigSetting0A77039?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "50486c80-828e-4b2e-a777-e0d34d229042",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "50486c80-828e-4b2e-a777-e0d34d229042",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"5QZFvIZnH1KEWllzGMf4w_Qu7ae2DsBpG-ayjdbl6pY\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDU5;sn=2773059",
+[node-tests]   "x-ms-request-id": "0aa8e353-2fee-43eb-a890-2f148f197e3d",
+[node-tests]   "x-ms-correlation-request-id": "0aa8e353-2fee-43eb-a890-2f148f197e3d",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 50486c80-828e-4b2e-a777-e0d34d229042
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 74e9d2c7-b542-49fc-b4fd-3f866e5c3db0
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A77039?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "74e9d2c7-b542-49fc-b4fd-3f866e5c3db0",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "74e9d2c7-b542-49fc-b4fd-3f866e5c3db0",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"0OnW5ngF-46jZOFSaJNmwwu0thnjYT5DKw-cKHBQDmc\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDYx;sn=2773061",
+[node-tests]   "x-ms-request-id": "aa6d540a-8744-4b78-8515-ff3db14e9da2",
+[node-tests]   "x-ms-correlation-request-id": "aa6d540a-8744-4b78-8515-ff3db14e9da2",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 74e9d2c7-b542-49fc-b4fd-3f866e5c3db0
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 73d58da5-17ed-4111-8aa5-c8d8f23d8683
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B79542?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "73d58da5-17ed-4111-8aa5-c8d8f23d8683",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "73d58da5-17ed-4111-8aa5-c8d8f23d8683",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"kYV8fTcZKPZa15i9xakXjlms-Spw66Zze8SiFjiaq0g\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDYy;sn=2773062",
+[node-tests]   "x-ms-request-id": "da5ef8f5-5d4c-4083-9b2a-06e5948706e9",
+[node-tests]   "x-ms-correlation-request-id": "da5ef8f5-5d4c-4083-9b2a-06e5948706e9",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 73d58da5-17ed-4111-8aa5-c8d8f23d8683
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 7f70faa0-7453-4421-8b36-59a86079dff0
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B79542?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "7f70faa0-7453-4421-8b36-59a86079dff0",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "7f70faa0-7453-4421-8b36-59a86079dff0",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"pvsUzWOKmF6Jn4jjgLJ1LBJSDOESIjQl3o2FEqkeksA\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDYz;sn=2773063",
+[node-tests]   "x-ms-request-id": "95c6c79f-2622-4ca8-8358-6ac82d706c77",
+[node-tests]   "x-ms-correlation-request-id": "95c6c79f-2622-4ca8-8358-6ac82d706c77",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 7f70faa0-7453-4421-8b36-59a86079dff0
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request eac14594-b86c-4999-93dd-3e6cbf4f9f82
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "eac14594-b86c-4999-93dd-3e6cbf4f9f82",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "eac14594-b86c-4999-93dd-3e6cbf4f9f82",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"XKphk7HvP29wKJvUsTopQIatl7YdwZRvgY9eIlo1o-Y\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDYz;sn=2773063",
+[node-tests]   "x-ms-request-id": "1da3b9e8-1116-4fc8-8d4c-cf0a0eae4548",
+[node-tests]   "x-ms-correlation-request-id": "1da3b9e8-1116-4fc8-8d4c-cf0a0eae4548",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request eac14594-b86c-4999-93dd-3e6cbf4f9f82
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 50bc6b27-3543-40bb-8885-605a35a5401e
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "50bc6b27-3543-40bb-8885-605a35a5401e",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "50bc6b27-3543-40bb-8885-605a35a5401e",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"XKphk7HvP29wKJvUsTopQIatl7YdwZRvgY9eIlo1o-Y\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDYz;sn=2773063",
+[node-tests]   "x-ms-request-id": "107472f7-d004-4593-95db-f5388defe642",
+[node-tests]   "x-ms-correlation-request-id": "107472f7-d004-4593-95db-f5388defe642",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 50bc6b27-3543-40bb-8885-605a35a5401e
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] byKeySettings [{"value":"[A] production value","key":"listConfigSetting0A77039","label":"listConfigSettingsLabel91458","contentType":"a content type","lastModified":"2024-06-24T16:01:16.000Z","tags":{"production":"A","value":"A"},"etag":"5QZFvIZnH1KEWllzGMf4w_Qu7ae2DsBpG-ayjdbl6pY","isReadOnly":true},{"value":"[A] value","key":"listConfigSetting0A77039","lastModified":"2024-06-24T16:01:16.000Z","tags":{"production":"A","value":"A"},"etag":"0OnW5ngF-46jZOFSaJNmwwu0thnjYT5DKw-cKHBQDmc","isReadOnly":false},{"value":"[B] production value","key":"listConfigSetting0B79542","label":"listConfigSettingsLabel91458","lastModified":"2024-06-24T16:01:16.000Z","tags":{"production":"B","value":"B"},"etag":"kYV8fTcZKPZa15i9xakXjlms-Spw66Zze8SiFjiaq0g","isReadOnly":false},{"value":"[B] value","key":"listConfigSetting0B79542","lastModified":"2024-06-24T16:01:16.000Z","tags":{"production":"B","value":"B"},"etag":"pvsUzWOKmF6Jn4jjgLJ1LBJSDOESIjQl3o2FEqkeksA","isReadOnly":false}]
+[node-tests]       1) exact match on tags
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 461bc449-3d52-4d75-8d3b-3c54f32951bf
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01&key=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "461bc449-3d52-4d75-8d3b-3c54f32951bf",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "461bc449-3d52-4d75-8d3b-3c54f32951bf",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"XKphk7HvP29wKJvUsTopQIatl7YdwZRvgY9eIlo1o-Y\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDYz;sn=2773063",
+[node-tests]   "x-ms-request-id": "b99c6aa7-384d-4cc8-8321-c57160f40728",
+[node-tests]   "x-ms-correlation-request-id": "b99c6aa7-384d-4cc8-8321-c57160f40728",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 461bc449-3d52-4d75-8d3b-3c54f32951bf
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 94e13c6a-aebc-4900-8b79-22251b99ef12
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A77039?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "94e13c6a-aebc-4900-8b79-22251b99ef12",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "94e13c6a-aebc-4900-8b79-22251b99ef12",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"0OnW5ngF-46jZOFSaJNmwwu0thnjYT5DKw-cKHBQDmc\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDY0;sn=2773064",
+[node-tests]   "x-ms-request-id": "14ae8d56-d5b1-4437-a224-bb5ab9a5c540",
+[node-tests]   "x-ms-correlation-request-id": "14ae8d56-d5b1-4437-a224-bb5ab9a5c540",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 94e13c6a-aebc-4900-8b79-22251b99ef12
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [setReadOnly] Deleting read-only lock
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 98d50eea-8db9-48dc-a7d7-a98062e668f3
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/locks/listConfigSetting0A77039?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "98d50eea-8db9-48dc-a7d7-a98062e668f3",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "98d50eea-8db9-48dc-a7d7-a98062e668f3",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"sDLFapqEkDhHTWwKkn-7B36-MGAzI_JhXLrAlJC2C7s\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDY1;sn=2773065",
+[node-tests]   "x-ms-request-id": "e19edf5a-3d3c-418e-9ea6-d9baa1a79404",
+[node-tests]   "x-ms-correlation-request-id": "e19edf5a-3d3c-418e-9ea6-d9baa1a79404",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 98d50eea-8db9-48dc-a7d7-a98062e668f3
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 50767540-9a22-41ee-af9b-f0f33cd72671
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A77039?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "50767540-9a22-41ee-af9b-f0f33cd72671",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "50767540-9a22-41ee-af9b-f0f33cd72671",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"sDLFapqEkDhHTWwKkn-7B36-MGAzI_JhXLrAlJC2C7s\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDY3;sn=2773067",
+[node-tests]   "x-ms-request-id": "8cb04abe-f927-47d6-a3df-9f5b54007957",
+[node-tests]   "x-ms-correlation-request-id": "8cb04abe-f927-47d6-a3df-9f5b54007957",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 50767540-9a22-41ee-af9b-f0f33cd72671
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 7ca16a06-6dd2-4742-a9b1-2db316945fd6
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B79542?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "7ca16a06-6dd2-4742-a9b1-2db316945fd6",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "7ca16a06-6dd2-4742-a9b1-2db316945fd6",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"pvsUzWOKmF6Jn4jjgLJ1LBJSDOESIjQl3o2FEqkeksA\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDY4;sn=2773068",
+[node-tests]   "x-ms-request-id": "13ed6b60-868d-46be-8796-edddb8a5c1b1",
+[node-tests]   "x-ms-correlation-request-id": "13ed6b60-868d-46be-8796-edddb8a5c1b1",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 7ca16a06-6dd2-4742-a9b1-2db316945fd6
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request ff54bf8b-e138-48fc-ba36-64037274fdd1
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B79542?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "ff54bf8b-e138-48fc-ba36-64037274fdd1",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "ff54bf8b-e138-48fc-ba36-64037274fdd1",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:17 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"kYV8fTcZKPZa15i9xakXjlms-Spw66Zze8SiFjiaq0g\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:01:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDY5;sn=2773069",
+[node-tests]   "x-ms-request-id": "ebbcc904-41f1-4886-a3f8-16b4bdaa4173",
+[node-tests]   "x-ms-correlation-request-id": "ebbcc904-41f1-4886-a3f8-16b4bdaa4173",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request ff54bf8b-e138-48fc-ba36-64037274fdd1
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:identity:info EnvironmentCredential => Found the following environment variables: 
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request a53178b8-9721-42c1-8775-10b141c7c058
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => Using the scope https://mappconfjs-azconfig-resource-js.azconfig.io/.default
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:identity:info ChainedTokenCredential => getToken() => Result for AzurePowerShellCredential: SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "a53178b8-9721-42c1-8775-10b141c7c058",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "a53178b8-9721-42c1-8775-10b141c7c058",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:01:19 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"00wWELzclWef22f82qcUDI7FbJweVOoKWZDA_JoUeD0\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDY5;sn=2773069",
+[node-tests]   "x-ms-request-id": "1b688648-f8b6-4ad2-ad50-c8074606e5b1",
+[node-tests]   "x-ms-correlation-request-id": "1b688648-f8b6-4ad2-ad50-c8074606e5b1",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request a53178b8-9721-42c1-8775-10b141c7c058
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] 
+[node-tests] 
+[node-tests]   0 passing (6s)
+[node-tests]   1 failing
+[node-tests] 
+[node-tests]   1) AppConfigurationClient
+[node-tests]        listConfigurationSettings
+[node-tests]          exact match on tags:
+[node-tests] 
+[node-tests]       AssertionError: expected [ { ...(5) }, { ...(4) } ] to deeply equal [ { ...(5) }, { ...(5) }, { ...(5) }, ...(1) ]
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]          {
+[node-tests]            "isReadOnly": false
+[node-tests]            "key": "listConfigSetting0A77039"
+[node-tests]            "label": [undefined]
+[node-tests]       +    "tags": {
+[node-tests]       +      "production": "A"
+[node-tests]       +      "value": "A"
+[node-tests]       +    }
+[node-tests]            "value": "[A] value"
+[node-tests]          }
+[node-tests]       +  {
+[node-tests]       +    "isReadOnly": false
+[node-tests]       +    "key": "listConfigSetting0B79542"
+[node-tests]       +    "label": "listConfigSettingsLabel91458"
+[node-tests]       +    "tags": {
+[node-tests]       +      "production": "B"
+[node-tests]       +      "value": "B"
+[node-tests]       +    }
+[node-tests]       +    "value": "[B] production value"
+[node-tests]       +  }
+[node-tests]       +  {
+[node-tests]       +    "isReadOnly": false
+[node-tests]       +    "key": "listConfigSetting0B79542"
+[node-tests]       +    "label": [undefined]
+[node-tests]       +    "tags": {
+[node-tests]       +      "production": "B"
+[node-tests]       +      "value": "B"
+[node-tests]       +    }
+[node-tests]       +    "value": "[B] value"
+[node-tests]       +  }
+[node-tests]        ]
+[node-tests]       
+[node-tests]       at assertEqualSettings (/home/codespace/workspace/sdk/appconfiguration/app-configuration/test/public/utils/testHelpers.ts:160:10)
+[node-tests]       at Context.<anonymous> (/home/codespace/workspace/sdk/appconfiguration/app-configuration/test/public/index.spec.ts:723:7)
+[node-tests]       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[node-tests] 
+[node-tests] 
+[node-tests] 
+[node-tests] mocha --require tsx --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml --full-trace --timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts" exited with code 1
+Found configuration in /home/codespace/workspace/rush.json
+
+[1mRush Multi-Project Build Tool 5.120.6[33m[39m[22m - Node.js 18.19.0 (LTS)
+> "dev-tool run test:node-tsx-ts -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'"
+
+[test-info] ===TEST_MODE="live"===
+[node-tests] 
+[node-tests] 
+[node-tests]   AppConfigurationClient
+[node-tests]     listConfigurationSettings
+[node-tests] azure:test-recorder:info [Recorder#constructor] Creating a recorder instance in live mode
+[node-tests] azure:identity:info EnvironmentCredential => Found the following environment variables: 
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 78eba6de-ba03-4acc-8ceb-10eb83b222f9
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => Using the scope https://mappconfjs-azconfig-resource-js.azconfig.io/.default
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:identity:info ChainedTokenCredential => getToken() => Result for AzurePowerShellCredential: SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A39425?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "78eba6de-ba03-4acc-8ceb-10eb83b222f9",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "78eba6de-ba03-4acc-8ceb-10eb83b222f9",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:core-rest-pipeline:info No cached TLS Agent exist, creating a new Agent
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"DgxFP4v4OObgW-Z0TQdBChKSL_6OMU__6qlTrOT7Rrk\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDcw;sn=2773070",
+[node-tests]   "x-ms-request-id": "d6340648-f6c2-4589-8334-c0d0d00ee3aa",
+[node-tests]   "x-ms-correlation-request-id": "d6340648-f6c2-4589-8334-c0d0d00ee3aa",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 78eba6de-ba03-4acc-8ceb-10eb83b222f9
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [setReadOnly] Setting read-only status to ${readOnly}
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 230ed560-d7e8-43b3-b544-e6e69409e304
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/locks/listConfigSetting0A39425?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "230ed560-d7e8-43b3-b544-e6e69409e304",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "230ed560-d7e8-43b3-b544-e6e69409e304",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"6R-kWKraC000g7yGd_DWzYQZWGB-mEhZZttMOewIn1w\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDcx;sn=2773071",
+[node-tests]   "x-ms-request-id": "d1193bcd-5362-4976-8f5f-94a69e46e5c5",
+[node-tests]   "x-ms-correlation-request-id": "d1193bcd-5362-4976-8f5f-94a69e46e5c5",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 230ed560-d7e8-43b3-b544-e6e69409e304
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 52557890-19e9-434c-b1d2-29e060a22491
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A39425?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "52557890-19e9-434c-b1d2-29e060a22491",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "52557890-19e9-434c-b1d2-29e060a22491",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"lWC_Nq3Dcobif--0yUn72ItcMuR1Dv43pWwnCKuGxtQ\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDcz;sn=2773073",
+[node-tests]   "x-ms-request-id": "d8b771fb-d9c8-4fab-b4f9-d57706f69000",
+[node-tests]   "x-ms-correlation-request-id": "d8b771fb-d9c8-4fab-b4f9-d57706f69000",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 52557890-19e9-434c-b1d2-29e060a22491
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 69e1d5ee-14f1-4195-bb40-ff684c7cdd62
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B796?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "69e1d5ee-14f1-4195-bb40-ff684c7cdd62",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "69e1d5ee-14f1-4195-bb40-ff684c7cdd62",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"OX1C99Bp-hagWPuEW0L4aozfNZRS86d1gFL_lpnbScg\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc0;sn=2773074",
+[node-tests]   "x-ms-request-id": "17f7865e-1481-4b3b-ad16-6a96cf6c9296",
+[node-tests]   "x-ms-correlation-request-id": "17f7865e-1481-4b3b-ad16-6a96cf6c9296",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 69e1d5ee-14f1-4195-bb40-ff684c7cdd62
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [addConfigurationSetting] Creating a key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request f3f9bd75-5088-4cfe-b044-5c5e073fa9b4
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B796?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "content-type": "application/vnd.microsoft.appconfig.kv+json",
+[node-tests]     "if-none-match": "*",
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "f3f9bd75-5088-4cfe-b044-5c5e073fa9b4",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "PUT",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "f3f9bd75-5088-4cfe-b044-5c5e073fa9b4",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"A5LqDrJw0jrkY_MIFG04GTqvegNvLa6GpmvAZaLON9E\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc1;sn=2773075",
+[node-tests]   "x-ms-request-id": "c7d87df5-a713-4d1f-956b-d555fb11e16a",
+[node-tests]   "x-ms-correlation-request-id": "c7d87df5-a713-4d1f-956b-d555fb11e16a",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request f3f9bd75-5088-4cfe-b044-5c5e073fa9b4
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request f43e906d-55b2-4902-8069-15966a9551d7
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01&tags=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "f43e906d-55b2-4902-8069-15966a9551d7",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "f43e906d-55b2-4902-8069-15966a9551d7",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"Eh_N0wuo40pHkI4hwvpIJKJgLrbUYzQY4zD11MwqocI\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc1;sn=2773075",
+[node-tests]   "x-ms-request-id": "bbc18276-aed1-40f1-8821-b306c7088b31",
+[node-tests]   "x-ms-correlation-request-id": "bbc18276-aed1-40f1-8821-b306c7088b31",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request f43e906d-55b2-4902-8069-15966a9551d7
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 71cd210e-720f-4380-92e5-06ed87489fd3
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01&tags=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "71cd210e-720f-4380-92e5-06ed87489fd3",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "71cd210e-720f-4380-92e5-06ed87489fd3",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"Eh_N0wuo40pHkI4hwvpIJKJgLrbUYzQY4zD11MwqocI\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc1;sn=2773075",
+[node-tests]   "x-ms-request-id": "3d11eab0-ca62-445f-9187-fec2c871582d",
+[node-tests]   "x-ms-correlation-request-id": "3d11eab0-ca62-445f-9187-fec2c871582d",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 71cd210e-720f-4380-92e5-06ed87489fd3
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] byKeySettings [{"value":"[A] production value","key":"listConfigSetting0A39425","label":"listConfigSettingsLabel16016","contentType":"a content type","lastModified":"2024-06-24T16:03:15.000Z","tags":{"production":"A","value":"A"},"etag":"6R-kWKraC000g7yGd_DWzYQZWGB-mEhZZttMOewIn1w","isReadOnly":true},{"value":"[A] value","key":"listConfigSetting0A39425","lastModified":"2024-06-24T16:03:15.000Z","tags":{"production":"A","value":"A"},"etag":"lWC_Nq3Dcobif--0yUn72ItcMuR1Dv43pWwnCKuGxtQ","isReadOnly":false}]
+[node-tests]       1) exact match on tags
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request d0fc892c-4cca-41f5-8377-56e6d7145133
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01&key=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "d0fc892c-4cca-41f5-8377-56e6d7145133",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "d0fc892c-4cca-41f5-8377-56e6d7145133",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"-I0aSKJM5qMTOufCD84X2XHwONxcCsNeKL8F16O2n2k\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc1;sn=2773075",
+[node-tests]   "x-ms-request-id": "a75de809-671b-490b-81d2-90d6ef674dec",
+[node-tests]   "x-ms-correlation-request-id": "a75de809-671b-490b-81d2-90d6ef674dec",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request d0fc892c-4cca-41f5-8377-56e6d7145133
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request dad3f16d-2363-4365-8144-93ff832a0ce6
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A39425?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "dad3f16d-2363-4365-8144-93ff832a0ce6",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "dad3f16d-2363-4365-8144-93ff832a0ce6",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"lWC_Nq3Dcobif--0yUn72ItcMuR1Dv43pWwnCKuGxtQ\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc2;sn=2773076",
+[node-tests]   "x-ms-request-id": "71ccb286-98e6-4c8b-83dc-dad340477eaf",
+[node-tests]   "x-ms-correlation-request-id": "71ccb286-98e6-4c8b-83dc-dad340477eaf",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request dad3f16d-2363-4365-8144-93ff832a0ce6
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [setReadOnly] Deleting read-only lock
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request f71b6678-69fe-45bf-abfa-e787128aa713
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/locks/listConfigSetting0A39425?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "f71b6678-69fe-45bf-abfa-e787128aa713",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "f71b6678-69fe-45bf-abfa-e787128aa713",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"663mhVQWF4ZQBmAYQyZmMe2BIhaQy0Bf3Hz9z4G8tk0\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc3;sn=2773077",
+[node-tests]   "x-ms-request-id": "2e9aaf47-8ebb-4dd2-9220-46f6c3d90f62",
+[node-tests]   "x-ms-correlation-request-id": "2e9aaf47-8ebb-4dd2-9220-46f6c3d90f62",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request f71b6678-69fe-45bf-abfa-e787128aa713
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 48e150f6-f4ce-41cc-aa18-6b26f721f301
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0A39425?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "48e150f6-f4ce-41cc-aa18-6b26f721f301",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "48e150f6-f4ce-41cc-aa18-6b26f721f301",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"663mhVQWF4ZQBmAYQyZmMe2BIhaQy0Bf3Hz9z4G8tk0\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:16 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDc5;sn=2773079",
+[node-tests]   "x-ms-request-id": "7530cc76-dfa6-4535-852f-cec948169e8d",
+[node-tests]   "x-ms-correlation-request-id": "7530cc76-dfa6-4535-852f-cec948169e8d",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 48e150f6-f4ce-41cc-aa18-6b26f721f301
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 7b981eaf-39b8-4f52-9fea-0300cb838f00
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B796?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "7b981eaf-39b8-4f52-9fea-0300cb838f00",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "7b981eaf-39b8-4f52-9fea-0300cb838f00",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"A5LqDrJw0jrkY_MIFG04GTqvegNvLa6GpmvAZaLON9E\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDgw;sn=2773080",
+[node-tests]   "x-ms-request-id": "dae1ced6-249b-4e01-bd93-e96dc432edb1",
+[node-tests]   "x-ms-correlation-request-id": "dae1ced6-249b-4e01-bd93-e96dc432edb1",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 7b981eaf-39b8-4f52-9fea-0300cb838f00
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:app-config:info [deleteConfigurationSetting] Deleting key value pair
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 79d98ef7-5047-4753-b2b7-9320823ee4d1
+[node-tests] azure:app-config:info [syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv/listConfigSetting0B796?api-version=2023-11-01&label=REDACTED",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "79d98ef7-5047-4753-b2b7-9320823ee4d1",
+[node-tests]     "sync-token": "REDACTED",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "DELETE",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "79d98ef7-5047-4753-b2b7-9320823ee4d1",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:16 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kv+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"OX1C99Bp-hagWPuEW0L4aozfNZRS86d1gFL_lpnbScg\"",
+[node-tests]   "last-modified": "Mon, 24 Jun 2024 16:03:15 GMT",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDgx;sn=2773081",
+[node-tests]   "x-ms-request-id": "580c9a20-70e5-41eb-b211-e9fac8be4dd7",
+[node-tests]   "x-ms-correlation-request-id": "580c9a20-70e5-41eb-b211-e9fac8be4dd7",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 79d98ef7-5047-4753-b2b7-9320823ee4d1
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] azure:identity:info EnvironmentCredential => Found the following environment variables: 
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Attempting to send request 0d1a8f3d-753a-46b8-ad8a-5ddf133fea69
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => Using the scope https://mappconfjs-azconfig-resource-js.azconfig.io/.default
+[node-tests] azure:identity:info AzurePowerShellCredential => getToken() => SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:identity:info ChainedTokenCredential => getToken() => Result for AzurePowerShellCredential: SUCCESS. Scopes: https://mappconfjs-azconfig-resource-js.azconfig.io/.default.
+[node-tests] azure:app-config:info Request: {
+[node-tests]   "url": "https://mappconfjs-azconfig-resource-js.azconfig.io/kv?api-version=2023-11-01",
+[node-tests]   "headers": {
+[node-tests]     "accept": "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
+[node-tests]     "accept-encoding": "gzip,deflate",
+[node-tests]     "user-agent": "azsdk-js-app-configuration/1.6.1 core-rest-pipeline/1.16.1 Node/18.19.0 OS/(x64-Linux-6.5.0-1021-azure)",
+[node-tests]     "x-ms-client-request-id": "0d1a8f3d-753a-46b8-ad8a-5ddf133fea69",
+[node-tests]     "authorization": "REDACTED"
+[node-tests]   },
+[node-tests]   "method": "GET",
+[node-tests]   "timeout": 0,
+[node-tests]   "disableKeepAlive": false,
+[node-tests]   "streamResponseStatusCodes": {},
+[node-tests]   "withCredentials": false,
+[node-tests]   "tracingOptions": {
+[node-tests]     "tracingContext": {
+[node-tests]       "_contextMap": {}
+[node-tests]     }
+[node-tests]   },
+[node-tests]   "requestId": "0d1a8f3d-753a-46b8-ad8a-5ddf133fea69",
+[node-tests]   "allowInsecureConnection": false,
+[node-tests]   "enableBrowserStreams": false
+[node-tests] }
+[node-tests] azure:app-config:info Response status code: 200
+[node-tests] azure:app-config:info Headers: {
+[node-tests]   "date": "Mon, 24 Jun 2024 16:03:18 GMT",
+[node-tests]   "content-type": "application/vnd.microsoft.appconfig.kvset+json; charset=utf-8",
+[node-tests]   "transfer-encoding": "chunked",
+[node-tests]   "connection": "keep-alive",
+[node-tests]   "etag": "\"00wWELzclWef22f82qcUDI7FbJweVOoKWZDA_JoUeD0\"",
+[node-tests]   "sync-token": "zAJw6V16=ODoxNSMyNzczMDgx;sn=2773081",
+[node-tests]   "x-ms-request-id": "298ef3b8-6fd8-405e-bb5a-da5c1ffbef54",
+[node-tests]   "x-ms-correlation-request-id": "298ef3b8-6fd8-405e-bb5a-da5c1ffbef54",
+[node-tests]   "strict-transport-security": "max-age=31536000; includeSubDomains",
+[node-tests]   "access-control-allow-origin": "*"
+[node-tests] }
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Received a response from request 0d1a8f3d-753a-46b8-ad8a-5ddf133fea69
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing 2 retry strategies.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy throttlingRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Processing retry strategy exponentialRetryStrategy.
+[node-tests] azure:core-rest-pipeline retryPolicy:info Retry 0: Skipped.
+[node-tests] azure:core-rest-pipeline retryPolicy:info None of the retry strategies could work with the received response. Returning it.
+[node-tests] 
+[node-tests] 
+[node-tests]   0 passing (6s)
+[node-tests]   1 failing
+[node-tests] 
+[node-tests]   1) AppConfigurationClient
+[node-tests]        listConfigurationSettings
+[node-tests]          exact match on tags:
+[node-tests] 
+[node-tests]       AssertionError: expected [ { ...(5) }, { ...(4) } ] to deeply equal [ { ...(5) }, { ...(5) } ]
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]          {
+[node-tests]            "isReadOnly": false
+[node-tests]            "key": "listConfigSetting0A39425"
+[node-tests]            "label": [undefined]
+[node-tests]       +    "tags": {
+[node-tests]       +      "production": "A"
+[node-tests]       +      "value": "A"
+[node-tests]       +    }
+[node-tests]            "value": "[A] value"
+[node-tests]          }
+[node-tests]        ]
+[node-tests]       
+[node-tests]       at assertEqualSettings (/home/codespace/workspace/sdk/appconfiguration/app-configuration/test/public/utils/testHelpers.ts:160:10)
+[node-tests]       at Context.<anonymous> (/home/codespace/workspace/sdk/appconfiguration/app-configuration/test/public/index.spec.ts:723:7)
+[node-tests]       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[node-tests] 
+[node-tests] 
+[node-tests] 
+[node-tests] mocha --require tsx --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml --full-trace --timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts" exited with code 1
+Found configuration in /home/codespace/workspace/rush.json
+
+[1mRush Multi-Project Build Tool 5.120.6[33m[39m[22m - Node.js 18.19.0 (LTS)
+> "dev-tool run test:node-tsx-ts -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'"
+
+[test-info] ===TEST_MODE="live"===
+[node-tests] mocha --require tsx --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml --full-trace --timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts" exited with code SIGINT
