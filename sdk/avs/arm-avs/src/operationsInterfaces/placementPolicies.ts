@@ -18,32 +18,31 @@ import {
   PlacementPolicyUpdate,
   PlacementPoliciesUpdateOptionalParams,
   PlacementPoliciesUpdateResponse,
-  PlacementPoliciesDeleteOptionalParams
+  PlacementPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PlacementPolicies. */
 export interface PlacementPolicies {
   /**
-   * List placement policies in a private cloud cluster
+   * List PlacementPolicy resources by Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
+   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: PlacementPoliciesListOptionalParams
+    options?: PlacementPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<PlacementPolicy>;
   /**
-   * Get a placement policy by name in a private cloud cluster
+   * Get a PlacementPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
-   *                            policy
+   * @param clusterName Name of the cluster
+   * @param placementPolicyName Name of the placement policy.
    * @param options The options parameters.
    */
   get(
@@ -51,16 +50,15 @@ export interface PlacementPolicies {
     privateCloudName: string,
     clusterName: string,
     placementPolicyName: string,
-    options?: PlacementPoliciesGetOptionalParams
+    options?: PlacementPoliciesGetOptionalParams,
   ): Promise<PlacementPoliciesGetResponse>;
   /**
-   * Create or update a placement policy in a private cloud cluster
+   * Create a PlacementPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
-   *                            policy
-   * @param placementPolicy A placement policy in the private cloud cluster
+   * @param clusterName Name of the cluster
+   * @param placementPolicyName Name of the placement policy.
+   * @param placementPolicy Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -69,7 +67,7 @@ export interface PlacementPolicies {
     clusterName: string,
     placementPolicyName: string,
     placementPolicy: PlacementPolicy,
-    options?: PlacementPoliciesCreateOrUpdateOptionalParams
+    options?: PlacementPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PlacementPoliciesCreateOrUpdateResponse>,
@@ -77,13 +75,12 @@ export interface PlacementPolicies {
     >
   >;
   /**
-   * Create or update a placement policy in a private cloud cluster
+   * Create a PlacementPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
-   *                            policy
-   * @param placementPolicy A placement policy in the private cloud cluster
+   * @param clusterName Name of the cluster
+   * @param placementPolicyName Name of the placement policy.
+   * @param placementPolicy Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -92,16 +89,15 @@ export interface PlacementPolicies {
     clusterName: string,
     placementPolicyName: string,
     placementPolicy: PlacementPolicy,
-    options?: PlacementPoliciesCreateOrUpdateOptionalParams
+    options?: PlacementPoliciesCreateOrUpdateOptionalParams,
   ): Promise<PlacementPoliciesCreateOrUpdateResponse>;
   /**
-   * Update a placement policy in a private cloud cluster
+   * Update a PlacementPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
-   *                            policy
-   * @param placementPolicyUpdate The placement policy properties that may be updated
+   * @param clusterName Name of the cluster
+   * @param placementPolicyName Name of the placement policy.
+   * @param placementPolicyUpdate The placement policy properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -110,7 +106,7 @@ export interface PlacementPolicies {
     clusterName: string,
     placementPolicyName: string,
     placementPolicyUpdate: PlacementPolicyUpdate,
-    options?: PlacementPoliciesUpdateOptionalParams
+    options?: PlacementPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PlacementPoliciesUpdateResponse>,
@@ -118,13 +114,12 @@ export interface PlacementPolicies {
     >
   >;
   /**
-   * Update a placement policy in a private cloud cluster
+   * Update a PlacementPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
-   *                            policy
-   * @param placementPolicyUpdate The placement policy properties that may be updated
+   * @param clusterName Name of the cluster
+   * @param placementPolicyName Name of the placement policy.
+   * @param placementPolicyUpdate The placement policy properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
@@ -133,15 +128,14 @@ export interface PlacementPolicies {
     clusterName: string,
     placementPolicyName: string,
     placementPolicyUpdate: PlacementPolicyUpdate,
-    options?: PlacementPoliciesUpdateOptionalParams
+    options?: PlacementPoliciesUpdateOptionalParams,
   ): Promise<PlacementPoliciesUpdateResponse>;
   /**
-   * Delete a placement policy in a private cloud cluster
+   * Delete a PlacementPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
-   *                            policy
+   * @param clusterName Name of the cluster
+   * @param placementPolicyName Name of the placement policy.
    * @param options The options parameters.
    */
   beginDelete(
@@ -149,15 +143,14 @@ export interface PlacementPolicies {
     privateCloudName: string,
     clusterName: string,
     placementPolicyName: string,
-    options?: PlacementPoliciesDeleteOptionalParams
+    options?: PlacementPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a placement policy in a private cloud cluster
+   * Delete a PlacementPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
-   *                            policy
+   * @param clusterName Name of the cluster
+   * @param placementPolicyName Name of the placement policy.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -165,6 +158,6 @@ export interface PlacementPolicies {
     privateCloudName: string,
     clusterName: string,
     placementPolicyName: string,
-    options?: PlacementPoliciesDeleteOptionalParams
+    options?: PlacementPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }
