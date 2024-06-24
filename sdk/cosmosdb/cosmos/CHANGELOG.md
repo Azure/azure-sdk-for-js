@@ -66,7 +66,8 @@ await database.containers.createIfNotExists(containerDefinition);
 #### Change Feed - All versions and deletes mode
 
 - The [All versions and delete mode](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
-  is included in change feed mode that captures every change (create, update, and delete) made to items.
+  is added in change feed mode that captures every version and every change (create, update, and delete) made to items.
+- This mode is only supported with `ChangeFeedStartFrom.Now` and `ChangeFeedStartFrom.Continuation`.
 
 To read from the change feed in all versions and deletes mode, include `changeFeedMode` in changeFeedIteratorOptions:
 
