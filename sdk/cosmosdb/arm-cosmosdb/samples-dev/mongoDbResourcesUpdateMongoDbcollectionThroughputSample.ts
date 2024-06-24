@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the RUs per second of an Azure Cosmos DB MongoDB collection
  *
  * @summary Update the RUs per second of an Azure Cosmos DB MongoDB collection
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBCollectionThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBMongoDBCollectionThroughputUpdate.json
  */
 async function cosmosDbMongoDbcollectionThroughputUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

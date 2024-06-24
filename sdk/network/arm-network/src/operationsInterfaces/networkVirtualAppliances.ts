@@ -20,6 +20,8 @@ import {
   NetworkVirtualAppliancesUpdateTagsResponse,
   NetworkVirtualAppliancesCreateOrUpdateOptionalParams,
   NetworkVirtualAppliancesCreateOrUpdateResponse,
+  NetworkVirtualAppliancesRestartOptionalParams,
+  NetworkVirtualAppliancesRestartResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -118,4 +120,31 @@ export interface NetworkVirtualAppliances {
     parameters: NetworkVirtualAppliance,
     options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams,
   ): Promise<NetworkVirtualAppliancesCreateOrUpdateResponse>;
+  /**
+   * Restarts one or more VMs belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  beginRestart(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesRestartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkVirtualAppliancesRestartResponse>,
+      NetworkVirtualAppliancesRestartResponse
+    >
+  >;
+  /**
+   * Restarts one or more VMs belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  beginRestartAndWait(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesRestartOptionalParams,
+  ): Promise<NetworkVirtualAppliancesRestartResponse>;
 }

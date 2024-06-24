@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks whether the subscription is visible to private link service in the specified resource group.
  *
  * @summary Checks whether the subscription is visible to private link service in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/CheckPrivateLinkServiceVisibilityByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/CheckPrivateLinkServiceVisibilityByResourceGroup.json
  */
 async function checkPrivateLinkServiceVisibility() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

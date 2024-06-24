@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an VirtualNetworkTap tags.
  *
  * @summary Updates an VirtualNetworkTap tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkTapUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkTapUpdateTags.json
  */
 async function updateVirtualNetworkTapTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
