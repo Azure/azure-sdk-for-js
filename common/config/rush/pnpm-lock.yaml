@@ -11497,7 +11497,7 @@ packages:
       tshy: 1.16.0
       tslib: 2.6.3
       typescript: 5.4.5
-      7itest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
