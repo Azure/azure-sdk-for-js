@@ -1,5 +1,10 @@
 # Release History
 
+## 1.6.0-beta.3 (2024-06-24)
+
+### Bugs Fixed
+
+- Updating with hotfix from version 1.5.1
 
 ## 1.6.0-beta.2 (2024-06-06)
 
