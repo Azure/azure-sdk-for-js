@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
-import { CommonClientOptions } from "@azure/core-client";
 import { tracingClient } from "./tracing";
 import {
   AzureMonitorMetricBatch as GeneratedMonitorMetricClient,
@@ -11,11 +10,10 @@ import {
   convertResponseForMetricBatch,
   convertRequestForMetricsBatchQuery,
 } from "./internal/modelConverters";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION, KnownMonitorAudience } from "./constants";
 import { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
 import { MetricsQueryResult } from "./models/publicMetricsModels";
-
-const defaultMetricsScope = "https://management.azure.com/.default";
+import { MetricsQueryClientOptions } from "./metricsQueryClient";
 
 export const getSubscriptionFromResourceId = function (resourceId: string): string {
   const startPos: number = resourceId.indexOf("subscriptions/") + 14;
@@ -30,15 +28,16 @@ export class MetricsClient {
   private _metricBatchClient: GeneratedMonitorMetricClient;
   private _baseUrl: string;
 
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(endpoint: string, tokenCredential: TokenCredential, options?: CommonClientOptions) {
-    let scope;
-    if (endpoint) {
-      scope = `${endpoint}/.default`;
-    }
-    const credentialOptions = {
-      credentialScopes: scope,
-    };
+  constructor(
+    endpoint: string,
+    tokenCredential: TokenCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: MetricsQueryClientOptions,
+  ) {
+    const scope: string = options?.audience
+      ? `${options.audience}/.default`
+      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
       options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
@@ -48,7 +47,7 @@ export class MetricsClient {
       ...options,
       $host: endpoint,
       endpoint: endpoint,
-      credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
+      credentialScopes: scope,
       credential: tokenCredential,
       userAgentOptions: {
         userAgentPrefix,

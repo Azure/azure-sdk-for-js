@@ -16,7 +16,7 @@ import {
   CustomAssessmentAutomationRequest,
   CustomAssessmentAutomationsCreateOptionalParams,
   CustomAssessmentAutomationsCreateResponse,
-  CustomAssessmentAutomationsDeleteOptionalParams
+  CustomAssessmentAutomationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,14 +30,14 @@ export interface CustomAssessmentAutomations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams
+    options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomAssessmentAutomation>;
   /**
    * List custom assessment automations by provided subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams
+    options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomAssessmentAutomation>;
   /**
    * Gets a single custom assessment automation by name for the provided subscription and resource group.
@@ -49,7 +49,7 @@ export interface CustomAssessmentAutomations {
   get(
     resourceGroupName: string,
     customAssessmentAutomationName: string,
-    options?: CustomAssessmentAutomationsGetOptionalParams
+    options?: CustomAssessmentAutomationsGetOptionalParams,
   ): Promise<CustomAssessmentAutomationsGetResponse>;
   /**
    * Creates or updates a custom assessment automation for the provided subscription. Please note that
@@ -64,7 +64,7 @@ export interface CustomAssessmentAutomations {
     resourceGroupName: string,
     customAssessmentAutomationName: string,
     customAssessmentAutomationBody: CustomAssessmentAutomationRequest,
-    options?: CustomAssessmentAutomationsCreateOptionalParams
+    options?: CustomAssessmentAutomationsCreateOptionalParams,
   ): Promise<CustomAssessmentAutomationsCreateResponse>;
   /**
    * Deletes a custom assessment automation by name for a provided subscription
@@ -76,6 +76,6 @@ export interface CustomAssessmentAutomations {
   delete(
     resourceGroupName: string,
     customAssessmentAutomationName: string,
-    options?: CustomAssessmentAutomationsDeleteOptionalParams
+    options?: CustomAssessmentAutomationsDeleteOptionalParams,
   ): Promise<void>;
 }

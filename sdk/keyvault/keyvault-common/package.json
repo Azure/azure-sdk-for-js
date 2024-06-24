@@ -28,7 +28,7 @@
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "eslint": "^8.0.0",

@@ -1,5 +1,27 @@
 # Release History
 
+## 12.1.0-beta.2 (2024-05-20)
+
+### Breaking Changes
+
+- Fixed an incorrect enum variant in `KnownVectorQueryKind` [#29601](https://github.com/Azure/azure-sdk-for-js/pull/29601)
+
+### Bugs Fixed
+
+- Fixed serialization performance on large payloads [#29597](https://github.com/Azure/azure-sdk-for-js/pull/29597)
+
+### Features Added
+
+- Enhance vector search support for image data [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+  - `AIServicesVisionVectorizer` leverages your Azure AI Vision deployment to generate embeddings from image data or text provided at query ime
+  - `VisionVectorizeSkill` allows for indexers to do the same
+  - Vector queries now have the ability to accept an image in the form of a URL or base64 encoded string
+- Add support for enrichment of search results with your own ML model [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+  - `AzureMachineLearningVectorizer` leverages your Azure AI Studio model deployment to generate embeddings for text provided at query time
+- Add support for search indexers to use OneLake as a data source [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+- Add support for search score and vector similarity to be used as a threshold on the results of vector queries [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+- Add support for hybrid search [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
+
 ## 12.1.0-beta.1 (2024-02-06)
 
 ### Breaking Changes

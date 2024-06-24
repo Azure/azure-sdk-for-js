@@ -8,9 +8,9 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** List of deployment stacks. */
+/** List of Deployment stacks. */
 export interface DeploymentStackListResult {
-  /** An array of deployment stacks. */
+  /** An array of Deployment stacks. */
   value?: DeploymentStack[];
   /**
    * The URL to use for getting the next set of results.
@@ -23,14 +23,40 @@ export interface DeploymentStackListResult {
 export interface DeploymentStacksTemplateLink {
   /** The URI of the template to deploy. Use either the uri or id property, but not both. */
   uri?: string;
-  /** The resource id of a Template Spec. Use either the id or uri property, but not both. */
+  /** The resourceId of a Template Spec. Use either the id or uri property, but not both. */
   id?: string;
-  /** The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec.  If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs */
+  /** The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec.  If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs. */
   relativePath?: string;
   /** The query string (for example, a SAS token) to be used with the templateLink URI. */
   queryString?: string;
   /** If included, must match the ContentVersion in the template. */
   contentVersion?: string;
+}
+
+/** Deployment parameter for the template. */
+export interface DeploymentParameter {
+  /** Input value to the parameter. */
+  value?: any;
+  /** Type of the value. */
+  type?: string;
+  /** Azure Key Vault parameter reference. */
+  reference?: KeyVaultParameterReference;
+}
+
+/** Azure Key Vault parameter reference. */
+export interface KeyVaultParameterReference {
+  /** Azure Key Vault reference. */
+  keyVault: KeyVaultReference;
+  /** Azure Key Vault secret name. */
+  secretName: string;
+  /** Azure Key Vault secret version. */
+  secretVersion?: string;
+}
+
+/** Azure Key Vault reference. */
+export interface KeyVaultReference {
+  /** Azure Key Vault resourceId. */
+  id: string;
 }
 
 /** Entity representing the reference to the deployment parameters. */
@@ -41,13 +67,13 @@ export interface DeploymentStacksParametersLink {
   contentVersion?: string;
 }
 
-/** Defines the behavior of resources that are not managed immediately after the stack is updated. */
-export interface DeploymentStackPropertiesActionOnUnmanage {
-  /** Specifies the action that should be taken on the resource when the deployment stack is deleted. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
+/** Defines the behavior of resources that are no longer managed after the stack is updated or deleted. */
+export interface ActionOnUnmanage {
+  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
   resources: DeploymentStacksDeleteDetachEnum;
-  /** Specifies the action that should be taken on the resource when the deployment stack is deleted. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
+  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
   resourceGroups?: DeploymentStacksDeleteDetachEnum;
-  /** Specifies the action that should be taken on the resource when the deployment stack is deleted. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
+  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
   managementGroups?: DeploymentStacksDeleteDetachEnum;
 }
 
@@ -57,19 +83,19 @@ export interface DeploymentStacksDebugSetting {
   detailLevel?: string;
 }
 
-/** Defines how resources deployed by the deployment stack are locked. */
+/** Defines how resources deployed by the Deployment stack are locked. */
 export interface DenySettings {
-  /** denySettings Mode. */
+  /** denySettings Mode that defines denied actions. */
   mode: DenySettingsMode;
   /** List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted. */
   excludedPrincipals?: string[];
   /** List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted. If the denySetting mode is set to 'denyWriteAndDelete', then the following actions are automatically appended to 'excludedActions': '*\/read' and 'Microsoft.Authorization/locks/delete'. If the denySetting mode is set to 'denyDelete', then the following actions are automatically appended to 'excludedActions': 'Microsoft.Authorization/locks/delete'. Duplicate actions will be removed. */
   excludedActions?: string[];
-  /** DenySettings will be applied to child scopes. */
+  /** DenySettings will be applied to child resource scopes of every managed resource with a deny assignment. */
   applyToChildScopes?: boolean;
 }
 
-/** The resource Id model. */
+/** The resourceId model. */
 export interface ResourceReference {
   /**
    * The resourceId of a resource managed by the deployment stack.
@@ -80,13 +106,7 @@ export interface ResourceReference {
 
 /** Deployment Stacks error response. */
 export interface DeploymentStacksError {
-  /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-  error?: ErrorResponse;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
+  /** The error detail. */
   error?: ErrorDetail;
 }
 
@@ -173,7 +193,7 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** Export Template specific properties of the Stack. */
+/** Export Template specific properties of the Deployment stack. */
 export interface DeploymentStackTemplateDefinition {
   /** The template content. Use this element to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
   template?: Record<string, unknown>;
@@ -181,7 +201,27 @@ export interface DeploymentStackTemplateDefinition {
   templateLink?: DeploymentStacksTemplateLink;
 }
 
-/** The resource Id extended model. */
+/** The Deployment stack validation result details. */
+export interface DeploymentStackValidateProperties {
+  /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
+  actionOnUnmanage?: ActionOnUnmanage;
+  /** The correlation id of the Deployment stack validate operation. It is in GUID format and is used for tracing. */
+  correlationId?: string;
+  /** The Deployment stack deny settings. */
+  denySettings?: DenySettings;
+  /** The Deployment stack deployment scope. */
+  deploymentScope?: string;
+  /** The Deployment stack validation description. */
+  description?: string;
+  /** Deployment parameters. */
+  parameters?: { [propertyName: string]: DeploymentParameter };
+  /** The URI of the template. */
+  templateLink?: DeploymentStacksTemplateLink;
+  /** The array of resources that were validated. */
+  validatedResources?: ResourceReference[];
+}
+
+/** The resourceId extended model. This is used to document failed resources with a resourceId and a corresponding error. */
 export interface ResourceReferenceExtended
   extends ResourceReference,
     DeploymentStacksError {}
@@ -200,17 +240,19 @@ export interface DeploymentStackProperties extends DeploymentStacksError {
   template?: Record<string, unknown>;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
   templateLink?: DeploymentStacksTemplateLink;
-  /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
-  parameters?: Record<string, unknown>;
+  /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
+  parameters?: { [propertyName: string]: DeploymentParameter };
   /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
   parametersLink?: DeploymentStacksParametersLink;
-  /** Defines the behavior of resources that are not managed immediately after the stack is updated. */
-  actionOnUnmanage: DeploymentStackPropertiesActionOnUnmanage;
+  /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
+  actionOnUnmanage: ActionOnUnmanage;
   /** The debug setting of the deployment. */
   debugSetting?: DeploymentStacksDebugSetting;
+  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
+  bypassStackOutOfSyncError?: boolean;
   /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
   deploymentScope?: string;
-  /** Deployment stack description. */
+  /** Deployment stack description. Max length of 4096 characters. */
   description?: string;
   /** Defines how resources deployed by the stack are locked. */
   denySettings: DenySettings;
@@ -220,17 +262,22 @@ export interface DeploymentStackProperties extends DeploymentStacksError {
    */
   readonly provisioningState?: DeploymentStackProvisioningState;
   /**
-   * An array of resources that were detached during the most recent update.
+   * The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+  /**
+   * An array of resources that were detached during the most recent Deployment stack update. Detached means that the resource was removed from the template, but no relevant deletion operations were specified. So, the resource still exists while no longer being associated with the stack.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly detachedResources?: ResourceReference[];
   /**
-   * An array of resources that were deleted during the most recent update.
+   * An array of resources that were deleted during the most recent Deployment stack update. Deleted means that the resource was removed from the template and relevant deletion operations were specified.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deletedResources?: ResourceReference[];
   /**
-   * An array of resources that failed to reach goal state during the most recent update.
+   * An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly failedResources?: ResourceReferenceExtended[];
@@ -245,83 +292,33 @@ export interface DeploymentStackProperties extends DeploymentStacksError {
    */
   readonly deploymentId?: string;
   /**
-   * The outputs of the underlying deployment.
+   * The outputs of the deployment resource created by the deployment stack.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly outputs?: Record<string, unknown>;
   /**
-   * The duration of the deployment stack update.
+   * The duration of the last successful Deployment stack update.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly duration?: string;
 }
 
+/** The Deployment stack validation result. */
+export interface DeploymentStackValidateResult
+  extends AzureResourceBase,
+    DeploymentStacksError {
+  /** The validation result details. */
+  properties?: DeploymentStackValidateProperties;
+}
+
 /** Deployment stack object. */
 export interface DeploymentStack extends AzureResourceBase {
-  /** The location of the deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations. */
+  /** The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations. */
   location?: string;
   /** Deployment stack resource tags. */
   tags?: { [propertyName: string]: string };
-  /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-  error?: ErrorResponse;
-  /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: Record<string, unknown>;
-  /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
-  /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
-  parameters?: Record<string, unknown>;
-  /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: DeploymentStacksParametersLink;
-  /** Defines the behavior of resources that are not managed immediately after the stack is updated. */
-  actionOnUnmanage?: DeploymentStackPropertiesActionOnUnmanage;
-  /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
-  /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
-  /** Deployment stack description. */
-  description?: string;
-  /** Defines how resources deployed by the stack are locked. */
-  denySettings?: DenySettings;
-  /**
-   * State of the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: DeploymentStackProvisioningState;
-  /**
-   * An array of resources that were detached during the most recent update.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly detachedResources?: ResourceReference[];
-  /**
-   * An array of resources that were deleted during the most recent update.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedResources?: ResourceReference[];
-  /**
-   * An array of resources that failed to reach goal state during the most recent update.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedResources?: ResourceReferenceExtended[];
-  /**
-   * An array of resources currently managed by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: ManagedResourceReference[];
-  /**
-   * The resourceId of the deployment resource created by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deploymentId?: string;
-  /**
-   * The outputs of the underlying deployment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputs?: Record<string, unknown>;
-  /**
-   * The duration of the deployment stack update.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly duration?: string;
+  /** Deployment stack properties. */
+  properties?: DeploymentStackProperties;
 }
 
 /** Defines headers for DeploymentStacks_deleteAtResourceGroup operation. */
@@ -339,12 +336,33 @@ export interface DeploymentStacksDeleteAtManagementGroupHeaders {
   location?: string;
 }
 
+/** Defines headers for DeploymentStacks_validateStackAtResourceGroup operation. */
+export interface DeploymentStacksValidateStackAtResourceGroupHeaders {
+  location?: string;
+  /** Number of seconds to wait before polling for status. */
+  retryAfter?: string;
+}
+
+/** Defines headers for DeploymentStacks_validateStackAtSubscription operation. */
+export interface DeploymentStacksValidateStackAtSubscriptionHeaders {
+  location?: string;
+  /** Number of seconds to wait before polling for status. */
+  retryAfter?: string;
+}
+
+/** Defines headers for DeploymentStacks_validateStackAtManagementGroup operation. */
+export interface DeploymentStacksValidateStackAtManagementGroupHeaders {
+  location?: string;
+  /** Number of seconds to wait before polling for status. */
+  retryAfter?: string;
+}
+
 /** Known values of {@link DeploymentStacksDeleteDetachEnum} that the service accepts. */
 export enum KnownDeploymentStacksDeleteDetachEnum {
   /** Delete */
   Delete = "delete",
   /** Detach */
-  Detach = "detach"
+  Detach = "detach",
 }
 
 /**
@@ -361,10 +379,10 @@ export type DeploymentStacksDeleteDetachEnum = string;
 export enum KnownDenySettingsMode {
   /** Authorized users are able to read and modify the resources, but cannot delete. */
   DenyDelete = "denyDelete",
-  /** Authorized users can only read from a resource, but cannot modify or delete it. */
+  /** Authorized users can read from a resource, but cannot modify or delete it. */
   DenyWriteAndDelete = "denyWriteAndDelete",
   /** No denyAssignments have been applied. */
-  None = "none"
+  None = "none",
 }
 
 /**
@@ -373,7 +391,7 @@ export enum KnownDenySettingsMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **denyDelete**: Authorized users are able to read and modify the resources, but cannot delete. \
- * **denyWriteAndDelete**: Authorized users can only read from a resource, but cannot modify or delete it. \
+ * **denyWriteAndDelete**: Authorized users can read from a resource, but cannot modify or delete it. \
  * **none**: No denyAssignments have been applied.
  */
 export type DenySettingsMode = string;
@@ -381,27 +399,27 @@ export type DenySettingsMode = string;
 /** Known values of {@link DeploymentStackProvisioningState} that the service accepts. */
 export enum KnownDeploymentStackProvisioningState {
   /** Creating */
-  Creating = "Creating",
+  Creating = "creating",
   /** Validating */
-  Validating = "Validating",
+  Validating = "validating",
   /** Waiting */
-  Waiting = "Waiting",
+  Waiting = "waiting",
   /** Deploying */
-  Deploying = "Deploying",
+  Deploying = "deploying",
   /** Canceling */
-  Canceling = "Canceling",
-  /** Locking */
-  Locking = "Locking",
+  Canceling = "canceling",
+  /** UpdatingDenyAssignments */
+  UpdatingDenyAssignments = "updatingDenyAssignments",
   /** DeletingResources */
-  DeletingResources = "DeletingResources",
+  DeletingResources = "deletingResources",
   /** Succeeded */
-  Succeeded = "Succeeded",
+  Succeeded = "succeeded",
   /** Failed */
-  Failed = "Failed",
+  Failed = "failed",
   /** Canceled */
-  Canceled = "Canceled",
+  Canceled = "canceled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "deleting",
 }
 
 /**
@@ -409,30 +427,28 @@ export enum KnownDeploymentStackProvisioningState {
  * {@link KnownDeploymentStackProvisioningState} can be used interchangeably with DeploymentStackProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Creating** \
- * **Validating** \
- * **Waiting** \
- * **Deploying** \
- * **Canceling** \
- * **Locking** \
- * **DeletingResources** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting**
+ * **creating** \
+ * **validating** \
+ * **waiting** \
+ * **deploying** \
+ * **canceling** \
+ * **updatingDenyAssignments** \
+ * **deletingResources** \
+ * **succeeded** \
+ * **failed** \
+ * **canceled** \
+ * **deleting**
  */
 export type DeploymentStackProvisioningState = string;
 
 /** Known values of {@link ResourceStatusMode} that the service accepts. */
 export enum KnownResourceStatusMode {
   /** This resource is managed by the deployment stack. */
-  Managed = "Managed",
+  Managed = "managed",
   /** Unable to remove the deny assignment on resource. */
   RemoveDenyFailed = "removeDenyFailed",
   /** Unable to delete the resource from Azure. The delete will be retried on the next stack deployment, or can be deleted manually. */
   DeleteFailed = "deleteFailed",
-  /** No denyAssignments have been applied. */
-  None = "None"
 }
 
 /**
@@ -440,10 +456,9 @@ export enum KnownResourceStatusMode {
  * {@link KnownResourceStatusMode} can be used interchangeably with ResourceStatusMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Managed**: This resource is managed by the deployment stack. \
+ * **managed**: This resource is managed by the deployment stack. \
  * **removeDenyFailed**: Unable to remove the deny assignment on resource. \
- * **deleteFailed**: Unable to delete the resource from Azure. The delete will be retried on the next stack deployment, or can be deleted manually. \
- * **None**: No denyAssignments have been applied.
+ * **deleteFailed**: Unable to delete the resource from Azure. The delete will be retried on the next stack deployment, or can be deleted manually.
  */
 export type ResourceStatusMode = string;
 
@@ -460,7 +475,7 @@ export enum KnownDenyStatusMode {
   /** Deny assignment has been removed by Azure due to a resource management change (management group move, etc.) */
   RemovedBySystem = "removedBySystem",
   /** No denyAssignments have been applied. */
-  None = "None"
+  None = "none",
 }
 
 /**
@@ -473,7 +488,7 @@ export enum KnownDenyStatusMode {
  * **inapplicable**: denyAssignments are not supported on resources outside the scope of the deployment stack. \
  * **denyWriteAndDelete**: Authorized users can only read from a resource, but cannot modify or delete it. \
  * **removedBySystem**: Deny assignment has been removed by Azure due to a resource management change (management group move, etc.) \
- * **None**: No denyAssignments have been applied.
+ * **none**: No denyAssignments have been applied.
  */
 export type DenyStatusMode = string;
 
@@ -486,7 +501,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -506,7 +521,7 @@ export enum KnownUnmanageActionResourceMode {
   /** Delete */
   Delete = "delete",
   /** Detach */
-  Detach = "detach"
+  Detach = "detach",
 }
 
 /**
@@ -524,7 +539,7 @@ export enum KnownUnmanageActionResourceGroupMode {
   /** Delete */
   Delete = "delete",
   /** Detach */
-  Detach = "detach"
+  Detach = "detach",
 }
 
 /**
@@ -542,7 +557,7 @@ export enum KnownUnmanageActionManagementGroupMode {
   /** Delete */
   Delete = "delete",
   /** Detach */
-  Detach = "detach"
+  Detach = "detach",
 }
 
 /**
@@ -560,21 +575,24 @@ export interface DeploymentStacksListAtResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtResourceGroup operation. */
-export type DeploymentStacksListAtResourceGroupResponse = DeploymentStackListResult;
+export type DeploymentStacksListAtResourceGroupResponse =
+  DeploymentStackListResult;
 
 /** Optional parameters. */
 export interface DeploymentStacksListAtSubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSubscription operation. */
-export type DeploymentStacksListAtSubscriptionResponse = DeploymentStackListResult;
+export type DeploymentStacksListAtSubscriptionResponse =
+  DeploymentStackListResult;
 
 /** Optional parameters. */
 export interface DeploymentStacksListAtManagementGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtManagementGroup operation. */
-export type DeploymentStacksListAtManagementGroupResponse = DeploymentStackListResult;
+export type DeploymentStacksListAtManagementGroupResponse =
+  DeploymentStackListResult;
 
 /** Optional parameters. */
 export interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
@@ -586,7 +604,8 @@ export interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
 }
 
 /** Contains response data for the createOrUpdateAtResourceGroup operation. */
-export type DeploymentStacksCreateOrUpdateAtResourceGroupResponse = DeploymentStack;
+export type DeploymentStacksCreateOrUpdateAtResourceGroupResponse =
+  DeploymentStack;
 
 /** Optional parameters. */
 export interface DeploymentStacksGetAtResourceGroupOptionalParams
@@ -598,10 +617,14 @@ export type DeploymentStacksGetAtResourceGroupResponse = DeploymentStack;
 /** Optional parameters. */
 export interface DeploymentStacksDeleteAtResourceGroupOptionalParams
   extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for the resources. */
+  /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for the resource groups. */
+  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+  /** Flag to indicate delete rather than detach for unmanaged management groups. */
+  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
+  bypassStackOutOfSyncError?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -618,7 +641,8 @@ export interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
 }
 
 /** Contains response data for the createOrUpdateAtSubscription operation. */
-export type DeploymentStacksCreateOrUpdateAtSubscriptionResponse = DeploymentStack;
+export type DeploymentStacksCreateOrUpdateAtSubscriptionResponse =
+  DeploymentStack;
 
 /** Optional parameters. */
 export interface DeploymentStacksGetAtSubscriptionOptionalParams
@@ -630,10 +654,14 @@ export type DeploymentStacksGetAtSubscriptionResponse = DeploymentStack;
 /** Optional parameters. */
 export interface DeploymentStacksDeleteAtSubscriptionOptionalParams
   extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for the resources. */
+  /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for the resource groups. */
+  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+  /** Flag to indicate delete rather than detach for unmanaged management groups. */
+  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
+  bypassStackOutOfSyncError?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -650,7 +678,8 @@ export interface DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
 }
 
 /** Contains response data for the createOrUpdateAtManagementGroup operation. */
-export type DeploymentStacksCreateOrUpdateAtManagementGroupResponse = DeploymentStack;
+export type DeploymentStacksCreateOrUpdateAtManagementGroupResponse =
+  DeploymentStack;
 
 /** Optional parameters. */
 export interface DeploymentStacksGetAtManagementGroupOptionalParams
@@ -662,12 +691,14 @@ export type DeploymentStacksGetAtManagementGroupResponse = DeploymentStack;
 /** Optional parameters. */
 export interface DeploymentStacksDeleteAtManagementGroupOptionalParams
   extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for the resources. */
+  /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for the resource groups. */
+  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-  /** Flag to indicate delete rather than detach for the management groups. */
+  /** Flag to indicate delete rather than detach for unmanaged management groups. */
   unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
+  bypassStackOutOfSyncError?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -679,42 +710,87 @@ export interface DeploymentStacksExportTemplateAtResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the exportTemplateAtResourceGroup operation. */
-export type DeploymentStacksExportTemplateAtResourceGroupResponse = DeploymentStackTemplateDefinition;
+export type DeploymentStacksExportTemplateAtResourceGroupResponse =
+  DeploymentStackTemplateDefinition;
 
 /** Optional parameters. */
 export interface DeploymentStacksExportTemplateAtSubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the exportTemplateAtSubscription operation. */
-export type DeploymentStacksExportTemplateAtSubscriptionResponse = DeploymentStackTemplateDefinition;
+export type DeploymentStacksExportTemplateAtSubscriptionResponse =
+  DeploymentStackTemplateDefinition;
 
 /** Optional parameters. */
 export interface DeploymentStacksExportTemplateAtManagementGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the exportTemplateAtManagementGroup operation. */
-export type DeploymentStacksExportTemplateAtManagementGroupResponse = DeploymentStackTemplateDefinition;
+export type DeploymentStacksExportTemplateAtManagementGroupResponse =
+  DeploymentStackTemplateDefinition;
+
+/** Optional parameters. */
+export interface DeploymentStacksValidateStackAtResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateStackAtResourceGroup operation. */
+export type DeploymentStacksValidateStackAtResourceGroupResponse =
+  DeploymentStackValidateResult;
+
+/** Optional parameters. */
+export interface DeploymentStacksValidateStackAtSubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateStackAtSubscription operation. */
+export type DeploymentStacksValidateStackAtSubscriptionResponse =
+  DeploymentStackValidateResult;
+
+/** Optional parameters. */
+export interface DeploymentStacksValidateStackAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateStackAtManagementGroup operation. */
+export type DeploymentStacksValidateStackAtManagementGroupResponse =
+  DeploymentStackValidateResult;
 
 /** Optional parameters. */
 export interface DeploymentStacksListAtResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtResourceGroupNext operation. */
-export type DeploymentStacksListAtResourceGroupNextResponse = DeploymentStackListResult;
+export type DeploymentStacksListAtResourceGroupNextResponse =
+  DeploymentStackListResult;
 
 /** Optional parameters. */
 export interface DeploymentStacksListAtSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSubscriptionNext operation. */
-export type DeploymentStacksListAtSubscriptionNextResponse = DeploymentStackListResult;
+export type DeploymentStacksListAtSubscriptionNextResponse =
+  DeploymentStackListResult;
 
 /** Optional parameters. */
 export interface DeploymentStacksListAtManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtManagementGroupNext operation. */
-export type DeploymentStacksListAtManagementGroupNextResponse = DeploymentStackListResult;
+export type DeploymentStacksListAtManagementGroupNextResponse =
+  DeploymentStackListResult;
 
 /** Optional parameters. */
 export interface DeploymentStacksClientOptionalParams

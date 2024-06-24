@@ -11,4 +11,8 @@ export * from "./checkNameAvailability";
 export * from "./diagnostics";
 export * from "./discoverySolution";
 export * from "./solution";
+export * from "./simplifiedSolutions";
 export * from "./troubleshooters";
+export * from "./solutionSelfHelp";
+export * from "./discoverySolutionNLPTenantScope";
+export * from "./discoverySolutionNLPSubscriptionScope";

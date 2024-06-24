@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Azure Web PubSub Client",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -39,7 +39,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy -- --timeout 12000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts' --exit",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -109,7 +109,7 @@
     "source-map-support": "^0.5.9",
     "typescript": "~5.4.5",
     "@azure/web-pubsub": "^1.1.0",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "mock-socket": "^9.1.5",
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",

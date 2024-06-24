@@ -31,7 +31,7 @@ async function getsCurrentInstanceSqlAgentConfiguration() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.sqlAgent.get(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   );
   console.log(result);
 }

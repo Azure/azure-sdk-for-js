@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists available operations for the Microsoft.VirtualMachineImages provider
  *
  * @summary Lists available operations for the Microsoft.VirtualMachineImages provider
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/OperationsList.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/OperationsList.json
  */
 async function retrieveOperationsList() {
   const subscriptionId =

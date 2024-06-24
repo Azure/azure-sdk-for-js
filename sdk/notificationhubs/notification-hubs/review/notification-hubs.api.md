@@ -385,7 +385,7 @@ export function createFcmV1TemplateRegistrationDescription(description: FcmV1Tem
 export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseLegacyNativeMessage): string;
 
 // @public
-export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string;
+export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessageEnvelope): string;
 
 // @public
 export function createTagExpression(tags: string[]): string;
@@ -561,7 +561,7 @@ export interface FirebaseLegacyWebNativePayload {
 // @public
 export interface FirebaseV1AndroidConfig {
     collapse_key?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     direct_boot_ok?: boolean;
     fcm_options?: FirebaseV1AndroidFcmOptions;
     notification?: FirebaseV1AndroidNotification;
@@ -636,12 +636,17 @@ export interface FirebaseV1NativeMessage {
     android?: FirebaseV1AndroidConfig;
     apns?: FirebaseV1ApnsConfig;
     condition?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     fcm_options?: FirebaseV1FcmOptions;
     notification?: FirebaseV1NativeNotification;
     token?: string;
     topic?: string;
     webpush?: FirebaseV1WebPushConfig;
+}
+
+// @public
+export interface FirebaseV1NativeMessageEnvelope {
+    message: FirebaseV1NativeMessage;
 }
 
 // @public
@@ -680,7 +685,7 @@ export interface FirebaseV1WebPushNotification {
     }[];
     badge?: string;
     body?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     dir?: "auto" | "ltr" | "rtl";
     icon?: string;
     image?: string;
@@ -798,6 +803,7 @@ export interface NotificationDetails {
     endTime?: Date;
     enqueueTime?: Date;
     fcmOutcomeCounts?: NotificationOutcome[];
+    fcmV1OutcomeCounts?: NotificationOutcome[];
     location?: string;
     notificationBody?: string;
     notificationId?: string;

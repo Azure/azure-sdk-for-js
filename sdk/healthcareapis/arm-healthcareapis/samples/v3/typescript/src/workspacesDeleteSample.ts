@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a specified workspace.
  *
  * @summary Deletes a specified workspace.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/workspaces/Workspaces_Delete.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/workspaces/Workspaces_Delete.json
  */
 async function deleteAWorkspace() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function deleteAWorkspace() {
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const result = await client.workspaces.beginDeleteAndWait(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   );
   console.log(result);
 }

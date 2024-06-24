@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.22.0-beta.2",
+  "version": "12.23.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-queue/src/index.js",
@@ -77,7 +77,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/storageClientContext.ts",
+        "path": "src/generated/src/storageClient.ts",
         "prefix": "packageVersion"
       },
       {
@@ -125,8 +125,9 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure/storage-blob": "^12.23.0-beta.1",
-    "@azure/test-utils": "^1.0.0",
+    "@azure/storage-blob": "^12.23.0",
+    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",

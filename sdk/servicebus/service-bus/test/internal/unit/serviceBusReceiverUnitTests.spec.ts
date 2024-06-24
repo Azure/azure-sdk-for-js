@@ -7,7 +7,7 @@ import { assertThrows } from "../../public/utils/testUtils";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
 import chai from "chai";
 import { InternalMessageHandlers } from "../../../src/models";
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("ServiceBusReceiver unit tests", () => {
   let receiver: ServiceBusReceiverImpl;

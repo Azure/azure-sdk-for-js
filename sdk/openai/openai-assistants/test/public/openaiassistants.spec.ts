@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import { getModels } from "./utils/utils.js";

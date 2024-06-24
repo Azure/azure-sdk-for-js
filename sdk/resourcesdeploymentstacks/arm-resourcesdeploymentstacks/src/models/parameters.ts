@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import { DeploymentStack as DeploymentStackMapper } from "../models/mappers";
 
@@ -20,9 +20,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -31,24 +31,21 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -56,26 +53,26 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-01-preview",
+    defaultValue: "2024-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const managementGroupId: OperationURLParameter = {
@@ -84,14 +81,14 @@ export const managementGroupId: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "managementGroupId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -101,14 +98,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deploymentStack: OperationParameter = {
   parameterPath: "deploymentStack",
-  mapper: DeploymentStackMapper
+  mapper: DeploymentStackMapper,
 };
 
 export const deploymentStackName: OperationURLParameter = {
@@ -117,14 +114,14 @@ export const deploymentStackName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "deploymentStackName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const unmanageActionResources: OperationQueryParameter = {
@@ -132,9 +129,9 @@ export const unmanageActionResources: OperationQueryParameter = {
   mapper: {
     serializedName: "unmanageAction.Resources",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const unmanageActionResourceGroups: OperationQueryParameter = {
@@ -142,9 +139,9 @@ export const unmanageActionResourceGroups: OperationQueryParameter = {
   mapper: {
     serializedName: "unmanageAction.ResourceGroups",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const unmanageActionManagementGroups: OperationQueryParameter = {
@@ -152,9 +149,19 @@ export const unmanageActionManagementGroups: OperationQueryParameter = {
   mapper: {
     serializedName: "unmanageAction.ManagementGroups",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const bypassStackOutOfSyncError: OperationQueryParameter = {
+  parameterPath: ["options", "bypassStackOutOfSyncError"],
+  mapper: {
+    serializedName: "bypassStackOutOfSyncError",
+    type: {
+      name: "Boolean",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -163,8 +170,8 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };

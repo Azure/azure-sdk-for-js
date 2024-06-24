@@ -4,11 +4,10 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { LroError } from "../poller/models.js";
 
-// TODO: rename to ResourceLocationConfig
 /**
  * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
  */
-export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
+export type ResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
 
 /**
  * The type of a LRO response body. This is just a convenience type for checking the status of the operation.
@@ -28,11 +27,25 @@ export interface ResponseBody extends Record<string, unknown> {
 }
 
 /**
+ * Simple type of the raw request.
+ */
+export interface RawRequest {
+  /** The HTTP request method */
+  method: string;
+  /** The request path */
+  url: string;
+  /** The request body */
+  body?: unknown;
+}
+
+/**
  * Simple type of the raw response.
  */
-export interface RawResponse {
+export interface RawResponse<TRequest extends RawRequest = RawRequest> {
   /** The HTTP status code */
   statusCode: number;
+  /** The raw request that was sent to the server */
+  request: TRequest;
   /** A HttpHeaders collection in the response represented as a simple JSON object where all header names have been normalized to be lower-case. */
   headers: {
     [headerName: string]: string;
@@ -41,42 +54,31 @@ export interface RawResponse {
   body?: unknown;
 }
 
-// TODO: rename to OperationResponse
 /**
  * The type of the response of a LRO.
  */
-export interface LroResponse<T = unknown> {
+export interface OperationResponse<T = unknown, TRequest extends RawRequest = RawRequest> {
   /** The flattened response */
   flatResponse: T;
   /** The raw response */
-  rawResponse: RawResponse;
+  rawResponse: RawResponse<TRequest>;
 }
 
 /**
  * Description of a long running operation.
  */
-export interface LongRunningOperation<T = unknown> {
-  /**
-   * The request path. This should be set if the operation is a PUT and needs
-   * to poll from the same request path.
-   */
-  requestPath?: string;
-  /**
-   * The HTTP request method. This should be set if the operation is a PUT or a
-   * DELETE.
-   */
-  requestMethod?: string;
+export interface RunningOperation<T = unknown> {
   /**
    * A function that can be used to send initial request to the service.
    */
-  sendInitialRequest: () => Promise<LroResponse<unknown>>;
+  sendInitialRequest: () => Promise<OperationResponse<unknown>>;
   /**
    * A function that can be used to poll for the current status of a long running operation.
    */
   sendPollRequest: (
     path: string,
     options?: { abortSignal?: AbortSignalLike },
-  ) => Promise<LroResponse<T>>;
+  ) => Promise<OperationResponse<T>>;
 }
 
 export type HttpOperationMode = "OperationLocation" | "ResourceLocation" | "Body";
@@ -96,15 +98,15 @@ export interface CreateHttpPollerOptions<TResult, TState> {
   /**
    * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
    */
-  resourceLocationConfig?: LroResourceLocationConfig;
+  resourceLocationConfig?: ResourceLocationConfig;
   /**
    * A function to process the result of the LRO.
    */
-  processResult?: (result: unknown, state: TState) => TResult;
+  processResult?: (result: unknown, state: TState) => Promise<TResult>;
   /**
    * A function to process the state of the LRO.
    */
-  updateState?: (state: TState, response: LroResponse) => void;
+  updateState?: (state: TState, response: OperationResponse) => void;
   /**
    * A function to be called each time the operation location is updated by the
    * service.

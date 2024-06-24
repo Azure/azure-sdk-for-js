@@ -18,12 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all managed instances in the subscription.
  *
  * @summary Gets a list of all managed instances in the subscription.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceList.json
  */
 async function listManagedInstances() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "20D7082A-0FC7-4468-82BD-542694D5042B";
+    "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -37,12 +37,12 @@ async function listManagedInstances() {
  * This sample demonstrates how to Gets a list of all managed instances in the subscription.
  *
  * @summary Gets a list of all managed instances in the subscription.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceListWithExpandEqualsAdministrators.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceListWithExpandEqualsAdministrators.json
  */
 async function listManagedInstancesWithExpandAdministratorsOrActivedirectory() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "20D7082A-0FC7-4468-82BD-542694D5042B";
+    "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();

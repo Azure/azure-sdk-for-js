@@ -18,7 +18,11 @@ export async function authenticate(testContext: Test | undefined): Promise<any> 
       AZURE_CLIENT_SECRET: "clientsecret",
       AZURE_TENANT_ID: "00000000-0000-0000-0000-000000000000",
       AZURE_QUANTUM_WORKSPACE_LOCATION: "eastus",
-    }
+    },
+    removeCentralSanitizers: [
+      "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+      "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    ],
   });
   await recorder.addSanitizers(getSanitizers());
 

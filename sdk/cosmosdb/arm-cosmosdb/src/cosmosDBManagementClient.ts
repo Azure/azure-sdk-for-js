@@ -15,6 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  NetworkSecurityPerimeterConfigurationsImpl,
   DatabaseAccountsImpl,
   OperationsImpl,
   DatabaseImpl,
@@ -38,7 +39,6 @@ import {
   DataTransferJobsImpl,
   CassandraClustersImpl,
   CassandraDataCentersImpl,
-  MongoClustersImpl,
   NotebookWorkspacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
@@ -61,6 +61,7 @@ import {
   ThroughputPoolAccountImpl,
 } from "./operations";
 import {
+  NetworkSecurityPerimeterConfigurations,
   DatabaseAccounts,
   Operations,
   Database,
@@ -84,7 +85,6 @@ import {
   DataTransferJobs,
   CassandraClusters,
   CassandraDataCenters,
-  MongoClusters,
   NotebookWorkspaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -116,7 +116,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -140,7 +140,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cosmosdb/16.0.0-beta.8`;
+    const packageDetails = `azsdk-js-arm-cosmosdb/16.0.0-beta.9`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -194,7 +194,9 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-15-preview";
+    this.apiVersion = options.apiVersion || "2024-05-15-preview";
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
@@ -218,7 +220,6 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.dataTransferJobs = new DataTransferJobsImpl(this);
     this.cassandraClusters = new CassandraClustersImpl(this);
     this.cassandraDataCenters = new CassandraDataCentersImpl(this);
-    this.mongoClusters = new MongoClustersImpl(this);
     this.notebookWorkspaces = new NotebookWorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -272,6 +273,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
   databaseAccounts: DatabaseAccounts;
   operations: Operations;
   database: Database;
@@ -295,7 +297,6 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   dataTransferJobs: DataTransferJobs;
   cassandraClusters: CassandraClusters;
   cassandraDataCenters: CassandraDataCenters;
-  mongoClusters: MongoClusters;
   notebookWorkspaces: NotebookWorkspaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;

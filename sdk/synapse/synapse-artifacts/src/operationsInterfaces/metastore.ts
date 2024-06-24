@@ -15,7 +15,7 @@ import {
   MetastoreUpdateObject,
   MetastoreUpdateOptionalParams,
   MetastoreUpdateResponse,
-  MetastoreDeleteOptionalParams
+  MetastoreDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a Metastore. */
@@ -30,7 +30,7 @@ export interface Metastore {
   register(
     id: string,
     registerBody: MetastoreRegisterObject,
-    options?: MetastoreRegisterOptionalParams
+    options?: MetastoreRegisterOptionalParams,
   ): Promise<MetastoreRegisterResponse>;
   /**
    * Gets status of the database
@@ -39,7 +39,7 @@ export interface Metastore {
    */
   getDatabaseOperations(
     id: string,
-    options?: MetastoreGetDatabaseOperationsOptionalParams
+    options?: MetastoreGetDatabaseOperationsOptionalParams,
   ): Promise<MetastoreGetDatabaseOperationsResponse>;
   /**
    * Update files in Syms
@@ -50,7 +50,7 @@ export interface Metastore {
   update(
     id: string,
     updateBody: MetastoreUpdateObject,
-    options?: MetastoreUpdateOptionalParams
+    options?: MetastoreUpdateOptionalParams,
   ): Promise<MetastoreUpdateResponse>;
   /**
    * Remove files in Syms

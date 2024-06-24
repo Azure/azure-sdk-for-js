@@ -6,13 +6,13 @@
 import * as path from "path";
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import fs from "fs";
 
 const ASSET_PATH = "assets";
@@ -26,6 +26,10 @@ describe("ClientCertificateCredential", function () {
     cleanup = setup.cleanup;
     recorder = setup.recorder;
     await recorder.setMatcher("BodilessMatcher");
+    if (isLiveMode()) {
+      // https://github.com/Azure/azure-sdk-for-js/issues/29929
+      this.skip();
+    }
   });
   afterEach(async function () {
     await cleanup();

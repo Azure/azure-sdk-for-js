@@ -14,12 +14,12 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   ValidateOperationRequestResource,
-  ValidateOperationTriggerOptionalParams
+  ValidateOperationTriggerOptionalParams,
 } from "../models";
 
 /** Class containing ValidateOperation operations. */
@@ -47,25 +47,24 @@ export class ValidateOperationImpl implements ValidateOperation {
     vaultName: string,
     resourceGroupName: string,
     parameters: ValidateOperationRequestResource,
-    options?: ValidateOperationTriggerOptionalParams
+    options?: ValidateOperationTriggerOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -74,8 +73,8 @@ export class ValidateOperationImpl implements ValidateOperation {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -83,19 +82,19 @@ export class ValidateOperationImpl implements ValidateOperation {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { vaultName, resourceGroupName, parameters, options },
-      spec: triggerOperationSpec
+      spec: triggerOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -114,13 +113,13 @@ export class ValidateOperationImpl implements ValidateOperation {
     vaultName: string,
     resourceGroupName: string,
     parameters: ValidateOperationRequestResource,
-    options?: ValidateOperationTriggerOptionalParams
+    options?: ValidateOperationTriggerOptionalParams,
   ): Promise<void> {
     const poller = await this.beginTrigger(
       vaultName,
       resourceGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -129,8 +128,7 @@ export class ValidateOperationImpl implements ValidateOperation {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const triggerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTriggerValidateOperation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTriggerValidateOperation",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -138,8 +136,8 @@ const triggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
@@ -147,9 +145,9 @@ const triggerOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

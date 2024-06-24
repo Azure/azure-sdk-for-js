@@ -3,58 +3,73 @@
 
 /**
  * @file Rule to force module to be the ES6 entrypoint to the application.
- * @author Arpan Laha
+ *
  */
 
-import { Literal, Property } from "estree";
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
-import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/utils";
+import { VerifierMessages, createRule, getVerifiers, stripPath, usesTshy } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-package-json-module",
-    "force package.json's module value to be the ES6 entrypoint to the application",
-    "code",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-package-json-module",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "force package.json's module value to be the ES6 entrypoint to the application",
+      recommended: "recommended",
+    },
+    messages: {
+      ...VerifierMessages,
+      ModuleNotLiteral: "module property in package.json is not a Literal",
+      ModuleNotValid:
+        "module is set to {{moduleValue}} when it should be set to dist-esm/src/index.js",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     const verifiers = getVerifiers(context, {
       outer: "module",
     });
-    return stripPath(context.filename) === "package.json"
-      ? ({
-          // callback functions
+    if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    if (usesTshy(context.filename)) {
+      return {};
+    }
+    return {
+      // check to see if module exists at the outermost level
+      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check to see if module exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+      // check the node corresponding to module to see if its value is dist-esm/src/index.js
+      "ExpressionStatement > ObjectExpression > Property[key.value='module']": (
+        node: TSESTree.Property,
+      ): void => {
+        if (node.value.type !== "Literal") {
+          context.report({
+            node: node.value,
+            messageId: "ModuleNotLiteral",
+          });
+        }
 
-          // check the node corresponding to module to see if its value is dist-esm/src/index.js
-          "ExpressionStatement > ObjectExpression > Property[key.value='module']": (
-            node: Property,
-          ): void => {
-            if (node.value.type !== "Literal") {
-              context.report({
-                node: node.value,
-                message: "name is not a Literal",
-              });
-            }
+        const nodeValue = node.value as TSESTree.Literal;
+        const moduleValue = nodeValue.value as string;
 
-            const nodeValue = node.value as Literal;
-            const moduleValue = nodeValue.value as string;
-
-            if (!/^(\.\/)?dist-esm\/src\/index\.js$/.test(moduleValue)) {
-              context.report({
-                node: nodeValue,
-                message: `module is set to ${moduleValue} when it should be set to dist-esm/src/index.js`,
-                fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-                  fixer.replaceText(nodeValue, `"dist-esm/src/index.js"`),
-              });
-            }
-          },
-        } as Rule.RuleListener)
-      : {};
+        if (!/^(\.\/)?dist-esm\/src\/index\.js$/.test(moduleValue)) {
+          context.report({
+            node: nodeValue,
+            messageId: "ModuleNotValid",
+            data: {
+              moduleValue,
+            },
+            fix: (fixer) => fixer.replaceText(nodeValue, `"dist-esm/src/index.js"`),
+          });
+        }
+      },
+    };
   },
-};
+});

@@ -26,6 +26,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [streamChatCompletionsWithContentFilter.ts][streamchatcompletionswithcontentfilter] | get completions.                                                             |
 | [streamCompletions.ts][streamcompletions]                                           | list completions.                                                            |
 | [toolCall.ts][toolcall]                                                             | get chat completions with functions.                                         |
+| [parseOpenAIError.ts][parseopenaierror]                                             | parse OpenAI error.                                                          |
 | [openAi.ts][openai]                                                                 | get completions using the OpenAI API.                                        |
 
 ## Prerequisites
@@ -91,6 +92,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletionsWithContentFilter.ts
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamCompletions.ts
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/toolCall.ts
+[parseopenaierror]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/parseOpenAIError.ts
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/openAi.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
 [freesub]: https://azure.microsoft.com/free/

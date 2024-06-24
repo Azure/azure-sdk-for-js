@@ -4,7 +4,7 @@
 import { KeyClient } from "../../src";
 import { SDK_VERSION } from "../../src/constants";
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("Keys client's user agent", () => {
   it("SDK_VERSION and user-agent should match", async function () {

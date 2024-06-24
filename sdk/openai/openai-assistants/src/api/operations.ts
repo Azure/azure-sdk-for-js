@@ -40,6 +40,7 @@ import {
   AssistantDeletionStatus,
   AssistantFileDeletionStatus,
   AssistantThread,
+  AssistantThreadCreationOptions,
   CreateAndRunThreadOptions,
   CreateRunOptions,
   FileDeletionStatus,
@@ -79,7 +80,6 @@ import {
   UpdateThreadOptions,
 } from "../models/options.js";
 import {
-  AssistantThreadCreationOptions,
   CancelRun200Response,
   AssistantsContext as Client,
   CreateAssistant200Response,
@@ -1107,12 +1107,11 @@ export function _createThreadAndRunSend(
       thread: !body.thread
         ? undefined
         : {
-            messages: !body.thread?.["messages"]
-              ? body.thread?.["messages"]
-              : body.thread?.["messages"].map((p) => ({
-                  role: p["role"],
-                  content: p["content"],
-                })),
+            messages: body.thread?.["messages"]?.map((p) => ({
+              role: p["role"],
+              content: p["content"],
+              file_ids: p["fileIds"],
+            })),
             metadata: body.thread?.["metadata"],
           },
       model: body["model"],
@@ -1601,6 +1600,7 @@ export function _createThreadSend(
       messages: (body["messages"] ?? []).map((p) => ({
         role: p["role"],
         content: p["content"],
+        file_ids: p["fileIds"],
       })),
       metadata: body["metadata"],
     },

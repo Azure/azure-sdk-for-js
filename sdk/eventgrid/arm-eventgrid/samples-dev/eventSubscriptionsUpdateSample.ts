@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   EventSubscriptionUpdateParameters,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
  */
 async function eventSubscriptionsUpdateForCustomTopic() {
   const scope =
@@ -30,21 +30,21 @@ async function eventSubscriptionsUpdateForCustomTopic() {
   const eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters = {
     destination: {
       endpointType: "WebHook",
-      endpointUrl: "https://requestb.in/15ksip71"
+      endpointUrl: "https://requestb.in/15ksip71",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function eventSubscriptionsUpdateForCustomTopic() {
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_AzureFunctionDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() {
   const scope =
@@ -64,25 +64,25 @@ async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() 
       blobContainerName: "contosocontainer",
       endpointType: "StorageBlob",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
     },
     destination: {
       endpointType: "AzureFunction",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Web/sites/ContosoSite/funtions/ContosoFunc"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Web/sites/ContosoSite/funtions/ContosoFunc",
     },
     filter: {
       isSubjectCaseSensitive: false,
       subjectBeginsWith: "ExamplePrefix",
-      subjectEndsWith: "ExampleSuffix"
-    }
+      subjectEndsWith: "ExampleSuffix",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -91,7 +91,7 @@ async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() 
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_EventHubDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
   const scope =
@@ -101,21 +101,21 @@ async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
     destination: {
       endpointType: "EventHub",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -124,7 +124,7 @@ async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_HybridConnectionDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination() {
   const scope =
@@ -134,21 +134,21 @@ async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination
     destination: {
       endpointType: "HybridConnection",
       resourceId:
-        "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Relay/namespaces/ContosoNamespace/hybridConnections/HC1"
+        "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Relay/namespaces/ContosoNamespace/hybridConnections/HC1",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -157,7 +157,7 @@ async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusQueueDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination() {
   const scope =
@@ -168,25 +168,25 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination(
       blobContainerName: "contosocontainer",
       endpointType: "StorageBlob",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
     },
     destination: {
       endpointType: "ServiceBusQueue",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/queues/SBQ"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/queues/SBQ",
     },
     filter: {
       isSubjectCaseSensitive: false,
       subjectBeginsWith: "ExamplePrefix",
-      subjectEndsWith: "ExampleSuffix"
-    }
+      subjectEndsWith: "ExampleSuffix",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -195,7 +195,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination(
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusTopicDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination() {
   const scope =
@@ -205,21 +205,21 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination(
     destination: {
       endpointType: "ServiceBusTopic",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/topics/SBT"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/topics/SBT",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -228,7 +228,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination(
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_StorageQueueDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
   const scope =
@@ -239,27 +239,27 @@ async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
       blobContainerName: "contosocontainer",
       endpointType: "StorageBlob",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
     },
     destination: {
       endpointType: "StorageQueue",
       queueMessageTimeToLiveInSeconds: 300,
       queueName: "queue1",
       resourceId:
-        "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg"
+        "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
     },
     filter: {
       isSubjectCaseSensitive: false,
       subjectBeginsWith: "ExamplePrefix",
-      subjectEndsWith: "ExampleSuffix"
-    }
+      subjectEndsWith: "ExampleSuffix",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -268,7 +268,7 @@ async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_WebhookDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
   const scope =
@@ -277,21 +277,21 @@ async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
   const eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters = {
     destination: {
       endpointType: "WebHook",
-      endpointUrl: "https://requestb.in/15ksip71"
+      endpointUrl: "https://requestb.in/15ksip71",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -300,7 +300,7 @@ async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForResource.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForResource.json
  */
 async function eventSubscriptionsUpdateForResource() {
   const scope =
@@ -309,21 +309,21 @@ async function eventSubscriptionsUpdateForResource() {
   const eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters = {
     destination: {
       endpointType: "WebHook",
-      endpointUrl: "https://requestb.in/15ksip71"
+      endpointUrl: "https://requestb.in/15ksip71",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -332,7 +332,7 @@ async function eventSubscriptionsUpdateForResource() {
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForResourceGroup.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForResourceGroup.json
  */
 async function eventSubscriptionsUpdateForResourceGroup() {
   const scope =
@@ -342,21 +342,21 @@ async function eventSubscriptionsUpdateForResourceGroup() {
     destination: {
       endpointType: "EventHub",
       resourceId:
-        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"
+        "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -365,7 +365,7 @@ async function eventSubscriptionsUpdateForResourceGroup() {
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
  *
  * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_UpdateForSubscription.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForSubscription.json
  */
 async function eventSubscriptionsUpdateForSubscription() {
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";
@@ -373,21 +373,21 @@ async function eventSubscriptionsUpdateForSubscription() {
   const eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters = {
     destination: {
       endpointType: "WebHook",
-      endpointUrl: "https://requestb.in/15ksip71"
+      endpointUrl: "https://requestb.in/15ksip71",
     },
     filter: {
       isSubjectCaseSensitive: true,
       subjectBeginsWith: "existingPrefix",
-      subjectEndsWith: "newSuffix"
+      subjectEndsWith: "newSuffix",
     },
-    labels: ["label1", "label2"]
+    labels: ["label1", "label2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

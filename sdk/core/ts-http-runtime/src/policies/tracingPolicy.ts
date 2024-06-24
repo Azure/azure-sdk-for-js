@@ -10,6 +10,7 @@ import { getUserAgentValue } from "../util/userAgent.js";
 import { logger } from "../log.js";
 import { getErrorMessage, isError } from "../util/error.js";
 import { isRestError } from "../restError.js";
+import { Sanitizer } from "../util/sanitizer.js";
 
 /**
  * The programmatic identifier of the tracingPolicy.
@@ -26,6 +27,11 @@ export interface TracingPolicyOptions {
    * Defaults to an empty string.
    */
   userAgentPrefix?: string;
+  /**
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   */
+  additionalAllowedQueryParameters?: string[];
 }
 
 /**
@@ -35,7 +41,10 @@ export interface TracingPolicyOptions {
  * @param options - Options to configure the telemetry logged by the tracing policy.
  */
 export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
-  const userAgent = getUserAgentValue(options.userAgentPrefix);
+  const userAgentValue = getUserAgentValue(options.userAgentPrefix);
+  const sanitizer = new Sanitizer({
+    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
+  });
   const tracingClient = tryCreateTracingClient();
 
   return {
@@ -45,7 +54,19 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
         return next(request);
       }
 
-      const { span, tracingContext } = tryCreateSpan(tracingClient, request, userAgent) ?? {};
+      const userAgent = await userAgentValue;
+
+      const spanAttributes = {
+        "http.url": sanitizer.sanitizeUrl(request.url),
+        "http.method": request.method,
+        "http.user_agent": userAgent,
+        requestId: request.requestId,
+      };
+      if (userAgent) {
+        spanAttributes["http.user_agent"] = userAgent;
+      }
+
+      const { span, tracingContext } = tryCreateSpan(tracingClient, request, spanAttributes) ?? {};
 
       if (!span || !tracingContext) {
         return next(request);
@@ -79,7 +100,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
 function tryCreateSpan(
   tracingClient: TracingClient,
   request: PipelineRequest,
-  userAgent?: string,
+  spanAttributes: Record<string, unknown>,
 ): { span: TracingSpan; tracingContext: TracingContext } | undefined {
   try {
     // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
@@ -88,11 +109,7 @@ function tryCreateSpan(
       { tracingOptions: request.tracingOptions },
       {
         spanKind: "client",
-        spanAttributes: {
-          "http.method": request.method,
-          "http.url": request.url,
-          requestId: request.requestId,
-        },
+        spanAttributes,
       },
     );
 
@@ -100,10 +117,6 @@ function tryCreateSpan(
     if (!span.isRecording()) {
       span.end();
       return undefined;
-    }
-
-    if (userAgent) {
-      span.setAttribute("http.user_agent", userAgent);
     }
 
     // set headers

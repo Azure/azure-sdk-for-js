@@ -19,6 +19,6 @@ export interface QuotaUsages {
    */
   list(
     locationName: string,
-    options?: QuotaUsagesListOptionalParams
+    options?: QuotaUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaUsage>;
 }

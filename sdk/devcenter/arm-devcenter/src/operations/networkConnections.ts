@@ -16,7 +16,7 @@ import { DevCenterClient } from "../devCenterClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -28,7 +28,6 @@ import {
   NetworkConnectionsListByResourceGroupOptionalParams,
   NetworkConnectionsListByResourceGroupResponse,
   HealthCheckStatusDetails,
-  NetworkConnectionsListHealthDetailsNextOptionalParams,
   NetworkConnectionsListHealthDetailsOptionalParams,
   NetworkConnectionsListHealthDetailsResponse,
   OutboundEnvironmentEndpoint,
@@ -43,13 +42,14 @@ import {
   NetworkConnectionsUpdateOptionalParams,
   NetworkConnectionsUpdateResponse,
   NetworkConnectionsDeleteOptionalParams,
+  NetworkConnectionsDeleteResponse,
   NetworkConnectionsGetHealthDetailsOptionalParams,
   NetworkConnectionsGetHealthDetailsResponse,
   NetworkConnectionsRunHealthChecksOptionalParams,
+  NetworkConnectionsRunHealthChecksResponse,
   NetworkConnectionsListBySubscriptionNextResponse,
   NetworkConnectionsListByResourceGroupNextResponse,
-  NetworkConnectionsListHealthDetailsNextResponse,
-  NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse
+  NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,7 +70,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkConnectionsListBySubscriptionOptionalParams
+    options?: NetworkConnectionsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkConnection> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -85,13 +85,13 @@ export class NetworkConnectionsImpl implements NetworkConnections {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkConnectionsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkConnection[]> {
     let result: NetworkConnectionsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -112,7 +112,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkConnectionsListBySubscriptionOptionalParams
+    options?: NetworkConnectionsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkConnection> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -126,7 +126,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkConnectionsListByResourceGroupOptionalParams
+    options?: NetworkConnectionsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkConnection> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -143,16 +143,16 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkConnectionsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkConnection[]> {
     let result: NetworkConnectionsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -167,7 +167,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -178,11 +178,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkConnectionsListByResourceGroupOptionalParams
+    options?: NetworkConnectionsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkConnection> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -197,12 +197,12 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   public listHealthDetails(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListHealthDetailsOptionalParams
+    options?: NetworkConnectionsListHealthDetailsOptionalParams,
   ): PagedAsyncIterableIterator<HealthCheckStatusDetails> {
     const iter = this.listHealthDetailsPagingAll(
       resourceGroupName,
       networkConnectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -219,9 +219,9 @@ export class NetworkConnectionsImpl implements NetworkConnections {
           resourceGroupName,
           networkConnectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -229,44 +229,26 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsListHealthDetailsOptionalParams,
-    settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<HealthCheckStatusDetails[]> {
     let result: NetworkConnectionsListHealthDetailsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listHealthDetails(
-        resourceGroupName,
-        networkConnectionName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listHealthDetailsNext(
-        resourceGroupName,
-        networkConnectionName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    result = await this._listHealthDetails(
+      resourceGroupName,
+      networkConnectionName,
+      options,
+    );
+    yield result.value || [];
   }
 
   private async *listHealthDetailsPagingAll(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListHealthDetailsOptionalParams
+    options?: NetworkConnectionsListHealthDetailsOptionalParams,
   ): AsyncIterableIterator<HealthCheckStatusDetails> {
     for await (const page of this.listHealthDetailsPagingPage(
       resourceGroupName,
       networkConnectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -282,12 +264,12 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   public listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint> {
     const iter = this.listOutboundNetworkDependenciesEndpointsPagingAll(
       resourceGroupName,
       networkConnectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -304,9 +286,9 @@ export class NetworkConnectionsImpl implements NetworkConnections {
           resourceGroupName,
           networkConnectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -314,7 +296,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
     let result: NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse;
     let continuationToken = settings?.continuationToken;
@@ -322,7 +304,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       result = await this._listOutboundNetworkDependenciesEndpoints(
         resourceGroupName,
         networkConnectionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -334,7 +316,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         resourceGroupName,
         networkConnectionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -346,12 +328,12 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   private async *listOutboundNetworkDependenciesEndpointsPagingAll(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint> {
     for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
       resourceGroupName,
       networkConnectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -362,11 +344,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkConnectionsListBySubscriptionOptionalParams
+    options?: NetworkConnectionsListBySubscriptionOptionalParams,
   ): Promise<NetworkConnectionsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -377,11 +359,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkConnectionsListByResourceGroupOptionalParams
+    options?: NetworkConnectionsListByResourceGroupOptionalParams,
   ): Promise<NetworkConnectionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -394,11 +376,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   get(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsGetOptionalParams
+    options?: NetworkConnectionsGetOptionalParams,
   ): Promise<NetworkConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkConnectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -413,7 +395,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     body: NetworkConnection,
-    options?: NetworkConnectionsCreateOrUpdateOptionalParams
+    options?: NetworkConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkConnectionsCreateOrUpdateResponse>,
@@ -422,21 +404,20 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -445,8 +426,8 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -454,15 +435,15 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkConnectionName, body, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkConnectionsCreateOrUpdateResponse,
@@ -470,7 +451,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -487,13 +468,13 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     body: NetworkConnection,
-    options?: NetworkConnectionsCreateOrUpdateOptionalParams
+    options?: NetworkConnectionsCreateOrUpdateOptionalParams,
   ): Promise<NetworkConnectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkConnectionName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -509,7 +490,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     body: NetworkConnectionUpdate,
-    options?: NetworkConnectionsUpdateOptionalParams
+    options?: NetworkConnectionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkConnectionsUpdateResponse>,
@@ -518,21 +499,20 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkConnectionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -541,8 +521,8 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -550,15 +530,15 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkConnectionName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkConnectionsUpdateResponse,
@@ -566,7 +546,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -583,13 +563,13 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     body: NetworkConnectionUpdate,
-    options?: NetworkConnectionsUpdateOptionalParams
+    options?: NetworkConnectionsUpdateOptionalParams,
   ): Promise<NetworkConnectionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkConnectionName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -603,25 +583,29 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   async beginDelete(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: NetworkConnectionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkConnectionsDeleteResponse>,
+      NetworkConnectionsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -630,8 +614,8 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -639,20 +623,23 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkConnectionName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      NetworkConnectionsDeleteResponse,
+      OperationState<NetworkConnectionsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -667,12 +654,12 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsDeleteOptionalParams
-  ): Promise<void> {
+    options?: NetworkConnectionsDeleteOptionalParams,
+  ): Promise<NetworkConnectionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -686,11 +673,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   private _listHealthDetails(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListHealthDetailsOptionalParams
+    options?: NetworkConnectionsListHealthDetailsOptionalParams,
   ): Promise<NetworkConnectionsListHealthDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkConnectionName, options },
-      listHealthDetailsOperationSpec
+      listHealthDetailsOperationSpec,
     );
   }
 
@@ -703,11 +690,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   getHealthDetails(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsGetHealthDetailsOptionalParams
+    options?: NetworkConnectionsGetHealthDetailsOptionalParams,
   ): Promise<NetworkConnectionsGetHealthDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkConnectionName, options },
-      getHealthDetailsOperationSpec
+      getHealthDetailsOperationSpec,
     );
   }
 
@@ -721,25 +708,29 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   async beginRunHealthChecks(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsRunHealthChecksOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: NetworkConnectionsRunHealthChecksOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkConnectionsRunHealthChecksResponse>,
+      NetworkConnectionsRunHealthChecksResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkConnectionsRunHealthChecksResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -748,8 +739,8 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -757,20 +748,23 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkConnectionName, options },
-      spec: runHealthChecksOperationSpec
+      spec: runHealthChecksOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      NetworkConnectionsRunHealthChecksResponse,
+      OperationState<NetworkConnectionsRunHealthChecksResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -786,12 +780,12 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   async beginRunHealthChecksAndWait(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsRunHealthChecksOptionalParams
-  ): Promise<void> {
+    options?: NetworkConnectionsRunHealthChecksOptionalParams,
+  ): Promise<NetworkConnectionsRunHealthChecksResponse> {
     const poller = await this.beginRunHealthChecks(
       resourceGroupName,
       networkConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -806,13 +800,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   private _listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
-  ): Promise<
-    NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse
-  > {
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams,
+  ): Promise<NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkConnectionName, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
     );
   }
 
@@ -823,11 +815,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkConnectionsListBySubscriptionNextOptionalParams
+    options?: NetworkConnectionsListBySubscriptionNextOptionalParams,
   ): Promise<NetworkConnectionsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -840,30 +832,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkConnectionsListByResourceGroupNextOptionalParams
+    options?: NetworkConnectionsListByResourceGroupNextOptionalParams,
   ): Promise<NetworkConnectionsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListHealthDetailsNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
-   * @param nextLink The nextLink from the previous successful call to the ListHealthDetails method.
-   * @param options The options parameters.
-   */
-  private _listHealthDetailsNext(
-    resourceGroupName: string,
-    networkConnectionName: string,
-    nextLink: string,
-    options?: NetworkConnectionsListHealthDetailsNextOptionalParams
-  ): Promise<NetworkConnectionsListHealthDetailsNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, networkConnectionName, nextLink, options },
-      listHealthDetailsNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -879,13 +852,11 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     nextLink: string,
-    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextOptionalParams
-  ): Promise<
-    NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse
-  > {
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextOptionalParams,
+  ): Promise<NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkConnectionName, nextLink, options },
-      listOutboundNetworkDependenciesEndpointsNextOperationSpec
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec,
     );
   }
 }
@@ -893,85 +864,81 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/networkConnections",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/networkConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkConnectionListResult
+      bodyMapper: Mappers.NetworkConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkConnectionListResult
+      bodyMapper: Mappers.NetworkConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkConnectionName
+    Parameters.networkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     201: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     202: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     204: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
@@ -979,32 +946,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkConnectionName
+    Parameters.networkConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     201: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     202: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     204: {
-      bodyMapper: Mappers.NetworkConnection
+      bodyMapper: Mappers.NetworkConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
@@ -1012,202 +978,194 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkConnectionName
+    Parameters.networkConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.NetworkConnectionsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NetworkConnectionsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NetworkConnectionsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NetworkConnectionsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkConnectionName
+    Parameters.networkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listHealthDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/healthChecks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/healthChecks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HealthCheckStatusDetailsListResult
+      bodyMapper: Mappers.HealthCheckStatusDetailsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkConnectionName
+    Parameters.networkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getHealthDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/healthChecks/latest",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/healthChecks/latest",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HealthCheckStatusDetails
+      bodyMapper: Mappers.HealthCheckStatusDetails,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkConnectionName
+    Parameters.networkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const runHealthChecksOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/runHealthChecks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/runHealthChecks",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.NetworkConnectionsRunHealthChecksHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NetworkConnectionsRunHealthChecksHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NetworkConnectionsRunHealthChecksHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NetworkConnectionsRunHealthChecksHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkConnectionName
+    Parameters.networkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/outboundNetworkDependenciesEndpoints",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/outboundNetworkDependenciesEndpoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkConnectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion, Parameters.top],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.networkConnectionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkConnectionListResult
+      bodyMapper: Mappers.NetworkConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkConnectionListResult
+      bodyMapper: Mappers.NetworkConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listHealthDetailsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HealthCheckStatusDetailsListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.networkConnectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.networkConnectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.networkConnectionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

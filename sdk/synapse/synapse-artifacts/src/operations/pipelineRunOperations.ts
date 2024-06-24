@@ -20,7 +20,7 @@ import {
   PipelineRunGetPipelineRunResponse,
   PipelineRunQueryActivityRunsOptionalParams,
   PipelineRunQueryActivityRunsResponse,
-  PipelineRunCancelPipelineRunOptionalParams
+  PipelineRunCancelPipelineRunOptionalParams,
 } from "../models";
 
 /** Class containing PipelineRunOperations operations. */
@@ -42,7 +42,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
    */
   async queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
+    options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams,
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.queryPipelineRunsByWorkspace",
@@ -50,9 +50,9 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { filterParameters, options },
-          queryPipelineRunsByWorkspaceOperationSpec
+          queryPipelineRunsByWorkspaceOperationSpec,
         ) as Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
-      }
+      },
     );
   }
 
@@ -63,7 +63,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
    */
   async getPipelineRun(
     runId: string,
-    options?: PipelineRunGetPipelineRunOptionalParams
+    options?: PipelineRunGetPipelineRunOptionalParams,
   ): Promise<PipelineRunGetPipelineRunResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getPipelineRun",
@@ -71,9 +71,9 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { runId, options },
-          getPipelineRunOperationSpec
+          getPipelineRunOperationSpec,
         ) as Promise<PipelineRunGetPipelineRunResponse>;
-      }
+      },
     );
   }
 
@@ -88,7 +88,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
     pipelineName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options?: PipelineRunQueryActivityRunsOptionalParams
+    options?: PipelineRunQueryActivityRunsOptionalParams,
   ): Promise<PipelineRunQueryActivityRunsResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.queryActivityRuns",
@@ -96,9 +96,9 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { pipelineName, runId, filterParameters, options },
-          queryActivityRunsOperationSpec
+          queryActivityRunsOperationSpec,
         ) as Promise<PipelineRunQueryActivityRunsResponse>;
-      }
+      },
     );
   }
 
@@ -109,7 +109,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
    */
   async cancelPipelineRun(
     runId: string,
-    options?: PipelineRunCancelPipelineRunOptionalParams
+    options?: PipelineRunCancelPipelineRunOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.cancelPipelineRun",
@@ -117,9 +117,9 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { runId, options },
-          cancelPipelineRunOperationSpec
+          cancelPipelineRunOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 }
@@ -131,56 +131,56 @@ const queryPipelineRunsByWorkspaceOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRunsQueryResponse
+      bodyMapper: Mappers.PipelineRunsQueryResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getPipelineRunOperationSpec: coreClient.OperationSpec = {
   path: "/pipelineruns/{runId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PipelineRun
+      bodyMapper: Mappers.PipelineRun,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.runId1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const queryActivityRunsOperationSpec: coreClient.OperationSpec = {
   path: "/pipelines/{pipelineName}/pipelineruns/{runId}/queryActivityruns",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ActivityRunsQueryResponse
+      bodyMapper: Mappers.ActivityRunsQueryResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.endpoint,
     Parameters.pipelineName,
-    Parameters.runId1
+    Parameters.runId1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cancelPipelineRunOperationSpec: coreClient.OperationSpec = {
   path: "/pipelineruns/{runId}/cancel",
@@ -188,11 +188,11 @@ const cancelPipelineRunOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5, Parameters.isRecursive],
   urlParameters: [Parameters.endpoint, Parameters.runId1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

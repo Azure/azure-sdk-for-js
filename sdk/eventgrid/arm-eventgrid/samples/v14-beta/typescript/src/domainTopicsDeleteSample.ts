@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete existing domain topic.
  *
  * @summary Delete existing domain topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainTopics_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainTopics_Delete.json
  */
 async function domainTopicsDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function domainTopicsDelete() {
   const result = await client.domainTopics.beginDeleteAndWait(
     resourceGroupName,
     domainName,
-    domainTopicName
+    domainTopicName,
   );
   console.log(result);
 }

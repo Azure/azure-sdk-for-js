@@ -3,8 +3,10 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
+  AIStudioModelCatalogName,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
+  AzureOpenAIModelName,
   BM25Similarity,
   CharFilterName,
   CjkBigramTokenFilter,
@@ -81,6 +83,7 @@ import {
   TruncateTokenFilter,
   UaxUrlEmailTokenizer,
   UniqueTokenFilter,
+  VectorEncodingFormat,
   VectorSearchProfile,
   WordDelimiterTokenFilter,
 } from "./generated/service/models";
@@ -612,6 +615,14 @@ export interface WebApiSkill extends BaseSearchIndexerSkill {
   authIdentity?: SearchIndexerDataIdentity;
 }
 
+/** Allows you to generate a vector embedding for a given image or text input using the Azure AI Services Vision Vectorize API. */
+export interface VisionVectorizeSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
+  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
+  modelVersion?: string;
+}
+
 /**
  * Contains the possible cases for Skill.
  */
@@ -635,6 +646,7 @@ export type SearchIndexerSkill =
   | ShaperSkill
   | SplitSkill
   | TextTranslationSkill
+  | VisionVectorizeSkill
   | WebApiSkill;
 
 /**
@@ -900,7 +912,8 @@ export type SearchFieldDataType =
   | "Collection(Edm.Single)"
   | "Collection(Edm.Half)"
   | "Collection(Edm.Int16)"
-  | "Collection(Edm.SByte)";
+  | "Collection(Edm.SByte)"
+  | "Collection(Edm.Byte)";
 
 /**
  * Defines values for ComplexDataType.
@@ -1040,6 +1053,8 @@ export interface SimpleField {
    * optional parameters for searching the vector field.
    */
   vectorSearchProfileName?: string;
+  /** The encoding format to interpret the field contents. */
+  vectorSearchEncodingFormat?: VectorEncodingFormat;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -2233,20 +2248,99 @@ export interface BaseVectorSearchVectorizer {
 }
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
-export type AzureOpenAIVectorizer = BaseVectorSearchVectorizer & {
+export interface AzureOpenAIVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
   /** Contains the parameters specific to Azure Open AI embedding vectorization. */
   azureOpenAIParameters?: AzureOpenAIParameters;
-};
+}
 
 /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-export type CustomVectorizer = BaseVectorSearchVectorizer & {
+export interface CustomVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "customWebApi";
   /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
   customVectorizerParameters?: CustomVectorizerParameters;
-};
+}
+
+/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
+export interface AIServicesVisionVectorizer extends BaseVectorSearchVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "aiServicesVision";
+  /** Contains the parameters specific to AI Services Vision embedding vectorization. */
+  aIServicesVisionParameters?: AIServicesVisionParameters;
+}
+
+/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
+export interface AIServicesVisionParameters {
+  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
+  modelVersion?: string;
+  /** The resource URI of the AI Services resource. */
+  resourceUri: string;
+  /** API key of the designated AI Services resource. */
+  apiKey?: string;
+  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the index, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  authIdentity?: SearchIndexerDataIdentity;
+}
+
+/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog for generating the vector embedding of a query string. */
+export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "aml";
+  /** Specifies the properties of the AML vectorizer. */
+  amlParameters?: AzureMachineLearningVectorizerParameters;
+}
+
+/** Specifies the properties for connecting to an AML vectorizer. */
+export type AzureMachineLearningVectorizerParameters =
+  | NoAuthAzureMachineLearningVectorizerParameters
+  | KeyAuthAzureMachineLearningVectorizerParameters
+  | TokenAuthAzureMachineLearningVectorizerParameters;
+
+/** Specifies the properties common between all AML vectorizer auth types. */
+export interface BaseAzureMachineLearningVectorizerParameters {
+  /** When specified, indicates the timeout for the http client making the API call. */
+  timeout?: string;
+  /** The name of the embedding model from the Azure AI Studio Catalog that is deployed at the provided endpoint. */
+  modelName?: AIStudioModelCatalogName;
+}
+
+/**
+ * Specifies the properties for connecting to an AML vectorizer with no authentication.
+ */
+export interface NoAuthAzureMachineLearningVectorizerParameters
+  extends BaseAzureMachineLearningVectorizerParameters {
+  /** Indicates how the service should attempt to identify itself to the AML instance */
+  authKind: "none";
+  /** The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
+  scoringUri: string;
+}
+
+/**
+ * Specifies the properties for connecting to an AML vectorizer with an authentication key.
+ */
+export interface KeyAuthAzureMachineLearningVectorizerParameters
+  extends BaseAzureMachineLearningVectorizerParameters {
+  /** Indicates how the service should attempt to identify itself to the AML instance */
+  authKind: "key";
+  /** The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
+  scoringUri: string;
+  /** The key for the AML service. */
+  authenticationKey: string;
+}
+
+/**
+ * Specifies the properties for connecting to an AML vectorizer with a managed identity.
+ */
+export interface TokenAuthAzureMachineLearningVectorizerParameters
+  extends BaseAzureMachineLearningVectorizerParameters {
+  /** Indicates how the service should attempt to identify itself to the AML instance */
+  authKind: "token";
+  /** The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/\{guid\}/resourceGroups/\{resource-group-name\}/Microsoft.MachineLearningServices/workspaces/\{workspace-name\}/services/\{service_name\}. */
+  resourceId: string;
+  /** The region the AML service is deployed in. */
+  region?: string;
+}
 
 /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
 export interface CustomVectorizerParameters {
@@ -2265,7 +2359,11 @@ export interface CustomVectorizerParameters {
 }
 
 /** Contains configuration options on how to vectorize text vector queries. */
-export type VectorSearchVectorizer = AzureOpenAIVectorizer | CustomVectorizer;
+export type VectorSearchVectorizer =
+  | AzureOpenAIVectorizer
+  | CustomVectorizer
+  | AIServicesVisionVectorizer
+  | AzureMachineLearningVectorizer;
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
 export interface AzureOpenAIParameters {
@@ -2277,20 +2375,16 @@ export interface AzureOpenAIParameters {
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
   authIdentity?: SearchIndexerDataIdentity;
+  /** The name of the embedding model that is deployed at the provided deploymentId path. */
+  modelName?: AzureOpenAIModelName;
 }
 
-/** Allows you to generate a vector embedding for a given text input using the Azure Open AI service. */
-export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill {
+/** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
+export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill, AzureOpenAIParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
-  /** The resource uri for your Azure Open AI resource. */
-  resourceUri?: string;
-  /** ID of your Azure Open AI model deployment on the designated resource. */
-  deploymentId?: string;
-  /** API key for the designated Azure Open AI resource. */
-  apiKey?: string;
-  /** The user-assigned managed identity used for outbound connections. */
-  authIdentity?: SearchIndexerDataIdentity;
+  /** The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models. */
+  dimensions?: number;
 }
 
 /** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */

@@ -10,7 +10,6 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -27,7 +26,10 @@ const replaceableVariables: Record<string, string> = {
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -43,7 +45,6 @@ describe("Links test", () => {
   let resourceGroup: string;
   let linksName: string;
   let resourceName: string;
-  let resource2Id: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);

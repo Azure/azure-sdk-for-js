@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the solution using the applicable solutionResourceName while creating the solution.
  *
  * @summary Get the solution using the applicable solutionResourceName while creating the solution.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/Solution_Get.json
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Solution_Get.json
  */
 async function solutionGet() {
   const scope =

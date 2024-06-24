@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates or updates an event subscription of a namespace topic with the specified parameters. Existing event subscriptions will be updated with this API.
  *
  * @summary Asynchronously creates or updates an event subscription of a namespace topic with the specified parameters. Existing event subscriptions will be updated with this API.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopicEventSubscriptions_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NamespaceTopicEventSubscriptions_CreateOrUpdate.json
  */
 async function namespaceTopicEventSubscriptionsCreateOrUpdate() {
   const subscriptionId =
@@ -35,20 +35,21 @@ async function namespaceTopicEventSubscriptionsCreateOrUpdate() {
       queue: {
         eventTimeToLive: "P1D",
         maxDeliveryCount: 4,
-        receiveLockDurationInSeconds: 60
-      }
+        receiveLockDurationInSeconds: 60,
+      },
     },
-    eventDeliverySchema: "CloudEventSchemaV1_0"
+    eventDeliverySchema: "CloudEventSchemaV1_0",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result = await client.namespaceTopicEventSubscriptions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    namespaceName,
-    topicName,
-    eventSubscriptionName,
-    eventSubscriptionInfo
-  );
+  const result =
+    await client.namespaceTopicEventSubscriptions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      namespaceName,
+      topicName,
+      eventSubscriptionName,
+      eventSubscriptionInfo,
+    );
   console.log(result);
 }
 
