@@ -35,8 +35,8 @@ interface NavigatorEx extends Navigator {
 
 function getBrowserInfo(userAgent: string): BrowserBrand | undefined {
   const browserRegexes = [
-    { name: 'Firefox', regex: /Firefox\/([\d.]+)/ },
-    { name: 'Safari', regex: /Version\/([\d.]+).*Safari/ },
+    { name: "Firefox", regex: /Firefox\/([\d.]+)/ },
+    { name: "Safari", regex: /Version\/([\d.]+).*Safari/ },
   ];
 
   for (const browser of browserRegexes) {
@@ -49,9 +49,7 @@ function getBrowserInfo(userAgent: string): BrowserBrand | undefined {
   return undefined;
 }
 
-function getBrandVersionString(
-  brands: BrowserBrand[],
-): BrowserBrand | undefined {
+function getBrandVersionString(brands: BrowserBrand[]): BrowserBrand | undefined {
   const brandOrder = ["Google Chrome", "Microsoft Edge", "Opera", "Brave", "Chromium"];
   for (const brand of brandOrder) {
     const foundBrand = brands.find((b) => b.brand === brand);
