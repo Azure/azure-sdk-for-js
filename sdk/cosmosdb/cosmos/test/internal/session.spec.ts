@@ -69,6 +69,7 @@ describe("New session token", function () {
     });
     assert.equal(responseToken, token);
     assert.equal(responseToken, rqContext?.headers["x-ms-session-token"]);
+    await container.database.delete();
   });
 });
 
@@ -166,6 +167,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     this.dedicatedGatewayMaxAge = 0;
     await container.read(this.dedicatedGatewayMaxAge);
   });
+  await database.delete();
 });
 
 // This test has to be run against sqlx endpoint
