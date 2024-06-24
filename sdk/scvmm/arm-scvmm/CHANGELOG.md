@@ -2,6 +2,10 @@
     
 ## 1.0.0 (2024-06-20)
 
+### Features Added
+
+This is the first GA for @azure/arm-scvmm and the package is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
+
 ## 1.0.0-beta.3 (2023-02-01)
 
 ### Features
