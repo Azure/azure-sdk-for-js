@@ -25,6 +25,7 @@ export {
   HubSendTextToUserOptions,
   JSONTypes,
   Permission,
+  ClientType
 } from "./hubClient";
 export {
   WebPubSubGroup,

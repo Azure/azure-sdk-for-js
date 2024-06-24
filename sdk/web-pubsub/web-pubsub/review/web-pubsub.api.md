@@ -19,8 +19,12 @@ export interface ClientTokenResponse {
     url: string;
 }
 
+// @public (undocumented)
+export type ClientType = "default" | "mqtt";
+
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
+    clientType?: ClientType;
     expirationTimeInMinutes?: number;
     groups?: string[];
     roles?: string[];
