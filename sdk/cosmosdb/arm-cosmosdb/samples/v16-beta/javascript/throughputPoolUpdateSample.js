@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the properties of an existing Azure Cosmos DB Throughput Pool.
  *
  * @summary Updates the properties of an existing Azure Cosmos DB Throughput Pool.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/throughputPool/CosmosDBThroughputPoolUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/throughputPool/CosmosDBThroughputPoolUpdate.json
  */
 async function cosmosDbThroughputPoolUpdate() {
   const subscriptionId =

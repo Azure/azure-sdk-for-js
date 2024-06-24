@@ -12,6 +12,8 @@ import {
   MobileNetwork,
   MobileNetworksListBySubscriptionOptionalParams,
   MobileNetworksListByResourceGroupOptionalParams,
+  SimGroup,
+  MobileNetworksListSimGroupsOptionalParams,
   MobileNetworksDeleteOptionalParams,
   MobileNetworksGetOptionalParams,
   MobileNetworksGetResponse,
@@ -41,6 +43,17 @@ export interface MobileNetworks {
     resourceGroupName: string,
     options?: MobileNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MobileNetwork>;
+  /**
+   * Gets all the SIM groups assigned to a mobile network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param options The options parameters.
+   */
+  listSimGroups(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    options?: MobileNetworksListSimGroupsOptionalParams,
+  ): PagedAsyncIterableIterator<SimGroup>;
   /**
    * Deletes the specified mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

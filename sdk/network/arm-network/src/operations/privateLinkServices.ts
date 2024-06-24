@@ -1179,7 +1179,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters63,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1260,7 +1260,7 @@ const updatePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters64,
+  requestBody: Parameters.parameters66,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1338,7 +1338,7 @@ const checkPrivateLinkServiceVisibilityOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.parameters65,
+    requestBody: Parameters.parameters67,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
@@ -1370,7 +1370,7 @@ const checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec: coreClient.
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.parameters65,
+    requestBody: Parameters.parameters67,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,

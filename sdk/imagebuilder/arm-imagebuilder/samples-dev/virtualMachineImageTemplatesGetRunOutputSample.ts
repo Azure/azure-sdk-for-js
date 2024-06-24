@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the specified run output for the specified image template resource
  *
  * @summary Get the specified run output for the specified image template resource
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/GetRunOutput.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/GetRunOutput.json
  */
 async function retrieveSingleRunOutput() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function retrieveSingleRunOutput() {
   const result = await client.virtualMachineImageTemplates.getRunOutput(
     resourceGroupName,
     imageTemplateName,
-    runOutputName
+    runOutputName,
   );
   console.log(result);
 }

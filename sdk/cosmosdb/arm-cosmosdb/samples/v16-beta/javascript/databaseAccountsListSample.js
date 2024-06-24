@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the Azure Cosmos DB database accounts available under the subscription.
  *
  * @summary Lists all the Azure Cosmos DB database accounts available under the subscription.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBDatabaseAccountList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBDatabaseAccountList.json
  */
 async function cosmosDbDatabaseAccountList() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

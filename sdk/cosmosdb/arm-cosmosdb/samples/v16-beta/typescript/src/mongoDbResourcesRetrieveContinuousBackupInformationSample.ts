@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves continuous backup information for a Mongodb collection.
  *
  * @summary Retrieves continuous backup information for a Mongodb collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBCollectionBackupInformation.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBMongoDBCollectionBackupInformation.json
  */
 async function cosmosDbMongoDbcollectionBackupInformation() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
