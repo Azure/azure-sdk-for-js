@@ -344,22 +344,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByVirtualMachineInstanceNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.GuestAgentListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+{
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestAgentListResult,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceUri,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceUri,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

@@ -26,8 +26,7 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VmInstanceHybridIdentityMetadatas operations. */
 export class VmInstanceHybridIdentityMetadatasImpl
-  implements VmInstanceHybridIdentityMetadatas
-{
+  implements VmInstanceHybridIdentityMetadatas {
   private readonly client: ScVmm;
 
   /**
@@ -194,22 +193,22 @@ const getOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByVirtualMachineInstanceNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.VmInstanceHybridIdentityMetadataListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+{
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VmInstanceHybridIdentityMetadataListResult,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceUri,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceUri,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
