@@ -394,7 +394,7 @@ export class Items {
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       if (this.clientContext.enableEncryption) {
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         options.containerRid = this.container._rid;
@@ -495,7 +495,7 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -596,7 +596,7 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         options.containerRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
       }
@@ -856,7 +856,7 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         options.containerRid = this.container._rid;
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);

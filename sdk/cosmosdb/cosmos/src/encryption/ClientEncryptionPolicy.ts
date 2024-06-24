@@ -11,7 +11,7 @@ export class ClientEncryptionPolicy {
   public policyFormatVersion: number;
 
   constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number) {
-    this.validatePolicyVersion(this.policyFormatVersion);
+    this.validatePolicyVersion(policyFormatVersion);
     this.validateIncludedPaths(includedPaths);
     this.includedPaths = includedPaths;
     this.policyFormatVersion = policyFormatVersion || 1;
