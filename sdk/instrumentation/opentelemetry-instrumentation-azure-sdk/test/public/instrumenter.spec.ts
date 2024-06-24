@@ -21,7 +21,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
   describe("#createRequestHeaders", () => {
     afterEach(() => {
-      vi.restoreAllMocks()
+      vi.restoreAllMocks();
     });
 
     it("uses the passed in context if it exists", () => {
