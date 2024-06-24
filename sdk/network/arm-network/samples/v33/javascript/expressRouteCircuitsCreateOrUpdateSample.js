@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an express route circuit.
  *
  * @summary Creates or updates an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteCircuitCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCircuitCreate.json
  */
 async function createExpressRouteCircuit() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -52,7 +52,7 @@ async function createExpressRouteCircuit() {
  * This sample demonstrates how to Creates or updates an express route circuit.
  *
  * @summary Creates or updates an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
  */
 async function createExpressRouteCircuitOnExpressRoutePort() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -61,6 +61,7 @@ async function createExpressRouteCircuitOnExpressRoutePort() {
   const parameters = {
     authorizationKey: "b0be57f5-1fba-463b-adec-ffe767354cdd",
     bandwidthInGbps: 10,
+    enableDirectPortRateLimit: false,
     expressRoutePort: {
       id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName",
     },

@@ -130,11 +130,8 @@ export interface ErrorAdditionalInfo {
 export interface AutonomousDatabaseListResult {
   /** The AutonomousDatabase items on this page */
   value: AutonomousDatabase[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Autonomous Database base resource model. */
@@ -298,6 +295,13 @@ export interface AutonomousDatabaseBaseProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly inMemoryAreaInGbs?: number;
+  /**
+   * The date and time when the next long-term backup would be created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLongTermBackupTimeStamp?: Date;
+  /** Details for the long-term backup schedule. */
+  longTermBackupSchedule?: LongTermBackUpScheduleDetails;
   /**
    * Indicates if the Autonomous Database version is a preview version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -517,6 +521,18 @@ export interface ConnectionUrlType {
   sqlDevWebUrl?: string;
 }
 
+/** Details for the long-term backup schedule. */
+export interface LongTermBackUpScheduleDetails {
+  /** The frequency of the long-term backup schedule */
+  repeatCadence?: RepeatCadenceType;
+  /** The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month. */
+  timeOfBackup?: Date;
+  /** Retention period, in days, for backups. */
+  retentionPeriodInDays?: number;
+  /** Indicates if the long-term backup schedule should be deleted. The default value is `FALSE`. */
+  isDisabled?: boolean;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -561,11 +577,8 @@ export interface SystemData {
 export interface CloudExadataInfrastructureListResult {
   /** The CloudExadataInfrastructure items on this page */
   value: CloudExadataInfrastructure[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** CloudExadataInfrastructure resource model */
@@ -767,11 +780,8 @@ export interface EstimatedPatchingTime {
 export interface CloudVmClusterListResult {
   /** The CloudVmCluster items on this page */
   value: CloudVmCluster[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** CloudVmCluster resource model */
@@ -831,11 +841,8 @@ export interface CloudVmClusterProperties {
   cloudExadataInfrastructureId: string;
   /** If true, sparse disk group is configured for the cloud VM cluster. If false, sparse disk group is not created. */
   isSparseDiskgroupEnabled?: boolean;
-  /**
-   * Operating system version of the image.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemVersion?: string;
+  /** Operating system version of the image. */
+  systemVersion?: string;
   /** The public key portion of one or more key pairs used for SSH access to the cloud VM cluster. */
   sshPublicKeys: string[];
   /** The Oracle license model that applies to the cloud VM cluster. The default is LICENSE_INCLUDED. */
@@ -903,7 +910,7 @@ export interface CloudVmClusterProperties {
   /** Client OCI backup subnet CIDR, default is 192.168.252.0/22 */
   backupSubnetCidr?: string;
   /** CIDR blocks for additional NSG ingress rules. The VNET CIDRs used to provision the VM Cluster will be added by default. */
-  nsgCidrs?: NSGCidr[];
+  nsgCidrs?: NsgCidr[];
   /** Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. */
   dataCollectionOptions?: DataCollectionOptions;
   /** Display Name */
@@ -935,7 +942,7 @@ export interface CloudVmClusterProperties {
 }
 
 /** A rule for allowing inbound (INGRESS) IP packets */
-export interface NSGCidr {
+export interface NsgCidr {
   /** Conceptually, this is the range of IP addresses that a packet coming into the instance can come from. */
   source: string;
   /** Destination port range to specify particular destination ports for TCP rules. */
@@ -986,11 +993,8 @@ export interface DbIormConfig {
 export interface AutonomousDatabaseCharacterSetListResult {
   /** The AutonomousDatabaseCharacterSet items on this page */
   value: AutonomousDatabaseCharacterSet[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** AutonomousDatabaseCharacterSet resource model */
@@ -1006,11 +1010,8 @@ export interface AutonomousDatabaseCharacterSetProperties {
 export interface AutonomousDatabaseNationalCharacterSetListResult {
   /** The AutonomousDatabaseNationalCharacterSet items on this page */
   value: AutonomousDatabaseNationalCharacterSet[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** AutonomousDatabaseNationalCharacterSet resource model */
@@ -1026,11 +1027,8 @@ export interface AutonomousDatabaseNationalCharacterSetProperties {
 export interface AutonomousDbVersionListResult {
   /** The AutonomousDbVersion items on this page */
   value: AutonomousDbVersion[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** AutonomousDbVersion resource model */
@@ -1071,11 +1069,8 @@ export interface AutonomousDbVersionProperties {
 export interface DbSystemShapeListResult {
   /** The DbSystemShape items on this page */
   value: DbSystemShape[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** DbSystemShape resource model */
@@ -1186,11 +1181,8 @@ export interface DbSystemShapeProperties {
 export interface DnsPrivateViewListResult {
   /** The DnsPrivateView items on this page */
   value: DnsPrivateView[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Views resource model */
@@ -1241,11 +1233,8 @@ export interface DnsPrivateViewProperties {
 export interface DnsPrivateZoneListResult {
   /** The DnsPrivateZone items on this page */
   value: DnsPrivateZone[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Zones resource model */
@@ -1306,11 +1295,8 @@ export interface DnsPrivateZoneProperties {
 export interface GiVersionListResult {
   /** The GiVersion items on this page */
   value: GiVersion[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** GiVersion resource model */
@@ -1322,15 +1308,29 @@ export interface GiVersionProperties {
   readonly version: string;
 }
 
+/** The response of a SystemVersion list operation. */
+export interface SystemVersionListResult {
+  /** The SystemVersion items on this page */
+  value: SystemVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** System Version Resource model */
+export interface SystemVersionProperties {
+  /**
+   * A valid Oracle System Version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemVersion: string;
+}
+
 /** The response of a OracleSubscription list operation. */
 export interface OracleSubscriptionListResult {
   /** The OracleSubscription items on this page */
   value: OracleSubscription[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Oracle Subscription resource model */
@@ -1380,13 +1380,13 @@ export interface Plan {
 /** The type used for update operations of the OracleSubscription. */
 export interface OracleSubscriptionUpdate {
   /** Details of the resource plan. */
-  plan?: ResourcePlanTypeUpdate;
+  plan?: PlanUpdate;
   /** The updatable properties of the OracleSubscription. */
   properties?: OracleSubscriptionUpdateProperties;
 }
 
 /** ResourcePlanTypeUpdate model definition */
-export interface ResourcePlanTypeUpdate {
+export interface PlanUpdate {
   /** A user defined name of the 3rd Party Artifact that is being procured. */
   name?: string;
   /** The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic */
@@ -1544,6 +1544,8 @@ export interface AutonomousDatabaseUpdateProperties {
   scheduledOperations?: ScheduledOperationsTypeUpdate;
   /** The Oracle Database Edition that applies to the Autonomous databases. */
   databaseEdition?: DatabaseEditionType;
+  /** Details for the long-term backup schedule. */
+  longTermBackupSchedule?: LongTermBackUpScheduleDetails;
   /** Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard */
   localAdgAutoFailoverMaxDataLossLimit?: number;
   /** Indicates the Autonomous Database mode. */
@@ -1578,11 +1580,8 @@ export interface DayOfWeekUpdate {
 export interface AutonomousDatabaseBackupListResult {
   /** The AutonomousDatabaseBackup items on this page */
   value: AutonomousDatabaseBackup[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** AutonomousDatabaseBackup resource model */
@@ -1591,12 +1590,12 @@ export interface AutonomousDatabaseBackupProperties {
    * The OCID of the Autonomous Database.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly autonomousDatabaseId: string;
+  readonly autonomousDatabaseOcid?: string;
   /**
    * The size of the database in terabytes at the time the backup was taken.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly databaseSizeInTBs?: number;
+  readonly databaseSizeInTbs?: number;
   /**
    * A valid Oracle Database version for Autonomous Database.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1635,12 +1634,17 @@ export interface AutonomousDatabaseBackupProperties {
    * The backup size in terabytes (TB).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sizeInTBs?: number;
+  readonly sizeInTbs?: number;
   /**
    * Timestamp until when the backup will be available.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeAvailableTil?: Date;
+  /**
+   * The date and time the backup started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeStarted?: string;
   /**
    * The date and time the backup completed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1650,7 +1654,7 @@ export interface AutonomousDatabaseBackupProperties {
    * The type of backup.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: AutonomousDatabaseBackupType;
+  readonly backupType?: AutonomousDatabaseBackupType;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1695,6 +1699,12 @@ export interface AutonomousDatabaseWalletFile {
   walletFiles: string;
 }
 
+/** Details to restore an Oracle Autonomous Database. */
+export interface RestoreAutonomousDatabaseDetails {
+  /** The time to restore the database to. */
+  timestamp: Date;
+}
+
 /** The type used for update operations of the CloudExadataInfrastructure. */
 export interface CloudExadataInfrastructureUpdate {
   /** CloudExadataInfrastructure zones */
@@ -1723,11 +1733,8 @@ export interface CloudExadataInfrastructureUpdateProperties {
 export interface DbServerListResult {
   /** The DbServer items on this page */
   value: DbServer[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** DbServer resource properties */
@@ -1902,11 +1909,8 @@ export interface AddRemoveDbNode {
 export interface DbNodeListResult {
   /** The DbNode items on this page */
   value: DbNode[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The properties of DbNodeResource */
@@ -2060,11 +2064,8 @@ export interface PrivateIpAddressProperties {
 export interface VirtualNetworkAddressListResult {
   /** The VirtualNetworkAddress items on this page */
   value: VirtualNetworkAddress[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** virtualNetworkAddress resource properties */
@@ -2103,6 +2104,16 @@ export interface VirtualNetworkAddressProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeAssigned?: Date;
+}
+
+/** SystemVersions filter */
+export interface SystemVersionsFilter {
+  /** Grid Infrastructure version */
+  giVersion: string;
+  /** Exadata shape */
+  shape: string;
+  /** Check If we have to list only latest versions */
+  isLatestVersion?: boolean;
 }
 
 /** validation error */
@@ -2236,6 +2247,12 @@ export interface GiVersion extends ProxyResource {
   properties?: GiVersionProperties;
 }
 
+/** SystemVersion resource Definition */
+export interface SystemVersion extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SystemVersionProperties;
+}
+
 /** OracleSubscription resource definition */
 export interface OracleSubscription extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -2276,34 +2293,50 @@ export interface AutonomousDatabasesCreateOrUpdateHeaders {
 
 /** Defines headers for AutonomousDatabases_update operation. */
 export interface AutonomousDatabasesUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AutonomousDatabases_delete operation. */
 export interface AutonomousDatabasesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AutonomousDatabases_failover operation. */
 export interface AutonomousDatabasesFailoverHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AutonomousDatabases_restore operation. */
+export interface AutonomousDatabasesRestoreHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AutonomousDatabases_shrink operation. */
+export interface AutonomousDatabasesShrinkHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AutonomousDatabases_switchover operation. */
 export interface AutonomousDatabasesSwitchoverHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for CloudExadataInfrastructures_createOrUpdate operation. */
@@ -2314,26 +2347,26 @@ export interface CloudExadataInfrastructuresCreateOrUpdateHeaders {
 
 /** Defines headers for CloudExadataInfrastructures_update operation. */
 export interface CloudExadataInfrastructuresUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for CloudExadataInfrastructures_delete operation. */
 export interface CloudExadataInfrastructuresDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for CloudExadataInfrastructures_addStorageCapacity operation. */
 export interface CloudExadataInfrastructuresAddStorageCapacityHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for CloudVmClusters_createOrUpdate operation. */
@@ -2344,34 +2377,34 @@ export interface CloudVmClustersCreateOrUpdateHeaders {
 
 /** Defines headers for CloudVmClusters_update operation. */
 export interface CloudVmClustersUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for CloudVmClusters_delete operation. */
 export interface CloudVmClustersDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for CloudVmClusters_addVms operation. */
 export interface CloudVmClustersAddVmsHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for CloudVmClusters_removeVms operation. */
 export interface CloudVmClustersRemoveVmsHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for OracleSubscriptions_createOrUpdate operation. */
@@ -2382,42 +2415,42 @@ export interface OracleSubscriptionsCreateOrUpdateHeaders {
 
 /** Defines headers for OracleSubscriptions_update operation. */
 export interface OracleSubscriptionsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for OracleSubscriptions_delete operation. */
 export interface OracleSubscriptionsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for OracleSubscriptions_listActivationLinks operation. */
 export interface OracleSubscriptionsListActivationLinksHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for OracleSubscriptions_listCloudAccountDetails operation. */
 export interface OracleSubscriptionsListCloudAccountDetailsHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for OracleSubscriptions_listSaasSubscriptionDetails operation. */
 export interface OracleSubscriptionsListSaasSubscriptionDetailsHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AutonomousDatabaseBackups_createOrUpdate operation. */
@@ -2428,26 +2461,26 @@ export interface AutonomousDatabaseBackupsCreateOrUpdateHeaders {
 
 /** Defines headers for AutonomousDatabaseBackups_update operation. */
 export interface AutonomousDatabaseBackupsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AutonomousDatabaseBackups_delete operation. */
 export interface AutonomousDatabaseBackupsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DbNodes_action operation. */
 export interface DbNodesActionHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for VirtualNetworkAddresses_createOrUpdate operation. */
@@ -2458,10 +2491,10 @@ export interface VirtualNetworkAddressesCreateOrUpdateHeaders {
 
 /** Defines headers for VirtualNetworkAddresses_delete operation. */
 export interface VirtualNetworkAddressesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -2502,9 +2535,9 @@ export type ActionType = string;
 
 /** Known values of {@link DataBaseType} that the service accepts. */
 export enum KnownDataBaseType {
-  /** REGULAR value */
+  /** Regular DB */
   Regular = "Regular",
-  /** CLONE value */
+  /** Clone DB */
   Clone = "Clone",
 }
 
@@ -2513,16 +2546,16 @@ export enum KnownDataBaseType {
  * {@link KnownDataBaseType} can be used interchangeably with DataBaseType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Regular**: REGULAR value \
- * **Clone**: CLONE value
+ * **Regular**: Regular DB \
+ * **Clone**: Clone DB
  */
 export type DataBaseType = string;
 
 /** Known values of {@link AutonomousMaintenanceScheduleType} that the service accepts. */
 export enum KnownAutonomousMaintenanceScheduleType {
-  /** EARLY value */
+  /** Early maintenance schedule */
   Early = "Early",
-  /** REGULAR value */
+  /** Regular maintenance schedule */
   Regular = "Regular",
 }
 
@@ -2531,16 +2564,16 @@ export enum KnownAutonomousMaintenanceScheduleType {
  * {@link KnownAutonomousMaintenanceScheduleType} can be used interchangeably with AutonomousMaintenanceScheduleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Early**: EARLY value \
- * **Regular**: REGULAR value
+ * **Early**: Early maintenance schedule \
+ * **Regular**: Regular maintenance schedule
  */
 export type AutonomousMaintenanceScheduleType = string;
 
 /** Known values of {@link ComputeModel} that the service accepts. */
 export enum KnownComputeModel {
-  /** ECPU value */
+  /** ECPU model type */
   Ecpu = "ECPU",
-  /** OCPU value */
+  /** OCPU model type */
   Ocpu = "OCPU",
 }
 
@@ -2549,8 +2582,8 @@ export enum KnownComputeModel {
  * {@link KnownComputeModel} can be used interchangeably with ComputeModel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ECPU**: ECPU value \
- * **OCPU**: OCPU value
+ * **ECPU**: ECPU model type \
+ * **OCPU**: OCPU model type
  */
 export type ComputeModel = string;
 
@@ -2580,9 +2613,9 @@ export type WorkloadType = string;
 
 /** Known values of {@link DisasterRecoveryType} that the service accepts. */
 export enum KnownDisasterRecoveryType {
-  /** ADG value */
+  /** ADG type */
   Adg = "Adg",
-  /** BACKUP_BASED value */
+  /** Backup based type */
   BackupBased = "BackupBased",
 }
 
@@ -2591,54 +2624,54 @@ export enum KnownDisasterRecoveryType {
  * {@link KnownDisasterRecoveryType} can be used interchangeably with DisasterRecoveryType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Adg**: ADG value \
- * **BackupBased**: BACKUP_BASED value
+ * **Adg**: ADG type \
+ * **BackupBased**: Backup based type
  */
 export type DisasterRecoveryType = string;
 
 /** Known values of {@link AutonomousDatabaseLifecycleState} that the service accepts. */
 export enum KnownAutonomousDatabaseLifecycleState {
-  /** PROVISIONING value */
+  /** Indicates that resource in Provisioning state */
   Provisioning = "Provisioning",
-  /** AVAILABLE value */
+  /** Indicates that resource in Available state */
   Available = "Available",
-  /** STOPPING value */
+  /** Indicates that resource in Stopping state */
   Stopping = "Stopping",
-  /** STOPPED value */
+  /** Indicates that resource in Stopped state */
   Stopped = "Stopped",
-  /** STARTING value */
+  /** Indicates that resource in Starting state */
   Starting = "Starting",
-  /** TERMINATING value */
+  /** Indicates that resource in Terminating state */
   Terminating = "Terminating",
-  /** TERMINATED value */
+  /** Indicates that resource in Terminated state */
   Terminated = "Terminated",
-  /** UNAVAILABLE value */
+  /** Indicates that resource in Unavailable state */
   Unavailable = "Unavailable",
-  /** RESTORE_IN_PROGRESS value */
+  /** Indicates that resource in RestoreInProgress state */
   RestoreInProgress = "RestoreInProgress",
-  /** RESTORE_FAILED value */
+  /** Indicates that resource in RestoreFailed state */
   RestoreFailed = "RestoreFailed",
-  /** BACKUP_IN_PROGRESS value */
+  /** Indicates that resource in BackupInProgress state */
   BackupInProgress = "BackupInProgress",
-  /** SCALE_IN_PROGRESS value */
+  /** Indicates that resource in ScaleInProgress state */
   ScaleInProgress = "ScaleInProgress",
-  /** AVAILABLE_NEEDS_ATTENTION value */
+  /** Indicates that resource is available but needs attention */
   AvailableNeedsAttention = "AvailableNeedsAttention",
-  /** UPDATING value */
+  /** Indicates that resource in Updating state */
   Updating = "Updating",
-  /** MAINTENANCE_IN_PROGRESS value */
+  /** Indicates that resource maintenance in progress state */
   MaintenanceInProgress = "MaintenanceInProgress",
-  /** RESTARTING value */
+  /** Indicates that resource in Restarting state */
   Restarting = "Restarting",
-  /** RECREATING value */
+  /** Indicates that resource in Recreating state */
   Recreating = "Recreating",
-  /** ROLE_CHANGE_IN_PROGRESS value */
+  /** Indicates that resource role change in progress state */
   RoleChangeInProgress = "RoleChangeInProgress",
-  /** UPGRADING value */
+  /** Indicates that resource in Upgrading state */
   Upgrading = "Upgrading",
-  /** INACCESSIBLE value */
+  /** IIndicates that resource in Inaccessible state */
   Inaccessible = "Inaccessible",
-  /** STANDBY value */
+  /** Indicates that resource in Standby state */
   Standby = "Standby",
 }
 
@@ -2647,35 +2680,35 @@ export enum KnownAutonomousDatabaseLifecycleState {
  * {@link KnownAutonomousDatabaseLifecycleState} can be used interchangeably with AutonomousDatabaseLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Provisioning**: PROVISIONING value \
- * **Available**: AVAILABLE value \
- * **Stopping**: STOPPING value \
- * **Stopped**: STOPPED value \
- * **Starting**: STARTING value \
- * **Terminating**: TERMINATING value \
- * **Terminated**: TERMINATED value \
- * **Unavailable**: UNAVAILABLE value \
- * **RestoreInProgress**: RESTORE_IN_PROGRESS value \
- * **RestoreFailed**: RESTORE_FAILED value \
- * **BackupInProgress**: BACKUP_IN_PROGRESS value \
- * **ScaleInProgress**: SCALE_IN_PROGRESS value \
- * **AvailableNeedsAttention**: AVAILABLE_NEEDS_ATTENTION value \
- * **Updating**: UPDATING value \
- * **MaintenanceInProgress**: MAINTENANCE_IN_PROGRESS value \
- * **Restarting**: RESTARTING value \
- * **Recreating**: RECREATING value \
- * **RoleChangeInProgress**: ROLE_CHANGE_IN_PROGRESS value \
- * **Upgrading**: UPGRADING value \
- * **Inaccessible**: INACCESSIBLE value \
- * **Standby**: STANDBY value
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Stopping**: Indicates that resource in Stopping state \
+ * **Stopped**: Indicates that resource in Stopped state \
+ * **Starting**: Indicates that resource in Starting state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **Unavailable**: Indicates that resource in Unavailable state \
+ * **RestoreInProgress**: Indicates that resource in RestoreInProgress state \
+ * **RestoreFailed**: Indicates that resource in RestoreFailed state \
+ * **BackupInProgress**: Indicates that resource in BackupInProgress state \
+ * **ScaleInProgress**: Indicates that resource in ScaleInProgress state \
+ * **AvailableNeedsAttention**: Indicates that resource is available but needs attention \
+ * **Updating**: Indicates that resource in Updating state \
+ * **MaintenanceInProgress**: Indicates that resource maintenance in progress state \
+ * **Restarting**: Indicates that resource in Restarting state \
+ * **Recreating**: Indicates that resource in Recreating state \
+ * **RoleChangeInProgress**: Indicates that resource role change in progress state \
+ * **Upgrading**: Indicates that resource in Upgrading state \
+ * **Inaccessible**: IIndicates that resource in Inaccessible state \
+ * **Standby**: Indicates that resource in Standby state
  */
 export type AutonomousDatabaseLifecycleState = string;
 
 /** Known values of {@link LicenseModel} that the service accepts. */
 export enum KnownLicenseModel {
-  /** LicenseIncluded value */
+  /** License included */
   LicenseIncluded = "LicenseIncluded",
-  /** BringYourOwnLicense value */
+  /** Bring Your Own License */
   BringYourOwnLicense = "BringYourOwnLicense",
 }
 
@@ -2684,8 +2717,8 @@ export enum KnownLicenseModel {
  * {@link KnownLicenseModel} can be used interchangeably with LicenseModel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **LicenseIncluded**: LicenseIncluded value \
- * **BringYourOwnLicense**: BringYourOwnLicense value
+ * **LicenseIncluded**: License included \
+ * **BringYourOwnLicense**: Bring Your Own License
  */
 export type LicenseModel = string;
 
@@ -2697,7 +2730,7 @@ export enum KnownAzureResourceProvisioningState {
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Provisioning value */
+  /** Indicates that resource in Provisioning state */
   Provisioning = "Provisioning",
 }
 
@@ -2709,7 +2742,7 @@ export enum KnownAzureResourceProvisioningState {
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
  * **Canceled**: Resource creation was canceled. \
- * **Provisioning**: Provisioning value
+ * **Provisioning**: Indicates that resource in Provisioning state
  */
 export type AzureResourceProvisioningState = string;
 
@@ -2748,15 +2781,15 @@ export type DayOfWeekName = string;
 
 /** Known values of {@link ConsumerGroup} that the service accepts. */
 export enum KnownConsumerGroup {
-  /** HIGH value */
+  /** High group */
   High = "High",
-  /** MEDIUM value */
+  /** Medium group */
   Medium = "Medium",
-  /** LOW value */
+  /** Low group */
   Low = "Low",
-  /** TP value */
+  /** TP group */
   Tp = "Tp",
-  /** TPURGENT value */
+  /** TPurgent group */
   Tpurgent = "Tpurgent",
 }
 
@@ -2765,19 +2798,19 @@ export enum KnownConsumerGroup {
  * {@link KnownConsumerGroup} can be used interchangeably with ConsumerGroup,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **High**: HIGH value \
- * **Medium**: MEDIUM value \
- * **Low**: LOW value \
- * **Tp**: TP value \
- * **Tpurgent**: TPURGENT value
+ * **High**: High group \
+ * **Medium**: Medium group \
+ * **Low**: Low group \
+ * **Tp**: TP group \
+ * **Tpurgent**: TPurgent group
  */
 export type ConsumerGroup = string;
 
 /** Known values of {@link HostFormatType} that the service accepts. */
 export enum KnownHostFormatType {
-  /** FQDN value */
+  /** FQDN format */
   Fqdn = "Fqdn",
-  /** IP value */
+  /** IP format */
   Ip = "Ip",
 }
 
@@ -2786,16 +2819,16 @@ export enum KnownHostFormatType {
  * {@link KnownHostFormatType} can be used interchangeably with HostFormatType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Fqdn**: FQDN value \
- * **Ip**: IP value
+ * **Fqdn**: FQDN format \
+ * **Ip**: IP format
  */
 export type HostFormatType = string;
 
 /** Known values of {@link ProtocolType} that the service accepts. */
 export enum KnownProtocolType {
-  /** TCP value */
+  /** TCP protocol */
   TCP = "TCP",
-  /** TCPS value */
+  /** TCPS protocol */
   Tcps = "TCPS",
 }
 
@@ -2804,16 +2837,16 @@ export enum KnownProtocolType {
  * {@link KnownProtocolType} can be used interchangeably with ProtocolType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TCP**: TCP value \
- * **TCPS**: TCPS value
+ * **TCP**: TCP protocol \
+ * **TCPS**: TCPS protocol
  */
 export type ProtocolType = string;
 
 /** Known values of {@link SessionModeType} that the service accepts. */
 export enum KnownSessionModeType {
-  /** DIRECT value */
+  /** Direct session mode */
   Direct = "Direct",
-  /** REDIRECT value */
+  /** Redirect session mode */
   Redirect = "Redirect",
 }
 
@@ -2822,18 +2855,18 @@ export enum KnownSessionModeType {
  * {@link KnownSessionModeType} can be used interchangeably with SessionModeType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Direct**: DIRECT value \
- * **Redirect**: REDIRECT value
+ * **Direct**: Direct session mode \
+ * **Redirect**: Redirect session mode
  */
 export type SessionModeType = string;
 
 /** Known values of {@link SyntaxFormatType} that the service accepts. */
 export enum KnownSyntaxFormatType {
-  /** LONG value */
+  /** Long format */
   Long = "Long",
-  /** EZCONNECT value */
+  /** Ezconnect format */
   Ezconnect = "Ezconnect",
-  /** EZCONNECTPLUS value */
+  /** Ezconnectplus format */
   Ezconnectplus = "Ezconnectplus",
 }
 
@@ -2842,17 +2875,17 @@ export enum KnownSyntaxFormatType {
  * {@link KnownSyntaxFormatType} can be used interchangeably with SyntaxFormatType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Long**: LONG value \
- * **Ezconnect**: EZCONNECT value \
- * **Ezconnectplus**: EZCONNECTPLUS value
+ * **Long**: Long format \
+ * **Ezconnect**: Ezconnect format \
+ * **Ezconnectplus**: Ezconnectplus format
  */
 export type SyntaxFormatType = string;
 
 /** Known values of {@link TlsAuthenticationType} that the service accepts. */
 export enum KnownTlsAuthenticationType {
-  /** SERVER value */
+  /** Server authentication */
   Server = "Server",
-  /** MUTUAL value */
+  /** Mutual TLS */
   Mutual = "Mutual",
 }
 
@@ -2861,22 +2894,22 @@ export enum KnownTlsAuthenticationType {
  * {@link KnownTlsAuthenticationType} can be used interchangeably with TlsAuthenticationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Server**: SERVER value \
- * **Mutual**: MUTUAL value
+ * **Server**: Server authentication \
+ * **Mutual**: Mutual TLS
  */
 export type TlsAuthenticationType = string;
 
 /** Known values of {@link DataSafeStatusType} that the service accepts. */
 export enum KnownDataSafeStatusType {
-  /** REGISTERING value */
+  /** Registering status */
   Registering = "Registering",
-  /** REGISTERED value */
+  /** Registered status */
   Registered = "Registered",
-  /** DEREGISTERING value */
+  /** Deregistering status */
   Deregistering = "Deregistering",
-  /** NOT_REGISTERED value */
+  /** NotRegistered status */
   NotRegistered = "NotRegistered",
-  /** FAILED value */
+  /** Failed status */
   Failed = "Failed",
 }
 
@@ -2885,19 +2918,19 @@ export enum KnownDataSafeStatusType {
  * {@link KnownDataSafeStatusType} can be used interchangeably with DataSafeStatusType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Registering**: REGISTERING value \
- * **Registered**: REGISTERED value \
- * **Deregistering**: DEREGISTERING value \
- * **NotRegistered**: NOT_REGISTERED value \
- * **Failed**: FAILED value
+ * **Registering**: Registering status \
+ * **Registered**: Registered status \
+ * **Deregistering**: Deregistering status \
+ * **NotRegistered**: NotRegistered status \
+ * **Failed**: Failed status
  */
 export type DataSafeStatusType = string;
 
 /** Known values of {@link DatabaseEditionType} that the service accepts. */
 export enum KnownDatabaseEditionType {
-  /** STANDARD_EDITION value */
+  /** Standard edition */
   StandardEdition = "StandardEdition",
-  /** ENTERPRISE_EDITION value */
+  /** Enterprise edition */
   EnterpriseEdition = "EnterpriseEdition",
 }
 
@@ -2906,16 +2939,40 @@ export enum KnownDatabaseEditionType {
  * {@link KnownDatabaseEditionType} can be used interchangeably with DatabaseEditionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **StandardEdition**: STANDARD_EDITION value \
- * **EnterpriseEdition**: ENTERPRISE_EDITION value
+ * **StandardEdition**: Standard edition \
+ * **EnterpriseEdition**: Enterprise edition
  */
 export type DatabaseEditionType = string;
 
+/** Known values of {@link RepeatCadenceType} that the service accepts. */
+export enum KnownRepeatCadenceType {
+  /** Repeat one time */
+  OneTime = "OneTime",
+  /** Repeat weekly */
+  Weekly = "Weekly",
+  /** Repeat monthly */
+  Monthly = "Monthly",
+  /** Repeat yearly */
+  Yearly = "Yearly",
+}
+
+/**
+ * Defines values for RepeatCadenceType. \
+ * {@link KnownRepeatCadenceType} can be used interchangeably with RepeatCadenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OneTime**: Repeat one time \
+ * **Weekly**: Repeat weekly \
+ * **Monthly**: Repeat monthly \
+ * **Yearly**: Repeat yearly
+ */
+export type RepeatCadenceType = string;
+
 /** Known values of {@link OpenModeType} that the service accepts. */
 export enum KnownOpenModeType {
-  /** READ_ONLY value */
+  /** ReadOnly mode */
   ReadOnly = "ReadOnly",
-  /** READ_WRITE value */
+  /** ReadWrite mode */
   ReadWrite = "ReadWrite",
 }
 
@@ -2924,24 +2981,24 @@ export enum KnownOpenModeType {
  * {@link KnownOpenModeType} can be used interchangeably with OpenModeType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ReadOnly**: READ_ONLY value \
- * **ReadWrite**: READ_WRITE value
+ * **ReadOnly**: ReadOnly mode \
+ * **ReadWrite**: ReadWrite mode
  */
 export type OpenModeType = string;
 
 /** Known values of {@link OperationsInsightsStatusType} that the service accepts. */
 export enum KnownOperationsInsightsStatusType {
-  /** ENABLING value */
+  /** Enabling status */
   Enabling = "Enabling",
-  /** ENABLED value */
+  /** Enabled status */
   Enabled = "Enabled",
-  /** DISABLING value */
+  /** Disabling status */
   Disabling = "Disabling",
-  /** NOT_ENABLED value */
+  /** NotEnabled status */
   NotEnabled = "NotEnabled",
-  /** FAILED_ENABLING value */
+  /** FailedEnabling status */
   FailedEnabling = "FailedEnabling",
-  /** FAILED_DISABLING value */
+  /** FailedDisabling status */
   FailedDisabling = "FailedDisabling",
 }
 
@@ -2950,20 +3007,20 @@ export enum KnownOperationsInsightsStatusType {
  * {@link KnownOperationsInsightsStatusType} can be used interchangeably with OperationsInsightsStatusType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabling**: ENABLING value \
- * **Enabled**: ENABLED value \
- * **Disabling**: DISABLING value \
- * **NotEnabled**: NOT_ENABLED value \
- * **FailedEnabling**: FAILED_ENABLING value \
- * **FailedDisabling**: FAILED_DISABLING value
+ * **Enabling**: Enabling status \
+ * **Enabled**: Enabled status \
+ * **Disabling**: Disabling status \
+ * **NotEnabled**: NotEnabled status \
+ * **FailedEnabling**: FailedEnabling status \
+ * **FailedDisabling**: FailedDisabling status
  */
 export type OperationsInsightsStatusType = string;
 
 /** Known values of {@link PermissionLevelType} that the service accepts. */
 export enum KnownPermissionLevelType {
-  /** RESTRICTED value */
+  /** Restricted permission level */
   Restricted = "Restricted",
-  /** UNRESTRICTED value */
+  /** Unrestricted permission level */
   Unrestricted = "Unrestricted",
 }
 
@@ -2972,22 +3029,22 @@ export enum KnownPermissionLevelType {
  * {@link KnownPermissionLevelType} can be used interchangeably with PermissionLevelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Restricted**: RESTRICTED value \
- * **Unrestricted**: UNRESTRICTED value
+ * **Restricted**: Restricted permission level \
+ * **Unrestricted**: Unrestricted permission level
  */
 export type PermissionLevelType = string;
 
 /** Known values of {@link RoleType} that the service accepts. */
 export enum KnownRoleType {
-  /** PRIMARY value */
+  /** Primary role */
   Primary = "Primary",
-  /** STANDBY value */
+  /** Standby role */
   Standby = "Standby",
-  /** DISABLED_STANDBY value */
+  /** DisabledStandby role */
   DisabledStandby = "DisabledStandby",
-  /** BACKUP_COPY value */
+  /** BackupCopy role */
   BackupCopy = "BackupCopy",
-  /** SNAPSHOT_STANDBY value */
+  /** SnapshotStandby role */
   SnapshotStandby = "SnapshotStandby",
 }
 
@@ -2996,11 +3053,11 @@ export enum KnownRoleType {
  * {@link KnownRoleType} can be used interchangeably with RoleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Primary**: PRIMARY value \
- * **Standby**: STANDBY value \
- * **DisabledStandby**: DISABLED_STANDBY value \
- * **BackupCopy**: BACKUP_COPY value \
- * **SnapshotStandby**: SNAPSHOT_STANDBY value
+ * **Primary**: Primary role \
+ * **Standby**: Standby role \
+ * **DisabledStandby**: DisabledStandby role \
+ * **BackupCopy**: BackupCopy role \
+ * **SnapshotStandby**: SnapshotStandby role
  */
 export type RoleType = string;
 
@@ -3030,9 +3087,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link Preference} that the service accepts. */
 export enum KnownPreference {
-  /** NoPreference value */
+  /** No preference */
   NoPreference = "NoPreference",
-  /** CustomPreference value */
+  /** Custom preference */
   CustomPreference = "CustomPreference",
 }
 
@@ -3041,8 +3098,8 @@ export enum KnownPreference {
  * {@link KnownPreference} can be used interchangeably with Preference,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NoPreference**: NoPreference value \
- * **CustomPreference**: CustomPreference value
+ * **NoPreference**: No preference \
+ * **CustomPreference**: Custom preference
  */
 export type Preference = string;
 
@@ -3096,9 +3153,9 @@ export type MonthName = string;
 
 /** Known values of {@link PatchingMode} that the service accepts. */
 export enum KnownPatchingMode {
-  /** Rolling value */
+  /** Rolling patching */
   Rolling = "Rolling",
-  /** Non Rolling value */
+  /** Non Rolling patching */
   NonRolling = "NonRolling",
 }
 
@@ -3107,26 +3164,26 @@ export enum KnownPatchingMode {
  * {@link KnownPatchingMode} can be used interchangeably with PatchingMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Rolling**: Rolling value \
- * **NonRolling**: Non Rolling value
+ * **Rolling**: Rolling patching \
+ * **NonRolling**: Non Rolling patching
  */
 export type PatchingMode = string;
 
 /** Known values of {@link CloudExadataInfrastructureLifecycleState} that the service accepts. */
 export enum KnownCloudExadataInfrastructureLifecycleState {
-  /** PROVISIONING value */
+  /** Indicates that resource in Provisioning state */
   Provisioning = "Provisioning",
-  /** AVAILABLE value */
+  /** Indicates that resource in Available state */
   Available = "Available",
-  /** UPDATING value */
+  /** Indicates that resource in Updating state */
   Updating = "Updating",
-  /** TERMINATING value */
+  /** Indicates that resource in Terminating state */
   Terminating = "Terminating",
-  /** TERMINATED value */
+  /** Indicates that resource in Terminated state */
   Terminated = "Terminated",
-  /** MAINTENANCE_IN_PROGRESS value */
+  /** Indicates that resource maintenance in progress state */
   MaintenanceInProgress = "MaintenanceInProgress",
-  /** FAILED value */
+  /** Indicates that resource in Failed state */
   Failed = "Failed",
 }
 
@@ -3135,21 +3192,21 @@ export enum KnownCloudExadataInfrastructureLifecycleState {
  * {@link KnownCloudExadataInfrastructureLifecycleState} can be used interchangeably with CloudExadataInfrastructureLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Provisioning**: PROVISIONING value \
- * **Available**: AVAILABLE value \
- * **Updating**: UPDATING value \
- * **Terminating**: TERMINATING value \
- * **Terminated**: TERMINATED value \
- * **MaintenanceInProgress**: MAINTENANCE_IN_PROGRESS value \
- * **Failed**: FAILED value
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Updating**: Indicates that resource in Updating state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **MaintenanceInProgress**: Indicates that resource maintenance in progress state \
+ * **Failed**: Indicates that resource in Failed state
  */
 export type CloudExadataInfrastructureLifecycleState = string;
 
 /** Known values of {@link DiskRedundancy} that the service accepts. */
 export enum KnownDiskRedundancy {
-  /** High value */
+  /** High redundancy */
   High = "High",
-  /** Normal value */
+  /** Normal redundancy */
   Normal = "Normal",
 }
 
@@ -3158,26 +3215,26 @@ export enum KnownDiskRedundancy {
  * {@link KnownDiskRedundancy} can be used interchangeably with DiskRedundancy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **High**: High value \
- * **Normal**: Normal value
+ * **High**: High redundancy \
+ * **Normal**: Normal redundancy
  */
 export type DiskRedundancy = string;
 
 /** Known values of {@link CloudVmClusterLifecycleState} that the service accepts. */
 export enum KnownCloudVmClusterLifecycleState {
-  /** PROVISIONING value */
+  /** Indicates that resource in Provisioning state */
   Provisioning = "Provisioning",
-  /** AVAILABLE value */
+  /** Indicates that resource in Available state */
   Available = "Available",
-  /** UPDATING value */
+  /** Indicates that resource in Updating state */
   Updating = "Updating",
-  /** TERMINATING value */
+  /** Indicates that resource in Terminating state */
   Terminating = "Terminating",
-  /** TERMINATED value */
+  /** Indicates that resource in Terminated state */
   Terminated = "Terminated",
-  /** MAINTENANCE_IN_PROGRESS value */
+  /** Indicates that resource Maintenance in progress state */
   MaintenanceInProgress = "MaintenanceInProgress",
-  /** FAILED value */
+  /** Indicates that resource in Failed state */
   Failed = "Failed",
 }
 
@@ -3186,27 +3243,27 @@ export enum KnownCloudVmClusterLifecycleState {
  * {@link KnownCloudVmClusterLifecycleState} can be used interchangeably with CloudVmClusterLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Provisioning**: PROVISIONING value \
- * **Available**: AVAILABLE value \
- * **Updating**: UPDATING value \
- * **Terminating**: TERMINATING value \
- * **Terminated**: TERMINATED value \
- * **MaintenanceInProgress**: MAINTENANCE_IN_PROGRESS value \
- * **Failed**: FAILED value
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Updating**: Indicates that resource in Updating state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **MaintenanceInProgress**: Indicates that resource Maintenance in progress state \
+ * **Failed**: Indicates that resource in Failed state
  */
 export type CloudVmClusterLifecycleState = string;
 
 /** Known values of {@link IormLifecycleState} that the service accepts. */
 export enum KnownIormLifecycleState {
-  /** BOOTSTRAPPING value */
+  /** Indicates that resource in Provisioning state */
   BootStrapping = "BootStrapping",
-  /** ENABLED value */
+  /** Indicates that resource in Enabled state */
   Enabled = "Enabled",
-  /** DISABLED value */
+  /** Indicates that resource in Disabled state */
   Disabled = "Disabled",
-  /** UPDATING value */
+  /** Indicates that resource in Updating state */
   Updating = "Updating",
-  /** FAILED value */
+  /** Indicates that resource in Failed state */
   Failed = "Failed",
 }
 
@@ -3215,25 +3272,25 @@ export enum KnownIormLifecycleState {
  * {@link KnownIormLifecycleState} can be used interchangeably with IormLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **BootStrapping**: BOOTSTRAPPING value \
- * **Enabled**: ENABLED value \
- * **Disabled**: DISABLED value \
- * **Updating**: UPDATING value \
- * **Failed**: FAILED value
+ * **BootStrapping**: Indicates that resource in Provisioning state \
+ * **Enabled**: Indicates that resource in Enabled state \
+ * **Disabled**: Indicates that resource in Disabled state \
+ * **Updating**: Indicates that resource in Updating state \
+ * **Failed**: Indicates that resource in Failed state
  */
 export type IormLifecycleState = string;
 
 /** Known values of {@link Objective} that the service accepts. */
 export enum KnownObjective {
-  /** LOW_LATENCY value */
+  /** Low latency objective */
   LowLatency = "LowLatency",
-  /** HIGH_THROUGHPUT value */
+  /** High throughput objective */
   HighThroughput = "HighThroughput",
-  /** BALANCED value */
+  /** Balanced objective */
   Balanced = "Balanced",
-  /** AUTO value */
+  /** Auto objective */
   Auto = "Auto",
-  /** BASIC value */
+  /** Basic objective */
   Basic = "Basic",
 }
 
@@ -3242,23 +3299,23 @@ export enum KnownObjective {
  * {@link KnownObjective} can be used interchangeably with Objective,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **LowLatency**: LOW_LATENCY value \
- * **HighThroughput**: HIGH_THROUGHPUT value \
- * **Balanced**: BALANCED value \
- * **Auto**: AUTO value \
- * **Basic**: BASIC value
+ * **LowLatency**: Low latency objective \
+ * **HighThroughput**: High throughput objective \
+ * **Balanced**: Balanced objective \
+ * **Auto**: Auto objective \
+ * **Basic**: Basic objective
  */
 export type Objective = string;
 
 /** Known values of {@link DnsPrivateViewsLifecycleState} that the service accepts. */
 export enum KnownDnsPrivateViewsLifecycleState {
-  /** Active value */
+  /** DNS Private View is active */
   Active = "Active",
-  /** Deleted value */
+  /** DNS Private View is deleted */
   Deleted = "Deleted",
-  /** Deleting value */
+  /** DNS Private View is deleting */
   Deleting = "Deleting",
-  /** Updating value */
+  /** DNS Private View is updating */
   Updating = "Updating",
 }
 
@@ -3267,10 +3324,10 @@ export enum KnownDnsPrivateViewsLifecycleState {
  * {@link KnownDnsPrivateViewsLifecycleState} can be used interchangeably with DnsPrivateViewsLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active**: Active value \
- * **Deleted**: Deleted value \
- * **Deleting**: Deleting value \
- * **Updating**: Updating value
+ * **Active**: DNS Private View is active \
+ * **Deleted**: DNS Private View is deleted \
+ * **Deleting**: DNS Private View is deleting \
+ * **Updating**: DNS Private View is updating
  */
 export type DnsPrivateViewsLifecycleState = string;
 
@@ -3297,15 +3354,15 @@ export type ResourceProvisioningState = string;
 
 /** Known values of {@link DnsPrivateZonesLifecycleState} that the service accepts. */
 export enum KnownDnsPrivateZonesLifecycleState {
-  /** Active value */
+  /** DNS Private Zones is active */
   Active = "Active",
-  /** Creating value */
+  /** DNS Private Zones is creating */
   Creating = "Creating",
-  /** Deleted value */
+  /** DNS Private Zones is deleted */
   Deleted = "Deleted",
-  /** Deleting value */
+  /** DNS Private Zones is deleting */
   Deleting = "Deleting",
-  /** Updating value */
+  /** DNS Private Zones is updating */
   Updating = "Updating",
 }
 
@@ -3314,19 +3371,19 @@ export enum KnownDnsPrivateZonesLifecycleState {
  * {@link KnownDnsPrivateZonesLifecycleState} can be used interchangeably with DnsPrivateZonesLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active**: Active value \
- * **Creating**: Creating value \
- * **Deleted**: Deleted value \
- * **Deleting**: Deleting value \
- * **Updating**: Updating value
+ * **Active**: DNS Private Zones is active \
+ * **Creating**: DNS Private Zones is creating \
+ * **Deleted**: DNS Private Zones is deleted \
+ * **Deleting**: DNS Private Zones is deleting \
+ * **Updating**: DNS Private Zones is updating
  */
 export type DnsPrivateZonesLifecycleState = string;
 
 /** Known values of {@link ZoneType} that the service accepts. */
 export enum KnownZoneType {
-  /** Primary value */
+  /** Primary zone */
   Primary = "Primary",
-  /** Secondary value */
+  /** Secondary zone */
   Secondary = "Secondary",
 }
 
@@ -3335,8 +3392,8 @@ export enum KnownZoneType {
  * {@link KnownZoneType} can be used interchangeably with ZoneType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Primary**: Primary value \
- * **Secondary**: Secondary value
+ * **Primary**: Primary zone \
+ * **Secondary**: Secondary zone
  */
 export type ZoneType = string;
 
@@ -3363,11 +3420,11 @@ export type OracleSubscriptionProvisioningState = string;
 
 /** Known values of {@link CloudAccountProvisioningState} that the service accepts. */
 export enum KnownCloudAccountProvisioningState {
-  /** Pending value */
+  /** Pending - Initial state when Oracle cloud account is not configured */
   Pending = "Pending",
-  /** Provisioning value */
+  /** Provisioning - State when Oracle cloud account is being provisioned */
   Provisioning = "Provisioning",
-  /** Available value */
+  /** Available - State when Oracle cloud account cloud linking is complete and it is available */
   Available = "Available",
 }
 
@@ -3376,17 +3433,17 @@ export enum KnownCloudAccountProvisioningState {
  * {@link KnownCloudAccountProvisioningState} can be used interchangeably with CloudAccountProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pending**: Pending value \
- * **Provisioning**: Provisioning value \
- * **Available**: Available value
+ * **Pending**: Pending - Initial state when Oracle cloud account is not configured \
+ * **Provisioning**: Provisioning - State when Oracle cloud account is being provisioned \
+ * **Available**: Available - State when Oracle cloud account cloud linking is complete and it is available
  */
 export type CloudAccountProvisioningState = string;
 
 /** Known values of {@link Intent} that the service accepts. */
 export enum KnownIntent {
-  /** Retain value */
+  /** Retain intent */
   Retain = "Retain",
-  /** Reset value */
+  /** Reset intent */
   Reset = "Reset",
 }
 
@@ -3395,22 +3452,22 @@ export enum KnownIntent {
  * {@link KnownIntent} can be used interchangeably with Intent,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Retain**: Retain value \
- * **Reset**: Reset value
+ * **Retain**: Retain intent \
+ * **Reset**: Reset intent
  */
 export type Intent = string;
 
 /** Known values of {@link AutonomousDatabaseBackupLifecycleState} that the service accepts. */
 export enum KnownAutonomousDatabaseBackupLifecycleState {
-  /** Creating */
+  /** AutonomousDatabase backup is creating */
   Creating = "Creating",
-  /** Active */
+  /** AutonomousDatabase backup is active */
   Active = "Active",
-  /** Deleting */
+  /** AutonomousDatabase backup is deleting */
   Deleting = "Deleting",
-  /** Failed */
+  /** AutonomousDatabase backup is failed */
   Failed = "Failed",
-  /** Updating */
+  /** AutonomousDatabase backup is updating */
   Updating = "Updating",
 }
 
@@ -3419,21 +3476,21 @@ export enum KnownAutonomousDatabaseBackupLifecycleState {
  * {@link KnownAutonomousDatabaseBackupLifecycleState} can be used interchangeably with AutonomousDatabaseBackupLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Creating** \
- * **Active** \
- * **Deleting** \
- * **Failed** \
- * **Updating**
+ * **Creating**: AutonomousDatabase backup is creating \
+ * **Active**: AutonomousDatabase backup is active \
+ * **Deleting**: AutonomousDatabase backup is deleting \
+ * **Failed**: AutonomousDatabase backup is failed \
+ * **Updating**: AutonomousDatabase backup is updating
  */
 export type AutonomousDatabaseBackupLifecycleState = string;
 
 /** Known values of {@link AutonomousDatabaseBackupType} that the service accepts. */
 export enum KnownAutonomousDatabaseBackupType {
-  /** Incremental */
+  /** Incremental backup */
   Incremental = "Incremental",
-  /** Full */
+  /** Full backup */
   Full = "Full",
-  /** LongTerm */
+  /** LongTerm backup */
   LongTerm = "LongTerm",
 }
 
@@ -3442,17 +3499,17 @@ export enum KnownAutonomousDatabaseBackupType {
  * {@link KnownAutonomousDatabaseBackupType} can be used interchangeably with AutonomousDatabaseBackupType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Incremental** \
- * **Full** \
- * **LongTerm**
+ * **Incremental**: Incremental backup \
+ * **Full**: Full backup \
+ * **LongTerm**: LongTerm backup
  */
 export type AutonomousDatabaseBackupType = string;
 
 /** Known values of {@link GenerateType} that the service accepts. */
 export enum KnownGenerateType {
-  /** SINGLE value */
+  /** Generate single */
   Single = "Single",
-  /** ALL value */
+  /** Generate all */
   All = "All",
 }
 
@@ -3461,20 +3518,20 @@ export enum KnownGenerateType {
  * {@link KnownGenerateType} can be used interchangeably with GenerateType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Single**: SINGLE value \
- * **All**: ALL value
+ * **Single**: Generate single \
+ * **All**: Generate all
  */
 export type GenerateType = string;
 
 /** Known values of {@link DbServerPatchingStatus} that the service accepts. */
 export enum KnownDbServerPatchingStatus {
-  /** SCHEDULED value */
+  /** Patching scheduled */
   Scheduled = "Scheduled",
-  /** MAINTENANCE_IN_PROGRESS value */
+  /** Patching in progress */
   MaintenanceInProgress = "MaintenanceInProgress",
-  /** FAILED value */
+  /** Patching failed */
   Failed = "Failed",
-  /** COMPLETE value */
+  /** Patching completed */
   Complete = "Complete",
 }
 
@@ -3483,26 +3540,26 @@ export enum KnownDbServerPatchingStatus {
  * {@link KnownDbServerPatchingStatus} can be used interchangeably with DbServerPatchingStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Scheduled**: SCHEDULED value \
- * **MaintenanceInProgress**: MAINTENANCE_IN_PROGRESS value \
- * **Failed**: FAILED value \
- * **Complete**: COMPLETE value
+ * **Scheduled**: Patching scheduled \
+ * **MaintenanceInProgress**: Patching in progress \
+ * **Failed**: Patching failed \
+ * **Complete**: Patching completed
  */
 export type DbServerPatchingStatus = string;
 
 /** Known values of {@link DbServerProvisioningState} that the service accepts. */
 export enum KnownDbServerProvisioningState {
-  /** CREATING value */
+  /** Indicates that resource in Creating state */
   Creating = "Creating",
-  /** AVAILABLE value */
+  /** Indicates that resource in Available state */
   Available = "Available",
-  /** UNAVAILABLE value */
+  /** Indicates that resource in Unavailable state */
   Unavailable = "Unavailable",
-  /** DELETING value */
+  /** Indicates that resource in Deleting state */
   Deleting = "Deleting",
-  /** DELETED value */
+  /** Indicates that resource in Deleted state */
   Deleted = "Deleted",
-  /** MAINTENANCE_IN_PROGRESS value */
+  /** Indicates that resource maintenance in progress state */
   MaintenanceInProgress = "MaintenanceInProgress",
 }
 
@@ -3511,34 +3568,34 @@ export enum KnownDbServerProvisioningState {
  * {@link KnownDbServerProvisioningState} can be used interchangeably with DbServerProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Creating**: CREATING value \
- * **Available**: AVAILABLE value \
- * **Unavailable**: UNAVAILABLE value \
- * **Deleting**: DELETING value \
- * **Deleted**: DELETED value \
- * **MaintenanceInProgress**: MAINTENANCE_IN_PROGRESS value
+ * **Creating**: Indicates that resource in Creating state \
+ * **Available**: Indicates that resource in Available state \
+ * **Unavailable**: Indicates that resource in Unavailable state \
+ * **Deleting**: Indicates that resource in Deleting state \
+ * **Deleted**: Indicates that resource in Deleted state \
+ * **MaintenanceInProgress**: Indicates that resource maintenance in progress state
  */
 export type DbServerProvisioningState = string;
 
 /** Known values of {@link DbNodeProvisioningState} that the service accepts. */
 export enum KnownDbNodeProvisioningState {
-  /** PROVISIONING value */
+  /** Indicates that resource in Provisioning state */
   Provisioning = "Provisioning",
-  /** AVAILABLE value */
+  /** Indicates that resource in Available state */
   Available = "Available",
-  /** UPDATING value */
+  /** Indicates that resource in Updating state */
   Updating = "Updating",
-  /** STOPPING value */
+  /** Indicates that resource in Stopping state */
   Stopping = "Stopping",
-  /** STOPPED value */
+  /** Indicates that resource in Stopped state */
   Stopped = "Stopped",
-  /** STARTING value */
+  /** Indicates that resource in Starting state */
   Starting = "Starting",
-  /** TERMINATING value */
+  /** Indicates that resource in Terminating state */
   Terminating = "Terminating",
-  /** TERMINATED value */
+  /** Indicates that resource in Terminated state */
   Terminated = "Terminated",
-  /** FAILED value */
+  /** Indicates that resource in Failed state */
   Failed = "Failed",
 }
 
@@ -3547,21 +3604,21 @@ export enum KnownDbNodeProvisioningState {
  * {@link KnownDbNodeProvisioningState} can be used interchangeably with DbNodeProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Provisioning**: PROVISIONING value \
- * **Available**: AVAILABLE value \
- * **Updating**: UPDATING value \
- * **Stopping**: STOPPING value \
- * **Stopped**: STOPPED value \
- * **Starting**: STARTING value \
- * **Terminating**: TERMINATING value \
- * **Terminated**: TERMINATED value \
- * **Failed**: FAILED value
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Updating**: Indicates that resource in Updating state \
+ * **Stopping**: Indicates that resource in Stopping state \
+ * **Stopped**: Indicates that resource in Stopped state \
+ * **Starting**: Indicates that resource in Starting state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **Failed**: Indicates that resource in Failed state
  */
 export type DbNodeProvisioningState = string;
 
 /** Known values of {@link DbNodeMaintenanceType} that the service accepts. */
 export enum KnownDbNodeMaintenanceType {
-  /** Provisioning value */
+  /** VMDB reboot migration maintenance type */
   VmdbRebootMigration = "VmdbRebootMigration",
 }
 
@@ -3570,7 +3627,7 @@ export enum KnownDbNodeMaintenanceType {
  * {@link KnownDbNodeMaintenanceType} can be used interchangeably with DbNodeMaintenanceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **VmdbRebootMigration**: Provisioning value
+ * **VmdbRebootMigration**: VMDB reboot migration maintenance type
  */
 export type DbNodeMaintenanceType = string;
 
@@ -3600,15 +3657,15 @@ export type DbNodeActionEnum = string;
 
 /** Known values of {@link VirtualNetworkAddressLifecycleState} that the service accepts. */
 export enum KnownVirtualNetworkAddressLifecycleState {
-  /** Provisioning value */
+  /** Indicates that resource in Provisioning state */
   Provisioning = "Provisioning",
-  /** Available value */
+  /** Indicates that resource in Available state */
   Available = "Available",
-  /** Terminating value */
+  /** Indicates that resource in Terminating state */
   Terminating = "Terminating",
-  /** Terminated value */
+  /** Indicates that resource in Terminated state */
   Terminated = "Terminated",
-  /** Failed value */
+  /** Indicates that resource in Failed state */
   Failed = "Failed",
 }
 
@@ -3617,29 +3674,29 @@ export enum KnownVirtualNetworkAddressLifecycleState {
  * {@link KnownVirtualNetworkAddressLifecycleState} can be used interchangeably with VirtualNetworkAddressLifecycleState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Provisioning**: Provisioning value \
- * **Available**: Available value \
- * **Terminating**: Terminating value \
- * **Terminated**: Terminated value \
- * **Failed**: Failed value
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **Failed**: Indicates that resource in Failed state
  */
 export type VirtualNetworkAddressLifecycleState = string;
 
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
-  /** NONE value */
+  /** None source */
   None = "None",
-  /** DATABASE value */
+  /** Database source */
   Database = "Database",
-  /** BACKUP_FROM_ID value */
+  /** Backup from ID source */
   BackupFromId = "BackupFromId",
-  /** BACKUP_FROM_TIMESTAMP value */
+  /** Backup from timestamp source */
   BackupFromTimestamp = "BackupFromTimestamp",
-  /** CLONE_TO_REFRESHABLE value */
+  /** Clone to refreshable source */
   CloneToRefreshable = "CloneToRefreshable",
-  /** CROSS_REGION_DATAGUARD value */
+  /** Cross region dataguard source */
   CrossRegionDataguard = "CrossRegionDataguard",
-  /** CROSS_REGION_DISASTER_RECOVERY value */
+  /** cross region disaster recovery source */
   CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
 }
 
@@ -3648,21 +3705,21 @@ export enum KnownSourceType {
  * {@link KnownSourceType} can be used interchangeably with SourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: NONE value \
- * **Database**: DATABASE value \
- * **BackupFromId**: BACKUP_FROM_ID value \
- * **BackupFromTimestamp**: BACKUP_FROM_TIMESTAMP value \
- * **CloneToRefreshable**: CLONE_TO_REFRESHABLE value \
- * **CrossRegionDataguard**: CROSS_REGION_DATAGUARD value \
- * **CrossRegionDisasterRecovery**: CROSS_REGION_DISASTER_RECOVERY value
+ * **None**: None source \
+ * **Database**: Database source \
+ * **BackupFromId**: Backup from ID source \
+ * **BackupFromTimestamp**: Backup from timestamp source \
+ * **CloneToRefreshable**: Clone to refreshable source \
+ * **CrossRegionDataguard**: Cross region dataguard source \
+ * **CrossRegionDisasterRecovery**: cross region disaster recovery source
  */
 export type SourceType = string;
 
 /** Known values of {@link CloneType} that the service accepts. */
 export enum KnownCloneType {
-  /** FULL value */
+  /** Full clone */
   Full = "Full",
-  /** METADATA value */
+  /** Metadata only */
   Metadata = "Metadata",
 }
 
@@ -3671,16 +3728,16 @@ export enum KnownCloneType {
  * {@link KnownCloneType} can be used interchangeably with CloneType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Full**: FULL value \
- * **Metadata**: METADATA value
+ * **Full**: Full clone \
+ * **Metadata**: Metadata only
  */
 export type CloneType = string;
 
 /** Known values of {@link RefreshableModelType} that the service accepts. */
 export enum KnownRefreshableModelType {
-  /** AUTOMATIC value */
+  /** Automatic refreshable model type */
   Automatic = "Automatic",
-  /** MANUAL value */
+  /** Manual refreshable model type */
   Manual = "Manual",
 }
 
@@ -3689,16 +3746,16 @@ export enum KnownRefreshableModelType {
  * {@link KnownRefreshableModelType} can be used interchangeably with RefreshableModelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Automatic**: AUTOMATIC value \
- * **Manual**: MANUAL value
+ * **Automatic**: Automatic refreshable model type \
+ * **Manual**: Manual refreshable model type
  */
 export type RefreshableModelType = string;
 
 /** Known values of {@link RefreshableStatusType} that the service accepts. */
 export enum KnownRefreshableStatusType {
-  /** REFRESHING value */
+  /** Refreshing status */
   Refreshing = "Refreshing",
-  /** NOT_REFRESHING value */
+  /** NotRefreshing status */
   NotRefreshing = "NotRefreshing",
 }
 
@@ -3707,16 +3764,16 @@ export enum KnownRefreshableStatusType {
  * {@link KnownRefreshableStatusType} can be used interchangeably with RefreshableStatusType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Refreshing**: REFRESHING value \
- * **NotRefreshing**: NOT_REFRESHING value
+ * **Refreshing**: Refreshing status \
+ * **NotRefreshing**: NotRefreshing status
  */
 export type RefreshableStatusType = string;
 
 /** Known values of {@link ValidationStatus} that the service accepts. */
 export enum KnownValidationStatus {
-  /** Succeeded value */
+  /** Validation succeeded */
   Succeeded = "Succeeded",
-  /** Failed value */
+  /** Validation failed */
   Failed = "Failed",
 }
 
@@ -3725,20 +3782,20 @@ export enum KnownValidationStatus {
  * {@link KnownValidationStatus} can be used interchangeably with ValidationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**: Succeeded value \
- * **Failed**: Failed value
+ * **Succeeded**: Validation succeeded \
+ * **Failed**: Validation failed
  */
 export type ValidationStatus = string;
 
 /** Known values of {@link UpdateAction} that the service accepts. */
 export enum KnownUpdateAction {
-  /** ROLLING_APPLY value */
+  /** Rolling apply action */
   RollingApply = "RollingApply",
-  /** NON_ROLLING_APPLY value */
+  /** Non rolling apply action */
   NonRollingApply = "NonRollingApply",
-  /** PRECHECK value */
+  /** Pre-check action */
   PreCheck = "PreCheck",
-  /** ROLLBACK value */
+  /** Rollback action */
   RollBack = "RollBack",
 }
 
@@ -3747,30 +3804,12 @@ export enum KnownUpdateAction {
  * {@link KnownUpdateAction} can be used interchangeably with UpdateAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **RollingApply**: ROLLING_APPLY value \
- * **NonRollingApply**: NON_ROLLING_APPLY value \
- * **PreCheck**: PRECHECK value \
- * **RollBack**: ROLLBACK value
+ * **RollingApply**: Rolling apply action \
+ * **NonRollingApply**: Non rolling apply action \
+ * **PreCheck**: Pre-check action \
+ * **RollBack**: Rollback action
  */
 export type UpdateAction = string;
-
-/** Known values of {@link Versions} that the service accepts. */
-export enum KnownVersions {
-  /** 2023-09-01-preview */
-  V20230901 = "2023-09-01-preview",
-  /** internal api - RPaaS to ORP */
-  VInternalApi = "internal",
-}
-
-/**
- * Defines values for Versions. \
- * {@link KnownVersions} can be used interchangeably with Versions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2023-09-01-preview**: 2023-09-01-preview \
- * **internal**: internal api - RPaaS to ORP
- */
-export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -3865,6 +3904,30 @@ export interface AutonomousDatabasesGenerateWalletOptionalParams
 /** Contains response data for the generateWallet operation. */
 export type AutonomousDatabasesGenerateWalletResponse =
   AutonomousDatabaseWalletFile;
+
+/** Optional parameters. */
+export interface AutonomousDatabasesRestoreOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the restore operation. */
+export type AutonomousDatabasesRestoreResponse = AutonomousDatabase;
+
+/** Optional parameters. */
+export interface AutonomousDatabasesShrinkOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the shrink operation. */
+export type AutonomousDatabasesShrinkResponse = AutonomousDatabase;
 
 /** Optional parameters. */
 export interface AutonomousDatabasesSwitchoverOptionalParams
@@ -4248,6 +4311,27 @@ export interface GiVersionsListByLocationNextOptionalParams
 
 /** Contains response data for the listByLocationNext operation. */
 export type GiVersionsListByLocationNextResponse = GiVersionListResult;
+
+/** Optional parameters. */
+export interface SystemVersionsListByLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocation operation. */
+export type SystemVersionsListByLocationResponse = SystemVersionListResult;
+
+/** Optional parameters. */
+export interface SystemVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SystemVersionsGetResponse = SystemVersion;
+
+/** Optional parameters. */
+export interface SystemVersionsListByLocationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocationNext operation. */
+export type SystemVersionsListByLocationNextResponse = SystemVersionListResult;
 
 /** Optional parameters. */
 export interface OracleSubscriptionsListBySubscriptionOptionalParams

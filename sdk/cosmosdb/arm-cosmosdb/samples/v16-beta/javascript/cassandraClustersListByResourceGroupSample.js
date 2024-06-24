@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all managed Cassandra clusters in this resource group.
  *
  * @summary List all managed Cassandra clusters in this resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraClusterListByResourceGroup.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraClusterListByResourceGroup.json
  */
 async function cosmosDbManagedCassandraClusterListByResourceGroup() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List Cosmos DB locations and their properties
  *
  * @summary List Cosmos DB locations and their properties
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBLocationList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBLocationList.json
  */
 async function cosmosDbLocationList() {
   const subscriptionId =
