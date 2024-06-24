@@ -13,7 +13,7 @@ import {
   WorkflowTriggerHistoriesListOptionalParams,
   WorkflowTriggerHistoriesGetOptionalParams,
   WorkflowTriggerHistoriesGetResponse,
-  WorkflowTriggerHistoriesResubmitOptionalParams
+  WorkflowTriggerHistoriesResubmitOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface WorkflowTriggerHistories {
     name: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggerHistoriesListOptionalParams
+    options?: WorkflowTriggerHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTriggerHistory>;
   /**
    * Gets a workflow trigger history.
@@ -50,7 +50,7 @@ export interface WorkflowTriggerHistories {
     workflowName: string,
     triggerName: string,
     historyName: string,
-    options?: WorkflowTriggerHistoriesGetOptionalParams
+    options?: WorkflowTriggerHistoriesGetOptionalParams,
   ): Promise<WorkflowTriggerHistoriesGetResponse>;
   /**
    * Resubmits a workflow run based on the trigger history.
@@ -68,7 +68,7 @@ export interface WorkflowTriggerHistories {
     workflowName: string,
     triggerName: string,
     historyName: string,
-    options?: WorkflowTriggerHistoriesResubmitOptionalParams
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resubmits a workflow run based on the trigger history.
@@ -86,6 +86,6 @@ export interface WorkflowTriggerHistories {
     workflowName: string,
     triggerName: string,
     historyName: string,
-    options?: WorkflowTriggerHistoriesResubmitOptionalParams
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
   ): Promise<void>;
 }

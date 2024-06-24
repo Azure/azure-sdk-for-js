@@ -20,13 +20,14 @@ import {
   WorkflowRunActionRepetitionsRequestHistoriesListResponse,
   WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams,
   WorkflowRunActionRepetitionsRequestHistoriesGetResponse,
-  WorkflowRunActionRepetitionsRequestHistoriesListNextResponse
+  WorkflowRunActionRepetitionsRequestHistoriesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowRunActionRepetitionsRequestHistories operations. */
 export class WorkflowRunActionRepetitionsRequestHistoriesImpl
-  implements WorkflowRunActionRepetitionsRequestHistories {
+  implements WorkflowRunActionRepetitionsRequestHistories
+{
   private readonly client: WebSiteManagementClient;
 
   /**
@@ -54,7 +55,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<RequestHistory> {
     const iter = this.listPagingAll(
       resourceGroupName,
@@ -63,7 +64,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
       runName,
       actionName,
       repetitionName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
           actionName,
           repetitionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -98,7 +99,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     actionName: string,
     repetitionName: string,
     options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RequestHistory[]> {
     let result: WorkflowRunActionRepetitionsRequestHistoriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +111,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
         runName,
         actionName,
         repetitionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -126,7 +127,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
         actionName,
         repetitionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -142,7 +143,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
   ): AsyncIterableIterator<RequestHistory> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
@@ -151,7 +152,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
       runName,
       actionName,
       repetitionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -174,7 +175,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsRequestHistoriesListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -184,9 +185,9 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
         runName,
         actionName,
         repetitionName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -209,7 +210,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     actionName: string,
     repetitionName: string,
     requestHistoryName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsRequestHistoriesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -220,9 +221,9 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
         actionName,
         repetitionName,
         requestHistoryName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -245,7 +246,7 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
     actionName: string,
     repetitionName: string,
     nextLink: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsRequestHistoriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -256,9 +257,9 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
         actionName,
         repetitionName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -266,42 +267,15 @@ export class WorkflowRunActionRepetitionsRequestHistoriesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/requestHistories",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/requestHistories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RequestHistoryListResult
+      bodyMapper: Mappers.RequestHistoryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.workflowName1,
-    Parameters.runName,
-    Parameters.actionName,
-    Parameters.repetitionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/requestHistories/{requestHistoryName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RequestHistory
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -313,21 +287,46 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.runName,
     Parameters.actionName,
     Parameters.repetitionName,
-    Parameters.requestHistoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/requestHistories/{requestHistoryName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RequestHistory,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.workflowName1,
+    Parameters.runName,
+    Parameters.actionName,
+    Parameters.repetitionName,
+    Parameters.requestHistoryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RequestHistoryListResult
+      bodyMapper: Mappers.RequestHistoryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -338,8 +337,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.workflowName1,
     Parameters.runName,
     Parameters.actionName,
-    Parameters.repetitionName
+    Parameters.repetitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale
  *
  * @summary Migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCassandraKeyspaceMigrateToAutoscale.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBCassandraKeyspaceMigrateToAutoscale.json
  */
 async function cosmosDbCassandraKeyspaceMigrateToAutoscale() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts a server.
  *
  * @summary Starts a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerStart.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerStart.json
  */
 async function startAServer() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function startAServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.servers.beginStartAndWait(
     resourceGroupName,
-    serverName
+    serverName,
   );
   console.log(result);
 }

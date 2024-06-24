@@ -45,10 +45,6 @@ import {
   ClusterResource as ClusterResourceMapper,
   CommandPostBody as CommandPostBodyMapper,
   DataCenterResource as DataCenterResourceMapper,
-  MongoCluster as MongoClusterMapper,
-  MongoClusterUpdate as MongoClusterUpdateMapper,
-  FirewallRule as FirewallRuleMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   NotebookWorkspaceCreateUpdateParameters as NotebookWorkspaceCreateUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ServiceResourceCreateUpdateParameters as ServiceResourceCreateUpdateParametersMapper,
@@ -84,13 +80,10 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1,
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String",
+      name: "Uuid",
     },
   },
 };
@@ -104,6 +97,18 @@ export const resourceGroupName: OperationURLParameter = {
     },
     serializedName: "resourceGroupName",
     required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-05-15-preview",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String",
     },
@@ -126,16 +131,31 @@ export const accountName: OperationURLParameter = {
   },
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const networkSecurityPerimeterConfigurationName: OperationURLParameter =
+  {
+    parameterPath: "networkSecurityPerimeterConfigurationName",
+    mapper: {
+      constraints: {
+        Pattern: new RegExp("^.*$"),
+      },
+      serializedName: "networkSecurityPerimeterConfigurationName",
+      required: true,
+      type: {
+        name: "String",
+      },
+    },
+  };
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    defaultValue: "2024-02-15-preview",
-    isConstant: true,
-    serializedName: "api-version",
+    serializedName: "nextLink",
+    required: true,
     type: {
       name: "String",
     },
   },
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -199,18 +219,6 @@ export const filter1: OperationQueryParameter = {
       name: "String",
     },
   },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
 };
 
 export const databaseRid: OperationURLParameter = {
@@ -681,72 +689,6 @@ export const body2: OperationParameter = {
   mapper: DataCenterResourceMapper,
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MongoClusterMapper,
-};
-
-export const mongoClusterName: OperationURLParameter = {
-  parameterPath: "mongoClusterName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z0-9]+(-[a-z0-9]+)*"),
-      MaxLength: 40,
-      MinLength: 3,
-    },
-    serializedName: "mongoClusterName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MongoClusterUpdateMapper,
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FirewallRuleMapper,
-};
-
-export const firewallRuleName: OperationURLParameter = {
-  parameterPath: "firewallRuleName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][-_.a-zA-Z0-9]*"),
-      MaxLength: 80,
-      MinLength: 1,
-    },
-    serializedName: "firewallRuleName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckNameAvailabilityRequestMapper,
-};
-
-export const location2: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1,
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const notebookWorkspaceName: OperationURLParameter = {
   parameterPath: "notebookWorkspaceName",
   mapper: {
@@ -774,7 +716,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters4: OperationParameter = {
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
