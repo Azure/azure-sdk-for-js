@@ -236,7 +236,7 @@ export interface HubHasPermissionOptions extends OperationOptions {
   targetName?: string;
 }
 
-export type ClientType = "default" | "mqtt";
+export type ClientEndpointType = "default" | "mqtt";
 
 /**
  * Options for generating a token to connect a client to the Azure Web Pubsub service.
@@ -274,7 +274,7 @@ export interface GenerateClientTokenOptions extends OperationOptions {
    * * `default`: Default WebPubSub Client. Example Service URL: _wss://exampleHost.com/client/mqtt/hubs/exampleHub
    * * `mqtt`: MQTT Client. Example Service URL: _ws://exampleHost.com/client/hubs/exampleHub
    */
-  clientType?: ClientType;
+  clientType?: ClientEndpointType;
 }
 
 /**

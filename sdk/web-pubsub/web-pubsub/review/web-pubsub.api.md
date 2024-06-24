@@ -12,6 +12,9 @@ import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
 
+// @public (undocumented)
+export type ClientEndpointType = "default" | "mqtt";
+
 // @public
 export interface ClientTokenResponse {
     baseUrl: string;
@@ -19,12 +22,9 @@ export interface ClientTokenResponse {
     url: string;
 }
 
-// @public (undocumented)
-export type ClientType = "default" | "mqtt";
-
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
-    clientType?: ClientType;
+    clientType?: ClientEndpointType;
     expirationTimeInMinutes?: number;
     groups?: string[];
     roles?: string[];
