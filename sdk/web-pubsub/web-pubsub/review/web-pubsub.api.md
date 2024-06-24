@@ -24,7 +24,7 @@ export interface ClientTokenResponse {
 
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
-    clientType?: ClientEndpointType;
+    clientEndpointType?: ClientEndpointType;
     expirationTimeInMinutes?: number;
     groups?: string[];
     roles?: string[];
