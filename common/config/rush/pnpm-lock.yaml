@@ -3359,8 +3359,8 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: false
 
-  /@ts-morph/common@0.23.0:
-    resolution: {integrity: sha512-m7Lllj9n/S6sOkCkRftpM7L24uvmfXQFedlW/4hENcuJH1HHm9u5EgxZb9uVjQSCGrbBWBkOGgcTxNg36r6ywA==}
+  /@ts-morph/common@0.24.0:
+    resolution: {integrity: sha512-c1xMmNHWpNselmpIqursHeOHHBTIsJLbB+NuovbTTRCNiTLEr/U9dbJ8qy0jd/O2x5pc3seWuOUN5R2IoOTp8A==}
     dependencies:
       fast-glob: 3.3.2
       minimatch: 9.0.4
@@ -6583,7 +6583,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 5.0.1
+      minimatch: 5.1.6
       once: 1.4.0
     dev: false
 
@@ -10214,10 +10214,10 @@ packages:
       typescript: 5.4.5
     dev: false
 
-  /ts-morph@22.0.0:
-    resolution: {integrity: sha512-M9MqFGZREyeb5fTl6gNHKZLqBQA0TjA1lea+CR48R8EBTDuWrNqW6ccC5QvjNR4s6wDumD3LTCjOFSp9iwlzaw==}
+  /ts-morph@23.0.0:
+    resolution: {integrity: sha512-FcvFx7a9E8TUe6T3ShihXJLiJOiqyafzFKUO4aqIHDUCIvADdGNShcbc2W5PMr3LerXRv7mafvFZ9lRENxJmug==}
     dependencies:
-      '@ts-morph/common': 0.23.0
+      '@ts-morph/common': 0.24.0
       code-block-writer: 13.0.1
     dev: false
 
@@ -20034,7 +20034,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-mf1EMMPr+3cw+PHiJF9hmKT/H5T6Xi5lwY7NG+UWQGabk7qPuduoRwkQpG207CwH56Yrs1pan2Qs9AGWI1s+JA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-QfWWaWrgZCcGScUdl1FRp8m52s5J2iR1gH7EOjSKfioJGsbq6oX+HW7KBZ3T8RIAtIEk42WxkCeAnRGUw26vJw==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -20077,7 +20077,7 @@ packages:
       rollup-plugin-visualizer: 5.12.0(rollup@4.18.0)
       semver: 7.6.2
       strip-json-comments: 3.1.1
-      ts-morph: 22.0.0
+      ts-morph: 23.0.0
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
       typescript: 5.4.5
