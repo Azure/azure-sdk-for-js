@@ -38,6 +38,7 @@ export class AppConfigurationClient {
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<Label, ListLabelsPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
@@ -206,10 +207,23 @@ export enum KnownConfigurationSnapshotStatus {
 }
 
 // @public
+export enum KnownLabelFields {
+    Name = "name"
+}
+
+// @public
 export enum KnownSnapshotComposition {
     Key = "key",
     KeyLabel = "key_label"
 }
+
+// @public (undocumented)
+export interface Label {
+    readonly name?: string;
+}
+
+// @public
+export type LabelFields = string;
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
@@ -223,6 +237,17 @@ export interface ListConfigurationSettingsForSnapshotOptions extends OperationOp
 // @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
     pageEtags?: string[];
+}
+
+// @public
+export interface ListLabelsOptions extends OperationOptions, OptionalLabelsFields {
+    acceptDateTime?: Date;
+    nameFilter?: string;
+}
+
+// @public
+export interface ListLabelsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+    items: Label[];
 }
 
 // @public
@@ -260,6 +285,11 @@ export interface ListSnapshotsPage extends SyncTokenHeaderField, PageSettings {
 // @public
 export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
+}
+
+// @public
+export interface OptionalLabelsFields {
+    fields?: LabelFields[];
 }
 
 // @public

@@ -1205,6 +1205,143 @@ describe("AppConfigurationClient", () => {
     });
   });
 
+  describe("listConfigurationSettings", () => {
+    let uniqueLabel: string;
+    let listConfigSettingA: ConfigurationSetting;
+    let count = 0;
+
+    /** Simulating a setting in production that will be made read only */
+    const productionASettingId: Pick<
+      ConfigurationSetting,
+      "key" | "label" | "value" | "contentType" | "tags"
+    > = {
+      key: "",
+      label: "",
+      value: "[A] production value",
+      contentType: "a content type",
+      tags: {
+        production: "A",
+        value: "A",
+      },
+    };
+
+    const keys: {
+      listConfigSettingA: string;
+      listConfigSettingB: string;
+    } = {
+      listConfigSettingA: "",
+      listConfigSettingB: "",
+    };
+
+    beforeEach(async () => {
+      keys.listConfigSettingA = recorder.variable(
+        `listConfigSetting${count}A`,
+        `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
+      );
+      keys.listConfigSettingB = recorder.variable(
+        `listConfigSetting${count}B`,
+        `listConfigSetting${count}B${Math.floor(Math.random() * 100000)}`,
+      );
+      count += 1;
+
+      uniqueLabel = recorder.variable(
+        "listConfigSettingsLabel",
+        `listConfigSettingsLabel${Math.floor(Math.random() * 100000)}`,
+      );
+      productionASettingId.key = keys.listConfigSettingA;
+      productionASettingId.label = uniqueLabel;
+
+      await client.addConfigurationSetting(productionASettingId);
+      await client.setReadOnly(productionASettingId, true);
+
+      listConfigSettingA = await client.addConfigurationSetting({
+        key: keys.listConfigSettingA,
+        value: "[A] value",
+        tags: {
+          production: "A",
+          value: "A",
+        },
+      });
+
+      await client.addConfigurationSetting({
+        key: keys.listConfigSettingB,
+        label: uniqueLabel,
+        value: "[B] production value",
+        tags: {
+          production: "B",
+          value: "B",
+        },
+      });
+      await client.addConfigurationSetting({
+        key: keys.listConfigSettingB,
+        value: "[B] value",
+        tags: {
+          production: "B",
+          value: "B",
+        },
+      });
+    });
+
+    after(async () => {
+      try {
+        await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
+      } catch (e: any) {
+        /** empty */
+      }
+    });
+
+    it.only("undefined doesn't throw and will just return everything", async () => {
+      const settingsIterator = client.listLabels().byPage();
+      const response = await settingsIterator.next();
+      if (!response.done){
+        for (const label of response.value.items) {
+          console.log(`  Found label: ${label.name}`);
+        }
+      }
+    });
+
+    it("exact match on name", async () => {
+      const byTagsIterator = client.listConfigurationSettings({ tagsFilter: ["production=A"] });
+      const byKeySettings = await toSortedArray(byTagsIterator);
+      assertEqualSettings(
+        [
+          {
+            key: keys.listConfigSettingA,
+            value: "[A] production value",
+            label: uniqueLabel,
+            isReadOnly: true,
+            tags: {
+              production: "A",
+              value: "A",
+            },
+          },
+          {
+            key: keys.listConfigSettingA,
+            value: "[A] value",
+            label: undefined,
+            isReadOnly: false,
+            tags: {
+              production: "A",
+              value: "A",
+            },
+          },
+        ],
+        byKeySettings,
+      );
+    });
+
+    it("name wildcards", async () => {
+      // TODO: implement test
+    });
+    it("Using `select` via `fields`", async () => {
+      // TODO: implement test
+    });
+
+    it("by date", async () => {
+      // TODO: implement test
+    });
+  });
+
   describe("setConfigurationSetting", () => {
     it("replaces a configuration setting", async () => {
       const key = recorder.variable(

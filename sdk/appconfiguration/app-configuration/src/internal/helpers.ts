@@ -14,10 +14,12 @@ import {
   ConfigurationSnapshot,
   SnapshotResponse,
   EtagEntity,
+  ListLabelsOptions,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
   GetKeyValuesOptionalParams,
+  GetLabelsOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
 } from "../generated/src/models";
@@ -44,6 +46,13 @@ export interface SendConfigurationSettingsOptions
    */
   snapshotName?: string;
 }
+
+/**
+ * Options for listLabels that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendLabelsRequestOptions extends ListLabelsOptions {}
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -164,6 +173,23 @@ export function formatSnapshotFiltersAndSelect(
     name: listSnapshotOptions.nameFilter,
     status: listSnapshotOptions.statusFilter,
     select: listSnapshotOptions.fields,
+  };
+}
+
+/**
+ * Transforms some of the key fields in ListLabelsOptions
+ * so they can be added to a request using AppConfigurationGetLabelsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - `nameFilter` are moved to name
+ *
+ * @internal
+ */
+export function formatLabelsFiltersAndSelect(
+  ListLabelsOptions: ListLabelsOptions,
+): Pick<GetLabelsOptionalParams, "name" | "select"> {
+  return {
+    name: ListLabelsOptions.nameFilter,
+    select: ListLabelsOptions.fields,
   };
 }
 /**

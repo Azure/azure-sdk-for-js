@@ -112,6 +112,8 @@ describe("AppConfigurationClient snapshot", () => {
         });
       });
     });
+
+    // TODO: Add snapshot test for filter by list
   });
 
   describe("listConfigurationSettings of a Snapshot", () => {

@@ -10,6 +10,8 @@ import {
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   ConfigurationSnapshotStatus,
+  LabelFields,
+  Label,
 } from "./generated/src";
 
 /**
@@ -177,6 +179,15 @@ export interface OptionalSnapshotFields {
 }
 
 /**
+ * Used when the API supports selectively returning labels fields.
+ */
+export interface OptionalLabelsFields {
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: LabelFields[];
+}
+/**
  * Sync token header field
  */
 export interface SyncTokenHeaderField {
@@ -304,7 +315,7 @@ export interface ListSettingsOptions extends OptionalFields {
    */
   labelFilter?: string;
 
-  /**Filter by tags */
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
   tagsFilter?: string[];
 }
 
@@ -326,6 +337,19 @@ export interface ListConfigurationSettingsOptions extends OperationOptions, List
    * Etags list for page
    */
   pageEtags?: string[];
+}
+
+/**
+ * Options for listLabels
+ */
+export interface ListLabelsOptions extends OperationOptions, OptionalLabelsFields {
+  /** A filter for the name of the returned labels. */
+  nameFilter?: string;
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
 }
 
 /**
@@ -383,6 +407,19 @@ export interface ListConfigurationSettingPage
    * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
+}
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListLabelsPage
+  extends HttpResponseField<SyncTokenHeaderField>,
+    PageSettings,
+    EtagEntity {
+  /**
+   * The collection of labels
+   */
+  items: Label[];
 }
 
 /**
@@ -507,4 +544,7 @@ export {
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
+  LabelFields,
+  Label,
+  KnownLabelFields,
 } from "./generated/src";
