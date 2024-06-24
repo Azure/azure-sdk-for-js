@@ -448,7 +448,7 @@ export function createSerializer(
 
 export async function addContainerRid(container: Container): Promise<void> {
   if (!container._rid) {
-    const { resource: containerDefinition } = await this.container.read();
-    this.container._rid = containerDefinition._rid;
+    const { resource: containerDefinition } = await container.read();
+    container._rid = containerDefinition._rid;
   }
 }

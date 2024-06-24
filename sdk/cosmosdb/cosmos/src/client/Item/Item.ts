@@ -14,8 +14,8 @@ import {
 } from "../../common";
 import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
 import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
-import { RequestOptions, Response } from "../../request";
-import { PatchRequestBody } from "../../utils/patch";
+import { ErrorResponse, RequestOptions, Response } from "../../request";
+import { PatchOperationType, PatchRequestBody } from "../../utils/patch";
 import { readPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
@@ -92,7 +92,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -121,11 +121,9 @@ export class Item {
         }
         response = error;
       }
-
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
-
       return new ItemResponse(
         response.result,
         response.headers,
@@ -188,7 +186,7 @@ export class Item {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
@@ -253,7 +251,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -319,11 +317,19 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        addContainerRid(this.container);
+        await addContainerRid(this.container);
         options.containerRid = this.container._rid;
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
         for (const operation of operations) {
+          const isPathEncrypted = await this.container.encryptionProcessor.isPathEncrypted(
+            operation.path,
+          );
+          if (operation.op === PatchOperationType.incr && isPathEncrypted) {
+            throw new ErrorResponse(
+              `Increment patch operation is not allowed for encrypted path '${operation.path}'`,
+            );
+          }
           if ("value" in operation) {
             operation.value = await this.container.encryptionProcessor.encryptProperty(
               operation.path,

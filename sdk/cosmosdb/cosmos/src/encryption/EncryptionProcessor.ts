@@ -55,6 +55,14 @@ export class EncryptionProcessor {
     return body;
   }
 
+  async isPathEncrypted(path: string): Promise<boolean> {
+    path = extractPath(path);
+    const encryptionSettings = await this.getEncryptionSetting();
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
+    if (!settingForProperty) return false;
+    return true;
+  }
+
   async encryptProperty(path: string, value: any): Promise<any> {
     path = extractPath(path);
     const encryptionSettings = await this.getEncryptionSetting();
