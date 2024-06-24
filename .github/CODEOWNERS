@@ -1482,7 +1482,7 @@
 ###########
 /.vscode/ @mikeharder @ckairen @deyaaeldeen @jeremymeng
 /common/ @mikeharder @ckairen @deyaaeldeen @jeremymeng
-/common/config/rush/pnpm-lock.yaml @ckairen @jeremymeng @Azure/azure-sdk-js-dev
+/common/config/rush/pnpm-lock.yaml @ckairen @jeremymeng @Azure/azure-sdk-js-dev @qiaozha @MaryGao
 # Smoke Tests
 /common/smoke-test/ @mikeharder @ckairen @jeremymeng @deyaaeldeen @benbp
 
