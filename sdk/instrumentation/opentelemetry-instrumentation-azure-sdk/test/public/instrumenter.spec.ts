@@ -29,14 +29,14 @@ describe("OpenTelemetryInstrumenter", () => {
       const span = trace.getTracer("test").startSpan("test");
       const tracingContext = trace.setSpan(context.active(), span);
       instrumenter.createRequestHeaders(tracingContext);
-      expect(propagationSpy).toHaveBeenCalledWith(tracingContext);
+      expect(propagationSpy).toHaveBeenCalledWith(tracingContext, expect.anything(), expect.anything());
     });
 
     it("uses the active context if no context was provided", () => {
       const propagationSpy = vi.spyOn(propagator, "inject");
       instrumenter.createRequestHeaders();
       const activeContext = context.active();
-      expect(propagationSpy).toHaveBeenCalledWith(activeContext);
+      expect(propagationSpy).toHaveBeenCalledWith(activeContext, expect.anything(), expect.anything());
     });
   });
 

@@ -73,6 +73,7 @@
     "@azure/core-rest-pipeline": "^1.5.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure-tools/test-recorder": "^4.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@opentelemetry/sdk-trace-base": "^1.25.0",
     "@opentelemetry/sdk-trace-node": "^1.25.0",
