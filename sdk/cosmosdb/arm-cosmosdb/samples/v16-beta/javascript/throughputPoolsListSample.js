@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the Azure Cosmos DB Throughput Pools available under the subscription.
  *
  * @summary Lists all the Azure Cosmos DB Throughput Pools available under the subscription.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/throughputPool/CosmosDBThroughputPoolList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/throughputPool/CosmosDBThroughputPoolList.json
  */
 async function cosmosDbThroughputPoolList() {
   const subscriptionId =

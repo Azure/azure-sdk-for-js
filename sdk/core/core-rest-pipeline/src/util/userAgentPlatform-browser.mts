@@ -8,17 +8,22 @@ export function getHeaderName(): string {
   return "x-ms-useragent";
 }
 
+interface BrowserBrand {
+  brand: string;
+  version: string;
+}
+
 interface NavigatorEx extends Navigator {
   userAgentData?: {
-    brands: { brand: string; version: string }[];
+    brands: BrowserBrand[];
     mobile: boolean;
     platform?: string;
     getHighEntropyValues: (hints: string[]) => Promise<{
       architecture: string;
       bitness: string;
-      brands: { brand: string; version: string }[];
+      brands: BrowserBrand[];
       formFactor: string;
-      fullVersionList: { brand: string; version: string }[];
+      fullVersionList: BrowserBrand[];
       mobile: boolean;
       model: string;
       platform: string;
@@ -28,27 +33,30 @@ interface NavigatorEx extends Navigator {
   };
 }
 
-function getBrandVersionString(
-  brands: { brand: string; version: string }[],
-): { brand: string; version: string } | undefined {
-  // Check for Microsoft Edge
-  const edge = brands.find((b) => b.brand === "Microsoft Edge");
-  if (edge) {
-    return edge;
+function getBrowserInfo(userAgent: string): BrowserBrand | undefined {
+  const browserRegexes = [
+    { name: "Firefox", regex: /Firefox\/([\d.]+)/ },
+    { name: "Safari", regex: /Version\/([\d.]+).*Safari/ },
+  ];
+
+  for (const browser of browserRegexes) {
+    const match = userAgent.match(browser.regex);
+    if (match) {
+      return { brand: browser.name, version: match[1] };
+    }
   }
 
-  // Check for Chrome
-  const chrome = brands.find((b) => b.brand === "Google Chrome");
-  if (chrome) {
-    return chrome;
-  }
+  return undefined;
+}
 
-  // Check for Chromium
-  const chromium = brands.find((b) => b.brand === "Chromium");
-  if (chromium) {
-    return chromium;
+function getBrandVersionString(brands: BrowserBrand[]): BrowserBrand | undefined {
+  const brandOrder = ["Google Chrome", "Microsoft Edge", "Opera", "Brave", "Chromium"];
+  for (const brand of brandOrder) {
+    const foundBrand = brands.find((b) => b.brand === brand);
+    if (foundBrand) {
+      return foundBrand;
+    }
   }
-
   return undefined;
 }
 
@@ -66,12 +74,16 @@ export async function setPlatformSpecificData(map: Map<string, string>): Promise
     osPlatform = `${entropyValues.architecture}-${entropyValues.platform}-${entropyValues.platformVersion}`;
 
     // Get the brand and version
-    const brand = getBrandVersionString(entropyValues.brands);
+    const brand = getBrandVersionString(localNavigator.userAgentData.brands);
     if (brand) {
       map.set(brand.brand, brand.version);
     }
   } else if (localNavigator?.platform) {
     osPlatform = localNavigator.platform;
+    const brand = getBrowserInfo(localNavigator.userAgent);
+    if (brand) {
+      map.set(brand.brand, brand.version);
+    }
   }
 
   map.set("OS", osPlatform);

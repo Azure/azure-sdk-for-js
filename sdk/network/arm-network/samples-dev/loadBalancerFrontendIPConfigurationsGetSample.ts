@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets load balancer frontend IP configuration.
  *
  * @summary Gets load balancer frontend IP configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerFrontendIPConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerFrontendIPConfigurationGet.json
  */
 async function loadBalancerFrontendIPConfigurationGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

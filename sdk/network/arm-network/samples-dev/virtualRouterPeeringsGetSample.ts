@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Virtual Router Peering.
  *
  * @summary Gets the specified Virtual Router Peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualRouterPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualRouterPeeringGet.json
  */
 async function getVirtualRouterPeering() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

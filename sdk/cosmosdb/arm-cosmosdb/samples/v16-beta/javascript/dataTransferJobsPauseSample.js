@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Pause a Data Transfer Job.
  *
  * @summary Pause a Data Transfer Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobPause.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobPause.json
  */
 async function cosmosDbDataTransferJobPause() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
