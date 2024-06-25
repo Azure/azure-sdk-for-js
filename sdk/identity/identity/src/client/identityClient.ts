@@ -286,6 +286,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       method: "POST",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
+      allowInsecureConnection: this.allowInsecureConnection,
       // MSAL doesn't send the correlation ID on the get requests.
       abortSignal: this.generateAbortSignal(this.getCorrelationId(options)),
     });
