@@ -14,7 +14,7 @@ output-folder: ../src/generated
 tag: package-2023-10-03-preview
 require:
   - https://github.com/Azure/azure-rest-api-specs/blob/2f0c2b15ba41419aec1a739307b50e03178e0d4d/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.2.0-beta.1
+package-version: 1.3.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
