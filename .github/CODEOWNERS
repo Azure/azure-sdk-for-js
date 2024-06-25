@@ -672,6 +672,9 @@
 /sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

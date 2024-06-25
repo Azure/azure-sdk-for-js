@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
  *
  * @summary Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlRoleDefinitionList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBSqlRoleDefinitionList.json
  */
 async function cosmosDbSqlRoleDefinitionList() {
   const subscriptionId =

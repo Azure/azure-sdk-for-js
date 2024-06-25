@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary Gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlDatabaseGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBSqlDatabaseGet.json
  */
 async function cosmosDbSqlDatabaseGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

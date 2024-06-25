@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get details about a specified command that was run asynchronously.
  *
  * @summary Get details about a specified command that was run asynchronously.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraCommandResult.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraCommandResult.json
  */
 async function cosmosDbManagedCassandraCommandResult() {
   const subscriptionId =

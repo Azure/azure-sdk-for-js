@@ -53,6 +53,8 @@ export interface ApplicationGatewaySku {
   tier?: ApplicationGatewayTier;
   /** Capacity (instance count) of an application gateway. */
   capacity?: number;
+  /** Family of an application gateway SKU. */
+  family?: ApplicationGatewaySkuFamily;
 }
 
 /** Application Gateway Ssl policy. */
@@ -408,8 +410,20 @@ export interface ApplicationGatewayRewriteRuleActionSet {
 export interface ApplicationGatewayHeaderConfiguration {
   /** Header name of the header configuration. */
   headerName?: string;
+  /** An optional field under "Rewrite Action". It lets you capture and modify the value(s) of a specific header when multiple headers with the same name exist. Currently supported for Set-Cookie Response header only. For more details, visit https://aka.ms/appgwheadercrud */
+  headerValueMatcher?: HeaderValueMatcher;
   /** Header value of the header configuration. */
   headerValue?: string;
+}
+
+/** An optional field under "Rewrite Action". It lets you capture and modify the value(s) of a specific header when multiple headers with the same name exist. Currently supported for Set-Cookie Response header only. For more details, visit https://aka.ms/appgwheadercrud */
+export interface HeaderValueMatcher {
+  /** The pattern, either fixed string or regular expression, that evaluates if a header value should be selected for rewrite. */
+  pattern?: string;
+  /** Setting this parameter to truth value with force the pattern to do a case in-sensitive comparison. */
+  ignoreCase?: boolean;
+  /** Setting this value as truth will force to check the negation of the condition given by the user in the pattern field. */
+  negate?: boolean;
 }
 
 /** Url configuration of the Actions set in Application Gateway. */
@@ -2633,6 +2647,11 @@ export interface VirtualApplianceSkuProperties {
 /** Network Virtual Appliance NIC properties. */
 export interface VirtualApplianceNicProperties {
   /**
+   * NIC type - PublicNic, PrivateNic, or AdditionalNic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nicType?: NicTypeInResponse;
+  /**
    * NIC name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2652,6 +2671,38 @@ export interface VirtualApplianceNicProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceName?: string;
+}
+
+/** Network Profile containing configurations for Public and Private NIC. */
+export interface NetworkVirtualAppliancePropertiesFormatNetworkProfile {
+  networkInterfaceConfigurations?: VirtualApplianceNetworkInterfaceConfiguration[];
+}
+
+/** Represents a single NIC configuration. */
+export interface VirtualApplianceNetworkInterfaceConfiguration {
+  /** NIC type. This should be either PublicNic or PrivateNic. */
+  nicType?: NicTypeInRequest;
+  /** Represents a single NIC configuration properties. */
+  properties?: VirtualApplianceNetworkInterfaceConfigurationProperties;
+}
+
+/** Represents a single NIC configuration properties. */
+export interface VirtualApplianceNetworkInterfaceConfigurationProperties {
+  ipConfigurations?: VirtualApplianceIPConfiguration[];
+}
+
+/** Represents a single IP configuration. */
+export interface VirtualApplianceIPConfiguration {
+  /** Name of the IP configuration. */
+  name?: string;
+  /** Represents a single IP configuration properties. */
+  properties?: VirtualApplianceIPConfigurationProperties;
+}
+
+/** Represents a single IP configuration properties. */
+export interface VirtualApplianceIPConfigurationProperties {
+  /** Whether or not this is primary IP configuration of the NIC. */
+  primary?: boolean;
 }
 
 /** Network Virtual Appliance Additional NIC properties. */
@@ -2696,6 +2747,12 @@ export interface PartnerManagedResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly standardLoadBalancerId?: string;
+}
+
+/** Specifies a list of virtual machine instance IDs from the Network Virtual Appliance VM instances. */
+export interface NetworkVirtualApplianceInstanceIds {
+  /** The network virtual appliance instance ids. Omitting the network virtual appliance instance ids will result in the operation being performed on all virtual machines belonging to the network virtual appliance. */
+  instanceIds?: string[];
 }
 
 /** Response for ListNetworkVirtualAppliances API service call. */
@@ -2754,12 +2811,18 @@ export interface NetworkVirtualApplianceSkuInstances {
 
 /** Properties of the Inbound Security Rules resource. */
 export interface InboundSecurityRules {
+  /** Name of the rule. */
+  name?: string;
   /** Protocol. This should be either TCP or UDP. */
   protocol?: InboundSecurityRulesProtocol;
-  /** The CIDR or source IP range. Only /30, /31 and /32 Ip ranges are allowed. */
+  /** The CIDR or source IP range. */
   sourceAddressPrefix?: string;
   /** NVA port ranges to be opened up. One needs to provide specific ports. */
   destinationPortRange?: number;
+  /** NVA port ranges to be opened up. One can provide a range of ports. Allowed port value between 0 and 65535. */
+  destinationPortRanges?: string[];
+  /** Public IP name in case of Permanent Rule type & Interface Name in case of Auto Expire Rule type */
+  appliesOn?: string[];
 }
 
 /** The error object. */
@@ -2949,6 +3012,10 @@ export interface PacketCapture {
   storageLocation: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+  /** This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'. */
+  continuousCapture?: boolean;
+  /** The capture setting holds the 'FileCount', 'FileSizeInBytes', 'SessionTimeLimitInSeconds' values. */
+  captureSettings?: PacketCaptureSettings;
 }
 
 /** Parameters that define the create packet capture operation. */
@@ -2969,6 +3036,10 @@ export interface PacketCaptureParameters {
   storageLocation: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+  /** This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'. */
+  continuousCapture?: boolean;
+  /** The capture setting holds the 'FileCount', 'FileSizeInBytes', 'SessionTimeLimitInSeconds' values. */
+  captureSettings?: PacketCaptureSettings;
 }
 
 /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
@@ -2981,12 +3052,14 @@ export interface PacketCaptureMachineScope {
 
 /** The storage location for a packet capture session. */
 export interface PacketCaptureStorageLocation {
-  /** The ID of the storage account to save the packet capture session. Required if no local file path is provided. */
+  /** The ID of the storage account to save the packet capture session. Required if no localPath or filePath is provided. */
   storageId?: string;
   /** The URI of the storage path to save the packet capture. Must be a well-formed URI describing the location to save the packet capture. */
   storagePath?: string;
-  /** A valid local path on the targeting VM. Must include the name of the capture file (*.cap). For linux virtual machine it must start with /var/captures. Required if no storage ID is provided, otherwise optional. */
+  /** This path is invalid if 'Continuous Capture' is provided with 'true' or 'false'. A valid local path on the targeting VM. Must include the name of the capture file (*.cap). For linux virtual machine it must start with /var/captures. Required if no storage ID is provided, otherwise optional. */
   filePath?: string;
+  /** This path is valid if 'Continuous Capture' is provided with 'true' or 'false' and required if no storage ID is provided, otherwise optional. Must include the name of the capture file (*.cap). For linux virtual machine it must start with /var/captures. */
+  localPath?: string;
 }
 
 /** Filter that is applied to packet capture request. Multiple filters can be applied. */
@@ -3001,6 +3074,16 @@ export interface PacketCaptureFilter {
   localPort?: string;
   /** Remote port to be filtered on. Notation: "80" for single port entry."80-85" for range. "80;443;" for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null. */
   remotePort?: string;
+}
+
+/** The storage location for a packet capture session. */
+export interface PacketCaptureSettings {
+  /** Number of file count. Default value of count is 10 and maximum number is 10000. */
+  fileCount?: number;
+  /** Number of bytes captured per packet. Default value in bytes 104857600 (100MB) and maximum in bytes 4294967295 (4GB). */
+  fileSizeInBytes?: number;
+  /** Maximum duration of the capture session in seconds is 604800s (7 days) for a file. Default value in second 86400s (1 day). */
+  sessionTimeLimitInSeconds?: number;
 }
 
 /** Information about packet capture session. */
@@ -3036,6 +3119,10 @@ export interface PacketCaptureResult {
   storageLocation?: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+  /** This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'. */
+  continuousCapture?: boolean;
+  /** The capture setting holds the 'FileCount', 'FileSizeInBytes', 'SessionTimeLimitInSeconds' values. */
+  captureSettings?: PacketCaptureSettings;
   /**
    * The provisioning state of the packet capture session.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3614,16 +3701,20 @@ export interface ConnectionMonitorEndpoint {
   name: string;
   /** The endpoint type. */
   type?: EndpointType;
-  /** Resource ID of the connection monitor endpoint. */
+  /** Resource ID of the connection monitor endpoint are supported for AzureVM, AzureVMSS, AzureVNet, AzureSubnet, MMAWorkspaceMachine, MMAWorkspaceNetwork, AzureArcVM endpoint type. */
   resourceId?: string;
-  /** Address of the connection monitor endpoint (IP or domain name). */
+  /** Address of the connection monitor endpoint. Supported for AzureVM, ExternalAddress, ArcMachine, MMAWorkspaceMachine endpoint type. */
   address?: string;
-  /** Filter for sub-items within the endpoint. */
+  /** Filter field is getting deprecated and should not be used. Instead use Include/Exclude scope fields for it. */
   filter?: ConnectionMonitorEndpointFilter;
-  /** Endpoint scope. */
+  /** Endpoint scope defines which target resource to monitor in case of compound resource endpoints like VMSS, AzureSubnet, AzureVNet, MMAWorkspaceNetwork, AzureArcNetwork. */
   scope?: ConnectionMonitorEndpointScope;
   /** Test coverage for the endpoint. */
   coverageLevel?: CoverageLevel;
+  /** Location details is optional and only being used for 'AzureArcNetwork' type endpoints, which contains region details. */
+  locationDetails?: ConnectionMonitorEndpointLocationDetails;
+  /** Subscription ID for connection monitor endpoint. It's an optional parameter which is being used for 'AzureArcNetwork' type endpoint. */
+  subscriptionId?: string;
 }
 
 /** Describes the connection monitor endpoint filter. */
@@ -3654,6 +3745,12 @@ export interface ConnectionMonitorEndpointScope {
 export interface ConnectionMonitorEndpointScopeItem {
   /** The address of the endpoint item. Supported types are IPv4/IPv6 subnet mask or IPv4/IPv6 IP address. */
   address?: string;
+}
+
+/** Connection monitor endpoint location details only being used for 'AzureArcNetwork' type endpoints, which contains the region details. */
+export interface ConnectionMonitorEndpointLocationDetails {
+  /** Region for connection monitor endpoint. */
+  region?: string;
 }
 
 /** Describes a connection monitor test configuration. */
@@ -5708,6 +5805,8 @@ export interface PolicySettings {
   customBlockResponseBody?: string;
   /** To scrub sensitive log fields */
   logScrubbing?: PolicySettingsLogScrubbing;
+  /** Web Application Firewall JavaScript Challenge Cookie Expiration time in minutes. */
+  jsChallengeCookieExpirationInMins?: number;
 }
 
 /** To scrub sensitive log fields */
@@ -6576,6 +6675,8 @@ export interface Subnet extends SubResource {
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
   applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
+  /** Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty. */
+  sharingScope?: SharingScope;
   /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. This property can only be set at the time of subnet creation and cannot be updated for an existing subnet. */
   defaultOutboundAccess?: boolean;
 }
@@ -6762,8 +6863,10 @@ export interface NetworkInterfaceIPConfiguration extends SubResource {
   loadBalancerBackendAddressPools?: BackendAddressPool[];
   /** A list of references of LoadBalancerInboundNatRules. */
   loadBalancerInboundNatRules?: InboundNatRule[];
-  /** Private IP address of the IP configuration. */
+  /** Private IP address of the IP configuration. It can be a single IP address or a CIDR block in the format <address>/<prefix-length>. */
   privateIPAddress?: string;
+  /** The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address. */
+  privateIPAddressPrefixLength?: number;
   /** The private IP address allocation method. */
   privateIPAllocationMethod?: IPAllocationMethod;
   /** Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. */
@@ -7847,6 +7950,26 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Rule Collection Group resource. */
+export interface FirewallPolicyRuleCollectionGroupDraft extends SubResource {
+  /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
+  name?: string;
+  /**
+   * Rule Group type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * A read-only string that represents the size of the FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
+  /** Priority of the Firewall Policy Rule Collection Group resource. */
+  priority?: number;
+  /** Group of Firewall Policy rule collections. */
+  ruleCollections?: FirewallPolicyRuleCollectionUnion[];
+}
+
 /** A load balancing rule for a load balancer. */
 export interface LoadBalancingRule extends SubResource {
   /** The name of the resource that is unique within the set of load balancing rules used by the load balancer. This name can be used to access the resource. */
@@ -8100,6 +8223,8 @@ export interface InboundSecurityRule extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /** Rule Type. This should be either AutoExpire or Permanent. Auto Expire Rule only creates NSG rules. Permanent Rule creates NSG rule and SLB LB Rule. */
+  ruleType?: InboundSecurityRuleType;
   /** List of allowed rules. */
   rules?: InboundSecurityRules[];
   /**
@@ -8172,6 +8297,10 @@ export interface VirtualNetworkPeering extends SubResource {
   useRemoteGateways?: boolean;
   /** The reference to the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering). */
   remoteVirtualNetwork?: SubResource;
+  /** The local address space of the local virtual network that is peered. */
+  localAddressSpace?: AddressSpace;
+  /** The current local address space of the local virtual network that is peered. */
+  localVirtualNetworkAddressSpace?: AddressSpace;
   /** The reference to the address space peered with the remote virtual network. */
   remoteAddressSpace?: AddressSpace;
   /** The reference to the current address space of the remote virtual network. */
@@ -8199,6 +8328,14 @@ export interface VirtualNetworkPeering extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
+  /** Whether complete virtual network address space is peered. */
+  peerCompleteVnets?: boolean;
+  /** Whether only Ipv6 address space is peered for subnet peering. */
+  enableOnlyIPv6Peering?: boolean;
+  /** List of local subnet names that are subnet peered with remote virtual network. */
+  localSubnetNames?: string[];
+  /** List of remote subnet names from remote virtual network that are subnet peered. */
+  remoteSubnetNames?: string[];
 }
 
 /** IP configuration for virtual network gateway. */
@@ -8604,6 +8741,8 @@ export interface VpnSiteLinkConnection extends SubResource {
   ingressNatRules?: SubResource[];
   /** List of egress NatRules. */
   egressNatRules?: SubResource[];
+  /** Dead Peer Detection timeout in seconds for VpnLink connection. */
+  dpdTimeoutSeconds?: number;
 }
 
 /** VpnConnection Resource. */
@@ -9780,6 +9919,8 @@ export interface ExpressRouteCircuit extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly authorizationStatus?: string;
+  /** Flag denoting rate-limiting status of the ExpressRoute direct-port circuit. */
+  enableDirectPortRateLimit?: boolean;
 }
 
 /** A ExpressRouteResourceProvider object. */
@@ -10011,6 +10152,28 @@ export interface FirewallPolicy extends Resource {
   sku?: FirewallPolicySku;
 }
 
+/** FirewallPolicy Resource. */
+export interface FirewallPolicyDraft extends Resource {
+  /** The parent firewall policy from which rules are inherited. */
+  basePolicy?: SubResource;
+  /** The operation mode for Threat Intelligence. */
+  threatIntelMode?: AzureFirewallThreatIntelMode;
+  /** ThreatIntel Whitelist for Firewall Policy. */
+  threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
+  /** Insights on Firewall Policy. */
+  insights?: FirewallPolicyInsights;
+  /** The private IP addresses/IP ranges to which traffic will not be SNAT. */
+  snat?: FirewallPolicySnat;
+  /** SQL Settings definition. */
+  sql?: FirewallPolicySQL;
+  /** DNS Proxy Settings definition. */
+  dnsSettings?: DnsSettings;
+  /** Explicit Proxy Settings definition. */
+  explicitProxy?: ExplicitProxy;
+  /** The configuration for Intrusion detection. */
+  intrusionDetection?: FirewallPolicyIntrusionDetection;
+}
+
 /** IpAllocation resource. */
 export interface IpAllocation extends Resource {
   /**
@@ -10194,6 +10357,8 @@ export interface NetworkVirtualAppliance extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
+  /** Network Profile containing configurations for Public and Private NIC. */
+  networkProfile?: NetworkVirtualAppliancePropertiesFormatNetworkProfile;
   /** Details required for Additional Network Interface. */
   additionalNics?: VirtualApplianceAdditionalNicProperties[];
   /** List of Resource Uri of Public IPs for Internet Ingress Scenario. */
@@ -11659,6 +11824,14 @@ export interface DdosProtectionPlansDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for FirewallPolicyDeployments_deploy operation. */
+export interface FirewallPolicyDeploymentsDeployHeaders {
+  /** URL to get the status of the operation. */
+  location?: string;
+  /** URL to get the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for NetworkManagers_delete operation. */
 export interface NetworkManagersDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -11715,6 +11888,12 @@ export interface NetworkVirtualAppliancesDeleteHeaders {
 
 /** Defines headers for NetworkVirtualAppliances_createOrUpdate operation. */
 export interface NetworkVirtualAppliancesCreateOrUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkVirtualAppliances_restart operation. */
+export interface NetworkVirtualAppliancesRestartHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
@@ -11787,6 +11966,24 @@ export enum KnownApplicationGatewayTier {
  * **Basic**
  */
 export type ApplicationGatewayTier = string;
+
+/** Known values of {@link ApplicationGatewaySkuFamily} that the service accepts. */
+export enum KnownApplicationGatewaySkuFamily {
+  /** Generation1 */
+  Generation1 = "Generation_1",
+  /** Generation2 */
+  Generation2 = "Generation_2",
+}
+
+/**
+ * Defines values for ApplicationGatewaySkuFamily. \
+ * {@link KnownApplicationGatewaySkuFamily} can be used interchangeably with ApplicationGatewaySkuFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Generation_1** \
+ * **Generation_2**
+ */
+export type ApplicationGatewaySkuFamily = string;
 
 /** Known values of {@link ApplicationGatewaySslProtocol} that the service accepts. */
 export enum KnownApplicationGatewaySslProtocol {
@@ -12441,6 +12638,24 @@ export enum KnownVirtualNetworkPrivateLinkServiceNetworkPolicies {
  * **Disabled**
  */
 export type VirtualNetworkPrivateLinkServiceNetworkPolicies = string;
+
+/** Known values of {@link SharingScope} that the service accepts. */
+export enum KnownSharingScope {
+  /** Tenant */
+  Tenant = "Tenant",
+  /** DelegatedServices */
+  DelegatedServices = "DelegatedServices",
+}
+
+/**
+ * Defines values for SharingScope. \
+ * {@link KnownSharingScope} can be used interchangeably with SharingScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tenant** \
+ * **DelegatedServices**
+ */
+export type SharingScope = string;
 
 /** Known values of {@link GatewayLoadBalancerTunnelProtocol} that the service accepts. */
 export enum KnownGatewayLoadBalancerTunnelProtocol {
@@ -14050,6 +14265,63 @@ export enum KnownAdminRuleKind {
  */
 export type AdminRuleKind = string;
 
+/** Known values of {@link NicTypeInResponse} that the service accepts. */
+export enum KnownNicTypeInResponse {
+  /** PublicNic */
+  PublicNic = "PublicNic",
+  /** PrivateNic */
+  PrivateNic = "PrivateNic",
+  /** AdditionalNic */
+  AdditionalNic = "AdditionalNic",
+}
+
+/**
+ * Defines values for NicTypeInResponse. \
+ * {@link KnownNicTypeInResponse} can be used interchangeably with NicTypeInResponse,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PublicNic** \
+ * **PrivateNic** \
+ * **AdditionalNic**
+ */
+export type NicTypeInResponse = string;
+
+/** Known values of {@link NicTypeInRequest} that the service accepts. */
+export enum KnownNicTypeInRequest {
+  /** PublicNic */
+  PublicNic = "PublicNic",
+  /** PrivateNic */
+  PrivateNic = "PrivateNic",
+}
+
+/**
+ * Defines values for NicTypeInRequest. \
+ * {@link KnownNicTypeInRequest} can be used interchangeably with NicTypeInRequest,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PublicNic** \
+ * **PrivateNic**
+ */
+export type NicTypeInRequest = string;
+
+/** Known values of {@link InboundSecurityRuleType} that the service accepts. */
+export enum KnownInboundSecurityRuleType {
+  /** AutoExpire */
+  AutoExpire = "AutoExpire",
+  /** Permanent */
+  Permanent = "Permanent",
+}
+
+/**
+ * Defines values for InboundSecurityRuleType. \
+ * {@link KnownInboundSecurityRuleType} can be used interchangeably with InboundSecurityRuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AutoExpire** \
+ * **Permanent**
+ */
+export type InboundSecurityRuleType = string;
+
 /** Known values of {@link InboundSecurityRulesProtocol} that the service accepts. */
 export enum KnownInboundSecurityRulesProtocol {
   /** TCP */
@@ -14425,6 +14697,8 @@ export enum KnownEndpointType {
   AzureArcVM = "AzureArcVM",
   /** AzureVmss */
   AzureVmss = "AzureVMSS",
+  /** AzureArcNetwork */
+  AzureArcNetwork = "AzureArcNetwork",
 }
 
 /**
@@ -14439,7 +14713,8 @@ export enum KnownEndpointType {
  * **MMAWorkspaceMachine** \
  * **MMAWorkspaceNetwork** \
  * **AzureArcVM** \
- * **AzureVMSS**
+ * **AzureVMSS** \
+ * **AzureArcNetwork**
  */
 export type EndpointType = string;
 
@@ -18763,6 +19038,57 @@ export type FirewallPolicyIdpsSignaturesFilterValuesListResponse =
   SignatureOverridesFilterValuesResponse;
 
 /** Optional parameters. */
+export interface FirewallPolicyDraftsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FirewallPolicyDraftsCreateOrUpdateResponse = FirewallPolicyDraft;
+
+/** Optional parameters. */
+export interface FirewallPolicyDraftsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface FirewallPolicyDraftsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FirewallPolicyDraftsGetResponse = FirewallPolicyDraft;
+
+/** Optional parameters. */
+export interface FirewallPolicyDeploymentsDeployOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deploy operation. */
+export type FirewallPolicyDeploymentsDeployResponse =
+  FirewallPolicyDeploymentsDeployHeaders;
+
+/** Optional parameters. */
+export interface FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateResponse =
+  FirewallPolicyRuleCollectionGroupDraft;
+
+/** Optional parameters. */
+export interface FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FirewallPolicyRuleCollectionGroupDraftsGetResponse =
+  FirewallPolicyRuleCollectionGroupDraft;
+
+/** Optional parameters. */
 export interface IpAllocationsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -20055,6 +20381,21 @@ export interface NetworkVirtualAppliancesCreateOrUpdateOptionalParams
 /** Contains response data for the createOrUpdate operation. */
 export type NetworkVirtualAppliancesCreateOrUpdateResponse =
   NetworkVirtualAppliance;
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specifies a list of virtual machine instance IDs from the Network Virtual Appliance VM instances. */
+  networkVirtualApplianceInstanceIds?: NetworkVirtualApplianceInstanceIds;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the restart operation. */
+export type NetworkVirtualAppliancesRestartResponse =
+  NetworkVirtualApplianceInstanceIds;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesListByResourceGroupOptionalParams

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
  *
  * @summary The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayConnectionResetSharedKey.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayConnectionResetSharedKey.json
  */
 async function resetVirtualNetworkGatewayConnectionSharedKey() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

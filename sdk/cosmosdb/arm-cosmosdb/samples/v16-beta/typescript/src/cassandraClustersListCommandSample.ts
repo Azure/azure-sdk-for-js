@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all commands currently running on ring info
  *
  * @summary List all commands currently running on ring info
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraListCommand.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraListCommand.json
  */
 async function cosmosDbManagedCassandraListCommand() {
   const subscriptionId =
