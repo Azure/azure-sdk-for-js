@@ -3,20 +3,52 @@
 
 import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { DocumentFilter, DocumentStatusOutput, DocumentTranslationClient, GetDocumentStatus200Response, GetDocumentsStatus200Response, GetTranslationStatus200Response, Glossary, StartTranslationDefaultResponse, TranslationStatusOutput, getLongRunningPoller, isUnexpected, } from "../.././../src";
-import { createDocumentTranslationClient, createDocumentTranslationClientWithEndpointAndCredentials, startRecorder } from "../utils/recordedClient";
+import {
+  DocumentFilter,
+  DocumentStatusOutput,
+  DocumentTranslationClient,
+  GetDocumentStatus200Response,
+  GetDocumentsStatus200Response,
+  GetTranslationStatus200Response,
+  Glossary,
+  StartTranslationDefaultResponse,
+  TranslationStatusOutput,
+  getLongRunningPoller,
+  isUnexpected,
+} from "../.././../src";
+import {
+  createDocumentTranslationClient,
+  createDocumentTranslationClientWithEndpointAndCredentials,
+  startRecorder,
+} from "../utils/recordedClient";
 
 import { Context } from "mocha";
-import { ONE_TEST_DOCUMENTS, createGlossaryContainer, createSourceContainer, createTargetContainer, createTargetContainerWithInfo, downloadDocument } from "./containerHelper";
-import { createBatchRequest, createSourceInput, createTargetInput, getTranslationOperationID, sleep } from "../utils/testHelper";
+import {
+  ONE_TEST_DOCUMENTS,
+  TWO_TEST_DOCUMENTS,
+  createGlossaryContainer,
+  createSourceContainer,
+  createTargetContainer,
+  createTargetContainerWithInfo,
+  downloadDocument,
+  getUniqueName,
+} from "./containerHelper";
+import {
+  createBatchRequest,
+  createSourceInput,
+  createTargetInput,
+  getTranslationOperationID,
+  sleep,
+} from "../utils/testHelper";
 import { TestDocument, createTestDocument } from "../utils/TestDocument";
+import { BatchRequest } from "../../../src/models";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("DocumentTranslation tests", () => {
-  let retryCount = 10; 
+  const retryCount = 10;
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
@@ -29,361 +61,339 @@ describe("DocumentTranslation tests", () => {
     await recorder.stop();
   });
 
-  it ("Client Cannot Authenticate With FakeApiKey", async () => {
+  it("Client Cannot Authenticate With FakeApiKey", async () => {
     const testEndpoint = "https://t7d8641d8f25ec940-doctranslation.cognitiveservices.azure.com";
     const testApiKey = "fakeApiKey";
     const testClient = await createDocumentTranslationClientWithEndpointAndCredentials({
-        endpointParam: testEndpoint,
-        credentials: { key: testApiKey}
+      endpointParam: testEndpoint,
+      credentials: { key: testApiKey },
     });
 
     const response = await testClient.path("/document/formats").get();
     if (isUnexpected(response)) {
-        assert.equal(response.status, "401");
+      assert.equal(response.status, "401");
     }
-
   });
 
-  it ("Single Source Single Target", async () => {
+  it("Single Source Single Target", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    if (isUnexpected(response)) {
-        throw "start translation job error:" + response.body;
-    }
-
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
-
   });
 
-  it ("Single Source Multiple Targets", async () => {
+  it("Single Source Multiple Targets", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
-    const targetInput1 = createTargetInput(await createTargetContainer(recorder), "fr");
-    const targetInput2 = createTargetInput(await createTargetContainer(recorder), "es");
-    const targetInput3 = createTargetInput(await createTargetContainer(recorder), "ar");
-    const batchRequest = createBatchRequest(sourceInput, [targetInput1, targetInput2, targetInput3]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    if (isUnexpected(response)) {
-        throw "start translation job error:" + response.body;
-    }
+    const containerName1 = recorder.variable("targetContainer1", `target-${getUniqueName()}`);
+    const targetUrl1 = await createTargetContainer(recorder, containerName1);
+    const targetInput1 = createTargetInput(targetUrl1, "fr");
 
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
+    const containerName2 = recorder.variable("targetContainer2", `target-${getUniqueName()}`);
+    const targetUrl2 = await createTargetContainer(recorder, containerName2);
+    const targetInput2 = createTargetInput(targetUrl2, "es");
+
+    const containerName3 = recorder.variable("targetContainer3", `target-${getUniqueName()}`);
+    const targetUrl3 = await createTargetContainer(recorder, containerName3);
+    const targetInput3 = createTargetInput(targetUrl3, "ar");
+
+    const batchRequest = createBatchRequest(sourceInput, [
+      targetInput1,
+      targetInput2,
+      targetInput3,
+    ]);
+
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
     validateTranslationStatus(response as StartTranslationDefaultResponse, 3);
-
   });
 
-  it ("Multiple Sources Single Target", async () => {
-    const sourceInput1 = createSourceInput(await createSourceContainer(recorder, ONE_TEST_DOCUMENTS));
-    const targetInput1 = createTargetInput(await createTargetContainer(recorder), "fr");
+  it("Multiple Sources Single Target", async () => {
+    const srcContainerName1 = recorder.variable("sourceContainer1", `source-${getUniqueName()}`);
+    const sourceUrl1 = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS, srcContainerName1);
+    const sourceInput1 = createSourceInput(sourceUrl1);
+
+    const tgtContainerName1 = recorder.variable("targetContainer1", `target-${getUniqueName()}`);
+    const targetUrl1 = await createTargetContainer(recorder, tgtContainerName1);
+    const targetInput1 = createTargetInput(targetUrl1, "fr");
     const batchRequest1 = createBatchRequest(sourceInput1, [targetInput1]);
 
-    const sourceInput2 = createSourceInput(await createSourceContainer(recorder, ONE_TEST_DOCUMENTS));
-    const targetInput2 = createTargetInput(await createTargetContainer(recorder), "es");
+    const srcContainerName2 = recorder.variable("sourceContainer2", `source-${getUniqueName()}`);
+    const sourceInput2 = createSourceInput(
+      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS, srcContainerName2),
+    );
+
+    const tgtContainerName2 = recorder.variable("targetContainer2", `target-${getUniqueName()}`);
+    const targetUrl2 = await createTargetContainer(recorder, tgtContainerName2);
+    const targetInput2 = createTargetInput(targetUrl2, "es");
     const batchRequest2 = createBatchRequest(sourceInput2, [targetInput2]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest1, batchRequest2]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    if (isUnexpected(response)) {
-        throw "start translation job error:" + response.body;
-    }
-
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
+    // Start translation
+    const batchRequests = { inputs: [batchRequest1, batchRequest2] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 2);
-
+    validateTranslationStatus(response, 2);
   });
 
-  //This test is failing, need to investigate
-  it ("Single Source Single Target With Prefix", async () => {
+  it("Single Source Single Target With Prefix", async () => {
     const documentFilter: DocumentFilter = {
-        prefix: "File"
-      };
-    const sourceInput = createSourceInput(await createSourceContainer(recorder, ONE_TEST_DOCUMENTS), undefined, undefined, documentFilter );
-    const targetInput = createTargetInput(await createTargetContainer(recorder), "fr");
+      prefix: "File",
+    };
+    const sourceUrl = await createSourceContainer(recorder, TWO_TEST_DOCUMENTS);
+    const sourceInput = createSourceInput(sourceUrl, undefined, undefined, documentFilter);
+
+    const targetUrl = await createTargetContainer(recorder);
+    const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    if (isUnexpected(response)) {
-        throw "start translation job error:" + response.body;
-    }
-
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
-
   });
 
-  it ("Single Source Single Target With Suffix", async () => {
+  it("Single Source Single Target With Suffix", async () => {
     const documentFilter: DocumentFilter = {
-        suffix: "txt"
-      };
-    const sourceInput = createSourceInput(await createSourceContainer(recorder, ONE_TEST_DOCUMENTS), undefined, undefined, documentFilter );
+      suffix: "txt",
+    };
+    const sourceInput = createSourceInput(
+      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
+      undefined,
+      undefined,
+      documentFilter,
+    );
     const targetInput = createTargetInput(await createTargetContainer(recorder), "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    if (isUnexpected(response)) {
-        throw "start translation job error:" + response.body;
-    }
-
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
-
   });
 
-  it ("Single Source Single Target List Documents", async () => {
-    const sourceInput = createSourceInput(await createSourceContainer(recorder, ONE_TEST_DOCUMENTS));
+  it("Single Source Single Target List Documents", async () => {
+    const sourceInput = createSourceInput(
+      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
+    );
     const targetInput = createTargetInput(await createTargetContainer(recorder), "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    const operationLocationUrl = response.headers["operation-location"]
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
+
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
 
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
-
-    //get translations status
-    const translationStatus = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
+    // get translations status
+    const translationStatus = (await client
+      .path("/document/batches/{id}", operationId)
+      .get()) as GetTranslationStatus200Response;
     const translationStatusOutput = translationStatus.body as TranslationStatusOutput;
 
-    //get Documents Status
-    const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
-    if (documentResponse.status === "200" && "body" in documentResponse) {  
-        const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
-        for (const documentStatus of responseBody.value) {
-            assert.equal(documentStatus.status, translationStatusOutput.status);
-            assert.equal(documentStatus.characterCharged, translationStatusOutput.summary.totalCharacterCharged);
-            break;          
-        }
+    // get Documents Status
+    const documentResponse = await client
+      .path("/document/batches/{id}/documents", operationId)
+      .get();
+    if (documentResponse.status === "200" && "body" in documentResponse) {
+      const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
+      for (const documentStatus of responseBody.value) {
+        assert.equal(documentStatus.status, translationStatusOutput.status);
+        assert.equal(
+          documentStatus.characterCharged,
+          translationStatusOutput.summary.totalCharacterCharged,
+        );
+        break;
       }
-      if (isUnexpected(response)) {
-        throw "get documents status job error:" + response.body;
-      }
+    }
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
   });
 
-  it ("Get Document Status", async () => {
-    const sourceInput = createSourceInput(await createSourceContainer(recorder, ONE_TEST_DOCUMENTS));
+  it("Get Document Status", async () => {
+    const sourceInput = createSourceInput(
+      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
+    );
     const targetInput = createTargetInput(await createTargetContainer(recorder), "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    const operationLocationUrl = response.headers["operation-location"]
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
+
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
 
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
-
-    //get Documents Status
-    const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
-    if (documentResponse.status === "200" && "body" in documentResponse) {  
-        const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
-        for (const document of responseBody.value) {
-            const documentStatus = await client.path("/document/batches/{id}/documents/{documentId}", operationId, document.id).get();
-            validateDocumentStatus(documentStatus as GetDocumentStatus200Response, document.to);
-        }
+    // get Documents Status
+    const documentResponse = await client
+      .path("/document/batches/{id}/documents", operationId)
+      .get();
+    if (documentResponse.status === "200" && "body" in documentResponse) {
+      const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
+      for (const document of responseBody.value) {
+        const documentStatus = await client
+          .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
+          .get();
+        validateDocumentStatus(documentStatus as GetDocumentStatus200Response, document.to);
       }
-      if (isUnexpected(response)) {
-        throw "get documents status job error:" + response.body;
-      }
+    }
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
   });
 
-  it ("Wrong Source Right Target", async () => {
+  it("Wrong Source Right Target", async () => {
     const sourceInput = createSourceInput("https://idont.ex.ist");
     const targetInput = createTargetInput(await createTargetContainer(recorder), "es");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
     const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-    const operationLocationUrl = response.headers["operation-location"]
+      body: batchRequests,
+    });
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
-    
-    //get translations status
+
+    // get translations status
     let translationStatus = null;
     let retriesLeft = retryCount;
     do {
-        try {
-            await sleep(10000);
-            retriesLeft--;
-            translationStatus = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
-        } catch (error) {
-            console.error('Error during translation status retrieval:', error);
-        }            
-    } while (translationStatus && (translationStatus.body as TranslationStatusOutput).status == "NotStarted" && retriesLeft > 0);
+      try {
+        await sleep(10000);
+        retriesLeft--;
+        translationStatus = (await client
+          .path("/document/batches/{id}", operationId)
+          .get()) as GetTranslationStatus200Response;
+      } catch (error) {
+        console.error("Error during translation status retrieval:", error);
+      }
+    } while (
+      translationStatus &&
+      (translationStatus.body as TranslationStatusOutput).status === "NotStarted" &&
+      retriesLeft > 0
+    );
     assert.equal((translationStatus?.body as TranslationStatusOutput).status, "ValidationFailed");
-    assert.equal((translationStatus?.body as TranslationStatusOutput).error?.innerError?.code, "InvalidDocumentAccessLevel");
+    assert.equal(
+      (translationStatus?.body as TranslationStatusOutput).error?.innerError?.code,
+      "InvalidDocumentAccessLevel",
+    );
 
     if (isUnexpected(response)) {
-    throw "get documents status job error:" + response.body;
+      throw "get documents status job error:" + response.body;
     }
   });
 
-  it ("Right Source Wrong Target", async () => {
-    const sourceInput = createSourceInput(await createSourceContainer(recorder, ONE_TEST_DOCUMENTS));
+  it("Right Source Wrong Target", async () => {
+    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceInput = createSourceInput(sourceUrl);
     const targetInput = createTargetInput("https://idont.ex.ist", "es");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
     const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
+      body: batchRequests,
+    });
 
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
-
-
-    const operationLocationUrl = response.headers["operation-location"]
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
 
-    //get translations status
+    // get translations status
     let translationStatus = null;
     let retriesLeft = retryCount;
     do {
-        try {
-            await sleep(10000);
-            retriesLeft--;
-            translationStatus = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
-        } catch (error) {
-            console.error('Error during translation status retrieval:', error);
-        }            
-    } while (translationStatus && (translationStatus.body as TranslationStatusOutput).status == "NotStarted" && retriesLeft > 0);
+      try {
+        await sleep(10000);
+        retriesLeft--;
+        translationStatus = (await client
+          .path("/document/batches/{id}", operationId)
+          .get()) as GetTranslationStatus200Response;
+      } catch (error) {
+        console.error("Error during translation status retrieval:", error);
+      }
+    } while (
+      translationStatus &&
+      (translationStatus.body as TranslationStatusOutput).status === "NotStarted" &&
+      retriesLeft > 0
+    );
 
     assert.equal((translationStatus?.body as TranslationStatusOutput).status, "ValidationFailed");
-    assert.equal((translationStatus?.body as TranslationStatusOutput).error?.innerError?.code, "InvalidTargetDocumentAccessLevel");
+    assert.equal(
+      (translationStatus?.body as TranslationStatusOutput).error?.innerError?.code,
+      "InvalidTargetDocumentAccessLevel",
+    );
 
     if (isUnexpected(response)) {
-    throw "get documents status job error:" + response.body;
+      throw "get documents status job error:" + response.body;
     }
   });
 
-  it ("Supported And UnSupported Files", async () => {
+  it("Supported And UnSupported Files", async () => {
     const documents: TestDocument[] = [
-        createTestDocument('Document1.txt', 'First english test file'),
-        createTestDocument('File2.jpg', 'jpg')
+      createTestDocument("Document1.txt", "First english test file"),
+      createTestDocument("File2.jpg", "jpg"),
     ];
     const sourceUrl = await createSourceContainer(recorder, documents);
-    const sourceInput = createSourceInput(sourceUrl);  
+    const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);    
+    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
 
     if (isUnexpected(response)) {
-    throw "get documents status job error:" + response.body;
+      throw "get documents status job error:" + response.body;
     }
   });
 
-  it ("Empty Document Error", async () => {
-    const documents: TestDocument[] = [
-        createTestDocument('Document1.txt', ''),
-    ];
+  it("Empty Document Error", async () => {
+    const documents: TestDocument[] = [createTestDocument("Document1.txt", "")];
     const sourceUrl = await createSourceContainer(recorder, documents);
-    const sourceInput = createSourceInput(sourceUrl);  
+    const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    }); 
-
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const result = await (await poller).pollUntilDone();
-    assert.equal(result.status, "200");
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    const operationLocationUrl = response.headers["operation-location"]
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
-    assert.isNotNull(operationId);    
+    assert.isNotNull(operationId);
 
-    const translationStatus = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
+    const translationStatus = (await client
+      .path("/document/batches/{id}", operationId)
+      .get()) as GetTranslationStatus200Response;
     const translationStatusOutput = translationStatus.body as TranslationStatusOutput;
     assert.equal(translationStatusOutput.status, "Failed");
     assert.equal(translationStatusOutput.summary.total, 1);
@@ -393,142 +403,180 @@ describe("DocumentTranslation tests", () => {
     assert.equal(translationStatusOutput.error?.innerError?.code, "NoTranslatableText");
 
     if (isUnexpected(response)) {
-    throw "get documents status job error:" + response.body;
+      throw "get documents status job error:" + response.body;
     }
   });
 
-  it ("Existing File In Target Container", async () => {
+  it("Existing File In Target Container", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
-    const sourceInput = createSourceInput(sourceUrl);  
-    const targetUrl = await createTargetContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceInput = createSourceInput(sourceUrl);
+    const targetUrl = await createTargetContainer(recorder, undefined, ONE_TEST_DOCUMENTS);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
     const response = await client.path("/document/batches").post({
-        body: batchRequests
+      body: batchRequests,
     });
-    const operationLocationUrl = response.headers["operation-location"]
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
 
-    //get translations status
+    // get translations status
     let translationStatus = null;
     let retriesLeft = retryCount;
     do {
-        try {
-            await sleep(10000);
-            retriesLeft--;
-            translationStatus = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
-        } catch (error) {
-            console.error('Error during translation status retrieval:', error);
-        }            
-    } while (translationStatus && (translationStatus.body as TranslationStatusOutput).status == "NotStarted" && retriesLeft > 0);
+      try {
+        await sleep(10000);
+        retriesLeft--;
+        translationStatus = (await client
+          .path("/document/batches/{id}", operationId)
+          .get()) as GetTranslationStatus200Response;
+      } catch (error) {
+        console.error("Error during translation status retrieval:", error);
+      }
+    } while (
+      translationStatus &&
+      (translationStatus.body as TranslationStatusOutput).status === "NotStarted" &&
+      retriesLeft > 0
+    );
     assert.equal((translationStatus?.body as TranslationStatusOutput).status, "ValidationFailed");
-    assert.equal((translationStatus?.body as TranslationStatusOutput).error?.innerError?.code, "TargetFileAlreadyExists");
+    assert.equal(
+      (translationStatus?.body as TranslationStatusOutput).error?.innerError?.code,
+      "TargetFileAlreadyExists",
+    );
 
     if (isUnexpected(response)) {
-    throw "get documents status job error:" + response.body;
+      throw "get documents status job error:" + response.body;
     }
   });
 
-  it ("Invalid Document GUID", async () => {
+  it("Invalid Document GUID", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
-    const sourceInput = createSourceInput(sourceUrl);  
+    const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
     const response = await client.path("/document/batches").post({
-        body: batchRequests
+      body: batchRequests,
     });
-    const operationLocationUrl = response.headers["operation-location"]
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
 
-    //get document status    
-    let documentResponse = await client.path("/document/batches/{id}/documents/{documentId}", operationId, "Foo Bar").get();
+    // get document status
+    let documentResponse = await client
+      .path("/document/batches/{id}/documents/{documentId}", operationId, "Foo Bar")
+      .get();
     assert.equal(documentResponse.status, "404");
 
-    documentResponse = await client.path("/document/batches/{id}/documents/{documentId}", operationId, " ").get();
+    documentResponse = await client
+      .path("/document/batches/{id}/documents/{documentId}", operationId, " ")
+      .get();
     assert.equal(documentResponse.status, "404");
-    
+
     if (isUnexpected(response)) {
-        console.log("Error during get document status:", response.body);
-        throw "get documents status job error:" + response.body;
+      console.log("Error during get document status:", response.body);
+      throw "get documents status job error:" + response.body;
     }
   });
 
-  it ("Document Translation With Glossary", async () => {
+  it("Document Translation With Glossary", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
-    
+
     const targetContainer: Map<string, string> = await createTargetContainerWithInfo(recorder);
-    const targetUrl = targetContainer.get("sasUrl") as string; 
-    const targetContainerName =  targetContainer.get("containerName") as string; 
+    const targetUrl = targetContainer.get("sasUrl") as string;
+    const targetContainerName = targetContainer.get("containerName") as string;
     const glossaryUrl = await createGlossaryContainer(recorder);
-    const glossaries: Glossary[] = [{ 
+
+    const glossaries: Glossary[] = [
+      {
         glossaryUrl: glossaryUrl,
-        format: "csv"
-    }];
+        format: "csv",
+      },
+    ];
     const targetInput = createTargetInput(targetUrl, "fr", undefined, glossaries);
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
-    const response = await client.path("/document/batches").post({
-        body: batchRequests
-    });
-
-    // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);  
-    const pollerResult = await (await poller).pollUntilDone();
-    assert.equal(pollerResult.status, "200");
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
+    const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    const operationLocationUrl = response.headers["operation-location"]
+    const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
 
-    const result = downloadDocument(targetContainerName, "Document1.txt");
+    const result = downloadDocument(recorder, targetContainerName, "Document1.txt");
     assert.isTrue((await result).includes("glossaryTest"));
 
     if (isUnexpected(response)) {
-        throw "Error:" + response.body;
+      throw "Error:" + response.body;
     }
   });
 
-async function validateTranslationStatus(translationResponse: StartTranslationDefaultResponse, translationCount: number) {    
-    const operationLocationUrl = translationResponse.headers["operation-location"]
+  async function validateTranslationStatus(
+    translationResponse: StartTranslationDefaultResponse,
+    translationCount: number,
+  ) {
+    const operationLocationUrl = translationResponse.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
     assert.equal(translationResponse.status, "Succeeded");
 
-    const translationStatus = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
+    const translationStatus = (await client
+      .path("/document/batches/{id}", operationId)
+      .get()) as GetTranslationStatus200Response;
     const translationStatusOutput = translationStatus.body as TranslationStatusOutput;
     assert.equal(translationStatusOutput.summary.total, translationCount);
     assert.equal(translationStatusOutput.summary.success, translationCount);
     assert.equal(translationStatusOutput.summary.failed, 0);
     assert.equal(translationStatusOutput.summary.cancelled, 0);
     assert.equal(translationStatusOutput.summary.inProgress, 0);
-}
 
-function validateDocumentStatus(documentStatus: GetDocumentStatus200Response, targetLanguage: string) {
+    return;
+  }
+
+  function validateDocumentStatus(
+    documentStatus: GetDocumentStatus200Response,
+    targetLanguage: string,
+  ) {
     assert.equal(documentStatus.status, "200");
     const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
     assert.isNotNull(documentStatusOutput.id);
     assert.isNotNull(documentStatusOutput.sourcePath);
     assert.isNotNull(documentStatusOutput.path);
     if (isLiveMode()) {
-        assert.equal(targetLanguage, documentStatusOutput.to);
+      assert.equal(targetLanguage, documentStatusOutput.to);
     }
     assert.notEqual(new Date(), new Date(documentStatusOutput.createdDateTimeUtc));
     assert.notEqual(new Date(), new Date(documentStatusOutput.lastActionDateTimeUtc));
     assert.equal(1, documentStatusOutput.progress);
-}
-    
-});
 
+    return;
+  }
+
+  async function StartTranslationAndWait(
+    batchRequests: { inputs: BatchRequest[] },
+  ): Promise<StartTranslationDefaultResponse> {
+    // Start translation
+    const response = await client.path("/document/batches").post({
+      body: batchRequests,
+    });
+    if (isUnexpected(response)) {
+      throw "start translation job error:" + response.body;
+    }
+
+    // Wait until the operation completes
+    const poller = getLongRunningPoller(client, response, testPollingOptions);
+    const result = await (await poller).pollUntilDone();
+    assert.equal(result.status, "200");
+
+    return response as StartTranslationDefaultResponse;
+  }
+});

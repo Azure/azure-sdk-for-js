@@ -29,21 +29,21 @@ describe("GetSupportedFormats tests", () => {
     }
 
     const fileFormatTypes = response.body;
-    fileFormatTypes.value.forEach(fileFormatType => {
+    fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
       assert.isTrue(fileFormatType.contentTypes !== null);
       assert.isTrue(fileFormatType.fileExtensions !== null);
-    });    
+    });
   });
 
   it("document formats", async () => {
     // Define the query parameters with the specified type
     const options: GetSupportedFormatsParameters = {
       queryParameters: {
-        type: "document"
-      }
+        type: "document",
+      },
     };
-    
+
     const response = await client.path("/document/formats").get(options);
     assert.equal(response.status, "200");
 
@@ -52,25 +52,25 @@ describe("GetSupportedFormats tests", () => {
     }
 
     const fileFormatTypes = response.body;
-    fileFormatTypes.value.forEach(fileFormatType => {
+    fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
       assert.isTrue(fileFormatType.contentTypes !== null);
       assert.isTrue(fileFormatType.fileExtensions !== null);
-      assert.isTrue(fileFormatType.type == "Document");
-      if(fileFormatType.format == "XLIFF") {
+      assert.isTrue(fileFormatType.type === "Document");
+      if (fileFormatType.format === "XLIFF") {
         assert.isTrue(fileFormatType.defaultVersion !== null);
       }
-    });    
+    });
   });
 
   it("glossary formats", async () => {
     // Define the query parameters with the specified type
     const options: GetSupportedFormatsParameters = {
       queryParameters: {
-        type: "glossary"
-      }
+        type: "glossary",
+      },
     };
-    
+
     const response = await client.path("/document/formats").get(options);
     assert.equal(response.status, "200");
 
@@ -79,15 +79,14 @@ describe("GetSupportedFormats tests", () => {
     }
 
     const fileFormatTypes = response.body;
-    fileFormatTypes.value.forEach(fileFormatType => {
+    fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
       assert.isTrue(fileFormatType.contentTypes !== null);
       assert.isTrue(fileFormatType.fileExtensions !== null);
-      assert.isTrue(fileFormatType.type == "Glossary");
-      if(fileFormatType.format == "XLIFF") {
+      assert.isTrue(fileFormatType.type === "Glossary");
+      if (fileFormatType.format === "XLIFF") {
         assert.isTrue(fileFormatType.defaultVersion !== null);
       }
-    });    
-  });  
-
+    });
+  });
 });

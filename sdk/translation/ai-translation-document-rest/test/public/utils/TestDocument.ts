@@ -9,6 +9,6 @@ export interface TestDocument {
 export function createTestDocument(name: string, content: string): TestDocument {
   return {
     name,
-    content
+    content,
   };
 }

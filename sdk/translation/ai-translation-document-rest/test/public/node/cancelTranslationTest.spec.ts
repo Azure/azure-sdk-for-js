@@ -3,11 +3,24 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { DocumentTranslationClient, GetTranslationStatus200Response, isUnexpected } from "../.././../src";
+import {
+  DocumentTranslationClient,
+  GetTranslationStatus200Response,
+  isUnexpected,
+} from "../.././../src";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
-import { ONE_TEST_DOCUMENTS, createSourceContainer, createTargetContainer } from "./containerHelper";
+import {
+  ONE_TEST_DOCUMENTS,
+  createSourceContainer,
+  createTargetContainer,
+} from "./containerHelper";
 import { Context } from "mocha";
-import { createBatchRequest, createSourceInput, createTargetInput, getTranslationOperationID } from "../utils/testHelper";
+import {
+  createBatchRequest,
+  createSourceInput,
+  createTargetInput,
+  getTranslationOperationID,
+} from "../utils/testHelper";
 
 describe("CancelTranslation tests", () => {
   let recorder: Recorder;
@@ -22,34 +35,36 @@ describe("CancelTranslation tests", () => {
     await recorder.stop();
   });
 
-  it.only("cancel translation", async () => {
+  it("cancel translation", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
-    
-    //Start translation
-    const batchRequests = {inputs: [batchRequest]};
+
+    // Start translation
+    const batchRequests = { inputs: [batchRequest] };
     const poller = await client.path("/document/batches").post({
-      body: batchRequests
-    }); 
+      body: batchRequests,
+    });
     const id = getTranslationOperationID(poller.headers["operation-location"]);
 
-    //Cancel translation
+    // Cancel translation
     await client.path("/document/batches/{id}", id).delete();
 
-    //get translation status and verify
+    // get translation status and verify
     const response = await client.path("/document/batches/{id}", id).get();
-    if (response.status === "200" && "body" in response) {  
+    if (response.status === "200" && "body" in response) {
       const idOutput = (response as GetTranslationStatus200Response).body.id;
-      assert.isTrue(idOutput == id);
-      const statusOutput = (response as GetTranslationStatus200Response).body.status; 
-      assert.isTrue((statusOutput == "Cancelled") || (statusOutput == "Cancelling") || (statusOutput == "NotStarted"));     
-    } 
+      assert.isTrue(idOutput === id, "IDOutput is:" + idOutput);
+      const statusOutput = (response as GetTranslationStatus200Response).body.status;
+      assert.isTrue(
+        statusOutput === "Cancelled" || statusOutput === "Cancelling" || statusOutput === "NotStarted",
+        "Status output is: " + statusOutput,
+      );
+    }
     if (isUnexpected(response)) {
       throw response.body;
     }
   });
-  
 });
