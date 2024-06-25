@@ -1,6 +1,6 @@
 # Azure Deidentification REST client library for JavaScript
 
-`@azure-rest/azure-health-deidentification` is a managed service that enables users to tag, redact, or surrogate health data.
+`@azure-rest/health-deidentification` is a managed service that enables users to tag, redact, or surrogate health data.
 
 <!-- **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library** -->
 <!-- TODO Fix links once they are live use placeholden until then -->
