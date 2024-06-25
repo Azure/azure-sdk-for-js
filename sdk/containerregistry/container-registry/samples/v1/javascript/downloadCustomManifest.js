@@ -17,7 +17,7 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   const manifestListType = "application/vnd.docker.distribution.manifest.list.v2+json";
