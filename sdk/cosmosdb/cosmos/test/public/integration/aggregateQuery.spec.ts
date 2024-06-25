@@ -325,7 +325,6 @@ describe("Aggregate Query", function (this: Suite) {
       "SELECT * FROM r ORDER BY r.key, r.field",
     );
     const response = await queryIterator1.fetchAll();
-    console.log(response.resources);
     assert(response.resources.length === 4);
     try {
       const queryIterator2 = containerWithCompositeIndexDef.items.query(
