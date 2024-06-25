@@ -50,23 +50,30 @@ Basic code snippet to create your Deidentification Client and Deidentify a strin
 ```javascript
 import createClient, {
   DeidentificationContent,
-  DeidentificationResultOutput,
-} from '@azure-rest/health-deidentification';
-import { DefaultAzureCredential } from '@azure/identity';
+  isUnexpected,
+} from "@azure-rest/health-deidentification";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const credential = new DefaultAzureCredential();
-const serviceEndpoint = 'https://example.api.cac001.deid.azure.com';
+const serviceEndpoint =
+  process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
 const client = createClient(serviceEndpoint, credential);
+
 const content: DeidentificationContent = {
-  dataType: 'Plaintext',
-  inputText: 'Hello John!',
-  operation: 'Surrogate',
+  dataType: "Plaintext",
+  inputText: "Hello John!",
+  operation: "Surrogate",
 };
 
-const response = await client.path('/deid').post({ body: content });
+const response = await client.path("/deid").post({ body: content });
 
-console.log((response.body as DeidentificationResultOutput).outputText); // Hello, Tom!
+if (isUnexpected(response)) {
+  throw response.body.error;
+}
 
+console.log(response.body.outputText); // Hello, Tom!
 ```
 
 ## Key concept
