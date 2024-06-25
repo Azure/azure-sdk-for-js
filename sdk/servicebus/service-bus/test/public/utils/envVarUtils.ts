@@ -34,10 +34,7 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
   }
 
   // Throw error if required environment variables are missing.
-  [
-    EnvVarNames.SERVICEBUS_CONNECTION_STRING,
-    EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE,
-  ].forEach(function (name: string) {
+  [EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE].forEach(function (name: string) {
     if (!getEnvVarValue(name)) {
       throw new Error(`Define ${name} in your environment before running integration tests.`);
     }
