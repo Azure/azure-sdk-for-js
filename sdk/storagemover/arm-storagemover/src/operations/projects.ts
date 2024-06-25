@@ -16,7 +16,7 @@ import { StorageMoverClient } from "../storageMoverClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   ProjectsUpdateOptionalParams,
   ProjectsUpdateResponse,
   ProjectsDeleteOptionalParams,
-  ProjectsListNextResponse
+  ProjectsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class ProjectsImpl implements Projects {
   public list(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): PagedAsyncIterableIterator<Project> {
     const iter = this.listPagingAll(
       resourceGroupName,
       storageMoverName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class ProjectsImpl implements Projects {
           resourceGroupName,
           storageMoverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     storageMoverName: string,
     options?: ProjectsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Project[]> {
     let result: ProjectsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +105,7 @@ export class ProjectsImpl implements Projects {
         resourceGroupName,
         storageMoverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class ProjectsImpl implements Projects {
   private async *listPagingAll(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): AsyncIterableIterator<Project> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       storageMoverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class ProjectsImpl implements Projects {
   private _list(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): Promise<ProjectsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -156,11 +156,11 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: ProjectsGetOptionalParams
+    options?: ProjectsGetOptionalParams,
   ): Promise<ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, projectName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class ProjectsImpl implements Projects {
     storageMoverName: string,
     projectName: string,
     project: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams
+    options?: ProjectsCreateOrUpdateOptionalParams,
   ): Promise<ProjectsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, projectName, project, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -199,11 +199,11 @@ export class ProjectsImpl implements Projects {
     storageMoverName: string,
     projectName: string,
     project: ProjectUpdateParameters,
-    options?: ProjectsUpdateOptionalParams
+    options?: ProjectsUpdateOptionalParams,
   ): Promise<ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, projectName, project, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -218,25 +218,24 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -245,8 +244,8 @@ export class ProjectsImpl implements Projects {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -254,20 +253,20 @@ export class ProjectsImpl implements Projects {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, storageMoverName, projectName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -284,13 +283,13 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       storageMoverName,
       projectName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -306,11 +305,11 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     storageMoverName: string,
     nextLink: string,
-    options?: ProjectsListNextOptionalParams
+    options?: ProjectsListNextOptionalParams,
   ): Promise<ProjectsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -318,38 +317,15 @@ export class ProjectsImpl implements Projects {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectList
+      bodyMapper: Mappers.ProjectList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageMoverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -357,22 +333,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
-    Parameters.projectName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Project,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageMoverName,
+    Parameters.projectName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.project,
   queryParameters: [Parameters.apiVersion],
@@ -381,23 +377,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.project1,
   queryParameters: [Parameters.apiVersion],
@@ -406,15 +401,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -422,8 +416,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -431,29 +425,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectList
+      bodyMapper: Mappers.ProjectList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageMoverName
+    Parameters.storageMoverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

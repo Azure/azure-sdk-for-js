@@ -205,6 +205,34 @@ export interface AgentList {
   readonly nextLink?: string;
 }
 
+/** The WAN-link upload limit schedule. Overlapping recurrences are not allowed. */
+export interface UploadLimitSchedule {
+  /** The set of weekly repeating recurrences of the WAN-link upload limit schedule. */
+  weeklyRecurrences?: UploadLimitWeeklyRecurrence[];
+}
+
+/** The schedule recurrence. */
+export interface Recurrence {
+  /** The start time of the schedule recurrence. Full hour and 30-minute intervals are supported. */
+  startTime: Time;
+  /** The end time of the schedule recurrence. Full hour and 30-minute intervals are supported. */
+  endTime: Time;
+}
+
+/** The time of day. */
+export interface Time {
+  /** The hour element of the time. Allowed values range from 0 (start of the selected day) to 24 (end of the selected day). Hour value 24 cannot be combined with any other minute value but 0. */
+  hour: number;
+  /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
+  minute?: Minute;
+}
+
+/** The WAN-link upload limit. */
+export interface UploadLimit {
+  /** The WAN-link upload bandwidth (maximum data transfer rate) in megabits per second. Value of 0 indicates no throughput is allowed and any running migration job is effectively paused for the duration of this recurrence. Only data plane operations are governed by this limit. Control plane operations ensure seamless functionality. The agent may exceed this limit with control messages, if necessary. */
+  limitInMbps: number;
+}
+
 export interface AgentPropertiesErrorDetails {
   /** Error code reported by Agent */
   code?: string;
@@ -216,6 +244,8 @@ export interface AgentPropertiesErrorDetails {
 export interface AgentUpdateParameters {
   /** A description for the Agent. */
   description?: string;
+  /** The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time. */
+  uploadLimitSchedule?: UploadLimitSchedule;
 }
 
 /** List of Endpoints. */
@@ -348,6 +378,17 @@ export interface TrackedResource extends Resource {
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
+
+/** The weekly recurrence of the schedule. */
+export interface WeeklyRecurrence extends Recurrence {
+  /** The set of days of week for the schedule recurrence. A day must not be specified more than once in a recurrence. */
+  days: DayOfWeek[];
+}
+
+/** The weekly recurrence of the WAN-link upload limit schedule. The start time must be earlier in the day than the end time. The recurrence must not span across multiple days. */
+export interface UploadLimitWeeklyRecurrence
+  extends WeeklyRecurrence,
+    UploadLimit {}
 
 /** The properties of Azure Storage blob container endpoint. */
 export interface AzureStorageBlobContainerEndpointProperties
@@ -487,6 +528,13 @@ export interface Agent extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uptimeInSeconds?: number;
+  /**
+   * The agent's local time zone represented in Windows format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeZone?: string;
+  /** The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time. */
+  uploadLimitSchedule?: UploadLimitSchedule;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly errorDetails?: AgentPropertiesErrorDetails;
   /**
@@ -717,7 +765,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -734,7 +782,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -749,7 +797,13 @@ export type ActionType = string;
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
 }
 
 /**
@@ -757,7 +811,10 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Deleting**
  */
 export type ProvisioningState = string;
 
@@ -770,7 +827,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -798,7 +855,7 @@ export enum KnownAgentStatus {
   /** RequiresAttention */
   RequiresAttention = "RequiresAttention",
   /** Unregistering */
-  Unregistering = "Unregistering"
+  Unregistering = "Unregistering",
 }
 
 /**
@@ -815,6 +872,24 @@ export enum KnownAgentStatus {
  */
 export type AgentStatus = string;
 
+/** Known values of {@link Minute} that the service accepts. */
+export enum KnownMinute {
+  /** Zero */
+  Zero = 0,
+  /** Thirty */
+  Thirty = 30,
+}
+
+/**
+ * Defines values for Minute. \
+ * {@link KnownMinute} can be used interchangeably with Minute,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **0** \
+ * **30**
+ */
+export type Minute = number;
+
 /** Known values of {@link EndpointType} that the service accepts. */
 export enum KnownEndpointType {
   /** AzureStorageBlobContainer */
@@ -824,7 +899,7 @@ export enum KnownEndpointType {
   /** AzureStorageSmbFileShare */
   AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
   /** SmbMount */
-  SmbMount = "SmbMount"
+  SmbMount = "SmbMount",
 }
 
 /**
@@ -844,7 +919,7 @@ export enum KnownCopyMode {
   /** Additive */
   Additive = "Additive",
   /** Mirror */
-  Mirror = "Mirror"
+  Mirror = "Mirror",
 }
 
 /**
@@ -874,7 +949,9 @@ export enum KnownJobRunStatus {
   /** Failed */
   Failed = "Failed",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
+  /** PausedByBandwidthManagement */
+  PausedByBandwidthManagement = "PausedByBandwidthManagement",
 }
 
 /**
@@ -889,7 +966,8 @@ export enum KnownJobRunStatus {
  * **Canceling** \
  * **Canceled** \
  * **Failed** \
- * **Succeeded**
+ * **Succeeded** \
+ * **PausedByBandwidthManagement**
  */
 export type JobRunStatus = string;
 
@@ -900,7 +978,7 @@ export enum KnownJobRunScanStatus {
   /** Scanning */
   Scanning = "Scanning",
   /** Completed */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -921,7 +999,7 @@ export enum KnownNfsVersion {
   /** NFSv3 */
   NFSv3 = "NFSv3",
   /** NFSv4 */
-  NFSv4 = "NFSv4"
+  NFSv4 = "NFSv4",
 }
 
 /**
@@ -938,7 +1016,7 @@ export type NfsVersion = string;
 /** Known values of {@link CredentialType} that the service accepts. */
 export enum KnownCredentialType {
   /** AzureKeyVaultSmb */
-  AzureKeyVaultSmb = "AzureKeyVaultSmb"
+  AzureKeyVaultSmb = "AzureKeyVaultSmb",
 }
 
 /**
@@ -949,6 +1027,15 @@ export enum KnownCredentialType {
  * **AzureKeyVaultSmb**
  */
 export type CredentialType = string;
+/** Defines values for DayOfWeek. */
+export type DayOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
