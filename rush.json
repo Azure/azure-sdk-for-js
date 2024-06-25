@@ -2228,7 +2228,7 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure-rest/azure-health-deidentification",
+      "packageName": "@azure-rest/health-deidentification",
       "projectFolder": "sdk/healthdataaiservices/azure-health-deidentification",
       "versionPolicyName": "client"
     }

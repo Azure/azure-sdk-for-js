@@ -2,4 +2,4 @@
 // Licensed under the MIT license.
 
 import { createClientLogger } from "@azure/logger";
-export const logger = createClientLogger("azure-health-deidentification");
+export const logger = createClientLogger("health-deidentification");

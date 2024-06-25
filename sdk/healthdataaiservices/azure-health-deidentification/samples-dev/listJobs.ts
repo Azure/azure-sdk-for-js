@@ -5,7 +5,7 @@
  * @summary This sample demonstrates how to list jobs and iterate over them in a for loop.
  */
 
-import createClient, { paginate } from "@azure-rest/azure-health-deidentification";
+import createClient, { paginate } from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export async function main(): Promise<void> {

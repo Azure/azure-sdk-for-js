@@ -19,7 +19,7 @@ export default function createClient(
 ): DeidentificationClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
   options.apiVersion = options.apiVersion ?? "2024-01-16-preview";
-  const userAgentInfo = `azsdk-js-azure-health-deidentification-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

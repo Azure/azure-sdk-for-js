@@ -8,7 +8,7 @@
 import createClient, {
   DeidentificationJob,
   DeidentificationJobOutput,
-} from "@azure-rest/azure-health-deidentification";
+} from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export async function main(): Promise<void> {

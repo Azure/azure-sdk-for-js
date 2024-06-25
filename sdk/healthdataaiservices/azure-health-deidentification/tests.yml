@@ -4,6 +4,6 @@ trigger: none
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
   parameters:
-    PackageName: "@azure-rest/azure-health-deidentification"
+    PackageName: "@azure-rest/health-deidentification"
     ServiceDirectory: healthdataaiservices
     UseFederatedAuth: true
