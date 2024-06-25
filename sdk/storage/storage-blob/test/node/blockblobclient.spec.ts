@@ -28,6 +28,8 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   getBlobServiceAccountAudience,
+  SASProtocol,
+  AnonymousCredential,
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -64,6 +66,49 @@ describe("BlockBlobClient Node.js only", () => {
       await containerClient.delete();
     }
     await recorder.stop();
+  });
+
+  it.only("Upload special content should work", async () => {
+    const content = "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
+    
+    await blockBlobClient.upload(content, content.length);
+    
+    const result = await blockBlobClient.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
+
+  it.only("Upload special content with OAuth should work", async () => {
+    const content = "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
+    
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, blockBlobClientWithOAuthToken);
+    await blockBlobClientWithOAuthToken.upload(content, content.length);
+    
+    const result = await blockBlobClientWithOAuthToken.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
+
+  it.only("Upload special content with SAS token should work", async () => {
+    const content = "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sasURL = await blockBlobClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+    });
+    const blobClientWithSAS = new BlockBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+
+    await blobClientWithSAS.upload(content, content.length);
+    
+    const result = await blobClientWithSAS.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
   });
 
   it("Default audience should work", async () => {
