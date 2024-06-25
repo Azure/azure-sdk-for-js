@@ -19,7 +19,7 @@ import {
   ArtifactRenameRequest,
   PipelineRenamePipelineOptionalParams,
   PipelineCreatePipelineRunOptionalParams,
-  PipelineCreatePipelineRunResponse
+  PipelineCreatePipelineRunResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PipelineOperations {
    * @param options The options parameters.
    */
   listPipelinesByWorkspace(
-    options?: PipelineGetPipelinesByWorkspaceOptionalParams
+    options?: PipelineGetPipelinesByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PipelineResource>;
   /**
    * Creates or updates a pipeline.
@@ -41,7 +41,7 @@ export interface PipelineOperations {
   beginCreateOrUpdatePipeline(
     pipelineName: string,
     pipeline: PipelineResource,
-    options?: PipelineCreateOrUpdatePipelineOptionalParams
+    options?: PipelineCreateOrUpdatePipelineOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PipelineCreateOrUpdatePipelineResponse>,
@@ -57,7 +57,7 @@ export interface PipelineOperations {
   beginCreateOrUpdatePipelineAndWait(
     pipelineName: string,
     pipeline: PipelineResource,
-    options?: PipelineCreateOrUpdatePipelineOptionalParams
+    options?: PipelineCreateOrUpdatePipelineOptionalParams,
   ): Promise<PipelineCreateOrUpdatePipelineResponse>;
   /**
    * Gets a pipeline.
@@ -66,7 +66,7 @@ export interface PipelineOperations {
    */
   getPipeline(
     pipelineName: string,
-    options?: PipelineGetPipelineOptionalParams
+    options?: PipelineGetPipelineOptionalParams,
   ): Promise<PipelineGetPipelineResponse>;
   /**
    * Deletes a pipeline.
@@ -75,7 +75,7 @@ export interface PipelineOperations {
    */
   beginDeletePipeline(
     pipelineName: string,
-    options?: PipelineDeletePipelineOptionalParams
+    options?: PipelineDeletePipelineOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a pipeline.
@@ -84,7 +84,7 @@ export interface PipelineOperations {
    */
   beginDeletePipelineAndWait(
     pipelineName: string,
-    options?: PipelineDeletePipelineOptionalParams
+    options?: PipelineDeletePipelineOptionalParams,
   ): Promise<void>;
   /**
    * Renames a pipeline.
@@ -95,7 +95,7 @@ export interface PipelineOperations {
   beginRenamePipeline(
     pipelineName: string,
     request: ArtifactRenameRequest,
-    options?: PipelineRenamePipelineOptionalParams
+    options?: PipelineRenamePipelineOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a pipeline.
@@ -106,7 +106,7 @@ export interface PipelineOperations {
   beginRenamePipelineAndWait(
     pipelineName: string,
     request: ArtifactRenameRequest,
-    options?: PipelineRenamePipelineOptionalParams
+    options?: PipelineRenamePipelineOptionalParams,
   ): Promise<void>;
   /**
    * Creates a run of a pipeline.
@@ -115,6 +115,6 @@ export interface PipelineOperations {
    */
   createPipelineRun(
     pipelineName: string,
-    options?: PipelineCreatePipelineRunOptionalParams
+    options?: PipelineCreatePipelineRunOptionalParams,
   ): Promise<PipelineCreatePipelineRunResponse>;
 }

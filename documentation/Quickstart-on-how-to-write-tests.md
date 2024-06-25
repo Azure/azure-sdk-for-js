@@ -4,6 +4,8 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
 
 # Table of contents
 
+- [Javascript Codegen Quick Start for Test](#javascript-codegen-quick-start-for-test)
+- [Table of contents](#table-of-contents)
 - [Background](#background)
 - [Prerequisites](#prerequisites)
 - [How to run test](#how-to-run-test)
@@ -23,7 +25,10 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
       - [AzureAD OAuth2 Authentication](#azuread-oauth2-authentication)
       - [API Key Authentication](#api-key-authentication)
   - [Example 1: Basic RLC test interaction and recording for Azure data-plane service](#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service)
+    - [`glossary.spec.ts`](#glossaryspects)
+    - [`utils/recordedClient.ts`](#utilsrecordedclientts)
   - [Example 2: Basic HLC test interaction and recording for Azure management service](#example-2-basic-hlc-test-interaction-and-recording-for-azure-management-service)
+    - [`monitor.spec.ts`](#monitorspects)
 
 # Background
 
@@ -60,7 +65,7 @@ generate-test: true
 
 They only contains basics for testing, you need to update to your own utility and test cases. The overall structure will be similar to below:
 
-_Note: the structure of `test` folder has slight differences between high-level and rest-level clients. In HLC we only have one file under the `test` folder which contains all contents. But in RLC we separate the sample test and utils._
+_Note: the structure of the `test` folder has slight differences between high-level and rest-level clients. In HLC, we only have one file under the `test` folder which contains all contents. But in RLC, we separate the sample test and utils._
 
 ```
 sdk/
@@ -80,14 +85,14 @@ sdk/
 
 ## Run tests in record mode
 
-Before running tests it's advised to update the dependencises and build our project by running the command `rush update && rush build -t <package-name>`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
+Before running tests, it's advised to update the dependencises and build our project by running the command `rush update && rush build -t <package-name>`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
 
 ```Shell
 > rush update
 > rush build -t @azure-rest/purview-catalog
 ```
 
-Then we could go to the project folder to run the tests. By default, if you don't specify `TEST_MODE`, it will run previously recorded tests.
+Then, we could go to the project folder to run the tests. By default, if you don't specify `TEST_MODE`, it will run previously recorded tests.
 
 ```Shell
 > cd sdk/purview/purview-catalog-rest
@@ -106,7 +111,7 @@ If you are the first time to run tests you may fail with below message because t
 [node-tests]      RecorderError: Start request failed.
 ```
 
-To record or update our recordings we need to set the environment variable `TEST_MODE` to `record`. Then run `rushx test`.
+To record or update our recordings, we need to set the environment variable `TEST_MODE` to `record`. Then, run `rushx test`.
 
 ```Shell
 # Windows
@@ -131,7 +136,7 @@ This time we could get following similar logs. Go to the folder `purview-catalog
 
 ## Run tests in playback mode
 
-If we have existing recordings then the tests have been run against generated the HTTP recordings, we can run your tests in `playback` mode.
+If we have existing recordings, then the tests have been run against generated the HTTP recordings, we can run your tests in `playback` mode.
 
 ```Shell
 # Windows
@@ -145,7 +150,7 @@ If we have existing recordings then the tests have been run against generated th
 ## How to push test recordings to assets repo
 We need to push test recording files to [asset repo](https://github.com/Azure/azure-sdk-assets) after testing your test cases.
 
-`Notice`: Before push your recording file, you must confirm that you are able to push recordings to the "azure-sdk-assets" repo, you need write-access to the assets repo.[Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
+`Notice`: Before pushing your recording file, you must confirm that you are able to push recordings to the `azure-sdk-assets` repo, you need write-access to the assets repo. [Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
 
 ### Push test recording
 
@@ -159,11 +164,11 @@ npx dev-tool test-proxy init
 ```
 Note: If you [install `dev-tool` globally](https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#installation), you don't need `npx` prefix in the above command
 
-This command would generate an assets.json file with an empty tag.
+This command would generate an `assets.json` file with an empty tag.
 
 Example `assets.json` with an empty tag:
 
-```
+```json
 {
   "AssetsRepo": "Azure/azure-sdk-assets",
   "AssetsRepoPrefixPath": "js",
@@ -172,20 +177,20 @@ Example `assets.json` with an empty tag:
 }
 ```
 
-After init the assets.json file, [run your test with record mode](#run-tests-in-record-mode)
+After `init` the `assets.json` file, [run your test with record mode](#run-tests-in-record-mode)
 
 `Notice`: If you have already run tests in record mode before, you need to re-run the tests again to make sure that your records can be pushed later.
 
-Then go to the next step to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
+Then, go to the next step to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
+
 
 #### Existing package - Tests have been pushed before
 At this point, you should have an `assets.json` file under your SDK. `sdk/<service-folder>/<package-name>/assets.json`.
 
 With asset sync enabled, there is one extra step that must be taken before you create a PR with changes to recorded tests: you must push the new recordings to the assets repo. This is done with the following command:
 
- `Notice`:
-       the tests have to be recorded using the `TEST_MODE=record`, then the recording files will be generate. And then you can push them to `assets repo`
-
+`Notice`: the tests have to be recorded using the `TEST_MODE=record` environment variable in order for the recording files to be generated, then you can push them to `assets repo`
+ 
 ```bash
 npx dev-tool test-proxy push
 ```
@@ -201,15 +206,15 @@ You should stage and commit the `assets.json` update as part of your PR. If you 
 ### How to find recording files
 
 #### Find local recording files
-you can find your recording files in `./azure-sdk-for-js/.assets`
+You can find your recording files in `./azure-sdk-for-js/.assets`
 
 If you want to search your recording quickly, you can open `.breadcrumb` file and search your package in which folder.
 
 #### Find recording files in assets repo
-You can get the tag in `assets.json` in your package root, which is a tag `pointing` to your recordings in the `Azure/azure-sdk-assets` repo
+You can get the tag in `assets.json` in your package root, which is a tag `pointing` to your recordings in the `Azure/azure-sdk-assets` repo.
 
-Example `assets.json` from "arm-network" SDK:
-```
+Example `assets.json` from `arm-network` SDK:
+```json
 {
   "AssetsRepo": "Azure/azure-sdk-assets",
   "AssetsRepoPrefixPath": "js",
@@ -218,7 +223,7 @@ Example `assets.json` from "arm-network" SDK:
 }
 ```
 
-the recordings are located at :https://github.com/Azure/azure-sdk-assets/tree/js/network/arm-network_bec01aa795
+The recordings are located at https://github.com/Azure/azure-sdk-assets/tree/js/network/arm-network_bec01aa795.
 
 # How to add tests
 
@@ -228,11 +233,11 @@ Adding runnable tests requires both a good understanding of the service, and the
 
 ### Client authentication
 
-There are several ways to authenticate to Azure and most common ways are AzureAD OAuth2 authentication and API key authentication. Before adding tests you are supposed to know what your services support and ensure you or service principal have rights to perform actions in test.
+There are several ways to authenticate to Azure and most common ways are AzureAD OAuth2 authentication and API key authentication. Before adding tests, you are expected to know what your services support and ensure you or service principal have rights to perform actions in test.
 
 #### AzureAD OAuth2 Authentication
 
-If your service uses AzureAD OAuth2 token for authentication. A common solution is to provide [an application and its service principal](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals) and to provide RBAC to the service principal for the access to the Azure resource of your service.
+If your service uses AzureAD OAuth2 token for authentication, a common solution is to provide [an application and its service principal](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals) and to provide RBAC to the service principal for the access to the Azure resource of your service.
 
 Client requires following three variables for the service principal using client ID/secret for authentication:
 
@@ -242,7 +247,7 @@ AZURE_CLIENT_ID
 AZURE_CLIENT_SECRET
 ```
 
-The recommended practice is to store these three values in environment variables called `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET`. To set an environment variable use the following commands:
+The recommended practice is to store these three values in environment variables called `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET`. To set an environment variable, use the following commands:
 
 ```Shell
 # Windows
@@ -252,7 +257,7 @@ The recommended practice is to store these three values in environment variables
 > export AZURE_TENANT_ID=<value>
 ```
 
-To ensure our recorder could record OAuth traffic we have to leverage the `createTestCredential` helper to prepare test credential. So please follow below code snippet to create your client.
+To ensure our recorder could record OAuth traffic, we have to leverage the `createTestCredential` helper to prepare test credential. So, please follow below code snippet to create your client.
 
 ```typescript
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -263,7 +268,7 @@ const credential = createTestCredential();
 new MyServiceClient(<endpoint>, credential);
 ```
 
-To avoid storing the sensitive info in the recordings like authenticating with your Azure endpoints, keys, secrets, etc, we use the sanitizers to mask the values with the fake ones or remove them, `RecorderStartOptions` helps us here. In our generated sample file we have below sanitizers' code:
+To avoid storing the sensitive info in the recordings like authenticating with your Azure endpoints, keys, secrets, etc, we use the sanitizers to mask the values with the fake ones or remove them, `RecorderStartOptions` helps us here. In our generated sample file, we have below sanitizers' code:
 
 ```typescript
 const envSetupForPlayback: Record<string, string> = {
@@ -284,22 +289,22 @@ await recorder.start(recorderEnvSetup);
 
 #### API Key Authentication
 
-API key authentication would hit the service's endpoint directly so these traffic will be recorded. It doesn't require any customization in tests. However we must secure the sensitive data and not leak into our recordings, so add a sanitizer to replace your API keys. You could read more on how to add sanitizer at [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
+API key authentication would hit the service's endpoint directly so these traffic will be recorded. It doesn't require any customization in tests. However, we must secure the sensitive data and not leak into our recordings, so add a sanitizer to replace your API keys. You could read more on how to add sanitizer at [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
 
 ## Example 1: Basic RLC test interaction and recording for Azure data-plane service
 
-At the code structure [section](#code-structure) we described we'll generate sample file for you, if you are the first time to write test cases you could grow up your own based on them.
+At the code structure [section](#code-structure), we described we'll generate sample file for you. If you are the first time to write test cases, you could grow up your own based on them.
 
 This simple test creates a resource and checks that the service handles it correctly in the project `purview-catalog-rest`. Below are the steps:
 
 - Step 1: Create your test file and add one test case with resource creation, here we have purview catalog glossary test file `glossary.spec.ts` and one case named `Should create a glossary`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
 - Step 2: Add the utility method `createClient` in `public/utils/recordedClient.ts` to share the `PurviewCatalogClient` creation.
-  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details
-  - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`
-- Step 3: In `glossary.spec.ts` file call `createClient` to prepare the client and call `client.path("/atlas/v2/glossary").post()` to create our glossary resource under our case `Should create a glossary`
+  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details.
+  - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`.
+- Step 3: In `glossary.spec.ts` file, call `createClient` to prepare the client and call `client.path("/atlas/v2/glossary").post()` to create our glossary resource under our case `Should create a glossary`.
 - Step 4[Optional]: Specify environment variables that would be faked in the recordings in map `envSetupForPlayback` under the file `public/utils/recordedClient.ts`.
-- Step 5: In `glossary.spec.ts` file add necessary assertions in your test case
-- Step 6: Run and record your test cases
+- Step 5: In `glossary.spec.ts` file, add necessary assertions in your test case.
+- Step 6: Run and record your test cases.
 
 ### `glossary.spec.ts`
 
@@ -392,19 +397,19 @@ export function createClient(recorder: Recorder, options?: ClientOptions): Purvi
 
 ## Example 2: Basic HLC test interaction and recording for Azure management service
 
-At the code structure [section](#code-structure) we described if your SDK is generated base on HLC we'll generate a sample test named `sampleTest.ts` for you.
+At the code structure [section](#code-structure), we described if your SDK is generated based on HLC, we'll generate a sample test named `sampleTest.ts` for you.
 
-Next we'll take the package `@azure/arm-monitor` as an example to guide you how to add your own test case. Below are the steps:
+Next, we'll take the package `@azure/arm-monitor` as an example to guide you how to add your own test case. Below are the steps:
 
 - Step 1: Create your test file and add one test case with resource creation, here we have monitor test file `monitor.spec.ts` and one case named `Should create diagnosticSettings`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
 - Step 2: Add declarations for common variables e.g monitor client, its diagnostic name and subscription id.
-- Step 3: Create the monitor client in `beforeEach` and call `client.diagnosticSettings.createOrUpdate` in test case
-  - Read the `subscriptionId` from `env`
-  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details
-  - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`
+- Step 3: Create the monitor client in `beforeEach` and call `client.diagnosticSettings.createOrUpdate` in test case.
+  - Read the `subscriptionId` from `env`.
+  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details.
+  - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`.
 - Step 4[Optional]: Specify environment variables that would be faked in the recordings in map `envSetupForPlayback`.
-- Step 5: Add necessary assertions in your test case
-- Step 6: Run and record your test cases
+- Step 5: Add necessary assertions in your test case.
+- Step 6: Run and record your test cases.
 
 ### `monitor.spec.ts`
 

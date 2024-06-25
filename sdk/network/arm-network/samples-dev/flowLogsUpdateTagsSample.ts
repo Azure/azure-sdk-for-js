@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update tags of the specified flow log.
  *
  * @summary Update tags of the specified flow log.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherFlowLogUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherFlowLogUpdateTags.json
  */
 async function updateFlowLogTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

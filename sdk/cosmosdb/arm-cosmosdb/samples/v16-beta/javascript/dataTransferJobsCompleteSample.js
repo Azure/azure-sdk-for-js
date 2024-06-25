@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Completes a Data Transfer Online Job.
  *
  * @summary Completes a Data Transfer Online Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobComplete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobComplete.json
  */
 async function cosmosDbDataTransferJobComplete() {
   const subscriptionId =

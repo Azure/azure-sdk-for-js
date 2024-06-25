@@ -8,6 +8,79 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Describes the properties of a License. */
+export interface LicenseDetails {
+  /** Describes the state of the license. */
+  state?: LicenseState;
+  /** Describes the license target server. */
+  target?: LicenseTarget;
+  /** Describes the edition of the license. The values are either Standard or Datacenter. */
+  edition?: LicenseEdition;
+  /** Describes the license core type (pCore or vCore). */
+  type?: LicenseCoreType;
+  /** Describes the number of processors. */
+  processors?: number;
+  /**
+   * Describes the number of assigned licenses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assignedLicenses?: number;
+  /**
+   * Describes the immutable id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly immutableId?: string;
+  /** A list of volume license details. */
+  volumeLicenseDetails?: VolumeLicenseDetails[];
+}
+
+export interface VolumeLicenseDetails {
+  /** Describes the program year the volume license is for. */
+  programYear?: ProgramYear;
+  /** The invoice id for the volume license. */
+  invoiceId?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -55,6 +128,20 @@ export interface ErrorAdditionalInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: Record<string, unknown>;
+}
+
+/** The Update Resource model definition. */
+export interface ResourceUpdate {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The List license operation response. */
+export interface LicensesListResult {
+  /** The list of licenses. */
+  value: License[];
+  /** The URI to fetch the next page of Machines. Call ListNext() with this URI to fetch the next page of license profile. */
+  nextLink?: string;
 }
 
 /** Metadata pertaining to the geographic location of the resource. */
@@ -250,70 +337,6 @@ export interface LicenseProfileMachineInstanceView {
   softwareAssuranceCustomer?: boolean;
 }
 
-/** Describes the properties of a License. */
-export interface LicenseDetails {
-  /** Describes the state of the license. */
-  state?: LicenseState;
-  /** Describes the license target server. */
-  target?: LicenseTarget;
-  /** Describes the edition of the license. The values are either Standard or Datacenter. */
-  edition?: LicenseEdition;
-  /** Describes the license core type (pCore or vCore). */
-  type?: LicenseCoreType;
-  /** Describes the number of processors. */
-  processors?: number;
-  /**
-   * Describes the number of assigned licenses.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignedLicenses?: number;
-  /**
-   * Describes the immutable id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly immutableId?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** License profile storage model for ESU properties. */
 export interface LicenseProfileStorageModelEsuProperties {
   /**
@@ -332,8 +355,8 @@ export interface LicenseProfileStorageModelEsuProperties {
 export interface EsuKey {
   /** SKU number. */
   sku?: string;
-  /** The current status of the license profile key. */
-  licenseStatus?: string;
+  /** The current status of the license profile key. Represented by the same integer value that is presented on the machine itself when querying the license key status. */
+  licenseStatus?: number;
 }
 
 /** Product Feature */
@@ -682,12 +705,6 @@ export interface MachineListResult {
   nextLink?: string;
 }
 
-/** The Update Resource model definition. */
-export interface ResourceUpdate {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
 /** Describes the Machine Extensions List Result. */
 export interface MachineExtensionsListResult {
   /** The list of extensions */
@@ -706,6 +723,30 @@ export interface MachineExtensionUpgrade {
 export interface ExtensionTargetProperties {
   /** Properties for the specified Extension to Upgrade. */
   targetVersion?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
 /** The List Extension Metadata response. */
@@ -838,6 +879,49 @@ export interface MachineRunCommandsListResult {
   /** The list of run commands */
   value?: MachineRunCommand[];
   /** The uri to fetch the next page of run commands. Call ListNext() with this to fetch the next page of run commands. */
+  nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetailAutoGenerated;
+}
+
+/** The error detail. */
+export interface ErrorDetailAutoGenerated {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetailAutoGenerated[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The List license operation response. */
+export interface GatewaysListResult {
+  /** The list of Gateways. */
+  value: Gateway[];
+  /** The URI to fetch the next page of Gateways. Call ListNext() with this URI to fetch the next page of Gateways. */
   nextLink?: string;
 }
 
@@ -1044,89 +1128,6 @@ export interface ConnectionDetail {
   readonly memberName?: string;
 }
 
-/** The List license operation response. */
-export interface LicensesListResult {
-  /** The list of licenses. */
-  value: License[];
-  /** The URI to fetch the next page of Machines. Call ListNext() with this URI to fetch the next page of license profile. */
-  nextLink?: string;
-}
-
-/** Product Feature */
-export interface ProductFeatureUpdate {
-  /** Product feature name. */
-  name?: string;
-  /** Indicates the new status of the product feature. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate;
-}
-
-/** The List hybrid machine license profile operation response. */
-export interface LicenseProfilesListResult {
-  /** The list of license profiles. */
-  value: LicenseProfile[];
-  /** The URI to fetch the next page of Machines. Call ListNext() with this URI to fetch the next page of license profile. */
-  nextLink?: string;
-}
-
-/** List of HybridIdentityMetadata. */
-export interface HybridIdentityMetadataList {
-  /** Url to follow for getting next page of HybridIdentityMetadata. */
-  nextLink?: string;
-  /** Array of HybridIdentityMetadata */
-  value: HybridIdentityMetadata[];
-}
-
-/** Describes AgentVersions List. */
-export interface AgentVersionsList {
-  /** The list of available Agent Versions. */
-  value?: AgentVersion[];
-  /** The URI to fetch the next 10 available Agent Versions. */
-  nextLink?: string;
-}
-
-/** Describes properties of Agent Version. */
-export interface AgentVersion {
-  /** Represents the agent version. */
-  agentVersion?: string;
-  /** Represents the download link of specific agent version. */
-  downloadLink?: string;
-  /** Defines the os type. */
-  osType?: string;
-}
-
-/** Public key information for client authentication */
-export interface KeyProperties {
-  /**
-   * Current public key details
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientPublicKey?: KeyDetails;
-  /**
-   * Candidate public key details
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly candidatePublicKey?: KeyDetails;
-}
-
-/** Public key details */
-export interface KeyDetails {
-  /**
-   * Public key
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicKey?: string;
-  /**
-   * Key expiration date
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly notAfter?: Date;
-  /**
-   * Recommended key renewal date
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly renewAfter?: Date;
-}
-
 /** Properties that define a Network Security Perimeter resource. */
 export interface NetworkSecurityPerimeterConfiguration {
   /**
@@ -1259,7 +1260,7 @@ export interface NetworkSecurityPerimeterProfile {
    * Access rules version number
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly accessRulesVersion?: string;
+  readonly accessRulesVersion?: number;
   /**
    * Collection of access rules for the profile
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1269,7 +1270,7 @@ export interface NetworkSecurityPerimeterProfile {
    * Diagnostic settings version number
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly diagnosticSettingsVersion?: string;
+  readonly diagnosticSettingsVersion?: number;
   /**
    * Collection of enabled log categories for the profile
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1291,6 +1292,81 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   readonly nextLink?: string;
 }
 
+/** Product Feature */
+export interface ProductFeatureUpdate {
+  /** Product feature name. */
+  name?: string;
+  /** Indicates the new status of the product feature. */
+  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate;
+}
+
+/** The List hybrid machine license profile operation response. */
+export interface LicenseProfilesListResult {
+  /** The list of license profiles. */
+  value: LicenseProfile[];
+  /** The URI to fetch the next page of Machines. Call ListNext() with this URI to fetch the next page of license profile. */
+  nextLink?: string;
+}
+
+/** List of HybridIdentityMetadata. */
+export interface HybridIdentityMetadataList {
+  /** Url to follow for getting next page of HybridIdentityMetadata. */
+  nextLink?: string;
+  /** Array of HybridIdentityMetadata */
+  value: HybridIdentityMetadata[];
+}
+
+/** Describes AgentVersions List. */
+export interface AgentVersionsList {
+  /** The list of available Agent Versions. */
+  value?: AgentVersion[];
+  /** The URI to fetch the next 10 available Agent Versions. */
+  nextLink?: string;
+}
+
+/** Describes properties of Agent Version. */
+export interface AgentVersion {
+  /** Represents the agent version. */
+  agentVersion?: string;
+  /** Represents the download link of specific agent version. */
+  downloadLink?: string;
+  /** Defines the os type. */
+  osType?: string;
+}
+
+/** Public key information for client authentication */
+export interface KeyProperties {
+  /**
+   * Current public key details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientPublicKey?: KeyDetails;
+  /**
+   * Candidate public key details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly candidatePublicKey?: KeyDetails;
+}
+
+/** Public key details */
+export interface KeyDetails {
+  /**
+   * Public key
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicKey?: string;
+  /**
+   * Key expiration date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly notAfter?: Date;
+  /**
+   * Recommended key renewal date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renewAfter?: Date;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -1300,26 +1376,22 @@ export interface TrackedResource extends Resource {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export interface ProxyResourceAutoGenerated extends Resource {}
 
-/** Describes the properties of a License Profile ARM model. */
-export interface LicenseProfileArmEsuPropertiesWithoutAssignedLicense
-  extends LicenseProfileStorageModelEsuProperties {
-  /**
-   * The type of the Esu servers.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverType?: EsuServerType;
-  /**
-   * Indicates the eligibility state of Esu.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly esuEligibility?: EsuEligibility;
-  /**
-   * Indicates whether there is an ESU Key currently active for the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly esuKeyState?: EsuKeyState;
+/** Describes a License Update. */
+export interface LicenseUpdate extends ResourceUpdate {
+  /** The type of the license resource. */
+  licenseType?: LicenseType;
+  /** Describes the state of the license. */
+  state?: LicenseState;
+  /** Describes the license target server. */
+  target?: LicenseTarget;
+  /** Describes the edition of the license. The values are either Standard or Datacenter. */
+  edition?: LicenseEdition;
+  /** Describes the license core type (pCore or vCore). */
+  type?: LicenseCoreType;
+  /** Describes the number of processors. */
+  processors?: number;
 }
 
 /** Describes a Machine Extension Update. */
@@ -1342,6 +1414,15 @@ export interface MachineExtensionUpdate extends ResourceUpdate {
   protectedSettings?: { [propertyName: string]: any };
 }
 
+/** Describes a Machine Extension Update. */
+export interface MachineRunCommandUpdate extends ResourceUpdate {}
+
+/** Describes a License Update. */
+export interface GatewayUpdate extends ResourceUpdate {
+  /** Specifies the list of features that are enabled for this Gateway. */
+  allowedFeatures?: string[];
+}
+
 /** Describes a hybrid machine Update. */
 export interface MachineUpdate extends ResourceUpdate {
   /** Identity for the resource. */
@@ -1362,22 +1443,6 @@ export interface MachineUpdate extends ResourceUpdate {
   privateLinkScopeResourceId?: string;
 }
 
-/** Describes a License Update. */
-export interface LicenseUpdate extends ResourceUpdate {
-  /** The type of the license resource. */
-  licenseType?: LicenseType;
-  /** Describes the state of the license. */
-  state?: LicenseState;
-  /** Describes the license target server. */
-  target?: LicenseTarget;
-  /** Describes the edition of the license. The values are either Standard or Datacenter. */
-  edition?: LicenseEdition;
-  /** Describes the license core type (pCore or vCore). */
-  type?: LicenseCoreType;
-  /** Describes the number of processors. */
-  processors?: number;
-}
-
 /** Describes a License Profile Update. */
 export interface LicenseProfileUpdate extends ResourceUpdate {
   /** Indicates the subscription status of the product. */
@@ -1392,8 +1457,36 @@ export interface LicenseProfileUpdate extends ResourceUpdate {
   softwareAssuranceCustomer?: boolean;
 }
 
-/** Describes a Machine Extension Update. */
-export interface MachineRunCommandUpdate extends ResourceUpdate {}
+/** Describes the properties of a License Profile ARM model. */
+export interface LicenseProfileArmEsuPropertiesWithoutAssignedLicense
+  extends LicenseProfileStorageModelEsuProperties {
+  /**
+   * The type of the Esu servers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: EsuServerType;
+  /**
+   * Indicates the eligibility state of Esu.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly esuEligibility?: EsuEligibility;
+  /**
+   * Indicates whether there is an ESU Key currently active for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly esuKeyState?: EsuKeyState;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends ResourceAutoGenerated {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
 
 /** An Azure Arc PrivateLinkScope definition. */
 export interface HybridComputePrivateLinkScope
@@ -1652,39 +1745,30 @@ export interface LicenseProfile extends TrackedResource {
   softwareAssuranceCustomer?: boolean;
 }
 
-/** Describes a Extension Metadata */
-export interface ExtensionValue extends ProxyResource {
+export interface Settings extends ProxyResourceAutoGenerated {
   /**
-   * The version of the Extension being received.
+   * Azure resource tenant Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly version?: string;
-  /**
-   * The type of the Extension being received.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensionType?: string;
-  /**
-   * The publisher of the Extension being received.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publisher?: string;
+  readonly tenantId?: string;
+  /** Associated Gateway Resource Id */
+  gatewayResourceId?: string;
 }
 
 /** A private link resource */
-export interface PrivateLinkResource extends ProxyResource {
+export interface PrivateLinkResource extends ProxyResourceAutoGenerated {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
 }
 
 /** A private endpoint connection */
-export interface PrivateEndpointConnection extends ProxyResource {
+export interface PrivateEndpointConnection extends ProxyResourceAutoGenerated {
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
 }
 
 /** Defines the HybridIdentityMetadata. */
-export interface HybridIdentityMetadata extends ProxyResource {
+export interface HybridIdentityMetadata extends ProxyResourceAutoGenerated {
   /** The unique identifier for the resource. */
   vmId?: string;
   /** The Public Key. */
@@ -1696,7 +1780,7 @@ export interface HybridIdentityMetadata extends ProxyResource {
   readonly identity?: Identity;
 }
 
-export interface NetworkConfiguration extends ProxyResource {
+export interface NetworkConfiguration extends ProxyResourceAutoGenerated {
   /** Resource location */
   location?: string;
   /**
@@ -1729,6 +1813,48 @@ export interface LicenseProfileArmEsuProperties
   extends LicenseProfileArmEsuPropertiesWithoutAssignedLicense {
   /** The resource id of the license. */
   assignedLicense?: string;
+}
+
+/** Describes a Extension Metadata */
+export interface ExtensionValue extends ProxyResource {
+  /**
+   * The version of the Extension being received.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * The type of the Extension being received.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extensionType?: string;
+  /**
+   * The publisher of the Extension being received.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publisher?: string;
+}
+
+/** Describes an Arc Gateway. */
+export interface Gateway extends TrackedResourceAutoGenerated {
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A unique, immutable, identifier for the Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gatewayId?: string;
+  /** The type of the Gateway resource. */
+  gatewayType?: GatewayType;
+  /**
+   * The endpoint fqdn for the Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gatewayEndpoint?: string;
+  /** Specifies the list of features that are enabled for this Gateway. */
+  allowedFeatures?: string[];
 }
 
 /** Defines headers for Machines_assessPatches operation. */
@@ -1783,8 +1909,38 @@ export interface MachineRunCommandsCreateOrUpdateHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for MachineRunCommands_update operation. */
+export interface MachineRunCommandsUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for MachineRunCommands_delete operation. */
 export interface MachineRunCommandsDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Gateways_createOrUpdate operation. */
+export interface GatewaysCreateOrUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Gateways_delete operation. */
+export interface GatewaysDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
@@ -1812,117 +1968,6 @@ export interface PrivateEndpointConnectionsDeleteHeaders {
   /** The URI to poll for completion status. */
   azureAsyncOperation?: string;
 }
-
-/** Known values of {@link AgentConfigurationMode} that the service accepts. */
-export enum KnownAgentConfigurationMode {
-  /** Full */
-  Full = "full",
-  /** Monitor */
-  Monitor = "monitor",
-}
-
-/**
- * Defines values for AgentConfigurationMode. \
- * {@link KnownAgentConfigurationMode} can be used interchangeably with AgentConfigurationMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **full** \
- * **monitor**
- */
-export type AgentConfigurationMode = string;
-
-/** Known values of {@link LastAttemptStatusEnum} that the service accepts. */
-export enum KnownLastAttemptStatusEnum {
-  /** Success */
-  Success = "Success",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * Defines values for LastAttemptStatusEnum. \
- * {@link KnownLastAttemptStatusEnum} can be used interchangeably with LastAttemptStatusEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Success** \
- * **Failed**
- */
-export type LastAttemptStatusEnum = string;
-
-/** Known values of {@link AssessmentModeTypes} that the service accepts. */
-export enum KnownAssessmentModeTypes {
-  /** ImageDefault */
-  ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform",
-}
-
-/**
- * Defines values for AssessmentModeTypes. \
- * {@link KnownAssessmentModeTypes} can be used interchangeably with AssessmentModeTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform**
- */
-export type AssessmentModeTypes = string;
-
-/** Known values of {@link PatchModeTypes} that the service accepts. */
-export enum KnownPatchModeTypes {
-  /** ImageDefault */
-  ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform",
-  /** AutomaticByOS */
-  AutomaticByOS = "AutomaticByOS",
-  /** Manual */
-  Manual = "Manual",
-}
-
-/**
- * Defines values for PatchModeTypes. \
- * {@link KnownPatchModeTypes} can be used interchangeably with PatchModeTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform** \
- * **AutomaticByOS** \
- * **Manual**
- */
-export type PatchModeTypes = string;
-
-/** Known values of {@link LicenseStatus} that the service accepts. */
-export enum KnownLicenseStatus {
-  /** Unlicensed */
-  Unlicensed = "Unlicensed",
-  /** Licensed */
-  Licensed = "Licensed",
-  /** OOBGrace */
-  OOBGrace = "OOBGrace",
-  /** OOTGrace */
-  OOTGrace = "OOTGrace",
-  /** NonGenuineGrace */
-  NonGenuineGrace = "NonGenuineGrace",
-  /** Notification */
-  Notification = "Notification",
-  /** ExtendedGrace */
-  ExtendedGrace = "ExtendedGrace",
-}
-
-/**
- * Defines values for LicenseStatus. \
- * {@link KnownLicenseStatus} can be used interchangeably with LicenseStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unlicensed** \
- * **Licensed** \
- * **OOBGrace** \
- * **OOTGrace** \
- * **NonGenuineGrace** \
- * **Notification** \
- * **ExtendedGrace**
- */
-export type LicenseStatus = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -2047,6 +2092,27 @@ export enum KnownLicenseCoreType {
  */
 export type LicenseCoreType = string;
 
+/** Known values of {@link ProgramYear} that the service accepts. */
+export enum KnownProgramYear {
+  /** Year1 */
+  Year1 = "Year 1",
+  /** Year2 */
+  Year2 = "Year 2",
+  /** Year3 */
+  Year3 = "Year 3",
+}
+
+/**
+ * Defines values for ProgramYear. \
+ * {@link KnownProgramYear} can be used interchangeably with ProgramYear,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Year 1** \
+ * **Year 2** \
+ * **Year 3**
+ */
+export type ProgramYear = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -2070,6 +2136,117 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link AgentConfigurationMode} that the service accepts. */
+export enum KnownAgentConfigurationMode {
+  /** Full */
+  Full = "full",
+  /** Monitor */
+  Monitor = "monitor",
+}
+
+/**
+ * Defines values for AgentConfigurationMode. \
+ * {@link KnownAgentConfigurationMode} can be used interchangeably with AgentConfigurationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **full** \
+ * **monitor**
+ */
+export type AgentConfigurationMode = string;
+
+/** Known values of {@link LastAttemptStatusEnum} that the service accepts. */
+export enum KnownLastAttemptStatusEnum {
+  /** Success */
+  Success = "Success",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for LastAttemptStatusEnum. \
+ * {@link KnownLastAttemptStatusEnum} can be used interchangeably with LastAttemptStatusEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Success** \
+ * **Failed**
+ */
+export type LastAttemptStatusEnum = string;
+
+/** Known values of {@link AssessmentModeTypes} that the service accepts. */
+export enum KnownAssessmentModeTypes {
+  /** ImageDefault */
+  ImageDefault = "ImageDefault",
+  /** AutomaticByPlatform */
+  AutomaticByPlatform = "AutomaticByPlatform",
+}
+
+/**
+ * Defines values for AssessmentModeTypes. \
+ * {@link KnownAssessmentModeTypes} can be used interchangeably with AssessmentModeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ImageDefault** \
+ * **AutomaticByPlatform**
+ */
+export type AssessmentModeTypes = string;
+
+/** Known values of {@link PatchModeTypes} that the service accepts. */
+export enum KnownPatchModeTypes {
+  /** ImageDefault */
+  ImageDefault = "ImageDefault",
+  /** AutomaticByPlatform */
+  AutomaticByPlatform = "AutomaticByPlatform",
+  /** AutomaticByOS */
+  AutomaticByOS = "AutomaticByOS",
+  /** Manual */
+  Manual = "Manual",
+}
+
+/**
+ * Defines values for PatchModeTypes. \
+ * {@link KnownPatchModeTypes} can be used interchangeably with PatchModeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ImageDefault** \
+ * **AutomaticByPlatform** \
+ * **AutomaticByOS** \
+ * **Manual**
+ */
+export type PatchModeTypes = string;
+
+/** Known values of {@link LicenseStatus} that the service accepts. */
+export enum KnownLicenseStatus {
+  /** Unlicensed */
+  Unlicensed = "Unlicensed",
+  /** Licensed */
+  Licensed = "Licensed",
+  /** OOBGrace */
+  OOBGrace = "OOBGrace",
+  /** OOTGrace */
+  OOTGrace = "OOTGrace",
+  /** NonGenuineGrace */
+  NonGenuineGrace = "NonGenuineGrace",
+  /** Notification */
+  Notification = "Notification",
+  /** ExtendedGrace */
+  ExtendedGrace = "ExtendedGrace",
+}
+
+/**
+ * Defines values for LicenseStatus. \
+ * {@link KnownLicenseStatus} can be used interchangeably with LicenseStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unlicensed** \
+ * **Licensed** \
+ * **OOBGrace** \
+ * **OOTGrace** \
+ * **NonGenuineGrace** \
+ * **Notification** \
+ * **ExtendedGrace**
+ */
+export type LicenseStatus = string;
 
 /** Known values of {@link LicenseAssignmentState} that the service accepts. */
 export enum KnownLicenseAssignmentState {
@@ -2497,12 +2674,29 @@ export enum KnownExecutionState {
  */
 export type ExecutionState = string;
 
+/** Known values of {@link GatewayType} that the service accepts. */
+export enum KnownGatewayType {
+  /** Public */
+  Public = "Public",
+}
+
+/**
+ * Defines values for GatewayType. \
+ * {@link KnownGatewayType} can be used interchangeably with GatewayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public**
+ */
+export type GatewayType = string;
+
 /** Known values of {@link PublicNetworkAccessType} that the service accepts. */
 export enum KnownPublicNetworkAccessType {
   /** Allows Azure Arc agents to communicate with Azure Arc services over both public (internet) and private endpoints. */
   Enabled = "Enabled",
   /** Does not allow Azure Arc agents to communicate with Azure Arc services over public (internet) endpoints. The agents must use the private link. */
   Disabled = "Disabled",
+  /** Azure Arc agent communication with Azure Arc services over public (internet) is enforced by Network Security Perimeter (NSP) */
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -2511,27 +2705,10 @@ export enum KnownPublicNetworkAccessType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled**: Allows Azure Arc agents to communicate with Azure Arc services over both public (internet) and private endpoints. \
- * **Disabled**: Does not allow Azure Arc agents to communicate with Azure Arc services over public (internet) endpoints. The agents must use the private link.
+ * **Disabled**: Does not allow Azure Arc agents to communicate with Azure Arc services over public (internet) endpoints. The agents must use the private link. \
+ * **SecuredByPerimeter**: Azure Arc agent communication with Azure Arc services over public (internet) is enforced by Network Security Perimeter (NSP)
  */
 export type PublicNetworkAccessType = string;
-
-/** Known values of {@link LicenseProfileSubscriptionStatusUpdate} that the service accepts. */
-export enum KnownLicenseProfileSubscriptionStatusUpdate {
-  /** Enable */
-  Enable = "Enable",
-  /** Disable */
-  Disable = "Disable",
-}
-
-/**
- * Defines values for LicenseProfileSubscriptionStatusUpdate. \
- * {@link KnownLicenseProfileSubscriptionStatusUpdate} can be used interchangeably with LicenseProfileSubscriptionStatusUpdate,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enable** \
- * **Disable**
- */
-export type LicenseProfileSubscriptionStatusUpdate = string;
 
 /** Known values of {@link ProvisioningIssueType} that the service accepts. */
 export enum KnownProvisioningIssueType {
@@ -2613,8 +2790,94 @@ export enum KnownAccessMode {
  * **learning**: Enables traffic evaluation to fall back to resource-specific firewall configurations.
  */
 export type AccessMode = string;
+
+/** Known values of {@link LicenseProfileSubscriptionStatusUpdate} that the service accepts. */
+export enum KnownLicenseProfileSubscriptionStatusUpdate {
+  /** Enable */
+  Enable = "Enable",
+  /** Disable */
+  Disable = "Disable",
+}
+
+/**
+ * Defines values for LicenseProfileSubscriptionStatusUpdate. \
+ * {@link KnownLicenseProfileSubscriptionStatusUpdate} can be used interchangeably with LicenseProfileSubscriptionStatusUpdate,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable** \
+ * **Disable**
+ */
+export type LicenseProfileSubscriptionStatusUpdate = string;
 /** Defines values for ExtensionsStatusLevelTypes. */
 export type ExtensionsStatusLevelTypes = "Info" | "Warning" | "Error";
+
+/** Optional parameters. */
+export interface LicensesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LicensesCreateOrUpdateResponse = License;
+
+/** Optional parameters. */
+export interface LicensesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type LicensesUpdateResponse = License;
+
+/** Optional parameters. */
+export interface LicensesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LicensesGetResponse = License;
+
+/** Optional parameters. */
+export interface LicensesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface LicensesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type LicensesListByResourceGroupResponse = LicensesListResult;
+
+/** Optional parameters. */
+export interface LicensesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type LicensesListBySubscriptionResponse = LicensesListResult;
+
+/** Optional parameters. */
+export interface LicensesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type LicensesListByResourceGroupNextResponse = LicensesListResult;
+
+/** Optional parameters. */
+export interface LicensesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type LicensesListBySubscriptionNextResponse = LicensesListResult;
 
 /** Optional parameters. */
 export interface MachinesDeleteOptionalParams
@@ -2791,6 +3054,18 @@ export interface MachineRunCommandsCreateOrUpdateOptionalParams
 export type MachineRunCommandsCreateOrUpdateResponse = MachineRunCommand;
 
 /** Optional parameters. */
+export interface MachineRunCommandsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type MachineRunCommandsUpdateResponse = MachineRunCommand;
+
+/** Optional parameters. */
 export interface MachineRunCommandsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -2822,6 +3097,93 @@ export interface MachineRunCommandsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type MachineRunCommandsListNextResponse = MachineRunCommandsListResult;
+
+/** Optional parameters. */
+export interface GatewaysCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GatewaysCreateOrUpdateResponse = Gateway;
+
+/** Optional parameters. */
+export interface GatewaysUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type GatewaysUpdateResponse = Gateway;
+
+/** Optional parameters. */
+export interface GatewaysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GatewaysGetResponse = Gateway;
+
+/** Optional parameters. */
+export interface GatewaysDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GatewaysDeleteResponse = GatewaysDeleteHeaders;
+
+/** Optional parameters. */
+export interface GatewaysListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type GatewaysListByResourceGroupResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface GatewaysListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type GatewaysListBySubscriptionResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface GatewaysListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type GatewaysListByResourceGroupNextResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface GatewaysListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type GatewaysListBySubscriptionNextResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface SettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SettingsGetResponse = Settings;
+
+/** Optional parameters. */
+export interface SettingsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SettingsUpdateResponse = Settings;
+
+/** Optional parameters. */
+export interface SettingsPatchOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the patch operation. */
+export type SettingsPatchResponse = Settings;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesListOptionalParams
@@ -2969,6 +3331,30 @@ export interface PrivateEndpointConnectionsListByPrivateLinkScopeNextOptionalPar
 /** Contains response data for the listByPrivateLinkScopeNext operation. */
 export type PrivateEndpointConnectionsListByPrivateLinkScopeNextResponse =
   PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByPrivateLinkScope operation. */
+export type NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeResponse =
+  NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByPrivateLinkScope operation. */
+export type NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByPrivateLinkScopeNext operation. */
+export type NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeNextResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
 export interface HybridComputeManagementClientOptionalParams

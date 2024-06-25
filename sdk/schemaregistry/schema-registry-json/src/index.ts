@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { JsonSerializer } from "./jsonSerializer";
+export { JsonSchemaSerializer } from "./jsonSchemaSerializer";
 
 export * from "./models";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Storage Movers in a resource group.
  *
  * @summary Lists all Storage Movers in a resource group.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/StorageMovers_List.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/StorageMovers_List.json
  */
 async function storageMoversList() {
   const subscriptionId =

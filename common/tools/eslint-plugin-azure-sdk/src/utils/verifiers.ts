@@ -6,6 +6,8 @@
  */
 
 import { TSESTree, TSESLint } from "@typescript-eslint/utils";
+import { statSync } from "node:fs";
+import * as path from "node:path";
 
 interface StructureData {
   outer: string;
@@ -42,6 +44,15 @@ export type VerifierMessageIds = keyof typeof VerifierMessages;
 export const stripPath = (pathOrFileName: string): string =>
   pathOrFileName.replace(/^.*[\\\/]/, "");
 
+export function usesTshy(packageJsonPath: string): boolean {
+  const dotTshy = path.join(path.dirname(packageJsonPath), ".tshy");
+  try {
+    statSync(dotTshy);
+    return true;
+  } catch {
+    return false;
+  }
+}
 /**
  * Get the directory of a filename
  * @param pathOrFileName the input path or file name

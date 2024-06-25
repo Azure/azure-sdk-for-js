@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all SSL predefined policies for configuring Ssl policy.
  *
  * @summary Lists all SSL predefined policies for configuring Ssl policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPoliciesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPoliciesGet.json
  */
 async function getAvailableSslPredefinedPolicies() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

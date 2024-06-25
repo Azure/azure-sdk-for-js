@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher";
-import { assert } from "chai";
-import { IncomingMessage, ServerResponse } from "http";
-import { Socket } from "net";
+
+import { describe, it, assert } from "vitest";
+import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher.js";
+import { IncomingMessage, ServerResponse } from "node:http";
+import { Socket } from "node:net";
 
 describe("Abuse protection works", function () {
   it("Only requests with valid header will be processed", function () {

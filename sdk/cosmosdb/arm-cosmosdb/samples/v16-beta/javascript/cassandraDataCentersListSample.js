@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all data centers in a particular managed Cassandra cluster.
  *
  * @summary List all data centers in a particular managed Cassandra cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraDataCenterList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBManagedCassandraDataCenterList.json
  */
 async function cosmosDbManagedCassandraDataCenterList() {
   const subscriptionId =

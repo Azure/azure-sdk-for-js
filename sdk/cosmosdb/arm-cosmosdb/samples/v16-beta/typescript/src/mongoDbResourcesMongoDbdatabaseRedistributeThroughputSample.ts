@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Redistribute throughput for an Azure Cosmos DB MongoDB database
  *
  * @summary Redistribute throughput for an Azure Cosmos DB MongoDB database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBDatabaseRedistributeThroughput.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/CosmosDBMongoDBDatabaseRedistributeThroughput.json
  */
 async function cosmosDbMongoDbdatabaseRedistributeThroughput() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

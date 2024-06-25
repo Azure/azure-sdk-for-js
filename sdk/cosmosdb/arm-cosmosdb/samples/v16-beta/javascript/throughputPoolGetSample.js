@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the properties of an existing Azure Cosmos DB Throughput Pool
  *
  * @summary Retrieves the properties of an existing Azure Cosmos DB Throughput Pool
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/throughputPool/CosmosDBThroughputPoolGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-05-15-preview/examples/throughputPool/CosmosDBThroughputPoolGet.json
  */
 async function cosmosDbThroughputPoolGet() {
   const subscriptionId =

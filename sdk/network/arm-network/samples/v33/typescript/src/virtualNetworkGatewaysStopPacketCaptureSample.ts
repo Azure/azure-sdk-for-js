@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Stops packet capture on virtual network gateway in the specified resource group.
  *
  * @summary Stops packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayStopPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayStopPacketCapture.json
  */
 async function stopPacketCaptureOnVirtualNetworkGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
