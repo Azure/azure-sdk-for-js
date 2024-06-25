@@ -6,7 +6,7 @@
 <!-- TODO Fix links once they are live use placeholden until then -->
 Key links:
 
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/azure-health-deidentification)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/health-deidentification)
 
 ## Getting started
 
@@ -18,12 +18,12 @@ Key links:
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### Install the `@azure-rest/azure-health-deidentification` package
+### Install the `@azure-rest/health-deidentification` package
 
 Install the Azure Deidentification REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/azure-health-deidentification
+npm install @azure-rest/health-deidentification
 ```
 
 ### Create and authenticate a `DeidentificationClient`
@@ -51,7 +51,7 @@ Basic code snippet to create your Deidentification Client and Deidentify a strin
 import createClient, {
   DeidentificationContent,
   DeidentificationResultOutput,
-} from '@azure-rest/azure-health-deidentification';
+} from '@azure-rest/health-deidentification';
 import { DefaultAzureCredential } from '@azure/identity';
 
 const credential = new DefaultAzureCredential();
