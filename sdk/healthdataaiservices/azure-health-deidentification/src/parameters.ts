@@ -41,7 +41,7 @@ export interface ListJobsQueryParamProperties {
   /** The maximum number of result items per page. */
   maxpagesize?: number;
   /** Token to continue a previous query. */
-  continuationToken?: string;
+  nextToken?: string;
 }
 
 export interface ListJobsQueryParam {
@@ -63,7 +63,7 @@ export interface ListJobFilesQueryParamProperties {
   /** The maximum number of result items per page. */
   maxpagesize?: number;
   /** Token to continue a previous query. */
-  continuationToken?: string;
+  nextToken?: string;
 }
 
 export interface ListJobFilesQueryParam {
