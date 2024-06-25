@@ -9,21 +9,22 @@ import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCre
 import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors";
+import { setLogLevel } from "@azure/logger";
+setLogLevel("verbose"); // TODO: delete before merging
 
-describe("ManagedIdentityCredential (MSAL)", function () {
+describe.only("ManagedIdentityCredential (MSAL)", function () {
   let msal: Sinon.SinonStub;
   const validAuthenticationResult: Partial<AuthenticationResult> = {
     accessToken: "test_token",
     expiresOn: new Date(),
   };
 
-  afterEach(function () {
-    Sinon.restore();
+  beforeEach(function () {
+    msal = Sinon.stub(ManagedIdentityApplication.prototype, "acquireToken");
   });
 
-  beforeEach(function () {
-    // minimal stub
-    msal = Sinon.stub(ManagedIdentityApplication.prototype, "acquireToken");
+  afterEach(function () {
+    Sinon.restore();
   });
 
   describe("constructor", function () {
