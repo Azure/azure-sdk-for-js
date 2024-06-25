@@ -18,9 +18,6 @@ import { isNodeLike } from "@azure/core-util";
 const envSetupForPlayback: Record<string, string> = {
   CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
   CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT: "https://myregistry.azurecr.io",
-  CONTAINERREGISTRY_TENANT_ID: "12345678-1234-1234-1234-123456789012",
-  CONTAINERREGISTRY_CLIENT_ID: "azure_client_id",
-  CONTAINERREGISTRY_CLIENT_SECRET: "azure_client_secret",
   SUBSCRIPTION_ID: "subscription_id",
   RESOURCE_GROUP: "resource_group_id",
   REGISTRY: "myregistry",
