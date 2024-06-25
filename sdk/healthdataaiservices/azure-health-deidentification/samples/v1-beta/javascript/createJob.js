@@ -5,14 +5,11 @@
  * @summary This sample demonstrates how to create a job which will deidentify all files within a blob storage container filtering via a prefix.
  */
 
-import createClient, {
-  DeidentificationJob,
-  DeidentificationJobOutput,
-  isUnexpected,
-} from "@azure-rest/health-deidentification";
-import { DefaultAzureCredential } from "@azure/identity";
+const createClient = require("@azure-rest/health-deidentification").default,
+  { isUnexpected } = require("@azure-rest/health-deidentification");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const serviceEndpoint = "https://example.api.cac001.deid.azure.com";
   const storageAccountSASUri = "exampleSASUri";
@@ -21,7 +18,7 @@ export async function main(): Promise<void> {
   const client = createClient(serviceEndpoint, credential);
   const jobName = "exampleJob";
 
-  const job: DeidentificationJob = {
+  const job = {
     dataType: "Plaintext",
     operation: "Surrogate",
     sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
@@ -33,9 +30,11 @@ export async function main(): Promise<void> {
     throw response.body.error;
   }
 
-  console.log(response.body as DeidentificationJobOutput);
+  console.log(response.body);
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

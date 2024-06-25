@@ -5,10 +5,11 @@
  * @summary This sample demonstrates how to list jobs and iterate over them in a for loop.
  */
 
-import createClient, { isUnexpected, paginate } from "@azure-rest/health-deidentification";
-import { DefaultAzureCredential } from "@azure/identity";
+const createClient = require("@azure-rest/health-deidentification").default,
+  { isUnexpected, paginate } = require("@azure-rest/health-deidentification");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const serviceEndpoint = "https://example.api.cac001.deid.azure.com";
   const client = createClient(serviceEndpoint, credential);
@@ -31,3 +32,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

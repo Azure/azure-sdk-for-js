@@ -2,17 +2,14 @@
 // Licensed under the MIT license.
 
 /**
- * @summary This sample demonstrates how to create a job which will deidentify all files within a blob storage container filtering via a prefix.
+ * @summary This sample demonstrates how to list files that were completed by a job.
  */
 
-import createClient, {
-  DeidentificationJob,
-  DeidentificationJobOutput,
-  isUnexpected,
-} from "@azure-rest/health-deidentification";
-import { DefaultAzureCredential } from "@azure/identity";
+const createClient = require("@azure-rest/health-deidentification").default,
+  { isUnexpected, paginate } = require("@azure-rest/health-deidentification");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const serviceEndpoint = "https://example.api.cac001.deid.azure.com";
   const storageAccountSASUri = "exampleSASUri";
@@ -21,21 +18,33 @@ export async function main(): Promise<void> {
   const client = createClient(serviceEndpoint, credential);
   const jobName = "exampleJob";
 
-  const job: DeidentificationJob = {
+  const job = {
     dataType: "Plaintext",
     operation: "Surrogate",
     sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
     targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
   };
-  const response = await client.path("/jobs/{name}", jobName).put({ body: job });
+
+  await client.path("/jobs/{name}", jobName).put({ body: job });
+
+  const response = await client.path("/jobs/{name}/files", jobName).get();
 
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 
-  console.log(response.body as DeidentificationJobOutput);
+  const items = [];
+  const iter = paginate(client, response);
+
+  for await (const item of iter) {
+    items.push(item);
+  }
+
+  console.log(items); // items will contain all the completed files
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
