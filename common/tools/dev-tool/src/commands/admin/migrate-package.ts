@@ -146,12 +146,42 @@ function fixTestingImports(packageFolder: string): void {
 
   // Iterate over all the source files
   for (const sourceFile of project.getSourceFiles()) {
-    // If the file ends with .spec.ts, add the import statement
+    // Remove if the file is a test utility for chai
+    if (
+      sourceFile.getFilePath().includes("/test") &&
+      !sourceFile.getBaseName().endsWith(".spec.ts")
+    ) {
+      for (const importDeclaration of sourceFile.getImportDeclarations()) {
+        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+        if (["chai", "assert"].includes(moduleSpecifier)) {
+          importDeclaration.remove();
+          sourceFile.addImportDeclaration({
+            namedImports: ["assert"],
+            moduleSpecifier: "vitest",
+          });
+        }
+      }
+    }
+
     if (sourceFile.getBaseName().endsWith(".spec.ts")) {
-      sourceFile.addImportDeclaration({
-        namedImports: ["describe", "it", "assert"],
-        moduleSpecifier: "vitest",
-      });
+      if (!sourceFile.getImportDeclaration("vitest")) {
+        // If the file ends with .spec.ts, add the import statement
+        const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
+          const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+          return moduleSpecifier === "sinon" || moduleSpecifier === "@azure-tools/test-recorder";
+        });
+
+        const viTestImports = ["describe", "it", "assert"];
+        // Insert typical mocking imports if needed
+        if (hasMocking) {
+          viTestImports.push("expect, vi, beforeEach, afterEach");
+        }
+
+        sourceFile.addImportDeclaration({
+          namedImports: viTestImports,
+          moduleSpecifier: "vitest",
+        });
+      }
     }
 
     const modulesToRemove = ["chai", "chai-as-promised", "chai-exclude", "sinon", "mocha"];
@@ -162,6 +192,18 @@ function fixTestingImports(packageFolder: string): void {
       // If the module specifier is legacy, remove the import declaration
       if (modulesToRemove.includes(moduleSpecifier)) {
         importDeclaration.remove();
+      } else if (moduleSpecifier === "@azure-tools/test-utils") {
+        // If the module specifier is "@azure-tools/test-utils", remove the "assert" named import
+        const namedImports = importDeclaration.getNamedImports();
+        const assertImport = namedImports.find((namedImport) => namedImport.getName() === "assert");
+        if (assertImport) {
+          assertImport.remove();
+        }
+
+        // If there are no named imports left, remove the entire import declaration
+        if (importDeclaration.getNamedImports().length === 0) {
+          importDeclaration.remove();
+        }
       }
     }
     // Save the changes to the source file
@@ -193,9 +235,19 @@ function fixSourceFiles(packageFolder: string): void {
         }
       }
 
-      // If statement is a beforeEach, then fix the function
-      if (statement.getText() == "beforeEach(async function (this: Context) {") {
-        statement.replaceWithText(statement.getText().replace("(this: Context)", "(ctx)"));
+      const patternsToReplace = [
+        { pattern: /sinon\.stub/gi, replace: "vi.spyOn" },
+        { pattern: /\(this: Context\)/g, replace: "(ctx)" },
+        { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
+        { pattern: /\(!this\.currentTest\?\.\isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
+        { pattern: /this\.skip\(\);/g, replace: "ctx.task.skip();" },
+      ];
+
+      // Replace the patterns in the source file
+      for (const { pattern, replace } of patternsToReplace) {
+        if (pattern.test(statement.getText())) {
+          statement.replaceWithText(statement.getText().replace(pattern, replace));
+        }
       }
     }
 
@@ -219,8 +271,33 @@ function fixSourceFiles(packageFolder: string): void {
   }
 }
 
+function fixNodeDeclaration(moduleSpecifier: string): string {
+  const nodeModules = [
+    "assert",
+    "crypto",
+    "events",
+    "fs",
+    "fs/promises",
+    "http",
+    "https",
+    "net",
+    "os",
+    "path",
+    "process",
+    "stream",
+    "tls",
+    "util",
+  ];
+
+  if (nodeModules.includes(moduleSpecifier)) {
+    moduleSpecifier = `node:${moduleSpecifier}`;
+  }
+
+  return moduleSpecifier;
+}
+
 function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
-  if (moduleSpecifier.startsWith("./") || moduleSpecifier.startsWith("../")) {
+  if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
     if (!moduleSpecifier.endsWith(".js")) {
       // If the module specifier ends with "/", add "index.js", otherwise add ".js"
       if (moduleSpecifier.endsWith("/")) {
@@ -236,7 +313,8 @@ function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string
       }
     }
   }
-  return moduleSpecifier;
+  // Fix the node module declaration as well
+  return fixNodeDeclaration(moduleSpecifier);
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
@@ -376,6 +454,18 @@ async function addNewPackages(packageJson: any): Promise<void> {
     });
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
+
+  const packagesToUpdate = [
+    { package: "@azure-tools/test-credential", version: "^2.0.0" },
+    { package: "@azure-tools/test-recorder", version: "^4.1.0" },
+  ];
+
+  // Update additional if there
+  for (const { package: packageName, version } of packagesToUpdate) {
+    if (packageJson.devDependencies[packageName]) {
+      packageJson.devDependencies[packageName] = version;
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -397,6 +487,7 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-sourcemap-loader",
     "nyc",
     "puppeteer",
+    "source-map-support",
     "ts-node",
     "uglify-js",
     "@types/chai-as-promised",

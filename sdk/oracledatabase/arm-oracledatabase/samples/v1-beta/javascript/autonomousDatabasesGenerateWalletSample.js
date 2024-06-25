@@ -26,7 +26,7 @@ async function generateWalletActionOnAutonomousDatabase() {
   const body = {
     generateType: "Single",
     isRegional: false,
-    password: "SecretPlaceholder",
+    password: "ExamplePassword12345",
   };
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);

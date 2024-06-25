@@ -12,7 +12,7 @@ import {
   BackupAndExportCreateOptionalParams,
   BackupAndExportCreateResponse,
   BackupAndExportValidateBackupOptionalParams,
-  BackupAndExportValidateBackupResponse
+  BackupAndExportValidateBackupResponse,
 } from "../models";
 
 /** Interface representing a BackupAndExport. */
@@ -28,7 +28,7 @@ export interface BackupAndExport {
     resourceGroupName: string,
     serverName: string,
     parameters: BackupAndExportRequest,
-    options?: BackupAndExportCreateOptionalParams
+    options?: BackupAndExportCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupAndExportCreateResponse>,
@@ -46,7 +46,7 @@ export interface BackupAndExport {
     resourceGroupName: string,
     serverName: string,
     parameters: BackupAndExportRequest,
-    options?: BackupAndExportCreateOptionalParams
+    options?: BackupAndExportCreateOptionalParams,
   ): Promise<BackupAndExportCreateResponse>;
   /**
    * Validates if backup can be performed for given server.
@@ -57,6 +57,6 @@ export interface BackupAndExport {
   validateBackup(
     resourceGroupName: string,
     serverName: string,
-    options?: BackupAndExportValidateBackupOptionalParams
+    options?: BackupAndExportValidateBackupOptionalParams,
   ): Promise<BackupAndExportValidateBackupResponse>;
 }
