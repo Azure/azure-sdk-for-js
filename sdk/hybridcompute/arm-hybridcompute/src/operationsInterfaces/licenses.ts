@@ -12,8 +12,6 @@ import {
   License,
   LicensesListByResourceGroupOptionalParams,
   LicensesListBySubscriptionOptionalParams,
-  LicensesValidateLicenseOptionalParams,
-  LicensesValidateLicenseResponse,
   LicensesCreateOrUpdateOptionalParams,
   LicensesCreateOrUpdateResponse,
   LicenseUpdate,
@@ -21,7 +19,7 @@ import {
   LicensesUpdateResponse,
   LicensesGetOptionalParams,
   LicensesGetResponse,
-  LicensesDeleteOptionalParams
+  LicensesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,38 +32,15 @@ export interface Licenses {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: LicensesListByResourceGroupOptionalParams
+    options?: LicensesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<License>;
   /**
    * The operation to get all licenses of a non-Azure machine
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: LicensesListBySubscriptionOptionalParams
+    options?: LicensesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<License>;
-  /**
-   * The operation to validate a license.
-   * @param parameters Parameters supplied to the license validation operation.
-   * @param options The options parameters.
-   */
-  beginValidateLicense(
-    parameters: License,
-    options?: LicensesValidateLicenseOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<LicensesValidateLicenseResponse>,
-      LicensesValidateLicenseResponse
-    >
-  >;
-  /**
-   * The operation to validate a license.
-   * @param parameters Parameters supplied to the license validation operation.
-   * @param options The options parameters.
-   */
-  beginValidateLicenseAndWait(
-    parameters: License,
-    options?: LicensesValidateLicenseOptionalParams
-  ): Promise<LicensesValidateLicenseResponse>;
   /**
    * The operation to create or update a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -77,7 +52,7 @@ export interface Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: License,
-    options?: LicensesCreateOrUpdateOptionalParams
+    options?: LicensesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LicensesCreateOrUpdateResponse>,
@@ -95,7 +70,7 @@ export interface Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: License,
-    options?: LicensesCreateOrUpdateOptionalParams
+    options?: LicensesCreateOrUpdateOptionalParams,
   ): Promise<LicensesCreateOrUpdateResponse>;
   /**
    * The operation to update a license.
@@ -108,7 +83,7 @@ export interface Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: LicenseUpdate,
-    options?: LicensesUpdateOptionalParams
+    options?: LicensesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LicensesUpdateResponse>,
@@ -126,7 +101,7 @@ export interface Licenses {
     resourceGroupName: string,
     licenseName: string,
     parameters: LicenseUpdate,
-    options?: LicensesUpdateOptionalParams
+    options?: LicensesUpdateOptionalParams,
   ): Promise<LicensesUpdateResponse>;
   /**
    * Retrieves information about the view of a license.
@@ -137,7 +112,7 @@ export interface Licenses {
   get(
     resourceGroupName: string,
     licenseName: string,
-    options?: LicensesGetOptionalParams
+    options?: LicensesGetOptionalParams,
   ): Promise<LicensesGetResponse>;
   /**
    * The operation to delete a license.
@@ -148,7 +123,7 @@ export interface Licenses {
   beginDelete(
     resourceGroupName: string,
     licenseName: string,
-    options?: LicensesDeleteOptionalParams
+    options?: LicensesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a license.
@@ -159,6 +134,6 @@ export interface Licenses {
   beginDeleteAndWait(
     resourceGroupName: string,
     licenseName: string,
-    options?: LicensesDeleteOptionalParams
+    options?: LicensesDeleteOptionalParams,
   ): Promise<void>;
 }

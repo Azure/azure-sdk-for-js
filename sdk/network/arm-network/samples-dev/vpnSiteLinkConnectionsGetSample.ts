@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a vpn site link connection.
  *
  * @summary Retrieves the details of a vpn site link connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VpnSiteLinkConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnSiteLinkConnectionGet.json
  */
 async function vpnSiteLinkConnectionGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function vpnSiteLinkConnectionGet() {
     resourceGroupName,
     gatewayName,
     connectionName,
-    linkConnectionName
+    linkConnectionName,
   );
   console.log(result);
 }

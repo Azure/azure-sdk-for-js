@@ -9,7 +9,7 @@
 import {
   SignatureOverridesFilterValuesQuery,
   FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams,
-  FirewallPolicyIdpsSignaturesFilterValuesListResponse
+  FirewallPolicyIdpsSignaturesFilterValuesListResponse,
 } from "../models";
 
 /** Interface representing a FirewallPolicyIdpsSignaturesFilterValues. */
@@ -25,6 +25,6 @@ export interface FirewallPolicyIdpsSignaturesFilterValues {
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: SignatureOverridesFilterValuesQuery,
-    options?: FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams
+    options?: FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesFilterValuesListResponse>;
 }

@@ -20,7 +20,7 @@ import {
   SharedGalleriesListResponse,
   SharedGalleriesGetOptionalParams,
   SharedGalleriesGetResponse,
-  SharedGalleriesListNextResponse
+  SharedGalleriesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
    */
   public list(
     location: string,
-    options?: SharedGalleriesListOptionalParams
+    options?: SharedGalleriesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedGallery> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -58,14 +58,14 @@ export class SharedGalleriesImpl implements SharedGalleries {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: SharedGalleriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SharedGallery[]> {
     let result: SharedGalleriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
 
   private async *listPagingAll(
     location: string,
-    options?: SharedGalleriesListOptionalParams
+    options?: SharedGalleriesListOptionalParams,
   ): AsyncIterableIterator<SharedGallery> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class SharedGalleriesImpl implements SharedGalleries {
    */
   private _list(
     location: string,
-    options?: SharedGalleriesListOptionalParams
+    options?: SharedGalleriesListOptionalParams,
   ): Promise<SharedGalleriesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class SharedGalleriesImpl implements SharedGalleries {
   get(
     location: string,
     galleryUniqueName: string,
-    options?: SharedGalleriesGetOptionalParams
+    options?: SharedGalleriesGetOptionalParams,
   ): Promise<SharedGalleriesGetResponse> {
     return this.client.sendOperationRequest(
       { location, galleryUniqueName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -135,11 +135,11 @@ export class SharedGalleriesImpl implements SharedGalleries {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: SharedGalleriesListNextOptionalParams
+    options?: SharedGalleriesListNextOptionalParams,
   ): Promise<SharedGalleriesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -147,65 +147,63 @@ export class SharedGalleriesImpl implements SharedGalleries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryList
+      bodyMapper: Mappers.SharedGalleryList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGallery
+      bodyMapper: Mappers.SharedGallery,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.galleryUniqueName
+    Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryList
+      bodyMapper: Mappers.SharedGalleryList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

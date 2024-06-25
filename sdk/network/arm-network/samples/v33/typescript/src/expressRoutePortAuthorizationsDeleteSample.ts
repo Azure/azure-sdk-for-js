@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified authorization from the specified express route port.
  *
  * @summary Deletes the specified authorization from the specified express route port.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRoutePortAuthorizationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRoutePortAuthorizationDelete.json
  */
 async function deleteExpressRoutePortAuthorization() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function deleteExpressRoutePortAuthorization() {
   const result = await client.expressRoutePortAuthorizations.beginDeleteAndWait(
     resourceGroupName,
     expressRoutePortName,
-    authorizationName
+    authorizationName,
   );
   console.log(result);
 }

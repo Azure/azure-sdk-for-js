@@ -13,7 +13,7 @@ import {
   VpnLinkConnectionsListByVpnConnectionOptionalParams,
   VpnLinkConnectionsResetConnectionOptionalParams,
   VpnLinkConnectionsGetIkeSasOptionalParams,
-  VpnLinkConnectionsGetIkeSasResponse
+  VpnLinkConnectionsGetIkeSasResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface VpnLinkConnections {
     resourceGroupName: string,
     gatewayName: string,
     connectionName: string,
-    options?: VpnLinkConnectionsListByVpnConnectionOptionalParams
+    options?: VpnLinkConnectionsListByVpnConnectionOptionalParams,
   ): PagedAsyncIterableIterator<VpnSiteLinkConnection>;
   /**
    * Resets the VpnLink connection specified.
@@ -45,7 +45,7 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsResetConnectionOptionalParams
+    options?: VpnLinkConnectionsResetConnectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resets the VpnLink connection specified.
@@ -60,7 +60,7 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsResetConnectionOptionalParams
+    options?: VpnLinkConnectionsResetConnectionOptionalParams,
   ): Promise<void>;
   /**
    * Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
@@ -75,7 +75,7 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsGetIkeSasOptionalParams
+    options?: VpnLinkConnectionsGetIkeSasOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VpnLinkConnectionsGetIkeSasResponse>,
@@ -95,6 +95,6 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsGetIkeSasOptionalParams
+    options?: VpnLinkConnectionsGetIkeSasOptionalParams,
   ): Promise<VpnLinkConnectionsGetIkeSasResponse>;
 }

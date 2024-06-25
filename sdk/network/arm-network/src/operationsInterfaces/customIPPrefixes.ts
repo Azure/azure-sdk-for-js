@@ -19,7 +19,7 @@ import {
   CustomIPPrefixesCreateOrUpdateResponse,
   TagsObject,
   CustomIPPrefixesUpdateTagsOptionalParams,
-  CustomIPPrefixesUpdateTagsResponse
+  CustomIPPrefixesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface CustomIPPrefixes {
    * @param options The options parameters.
    */
   listAll(
-    options?: CustomIPPrefixesListAllOptionalParams
+    options?: CustomIPPrefixesListAllOptionalParams,
   ): PagedAsyncIterableIterator<CustomIpPrefix>;
   /**
    * Gets all custom IP prefixes in a resource group.
@@ -39,7 +39,7 @@ export interface CustomIPPrefixes {
    */
   list(
     resourceGroupName: string,
-    options?: CustomIPPrefixesListOptionalParams
+    options?: CustomIPPrefixesListOptionalParams,
   ): PagedAsyncIterableIterator<CustomIpPrefix>;
   /**
    * Deletes the specified custom IP prefix.
@@ -50,7 +50,7 @@ export interface CustomIPPrefixes {
   beginDelete(
     resourceGroupName: string,
     customIpPrefixName: string,
-    options?: CustomIPPrefixesDeleteOptionalParams
+    options?: CustomIPPrefixesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified custom IP prefix.
@@ -61,7 +61,7 @@ export interface CustomIPPrefixes {
   beginDeleteAndWait(
     resourceGroupName: string,
     customIpPrefixName: string,
-    options?: CustomIPPrefixesDeleteOptionalParams
+    options?: CustomIPPrefixesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified custom IP prefix in a specified resource group.
@@ -72,7 +72,7 @@ export interface CustomIPPrefixes {
   get(
     resourceGroupName: string,
     customIpPrefixName: string,
-    options?: CustomIPPrefixesGetOptionalParams
+    options?: CustomIPPrefixesGetOptionalParams,
   ): Promise<CustomIPPrefixesGetResponse>;
   /**
    * Creates or updates a custom IP prefix.
@@ -85,7 +85,7 @@ export interface CustomIPPrefixes {
     resourceGroupName: string,
     customIpPrefixName: string,
     parameters: CustomIpPrefix,
-    options?: CustomIPPrefixesCreateOrUpdateOptionalParams
+    options?: CustomIPPrefixesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CustomIPPrefixesCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface CustomIPPrefixes {
     resourceGroupName: string,
     customIpPrefixName: string,
     parameters: CustomIpPrefix,
-    options?: CustomIPPrefixesCreateOrUpdateOptionalParams
+    options?: CustomIPPrefixesCreateOrUpdateOptionalParams,
   ): Promise<CustomIPPrefixesCreateOrUpdateResponse>;
   /**
    * Updates custom IP prefix tags.
@@ -116,6 +116,6 @@ export interface CustomIPPrefixes {
     resourceGroupName: string,
     customIpPrefixName: string,
     parameters: TagsObject,
-    options?: CustomIPPrefixesUpdateTagsOptionalParams
+    options?: CustomIPPrefixesUpdateTagsOptionalParams,
   ): Promise<CustomIPPrefixesUpdateTagsResponse>;
 }

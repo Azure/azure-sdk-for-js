@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressCreateDns.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressCreateDns.json
  */
 async function createPublicIPAddressDns() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -26,14 +26,14 @@ async function createPublicIPAddressDns() {
   const publicIpAddressName = "test-ip";
   const parameters: PublicIPAddress = {
     dnsSettings: { domainNameLabel: "dnslbl" },
-    location: "eastus"
+    location: "eastus",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
     resourceGroupName,
     publicIpAddressName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function createPublicIPAddressDns() {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
  */
 async function createPublicIPAddressDnsWithDomainNameLabelScope() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -51,16 +51,16 @@ async function createPublicIPAddressDnsWithDomainNameLabelScope() {
   const parameters: PublicIPAddress = {
     dnsSettings: {
       domainNameLabel: "dnslbl",
-      domainNameLabelScope: "TenantReuse"
+      domainNameLabelScope: "TenantReuse",
     },
-    location: "eastus"
+    location: "eastus",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
     resourceGroupName,
     publicIpAddressName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function createPublicIPAddressDnsWithDomainNameLabelScope() {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressCreateCustomizedValues.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressCreateCustomizedValues.json
  */
 async function createPublicIPAddressAllocationMethod() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -80,14 +80,14 @@ async function createPublicIPAddressAllocationMethod() {
     location: "eastus",
     publicIPAddressVersion: "IPv4",
     publicIPAllocationMethod: "Static",
-    sku: { name: "Standard", tier: "Global" }
+    sku: { name: "Standard", tier: "Global" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
     resourceGroupName,
     publicIpAddressName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -96,7 +96,7 @@ async function createPublicIPAddressAllocationMethod() {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressCreateDefaults.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressCreateDefaults.json
  */
 async function createPublicIPAddressDefaults() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -108,7 +108,7 @@ async function createPublicIPAddressDefaults() {
   const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
     resourceGroupName,
     publicIpAddressName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

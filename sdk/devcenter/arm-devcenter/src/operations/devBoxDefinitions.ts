@@ -16,7 +16,7 @@ import { DevCenterClient } from "../devCenterClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,10 +35,11 @@ import {
   DevBoxDefinitionsUpdateOptionalParams,
   DevBoxDefinitionsUpdateResponse,
   DevBoxDefinitionsDeleteOptionalParams,
+  DevBoxDefinitionsDeleteResponse,
   DevBoxDefinitionsGetByProjectOptionalParams,
   DevBoxDefinitionsGetByProjectResponse,
   DevBoxDefinitionsListByDevCenterNextResponse,
-  DevBoxDefinitionsListByProjectNextResponse
+  DevBoxDefinitionsListByProjectNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,12 +64,12 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams
+    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<DevBoxDefinition> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +86,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
           resourceGroupName,
           devCenterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +96,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DevBoxDefinition[]> {
     let result: DevBoxDefinitionsListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       result = await this._listByDevCenter(
         resourceGroupName,
         devCenterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -115,7 +116,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         resourceGroupName,
         devCenterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,12 +128,12 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams
+    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
   ): AsyncIterableIterator<DevBoxDefinition> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,12 +148,12 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   public listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams
+    options?: DevBoxDefinitionsListByProjectOptionalParams,
   ): PagedAsyncIterableIterator<DevBoxDefinition> {
     const iter = this.listByProjectPagingAll(
       resourceGroupName,
       projectName,
-      options
+      options,
     );
     return {
       next() {
@@ -169,9 +170,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
           resourceGroupName,
           projectName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -179,7 +180,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     projectName: string,
     options?: DevBoxDefinitionsListByProjectOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DevBoxDefinition[]> {
     let result: DevBoxDefinitionsListByProjectResponse;
     let continuationToken = settings?.continuationToken;
@@ -187,7 +188,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       result = await this._listByProject(
         resourceGroupName,
         projectName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -199,7 +200,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         resourceGroupName,
         projectName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -211,12 +212,12 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams
+    options?: DevBoxDefinitionsListByProjectOptionalParams,
   ): AsyncIterableIterator<DevBoxDefinition> {
     for await (const page of this.listByProjectPagingPage(
       resourceGroupName,
       projectName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -231,11 +232,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams
+    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
   ): Promise<DevBoxDefinitionsListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
-      listByDevCenterOperationSpec
+      listByDevCenterOperationSpec,
     );
   }
 
@@ -250,11 +251,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsGetOptionalParams
+    options?: DevBoxDefinitionsGetOptionalParams,
   ): Promise<DevBoxDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, devBoxDefinitionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -271,7 +272,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     body: DevBoxDefinition,
-    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams
+    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
@@ -280,21 +281,20 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -303,8 +303,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -312,8 +312,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -324,9 +324,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         devCenterName,
         devBoxDefinitionName,
         body,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DevBoxDefinitionsCreateOrUpdateResponse,
@@ -334,7 +334,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -353,14 +353,14 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     body: DevBoxDefinition,
-    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams
+    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       devCenterName,
       devBoxDefinitionName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -378,7 +378,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     body: DevBoxDefinitionUpdate,
-    options?: DevBoxDefinitionsUpdateOptionalParams
+    options?: DevBoxDefinitionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevBoxDefinitionsUpdateResponse>,
@@ -387,21 +387,20 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DevBoxDefinitionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -410,8 +409,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -419,8 +418,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -431,9 +430,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         devCenterName,
         devBoxDefinitionName,
         body,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DevBoxDefinitionsUpdateResponse,
@@ -441,7 +440,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -460,14 +459,14 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     body: DevBoxDefinitionUpdate,
-    options?: DevBoxDefinitionsUpdateOptionalParams
+    options?: DevBoxDefinitionsUpdateOptionalParams,
   ): Promise<DevBoxDefinitionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       devCenterName,
       devBoxDefinitionName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -483,25 +482,29 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: DevBoxDefinitionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsDeleteResponse>,
+      DevBoxDefinitionsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<DevBoxDefinitionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -510,8 +513,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -519,20 +522,23 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, devBoxDefinitionName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DevBoxDefinitionsDeleteResponse,
+      OperationState<DevBoxDefinitionsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -549,13 +555,13 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsDeleteOptionalParams
-  ): Promise<void> {
+    options?: DevBoxDefinitionsDeleteOptionalParams,
+  ): Promise<DevBoxDefinitionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       devCenterName,
       devBoxDefinitionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -569,11 +575,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private _listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams
+    options?: DevBoxDefinitionsListByProjectOptionalParams,
   ): Promise<DevBoxDefinitionsListByProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
-      listByProjectOperationSpec
+      listByProjectOperationSpec,
     );
   }
 
@@ -588,11 +594,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     projectName: string,
     devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsGetByProjectOptionalParams
+    options?: DevBoxDefinitionsGetByProjectOptionalParams,
   ): Promise<DevBoxDefinitionsGetByProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, devBoxDefinitionName, options },
-      getByProjectOperationSpec
+      getByProjectOperationSpec,
     );
   }
 
@@ -607,11 +613,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: DevBoxDefinitionsListByDevCenterNextOptionalParams
+    options?: DevBoxDefinitionsListByDevCenterNextOptionalParams,
   ): Promise<DevBoxDefinitionsListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
-      listByDevCenterNextOperationSpec
+      listByDevCenterNextOperationSpec,
     );
   }
 
@@ -626,11 +632,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: DevBoxDefinitionsListByProjectNextOptionalParams
+    options?: DevBoxDefinitionsListByProjectNextOptionalParams,
   ): Promise<DevBoxDefinitionsListByProjectNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
-      listByProjectNextOperationSpec
+      listByProjectNextOperationSpec,
     );
   }
 }
@@ -638,38 +644,36 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult
+      bodyMapper: Mappers.DevBoxDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -677,31 +681,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName
+    Parameters.devBoxDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     201: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     202: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     204: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
@@ -710,32 +713,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName
+    Parameters.devBoxDefinitionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     201: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     202: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     204: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
@@ -744,24 +746,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName
+    Parameters.devBoxDefinitionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -769,44 +778,42 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName
+    Parameters.devBoxDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult
+      bodyMapper: Mappers.DevBoxDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByProjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions/{devBoxDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition
+      bodyMapper: Mappers.DevBoxDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -814,50 +821,50 @@ const getByProjectOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.devBoxDefinitionName
+    Parameters.devBoxDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult
+      bodyMapper: Mappers.DevBoxDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProjectNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult
+      bodyMapper: Mappers.DevBoxDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

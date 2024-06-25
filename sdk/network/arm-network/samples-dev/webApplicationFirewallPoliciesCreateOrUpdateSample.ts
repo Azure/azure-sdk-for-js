@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   WebApplicationFirewallPolicy,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or update policy with specified rule set name within a resource group.
  *
  * @summary Creates or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/WafPolicyCreateOrUpdate.json
  */
 async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,13 +36,13 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
           {
             matchValues: ["192.168.1.0/24", "10.0.0.0/24"],
             matchVariables: [
-              { selector: undefined, variableName: "RemoteAddr" }
+              { selector: undefined, variableName: "RemoteAddr" },
             ],
-            operator: "IPMatch"
-          }
+            operator: "IPMatch",
+          },
         ],
         priority: 1,
-        ruleType: "MatchRule"
+        ruleType: "MatchRule",
       },
       {
         name: "Rule2",
@@ -51,41 +51,41 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
           {
             matchValues: ["192.168.1.0/24"],
             matchVariables: [
-              { selector: undefined, variableName: "RemoteAddr" }
+              { selector: undefined, variableName: "RemoteAddr" },
             ],
-            operator: "IPMatch"
+            operator: "IPMatch",
           },
           {
             matchValues: ["Windows"],
             matchVariables: [
-              { selector: "UserAgent", variableName: "RequestHeaders" }
+              { selector: "UserAgent", variableName: "RequestHeaders" },
             ],
-            operator: "Contains"
-          }
+            operator: "Contains",
+          },
         ],
         priority: 2,
-        ruleType: "MatchRule"
+        ruleType: "MatchRule",
       },
       {
         name: "RateLimitRule3",
         action: "Block",
         groupByUserSession: [
-          { groupByVariables: [{ variableName: "ClientAddr" }] }
+          { groupByVariables: [{ variableName: "ClientAddr" }] },
         ],
         matchConditions: [
           {
             matchValues: ["192.168.1.0/24", "10.0.0.0/24"],
             matchVariables: [
-              { selector: undefined, variableName: "RemoteAddr" }
+              { selector: undefined, variableName: "RemoteAddr" },
             ],
             negationConditon: true,
-            operator: "IPMatch"
-          }
+            operator: "IPMatch",
+          },
         ],
         priority: 3,
         rateLimitDuration: "OneMin",
         rateLimitThreshold: 10,
-        ruleType: "RateLimitRule"
+        ruleType: "RateLimitRule",
       },
       {
         name: "Rule4",
@@ -94,21 +94,21 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
           {
             matchValues: ["192.168.1.0/24"],
             matchVariables: [
-              { selector: undefined, variableName: "RemoteAddr" }
+              { selector: undefined, variableName: "RemoteAddr" },
             ],
-            operator: "IPMatch"
+            operator: "IPMatch",
           },
           {
             matchValues: ["Bot"],
             matchVariables: [
-              { selector: "UserAgent", variableName: "RequestHeaders" }
+              { selector: "UserAgent", variableName: "RequestHeaders" },
             ],
-            operator: "Contains"
-          }
+            operator: "Contains",
+          },
         ],
         priority: 4,
-        ruleType: "MatchRule"
-      }
+        ruleType: "MatchRule",
+      },
     ],
     location: "WestUs",
     managedRules: {
@@ -119,36 +119,36 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
               ruleGroups: [
                 {
                   ruleGroupName: "REQUEST-930-APPLICATION-ATTACK-LFI",
-                  rules: [{ ruleId: "930120" }]
+                  rules: [{ ruleId: "930120" }],
                 },
-                { ruleGroupName: "REQUEST-932-APPLICATION-ATTACK-RCE" }
+                { ruleGroupName: "REQUEST-932-APPLICATION-ATTACK-RCE" },
               ],
               ruleSetType: "OWASP",
-              ruleSetVersion: "3.2"
-            }
+              ruleSetVersion: "3.2",
+            },
           ],
           matchVariable: "RequestArgNames",
           selector: "hello",
-          selectorMatchOperator: "StartsWith"
+          selectorMatchOperator: "StartsWith",
         },
         {
           exclusionManagedRuleSets: [
-            { ruleGroups: [], ruleSetType: "OWASP", ruleSetVersion: "3.1" }
+            { ruleGroups: [], ruleSetType: "OWASP", ruleSetVersion: "3.1" },
           ],
           matchVariable: "RequestArgNames",
           selector: "hello",
-          selectorMatchOperator: "EndsWith"
+          selectorMatchOperator: "EndsWith",
         },
         {
           matchVariable: "RequestArgNames",
           selector: "test",
-          selectorMatchOperator: "StartsWith"
+          selectorMatchOperator: "StartsWith",
         },
         {
           matchVariable: "RequestArgValues",
           selector: "test",
-          selectorMatchOperator: "StartsWith"
-        }
+          selectorMatchOperator: "StartsWith",
+        },
       ],
       managedRuleSets: [
         {
@@ -160,53 +160,54 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
                 {
                   action: "AnomalyScoring",
                   ruleId: "931130",
-                  state: "Disabled"
-                }
-              ]
-            }
+                  state: "Disabled",
+                },
+              ],
+            },
           ],
           ruleSetType: "OWASP",
-          ruleSetVersion: "3.2"
+          ruleSetVersion: "3.2",
         },
         {
           ruleGroupOverrides: [
             {
               ruleGroupName: "UnknownBots",
               rules: [
-                { action: "JSChallenge", ruleId: "300700", state: "Enabled" }
-              ]
-            }
+                { action: "JSChallenge", ruleId: "300700", state: "Enabled" },
+              ],
+            },
           ],
           ruleSetType: "Microsoft_BotManagerRuleSet",
-          ruleSetVersion: "1.0"
-        }
-      ]
+          ruleSetVersion: "1.0",
+        },
+      ],
     },
     policySettings: {
+      jsChallengeCookieExpirationInMins: 100,
       logScrubbing: {
         scrubbingRules: [
           {
             matchVariable: "RequestArgNames",
             selector: "test",
             selectorMatchOperator: "Equals",
-            state: "Enabled"
+            state: "Enabled",
           },
           {
             matchVariable: "RequestIPAddress",
             selectorMatchOperator: "EqualsAny",
-            state: "Enabled"
-          }
+            state: "Enabled",
+          },
         ],
-        state: "Enabled"
-      }
-    }
+        state: "Enabled",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.webApplicationFirewallPolicies.createOrUpdate(
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

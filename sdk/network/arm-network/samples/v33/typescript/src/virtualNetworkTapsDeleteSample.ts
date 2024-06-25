@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified virtual network tap.
  *
  * @summary Deletes the specified virtual network tap.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkTapDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkTapDelete.json
  */
 async function deleteVirtualNetworkTapResource() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteVirtualNetworkTapResource() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworkTaps.beginDeleteAndWait(
     resourceGroupName,
-    tapName
+    tapName,
   );
   console.log(result);
 }

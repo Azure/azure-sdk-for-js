@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete private end point connection for a private link service in a subscription.
  *
  * @summary Delete private end point connection for a private link service in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PrivateLinkServiceDeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateLinkServiceDeletePrivateEndpointConnection.json
  */
 async function deletePrivateEndPointConnectionForAPrivateLinkService() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -27,11 +27,12 @@ async function deletePrivateEndPointConnectionForAPrivateLinkService() {
   const peConnectionName = "testPlePeConnection";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkServices.beginDeletePrivateEndpointConnectionAndWait(
-    resourceGroupName,
-    serviceName,
-    peConnectionName
-  );
+  const result =
+    await client.privateLinkServices.beginDeletePrivateEndpointConnectionAndWait(
+      resourceGroupName,
+      serviceName,
+      peConnectionName,
+    );
   console.log(result);
 }
 

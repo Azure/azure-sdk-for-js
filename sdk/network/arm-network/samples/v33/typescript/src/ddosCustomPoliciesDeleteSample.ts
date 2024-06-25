@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified DDoS custom policy.
  *
  * @summary Deletes the specified DDoS custom policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DdosCustomPolicyDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/DdosCustomPolicyDelete.json
  */
 async function deleteDDoSCustomPolicy() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteDDoSCustomPolicy() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.ddosCustomPolicies.beginDeleteAndWait(
     resourceGroupName,
-    ddosCustomPolicyName
+    ddosCustomPolicyName,
   );
   console.log(result);
 }

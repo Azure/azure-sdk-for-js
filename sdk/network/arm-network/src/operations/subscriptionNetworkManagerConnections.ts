@@ -23,13 +23,14 @@ import {
   SubscriptionNetworkManagerConnectionsGetOptionalParams,
   SubscriptionNetworkManagerConnectionsGetResponse,
   SubscriptionNetworkManagerConnectionsDeleteOptionalParams,
-  SubscriptionNetworkManagerConnectionsListNextResponse
+  SubscriptionNetworkManagerConnectionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SubscriptionNetworkManagerConnections operations. */
 export class SubscriptionNetworkManagerConnectionsImpl
-  implements SubscriptionNetworkManagerConnections {
+  implements SubscriptionNetworkManagerConnections
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -45,7 +46,7 @@ export class SubscriptionNetworkManagerConnectionsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: SubscriptionNetworkManagerConnectionsListOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkManagerConnection> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +61,13 @@ export class SubscriptionNetworkManagerConnectionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SubscriptionNetworkManagerConnectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkManagerConnection[]> {
     let result: SubscriptionNetworkManagerConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +88,7 @@ export class SubscriptionNetworkManagerConnectionsImpl
   }
 
   private async *listPagingAll(
-    options?: SubscriptionNetworkManagerConnectionsListOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsListOptionalParams,
   ): AsyncIterableIterator<NetworkManagerConnection> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -103,11 +104,11 @@ export class SubscriptionNetworkManagerConnectionsImpl
   createOrUpdate(
     networkManagerConnectionName: string,
     parameters: NetworkManagerConnection,
-    options?: SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { networkManagerConnectionName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -118,11 +119,11 @@ export class SubscriptionNetworkManagerConnectionsImpl
    */
   get(
     networkManagerConnectionName: string,
-    options?: SubscriptionNetworkManagerConnectionsGetOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsGetOptionalParams,
   ): Promise<SubscriptionNetworkManagerConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       { networkManagerConnectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -133,11 +134,11 @@ export class SubscriptionNetworkManagerConnectionsImpl
    */
   delete(
     networkManagerConnectionName: string,
-    options?: SubscriptionNetworkManagerConnectionsDeleteOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { networkManagerConnectionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -146,7 +147,7 @@ export class SubscriptionNetworkManagerConnectionsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: SubscriptionNetworkManagerConnectionsListOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsListOptionalParams,
   ): Promise<SubscriptionNetworkManagerConnectionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -158,11 +159,11 @@ export class SubscriptionNetworkManagerConnectionsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: SubscriptionNetworkManagerConnectionsListNextOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsListNextOptionalParams,
   ): Promise<SubscriptionNetworkManagerConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -170,109 +171,105 @@ export class SubscriptionNetworkManagerConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnection
+      bodyMapper: Mappers.NetworkManagerConnection,
     },
     201: {
-      bodyMapper: Mappers.NetworkManagerConnection
+      bodyMapper: Mappers.NetworkManagerConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters36,
+  requestBody: Parameters.parameters38,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.networkManagerConnectionName
+    Parameters.networkManagerConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnection
+      bodyMapper: Mappers.NetworkManagerConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.networkManagerConnectionName
+    Parameters.networkManagerConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.networkManagerConnectionName
+    Parameters.networkManagerConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnectionListResult
+      bodyMapper: Mappers.NetworkManagerConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerConnectionListResult
+      bodyMapper: Mappers.NetworkManagerConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

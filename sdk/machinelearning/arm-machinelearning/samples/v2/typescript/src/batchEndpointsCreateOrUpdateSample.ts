@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   BatchEndpoint,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a batch inference endpoint (asynchronous).
@@ -21,14 +24,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchEndpoint/createOrUpdate.json
  */
 async function createOrUpdateBatchEndpoint() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const body: BatchEndpoint = {
     identity: {
       type: "SystemAssigned",
-      userAssignedIdentities: { string: {} }
+      userAssignedIdentities: { string: {} },
     },
     kind: "string",
     location: "string",
@@ -36,16 +42,16 @@ async function createOrUpdateBatchEndpoint() {
       description: "string",
       authMode: "AMLToken",
       defaults: { deploymentName: "string" },
-      properties: { string: "string" }
+      properties: { string: "string" },
     },
     sku: {
       name: "string",
       capacity: 1,
       family: "string",
       size: "string",
-      tier: "Free"
+      tier: "Free",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -53,9 +59,13 @@ async function createOrUpdateBatchEndpoint() {
     resourceGroupName,
     workspaceName,
     endpointName,
-    body
+    body,
   );
   console.log(result);
 }
 
-createOrUpdateBatchEndpoint().catch(console.error);
+async function main() {
+  createOrUpdateBatchEndpoint();
+}
+
+main().catch(console.error);

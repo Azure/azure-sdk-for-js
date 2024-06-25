@@ -28,7 +28,7 @@ async function deletePrivateEndpointConnection() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

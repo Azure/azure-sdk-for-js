@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a DSCP Configuration.
  *
  * @summary Gets a DSCP Configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DscpConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/DscpConfigurationList.json
  */
 async function getDscpConfiguration() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function getDscpConfiguration() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.dscpConfigurationOperations.list(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

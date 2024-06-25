@@ -26,7 +26,7 @@ import {
   PacketCoreControlPlanesReinstallResponse,
   PacketCoreControlPlaneCollectDiagnosticsPackage,
   PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams,
-  PacketCoreControlPlanesCollectDiagnosticsPackageResponse
+  PacketCoreControlPlanesCollectDiagnosticsPackageResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface PacketCoreControlPlanes {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams
+    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreControlPlane>;
   /**
    * Lists all the packet core control planes in a resource group.
@@ -46,7 +46,7 @@ export interface PacketCoreControlPlanes {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams
+    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreControlPlane>;
   /**
    * Deletes the specified packet core control plane.
@@ -57,7 +57,7 @@ export interface PacketCoreControlPlanes {
   beginDelete(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesDeleteOptionalParams
+    options?: PacketCoreControlPlanesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet core control plane.
@@ -68,7 +68,7 @@ export interface PacketCoreControlPlanes {
   beginDeleteAndWait(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesDeleteOptionalParams
+    options?: PacketCoreControlPlanesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified packet core control plane.
@@ -79,7 +79,7 @@ export interface PacketCoreControlPlanes {
   get(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesGetOptionalParams
+    options?: PacketCoreControlPlanesGetOptionalParams,
   ): Promise<PacketCoreControlPlanesGetResponse>;
   /**
    * Creates or updates a packet core control plane.
@@ -92,7 +92,7 @@ export interface PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     parameters: PacketCoreControlPlane,
-    options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
@@ -110,7 +110,7 @@ export interface PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     parameters: PacketCoreControlPlane,
-    options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams,
   ): Promise<PacketCoreControlPlanesCreateOrUpdateResponse>;
   /**
    * Patch packet core control plane resource.
@@ -123,7 +123,7 @@ export interface PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     parameters: IdentityAndTagsObject,
-    options?: PacketCoreControlPlanesUpdateTagsOptionalParams
+    options?: PacketCoreControlPlanesUpdateTagsOptionalParams,
   ): Promise<PacketCoreControlPlanesUpdateTagsResponse>;
   /**
    * Roll back the specified packet core control plane to the previous version, "rollbackVersion".
@@ -135,7 +135,7 @@ export interface PacketCoreControlPlanes {
   beginRollback(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesRollbackOptionalParams
+    options?: PacketCoreControlPlanesRollbackOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCoreControlPlanesRollbackResponse>,
@@ -152,11 +152,12 @@ export interface PacketCoreControlPlanes {
   beginRollbackAndWait(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesRollbackOptionalParams
+    options?: PacketCoreControlPlanesRollbackOptionalParams,
   ): Promise<PacketCoreControlPlanesRollbackResponse>;
   /**
-   * Reinstall the specified packet core control plane. This action will remove any transaction state
-   * from the packet core to return it to a known state. This action will cause a service outage.
+   * Reinstall the specified packet core control plane. This action will try to restore the packet core
+   * to the installed state that was disrupted by a transient failure. This action will cause a service
+   * outage.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param options The options parameters.
@@ -164,7 +165,7 @@ export interface PacketCoreControlPlanes {
   beginReinstall(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesReinstallOptionalParams
+    options?: PacketCoreControlPlanesReinstallOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCoreControlPlanesReinstallResponse>,
@@ -172,8 +173,9 @@ export interface PacketCoreControlPlanes {
     >
   >;
   /**
-   * Reinstall the specified packet core control plane. This action will remove any transaction state
-   * from the packet core to return it to a known state. This action will cause a service outage.
+   * Reinstall the specified packet core control plane. This action will try to restore the packet core
+   * to the installed state that was disrupted by a transient failure. This action will cause a service
+   * outage.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param options The options parameters.
@@ -181,7 +183,7 @@ export interface PacketCoreControlPlanes {
   beginReinstallAndWait(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreControlPlanesReinstallOptionalParams
+    options?: PacketCoreControlPlanesReinstallOptionalParams,
   ): Promise<PacketCoreControlPlanesReinstallResponse>;
   /**
    * Collect a diagnostics package for the specified packet core control plane. This action will upload
@@ -196,7 +198,7 @@ export interface PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
-    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>,
@@ -216,6 +218,6 @@ export interface PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
-    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams,
   ): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>;
 }

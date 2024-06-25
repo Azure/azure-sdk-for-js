@@ -8,7 +8,7 @@ import {
   EntityName,
   createServiceBusClientForTests,
 } from "../public/utils/testutils2";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe(`Tracing for send`, function (): void {
   let sbClient: ServiceBusClientForTests;

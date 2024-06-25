@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
  *
  * @summary Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/RoutingIntentPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RoutingIntentPut.json
  */
 async function routeTablePut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,24 +31,25 @@ async function routeTablePut() {
         name: "InternetTraffic",
         destinations: ["Internet"],
         nextHop:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
+          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1",
       },
       {
         name: "PrivateTrafficPolicy",
         destinations: ["PrivateTraffic"],
         nextHop:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
-      }
-    ]
+          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routingIntentOperations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    virtualHubName,
-    routingIntentName,
-    routingIntentParameters
-  );
+  const result =
+    await client.routingIntentOperations.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      virtualHubName,
+      routingIntentName,
+      routingIntentParameters,
+    );
   console.log(result);
 }
 

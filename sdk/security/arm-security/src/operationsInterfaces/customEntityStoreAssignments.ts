@@ -16,7 +16,7 @@ import {
   CustomEntityStoreAssignmentRequest,
   CustomEntityStoreAssignmentsCreateOptionalParams,
   CustomEntityStoreAssignmentsCreateResponse,
-  CustomEntityStoreAssignmentsDeleteOptionalParams
+  CustomEntityStoreAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,14 +30,14 @@ export interface CustomEntityStoreAssignments {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams
+    options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomEntityStoreAssignment>;
   /**
    * List custom entity store assignments by provided subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams
+    options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomEntityStoreAssignment>;
   /**
    * Gets a single custom entity store assignment by name for the provided subscription and resource
@@ -51,7 +51,7 @@ export interface CustomEntityStoreAssignments {
   get(
     resourceGroupName: string,
     customEntityStoreAssignmentName: string,
-    options?: CustomEntityStoreAssignmentsGetOptionalParams
+    options?: CustomEntityStoreAssignmentsGetOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsGetResponse>;
   /**
    * Creates a custom entity store assignment for the provided subscription, if not already exists.
@@ -66,7 +66,7 @@ export interface CustomEntityStoreAssignments {
     resourceGroupName: string,
     customEntityStoreAssignmentName: string,
     customEntityStoreAssignmentRequestBody: CustomEntityStoreAssignmentRequest,
-    options?: CustomEntityStoreAssignmentsCreateOptionalParams
+    options?: CustomEntityStoreAssignmentsCreateOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsCreateResponse>;
   /**
    * Delete a custom entity store assignment by name for a provided subscription
@@ -79,6 +79,6 @@ export interface CustomEntityStoreAssignments {
   delete(
     resourceGroupName: string,
     customEntityStoreAssignmentName: string,
-    options?: CustomEntityStoreAssignmentsDeleteOptionalParams
+    options?: CustomEntityStoreAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

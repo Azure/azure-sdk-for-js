@@ -20,6 +20,6 @@ export interface UsageOperations {
    */
   list(
     location: string,
-    options?: UsageListOptionalParams
+    options?: UsageListOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
 }

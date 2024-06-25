@@ -16,7 +16,7 @@ import {
   DaprComponentsCreateOrUpdateResponse,
   DaprComponentsDeleteOptionalParams,
   DaprComponentsListSecretsOptionalParams,
-  DaprComponentsListSecretsResponse
+  DaprComponentsListSecretsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface DaprComponents {
   list(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    options?: DaprComponentsListOptionalParams,
   ): PagedAsyncIterableIterator<DaprComponent>;
   /**
    * Get a dapr component.
@@ -44,7 +44,7 @@ export interface DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
-    options?: DaprComponentsGetOptionalParams
+    options?: DaprComponentsGetOptionalParams,
   ): Promise<DaprComponentsGetResponse>;
   /**
    * Creates or updates a Dapr Component in a Managed Environment.
@@ -59,7 +59,7 @@ export interface DaprComponents {
     environmentName: string,
     componentName: string,
     daprComponentEnvelope: DaprComponent,
-    options?: DaprComponentsCreateOrUpdateOptionalParams
+    options?: DaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<DaprComponentsCreateOrUpdateResponse>;
   /**
    * Delete a Dapr Component from a Managed Environment.
@@ -72,7 +72,7 @@ export interface DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
-    options?: DaprComponentsDeleteOptionalParams
+    options?: DaprComponentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List secrets for a dapr component
@@ -85,6 +85,6 @@ export interface DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     componentName: string,
-    options?: DaprComponentsListSecretsOptionalParams
+    options?: DaprComponentsListSecretsOptionalParams,
   ): Promise<DaprComponentsListSecretsResponse>;
 }

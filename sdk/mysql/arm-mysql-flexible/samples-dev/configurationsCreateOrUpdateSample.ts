@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Configuration,
-  MySQLManagementFlexibleServerClient
+  MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a configuration of a server.
  *
  * @summary Updates a configuration of a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationCreateOrUpdate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationCreateOrUpdate.json
  */
 async function configurationCreateOrUpdate() {
   const subscriptionId =
@@ -34,13 +34,13 @@ async function configurationCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     serverName,
     configurationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

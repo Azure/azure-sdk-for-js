@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all network security groups applied to a network interface.
  *
  * @summary Gets all network security groups applied to a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkInterfaceEffectiveNSGList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkInterfaceEffectiveNSGList.json
  */
 async function listNetworkInterfaceEffectiveNetworkSecurityGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -26,10 +26,11 @@ async function listNetworkInterfaceEffectiveNetworkSecurityGroups() {
   const networkInterfaceName = "nic1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkInterfaces.beginListEffectiveNetworkSecurityGroupsAndWait(
-    resourceGroupName,
-    networkInterfaceName
-  );
+  const result =
+    await client.networkInterfaces.beginListEffectiveNetworkSecurityGroupsAndWait(
+      resourceGroupName,
+      networkInterfaceName,
+    );
   console.log(result);
 }
 

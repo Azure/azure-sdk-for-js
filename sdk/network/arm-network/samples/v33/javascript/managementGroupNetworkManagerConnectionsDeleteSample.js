@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete specified pending connection created by this management group.
  *
  * @summary Delete specified pending connection created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerConnectionManagementGroupDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerConnectionManagementGroupDelete.json
  */
 async function deleteManagementGroupNetworkManagerConnection() {
   const managementGroupId = "managementGroupA";

@@ -25,7 +25,7 @@ import { Delivery } from "rhea-promise";
 import { MessageAlreadySettled } from "../../../src/util/errors";
 import { assertThrows } from "../../public/utils/testUtils";
 import { AbortError } from "@azure/abort-controller";
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("shared receiver code", () => {
   describe("translateServiceBusError", () => {
@@ -218,7 +218,7 @@ describe("shared receiver code", () => {
 
       await assertThrows(() => retryForeverPromise, {
         name: "AbortError",
-        message: "Purposefully abort",
+        message: "Error 0: AbortError: Purposefully abort",
       });
 
       assert.notOk(onErrorError?.message);

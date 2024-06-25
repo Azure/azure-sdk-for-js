@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a network security group tags.
  *
  * @summary Updates a network security group tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkSecurityGroupUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkSecurityGroupUpdateTags.json
  */
 async function updateNetworkSecurityGroupTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function updateNetworkSecurityGroupTags() {
   const result = await client.networkSecurityGroups.updateTags(
     resourceGroupName,
     networkSecurityGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

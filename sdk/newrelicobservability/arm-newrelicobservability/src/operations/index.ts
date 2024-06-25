@@ -11,4 +11,7 @@ export * from "./accounts";
 export * from "./monitors";
 export * from "./organizations";
 export * from "./plans";
+export * from "./billingInfo";
+export * from "./connectedPartnerResources";
 export * from "./tagRules";
+export * from "./monitoredSubscriptions";

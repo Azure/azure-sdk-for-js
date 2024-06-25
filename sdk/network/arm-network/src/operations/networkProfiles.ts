@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   NetworkProfilesUpdateTagsOptionalParams,
   NetworkProfilesUpdateTagsResponse,
   NetworkProfilesListAllNextResponse,
-  NetworkProfilesListNextResponse
+  NetworkProfilesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class NetworkProfilesImpl implements NetworkProfiles {
    * @param options The options parameters.
    */
   public listAll(
-    options?: NetworkProfilesListAllOptionalParams
+    options?: NetworkProfilesListAllOptionalParams,
   ): PagedAsyncIterableIterator<NetworkProfile> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class NetworkProfilesImpl implements NetworkProfiles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: NetworkProfilesListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkProfile[]> {
     let result: NetworkProfilesListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class NetworkProfilesImpl implements NetworkProfiles {
   }
 
   private async *listAllPagingAll(
-    options?: NetworkProfilesListAllOptionalParams
+    options?: NetworkProfilesListAllOptionalParams,
   ): AsyncIterableIterator<NetworkProfile> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class NetworkProfilesImpl implements NetworkProfiles {
    */
   public list(
     resourceGroupName: string,
-    options?: NetworkProfilesListOptionalParams
+    options?: NetworkProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkProfile> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -128,14 +128,14 @@ export class NetworkProfilesImpl implements NetworkProfiles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: NetworkProfilesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkProfile[]> {
     let result: NetworkProfilesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class NetworkProfilesImpl implements NetworkProfiles {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,7 +161,7 @@ export class NetworkProfilesImpl implements NetworkProfiles {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: NetworkProfilesListOptionalParams
+    options?: NetworkProfilesListOptionalParams,
   ): AsyncIterableIterator<NetworkProfile> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -177,25 +177,24 @@ export class NetworkProfilesImpl implements NetworkProfiles {
   async beginDelete(
     resourceGroupName: string,
     networkProfileName: string,
-    options?: NetworkProfilesDeleteOptionalParams
+    options?: NetworkProfilesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -204,8 +203,8 @@ export class NetworkProfilesImpl implements NetworkProfiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -213,20 +212,20 @@ export class NetworkProfilesImpl implements NetworkProfiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkProfileName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -241,12 +240,12 @@ export class NetworkProfilesImpl implements NetworkProfiles {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkProfileName: string,
-    options?: NetworkProfilesDeleteOptionalParams
+    options?: NetworkProfilesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkProfileName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -260,11 +259,11 @@ export class NetworkProfilesImpl implements NetworkProfiles {
   get(
     resourceGroupName: string,
     networkProfileName: string,
-    options?: NetworkProfilesGetOptionalParams
+    options?: NetworkProfilesGetOptionalParams,
   ): Promise<NetworkProfilesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkProfileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -279,11 +278,11 @@ export class NetworkProfilesImpl implements NetworkProfiles {
     resourceGroupName: string,
     networkProfileName: string,
     parameters: NetworkProfile,
-    options?: NetworkProfilesCreateOrUpdateOptionalParams
+    options?: NetworkProfilesCreateOrUpdateOptionalParams,
   ): Promise<NetworkProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkProfileName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -298,11 +297,11 @@ export class NetworkProfilesImpl implements NetworkProfiles {
     resourceGroupName: string,
     networkProfileName: string,
     parameters: TagsObject,
-    options?: NetworkProfilesUpdateTagsOptionalParams
+    options?: NetworkProfilesUpdateTagsOptionalParams,
   ): Promise<NetworkProfilesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkProfileName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -311,7 +310,7 @@ export class NetworkProfilesImpl implements NetworkProfiles {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: NetworkProfilesListAllOptionalParams
+    options?: NetworkProfilesListAllOptionalParams,
   ): Promise<NetworkProfilesListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -323,11 +322,11 @@ export class NetworkProfilesImpl implements NetworkProfiles {
    */
   private _list(
     resourceGroupName: string,
-    options?: NetworkProfilesListOptionalParams
+    options?: NetworkProfilesListOptionalParams,
   ): Promise<NetworkProfilesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -338,11 +337,11 @@ export class NetworkProfilesImpl implements NetworkProfiles {
    */
   private _listAllNext(
     nextLink: string,
-    options?: NetworkProfilesListAllNextOptionalParams
+    options?: NetworkProfilesListAllNextOptionalParams,
   ): Promise<NetworkProfilesListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 
@@ -355,11 +354,11 @@ export class NetworkProfilesImpl implements NetworkProfiles {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkProfilesListNextOptionalParams
+    options?: NetworkProfilesListNextOptionalParams,
   ): Promise<NetworkProfilesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -367,8 +366,7 @@ export class NetworkProfilesImpl implements NetworkProfiles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -376,79 +374,76 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkProfileName
+    Parameters.networkProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfile
+      bodyMapper: Mappers.NetworkProfile,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkProfileName
+    Parameters.networkProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfile
+      bodyMapper: Mappers.NetworkProfile,
     },
     201: {
-      bodyMapper: Mappers.NetworkProfile
+      bodyMapper: Mappers.NetworkProfile,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters42,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkProfileName
+    Parameters.networkProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfile
+      bodyMapper: Mappers.NetworkProfile,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -456,86 +451,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkProfileName
+    Parameters.networkProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfileListResult
+      bodyMapper: Mappers.NetworkProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfileListResult
+      bodyMapper: Mappers.NetworkProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfileListResult
+      bodyMapper: Mappers.NetworkProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkProfileListResult
+      bodyMapper: Mappers.NetworkProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -15,13 +15,14 @@ import { MaintenanceManagementClient } from "../maintenanceManagementClient";
 import {
   MaintenanceConfiguration,
   MaintenanceConfigurationsForResourceGroupListOptionalParams,
-  MaintenanceConfigurationsForResourceGroupListResponse
+  MaintenanceConfigurationsForResourceGroupListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MaintenanceConfigurationsForResourceGroup operations. */
 export class MaintenanceConfigurationsForResourceGroupImpl
-  implements MaintenanceConfigurationsForResourceGroup {
+  implements MaintenanceConfigurationsForResourceGroup
+{
   private readonly client: MaintenanceManagementClient;
 
   /**
@@ -39,7 +40,7 @@ export class MaintenanceConfigurationsForResourceGroupImpl
    */
   public list(
     resourceGroupName: string,
-    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams
+    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -54,14 +55,14 @@ export class MaintenanceConfigurationsForResourceGroupImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: MaintenanceConfigurationsForResourceGroupListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MaintenanceConfiguration[]> {
     let result: MaintenanceConfigurationsForResourceGroupListResponse;
     result = await this._list(resourceGroupName, options);
@@ -70,7 +71,7 @@ export class MaintenanceConfigurationsForResourceGroupImpl
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams
+    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams,
   ): AsyncIterableIterator<MaintenanceConfiguration> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -84,11 +85,11 @@ export class MaintenanceConfigurationsForResourceGroupImpl
    */
   private _list(
     resourceGroupName: string,
-    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams
+    options?: MaintenanceConfigurationsForResourceGroupListOptionalParams,
   ): Promise<MaintenanceConfigurationsForResourceGroupListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -96,23 +97,22 @@ export class MaintenanceConfigurationsForResourceGroupImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maintenance/maintenanceConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListMaintenanceConfigurationsResult
+      bodyMapper: Mappers.ListMaintenanceConfigurationsResult,
     },
     default: {
-      bodyMapper: Mappers.MaintenanceError
-    }
+      bodyMapper: Mappers.MaintenanceError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

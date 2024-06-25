@@ -13,8 +13,8 @@ import {
   BackupsListByVaultOptionalParams,
   BackupsGetLatestStatusOptionalParams,
   BackupsGetLatestStatusResponse,
-  BackupsGetVolumeRestoreStatusOptionalParams,
-  BackupsGetVolumeRestoreStatusResponse,
+  BackupsGetVolumeLatestRestoreStatusOptionalParams,
+  BackupsGetVolumeLatestRestoreStatusResponse,
   BackupsGetOptionalParams,
   BackupsGetResponse,
   BackupsCreateOptionalParams,
@@ -22,7 +22,7 @@ import {
   BackupsUpdateOptionalParams,
   BackupsUpdateResponse,
   BackupsDeleteOptionalParams,
-  BackupsDeleteResponse
+  BackupsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Backups {
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    options?: BackupsListByVaultOptionalParams
+    options?: BackupsListByVaultOptionalParams,
   ): PagedAsyncIterableIterator<Backup>;
   /**
    * Get the latest status of the backup for a volume
@@ -54,23 +54,23 @@ export interface Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetLatestStatusOptionalParams
+    options?: BackupsGetLatestStatusOptionalParams,
   ): Promise<BackupsGetLatestStatusResponse>;
   /**
-   * Get the status of the restore for a volume
+   * Get the latest status of the restore for a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  getVolumeRestoreStatus(
+  getVolumeLatestRestoreStatus(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetVolumeRestoreStatusOptionalParams
-  ): Promise<BackupsGetVolumeRestoreStatusResponse>;
+    options?: BackupsGetVolumeLatestRestoreStatusOptionalParams,
+  ): Promise<BackupsGetVolumeLatestRestoreStatusResponse>;
   /**
    * Get the specified Backup under Backup Vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -84,7 +84,7 @@ export interface Backups {
     accountName: string,
     backupVaultName: string,
     backupName: string,
-    options?: BackupsGetOptionalParams
+    options?: BackupsGetOptionalParams,
   ): Promise<BackupsGetResponse>;
   /**
    * Create a backup under the Backup Vault
@@ -101,7 +101,7 @@ export interface Backups {
     backupVaultName: string,
     backupName: string,
     body: Backup,
-    options?: BackupsCreateOptionalParams
+    options?: BackupsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsCreateResponse>,
@@ -123,7 +123,7 @@ export interface Backups {
     backupVaultName: string,
     backupName: string,
     body: Backup,
-    options?: BackupsCreateOptionalParams
+    options?: BackupsCreateOptionalParams,
   ): Promise<BackupsCreateResponse>;
   /**
    * Patch a Backup under the Backup Vault
@@ -138,7 +138,7 @@ export interface Backups {
     accountName: string,
     backupVaultName: string,
     backupName: string,
-    options?: BackupsUpdateOptionalParams
+    options?: BackupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUpdateResponse>,
@@ -158,7 +158,7 @@ export interface Backups {
     accountName: string,
     backupVaultName: string,
     backupName: string,
-    options?: BackupsUpdateOptionalParams
+    options?: BackupsUpdateOptionalParams,
   ): Promise<BackupsUpdateResponse>;
   /**
    * Delete a Backup under the Backup Vault
@@ -173,7 +173,7 @@ export interface Backups {
     accountName: string,
     backupVaultName: string,
     backupName: string,
-    options?: BackupsDeleteOptionalParams
+    options?: BackupsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsDeleteResponse>,
@@ -193,6 +193,6 @@ export interface Backups {
     accountName: string,
     backupVaultName: string,
     backupName: string,
-    options?: BackupsDeleteOptionalParams
+    options?: BackupsDeleteOptionalParams,
   ): Promise<BackupsDeleteResponse>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified application security group.
  *
  * @summary Gets information about the specified application security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ApplicationSecurityGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationSecurityGroupGet.json
  */
 async function getApplicationSecurityGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getApplicationSecurityGroup() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.applicationSecurityGroups.get(
     resourceGroupName,
-    applicationSecurityGroupName
+    applicationSecurityGroupName,
   );
   console.log(result);
 }

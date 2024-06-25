@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Resets GTID on a server.
  *
  * @summary Resets GTID on a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerResetGtid.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerResetGtid.json
  */
 async function resetGtidOnAServer() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function resetGtidOnAServer() {
   const result = await client.servers.beginResetGtidAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

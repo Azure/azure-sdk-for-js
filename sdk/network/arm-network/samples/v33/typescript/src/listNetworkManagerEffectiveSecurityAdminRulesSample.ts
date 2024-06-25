@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   QueryRequestOptions,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List all effective security admin rules applied on a virtual network.
  *
  * @summary List all effective security admin rules applied on a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerEffectiveSecurityAdminRulesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerEffectiveSecurityAdminRulesList.json
  */
 async function listEffectiveSecurityAdminRules() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function listEffectiveSecurityAdminRules() {
   const result = await client.listNetworkManagerEffectiveSecurityAdminRules(
     resourceGroupName,
     virtualNetworkName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

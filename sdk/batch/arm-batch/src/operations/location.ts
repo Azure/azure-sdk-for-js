@@ -27,7 +27,7 @@ import {
   LocationCheckNameAvailabilityOptionalParams,
   LocationCheckNameAvailabilityResponse,
   LocationListSupportedVirtualMachineSkusNextResponse,
-  LocationListSupportedCloudServiceSkusNextResponse
+  LocationListSupportedCloudServiceSkusNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,11 +50,11 @@ export class LocationImpl implements Location {
    */
   public listSupportedVirtualMachineSkus(
     locationName: string,
-    options?: LocationListSupportedVirtualMachineSkusOptionalParams
+    options?: LocationListSupportedVirtualMachineSkusOptionalParams,
   ): PagedAsyncIterableIterator<SupportedSku> {
     const iter = this.listSupportedVirtualMachineSkusPagingAll(
       locationName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,23 +70,23 @@ export class LocationImpl implements Location {
         return this.listSupportedVirtualMachineSkusPagingPage(
           locationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listSupportedVirtualMachineSkusPagingPage(
     locationName: string,
     options?: LocationListSupportedVirtualMachineSkusOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SupportedSku[]> {
     let result: LocationListSupportedVirtualMachineSkusResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listSupportedVirtualMachineSkus(
         locationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +97,7 @@ export class LocationImpl implements Location {
       result = await this._listSupportedVirtualMachineSkusNext(
         locationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,11 +108,11 @@ export class LocationImpl implements Location {
 
   private async *listSupportedVirtualMachineSkusPagingAll(
     locationName: string,
-    options?: LocationListSupportedVirtualMachineSkusOptionalParams
+    options?: LocationListSupportedVirtualMachineSkusOptionalParams,
   ): AsyncIterableIterator<SupportedSku> {
     for await (const page of this.listSupportedVirtualMachineSkusPagingPage(
       locationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +125,11 @@ export class LocationImpl implements Location {
    */
   public listSupportedCloudServiceSkus(
     locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams
+    options?: LocationListSupportedCloudServiceSkusOptionalParams,
   ): PagedAsyncIterableIterator<SupportedSku> {
     const iter = this.listSupportedCloudServiceSkusPagingAll(
       locationName,
-      options
+      options,
     );
     return {
       next() {
@@ -145,16 +145,16 @@ export class LocationImpl implements Location {
         return this.listSupportedCloudServiceSkusPagingPage(
           locationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listSupportedCloudServiceSkusPagingPage(
     locationName: string,
     options?: LocationListSupportedCloudServiceSkusOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SupportedSku[]> {
     let result: LocationListSupportedCloudServiceSkusResponse;
     let continuationToken = settings?.continuationToken;
@@ -169,7 +169,7 @@ export class LocationImpl implements Location {
       result = await this._listSupportedCloudServiceSkusNext(
         locationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -180,11 +180,11 @@ export class LocationImpl implements Location {
 
   private async *listSupportedCloudServiceSkusPagingAll(
     locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams
+    options?: LocationListSupportedCloudServiceSkusOptionalParams,
   ): AsyncIterableIterator<SupportedSku> {
     for await (const page of this.listSupportedCloudServiceSkusPagingPage(
       locationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -197,11 +197,11 @@ export class LocationImpl implements Location {
    */
   getQuotas(
     locationName: string,
-    options?: LocationGetQuotasOptionalParams
+    options?: LocationGetQuotasOptionalParams,
   ): Promise<LocationGetQuotasResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      getQuotasOperationSpec
+      getQuotasOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class LocationImpl implements Location {
    */
   private _listSupportedVirtualMachineSkus(
     locationName: string,
-    options?: LocationListSupportedVirtualMachineSkusOptionalParams
+    options?: LocationListSupportedVirtualMachineSkusOptionalParams,
   ): Promise<LocationListSupportedVirtualMachineSkusResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listSupportedVirtualMachineSkusOperationSpec
+      listSupportedVirtualMachineSkusOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class LocationImpl implements Location {
    */
   private _listSupportedCloudServiceSkus(
     locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams
+    options?: LocationListSupportedCloudServiceSkusOptionalParams,
   ): Promise<LocationListSupportedCloudServiceSkusResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listSupportedCloudServiceSkusOperationSpec
+      listSupportedCloudServiceSkusOperationSpec,
     );
   }
 
@@ -244,11 +244,11 @@ export class LocationImpl implements Location {
   checkNameAvailability(
     locationName: string,
     parameters: CheckNameAvailabilityParameters,
-    options?: LocationCheckNameAvailabilityOptionalParams
+    options?: LocationCheckNameAvailabilityOptionalParams,
   ): Promise<LocationCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { locationName, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -262,11 +262,11 @@ export class LocationImpl implements Location {
   private _listSupportedVirtualMachineSkusNext(
     locationName: string,
     nextLink: string,
-    options?: LocationListSupportedVirtualMachineSkusNextOptionalParams
+    options?: LocationListSupportedVirtualMachineSkusNextOptionalParams,
   ): Promise<LocationListSupportedVirtualMachineSkusNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listSupportedVirtualMachineSkusNextOperationSpec
+      listSupportedVirtualMachineSkusNextOperationSpec,
     );
   }
 
@@ -280,11 +280,11 @@ export class LocationImpl implements Location {
   private _listSupportedCloudServiceSkusNext(
     locationName: string,
     nextLink: string,
-    options?: LocationListSupportedCloudServiceSkusNextOptionalParams
+    options?: LocationListSupportedCloudServiceSkusNextOptionalParams,
   ): Promise<LocationListSupportedCloudServiceSkusNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listSupportedCloudServiceSkusNextOperationSpec
+      listSupportedCloudServiceSkusNextOperationSpec,
     );
   }
 }
@@ -292,136 +292,134 @@ export class LocationImpl implements Location {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getQuotasOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/quotas",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/quotas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchLocationQuota
+      bodyMapper: Mappers.BatchLocationQuota,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSupportedVirtualMachineSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/virtualMachineSkus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/virtualMachineSkus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportedSkusResult
+      bodyMapper: Mappers.SupportedSkusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxresults,
-    Parameters.filter
+    Parameters.filter,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSupportedCloudServiceSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/cloudServiceSkus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/cloudServiceSkus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportedSkusResult
+      bodyMapper: Mappers.SupportedSkusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxresults,
-    Parameters.filter
+    Parameters.filter,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listSupportedVirtualMachineSkusNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SupportedSkusResult
+const listSupportedVirtualMachineSkusNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SupportedSkusResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listSupportedCloudServiceSkusNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SupportedSkusResult
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.locationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listSupportedCloudServiceSkusNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SupportedSkusResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.locationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

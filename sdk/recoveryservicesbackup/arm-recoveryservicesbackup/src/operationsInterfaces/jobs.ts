@@ -20,6 +20,6 @@ export interface Jobs {
   export(
     vaultName: string,
     resourceGroupName: string,
-    options?: JobsExportOptionalParams
+    options?: JobsExportOptionalParams,
   ): Promise<void>;
 }

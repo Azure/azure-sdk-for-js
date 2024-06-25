@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   VirtualWansUpdateTagsResponse,
   VirtualWansDeleteOptionalParams,
   VirtualWansListByResourceGroupNextResponse,
-  VirtualWansListNextResponse
+  VirtualWansListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class VirtualWansImpl implements VirtualWans {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualWansListByResourceGroupOptionalParams
+    options?: VirtualWansListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualWAN> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class VirtualWansImpl implements VirtualWans {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: VirtualWansListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualWAN[]> {
     let result: VirtualWansListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class VirtualWansImpl implements VirtualWans {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class VirtualWansImpl implements VirtualWans {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: VirtualWansListByResourceGroupOptionalParams
+    options?: VirtualWansListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<VirtualWAN> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class VirtualWansImpl implements VirtualWans {
    * @param options The options parameters.
    */
   public list(
-    options?: VirtualWansListOptionalParams
+    options?: VirtualWansListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualWAN> {
     const iter = this.listPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class VirtualWansImpl implements VirtualWans {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: VirtualWansListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualWAN[]> {
     let result: VirtualWansListResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class VirtualWansImpl implements VirtualWans {
   }
 
   private async *listPagingAll(
-    options?: VirtualWansListOptionalParams
+    options?: VirtualWansListOptionalParams,
   ): AsyncIterableIterator<VirtualWAN> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -184,11 +184,11 @@ export class VirtualWansImpl implements VirtualWans {
   get(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VirtualWansGetOptionalParams
+    options?: VirtualWansGetOptionalParams,
   ): Promise<VirtualWansGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualWANName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -203,7 +203,7 @@ export class VirtualWansImpl implements VirtualWans {
     resourceGroupName: string,
     virtualWANName: string,
     wANParameters: VirtualWAN,
-    options?: VirtualWansCreateOrUpdateOptionalParams
+    options?: VirtualWansCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualWansCreateOrUpdateResponse>,
@@ -212,21 +212,20 @@ export class VirtualWansImpl implements VirtualWans {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualWansCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -235,8 +234,8 @@ export class VirtualWansImpl implements VirtualWans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -244,15 +243,15 @@ export class VirtualWansImpl implements VirtualWans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualWANName, wANParameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       VirtualWansCreateOrUpdateResponse,
@@ -260,7 +259,7 @@ export class VirtualWansImpl implements VirtualWans {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -277,13 +276,13 @@ export class VirtualWansImpl implements VirtualWans {
     resourceGroupName: string,
     virtualWANName: string,
     wANParameters: VirtualWAN,
-    options?: VirtualWansCreateOrUpdateOptionalParams
+    options?: VirtualWansCreateOrUpdateOptionalParams,
   ): Promise<VirtualWansCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualWANName,
       wANParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -299,11 +298,11 @@ export class VirtualWansImpl implements VirtualWans {
     resourceGroupName: string,
     virtualWANName: string,
     wANParameters: TagsObject,
-    options?: VirtualWansUpdateTagsOptionalParams
+    options?: VirtualWansUpdateTagsOptionalParams,
   ): Promise<VirtualWansUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualWANName, wANParameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -316,25 +315,24 @@ export class VirtualWansImpl implements VirtualWans {
   async beginDelete(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VirtualWansDeleteOptionalParams
+    options?: VirtualWansDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -343,8 +341,8 @@ export class VirtualWansImpl implements VirtualWans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -352,20 +350,20 @@ export class VirtualWansImpl implements VirtualWans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualWANName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -380,12 +378,12 @@ export class VirtualWansImpl implements VirtualWans {
   async beginDeleteAndWait(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VirtualWansDeleteOptionalParams
+    options?: VirtualWansDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualWANName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -397,11 +395,11 @@ export class VirtualWansImpl implements VirtualWans {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualWansListByResourceGroupOptionalParams
+    options?: VirtualWansListByResourceGroupOptionalParams,
   ): Promise<VirtualWansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -410,7 +408,7 @@ export class VirtualWansImpl implements VirtualWans {
    * @param options The options parameters.
    */
   private _list(
-    options?: VirtualWansListOptionalParams
+    options?: VirtualWansListOptionalParams,
   ): Promise<VirtualWansListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -424,11 +422,11 @@ export class VirtualWansImpl implements VirtualWans {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VirtualWansListByResourceGroupNextOptionalParams
+    options?: VirtualWansListByResourceGroupNextOptionalParams,
   ): Promise<VirtualWansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -439,11 +437,11 @@ export class VirtualWansImpl implements VirtualWans {
    */
   private _listNext(
     nextLink: string,
-    options?: VirtualWansListNextOptionalParams
+    options?: VirtualWansListNextOptionalParams,
   ): Promise<VirtualWansListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -451,47 +449,45 @@ export class VirtualWansImpl implements VirtualWans {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualWAN
+      bodyMapper: Mappers.VirtualWAN,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualWANName1
+    Parameters.virtualWANName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualWAN
+      bodyMapper: Mappers.VirtualWAN,
     },
     201: {
-      bodyMapper: Mappers.VirtualWAN
+      bodyMapper: Mappers.VirtualWAN,
     },
     202: {
-      bodyMapper: Mappers.VirtualWAN
+      bodyMapper: Mappers.VirtualWAN,
     },
     204: {
-      bodyMapper: Mappers.VirtualWAN
+      bodyMapper: Mappers.VirtualWAN,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.wANParameters,
   queryParameters: [Parameters.apiVersion],
@@ -499,23 +495,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualWANName1
+    Parameters.virtualWANName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualWAN
+      bodyMapper: Mappers.VirtualWAN,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.wANParameters1,
   queryParameters: [Parameters.apiVersion],
@@ -523,15 +518,14 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualWANName1
+    Parameters.virtualWANName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -539,93 +533,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualWANName1
+    Parameters.virtualWANName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVirtualWANsResult
+      bodyMapper: Mappers.ListVirtualWANsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVirtualWANsResult
+      bodyMapper: Mappers.ListVirtualWANsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVirtualWANsResult
+      bodyMapper: Mappers.ListVirtualWANsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVirtualWANsResult
+      bodyMapper: Mappers.ListVirtualWANsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

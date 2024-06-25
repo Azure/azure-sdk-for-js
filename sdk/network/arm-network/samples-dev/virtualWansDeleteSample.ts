@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a VirtualWAN.
  *
  * @summary Deletes a VirtualWAN.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualWANDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualWANDelete.json
  */
 async function virtualWanDelete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function virtualWanDelete() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualWans.beginDeleteAndWait(
     resourceGroupName,
-    virtualWANName
+    virtualWANName,
   );
   console.log(result);
 }

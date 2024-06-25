@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified network watcher resource.
  *
  * @summary Deletes the specified network watcher resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherDelete.json
  */
 async function deleteNetworkWatcher() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteNetworkWatcher() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkWatchers.beginDeleteAndWait(
     resourceGroupName,
-    networkWatcherName
+    networkWatcherName,
   );
   console.log(result);
 }

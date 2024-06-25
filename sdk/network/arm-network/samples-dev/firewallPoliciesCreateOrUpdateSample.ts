@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified Firewall Policy.
  *
  * @summary Creates or updates the specified Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyPut.json
  */
 async function createFirewallPolicy() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function createFirewallPolicy() {
     dnsSettings: {
       enableProxy: true,
       requireProxyForNetworkRules: false,
-      servers: ["30.3.4.5"]
+      servers: ["30.3.4.5"],
     },
     explicitProxy: {
       enableExplicitProxy: true,
@@ -37,33 +37,30 @@ async function createFirewallPolicy() {
       httpsPort: 8087,
       pacFile:
         "https://tinawstorage.file.core.windows.net/?sv=2020-02-10&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-06-04T07:01:12Z&st=2021-06-03T23:01:12Z&sip=68.65.171.11&spr=https&sig=Plsa0RRVpGbY0IETZZOT6znOHcSro71LLTTbzquYPgs%3D",
-      pacFilePort: 8087
+      pacFilePort: 8087,
     },
     insights: {
       isEnabled: true,
       logAnalyticsResources: {
         defaultWorkspaceId: {
-          id:
-            "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace"
+          id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
         },
         workspaces: [
           {
             region: "westus",
             workspaceId: {
-              id:
-                "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1"
-            }
+              id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
+            },
           },
           {
             region: "eastus",
             workspaceId: {
-              id:
-                "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2"
-            }
-          }
-        ]
+              id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
+            },
+          },
+        ],
       },
-      retentionDays: 100
+      retentionDays: 100,
     },
     intrusionDetection: {
       configuration: {
@@ -74,13 +71,13 @@ async function createFirewallPolicy() {
             destinationAddresses: ["5.6.7.8"],
             destinationPorts: ["*"],
             sourceAddresses: ["1.2.3.4"],
-            protocol: "TCP"
-          }
+            protocol: "TCP",
+          },
         ],
-        signatureOverrides: [{ id: "2525004", mode: "Deny" }]
+        signatureOverrides: [{ id: "2525004", mode: "Deny" }],
       },
       mode: "Alert",
-      profile: "Balanced"
+      profile: "Balanced",
     },
     location: "West US",
     sku: { tier: "Premium" },
@@ -90,21 +87,21 @@ async function createFirewallPolicy() {
     threatIntelMode: "Alert",
     threatIntelWhitelist: {
       fqdns: ["*.microsoft.com"],
-      ipAddresses: ["20.3.4.5"]
+      ipAddresses: ["20.3.4.5"],
     },
     transportSecurity: {
       certificateAuthority: {
         name: "clientcert",
-        keyVaultSecretId: "https://kv/secret"
-      }
-    }
+        keyVaultSecretId: "https://kv/secret",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.firewallPolicies.beginCreateOrUpdateAndWait(
     resourceGroupName,
     firewallPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

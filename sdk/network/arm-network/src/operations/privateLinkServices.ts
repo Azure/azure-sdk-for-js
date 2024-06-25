@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -57,7 +57,7 @@ import {
   PrivateLinkServicesListBySubscriptionNextResponse,
   PrivateLinkServicesListPrivateEndpointConnectionsNextResponse,
   PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse,
-  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,7 +80,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
    */
   public list(
     resourceGroupName: string,
-    options?: PrivateLinkServicesListOptionalParams
+    options?: PrivateLinkServicesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkService> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -95,14 +95,14 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: PrivateLinkServicesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkService[]> {
     let result: PrivateLinkServicesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -117,7 +117,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -128,7 +128,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: PrivateLinkServicesListOptionalParams
+    options?: PrivateLinkServicesListOptionalParams,
   ): AsyncIterableIterator<PrivateLinkService> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -140,7 +140,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: PrivateLinkServicesListBySubscriptionOptionalParams
+    options?: PrivateLinkServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkService> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -155,13 +155,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: PrivateLinkServicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkService[]> {
     let result: PrivateLinkServicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -182,7 +182,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: PrivateLinkServicesListBySubscriptionOptionalParams
+    options?: PrivateLinkServicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<PrivateLinkService> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -198,12 +198,12 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   public listPrivateEndpointConnections(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams
+    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
     const iter = this.listPrivateEndpointConnectionsPagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -220,9 +220,9 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -230,7 +230,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result: PrivateLinkServicesListPrivateEndpointConnectionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -238,7 +238,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       result = await this._listPrivateEndpointConnections(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -250,7 +250,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -262,12 +262,12 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   private async *listPrivateEndpointConnectionsPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams
+    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnection> {
     for await (const page of this.listPrivateEndpointConnectionsPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -281,11 +281,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
    */
   public listAutoApprovedPrivateLinkServices(
     location: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams,
   ): PagedAsyncIterableIterator<AutoApprovedPrivateLinkService> {
     const iter = this.listAutoApprovedPrivateLinkServicesPagingAll(
       location,
-      options
+      options,
     );
     return {
       next() {
@@ -301,23 +301,23 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         return this.listAutoApprovedPrivateLinkServicesPagingPage(
           location,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listAutoApprovedPrivateLinkServicesPagingPage(
     location: string,
     options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutoApprovedPrivateLinkService[]> {
     let result: PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listAutoApprovedPrivateLinkServices(
         location,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -328,7 +328,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       result = await this._listAutoApprovedPrivateLinkServicesNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -339,11 +339,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
 
   private async *listAutoApprovedPrivateLinkServicesPagingAll(
     location: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams,
   ): AsyncIterableIterator<AutoApprovedPrivateLinkService> {
     for await (const page of this.listAutoApprovedPrivateLinkServicesPagingPage(
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -359,13 +359,14 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   public listAutoApprovedPrivateLinkServicesByResourceGroup(
     location: string,
     resourceGroupName: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutoApprovedPrivateLinkService> {
-    const iter = this.listAutoApprovedPrivateLinkServicesByResourceGroupPagingAll(
-      location,
-      resourceGroupName,
-      options
-    );
+    const iter =
+      this.listAutoApprovedPrivateLinkServicesByResourceGroupPagingAll(
+        location,
+        resourceGroupName,
+        options,
+      );
     return {
       next() {
         return iter.next();
@@ -381,9 +382,9 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
           location,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -391,7 +392,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     location: string,
     resourceGroupName: string,
     options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutoApprovedPrivateLinkService[]> {
     let result: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -399,7 +400,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       result = await this._listAutoApprovedPrivateLinkServicesByResourceGroup(
         location,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -407,12 +408,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listAutoApprovedPrivateLinkServicesByResourceGroupNext(
-        location,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result =
+        await this._listAutoApprovedPrivateLinkServicesByResourceGroupNext(
+          location,
+          resourceGroupName,
+          continuationToken,
+          options,
+        );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -423,12 +425,12 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   private async *listAutoApprovedPrivateLinkServicesByResourceGroupPagingAll(
     location: string,
     resourceGroupName: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AutoApprovedPrivateLinkService> {
     for await (const page of this.listAutoApprovedPrivateLinkServicesByResourceGroupPagingPage(
       location,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -443,25 +445,24 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesDeleteOptionalParams
+    options?: PrivateLinkServicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -470,8 +471,8 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -479,20 +480,20 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -507,12 +508,12 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesDeleteOptionalParams
+    options?: PrivateLinkServicesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -526,11 +527,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesGetOptionalParams
+    options?: PrivateLinkServicesGetOptionalParams,
   ): Promise<PrivateLinkServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -545,7 +546,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     parameters: PrivateLinkService,
-    options?: PrivateLinkServicesCreateOrUpdateOptionalParams
+    options?: PrivateLinkServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateLinkServicesCreateOrUpdateResponse>,
@@ -554,21 +555,20 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateLinkServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -577,8 +577,8 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -586,15 +586,15 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateLinkServicesCreateOrUpdateResponse,
@@ -602,7 +602,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -619,13 +619,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     parameters: PrivateLinkService,
-    options?: PrivateLinkServicesCreateOrUpdateOptionalParams
+    options?: PrivateLinkServicesCreateOrUpdateOptionalParams,
   ): Promise<PrivateLinkServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -637,11 +637,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
    */
   private _list(
     resourceGroupName: string,
-    options?: PrivateLinkServicesListOptionalParams
+    options?: PrivateLinkServicesListOptionalParams,
   ): Promise<PrivateLinkServicesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -650,11 +650,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: PrivateLinkServicesListBySubscriptionOptionalParams
+    options?: PrivateLinkServicesListBySubscriptionOptionalParams,
   ): Promise<PrivateLinkServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -670,11 +670,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     peConnectionName: string,
-    options?: PrivateLinkServicesGetPrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesGetPrivateEndpointConnectionOptionalParams,
   ): Promise<PrivateLinkServicesGetPrivateEndpointConnectionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, peConnectionName, options },
-      getPrivateEndpointConnectionOperationSpec
+      getPrivateEndpointConnectionOperationSpec,
     );
   }
 
@@ -691,11 +691,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     serviceName: string,
     peConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateLinkServicesUpdatePrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<PrivateLinkServicesUpdatePrivateEndpointConnectionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, peConnectionName, parameters, options },
-      updatePrivateEndpointConnectionOperationSpec
+      updatePrivateEndpointConnectionOperationSpec,
     );
   }
 
@@ -710,25 +710,24 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     peConnectionName: string,
-    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -737,8 +736,8 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -746,20 +745,20 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, peConnectionName, options },
-      spec: deletePrivateEndpointConnectionOperationSpec
+      spec: deletePrivateEndpointConnectionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -776,13 +775,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     peConnectionName: string,
-    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeletePrivateEndpointConnection(
       resourceGroupName,
       serviceName,
       peConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -796,11 +795,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   private _listPrivateEndpointConnections(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams
+    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams,
   ): Promise<PrivateLinkServicesListPrivateEndpointConnectionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listPrivateEndpointConnectionsOperationSpec
+      listPrivateEndpointConnectionsOperationSpec,
     );
   }
 
@@ -813,32 +812,29 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   async beginCheckPrivateLinkServiceVisibility(
     location: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse
-      >,
+      OperationState<PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse>,
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -847,8 +843,8 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -856,25 +852,23 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { location, parameters, options },
-      spec: checkPrivateLinkServiceVisibilityOperationSpec
+      spec: checkPrivateLinkServiceVisibilityOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse,
-      OperationState<
-        PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse
-      >
+      OperationState<PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -889,12 +883,12 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   async beginCheckPrivateLinkServiceVisibilityAndWait(
     location: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams,
   ): Promise<PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse> {
     const poller = await this.beginCheckPrivateLinkServiceVisibility(
       location,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -910,32 +904,29 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     location: string,
     resourceGroupName: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
-      >,
+      OperationState<PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse>,
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -944,8 +935,8 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -953,25 +944,23 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { location, resourceGroupName, parameters, options },
-      spec: checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec
+      spec: checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse,
-      OperationState<
-        PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
-      >
+      OperationState<PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -988,16 +977,15 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     location: string,
     resourceGroupName: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams
-  ): Promise<
-    PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
-  > {
-    const poller = await this.beginCheckPrivateLinkServiceVisibilityByResourceGroup(
-      location,
-      resourceGroupName,
-      parameters,
-      options
-    );
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams,
+  ): Promise<PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse> {
+    const poller =
+      await this.beginCheckPrivateLinkServiceVisibilityByResourceGroup(
+        location,
+        resourceGroupName,
+        parameters,
+        options,
+      );
     return poller.pollUntilDone();
   }
 
@@ -1009,11 +997,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
    */
   private _listAutoApprovedPrivateLinkServices(
     location: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams,
   ): Promise<PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listAutoApprovedPrivateLinkServicesOperationSpec
+      listAutoApprovedPrivateLinkServicesOperationSpec,
     );
   }
 
@@ -1027,13 +1015,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   private _listAutoApprovedPrivateLinkServicesByResourceGroup(
     location: string,
     resourceGroupName: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams
-  ): Promise<
-    PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse
-  > {
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams,
+  ): Promise<PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { location, resourceGroupName, options },
-      listAutoApprovedPrivateLinkServicesByResourceGroupOperationSpec
+      listAutoApprovedPrivateLinkServicesByResourceGroupOperationSpec,
     );
   }
 
@@ -1046,11 +1032,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PrivateLinkServicesListNextOptionalParams
+    options?: PrivateLinkServicesListNextOptionalParams,
   ): Promise<PrivateLinkServicesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -1061,11 +1047,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: PrivateLinkServicesListBySubscriptionNextOptionalParams
+    options?: PrivateLinkServicesListBySubscriptionNextOptionalParams,
   ): Promise<PrivateLinkServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -1081,11 +1067,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: PrivateLinkServicesListPrivateEndpointConnectionsNextOptionalParams
+    options?: PrivateLinkServicesListPrivateEndpointConnectionsNextOptionalParams,
   ): Promise<PrivateLinkServicesListPrivateEndpointConnectionsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listPrivateEndpointConnectionsNextOperationSpec
+      listPrivateEndpointConnectionsNextOperationSpec,
     );
   }
 
@@ -1099,13 +1085,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
   private _listAutoApprovedPrivateLinkServicesNext(
     location: string,
     nextLink: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextOptionalParams
-  ): Promise<
-    PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse
-  > {
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextOptionalParams,
+  ): Promise<PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listAutoApprovedPrivateLinkServicesNextOperationSpec
+      listAutoApprovedPrivateLinkServicesNextOperationSpec,
     );
   }
 
@@ -1121,13 +1105,11 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
     location: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextOptionalParams
-  ): Promise<
-    PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse
-  > {
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextOptionalParams,
+  ): Promise<PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { location, resourceGroupName, nextLink, options },
-      listAutoApprovedPrivateLinkServicesByResourceGroupNextOperationSpec
+      listAutoApprovedPrivateLinkServicesByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -1135,8 +1117,7 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1144,123 +1125,118 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkService
+      bodyMapper: Mappers.PrivateLinkService,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkService
+      bodyMapper: Mappers.PrivateLinkService,
     },
     201: {
-      bodyMapper: Mappers.PrivateLinkService
+      bodyMapper: Mappers.PrivateLinkService,
     },
     202: {
-      bodyMapper: Mappers.PrivateLinkService
+      bodyMapper: Mappers.PrivateLinkService,
     },
     204: {
-      bodyMapper: Mappers.PrivateLinkService
+      bodyMapper: Mappers.PrivateLinkService,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
-  requestBody: Parameters.parameters63,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkServiceListResult
+      bodyMapper: Mappers.PrivateLinkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkServiceListResult
+      bodyMapper: Mappers.PrivateLinkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
@@ -1268,39 +1244,37 @@ const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.peConnectionName
+    Parameters.peConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updatePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
-  requestBody: Parameters.parameters64,
+  requestBody: Parameters.parameters66,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.peConnectionName
+    Parameters.peConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1308,8 +1282,8 @@ const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1317,239 +1291,241 @@ const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.peConnectionName
+    Parameters.peConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const checkPrivateLinkServiceVisibilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
+const checkPrivateLinkServiceVisibilityOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      201: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      202: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      204: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    201: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
+    requestBody: Parameters.parameters67,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      201: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      202: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      204: {
+        bodyMapper: Mappers.PrivateLinkServiceVisibility,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    202: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
+    requestBody: Parameters.parameters67,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const listAutoApprovedPrivateLinkServicesOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    204: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listAutoApprovedPrivateLinkServicesByResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters65,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
-    },
-    201: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
-    },
-    202: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
-    },
-    204: {
-      bodyMapper: Mappers.PrivateLinkServiceVisibility
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters65,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listAutoApprovedPrivateLinkServicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAutoApprovedPrivateLinkServicesByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkServiceListResult
+      bodyMapper: Mappers.PrivateLinkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkServiceListResult
+      bodyMapper: Mappers.PrivateLinkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ErrorModel,
     },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAutoApprovedPrivateLinkServicesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listAutoApprovedPrivateLinkServicesByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
+const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorModel,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.serviceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listAutoApprovedPrivateLinkServicesNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listAutoApprovedPrivateLinkServicesByResourceGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

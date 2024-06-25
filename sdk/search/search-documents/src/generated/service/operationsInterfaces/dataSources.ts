@@ -16,7 +16,7 @@ import {
   DataSourcesListOptionalParams,
   DataSourcesListResponse,
   DataSourcesCreateOptionalParams,
-  DataSourcesCreateResponse
+  DataSourcesCreateResponse,
 } from "../models";
 
 /** Interface representing a DataSources. */
@@ -30,7 +30,7 @@ export interface DataSources {
   createOrUpdate(
     dataSourceName: string,
     dataSource: SearchIndexerDataSource,
-    options?: DataSourcesCreateOrUpdateOptionalParams
+    options?: DataSourcesCreateOrUpdateOptionalParams,
   ): Promise<DataSourcesCreateOrUpdateResponse>;
   /**
    * Deletes a datasource.
@@ -39,7 +39,7 @@ export interface DataSources {
    */
   delete(
     dataSourceName: string,
-    options?: DataSourcesDeleteOptionalParams
+    options?: DataSourcesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves a datasource definition.
@@ -48,14 +48,14 @@ export interface DataSources {
    */
   get(
     dataSourceName: string,
-    options?: DataSourcesGetOptionalParams
+    options?: DataSourcesGetOptionalParams,
   ): Promise<DataSourcesGetResponse>;
   /**
    * Lists all datasources available for a search service.
    * @param options The options parameters.
    */
   list(
-    options?: DataSourcesListOptionalParams
+    options?: DataSourcesListOptionalParams,
   ): Promise<DataSourcesListResponse>;
   /**
    * Creates a new datasource.
@@ -64,6 +64,6 @@ export interface DataSources {
    */
   create(
     dataSource: SearchIndexerDataSource,
-    options?: DataSourcesCreateOptionalParams
+    options?: DataSourcesCreateOptionalParams,
   ): Promise<DataSourcesCreateResponse>;
 }

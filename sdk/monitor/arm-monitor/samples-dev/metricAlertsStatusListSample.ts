@@ -30,7 +30,7 @@ async function getAnAlertRuleStatus() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlertsStatus.list(
     resourceGroupName,
-    ruleName
+    ruleName,
   );
   console.log(result);
 }

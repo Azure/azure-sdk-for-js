@@ -29,7 +29,7 @@ async function workloadNetworksDeletePublicIP() {
   const result = await client.workloadNetworks.beginDeletePublicIPAndWait(
     resourceGroupName,
     publicIPId,
-    privateCloudName
+    privateCloudName,
   );
   console.log(result);
 }

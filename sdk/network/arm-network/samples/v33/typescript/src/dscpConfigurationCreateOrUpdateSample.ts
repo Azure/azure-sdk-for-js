@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a DSCP Configuration.
  *
  * @summary Creates or updates a DSCP Configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DscpConfigurationCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/DscpConfigurationCreate.json
  */
 async function createDscpConfiguration() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,9 +34,9 @@ async function createDscpConfiguration() {
         sourceIpRanges: [{ endIP: "127.0.0.2", startIP: "127.0.0.1" }],
         sourcePortRanges: [
           { end: 11, start: 10 },
-          { end: 21, start: 20 }
+          { end: 21, start: 20 },
         ],
-        protocol: "Tcp"
+        protocol: "Tcp",
       },
       {
         destinationIpRanges: [{ endIP: "12.0.10.2", startIP: "12.0.10.1" }],
@@ -44,17 +44,18 @@ async function createDscpConfiguration() {
         markings: [2],
         sourceIpRanges: [{ endIP: "12.0.0.2", startIP: "12.0.0.1" }],
         sourcePortRanges: [{ end: 12, start: 11 }],
-        protocol: "Udp"
-      }
-    ]
+        protocol: "Udp",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.dscpConfigurationOperations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    dscpConfigurationName,
-    parameters
-  );
+  const result =
+    await client.dscpConfigurationOperations.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      dscpConfigurationName,
+      parameters,
+    );
   console.log(result);
 }
 

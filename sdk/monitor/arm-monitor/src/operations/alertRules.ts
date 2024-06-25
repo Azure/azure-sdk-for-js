@@ -25,7 +25,7 @@ import {
   AlertRulesGetResponse,
   AlertRuleResourcePatch,
   AlertRulesUpdateOptionalParams,
-  AlertRulesUpdateResponse
+  AlertRulesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class AlertRulesImpl implements AlertRules {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AlertRulesListByResourceGroupOptionalParams
+    options?: AlertRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AlertRuleResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -65,16 +65,16 @@ export class AlertRulesImpl implements AlertRules {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AlertRulesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AlertRuleResource[]> {
     let result: AlertRulesListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -83,11 +83,11 @@ export class AlertRulesImpl implements AlertRules {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AlertRulesListByResourceGroupOptionalParams
+    options?: AlertRulesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AlertRuleResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -98,7 +98,7 @@ export class AlertRulesImpl implements AlertRules {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AlertRulesListBySubscriptionOptionalParams
+    options?: AlertRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AlertRuleResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -113,13 +113,13 @@ export class AlertRulesImpl implements AlertRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AlertRulesListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AlertRuleResource[]> {
     let result: AlertRulesListBySubscriptionResponse;
     result = await this._listBySubscription(options);
@@ -127,7 +127,7 @@ export class AlertRulesImpl implements AlertRules {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AlertRulesListBySubscriptionOptionalParams
+    options?: AlertRulesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AlertRuleResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -145,11 +145,11 @@ export class AlertRulesImpl implements AlertRules {
     resourceGroupName: string,
     ruleName: string,
     parameters: AlertRuleResource,
-    options?: AlertRulesCreateOrUpdateOptionalParams
+    options?: AlertRulesCreateOrUpdateOptionalParams,
   ): Promise<AlertRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class AlertRulesImpl implements AlertRules {
   delete(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRulesDeleteOptionalParams
+    options?: AlertRulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -179,11 +179,11 @@ export class AlertRulesImpl implements AlertRules {
   get(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRulesGetOptionalParams
+    options?: AlertRulesGetOptionalParams,
   ): Promise<AlertRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -199,11 +199,11 @@ export class AlertRulesImpl implements AlertRules {
     resourceGroupName: string,
     ruleName: string,
     alertRulesResource: AlertRuleResourcePatch,
-    options?: AlertRulesUpdateOptionalParams
+    options?: AlertRulesUpdateOptionalParams,
   ): Promise<AlertRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, alertRulesResource, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -214,11 +214,11 @@ export class AlertRulesImpl implements AlertRules {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AlertRulesListByResourceGroupOptionalParams
+    options?: AlertRulesListByResourceGroupOptionalParams,
   ): Promise<AlertRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class AlertRulesImpl implements AlertRules {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AlertRulesListBySubscriptionOptionalParams
+    options?: AlertRulesListBySubscriptionOptionalParams,
   ): Promise<AlertRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 }
@@ -239,137 +239,131 @@ export class AlertRulesImpl implements AlertRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleResource
+      bodyMapper: Mappers.AlertRuleResource,
     },
     201: {
-      bodyMapper: Mappers.AlertRuleResource
+      bodyMapper: Mappers.AlertRuleResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleResource
+      bodyMapper: Mappers.AlertRuleResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleResource
+      bodyMapper: Mappers.AlertRuleResource,
     },
     201: {
-      bodyMapper: Mappers.AlertRuleResource
+      bodyMapper: Mappers.AlertRuleResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.alertRulesResource,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleResourceCollection
+      bodyMapper: Mappers.AlertRuleResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/alertrules",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/alertrules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleResourceCollection
+      bodyMapper: Mappers.AlertRuleResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

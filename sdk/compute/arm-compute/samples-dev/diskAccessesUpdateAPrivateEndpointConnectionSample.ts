@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,17 +33,18 @@ async function approveAPrivateEndpointConnectionUnderADiskAccessResource() {
   const privateEndpointConnection: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Approving myPrivateEndpointConnection",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskAccesses.beginUpdateAPrivateEndpointConnectionAndWait(
-    resourceGroupName,
-    diskAccessName,
-    privateEndpointConnectionName,
-    privateEndpointConnection
-  );
+  const result =
+    await client.diskAccesses.beginUpdateAPrivateEndpointConnectionAndWait(
+      resourceGroupName,
+      diskAccessName,
+      privateEndpointConnectionName,
+      privateEndpointConnection,
+    );
   console.log(result);
 }
 

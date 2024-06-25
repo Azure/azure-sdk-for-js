@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PermissionBinding,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a permission binding with the specified parameters.
  *
  * @summary Create or update a permission binding with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PermissionBindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PermissionBindings_CreateOrUpdate.json
  */
 async function permissionBindingsCreateOrUpdate() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function permissionBindingsCreateOrUpdate() {
   const permissionBindingInfo: PermissionBinding = {
     clientGroupName: "exampleClientGroupName1",
     permission: "Publisher",
-    topicSpaceName: "exampleTopicSpaceName1"
+    topicSpaceName: "exampleTopicSpaceName1",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function permissionBindingsCreateOrUpdate() {
     resourceGroupName,
     namespaceName,
     permissionBindingName,
-    permissionBindingInfo
+    permissionBindingInfo,
   );
   console.log(result);
 }

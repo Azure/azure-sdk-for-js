@@ -20,13 +20,14 @@ import {
   LoadBalancerOutboundRulesListResponse,
   LoadBalancerOutboundRulesGetOptionalParams,
   LoadBalancerOutboundRulesGetResponse,
-  LoadBalancerOutboundRulesListNextResponse
+  LoadBalancerOutboundRulesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerOutboundRules operations. */
 export class LoadBalancerOutboundRulesImpl
-  implements LoadBalancerOutboundRules {
+  implements LoadBalancerOutboundRules
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -46,12 +47,12 @@ export class LoadBalancerOutboundRulesImpl
   public list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerOutboundRulesListOptionalParams
+    options?: LoadBalancerOutboundRulesListOptionalParams,
   ): PagedAsyncIterableIterator<OutboundRule> {
     const iter = this.listPagingAll(
       resourceGroupName,
       loadBalancerName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +69,9 @@ export class LoadBalancerOutboundRulesImpl
           resourceGroupName,
           loadBalancerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +79,7 @@ export class LoadBalancerOutboundRulesImpl
     resourceGroupName: string,
     loadBalancerName: string,
     options?: LoadBalancerOutboundRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OutboundRule[]> {
     let result: LoadBalancerOutboundRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +95,7 @@ export class LoadBalancerOutboundRulesImpl
         resourceGroupName,
         loadBalancerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,12 +107,12 @@ export class LoadBalancerOutboundRulesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerOutboundRulesListOptionalParams
+    options?: LoadBalancerOutboundRulesListOptionalParams,
   ): AsyncIterableIterator<OutboundRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       loadBalancerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,11 +127,11 @@ export class LoadBalancerOutboundRulesImpl
   private _list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerOutboundRulesListOptionalParams
+    options?: LoadBalancerOutboundRulesListOptionalParams,
   ): Promise<LoadBalancerOutboundRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -145,11 +146,11 @@ export class LoadBalancerOutboundRulesImpl
     resourceGroupName: string,
     loadBalancerName: string,
     outboundRuleName: string,
-    options?: LoadBalancerOutboundRulesGetOptionalParams
+    options?: LoadBalancerOutboundRulesGetOptionalParams,
   ): Promise<LoadBalancerOutboundRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, outboundRuleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -164,11 +165,11 @@ export class LoadBalancerOutboundRulesImpl
     resourceGroupName: string,
     loadBalancerName: string,
     nextLink: string,
-    options?: LoadBalancerOutboundRulesListNextOptionalParams
+    options?: LoadBalancerOutboundRulesListNextOptionalParams,
   ): Promise<LoadBalancerOutboundRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadBalancerName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -176,38 +177,15 @@ export class LoadBalancerOutboundRulesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancerOutboundRuleListResult
+      bodyMapper: Mappers.LoadBalancerOutboundRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.loadBalancerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundRule
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -215,29 +193,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.loadBalancerName,
-    Parameters.outboundRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundRule,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.loadBalancerName,
+    Parameters.outboundRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadBalancerOutboundRuleListResult
+      bodyMapper: Mappers.LoadBalancerOutboundRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.loadBalancerName
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

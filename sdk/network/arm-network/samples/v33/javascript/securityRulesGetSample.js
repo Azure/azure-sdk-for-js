@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the specified network security rule.
  *
  * @summary Get the specified network security rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkSecurityGroupRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkSecurityGroupRuleGet.json
  */
 async function getNetworkSecurityRuleInNetworkSecurityGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

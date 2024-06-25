@@ -385,17 +385,17 @@ export interface AccessInvitedUserDetails {
   authType?: string;
 }
 
-/** List environments success response */
+/** Details of the environments returned on successful response */
 export interface AccessListEnvironmentsSuccessResponse {
   /** Type of response */
   kind?: string;
-  /** Metadata of the list */
+  /** Metadata of the  environment list */
   metadata?: ConfluentListMetadata;
-  /** Data of the environments list */
+  /** Environment list data */
   data?: EnvironmentRecord[];
 }
 
-/** Record of the environment */
+/** Details about environment name, metadata and environment id of an environment */
 export interface EnvironmentRecord {
   /** Type of environment */
   kind?: string;
@@ -407,25 +407,25 @@ export interface EnvironmentRecord {
   displayName?: string;
 }
 
-/** List cluster success response */
+/** Details of the clusters returned on successful response */
 export interface AccessListClusterSuccessResponse {
   /** Type of response */
   kind?: string;
   /** Metadata of the list */
   metadata?: ConfluentListMetadata;
-  /** Data of the environments list */
+  /** List of clusters */
   data?: ClusterRecord[];
 }
 
-/** Record of the environment */
+/** Details of cluster record */
 export interface ClusterRecord {
-  /** Type of environment */
+  /** Type of cluster */
   kind?: string;
-  /** Id of the environment */
+  /** Id of the cluster */
   id?: string;
   /** Metadata of the record */
   metadata?: MetadataEntity;
-  /** Display name of the user */
+  /** Display name of the cluster */
   displayName?: string;
   /** Specification of the cluster */
   spec?: ClusterSpecEntity;
@@ -509,21 +509,21 @@ export interface ClusterStatusEntity {
   cku?: number;
 }
 
-/** List cluster success response */
+/** Details of the role bindings returned on successful response */
 export interface AccessListRoleBindingsSuccessResponse {
   /** Type of response */
   kind?: string;
   /** Metadata of the list */
   metadata?: ConfluentListMetadata;
-  /** Data of the environments list */
+  /** List of role binding */
   data?: RoleBindingRecord[];
 }
 
-/** Record of the environment */
+/** Details on principal, role name and crn pattern of a role binding */
 export interface RoleBindingRecord {
   /** The type of the resource. */
   kind?: string;
-  /** Id of the role */
+  /** Id of the role binding */
   id?: string;
   /** Metadata of the record */
   metadata?: MetadataEntity;
@@ -535,6 +535,291 @@ export interface RoleBindingRecord {
   crnPattern?: string;
 }
 
+/** Create role binding request model */
+export interface AccessCreateRoleBindingRequestModel {
+  /** The principal User or Group to bind the role to */
+  principal?: string;
+  /** The name of the role to bind to the principal */
+  roleName?: string;
+  /** A CRN that specifies the scope and resource patterns necessary for the role to bind */
+  crnPattern?: string;
+}
+
+/** Details of the role binding names returned on successful response */
+export interface AccessRoleBindingNameListSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** List of role binding names */
+  data?: string[];
+}
+
+/** Result of GET request to list Confluent operations. */
+export interface GetEnvironmentsResponse {
+  /** List of environments in a confluent organization */
+  value?: SCEnvironmentRecord[];
+  /** URL to get the next set of environment records if there are any. */
+  nextLink?: string;
+}
+
+/** Details about environment name, metadata and environment id of an environment */
+export interface SCEnvironmentRecord {
+  /** Type of environment */
+  kind?: string;
+  /** Id of the environment */
+  id?: string;
+  /** Display name of the environment */
+  name?: string;
+  /** Metadata of the record */
+  metadata?: SCMetadataEntity;
+}
+
+/** Metadata of the data record */
+export interface SCMetadataEntity {
+  /** Self lookup url */
+  self?: string;
+  /** Resource name of the record */
+  resourceName?: string;
+  /** Created Date Time */
+  createdTimestamp?: string;
+  /** Updated Date time */
+  updatedTimestamp?: string;
+  /** Deleted Date time */
+  deletedTimestamp?: string;
+}
+
+/** Result of GET request to list clusters in the environment of a confluent organization */
+export interface ListClustersSuccessResponse {
+  /** List of clusters in an environment of a confluent organization */
+  value?: SCClusterRecord[];
+  /** URL to get the next set of cluster records if there are any. */
+  nextLink?: string;
+}
+
+/** Details of cluster record */
+export interface SCClusterRecord {
+  /** Type of cluster */
+  kind?: string;
+  /** Id of the cluster */
+  id?: string;
+  /** Display name of the cluster */
+  name?: string;
+  /** Metadata of the record */
+  metadata?: SCMetadataEntity;
+  /** Specification of the cluster */
+  spec?: SCClusterSpecEntity;
+  /** Specification of the cluster status */
+  status?: ClusterStatusEntity;
+}
+
+/** Spec of the cluster record */
+export interface SCClusterSpecEntity {
+  /** The name of the cluster */
+  name?: string;
+  /** The availability zone configuration of the cluster */
+  availability?: string;
+  /** The cloud service provider */
+  cloud?: string;
+  /** type of zone availability */
+  zone?: string;
+  /** The cloud service provider region */
+  region?: string;
+  /** The bootstrap endpoint used by Kafka clients to connect to the cluster */
+  kafkaBootstrapEndpoint?: string;
+  /** The cluster HTTP request URL. */
+  httpEndpoint?: string;
+  /** The Kafka API cluster endpoint */
+  apiEndpoint?: string;
+  /** Specification of the cluster configuration */
+  config?: ClusterConfigEntity;
+  /** Specification of the cluster environment */
+  environment?: SCClusterNetworkEnvironmentEntity;
+  /** Specification of the cluster network */
+  network?: SCClusterNetworkEnvironmentEntity;
+  /** Specification of the cluster byok */
+  byok?: SCClusterByokEntity;
+}
+
+/** The environment or the network to which cluster belongs */
+export interface SCClusterNetworkEnvironmentEntity {
+  /** ID of the referred resource */
+  id?: string;
+  /** Environment of the referred resource */
+  environment?: string;
+  /** API URL for accessing or modifying the referred object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+}
+
+/** The network associated with this object */
+export interface SCClusterByokEntity {
+  /** ID of the referred resource */
+  id?: string;
+  /** API URL for accessing or modifying the referred object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+}
+
+/** Result of GET request to list schema registry clusters in the environment of a confluent organization */
+export interface ListSchemaRegistryClustersResponse {
+  /** List of schema registry clusters in an environment of a confluent organization */
+  value?: SchemaRegistryClusterRecord[];
+  /** URL to get the next set of schema registry cluster records if there are any. */
+  nextLink?: string;
+}
+
+/** Details of schema registry cluster record */
+export interface SchemaRegistryClusterRecord {
+  /** Kind of the cluster */
+  kind?: string;
+  /** Id of the cluster */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: SCMetadataEntity;
+  /** Specification of the schema registry cluster */
+  spec?: SchemaRegistryClusterSpecEntity;
+  /** Specification of the cluster status */
+  status?: SchemaRegistryClusterStatusEntity;
+}
+
+/** Details of schema registry cluster spec */
+export interface SchemaRegistryClusterSpecEntity {
+  /** Name of the schema registry cluster */
+  name?: string;
+  /** Http endpoint of the cluster */
+  httpEndpoint?: string;
+  /** Type of the cluster package Advanced, essentials */
+  package?: string;
+  /** Region details of the schema registry cluster */
+  region?: SchemaRegistryClusterEnvironmentRegionEntity;
+  /** Environment details of the schema registry cluster */
+  environment?: SchemaRegistryClusterEnvironmentRegionEntity;
+  /** The cloud service provider */
+  cloud?: string;
+}
+
+/** The environment associated with this object */
+export interface SchemaRegistryClusterEnvironmentRegionEntity {
+  /** ID of the referred resource */
+  id?: string;
+  /** API URL for accessing or modifying the referred object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+}
+
+/** Status of the schema registry cluster record */
+export interface SchemaRegistryClusterStatusEntity {
+  /** The lifecycle phase of the cluster */
+  phase?: string;
+}
+
+/** Result of POST request to list regions supported by confluent */
+export interface ListRegionsSuccessResponse {
+  /** List of regions supported by confluent */
+  data?: RegionRecord[];
+}
+
+/** Details of region record */
+export interface RegionRecord {
+  /** Kind of the cluster */
+  kind?: string;
+  /** Id of the cluster */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: SCMetadataEntity;
+  /** Specification of the region */
+  spec?: RegionSpecEntity;
+}
+
+/** Region spec details */
+export interface RegionSpecEntity {
+  /** Display Name of the region */
+  name?: string;
+  /** Cloud provider name */
+  cloud?: string;
+  /** Region name */
+  regionName?: string;
+  packages?: string[];
+}
+
+/** Create API Key model */
+export interface CreateAPIKeyModel {
+  /** Name of the API Key */
+  name?: string;
+  /** Description of the API Key */
+  description?: string;
+}
+
+/** Details API key */
+export interface APIKeyRecord {
+  /** Type of api key */
+  kind?: string;
+  /** Id of the api key */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: SCMetadataEntity;
+  /** Specification of the API Key */
+  spec?: APIKeySpecEntity;
+}
+
+/** Spec of the API Key record */
+export interface APIKeySpecEntity {
+  /** The description of the API Key */
+  description?: string;
+  /** The name of the API Key */
+  name?: string;
+  /** API Key Secret */
+  secret?: string;
+  /** Specification of the cluster */
+  resource?: APIKeyResourceEntity;
+  /** Specification of the cluster */
+  owner?: APIKeyOwnerEntity;
+}
+
+/** API Key Resource details which can be kafka cluster or schema registry cluster */
+export interface APIKeyResourceEntity {
+  /** Id of the resource */
+  id?: string;
+  /** The environment of the api key */
+  environment?: string;
+  /** API URL for accessing or modifying the api key resource object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+  /** Type of the owner which can be service or user account */
+  kind?: string;
+}
+
+/** API Key Owner details which can be a user or service account */
+export interface APIKeyOwnerEntity {
+  /** API Key owner id */
+  id?: string;
+  /** API URL for accessing or modifying the referred object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+  /** Type of the owner service or user account */
+  kind?: string;
+}
+
+/** Metadata of the list */
+export interface SCConfluentListMetadata {
+  /** First page of the list */
+  first?: string;
+  /** Last page of the list */
+  last?: string;
+  /** Previous page of the list */
+  prev?: string;
+  /** Next page of the list */
+  next?: string;
+  /** Total size of the list */
+  totalSize?: number;
+}
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -544,7 +829,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -578,7 +863,7 @@ export enum KnownProvisionState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -619,7 +904,7 @@ export enum KnownSaaSOfferStatus {
   /** Unsubscribed */
   Unsubscribed = "Unsubscribed",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -645,7 +930,8 @@ export interface MarketplaceAgreementsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListResponse;
+export type MarketplaceAgreementsListResponse =
+  ConfluentAgreementResourceListResponse;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsCreateOptionalParams
@@ -662,7 +948,8 @@ export interface MarketplaceAgreementsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type MarketplaceAgreementsListNextResponse = ConfluentAgreementResourceListResponse;
+export type MarketplaceAgreementsListNextResponse =
+  ConfluentAgreementResourceListResponse;
 
 /** Optional parameters. */
 export interface OrganizationOperationsListOptionalParams
@@ -683,14 +970,16 @@ export interface OrganizationListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type OrganizationListBySubscriptionResponse = OrganizationResourceListResult;
+export type OrganizationListBySubscriptionResponse =
+  OrganizationResourceListResult;
 
 /** Optional parameters. */
 export interface OrganizationListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type OrganizationListByResourceGroupResponse = OrganizationResourceListResult;
+export type OrganizationListByResourceGroupResponse =
+  OrganizationResourceListResult;
 
 /** Optional parameters. */
 export interface OrganizationGetOptionalParams
@@ -733,18 +1022,126 @@ export interface OrganizationDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface OrganizationListEnvironmentsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Pagination size */
+  pageSize?: number;
+  /** An opaque pagination token to fetch the next set of records */
+  pageToken?: string;
+}
+
+/** Contains response data for the listEnvironments operation. */
+export type OrganizationListEnvironmentsResponse = GetEnvironmentsResponse;
+
+/** Optional parameters. */
+export interface OrganizationGetEnvironmentByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEnvironmentById operation. */
+export type OrganizationGetEnvironmentByIdResponse = SCEnvironmentRecord;
+
+/** Optional parameters. */
+export interface OrganizationListClustersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Pagination size */
+  pageSize?: number;
+  /** An opaque pagination token to fetch the next set of records */
+  pageToken?: string;
+}
+
+/** Contains response data for the listClusters operation. */
+export type OrganizationListClustersResponse = ListClustersSuccessResponse;
+
+/** Optional parameters. */
+export interface OrganizationListSchemaRegistryClustersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Pagination size */
+  pageSize?: number;
+  /** An opaque pagination token to fetch the next set of records */
+  pageToken?: string;
+}
+
+/** Contains response data for the listSchemaRegistryClusters operation. */
+export type OrganizationListSchemaRegistryClustersResponse =
+  ListSchemaRegistryClustersResponse;
+
+/** Optional parameters. */
+export interface OrganizationListRegionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRegions operation. */
+export type OrganizationListRegionsResponse = ListRegionsSuccessResponse;
+
+/** Optional parameters. */
+export interface OrganizationCreateAPIKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createAPIKey operation. */
+export type OrganizationCreateAPIKeyResponse = APIKeyRecord;
+
+/** Optional parameters. */
+export interface OrganizationDeleteClusterAPIKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationGetClusterAPIKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getClusterAPIKey operation. */
+export type OrganizationGetClusterAPIKeyResponse = APIKeyRecord;
+
+/** Optional parameters. */
+export interface OrganizationGetSchemaRegistryClusterByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSchemaRegistryClusterById operation. */
+export type OrganizationGetSchemaRegistryClusterByIdResponse =
+  SchemaRegistryClusterRecord;
+
+/** Optional parameters. */
+export interface OrganizationGetClusterByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getClusterById operation. */
+export type OrganizationGetClusterByIdResponse = SCClusterRecord;
+
+/** Optional parameters. */
 export interface OrganizationListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type OrganizationListBySubscriptionNextResponse = OrganizationResourceListResult;
+export type OrganizationListBySubscriptionNextResponse =
+  OrganizationResourceListResult;
 
 /** Optional parameters. */
 export interface OrganizationListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type OrganizationListByResourceGroupNextResponse = OrganizationResourceListResult;
+export type OrganizationListByResourceGroupNextResponse =
+  OrganizationResourceListResult;
+
+/** Optional parameters. */
+export interface OrganizationListEnvironmentsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listEnvironmentsNext operation. */
+export type OrganizationListEnvironmentsNextResponse = GetEnvironmentsResponse;
+
+/** Optional parameters. */
+export interface OrganizationListClustersNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listClustersNext operation. */
+export type OrganizationListClustersNextResponse = ListClustersSuccessResponse;
+
+/** Optional parameters. */
+export interface OrganizationListSchemaRegistryClustersNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSchemaRegistryClustersNext operation. */
+export type OrganizationListSchemaRegistryClustersNextResponse =
+  ListSchemaRegistryClustersResponse;
 
 /** Optional parameters. */
 export interface ValidationsValidateOrganizationOptionalParams
@@ -772,14 +1169,16 @@ export interface AccessListServiceAccountsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listServiceAccounts operation. */
-export type AccessListServiceAccountsResponse = AccessListServiceAccountsSuccessResponse;
+export type AccessListServiceAccountsResponse =
+  AccessListServiceAccountsSuccessResponse;
 
 /** Optional parameters. */
 export interface AccessListInvitationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInvitations operation. */
-export type AccessListInvitationsResponse = AccessListInvitationsSuccessResponse;
+export type AccessListInvitationsResponse =
+  AccessListInvitationsSuccessResponse;
 
 /** Optional parameters. */
 export interface AccessInviteUserOptionalParams
@@ -793,7 +1192,8 @@ export interface AccessListEnvironmentsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEnvironments operation. */
-export type AccessListEnvironmentsResponse = AccessListEnvironmentsSuccessResponse;
+export type AccessListEnvironmentsResponse =
+  AccessListEnvironmentsSuccessResponse;
 
 /** Optional parameters. */
 export interface AccessListClustersOptionalParams
@@ -807,7 +1207,27 @@ export interface AccessListRoleBindingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRoleBindings operation. */
-export type AccessListRoleBindingsResponse = AccessListRoleBindingsSuccessResponse;
+export type AccessListRoleBindingsResponse =
+  AccessListRoleBindingsSuccessResponse;
+
+/** Optional parameters. */
+export interface AccessCreateRoleBindingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createRoleBinding operation. */
+export type AccessCreateRoleBindingResponse = RoleBindingRecord;
+
+/** Optional parameters. */
+export interface AccessDeleteRoleBindingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AccessListRoleBindingNameListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRoleBindingNameList operation. */
+export type AccessListRoleBindingNameListResponse =
+  AccessRoleBindingNameListSuccessResponse;
 
 /** Optional parameters. */
 export interface ConfluentManagementClientOptionalParams

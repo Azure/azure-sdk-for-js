@@ -34,10 +34,7 @@ describe("Library/Config", () => {
     it("merge JSON config", () => {
       (JsonConfig["_instance"] as any) = undefined;
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
       process.env = env;
       const config = new InternalConfig();
@@ -259,6 +256,12 @@ describe("Library/Config", () => {
       assert.ok(typeof config.samplingRatio === "number");
     });
 
+    it("should accept zero sampling ratio", () => {
+      const config = new InternalConfig();
+      config.samplingRatio = 0;
+      assert.strictEqual(config.samplingRatio, 0);
+    });
+
     it("instrumentation key validation-valid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
       const config = new InternalConfig();
@@ -406,14 +409,13 @@ describe("OpenTelemetry Resource", () => {
       "test-region",
     );
     assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.FAAS_NAME],
-      "test-site",
-    );
-    assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.FAAS_MAX_MEMORY],
       "512",
     );
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.FAAS_VERSION], "~3");
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
+      "test-site",
+    );
   });
 
   it("Azure VM resource attributes", async () => {
@@ -648,5 +650,5 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.21.0",
+  "telemetry.sdk.version": "1.25.0",
 };

@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BackupRestoreFiles,
   BackupsUnderBackupVaultRestoreFilesOptionalParams,
-  BackupsUnderBackupVaultRestoreFilesResponse
+  BackupsUnderBackupVaultRestoreFilesResponse,
 } from "../models";
 
 /** Interface representing a BackupsUnderBackupVault. */
@@ -30,7 +30,7 @@ export interface BackupsUnderBackupVault {
     backupVaultName: string,
     backupName: string,
     body: BackupRestoreFiles,
-    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams
+    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUnderBackupVaultRestoreFilesResponse>,
@@ -52,6 +52,6 @@ export interface BackupsUnderBackupVault {
     backupVaultName: string,
     backupName: string,
     body: BackupRestoreFiles,
-    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams
+    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams,
   ): Promise<BackupsUnderBackupVaultRestoreFilesResponse>;
 }

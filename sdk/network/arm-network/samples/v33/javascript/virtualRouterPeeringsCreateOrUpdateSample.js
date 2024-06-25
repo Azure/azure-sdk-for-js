@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates the specified Virtual Router Peering.
  *
  * @summary Creates or updates the specified Virtual Router Peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualRouterPeeringPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualRouterPeeringPut.json
  */
 async function createVirtualRouterPeering() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

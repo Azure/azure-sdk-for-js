@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates custom IP prefix tags.
  *
  * @summary Updates custom IP prefix tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/CustomIpPrefixUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/CustomIpPrefixUpdateTags.json
  */
 async function updatePublicIPAddressTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function updatePublicIPAddressTags() {
   const result = await client.customIPPrefixes.updateTags(
     resourceGroupName,
     customIpPrefixName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

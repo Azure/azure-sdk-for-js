@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a Capability Type resource for given Target Type and location.
  *
  * @summary Get a Capability Type resource for given Target Type and location.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/GetCapabilityType.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetCapabilityType.json
  */
 async function getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Location() {
   const subscriptionId =

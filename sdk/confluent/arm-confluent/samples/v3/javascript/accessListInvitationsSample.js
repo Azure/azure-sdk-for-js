@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Organization accounts invitation details
  *
  * @summary Organization accounts invitation details
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_InvitationsList.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_InvitationsList.json
  */
 async function accessInvitationsList() {
   const subscriptionId =

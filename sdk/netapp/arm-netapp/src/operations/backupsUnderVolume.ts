@@ -14,13 +14,13 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   BackupsMigrationRequest,
   BackupsUnderVolumeMigrateBackupsOptionalParams,
-  BackupsUnderVolumeMigrateBackupsResponse
+  BackupsUnderVolumeMigrateBackupsResponse,
 } from "../models";
 
 /** Class containing BackupsUnderVolume operations. */
@@ -50,7 +50,7 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
     poolName: string,
     volumeName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderVolumeMigrateBackupsOptionalParams
+    options?: BackupsUnderVolumeMigrateBackupsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUnderVolumeMigrateBackupsResponse>,
@@ -59,21 +59,20 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupsUnderVolumeMigrateBackupsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -82,8 +81,8 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -91,8 +90,8 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -104,9 +103,9 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
         poolName,
         volumeName,
         body,
-        options
+        options,
       },
-      spec: migrateBackupsOperationSpec
+      spec: migrateBackupsOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupsUnderVolumeMigrateBackupsResponse,
@@ -114,7 +113,7 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -135,7 +134,7 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
     poolName: string,
     volumeName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderVolumeMigrateBackupsOptionalParams
+    options?: BackupsUnderVolumeMigrateBackupsOptionalParams,
   ): Promise<BackupsUnderVolumeMigrateBackupsResponse> {
     const poller = await this.beginMigrateBackups(
       resourceGroupName,
@@ -143,7 +142,7 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
       poolName,
       volumeName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -152,27 +151,26 @@ export class BackupsUnderVolumeImpl implements BackupsUnderVolume {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const migrateBackupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/migrateBackups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/migrateBackups",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders,
     },
     201: {
-      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders,
     },
     202: {
-      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders,
     },
     204: {
-      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderVolumeMigrateBackupsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body37,
+  requestBody: Parameters.body36,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -180,9 +178,9 @@ const migrateBackupsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName
+    Parameters.volumeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

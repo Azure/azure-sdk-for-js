@@ -20,7 +20,7 @@ import {
   ChatTranscriptsListResponse,
   ChatTranscriptsGetOptionalParams,
   ChatTranscriptsGetResponse,
-  ChatTranscriptsListNextResponse
+  ChatTranscriptsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
    */
   public list(
     supportTicketName: string,
-    options?: ChatTranscriptsListOptionalParams
+    options?: ChatTranscriptsListOptionalParams,
   ): PagedAsyncIterableIterator<ChatTranscriptDetails> {
     const iter = this.listPagingAll(supportTicketName, options);
     return {
@@ -58,14 +58,14 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(supportTicketName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     supportTicketName: string,
     options?: ChatTranscriptsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ChatTranscriptDetails[]> {
     let result: ChatTranscriptsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -80,7 +80,7 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
       result = await this._listNext(
         supportTicketName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -91,7 +91,7 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
 
   private async *listPagingAll(
     supportTicketName: string,
-    options?: ChatTranscriptsListOptionalParams
+    options?: ChatTranscriptsListOptionalParams,
   ): AsyncIterableIterator<ChatTranscriptDetails> {
     for await (const page of this.listPagingPage(supportTicketName, options)) {
       yield* page;
@@ -105,11 +105,11 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
    */
   private _list(
     supportTicketName: string,
-    options?: ChatTranscriptsListOptionalParams
+    options?: ChatTranscriptsListOptionalParams,
   ): Promise<ChatTranscriptsListResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -122,11 +122,11 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
   get(
     supportTicketName: string,
     chatTranscriptName: string,
-    options?: ChatTranscriptsGetOptionalParams
+    options?: ChatTranscriptsGetOptionalParams,
   ): Promise<ChatTranscriptsGetResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, chatTranscriptName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -139,11 +139,11 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
   private _listNext(
     supportTicketName: string,
     nextLink: string,
-    options?: ChatTranscriptsListNextOptionalParams
+    options?: ChatTranscriptsListNextOptionalParams,
   ): Promise<ChatTranscriptsListNextResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -151,65 +151,63 @@ export class ChatTranscriptsImpl implements ChatTranscripts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/chatTranscripts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/chatTranscripts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatTranscriptsListResult
+      bodyMapper: Mappers.ChatTranscriptsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.supportTicketName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/chatTranscripts/{chatTranscriptName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ChatTranscriptDetails
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.supportTicketName,
-    Parameters.chatTranscriptName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/chatTranscripts/{chatTranscriptName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ChatTranscriptDetails,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.supportTicketName,
+    Parameters.chatTranscriptName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatTranscriptsListResult
+      bodyMapper: Mappers.ChatTranscriptsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.supportTicketName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

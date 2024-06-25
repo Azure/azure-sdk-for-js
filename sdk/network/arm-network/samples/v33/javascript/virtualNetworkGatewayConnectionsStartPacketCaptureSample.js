@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayConnectionStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayConnectionStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -26,9 +26,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
     filterData:
       "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
   };
-  const options = {
-    parameters,
-  };
+  const options = { parameters };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworkGatewayConnections.beginStartPacketCaptureAndWait(
@@ -43,7 +41,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayConnectionStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

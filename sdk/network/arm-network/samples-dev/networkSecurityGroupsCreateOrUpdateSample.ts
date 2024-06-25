@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NetworkSecurityGroup,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a network security group in the specified resource group.
  *
  * @summary Creates or updates a network security group in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkSecurityGroupCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkSecurityGroupCreate.json
  */
 async function createNetworkSecurityGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function createNetworkSecurityGroup() {
   const result = await client.networkSecurityGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkSecurityGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function createNetworkSecurityGroup() {
  * This sample demonstrates how to Creates or updates a network security group in the specified resource group.
  *
  * @summary Creates or updates a network security group in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkSecurityGroupCreateWithRule.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkSecurityGroupCreateWithRule.json
  */
 async function createNetworkSecurityGroupWithRule() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -60,16 +60,16 @@ async function createNetworkSecurityGroupWithRule() {
         priority: 130,
         sourceAddressPrefix: "*",
         sourcePortRange: "*",
-        protocol: "*"
-      }
-    ]
+        protocol: "*",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkSecurityGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkSecurityGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieve an scheduled query rule definition.
  *
  * @summary Retrieve an scheduled query rule definition.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/getScheduledQueryRule.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/getScheduledQueryRule.json
  */
 async function getAScheduledQueryRuleForSingleResource() {
   const subscriptionId =

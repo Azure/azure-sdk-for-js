@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NetworkVirtualAppliance,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkVirtualAppliancePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualAppliancePut.json
  */
 async function createNetworkVirtualAppliance() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,43 +30,65 @@ async function createNetworkVirtualAppliance() {
   const parameters: NetworkVirtualAppliance = {
     additionalNics: [{ name: "exrsdwan", hasPublicIp: true }],
     bootStrapConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig"
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig",
     ],
     cloudInitConfigurationBlobs: [
-      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig"
+      "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrcloudinitconfig",
     ],
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-      }
+        "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
     },
     internetIngressPublicIps: [
       {
-        id:
-          "/subscriptions/{{subscriptionId}}/resourceGroups/{{rg}}/providers/Microsoft.Network/publicIPAddresses/slbip"
-      }
+        id: "/subscriptions/{{subscriptionId}}/resourceGroups/{{rg}}/providers/Microsoft.Network/publicIPAddresses/slbip",
+      },
     ],
     location: "West US",
+    networkProfile: {
+      networkInterfaceConfigurations: [
+        {
+          nicType: "PublicNic",
+          properties: {
+            ipConfigurations: [
+              { name: "publicnicipconfig", properties: { primary: true } },
+              { name: "publicnicipconfig-2", properties: { primary: false } },
+            ],
+          },
+        },
+        {
+          nicType: "PrivateNic",
+          properties: {
+            ipConfigurations: [
+              { name: "privatenicipconfig", properties: { primary: true } },
+              { name: "privatenicipconfig-2", properties: { primary: false } },
+            ],
+          },
+        },
+      ],
+    },
     nvaSku: {
       bundledScaleUnit: "1",
       marketPlaceVersion: "12.1",
-      vendor: "Cisco SDWAN"
+      vendor: "Cisco SDWAN",
     },
     tags: { key1: "value1" },
     virtualApplianceAsn: 10000,
     virtualHub: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
-    }
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    networkVirtualApplianceName,
-    parameters
-  );
+  const result =
+    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      networkVirtualApplianceName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -74,7 +96,7 @@ async function createNetworkVirtualAppliance() {
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkVirtualApplianceSaaSPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceSaaSPut.json
  */
 async function createSaaSNetworkVirtualAppliance() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -85,17 +107,17 @@ async function createSaaSNetworkVirtualAppliance() {
     location: "West US",
     tags: { key1: "value1" },
     virtualHub: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
-    }
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    networkVirtualApplianceName,
-    parameters
-  );
+  const result =
+    await client.networkVirtualAppliances.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      networkVirtualApplianceName,
+      parameters,
+    );
   console.log(result);
 }
 

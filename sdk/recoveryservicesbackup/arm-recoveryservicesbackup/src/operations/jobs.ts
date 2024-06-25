@@ -35,11 +35,11 @@ export class JobsImpl implements Jobs {
   export(
     vaultName: string,
     resourceGroupName: string,
-    options?: JobsExportOptionalParams
+    options?: JobsExportOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      exportOperationSpec
+      exportOperationSpec,
     );
   }
 }
@@ -47,22 +47,21 @@ export class JobsImpl implements Jobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const exportOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobsExport",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobsExport",
   httpMethod: "POST",
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

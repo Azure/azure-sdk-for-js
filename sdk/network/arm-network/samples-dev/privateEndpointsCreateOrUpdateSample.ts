@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PrivateEndpointCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointCreate.json
  */
 async function createPrivateEndpoint() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -31,8 +31,8 @@ async function createPrivateEndpoint() {
         name: "pestaticconfig",
         groupId: "file",
         memberName: "file",
-        privateIPAddress: "192.168.0.6"
-      }
+        privateIPAddress: "192.168.0.6",
+      },
     ],
     location: "eastus2euap",
     privateLinkServiceConnections: [
@@ -40,20 +40,19 @@ async function createPrivateEndpoint() {
         groupIds: ["groupIdFromResource"],
         privateLinkServiceId:
           "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-        requestMessage: "Please approve my connection."
-      }
+        requestMessage: "Please approve my connection.",
+      },
     ],
     subnet: {
-      id:
-        "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-    }
+      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
     resourceGroupName,
     privateEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -62,7 +61,7 @@ async function createPrivateEndpoint() {
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PrivateEndpointCreateWithASG.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointCreateWithASG.json
  */
 async function createPrivateEndpointWithApplicationSecurityGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -71,9 +70,8 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
   const parameters: PrivateEndpoint = {
     applicationSecurityGroups: [
       {
-        id:
-          "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1"
-      }
+        id: "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
+      },
     ],
     location: "eastus2euap",
     privateLinkServiceConnections: [
@@ -81,20 +79,19 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
         groupIds: ["groupIdFromResource"],
         privateLinkServiceId:
           "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-        requestMessage: "Please approve my connection."
-      }
+        requestMessage: "Please approve my connection.",
+      },
     ],
     subnet: {
-      id:
-        "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-    }
+      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
     resourceGroupName,
     privateEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -103,7 +100,7 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PrivateEndpointCreateForManualApproval.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointCreateForManualApproval.json
  */
 async function createPrivateEndpointWithManualApprovalConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -116,8 +113,8 @@ async function createPrivateEndpointWithManualApprovalConnection() {
         name: "pestaticconfig",
         groupId: "file",
         memberName: "file",
-        privateIPAddress: "192.168.0.5"
-      }
+        privateIPAddress: "192.168.0.5",
+      },
     ],
     location: "eastus",
     manualPrivateLinkServiceConnections: [
@@ -125,20 +122,19 @@ async function createPrivateEndpointWithManualApprovalConnection() {
         groupIds: ["groupIdFromResource"],
         privateLinkServiceId:
           "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
-        requestMessage: "Please manually approve my connection."
-      }
+        requestMessage: "Please manually approve my connection.",
+      },
     ],
     subnet: {
-      id:
-        "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-    }
+      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
     resourceGroupName,
     privateEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

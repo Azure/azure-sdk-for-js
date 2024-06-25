@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified Virtual Router.
  *
  * @summary Creates or updates the specified Virtual Router.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualRouterPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualRouterPut.json
  */
 async function createVirtualRouter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -26,18 +26,17 @@ async function createVirtualRouter() {
   const virtualRouterName = "virtualRouter";
   const parameters: VirtualRouter = {
     hostedGateway: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vnetGateway"
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vnetGateway",
     },
     location: "West US",
-    tags: { key1: "value1" }
+    tags: { key1: "value1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualRouters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     virtualRouterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

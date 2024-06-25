@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the Virtual Routers in a subscription.
  *
  * @summary Gets all the Virtual Routers in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualRouterListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualRouterListBySubscription.json
  */
 async function listAllVirtualRoutersForAGivenSubscription() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

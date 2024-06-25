@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   RestorableGremlinGraphGetResult,
   RestorableGremlinGraphsListOptionalParams,
-  RestorableGremlinGraphsListResponse
+  RestorableGremlinGraphsListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class RestorableGremlinGraphsImpl implements RestorableGremlinGraphs {
   public list(
     location: string,
     instanceId: string,
-    options?: RestorableGremlinGraphsListOptionalParams
+    options?: RestorableGremlinGraphsListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableGremlinGraphGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
@@ -57,7 +57,7 @@ export class RestorableGremlinGraphsImpl implements RestorableGremlinGraphs {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, instanceId, options, settings);
-      }
+      },
     };
   }
 
@@ -65,7 +65,7 @@ export class RestorableGremlinGraphsImpl implements RestorableGremlinGraphs {
     location: string,
     instanceId: string,
     options?: RestorableGremlinGraphsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<RestorableGremlinGraphGetResult[]> {
     let result: RestorableGremlinGraphsListResponse;
     result = await this._list(location, instanceId, options);
@@ -75,12 +75,12 @@ export class RestorableGremlinGraphsImpl implements RestorableGremlinGraphs {
   private async *listPagingAll(
     location: string,
     instanceId: string,
-    options?: RestorableGremlinGraphsListOptionalParams
+    options?: RestorableGremlinGraphsListOptionalParams,
   ): AsyncIterableIterator<RestorableGremlinGraphGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -97,11 +97,11 @@ export class RestorableGremlinGraphsImpl implements RestorableGremlinGraphs {
   private _list(
     location: string,
     instanceId: string,
-    options?: RestorableGremlinGraphsListOptionalParams
+    options?: RestorableGremlinGraphsListOptionalParams,
   ): Promise<RestorableGremlinGraphsListResponse> {
     return this.client.sendOperationRequest(
       { location, instanceId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -109,29 +109,28 @@ export class RestorableGremlinGraphsImpl implements RestorableGremlinGraphs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGraphs",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGraphs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableGremlinGraphsListResult
+      bodyMapper: Mappers.RestorableGremlinGraphsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.startTime,
     Parameters.endTime,
-    Parameters.restorableGremlinDatabaseRid
+    Parameters.restorableGremlinDatabaseRid,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.instanceId
+    Parameters.instanceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

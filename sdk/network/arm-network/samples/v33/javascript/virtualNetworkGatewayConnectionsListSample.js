@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
  *
  * @summary The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayConnectionsList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayConnectionsList.json
  */
 async function listVirtualNetworkGatewayConnectionsinResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all the Azure Firewalls in a subscription.
  *
  * @summary Gets all the Azure Firewalls in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallListBySubscription.json
  */
 async function listAllAzureFirewallsForAGivenSubscription() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

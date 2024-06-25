@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a Target resource that extends a tracked regional resource.
  *
  * @summary Create or update a Target resource that extends a tracked regional resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/CreateUpdateTarget.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateTarget.json
  */
 async function createOrUpdateATargetThatExtendsAVirtualMachineResource() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function createOrUpdateATargetThatExtendsAVirtualMachineResource() {
     parentResourceType,
     parentResourceName,
     targetName,
-    target
+    target,
   );
   console.log(result);
 }

@@ -91,7 +91,7 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
             ? undefined
             : {
                 toolCalls: required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -102,16 +102,16 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
           message: last_error?.["message"],
         },
     createdAt: unixToDate(created_at),
-    expiresAt: expires_at === null ? null : unixToDate(expires_at),
-    startedAt: started_at === null ? null : unixToDate(started_at),
-    completedAt: completed_at === null ? null : unixToDate(completed_at),
-    cancelledAt: cancelled_at === null ? null : unixToDate(cancelled_at),
-    failedAt: failed_at === null ? null : unixToDate(failed_at),
+    expiresAt: expires_at === null ? null : unixToDate(Number(expires_at)),
+    startedAt: started_at === null ? null : unixToDate(Number(started_at)),
+    completedAt: completed_at === null ? null : unixToDate(Number(completed_at)),
+    cancelledAt: cancelled_at === null ? null : unixToDate(Number(cancelled_at)),
+    failedAt: failed_at === null ? null : unixToDate(Number(failed_at)),
   };
 }
 
 export async function _listRunsDeserialize(
-  result: ListRuns200Response
+  result: ListRuns200Response,
 ): Promise<ListResponseOf<ThreadRun>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -135,12 +135,12 @@ export async function _listRunsDeserialize(
           fileIds: p["file_ids"],
           metadata: p["metadata"],
           createdAt: unixToDate(p["created_at"]),
-          expiresAt: p["expires_at"] === null ? null : unixToDate(p["expires_at"]),
-          startedAt: p["started_at"] === null ? null : unixToDate(p["started_at"]),
-          completedAt: p["completed_at"] === null ? null : unixToDate(p["completed_at"]),
-          cancelledAt: p["cancelled_at"] === null ? null : unixToDate(p["cancelled_at"]),
-          failedAt: p["failed_at"] === null ? null : unixToDate(p["failed_at"]),
-        } as ThreadRun)
+          expiresAt: p["expires_at"] === null ? null : unixToDate(Number(p["expires_at"])),
+          startedAt: p["started_at"] === null ? null : unixToDate(Number(p["started_at"])),
+          completedAt: p["completed_at"] === null ? null : unixToDate(Number(p["completed_at"])),
+          cancelledAt: p["cancelled_at"] === null ? null : unixToDate(Number(p["cancelled_at"])),
+          failedAt: p["failed_at"] === null ? null : unixToDate(Number(p["failed_at"])),
+        }) as ThreadRun,
     ),
     firstId: result.body["first_id"],
     lastId: result.body["last_id"],
@@ -151,7 +151,7 @@ export async function _listRunsDeserialize(
 export function _createThreadAndRunSend(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: CreateThreadAndRunOptions = { requestOptions: {} }
+  options: CreateThreadAndRunOptions = { requestOptions: {} },
 ): StreamableMethod<CreateThreadAndRun200Response> {
   return context.path("/threads/runs").post({
     ...operationOptionsToRequestParameters(options),
@@ -180,7 +180,7 @@ export function _createThreadAndRunSend(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options: ListRunsOptions = { requestOptions: {} }
+  options: ListRunsOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<ThreadRun>> {
   const result = await _listRunsSend(context, threadId, options);
   return _listRunsDeserialize(result);
@@ -204,7 +204,7 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -220,18 +220,21 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(result.body["started_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : unixToDate(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : unixToDate(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
 export async function _submitToolOutputsToRunDeserialize(
-  result: SubmitToolOutputsToRun200Response
+  result: SubmitToolOutputsToRun200Response,
 ): Promise<ThreadRun> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -250,7 +253,7 @@ export async function _submitToolOutputsToRunDeserialize(
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -266,18 +269,21 @@ export async function _submitToolOutputsToRunDeserialize(
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(result.body["started_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : unixToDate(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : unixToDate(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
 export async function _createThreadAndRunDeserialize(
-  result: CreateThreadAndRun200Response
+  result: CreateThreadAndRun200Response,
 ): Promise<ThreadRun> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -296,7 +302,7 @@ export async function _createThreadAndRunDeserialize(
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -312,13 +318,16 @@ export async function _createThreadAndRunDeserialize(
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(result.body["started_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : unixToDate(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : unixToDate(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
@@ -340,7 +349,7 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -355,13 +364,16 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
     tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(result.body["started_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : unixToDate(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : unixToDate(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
     metadata: result.body["metadata"],
   };
 }
@@ -384,7 +396,7 @@ function parseMessageContentOutput(messageContentOutput: MessageContentOutput): 
 export async function listMessages(
   context: Client,
   threadId: string,
-  options: ListMessagesOptions = { requestOptions: {} }
+  options: ListMessagesOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<ThreadMessage>> {
   const result = await _listMessagesSend(context, threadId, options);
   return _listMessagesDeserialize(result);
@@ -394,7 +406,7 @@ export function _getMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: GetMessageOptions = { requestOptions: {} }
+  options: GetMessageOptions = { requestOptions: {} },
 ): StreamableMethod<GetMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -406,14 +418,14 @@ export async function getMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: GetMessageOptions = { requestOptions: {} }
+  options: GetMessageOptions = { requestOptions: {} },
 ): Promise<ThreadMessage> {
   const result = await _getMessageSend(context, threadId, messageId, options);
   return _getMessageDeserialize(result);
 }
 
 export async function _listMessageFilesDeserialize(
-  result: ListMessageFiles200Response
+  result: ListMessageFiles200Response,
 ): Promise<ListResponseOf<MessageFile>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -436,14 +448,14 @@ export async function listMessageFiles(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListMessageFilesOptions = { requestOptions: {} }
+  options: ListMessageFilesOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<MessageFile>> {
   const result = await _listMessageFilesSend(context, threadId, messageId, options);
   return _listMessageFilesDeserialize(result);
 }
 
 export async function _createMessageDeserialize(
-  result: CreateMessage200Response
+  result: CreateMessage200Response,
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -463,7 +475,7 @@ export async function _createMessageDeserialize(
 }
 
 export async function _listMessagesDeserialize(
-  result: ListMessages200Response
+  result: ListMessages200Response,
 ): Promise<ListResponseOf<ThreadMessage>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -487,7 +499,7 @@ export async function _listMessagesDeserialize(
 }
 
 export async function _getMessageDeserialize(
-  result: GetMessage200Response
+  result: GetMessage200Response,
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -506,7 +518,7 @@ export async function _getMessageDeserialize(
 }
 
 export async function _updateMessageDeserialize(
-  result: UpdateMessage200Response
+  result: UpdateMessage200Response,
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -565,7 +577,7 @@ function parseRunStepOutput(runStepOutput: RunStepOutput): RunStep {
 }
 
 export async function _listRunStepsDeserialize(
-  result: ListRunSteps200Response
+  result: ListRunSteps200Response,
 ): Promise<ListResponseOf<RunStep>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -617,14 +629,14 @@ export async function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
-  options: ListRunStepsOptions = { requestOptions: {} }
+  options: ListRunStepsOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<RunStep>> {
   const result = await _listRunStepsSend(context, threadId, runId, options);
   return _listRunStepsDeserialize(result);
 }
 
 export async function _listAssistantsDeserialize(
-  result: ListAssistants200Response
+  result: ListAssistants200Response,
 ): Promise<ListResponseOf<Assistant>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -651,14 +663,14 @@ export async function _listAssistantsDeserialize(
 /** Returns a list of assistants. */
 export async function listAssistants(
   context: Client,
-  options: ListAssistantsOptions = { requestOptions: {} }
+  options: ListAssistantsOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<Assistant>> {
   const result = await _listAssistantsSend(context, options);
   return _listAssistantsDeserialize(result);
 }
 
 export async function _listAssistantFilesDeserialize(
-  result: ListAssistantFiles200Response
+  result: ListAssistantFiles200Response,
 ): Promise<ListResponseOf<AssistantFile>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -680,7 +692,7 @@ export async function _listAssistantFilesDeserialize(
 export async function listAssistantFiles(
   context: Client,
   assistantId: string,
-  options: ListAssistantFilesOptions = { requestOptions: {} }
+  options: ListAssistantFilesOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<AssistantFile>> {
   const result = await _listAssistantFilesSend(context, assistantId, options);
   return _listAssistantFilesDeserialize(result);
@@ -689,7 +701,7 @@ export async function listAssistantFiles(
 export function _createThreadSend(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions = { requestOptions: {} }
+  options: CreateThreadOptions = { requestOptions: {} },
 ): StreamableMethod<CreateThread200Response> {
   return context.path("/threads").post({
     ...operationOptionsToRequestParameters(options),
@@ -707,7 +719,7 @@ export function _uploadFileSend(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} }
+  options: UploadFileOptions = { requestOptions: {} },
 ): StreamableMethod<UploadFile200Response> {
   return context.path("/files").post({
     ...operationOptionsToRequestParameters(options),

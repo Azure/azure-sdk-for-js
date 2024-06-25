@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a dedicated host .
  *
  * @summary Create or update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
  */
 async function createOrUpdateADedicatedHost() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function createOrUpdateADedicatedHost() {
     location: "westus",
     platformFaultDomain: 1,
     sku: { name: "DSv3-Type1" },
-    tags: { department: "HR" }
+    tags: { department: "HR" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function createOrUpdateADedicatedHost() {
     resourceGroupName,
     hostGroupName,
     hostName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

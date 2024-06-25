@@ -24,7 +24,7 @@ import {
   FilesNoSubscriptionCreateResponse,
   UploadFile,
   FilesNoSubscriptionUploadOptionalParams,
-  FilesNoSubscriptionListNextResponse
+  FilesNoSubscriptionListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
    */
   public list(
     fileWorkspaceName: string,
-    options?: FilesNoSubscriptionListOptionalParams
+    options?: FilesNoSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<FileDetails> {
     const iter = this.listPagingAll(fileWorkspaceName, options);
     return {
@@ -62,14 +62,14 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(fileWorkspaceName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     fileWorkspaceName: string,
     options?: FilesNoSubscriptionListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FileDetails[]> {
     let result: FilesNoSubscriptionListResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +84,7 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
       result = await this._listNext(
         fileWorkspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -95,7 +95,7 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
 
   private async *listPagingAll(
     fileWorkspaceName: string,
-    options?: FilesNoSubscriptionListOptionalParams
+    options?: FilesNoSubscriptionListOptionalParams,
   ): AsyncIterableIterator<FileDetails> {
     for await (const page of this.listPagingPage(fileWorkspaceName, options)) {
       yield* page;
@@ -109,11 +109,11 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
    */
   private _list(
     fileWorkspaceName: string,
-    options?: FilesNoSubscriptionListOptionalParams
+    options?: FilesNoSubscriptionListOptionalParams,
   ): Promise<FilesNoSubscriptionListResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -126,11 +126,11 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
   get(
     fileWorkspaceName: string,
     fileName: string,
-    options?: FilesNoSubscriptionGetOptionalParams
+    options?: FilesNoSubscriptionGetOptionalParams,
   ): Promise<FilesNoSubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, fileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -145,11 +145,11 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
     fileWorkspaceName: string,
     fileName: string,
     createFileParameters: FileDetails,
-    options?: FilesNoSubscriptionCreateOptionalParams
+    options?: FilesNoSubscriptionCreateOptionalParams,
   ): Promise<FilesNoSubscriptionCreateResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, fileName, createFileParameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
     fileWorkspaceName: string,
     fileName: string,
     uploadFile: UploadFile,
-    options?: FilesNoSubscriptionUploadOptionalParams
+    options?: FilesNoSubscriptionUploadOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, fileName, uploadFile, options },
-      uploadOperationSpec
+      uploadOperationSpec,
     );
   }
 
@@ -181,11 +181,11 @@ export class FilesNoSubscriptionImpl implements FilesNoSubscription {
   private _listNext(
     fileWorkspaceName: string,
     nextLink: string,
-    options?: FilesNoSubscriptionListNextOptionalParams
+    options?: FilesNoSubscriptionListNextOptionalParams,
   ): Promise<FilesNoSubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -197,98 +197,95 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FilesListResult
+      bodyMapper: Mappers.FilesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.fileWorkspaceName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}/files/{fileName}",
+  path: "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}/files/{fileName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileDetails
+      bodyMapper: Mappers.FileDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.fileWorkspaceName,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}/files/{fileName}",
+  path: "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}/files/{fileName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.FileDetails
+      bodyMapper: Mappers.FileDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.createFileParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.fileWorkspaceName1,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const uploadOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}/files/{fileName}/upload",
+  path: "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}/files/{fileName}/upload",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.uploadFile,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.fileWorkspaceName,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FilesListResult
+      bodyMapper: Mappers.FilesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.fileWorkspaceName
+    Parameters.fileWorkspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

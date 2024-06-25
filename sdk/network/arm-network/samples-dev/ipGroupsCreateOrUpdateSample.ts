@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an ipGroups in a specified resource group.
  *
  * @summary Creates or updates an ipGroups in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/IpGroupsCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/IpGroupsCreate.json
  */
 async function createOrUpdateIPGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -28,14 +28,14 @@ async function createOrUpdateIPGroups() {
   const parameters: IpGroup = {
     ipAddresses: ["13.64.39.16/32", "40.74.146.80/31", "40.74.147.32/28"],
     location: "West US",
-    tags: { key1: "value1" }
+    tags: { key1: "value1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.ipGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     ipGroupsName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

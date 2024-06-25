@@ -33,7 +33,7 @@ async function getASingleAlertRuleIncident() {
   const result = await client.alertRuleIncidents.get(
     resourceGroupName,
     ruleName,
-    incidentName
+    incidentName,
   );
   console.log(result);
 }

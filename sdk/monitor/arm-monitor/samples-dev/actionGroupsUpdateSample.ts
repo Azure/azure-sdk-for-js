@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/patchActionGroup.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/patchActionGroup.json
  */
 async function patchAnActionGroup() {
   const subscriptionId =
@@ -29,14 +29,14 @@ async function patchAnActionGroup() {
   const actionGroupName = "SampleActionGroup";
   const actionGroupPatch: ActionGroupPatchBody = {
     enabled: false,
-    tags: { key1: "value1", key2: "value2" }
+    tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.actionGroups.update(
     resourceGroupName,
     actionGroupName,
-    actionGroupPatch
+    actionGroupPatch,
   );
   console.log(result);
 }

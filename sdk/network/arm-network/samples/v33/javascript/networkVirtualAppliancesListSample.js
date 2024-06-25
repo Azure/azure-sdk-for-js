@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all Network Virtual Appliances in a subscription.
  *
  * @summary Gets all Network Virtual Appliances in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkVirtualApplianceListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceListBySubscription.json
  */
 async function listAllNetworkVirtualAppliancesForAGivenSubscription() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

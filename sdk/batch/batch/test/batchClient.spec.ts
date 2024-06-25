@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-imp */
+
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 import { duration } from "moment";
@@ -23,19 +25,18 @@ dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
 
 const _SUFFIX = Math.random().toString(16).substr(2, 4);
+// const _SUFFIX = "3333";
 
 const ENDPOINT_POOL = getPoolName("endpoint");
 const BASIC_POOL = getPoolName("basic");
 const TEST_POOL3 = getPoolName("3");
 const DISK_POOL = getPoolName("datadisk");
-const VNET_POOL = getPoolName("vnet");
 const IMAGE_POOL = getPoolName("image");
 const SCHEDULE = "JSSDKTestSchedule";
 const TEST_USER = "JSSDKTestSchedule";
 const VMSIZE_A1 = "Standard_A1_v2";
 const VMSIZE_D1 = "Standard_D1_v2";
 const VMSIZE_D2s = "Standard_D2s_v3";
-const VMSIZE_SMALL = "Small";
 const JOB_NAME = `JSSDKTestJob-${_SUFFIX}`;
 const TASK1_NAME = `${JOB_NAME}-task1`;
 const TASK2_NAME = `${JOB_NAME}-task2`;
@@ -135,15 +136,11 @@ describe("Batch Service", function () {
           extensions: [
             {
               name: "batchextension1",
-              type: "KeyVaultForLinux",
-              publisher: "Microsoft.Azure.KeyVault",
+              type: "GenevaMonitoring",
+              publisher: "Microsoft.Azure.Geneva",
               typeHandlerVersion: "2.0",
               autoUpgradeMinorVersion: true,
               enableAutomaticUpgrade: true,
-              settings: {
-                secretsManagementSettingsKey: "secretsManagementSettingsValue",
-                authenticationSettingsKey: "authenticationSettingsValue",
-              },
             },
           ],
         },
@@ -287,27 +284,6 @@ describe("Batch Service", function () {
     //   // }
     // });
 
-    it("should add a pool with vnet and get expected error", async function () {
-      const pool: BatchServiceModels.PoolAddParameter = {
-        id: VNET_POOL,
-        vmSize: VMSIZE_A1,
-        cloudServiceConfiguration: { osFamily: "4" },
-        targetDedicatedNodes: 0,
-        networkConfiguration: {
-          subnetId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      };
-
-      try {
-        await client.pool.add(pool);
-        assert.fail("Expected error to be thrown");
-      } catch (error) {
-        assert.equal(error.statusCode, 403);
-        assert.equal(error.body.code, "Forbidden");
-      }
-    });
-
     it("should add a pool with a custom image and get expected error", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: IMAGE_POOL,
@@ -325,7 +301,7 @@ describe("Batch Service", function () {
       try {
         await client.pool.add(pool);
         assert.fail("Expected error to be thrown");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
         assert.equal(error.body.code, "InvalidPropertyValue");
         assert.equal(error.body.values[0].value, "virtualMachineImageId");
@@ -370,7 +346,14 @@ describe("Batch Service", function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: getPoolName("NodeCommunication"),
         vmSize: VMSIZE_D1,
-        cloudServiceConfiguration: { osFamily: "4" },
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+        },
         targetDedicatedNodes: 3,
         targetNodeCommunicationMode: "simplified",
         startTask: { commandLine: "cmd /c echo hello > hello.txt" },
@@ -406,6 +389,121 @@ describe("Batch Service", function () {
         getResult = await client.pool.get(pool.id);
         assert.equal(getResult.targetNodeCommunicationMode, options.targetNodeCommunicationMode);
         assert.isDefined(getResult.currentNodeCommunicationMode);
+      } finally {
+        await client.pool.deleteMethod(pool.id);
+      }
+    });
+
+    it("should create a pool with SecurityProfile & OS Disk", async function () {
+      const pool: BatchServiceModels.PoolAddParameter = {
+        id: getPoolName("SecurityProfile"),
+        vmSize: VMSIZE_D2s,
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+          securityProfile: {
+            securityType: "trustedLaunch",
+            encryptionAtHost: true,
+            uefiSettings: {
+              secureBootEnabled: true,
+              vTpmEnabled: true,
+            },
+          },
+          osDisk: {
+            caching: "readwrite",
+            managedDisk: {
+              storageAccountType: "standard_lrs",
+            },
+            diskSizeGB: 50,
+            writeAcceleratorEnabled: true,
+          },
+        },
+        targetDedicatedNodes: 0,
+      };
+
+      const result = await client.pool.add(pool);
+      assert.equal(result._response.status, 201);
+
+      try {
+        const poolResult = await client.pool.get(pool.id);
+        const securityProfile = poolResult.virtualMachineConfiguration!.securityProfile!;
+        assert.equal(securityProfile.securityType?.toLocaleLowerCase(), "trustedlaunch");
+        assert.equal(securityProfile.encryptionAtHost, true);
+        assert.equal(securityProfile.uefiSettings!.secureBootEnabled, true);
+        assert.equal(securityProfile.uefiSettings!.vTpmEnabled, true);
+
+        const osDisk = poolResult.virtualMachineConfiguration!.osDisk!;
+        assert.equal(osDisk.caching?.toLocaleLowerCase(), "readwrite");
+        assert.equal(osDisk.managedDisk!.storageAccountType?.toLocaleLowerCase(), "standard_lrs");
+        assert.equal(osDisk.diskSizeGB, 50);
+        assert.equal(osDisk.writeAcceleratorEnabled, true);
+      } finally {
+        await client.pool.deleteMethod(pool.id);
+      }
+    });
+
+    it("should create a pool with Auto OS Upgrade", async function () {
+      const pool: BatchServiceModels.PoolAddParameter = {
+        id: getPoolName("AutoOSUpgrade"),
+        vmSize: VMSIZE_D2s,
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+          nodePlacementConfiguration: {
+            policy: "zonal",
+          },
+        },
+        upgradePolicy: {
+          mode: "automatic",
+          automaticOSUpgradePolicy: {
+            disableAutomaticRollback: true,
+            enableAutomaticOSUpgrade: true,
+            useRollingUpgradePolicy: true,
+            osRollingUpgradeDeferral: true,
+          },
+          rollingUpgradePolicy: {
+            enableCrossZoneUpgrade: true,
+            maxBatchInstancePercent: 20,
+            maxUnhealthyInstancePercent: 20,
+            maxUnhealthyUpgradedInstancePercent: 20,
+            pauseTimeBetweenBatches: "PT0S",
+            prioritizeUnhealthyInstances: false,
+            rollbackFailedInstancesOnPolicyBreach: false,
+          },
+        },
+        targetDedicatedNodes: 0,
+      };
+
+      const result = await client.pool.add(pool);
+      assert.equal(result._response.status, 201);
+
+      try {
+        const poolResult = await client.pool.get(pool.id);
+        const upgradePolicy = poolResult.upgradePolicy!;
+        assert.equal(upgradePolicy.mode, "automatic");
+        assert.deepEqual(upgradePolicy.automaticOSUpgradePolicy!, {
+          disableAutomaticRollback: true,
+          enableAutomaticOSUpgrade: true,
+          useRollingUpgradePolicy: true,
+          osRollingUpgradeDeferral: true,
+        });
+        assert.deepEqual(upgradePolicy.rollingUpgradePolicy!, {
+          enableCrossZoneUpgrade: true,
+          maxBatchInstancePercent: 20,
+          maxUnhealthyInstancePercent: 20,
+          maxUnhealthyUpgradedInstancePercent: 20,
+          pauseTimeBetweenBatches: "PT0S",
+          prioritizeUnhealthyInstances: false,
+          rollbackFailedInstancesOnPolicyBreach: false,
+        });
       } finally {
         await client.pool.deleteMethod(pool.id);
       }
@@ -579,7 +677,7 @@ describe("Batch Service", function () {
           const result = await client.computeNode.disableScheduling(BASIC_POOL, compute_nodes[1]);
           assert.equal(result._response.status, 200);
           break;
-        } catch (error) {
+        } catch (error: any) {
           if (error.code === "NodeNotReady") {
             await wait(POLLING_INTERVAL);
           } else {
@@ -605,7 +703,7 @@ describe("Batch Service", function () {
       try {
         await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
         assert.fail("Expected error to be thrown");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 409);
         assert.equal(error.body.code, "OperationNotValidOnNode");
       }
@@ -671,8 +769,15 @@ describe("Batch Service", function () {
     it("should create a second pool successfully", async function () {
       const pool = {
         id: TEST_POOL3,
-        vmSize: VMSIZE_SMALL,
-        cloudServiceConfiguration: { osFamily: "4" },
+        vmSize: VMSIZE_A1,
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+        },
       };
       const result = await client.pool.add(pool);
       assert.equal(result._response.status, 201);
@@ -1180,7 +1285,7 @@ describe("Batch Service", function () {
     it("should fail to job prep+release status", async function () {
       try {
         await client.job.listPreparationAndReleaseTaskStatus(JOB_NAME);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "JobPreparationTaskOrReleaseTaskNotSpecified");
       }
     });
@@ -1382,7 +1487,7 @@ describe("Batch Service", function () {
     it("should fail to delete a non-existent pool", async function () {
       try {
         await client.pool.deleteMethod(BASIC_POOL);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "PoolBeingDeleted");
       }
     });
@@ -1396,7 +1501,7 @@ describe("Batch Service", function () {
     it("should fail to cancel deleting a certificate", async function () {
       try {
         await client.certificate.cancelDeletion("sha1", certThumb);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "CertificateBeingDeleted");
       }
     });

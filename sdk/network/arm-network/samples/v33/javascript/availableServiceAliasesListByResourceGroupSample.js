@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all available service aliases for this resource group in this region.
  *
  * @summary Gets all available service aliases for this resource group in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AvailableServiceAliasesListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AvailableServiceAliasesListByResourceGroup.json
  */
 async function getAvailableServiceAliasesInTheResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

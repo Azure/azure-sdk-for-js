@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ApplicationGatewayOnDemandProbe,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
  *
  * @summary Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ApplicationGatewayBackendHealthTest.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayBackendHealthTest.json
  */
 async function testBackendHealth() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,24 +30,23 @@ async function testBackendHealth() {
   const probeRequest: ApplicationGatewayOnDemandProbe = {
     path: "/",
     backendAddressPool: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool"
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool",
     },
     backendHttpSettings: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings"
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings",
     },
     pickHostNameFromBackendHttpSettings: true,
     timeout: 30,
-    protocol: "Http"
+    protocol: "Http",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.applicationGateways.beginBackendHealthOnDemandAndWait(
-    resourceGroupName,
-    applicationGatewayName,
-    probeRequest
-  );
+  const result =
+    await client.applicationGateways.beginBackendHealthOnDemandAndWait(
+      resourceGroupName,
+      applicationGatewayName,
+      probeRequest,
+    );
   console.log(result);
 }
 

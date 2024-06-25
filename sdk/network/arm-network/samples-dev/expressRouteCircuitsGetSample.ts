@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified express route circuit.
  *
  * @summary Gets information about the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCircuitGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCircuitGet.json
  */
 async function getExpressRouteCircuit() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getExpressRouteCircuit() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.expressRouteCircuits.get(
     resourceGroupName,
-    circuitName
+    circuitName,
   );
   console.log(result);
 }

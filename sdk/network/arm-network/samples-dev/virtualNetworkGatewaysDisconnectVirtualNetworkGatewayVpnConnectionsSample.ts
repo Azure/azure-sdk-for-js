@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   P2SVpnConnectionRequest,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Disconnect vpn connections of virtual network gateway in the specified resource group.
  *
  * @summary Disconnect vpn connections of virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewaysDisconnectP2sVpnConnections.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewaysDisconnectP2sVpnConnections.json
  */
 async function disconnectVpnConnectionsFromVirtualNetworkGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,15 +29,16 @@ async function disconnectVpnConnectionsFromVirtualNetworkGateway() {
     process.env["NETWORK_RESOURCE_GROUP"] || "vpn-gateway-test";
   const virtualNetworkGatewayName = "vpngateway";
   const request: P2SVpnConnectionRequest = {
-    vpnConnectionIds: ["vpnconnId1", "vpnconnId2"]
+    vpnConnectionIds: ["vpnconnId1", "vpnconnId2"],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkGateways.beginDisconnectVirtualNetworkGatewayVpnConnectionsAndWait(
-    resourceGroupName,
-    virtualNetworkGatewayName,
-    request
-  );
+  const result =
+    await client.virtualNetworkGateways.beginDisconnectVirtualNetworkGatewayVpnConnectionsAndWait(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      request,
+    );
   console.log(result);
 }
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { MonitoringDataPoint, PostResponse } from "../../generated";
+import { MonitoringDataPoint, PublishResponse } from "../../generated";
 import { DocumentIngress } from "../../generated";
 
 /**
@@ -21,7 +21,7 @@ export interface QuickpulseExporterOptions {
 
   baseMonitoringDataPoint: MonitoringDataPoint;
 
-  postCallback: (response: PostResponse | undefined) => void;
+  postCallback: (response: PublishResponse | undefined) => void;
 
   getDocumentsFn: () => DocumentIngress[];
 }

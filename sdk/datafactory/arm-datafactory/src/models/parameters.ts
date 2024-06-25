@@ -39,7 +39,7 @@ import {
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
   ManagedVirtualNetworkResource as ManagedVirtualNetworkResourceMapper,
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
-  ManagedIdentityCredentialResource as ManagedIdentityCredentialResourceMapper,
+  CredentialResource as CredentialResourceMapper,
   PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
   GlobalParameterResource as GlobalParameterResourceMapper,
   ChangeDataCaptureResource as ChangeDataCaptureResourceMapper,
@@ -536,7 +536,7 @@ export const managedPrivateEndpointName: OperationURLParameter = {
 
 export const credential: OperationParameter = {
   parameterPath: "credential",
-  mapper: ManagedIdentityCredentialResourceMapper,
+  mapper: CredentialResourceMapper,
 };
 
 export const credentialName: OperationURLParameter = {

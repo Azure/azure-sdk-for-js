@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   QueryRequestOptions,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List all effective connectivity configurations applied on a virtual network.
  *
  * @summary List all effective connectivity configurations applied on a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerEffectiveConnectivityConfigurationsList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerEffectiveConnectivityConfigurationsList.json
  */
 async function listEffectiveConnectivityConfiguration() {
   const subscriptionId =
@@ -33,11 +33,12 @@ async function listEffectiveConnectivityConfiguration() {
   const parameters: QueryRequestOptions = { skipToken: "FakeSkipTokenCode" };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.listNetworkManagerEffectiveConnectivityConfigurations(
-    resourceGroupName,
-    virtualNetworkName,
-    parameters
-  );
+  const result =
+    await client.listNetworkManagerEffectiveConnectivityConfigurations(
+      resourceGroupName,
+      virtualNetworkName,
+      parameters,
+    );
   console.log(result);
 }
 

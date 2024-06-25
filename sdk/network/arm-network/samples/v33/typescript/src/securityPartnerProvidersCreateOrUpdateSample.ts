@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SecurityPartnerProvider,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified Security Partner Provider.
  *
  * @summary Creates or updates the specified Security Partner Provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SecurityPartnerProviderPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SecurityPartnerProviderPut.json
  */
 async function createSecurityPartnerProvider() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,17 +32,17 @@ async function createSecurityPartnerProvider() {
     securityProviderName: "ZScaler",
     tags: { key1: "value1" },
     virtualHub: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
-    }
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.securityPartnerProviders.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    securityPartnerProviderName,
-    parameters
-  );
+  const result =
+    await client.securityPartnerProviders.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      securityPartnerProviderName,
+      parameters,
+    );
   console.log(result);
 }
 

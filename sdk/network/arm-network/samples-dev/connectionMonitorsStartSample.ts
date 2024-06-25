@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts the specified connection monitor.
  *
  * @summary Starts the specified connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherConnectionMonitorStart.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherConnectionMonitorStart.json
  */
 async function startConnectionMonitor() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function startConnectionMonitor() {
   const result = await client.connectionMonitors.beginStartAndWait(
     resourceGroupName,
     networkWatcherName,
-    connectionMonitorName
+    connectionMonitorName,
   );
   console.log(result);
 }

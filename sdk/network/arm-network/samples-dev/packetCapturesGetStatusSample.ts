@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Query the status of a running packet capture session.
  *
  * @summary Query the status of a running packet capture session.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherPacketCaptureQueryStatus.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherPacketCaptureQueryStatus.json
  */
 async function queryPacketCaptureStatus() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function queryPacketCaptureStatus() {
   const result = await client.packetCaptures.beginGetStatusAndWait(
     resourceGroupName,
     networkWatcherName,
-    packetCaptureName
+    packetCaptureName,
   );
   console.log(result);
 }

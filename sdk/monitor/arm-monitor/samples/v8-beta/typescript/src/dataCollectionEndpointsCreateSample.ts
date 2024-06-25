@@ -11,7 +11,7 @@
 import {
   DataCollectionEndpointResource,
   DataCollectionEndpointsCreateOptionalParams,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a data collection endpoint.
  *
  * @summary Creates or updates a data collection endpoint.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsCreate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionEndpointsCreate.json
  */
 async function createOrUpdateDataCollectionEndpoint() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function createOrUpdateDataCollectionEndpoint() {
   const dataCollectionEndpointName = "myCollectionEndpoint";
   const body: DataCollectionEndpointResource = {
     location: "eastus",
-    networkAcls: { publicNetworkAccess: "Enabled" }
+    networkAcls: { publicNetworkAccess: "Enabled" },
   };
   const options: DataCollectionEndpointsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function createOrUpdateDataCollectionEndpoint() {
   const result = await client.dataCollectionEndpoints.create(
     resourceGroupName,
     dataCollectionEndpointName,
-    options
+    options,
   );
   console.log(result);
 }

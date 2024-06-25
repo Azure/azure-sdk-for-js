@@ -15,7 +15,7 @@ import {
   ManagedInstancePrivateEndpointConnectionsGetResponse,
   ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse,
-  ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams
+  ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ManagedInstancePrivateEndpointConnections {
   listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancePrivateEndpointConnectionsListByManagedInstanceOptionalParams
+    options?: ManagedInstancePrivateEndpointConnectionsListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstancePrivateEndpointConnection>;
   /**
    * Gets a private endpoint connection.
@@ -45,7 +45,7 @@ export interface ManagedInstancePrivateEndpointConnections {
     resourceGroupName: string,
     managedInstanceName: string,
     privateEndpointConnectionName: string,
-    options?: ManagedInstancePrivateEndpointConnectionsGetOptionalParams
+    options?: ManagedInstancePrivateEndpointConnectionsGetOptionalParams,
   ): Promise<ManagedInstancePrivateEndpointConnectionsGetResponse>;
   /**
    * Approve or reject a private endpoint connection with a given name.
@@ -61,12 +61,10 @@ export interface ManagedInstancePrivateEndpointConnections {
     managedInstanceName: string,
     privateEndpointConnectionName: string,
     parameters: ManagedInstancePrivateEndpointConnection,
-    options?: ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse
-      >,
+      OperationState<ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse>,
       ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse
     >
   >;
@@ -84,7 +82,7 @@ export interface ManagedInstancePrivateEndpointConnections {
     managedInstanceName: string,
     privateEndpointConnectionName: string,
     parameters: ManagedInstancePrivateEndpointConnection,
-    options?: ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -98,7 +96,7 @@ export interface ManagedInstancePrivateEndpointConnections {
     resourceGroupName: string,
     managedInstanceName: string,
     privateEndpointConnectionName: string,
-    options?: ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams
+    options?: ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -112,6 +110,6 @@ export interface ManagedInstancePrivateEndpointConnections {
     resourceGroupName: string,
     managedInstanceName: string,
     privateEndpointConnectionName: string,
-    options?: ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams
+    options?: ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

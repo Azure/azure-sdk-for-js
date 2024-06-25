@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified virtual network peering.
  *
  * @summary Gets the specified virtual network peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkPeeringGet.json
  */
 async function getPeering() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getPeering() {
   const result = await client.virtualNetworkPeerings.get(
     resourceGroupName,
     virtualNetworkName,
-    virtualNetworkPeeringName
+    virtualNetworkPeeringName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function getPeering() {
  * This sample demonstrates how to Gets the specified virtual network peering.
  *
  * @summary Gets the specified virtual network peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkPeeringGetWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkPeeringGetWithRemoteVirtualNetworkEncryption.json
  */
 async function getPeeringWithRemoteVirtualNetworkEncryption() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -51,7 +51,7 @@ async function getPeeringWithRemoteVirtualNetworkEncryption() {
   const result = await client.virtualNetworkPeerings.get(
     resourceGroupName,
     virtualNetworkName,
-    virtualNetworkPeeringName
+    virtualNetworkPeeringName,
   );
   console.log(result);
 }

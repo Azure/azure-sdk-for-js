@@ -1,5 +1,19 @@
 # Release History
 
+## 1.3.0 (2024-06-11)
+
+### Features Added
+
+- Added `audience` support for all the clients to specify the audience for the authentication token. This is useful when working in sovereign clouds. Refer to [#28821](https://github.com/Azure/azure-sdk-for-js/issues/28821) for further details.
+
+## 1.2.0 (2024-03-25)
+
+### Features Added
+
+- Added a new `MetricsClient` to query metrics for multiple resources.
+- Added `autoAdjustTimegrain`, `rollUpBy` and `validateDimensions` properties to the `MetricsQueryOptions` object.
+- Added `resourceId` property to the `MetricsQueryResult` object.
+
 ## 1.2.0-beta.3 (2023-11-20)
 
 ### Other Changes

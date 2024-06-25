@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { ErrorModel } from "@azure-rest/core-client";
 
 /** A specific deployment */
@@ -21,12 +13,8 @@ export interface DeploymentOutput {
 export interface AudioTranscriptionOutput {
   /** The transcribed text for the provided audio data. */
   text: string;
-  /**
-   * The label that describes which operation type generated the accompanying response data.
-   *
-   * Possible values: transcribe, translate
-   */
-  task?: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabelOutput;
   /**
    * The spoken language that was detected in the transcribed audio data.
    * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
@@ -76,12 +64,8 @@ export interface AudioTranscriptionSegmentOutput {
 export interface AudioTranslationOutput {
   /** The translated text for the provided audio data. */
   text: string;
-  /**
-   * The label that describes which operation type generated the accompanying response data.
-   *
-   * Possible values: transcribe, translate
-   */
-  task?: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabelOutput;
   /**
    * The spoken language that was detected in the translated audio data.
    * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
@@ -205,12 +189,8 @@ export interface ContentFilterResultDetailsForPromptOutput {
 
 /** Information about filtered content severity level and if it has been filtered or not. */
 export interface ContentFilterResultOutput {
-  /**
-   * Ratings for the intensity and risk level of filtered content.
-   *
-   * Possible values: safe, low, medium, high
-   */
-  severity: string;
+  /** Ratings for the intensity and risk level of filtered content. */
+  severity: ContentFilterSeverityOutput;
   /** A value indicating whether or not the content has been filtered. */
   filtered: boolean;
 }
@@ -250,7 +230,7 @@ export interface ChoiceOutput {
   /** The log probabilities model for tokens associated with this completions choice. */
   logprobs: CompletionsLogProbabilityModelOutput | null;
   /** Reason for finishing */
-  finish_reason: string | null;
+  finish_reason: CompletionsFinishReasonOutput | null;
 }
 
 /** Information about content filtering evaluated against generated model output. */
@@ -375,6 +355,8 @@ export interface FunctionCallOutput {
 export interface ChatCompletionsOutput {
   /** A unique identifier associated with this chat completions response. */
   id: string;
+  /** The current model used for the chat completions request. */
+  model: string;
   /**
    * The first timestamp associated with generation activity for this completions response,
    * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
@@ -390,12 +372,12 @@ export interface ChatCompletionsOutput {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  prompt_filter_results: Array<ContentFilterResultsForPromptOutput>;
+  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
   /**
    * Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that
    * might impact determinism.
    */
-  system_fingerprint: string;
+  system_fingerprint?: string;
   /** Usage information for tokens processed and generated as part of this completions operation. */
   usage: CompletionsUsageOutput;
 }
@@ -408,10 +390,12 @@ export interface ChatCompletionsOutput {
 export interface ChatChoiceOutput {
   /** The chat message for a given chat completions prompt. */
   message?: ChatResponseMessageOutput;
+  /** The log probability information for this choice, as enabled via the 'logprobs' request option. */
+  logprobs: ChatChoiceLogProbabilityInfoOutput | null;
   /** The ordered index associated with this chat completions choice. */
   index: number;
   /** The reason that this chat completions choice completed its generated. */
-  finish_reason: string | null;
+  finish_reason: CompletionsFinishReasonOutput | null;
   /**
    * The reason the model stopped generating tokens, together with any applicable details.
    * This structured representation replaces 'finish_reason' for some models.
@@ -435,12 +419,8 @@ export interface ChatChoiceOutput {
 
 /** A representation of a chat message as received in a response. */
 export interface ChatResponseMessageOutput {
-  /**
-   * The chat role associated with the message.
-   *
-   * Possible values: system, assistant, user, function, tool
-   */
-  role: string;
+  /** The chat role associated with the message. */
+  role: ChatRoleOutput;
   /** The content of the message. */
   content: string | null;
   /**
@@ -467,12 +447,60 @@ export interface ChatResponseMessageOutput {
  */
 export interface AzureChatExtensionsMessageContextOutput {
   /**
-   *   The contextual message payload associated with the Azure chat extensions used for a chat completions request.
+   *   The contextual information associated with the Azure chat extensions used for a chat completions request.
    *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
    *   course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
    *   extensions.
    */
-  messages?: Array<ChatResponseMessageOutput>;
+  citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
+  /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
+  intent?: string;
+}
+
+/**
+ * A single instance of additional context information available when Azure OpenAI chat extensions are involved
+ * in the generation of a corresponding chat completions response. This context information is only populated when
+ * using an Azure OpenAI request configured to use a matching extension.
+ */
+export interface AzureChatExtensionDataSourceResponseCitationOutput {
+  /** The content of the citation. */
+  content: string;
+  /** The title of the citation. */
+  title?: string;
+  /** The URL of the citation. */
+  url?: string;
+  /** The file path of the citation. */
+  filepath?: string;
+  /** The chunk ID of the citation. */
+  chunk_id?: string;
+}
+
+/** Log probability information for a choice, as requested via 'logprobs' and 'top_logprobs'. */
+export interface ChatChoiceLogProbabilityInfoOutput {
+  /** The list of log probability information entries for the choice's message content tokens, as requested via the 'logprobs' option. */
+  content: Array<ChatTokenLogProbabilityResultOutput> | null;
+}
+
+/** A representation of the log probability information for a single content token, including a list of most likely tokens if 'top_logprobs' were requested. */
+export interface ChatTokenLogProbabilityResultOutput {
+  /** The message content token. */
+  token: string;
+  /** The log probability of the message content token. */
+  logprob: number;
+  /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be null if there is no bytes representation for the token. */
+  bytes: number[] | null;
+  /** The list of most likely tokens and their log probability information, as requested via 'top_logprobs'. */
+  top_logprobs: Array<ChatTokenLogProbabilityInfoOutput> | null;
+}
+
+/** A representation of the log probability information for a single message content token. */
+export interface ChatTokenLogProbabilityInfoOutput {
+  /** The message content token. */
+  token: string;
+  /** The log probability of the message content token. */
+  logprob: number;
+  /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be null if there is no bytes representation for the token. */
+  bytes: number[] | null;
 }
 
 /** An abstract representation of structured information about why a chat completions response terminated. */
@@ -543,6 +571,43 @@ export interface AzureGroundingEnhancementCoordinatePointOutput {
   y: number;
 }
 
+/** Represents the request data used to generate images. */
+export interface ImageGenerationOptionsOutput {
+  /**
+   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
+   * inferred as a default.
+   */
+  model?: string;
+  /** A description of the desired images. */
+  prompt: string;
+  /**
+   * The number of images to generate.
+   * Dall-e-2 models support values between 1 and 10.
+   * Dall-e-3 models only support a value of 1.
+   */
+  n?: number;
+  /**
+   * The desired dimensions for generated images.
+   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
+   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
+   */
+  size?: ImageSizeOutput;
+  /** The format in which image generation response items should be presented. */
+  response_format?: ImageGenerationResponseFormatOutput;
+  /**
+   * The desired image generation quality level to use.
+   * Only configurable with dall-e-3 models.
+   */
+  quality?: ImageGenerationQualityOutput;
+  /**
+   * The desired image generation style to use.
+   * Only configurable with dall-e-3 models.
+   */
+  style?: ImageGenerationStyleOutput;
+  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
+  user?: string;
+}
+
 /** The result of a successful image generation operation. */
 export interface ImageGenerationsOutput {
   /**
@@ -563,11 +628,84 @@ export interface ImageGenerationDataOutput {
   url?: string;
   /** The complete data for an image, represented as a base64-encoded string. */
   b64_json?: string;
+  /** Information about the content filtering results. */
+  content_filter_results?: ImageGenerationContentFilterResultsOutput;
   /**
    * The final prompt used by the model to generate the image.
    * Only provided with dall-3-models and only when revisions were made to the prompt.
    */
   revised_prompt?: string;
+  /**
+   * Information about the content filtering category (hate, sexual, violence, self_harm), if
+   * it has been detected, as well as the severity level (very_low, low, medium, high-scale
+   * that determines the intensity and risk level of harmful content) and if it has been
+   * filtered or not. Information about jailbreak content and profanity, if it has been detected,
+   * and if it has been filtered or not. And information about customer block list, if it has
+   * been filtered and its id.
+   */
+  prompt_filter_results?: ImageGenerationPromptFilterResultsOutput;
+}
+
+/** Describes the content filtering result for the image generation request. */
+export interface ImageGenerationContentFilterResultsOutput {
+  /**
+   * Describes language related to anatomical organs and genitals, romantic relationships,
+   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
+   *  those portrayed as an assault or a forced sexual violent act against one’s will,
+   *  prostitution, pornography, and abuse.
+   */
+  sexual?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to hurt, injure, damage, or
+   * kill someone or something; describes weapons, etc.
+   */
+  violence?: ContentFilterResultOutput;
+  /**
+   * Describes language attacks or uses that include pejorative or discriminatory language
+   * with reference to a person or identity group on the basis of certain differentiating
+   * attributes of these groups including but not limited to race, ethnicity, nationality,
+   * gender identity and expression, sexual orientation, religion, immigration status, ability
+   * status, personal appearance, and body size.
+   */
+  hate?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to purposely hurt, injure,
+   * or damage one’s body, or kill oneself.
+   */
+  self_harm?: ContentFilterResultOutput;
+}
+
+/** Describes the content filtering results for the prompt of a image generation request. */
+export interface ImageGenerationPromptFilterResultsOutput {
+  /**
+   * Describes language related to anatomical organs and genitals, romantic relationships,
+   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
+   *  those portrayed as an assault or a forced sexual violent act against one’s will,
+   *  prostitution, pornography, and abuse.
+   */
+  sexual?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to hurt, injure, damage, or
+   * kill someone or something; describes weapons, etc.
+   */
+  violence?: ContentFilterResultOutput;
+  /**
+   * Describes language attacks or uses that include pejorative or discriminatory language
+   * with reference to a person or identity group on the basis of certain differentiating
+   * attributes of these groups including but not limited to race, ethnicity, nationality,
+   * gender identity and expression, sexual orientation, religion, immigration status, ability
+   * status, personal appearance, and body size.
+   */
+  hate?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to purposely hurt, injure,
+   * or damage one’s body, or kill oneself.
+   */
+  self_harm?: ContentFilterResultOutput;
+  /** Describes whether profanity was detected. */
+  profanity?: ContentFilterDetectionResultOutput;
+  /** Whether a jailbreak attempt was detected in the prompt. */
+  jailbreak?: ContentFilterDetectionResultOutput;
 }
 
 /**
@@ -601,77 +739,51 @@ export interface EmbeddingsUsageOutput {
   total_tokens: number;
 }
 
-/** A polling status update or final response payload for an image operation. */
-export interface BatchImageGenerationOperationResponseOutput {
-  /** The ID of the operation. */
-  id: string;
-  /** A timestamp when this job or item was created (in unix epochs). */
-  created: number;
-  /** A timestamp when this operation and its associated images expire and will be deleted (in unix epochs). */
-  expires?: number;
-  /** The result of the operation if the operation succeeded. */
-  result?: ImageGenerationsOutput;
-  /**
-   * The status of the operation
-   *
-   * Possible values: notRunning, running, succeeded, canceled, failed
-   */
-  status: string;
-  /** The error if the operation failed. */
-  error?: ErrorModel;
-}
-
-/** Represents the request data used to generate images. */
-export interface ImageGenerationOptionsOutput {
-  /**
-   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
-   * inferred as a default.
-   */
-  model?: string;
-  /** A description of the desired images. */
-  prompt: string;
-  /**
-   * The number of images to generate.
-   * Dall-e-2 models support values between 1 and 10.
-   * Dall-e-3 models only support a value of 1.
-   */
-  n?: number;
-  /**
-   * The desired dimensions for generated images.
-   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
-   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
-   *
-   * Possible values: 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792
-   */
-  size?: string;
-  /**
-   * The format in which image generation response items should be presented.
-   *
-   * Possible values: url, b64_json
-   */
-  response_format?: string;
-  /**
-   * The desired image generation quality level to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: standard, hd
-   */
-  quality?: string;
-  /**
-   * The desired image generation style to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: natural, vivid
-   */
-  style?: string;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
-}
-
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
-export type ChatCompletionsToolCallOutput = ChatCompletionsFunctionToolCallOutput;
+export type ChatCompletionsToolCallOutput =
+  | ChatCompletionsToolCallOutputParent
+  | ChatCompletionsFunctionToolCallOutput;
 /** An abstract representation of structured information about why a chat completions response terminated. */
-export type ChatFinishDetailsOutput = StopFinishDetailsOutput | MaxTokensFinishDetailsOutput;
+export type ChatFinishDetailsOutput =
+  | ChatFinishDetailsOutputParent
+  | StopFinishDetailsOutput
+  | MaxTokensFinishDetailsOutput;
+/** Alias for AudioTaskLabelOutput */
+export type AudioTaskLabelOutput = string | "transcribe" | "translate";
+/** Alias for ContentFilterSeverityOutput */
+export type ContentFilterSeverityOutput = string | "safe" | "low" | "medium" | "high";
+/** Alias for CompletionsFinishReasonOutput */
+export type CompletionsFinishReasonOutput =
+  | string
+  | "stop"
+  | "length"
+  | "content_filter"
+  | "function_call"
+  | "tool_calls";
+/** Alias for ChatRoleOutput */
+export type ChatRoleOutput = string | "system" | "assistant" | "user" | "function" | "tool";
+/** Alias for ImageSizeOutput */
+export type ImageSizeOutput =
+  | string
+  | "256x256"
+  | "512x512"
+  | "1024x1024"
+  | "1792x1024"
+  | "1024x1792";
+/** Alias for ImageGenerationResponseFormatOutput */
+export type ImageGenerationResponseFormatOutput = string | "url" | "b64_json";
+/** Alias for ImageGenerationQualityOutput */
+export type ImageGenerationQualityOutput = string | "standard" | "hd";
+/** Alias for ImageGenerationStyleOutput */
+export type ImageGenerationStyleOutput = string | "natural" | "vivid";
+/** Alias for AzureOpenAIOperationStateOutput */
+export type AzureOpenAIOperationStateOutput =
+  | string
+  | "notRunning"
+  | "running"
+  | "succeeded"
+  | "canceled"
+  | "failed";

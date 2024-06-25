@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplyUpdate,
-  ApplyUpdateForResourceGroupListOptionalParams
+  ApplyUpdateForResourceGroupListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,6 +22,6 @@ export interface ApplyUpdateForResourceGroup {
    */
   list(
     resourceGroupName: string,
-    options?: ApplyUpdateForResourceGroupListOptionalParams
+    options?: ApplyUpdateForResourceGroupListOptionalParams,
   ): PagedAsyncIterableIterator<ApplyUpdate>;
 }

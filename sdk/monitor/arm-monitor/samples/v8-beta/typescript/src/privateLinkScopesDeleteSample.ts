@@ -31,7 +31,7 @@ async function privateLinkScopesDelete() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.privateLinkScopes.beginDeleteAndWait(
     resourceGroupName,
-    scopeName
+    scopeName,
   );
   console.log(result);
 }

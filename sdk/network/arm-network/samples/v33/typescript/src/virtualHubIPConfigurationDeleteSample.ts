@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a VirtualHubIpConfiguration.
  *
  * @summary Deletes a VirtualHubIpConfiguration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubIpConfigurationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualHubIpConfigurationDelete.json
  */
 async function virtualHubIPConfigurationDelete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function virtualHubIPConfigurationDelete() {
   const result = await client.virtualHubIpConfiguration.beginDeleteAndWait(
     resourceGroupName,
     virtualHubName,
-    ipConfigName
+    ipConfigName,
   );
   console.log(result);
 }

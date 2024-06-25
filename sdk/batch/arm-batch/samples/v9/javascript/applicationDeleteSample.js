@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an application.
  *
  * @summary Deletes an application.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/ApplicationDelete.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/ApplicationDelete.json
  */
 async function applicationDelete() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

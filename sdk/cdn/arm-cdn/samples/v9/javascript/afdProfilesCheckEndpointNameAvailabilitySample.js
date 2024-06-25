@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
  *
  * @summary Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDProfiles_CheckEndpointNameAvailability.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_CheckEndpointNameAvailability.json
  */
 async function checkEndpointNameAvailability() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

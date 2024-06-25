@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartnerRegistrationUpdateParameters,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a partner registration with the specified parameters.
  *
  * @summary Updates a partner registration with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerRegistrations_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerRegistrations_Update.json
  */
 async function partnerRegistrationsUpdate() {
   const subscriptionId =
@@ -30,15 +30,14 @@ async function partnerRegistrationsUpdate() {
   const resourceGroupName =
     process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const partnerRegistrationName = "examplePartnerRegistrationName1";
-  const partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters = {
-    tags: { newKey: "NewValue" }
-  };
+  const partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters =
+    { tags: { newKey: "NewValue" } };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerRegistrations.beginUpdateAndWait(
     resourceGroupName,
     partnerRegistrationName,
-    partnerRegistrationUpdateParameters
+    partnerRegistrationUpdateParameters,
   );
   console.log(result);
 }

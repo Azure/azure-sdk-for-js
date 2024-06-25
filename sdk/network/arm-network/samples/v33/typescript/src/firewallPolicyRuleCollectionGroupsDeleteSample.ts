@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Deletes the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupDelete.json
  */
 async function deleteFirewallPolicyRuleCollectionGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,11 +27,12 @@ async function deleteFirewallPolicyRuleCollectionGroup() {
   const ruleCollectionGroupName = "ruleCollectionGroup1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyRuleCollectionGroups.beginDeleteAndWait(
-    resourceGroupName,
-    firewallPolicyName,
-    ruleCollectionGroupName
-  );
+  const result =
+    await client.firewallPolicyRuleCollectionGroups.beginDeleteAndWait(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+    );
   console.log(result);
 }
 

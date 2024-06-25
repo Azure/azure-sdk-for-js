@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Catalog as CatalogMapper,
   CatalogUpdate as CatalogUpdateMapper,
   ListDeviceGroupsRequest as ListDeviceGroupsRequestMapper,
-  ProofOfPossessionNonceRequest as ProofOfPossessionNonceRequestMapper,
   Image as ImageMapper,
+  ProofOfPossessionNonceRequest as ProofOfPossessionNonceRequestMapper,
   Product as ProductMapper,
   ProductUpdate as ProductUpdateMapper,
   DeviceGroup as DeviceGroupMapper,
@@ -25,7 +25,7 @@ import {
   Deployment as DeploymentMapper,
   Device as DeviceMapper,
   DeviceUpdate as DeviceUpdateMapper,
-  GenerateCapabilityImageRequest as GenerateCapabilityImageRequestMapper
+  GenerateCapabilityImageRequest as GenerateCapabilityImageRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -35,9 +35,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -46,22 +46,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -70,24 +70,24 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -95,28 +95,28 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const catalogName: OperationURLParameter = {
   parameterPath: "catalogName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9_-]{1,50}$")
+      Pattern: new RegExp("^[A-Za-z0-9_-]{1,50}$"),
     },
     serializedName: "catalogName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -126,19 +126,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: CatalogMapper
+  mapper: CatalogMapper,
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: CatalogUpdateMapper
+  mapper: CatalogUpdateMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -146,9 +146,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -156,9 +156,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const skip: OperationQueryParameter = {
@@ -166,9 +166,9 @@ export const skip: OperationQueryParameter = {
   mapper: {
     serializedName: "$skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const maxpagesize: OperationQueryParameter = {
@@ -176,14 +176,19 @@ export const maxpagesize: OperationQueryParameter = {
   mapper: {
     serializedName: "$maxpagesize",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const listDeviceGroupsRequest: OperationParameter = {
   parameterPath: "listDeviceGroupsRequest",
-  mapper: ListDeviceGroupsRequestMapper
+  mapper: ListDeviceGroupsRequestMapper,
+};
+
+export const uploadImageRequest: OperationParameter = {
+  parameterPath: "uploadImageRequest",
+  mapper: ImageMapper,
 };
 
 export const serialNumber: OperationURLParameter = {
@@ -192,14 +197,14 @@ export const serialNumber: OperationURLParameter = {
     serializedName: "serialNumber",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const proofOfPossessionNonceRequest: OperationParameter = {
   parameterPath: "proofOfPossessionNonceRequest",
-  mapper: ProofOfPossessionNonceRequestMapper
+  mapper: ProofOfPossessionNonceRequestMapper,
 };
 
 export const imageName: OperationURLParameter = {
@@ -208,14 +213,14 @@ export const imageName: OperationURLParameter = {
     serializedName: "imageName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource1: OperationParameter = {
   parameterPath: "resource",
-  mapper: ImageMapper
+  mapper: ImageMapper,
 };
 
 export const productName: OperationURLParameter = {
@@ -223,25 +228,25 @@ export const productName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$"
-      )
+        "^[\\w][\\w\\s]{1,48}[\\w]$|^\\.default$|^\\.unassigned$",
+      ),
     },
     serializedName: "productName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource2: OperationParameter = {
   parameterPath: "resource",
-  mapper: ProductMapper
+  mapper: ProductMapper,
 };
 
 export const properties1: OperationParameter = {
   parameterPath: "properties",
-  mapper: ProductUpdateMapper
+  mapper: ProductUpdateMapper,
 };
 
 export const deviceGroupName: OperationURLParameter = {
@@ -249,30 +254,30 @@ export const deviceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$"
-      )
+        "^[A-Za-z0-9]{1,2}$|^[A-Za-z0-9][A-Za-z0-9\\s]{1,48}[A-Za-z0-9]$|^\\.default$|^\\.unassigned$",
+      ),
     },
     serializedName: "deviceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource3: OperationParameter = {
   parameterPath: "resource",
-  mapper: DeviceGroupMapper
+  mapper: DeviceGroupMapper,
 };
 
 export const properties2: OperationParameter = {
   parameterPath: "properties",
-  mapper: DeviceGroupUpdateMapper
+  mapper: DeviceGroupUpdateMapper,
 };
 
 export const claimDevicesRequest: OperationParameter = {
   parameterPath: "claimDevicesRequest",
-  mapper: ClaimDevicesRequestMapper
+  mapper: ClaimDevicesRequestMapper,
 };
 
 export const deploymentName: OperationURLParameter = {
@@ -281,41 +286,41 @@ export const deploymentName: OperationURLParameter = {
     serializedName: "deploymentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource4: OperationParameter = {
   parameterPath: "resource",
-  mapper: DeploymentMapper
+  mapper: DeploymentMapper,
 };
 
 export const deviceName: OperationURLParameter = {
   parameterPath: "deviceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]{128}$")
+      Pattern: new RegExp("^[a-zA-Z0-9-]{128}$"),
     },
     serializedName: "deviceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource5: OperationParameter = {
   parameterPath: "resource",
-  mapper: DeviceMapper
+  mapper: DeviceMapper,
 };
 
 export const properties3: OperationParameter = {
   parameterPath: "properties",
-  mapper: DeviceUpdateMapper
+  mapper: DeviceUpdateMapper,
 };
 
 export const generateDeviceCapabilityRequest: OperationParameter = {
   parameterPath: "generateDeviceCapabilityRequest",
-  mapper: GenerateCapabilityImageRequestMapper
+  mapper: GenerateCapabilityImageRequestMapper,
 };

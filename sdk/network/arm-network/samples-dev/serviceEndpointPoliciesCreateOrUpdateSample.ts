@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServiceEndpointPolicy,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a service Endpoint Policies.
  *
  * @summary Creates or updates a service Endpoint Policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ServiceEndpointPolicyCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ServiceEndpointPolicyCreate.json
  */
 async function createServiceEndpointPolicy() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,11 +30,12 @@ async function createServiceEndpointPolicy() {
   const parameters: ServiceEndpointPolicy = { location: "westus" };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.serviceEndpointPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceEndpointPolicyName,
-    parameters
-  );
+  const result =
+    await client.serviceEndpointPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serviceEndpointPolicyName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -42,7 +43,7 @@ async function createServiceEndpointPolicy() {
  * This sample demonstrates how to Creates or updates a service Endpoint Policies.
  *
  * @summary Creates or updates a service Endpoint Policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
  */
 async function createServiceEndpointPolicyWithDefinition() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -58,18 +59,19 @@ async function createServiceEndpointPolicyWithDefinition() {
         serviceResources: [
           "/subscriptions/subid1",
           "/subscriptions/subid1/resourceGroups/storageRg",
-          "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
-        ]
-      }
-    ]
+          "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.serviceEndpointPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceEndpointPolicyName,
-    parameters
-  );
+  const result =
+    await client.serviceEndpointPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serviceEndpointPolicyName,
+      parameters,
+    );
   console.log(result);
 }
 

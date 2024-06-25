@@ -11,7 +11,7 @@ import {
 } from "../../src";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
-import { assert, matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { assertActionResults, assertRestError } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
 import { Recorder } from "@azure-tools/test-recorder";

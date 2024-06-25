@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified application gateway.
  *
  * @summary Deletes the specified application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ApplicationGatewayDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayDelete.json
  */
 async function deleteApplicationGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteApplicationGateway() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.applicationGateways.beginDeleteAndWait(
     resourceGroupName,
-    applicationGatewayName
+    applicationGatewayName,
   );
   console.log(result);
 }

@@ -30,7 +30,7 @@ async function createsAnExperiment() {
     description: "this is my first experiment!",
     enabledState: "Enabled",
     endpointA: { name: "endpoint A", endpoint: "endpointA.net" },
-    endpointB: { name: "endpoint B", endpoint: "endpointB.net" }
+    endpointB: { name: "endpoint B", endpoint: "endpointB.net" },
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function createsAnExperiment() {
     resourceGroupName,
     profileName,
     experimentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

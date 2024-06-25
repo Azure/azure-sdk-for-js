@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Send test notifications to a set of provided receivers
  *
  * @summary Send test notifications to a set of provided receivers
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/postTestNotificationsAtActionGroupResourceLevel.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/postTestNotificationsAtActionGroupResourceLevel.json
  */
 async function createNotificationsAtResourceGroupLevel() {
   const subscriptionId =
@@ -138,7 +138,7 @@ async function createNotificationsAtResourceGroupLevel() {
     await client.actionGroups.beginCreateNotificationsAtActionGroupResourceLevelAndWait(
       resourceGroupName,
       actionGroupName,
-      notificationRequest
+      notificationRequest,
     );
   console.log(result);
 }

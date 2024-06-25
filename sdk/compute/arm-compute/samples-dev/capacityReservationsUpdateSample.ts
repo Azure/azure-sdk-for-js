@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CapacityReservationUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
  */
 async function capacityReservationUpdateMaximumSetGen() {
   const subscriptionId =
@@ -38,13 +38,13 @@ async function capacityReservationUpdateMaximumSetGen() {
           displayStatus: "aaaaaa",
           level: "Info",
           message: "a",
-          time: new Date("2021-11-30T12:58:26.522Z")
-        }
+          time: new Date("2021-11-30T12:58:26.522Z"),
+        },
       ],
-      utilizationInfo: {}
+      utilizationInfo: {},
     },
     sku: { name: "Standard_DS1_v2", capacity: 7, tier: "aaa" },
-    tags: { key4974: "aaaaaaaaaaaaaaaa" }
+    tags: { key4974: "aaaaaaaaaaaaaaaa" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -52,7 +52,7 @@ async function capacityReservationUpdateMaximumSetGen() {
     resourceGroupName,
     capacityReservationGroupName,
     capacityReservationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function capacityReservationUpdateMaximumSetGen() {
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
  */
 async function capacityReservationUpdateMinimumSetGen() {
   const subscriptionId =
@@ -77,7 +77,7 @@ async function capacityReservationUpdateMinimumSetGen() {
     resourceGroupName,
     capacityReservationGroupName,
     capacityReservationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

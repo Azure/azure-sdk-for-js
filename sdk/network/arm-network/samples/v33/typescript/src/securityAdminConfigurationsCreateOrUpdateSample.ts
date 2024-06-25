@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SecurityAdminConfiguration,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a network manager security admin configuration.
  *
  * @summary Creates or updates a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
  */
 async function createNetworkManagerSecurityAdminConfiguration() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function createNetworkManagerSecurityAdminConfiguration() {
   const configurationName = "myTestSecurityConfig";
   const securityAdminConfiguration: SecurityAdminConfiguration = {
     description: "A sample policy",
-    applyOnNetworkIntentPolicyBasedServices: ["None"]
+    applyOnNetworkIntentPolicyBasedServices: ["None"],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function createNetworkManagerSecurityAdminConfiguration() {
     resourceGroupName,
     networkManagerName,
     configurationName,
-    securityAdminConfiguration
+    securityAdminConfiguration,
   );
   console.log(result);
 }

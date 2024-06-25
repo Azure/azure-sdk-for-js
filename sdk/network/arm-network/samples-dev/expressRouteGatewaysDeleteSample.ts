@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
  *
  * @summary Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteGatewayDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteGatewayDelete.json
  */
 async function expressRouteGatewayDelete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function expressRouteGatewayDelete() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.expressRouteGateways.beginDeleteAndWait(
     resourceGroupName,
-    expressRouteGatewayName
+    expressRouteGatewayName,
   );
   console.log(result);
 }

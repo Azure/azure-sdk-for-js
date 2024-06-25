@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ExpressRouteCircuitAuthorization,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an authorization in the specified express route circuit.
  *
  * @summary Creates or updates an authorization in the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCircuitAuthorizationCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCircuitAuthorizationCreate.json
  */
 async function createExpressRouteCircuitAuthorization() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,12 +31,13 @@ async function createExpressRouteCircuitAuthorization() {
   const authorizationParameters: ExpressRouteCircuitAuthorization = {};
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRouteCircuitAuthorizations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    circuitName,
-    authorizationName,
-    authorizationParameters
-  );
+  const result =
+    await client.expressRouteCircuitAuthorizations.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      circuitName,
+      authorizationName,
+      authorizationParameters,
+    );
   console.log(result);
 }
 

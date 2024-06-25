@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a gallery image definition.
  *
  * @summary Create or update a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImage_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImage_Create.json
  */
 async function createOrUpdateASimpleGalleryImage() {
   const subscriptionId =
@@ -32,11 +32,11 @@ async function createOrUpdateASimpleGalleryImage() {
     identifier: {
       offer: "myOfferName",
       publisher: "myPublisherName",
-      sku: "mySkuName"
+      sku: "mySkuName",
     },
     location: "West US",
     osState: "Generalized",
-    osType: "Windows"
+    osType: "Windows",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function createOrUpdateASimpleGalleryImage() {
     resourceGroupName,
     galleryName,
     galleryImageName,
-    galleryImage
+    galleryImage,
   );
   console.log(result);
 }

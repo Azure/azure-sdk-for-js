@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the load balancers in a resource group.
  *
  * @summary Gets all the load balancers in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/LoadBalancerList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerList.json
  */
 async function listLoadBalancersInResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

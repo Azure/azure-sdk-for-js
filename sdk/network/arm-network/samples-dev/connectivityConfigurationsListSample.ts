@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the network manager connectivity configuration in a specified network manager.
  *
  * @summary Lists all the network manager connectivity configuration in a specified network manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerConnectivityConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerConnectivityConfigurationList.json
  */
 async function connectivityConfigurationsList() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function connectivityConfigurationsList() {
   const resArray = new Array();
   for await (let item of client.connectivityConfigurations.list(
     resourceGroupName,
-    networkManagerName
+    networkManagerName,
   )) {
     resArray.push(item);
   }

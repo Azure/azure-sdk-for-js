@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ActivityLogsListOptionalParams,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";

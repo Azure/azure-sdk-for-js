@@ -27,7 +27,7 @@ async function checkNameAvailabilityWithSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.frontDoorNameAvailabilityWithSubscription.check(
-    checkFrontDoorNameAvailabilityInput
+    checkFrontDoorNameAvailabilityInput,
   );
   console.log(result);
 }

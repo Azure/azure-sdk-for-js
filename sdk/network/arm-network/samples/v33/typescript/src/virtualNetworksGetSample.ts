@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGet.json
  */
 async function getVirtualNetwork() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getVirtualNetwork() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworks.get(
     resourceGroupName,
-    virtualNetworkName
+    virtualNetworkName,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function getVirtualNetwork() {
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGetWithSubnetDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGetWithSubnetDelegation.json
  */
 async function getVirtualNetworkWithADelegatedSubnet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -47,7 +47,7 @@ async function getVirtualNetworkWithADelegatedSubnet() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworks.get(
     resourceGroupName,
-    virtualNetworkName
+    virtualNetworkName,
   );
   console.log(result);
 }
@@ -56,7 +56,7 @@ async function getVirtualNetworkWithADelegatedSubnet() {
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGetWithServiceAssociationLink.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGetWithServiceAssociationLink.json
  */
 async function getVirtualNetworkWithServiceAssociationLinks() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -66,7 +66,7 @@ async function getVirtualNetworkWithServiceAssociationLinks() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworks.get(
     resourceGroupName,
-    virtualNetworkName
+    virtualNetworkName,
   );
   console.log(result);
 }

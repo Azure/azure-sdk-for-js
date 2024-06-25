@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Capability that extends a Target resource.
  *
  * @summary Delete a Capability that extends a Target resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/DeleteCapability.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DeleteCapability.json
  */
 async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
     parentResourceType,
     parentResourceName,
     targetName,
-    capabilityName
+    capabilityName,
   );
   console.log(result);
 }

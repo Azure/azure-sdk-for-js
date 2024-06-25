@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Removes a content from AzureFrontDoor.
  *
  * @summary Removes a content from AzureFrontDoor.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDEndpoints_PurgeContent.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDEndpoints_PurgeContent.json
  */
 async function afdEndpointsPurgeContent() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function afdEndpointsPurgeContent() {
   const endpointName = "endpoint1";
   const contents: AfdPurgeParameters = {
     contentPaths: ["/folder1"],
-    domains: ["endpoint1-abcdefghijklmnop.z01.azurefd.net"]
+    domains: ["endpoint1-abcdefghijklmnop.z01.azurefd.net"],
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -35,7 +35,7 @@ async function afdEndpointsPurgeContent() {
     resourceGroupName,
     profileName,
     endpointName,
-    contents
+    contents,
   );
   console.log(result);
 }

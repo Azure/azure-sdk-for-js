@@ -52,7 +52,7 @@ async function confidentialContainerGroup() {
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
-    containerGroup
+    containerGroup,
   );
   console.log(result);
 }
@@ -107,7 +107,7 @@ async function containerGroupCreateWithExtensions() {
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
-    containerGroup
+    containerGroup,
   );
   console.log(result);
 }
@@ -157,7 +157,7 @@ async function containerGroupWithEncryptionProperties() {
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
-    containerGroup
+    containerGroup,
   );
   console.log(result);
 }
@@ -250,7 +250,7 @@ async function containerGroupsCreateOrUpdate() {
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
-    containerGroup
+    containerGroup,
   );
   console.log(result);
 }
@@ -285,7 +285,7 @@ async function containerGroupsCreateWithPriority() {
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
-    containerGroup
+    containerGroup,
   );
   console.log(result);
 }

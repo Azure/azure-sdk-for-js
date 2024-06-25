@@ -5,6 +5,7 @@
  * @summary Demonstrates implementing optimistic concurrency using App Configuration and etags.
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -14,8 +15,9 @@ export async function main() {
   console.log("Running optimistic concurrency sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const key = "optimisticConcurrencySampleKey";
   await cleanupSampleValues([key], client);
@@ -59,7 +61,7 @@ export async function main() {
   // now Alpha is going to attempt to update it - note that at this point
   // the setting has been updated (by Beta) and so our etag will not match
   console.log(
-    "Alpha is unaware of Beta's update and will now attempt to update the setting as well"
+    "Alpha is unaware of Beta's update and will now attempt to update the setting as well",
   );
 
   try {
@@ -77,7 +79,7 @@ export async function main() {
     if (err.statusCode === 412) {
       // precondition failed
       console.log(
-        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`
+        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`,
       );
 
       console.log("Alpha gets the newly updated value and is merging in their changes.");

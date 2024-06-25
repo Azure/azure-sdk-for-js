@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServicesDescription,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the metadata of a service instance.
  *
  * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreate.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreate.json
  */
 async function createOrUpdateAServiceWithAllParameters() {
   const subscriptionId =
@@ -36,37 +36,37 @@ async function createOrUpdateAServiceWithAllParameters() {
     properties: {
       accessPolicies: [
         { objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" },
-        { objectId: "5b307da8-43d4-492b-8b66-b0294ade872f" }
+        { objectId: "5b307da8-43d4-492b-8b66-b0294ade872f" },
       ],
       authenticationConfiguration: {
         audience: "https://azurehealthcareapis.com",
         authority:
           "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
-        smartProxyEnabled: true
+        smartProxyEnabled: true,
       },
       corsConfiguration: {
         allowCredentials: false,
         headers: ["*"],
         maxAge: 1440,
         methods: ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"],
-        origins: ["*"]
+        origins: ["*"],
       },
       cosmosDbConfiguration: {
         keyVaultKeyUri: "https://my-vault.vault.azure.net/keys/my-key",
-        offerThroughput: 1000
+        offerThroughput: 1000,
       },
       exportConfiguration: { storageAccountName: "existingStorageAccount" },
       privateEndpointConnections: [],
-      publicNetworkAccess: "Disabled"
+      publicNetworkAccess: "Disabled",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const result = await client.services.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    serviceDescription
+    serviceDescription,
   );
   console.log(result);
 }
@@ -75,7 +75,7 @@ async function createOrUpdateAServiceWithAllParameters() {
  * This sample demonstrates how to Create or update the metadata of a service instance.
  *
  * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreateInDataSovereignRegionWithCmkEnabled.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreateInDataSovereignRegionWithCmkEnabled.json
  */
 async function createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovereignRegion() {
   const subscriptionId =
@@ -90,38 +90,38 @@ async function createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovere
     properties: {
       accessPolicies: [
         { objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" },
-        { objectId: "5b307da8-43d4-492b-8b66-b0294ade872f" }
+        { objectId: "5b307da8-43d4-492b-8b66-b0294ade872f" },
       ],
       authenticationConfiguration: {
         audience: "https://azurehealthcareapis.com",
         authority:
           "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
-        smartProxyEnabled: true
+        smartProxyEnabled: true,
       },
       corsConfiguration: {
         allowCredentials: false,
         headers: ["*"],
         maxAge: 1440,
         methods: ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"],
-        origins: ["*"]
+        origins: ["*"],
       },
       cosmosDbConfiguration: {
         crossTenantCmkApplicationId: "de3fbeef-8c3a-428e-8b9f-4d229c8a85f4",
         keyVaultKeyUri: "https://my-vault.vault.azure.net/keys/my-key",
-        offerThroughput: 1000
+        offerThroughput: 1000,
       },
       exportConfiguration: { storageAccountName: "existingStorageAccount" },
       privateEndpointConnections: [],
-      publicNetworkAccess: "Disabled"
+      publicNetworkAccess: "Disabled",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const result = await client.services.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    serviceDescription
+    serviceDescription,
   );
   console.log(result);
 }
@@ -130,7 +130,7 @@ async function createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovere
  * This sample demonstrates how to Create or update the metadata of a service instance.
  *
  * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreateMinimum.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreateMinimum.json
  */
 async function createOrUpdateAServiceWithMinimumParameters() {
   const subscriptionId =
@@ -142,16 +142,16 @@ async function createOrUpdateAServiceWithMinimumParameters() {
     kind: "fhir-R4",
     location: "westus2",
     properties: {
-      accessPolicies: [{ objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" }]
+      accessPolicies: [{ objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" }],
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const result = await client.services.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    serviceDescription
+    serviceDescription,
   );
   console.log(result);
 }

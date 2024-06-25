@@ -27,7 +27,7 @@ async function uninstallsAndReinstallsTheSqlIaaSExtension() {
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.beginRedeployAndWait(
     resourceGroupName,
-    sqlVirtualMachineName
+    sqlVirtualMachineName,
   );
   console.log(result);
 }

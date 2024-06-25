@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackupResourceConfigResource,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates vault storage model type.
  *
  * @summary Updates vault storage model type.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/BackupStorageConfig_Put.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupStorageConfig_Put.json
  */
 async function updateVaultStorageConfiguration() {
   const subscriptionId =
@@ -34,15 +34,15 @@ async function updateVaultStorageConfiguration() {
   const parameters: BackupResourceConfigResource = {
     properties: {
       storageType: "LocallyRedundant",
-      storageTypeState: "Unlocked"
-    }
+      storageTypeState: "Unlocked",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.backupResourceStorageConfigsNonCRR.update(
     vaultName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates public IP address tags.
  *
  * @summary Updates public IP address tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressUpdateTags.json
  */
 async function updatePublicIPAddressTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function updatePublicIPAddressTags() {
   const result = await client.publicIPAddresses.updateTags(
     resourceGroupName,
     publicIpAddressName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

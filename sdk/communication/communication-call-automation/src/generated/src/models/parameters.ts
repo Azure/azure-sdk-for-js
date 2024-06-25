@@ -29,6 +29,8 @@ import {
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
   UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
+  HoldRequest as HoldRequestMapper,
+  UnholdRequest as UnholdRequestMapper,
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
@@ -221,6 +223,16 @@ export const sendDtmfTonesRequest: OperationParameter = {
 export const updateTranscriptionRequest: OperationParameter = {
   parameterPath: "updateTranscriptionRequest",
   mapper: UpdateTranscriptionRequestMapper,
+};
+
+export const holdRequest: OperationParameter = {
+  parameterPath: "holdRequest",
+  mapper: HoldRequestMapper,
+};
+
+export const unholdRequest: OperationParameter = {
+  parameterPath: "unholdRequest",
+  mapper: UnholdRequestMapper,
 };
 
 export const startHoldMusicRequest: OperationParameter = {

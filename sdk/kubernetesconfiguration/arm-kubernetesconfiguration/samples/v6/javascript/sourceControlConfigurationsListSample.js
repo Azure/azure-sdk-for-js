@@ -31,7 +31,7 @@ async function listSourceControlConfiguration() {
     resourceGroupName,
     clusterRp,
     clusterResourceName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

@@ -11,6 +11,7 @@ import {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { PhoneNumbersImpl } from "./operations";
 import { PhoneNumbers } from "./operationsInterfaces";

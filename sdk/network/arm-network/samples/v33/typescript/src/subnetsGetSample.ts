@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
  *
  * @summary Gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SubnetGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SubnetGet.json
  */
 async function getSubnet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function getSubnet() {
   const result = await client.subnets.get(
     resourceGroupName,
     virtualNetworkName,
-    subnetName
+    subnetName,
   );
   console.log(result);
 }
@@ -40,7 +40,7 @@ async function getSubnet() {
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
  *
  * @summary Gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SubnetGetWithDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SubnetGetWithDelegation.json
  */
 async function getSubnetWithADelegation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -53,7 +53,29 @@ async function getSubnetWithADelegation() {
   const result = await client.subnets.get(
     resourceGroupName,
     virtualNetworkName,
-    subnetName
+    subnetName,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
+ *
+ * @summary Gets the specified subnet by virtual network and resource group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SubnetGetWithSharingScope.json
+ */
+async function getSubnetWithSharingScope() {
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
+  const virtualNetworkName = "vnetname";
+  const subnetName = "subnet1";
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.subnets.get(
+    resourceGroupName,
+    virtualNetworkName,
+    subnetName,
   );
   console.log(result);
 }
@@ -61,6 +83,7 @@ async function getSubnetWithADelegation() {
 async function main() {
   getSubnet();
   getSubnetWithADelegation();
+  getSubnetWithSharingScope();
 }
 
 main().catch(console.error);

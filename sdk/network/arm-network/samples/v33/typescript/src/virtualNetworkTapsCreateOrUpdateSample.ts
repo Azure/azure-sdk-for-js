@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Virtual Network Tap.
  *
  * @summary Creates or updates a Virtual Network Tap.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkTapCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkTapCreate.json
  */
 async function createVirtualNetworkTap() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -26,17 +26,16 @@ async function createVirtualNetworkTap() {
   const tapName = "test-vtap";
   const parameters: VirtualNetworkTap = {
     destinationNetworkInterfaceIPConfiguration: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1"
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1",
     },
-    location: "centraluseuap"
+    location: "centraluseuap",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworkTaps.beginCreateOrUpdateAndWait(
     resourceGroupName,
     tapName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -11,7 +11,7 @@ import {
   RegionInfoResource,
   NetAppResourceRegionInfosListOptionalParams,
   NetAppResourceRegionInfosGetOptionalParams,
-  NetAppResourceRegionInfosGetResponse
+  NetAppResourceRegionInfosGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface NetAppResourceRegionInfos {
    */
   list(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams
+    options?: NetAppResourceRegionInfosListOptionalParams,
   ): PagedAsyncIterableIterator<RegionInfoResource>;
   /**
    * Provides storage to network proximity and logical zone mapping information.
@@ -33,6 +33,6 @@ export interface NetAppResourceRegionInfos {
    */
   get(
     location: string,
-    options?: NetAppResourceRegionInfosGetOptionalParams
+    options?: NetAppResourceRegionInfosGetOptionalParams,
   ): Promise<NetAppResourceRegionInfosGetResponse>;
 }

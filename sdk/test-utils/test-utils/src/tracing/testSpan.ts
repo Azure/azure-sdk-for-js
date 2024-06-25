@@ -3,14 +3,15 @@
 
 import {
   Span,
-  SpanAttributeValue,
-  SpanAttributes,
+  AttributeValue,
+  Attributes,
   SpanContext,
   SpanKind,
   Tracer,
   TimeInput,
   SpanStatus,
   SpanStatusCode,
+  Link,
 } from "@opentelemetry/api";
 /**
  * A mock span useful for testing.
@@ -47,9 +48,14 @@ export class TestSpan implements Span {
   readonly parentSpanId?: string;
 
   /**
+   * The Span's links.
+   */
+  readonly links: Link[];
+
+  /**
    * Known attributes, if any.
    */
-  readonly attributes: SpanAttributes;
+  readonly attributes: Attributes;
 
   private _context: SpanContext;
   private readonly _tracer: Tracer;
@@ -70,7 +76,8 @@ export class TestSpan implements Span {
     kind: SpanKind,
     parentSpanId?: string,
     startTime: TimeInput = Date.now(),
-    attributes: SpanAttributes = {},
+    attributes: Attributes = {},
+    links: Link[] = [],
   ) {
     this._tracer = parentTracer;
     this.name = name;
@@ -81,6 +88,17 @@ export class TestSpan implements Span {
     this.endCalled = false;
     this._context = context;
     this.attributes = attributes;
+    this.links = links;
+  }
+
+  addLink(link: Link): this {
+    this.links.push(link);
+    return this;
+  }
+
+  addLinks(links: Link[]): this {
+    this.links.push(...links);
+    return this;
   }
 
   /**
@@ -127,7 +145,7 @@ export class TestSpan implements Span {
    * @param key - The attribute key
    * @param value - The attribute value
    */
-  setAttribute(key: string, value: SpanAttributeValue): this {
+  setAttribute(key: string, value: AttributeValue): this {
     this.attributes[key] = value;
     return this;
   }
@@ -136,7 +154,7 @@ export class TestSpan implements Span {
    * Sets attributes on the Span
    * @param attributes - The attributes to add
    */
-  setAttributes(attributes: SpanAttributes): this {
+  setAttributes(attributes: Attributes): this {
     for (const key of Object.keys(attributes)) {
       this.attributes[key] = attributes[key];
     }

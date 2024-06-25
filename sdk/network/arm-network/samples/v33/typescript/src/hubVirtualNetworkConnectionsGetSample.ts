@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a HubVirtualNetworkConnection.
  *
  * @summary Retrieves the details of a HubVirtualNetworkConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/HubVirtualNetworkConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/HubVirtualNetworkConnectionGet.json
  */
 async function hubVirtualNetworkConnectionGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function hubVirtualNetworkConnectionGet() {
   const result = await client.hubVirtualNetworkConnections.get(
     resourceGroupName,
     virtualHubName,
-    connectionName
+    connectionName,
   );
   console.log(result);
 }

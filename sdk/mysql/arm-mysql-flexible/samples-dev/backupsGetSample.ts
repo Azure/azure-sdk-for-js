@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the backups for a given server.
  *
  * @summary List all the backups for a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2022-09-30-preview/examples/BackupGet.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/BackupGet.json
  */
 async function getABackupForAServer() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function getABackupForAServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.backups.get(
     resourceGroupName,
     serverName,
-    backupName
+    backupName,
   );
   console.log(result);
 }

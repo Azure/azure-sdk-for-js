@@ -964,10 +964,12 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
-   * Searches for operator information for a given list of phone numbers.
+   * Searches for number format and operator information for a given list of phone numbers.
+   * @param phoneNumbers Phone number(s) whose operator information is being requested
    * @param options The options parameters.
    */
   async operatorInformationSearch(
+    phoneNumbers: string[],
     options?: PhoneNumbersOperatorInformationSearchOptionalParams,
   ): Promise<PhoneNumbersOperatorInformationSearchResponse> {
     return tracingClient.withSpan(
@@ -975,7 +977,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { options },
+          { phoneNumbers, options },
           operatorInformationSearchOperationSpec,
         ) as Promise<PhoneNumbersOperatorInformationSearchResponse>;
       },
@@ -1407,7 +1409,10 @@ const operatorInformationSearchOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: {
-    parameterPath: { phoneNumbers: ["options", "phoneNumbers"] },
+    parameterPath: {
+      phoneNumbers: ["phoneNumbers"],
+      options: ["options", "options"],
+    },
     mapper: { ...Mappers.OperatorInformationRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AccessControlRestClient, isUnexpected } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { RoleAssignmentDetailsOutput } from "../../src";
@@ -10,17 +13,17 @@ describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: AccessControlRestClient;
   // When re-recording tests generate 4 new guids and replace roleAssignmentId and principalId
-  
-  let roleAssignmentId = isNode
+
+  const roleAssignmentId = isNode
     ? "cb9deb8e-6453-4145-9d82-14edf872ebe6"
     : "cc33aa88-5aa7-40e5-b9f5-dd11c471c7e8";
-  let principalId = isNode
+  const principalId = isNode
     ? "cf28f607-5e8c-4d59-b341-f4e3422ec4b9"
     : "6c74c432-9103-435f-83a0-5a6ee264439a";
-  let scope = "workspaces/joheredisyn";
+  const scope = "workspaces/joheredisyn";
   const roleId = "2a385764-43e8-416c-9825-7b18d05a2c4b";
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = new Recorder(this.currentTest);
     client = await createClient(recorder);
   });

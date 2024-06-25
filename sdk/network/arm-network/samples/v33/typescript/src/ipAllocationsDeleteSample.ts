@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified IpAllocation.
  *
  * @summary Deletes the specified IpAllocation.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/IpAllocationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/IpAllocationDelete.json
  */
 async function deleteIPAllocation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteIPAllocation() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.ipAllocations.beginDeleteAndWait(
     resourceGroupName,
-    ipAllocationName
+    ipAllocationName,
   );
   console.log(result);
 }

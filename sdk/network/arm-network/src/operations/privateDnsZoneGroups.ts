@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   PrivateDnsZoneGroupsGetResponse,
   PrivateDnsZoneGroupsCreateOrUpdateOptionalParams,
   PrivateDnsZoneGroupsCreateOrUpdateResponse,
-  PrivateDnsZoneGroupsListNextResponse
+  PrivateDnsZoneGroupsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
   public list(
     privateEndpointName: string,
     resourceGroupName: string,
-    options?: PrivateDnsZoneGroupsListOptionalParams
+    options?: PrivateDnsZoneGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateDnsZoneGroup> {
     const iter = this.listPagingAll(
       privateEndpointName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
           privateEndpointName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     privateEndpointName: string,
     resourceGroupName: string,
     options?: PrivateDnsZoneGroupsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateDnsZoneGroup[]> {
     let result: PrivateDnsZoneGroupsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
       result = await this._list(
         privateEndpointName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         privateEndpointName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
   private async *listPagingAll(
     privateEndpointName: string,
     resourceGroupName: string,
-    options?: PrivateDnsZoneGroupsListOptionalParams
+    options?: PrivateDnsZoneGroupsListOptionalParams,
   ): AsyncIterableIterator<PrivateDnsZoneGroup> {
     for await (const page of this.listPagingPage(
       privateEndpointName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,25 +140,24 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     resourceGroupName: string,
     privateEndpointName: string,
     privateDnsZoneGroupName: string,
-    options?: PrivateDnsZoneGroupsDeleteOptionalParams
+    options?: PrivateDnsZoneGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -167,8 +166,8 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -176,8 +175,8 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -187,14 +186,14 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         resourceGroupName,
         privateEndpointName,
         privateDnsZoneGroupName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -211,13 +210,13 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     resourceGroupName: string,
     privateEndpointName: string,
     privateDnsZoneGroupName: string,
-    options?: PrivateDnsZoneGroupsDeleteOptionalParams
+    options?: PrivateDnsZoneGroupsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateEndpointName,
       privateDnsZoneGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -233,16 +232,16 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     resourceGroupName: string,
     privateEndpointName: string,
     privateDnsZoneGroupName: string,
-    options?: PrivateDnsZoneGroupsGetOptionalParams
+    options?: PrivateDnsZoneGroupsGetOptionalParams,
   ): Promise<PrivateDnsZoneGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         privateEndpointName,
         privateDnsZoneGroupName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -259,7 +258,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     privateEndpointName: string,
     privateDnsZoneGroupName: string,
     parameters: PrivateDnsZoneGroup,
-    options?: PrivateDnsZoneGroupsCreateOrUpdateOptionalParams
+    options?: PrivateDnsZoneGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateDnsZoneGroupsCreateOrUpdateResponse>,
@@ -268,21 +267,20 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateDnsZoneGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -291,8 +289,8 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -300,8 +298,8 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -312,9 +310,9 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         privateEndpointName,
         privateDnsZoneGroupName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateDnsZoneGroupsCreateOrUpdateResponse,
@@ -322,7 +320,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -341,14 +339,14 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     privateEndpointName: string,
     privateDnsZoneGroupName: string,
     parameters: PrivateDnsZoneGroup,
-    options?: PrivateDnsZoneGroupsCreateOrUpdateOptionalParams
+    options?: PrivateDnsZoneGroupsCreateOrUpdateOptionalParams,
   ): Promise<PrivateDnsZoneGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateEndpointName,
       privateDnsZoneGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -362,11 +360,11 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
   private _list(
     privateEndpointName: string,
     resourceGroupName: string,
-    options?: PrivateDnsZoneGroupsListOptionalParams
+    options?: PrivateDnsZoneGroupsListOptionalParams,
   ): Promise<PrivateDnsZoneGroupsListResponse> {
     return this.client.sendOperationRequest(
       { privateEndpointName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -381,11 +379,11 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     privateEndpointName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: PrivateDnsZoneGroupsListNextOptionalParams
+    options?: PrivateDnsZoneGroupsListNextOptionalParams,
   ): Promise<PrivateDnsZoneGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       { privateEndpointName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -393,8 +391,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -402,8 +399,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -411,22 +408,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.privateEndpointName,
-    Parameters.privateDnsZoneGroupName
+    Parameters.privateDnsZoneGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateDnsZoneGroup
+      bodyMapper: Mappers.PrivateDnsZoneGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -434,85 +430,83 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.privateEndpointName,
-    Parameters.privateDnsZoneGroupName
+    Parameters.privateDnsZoneGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateDnsZoneGroup
+      bodyMapper: Mappers.PrivateDnsZoneGroup,
     },
     201: {
-      bodyMapper: Mappers.PrivateDnsZoneGroup
+      bodyMapper: Mappers.PrivateDnsZoneGroup,
     },
     202: {
-      bodyMapper: Mappers.PrivateDnsZoneGroup
+      bodyMapper: Mappers.PrivateDnsZoneGroup,
     },
     204: {
-      bodyMapper: Mappers.PrivateDnsZoneGroup
+      bodyMapper: Mappers.PrivateDnsZoneGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters62,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.privateEndpointName,
-    Parameters.privateDnsZoneGroupName
+    Parameters.privateDnsZoneGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateDnsZoneGroupListResult
+      bodyMapper: Mappers.PrivateDnsZoneGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointName
+    Parameters.privateEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateDnsZoneGroupListResult
+      bodyMapper: Mappers.PrivateDnsZoneGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.privateEndpointName
+    Parameters.privateEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

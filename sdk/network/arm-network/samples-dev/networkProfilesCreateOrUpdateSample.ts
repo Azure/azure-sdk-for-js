@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a network profile.
  *
  * @summary Creates or updates a network profile.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkProfileCreateConfigOnly.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkProfileCreateConfigOnly.json
  */
 async function createNetworkProfileDefaults() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,21 +32,20 @@ async function createNetworkProfileDefaults() {
           {
             name: "ipconfig1",
             subnet: {
-              id:
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1"
-            }
-          }
-        ]
-      }
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1",
+            },
+          },
+        ],
+      },
     ],
-    location: "westus"
+    location: "westus",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkProfiles.createOrUpdate(
     resourceGroupName,
     networkProfileName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

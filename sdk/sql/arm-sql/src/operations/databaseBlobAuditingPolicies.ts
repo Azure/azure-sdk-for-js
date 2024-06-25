@@ -22,13 +22,14 @@ import {
   DatabaseBlobAuditingPoliciesGetResponse,
   DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   DatabaseBlobAuditingPoliciesCreateOrUpdateResponse,
-  DatabaseBlobAuditingPoliciesListByDatabaseNextResponse
+  DatabaseBlobAuditingPoliciesListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseBlobAuditingPolicies operations. */
 export class DatabaseBlobAuditingPoliciesImpl
-  implements DatabaseBlobAuditingPolicies {
+  implements DatabaseBlobAuditingPolicies
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -51,13 +52,13 @@ export class DatabaseBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
+    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseBlobAuditingPolicy> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +76,9 @@ export class DatabaseBlobAuditingPoliciesImpl
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +87,7 @@ export class DatabaseBlobAuditingPoliciesImpl
     serverName: string,
     databaseName: string,
     options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseBlobAuditingPolicy[]> {
     let result: DatabaseBlobAuditingPoliciesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +96,7 @@ export class DatabaseBlobAuditingPoliciesImpl
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +109,7 @@ export class DatabaseBlobAuditingPoliciesImpl
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +122,13 @@ export class DatabaseBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
+    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
   ): AsyncIterableIterator<DatabaseBlobAuditingPolicy> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,11 +146,11 @@ export class DatabaseBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
+    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
   ): Promise<DatabaseBlobAuditingPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -165,11 +166,11 @@ export class DatabaseBlobAuditingPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesGetOptionalParams
+    options?: DatabaseBlobAuditingPoliciesGetOptionalParams,
   ): Promise<DatabaseBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -187,11 +188,11 @@ export class DatabaseBlobAuditingPoliciesImpl
     serverName: string,
     databaseName: string,
     parameters: DatabaseBlobAuditingPolicy,
-    options?: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -209,11 +210,11 @@ export class DatabaseBlobAuditingPoliciesImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseNextOptionalParams
+    options?: DatabaseBlobAuditingPoliciesListByDatabaseNextOptionalParams,
   ): Promise<DatabaseBlobAuditingPoliciesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -221,83 +222,80 @@ export class DatabaseBlobAuditingPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult
+      bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicy
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.blobAuditingPolicyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseBlobAuditingPolicy,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion9],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.blobAuditingPolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicy
+      bodyMapper: Mappers.DatabaseBlobAuditingPolicy,
     },
     201: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicy
+      bodyMapper: Mappers.DatabaseBlobAuditingPolicy,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters69,
-  queryParameters: [Parameters.apiVersion8],
+  requestBody: Parameters.parameters71,
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.blobAuditingPolicyName
+    Parameters.blobAuditingPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult
+      bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -305,8 +303,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

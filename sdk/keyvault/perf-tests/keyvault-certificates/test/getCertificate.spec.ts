@@ -1,4 +1,4 @@
-import { PerfTest } from "@azure/test-utils-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import { credential, keyVaultUri } from "./utils";
 import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
 import { v4 as uuid } from "uuid";

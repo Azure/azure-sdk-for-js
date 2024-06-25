@@ -27,7 +27,7 @@ async function deleteCommitmentPlan() {
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const result = await client.commitmentPlans.beginDeletePlanAndWait(
     resourceGroupName,
-    commitmentPlanName
+    commitmentPlanName,
   );
   console.log(result);
 }

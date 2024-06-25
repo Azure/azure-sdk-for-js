@@ -11,7 +11,7 @@ import {
   Probe,
   LoadBalancerProbesListOptionalParams,
   LoadBalancerProbesGetOptionalParams,
-  LoadBalancerProbesGetResponse
+  LoadBalancerProbesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface LoadBalancerProbes {
   list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerProbesListOptionalParams
+    options?: LoadBalancerProbesListOptionalParams,
   ): PagedAsyncIterableIterator<Probe>;
   /**
    * Gets load balancer probe.
@@ -39,6 +39,6 @@ export interface LoadBalancerProbes {
     resourceGroupName: string,
     loadBalancerName: string,
     probeName: string,
-    options?: LoadBalancerProbesGetOptionalParams
+    options?: LoadBalancerProbesGetOptionalParams,
   ): Promise<LoadBalancerProbesGetResponse>;
 }

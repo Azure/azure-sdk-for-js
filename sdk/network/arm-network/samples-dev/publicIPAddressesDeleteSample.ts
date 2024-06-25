@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified public IP address.
  *
  * @summary Deletes the specified public IP address.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressDelete.json
  */
 async function deletePublicIPAddress() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deletePublicIPAddress() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.publicIPAddresses.beginDeleteAndWait(
     resourceGroupName,
-    publicIpAddressName
+    publicIpAddressName,
   );
   console.log(result);
 }

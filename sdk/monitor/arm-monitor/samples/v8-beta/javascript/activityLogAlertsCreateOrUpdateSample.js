@@ -50,7 +50,7 @@ async function createOrUpdateAnActivityLogAlertRule() {
   const result = await client.activityLogAlerts.createOrUpdate(
     resourceGroupName,
     activityLogAlertName,
-    activityLogAlertRule
+    activityLogAlertRule,
   );
   console.log(result);
 }
@@ -98,7 +98,7 @@ async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
   const result = await client.activityLogAlerts.createOrUpdate(
     resourceGroupName,
     activityLogAlertName,
-    activityLogAlertRule
+    activityLogAlertRule,
   );
   console.log(result);
 }
@@ -144,7 +144,7 @@ async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
   const result = await client.activityLogAlerts.createOrUpdate(
     resourceGroupName,
     activityLogAlertName,
-    activityLogAlertRule
+    activityLogAlertRule,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all public IP addresses in a resource group.
  *
  * @summary Gets all public IP addresses in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressList.json
  */
 async function listResourceGroupPublicIPAddresses() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

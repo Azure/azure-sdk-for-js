@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a network manager connection on this management group.
  *
  * @summary Create a network manager connection on this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerConnectionManagementGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerConnectionManagementGroupPut.json
  */
 async function createOrUpdateManagementGroupNetworkManagerConnection() {
   const managementGroupId = "managementGroupA";

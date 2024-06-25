@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the Ddos Protection Status of a Public IP Address
  *
  * @summary Gets the Ddos Protection Status of a Public IP Address
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PublicIpAddressGetDdosProtectionStatus.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpAddressGetDdosProtectionStatus.json
  */
 async function getDdosProtectionStatusOfAPublicIPAddress() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -26,10 +26,11 @@ async function getDdosProtectionStatusOfAPublicIPAddress() {
   const publicIpAddressName = "test-pip";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.publicIPAddresses.beginDdosProtectionStatusAndWait(
-    resourceGroupName,
-    publicIpAddressName
-  );
+  const result =
+    await client.publicIPAddresses.beginDdosProtectionStatusAndWait(
+      resourceGroupName,
+      publicIpAddressName,
+    );
   console.log(result);
 }
 

@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Firmware as FirmwareMapper,
   FirmwareUpdateDefinition as FirmwareUpdateDefinitionMapper,
   Workspace as WorkspaceMapper,
   WorkspaceUpdateDefinition as WorkspaceUpdateDefinitionMapper,
-  GenerateUploadUrlRequest as GenerateUploadUrlRequestMapper
+  GenerateUploadUrlRequest as GenerateUploadUrlRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,24 +37,21 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -62,40 +59,63 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
     },
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const firmwareId: OperationURLParameter = {
+  parameterPath: "firmwareId",
+  mapper: {
+    serializedName: "firmwareId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-02-08-preview",
+    defaultValue: "2024-01-10",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -105,55 +125,43 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const firmware: OperationParameter = {
   parameterPath: "firmware",
-  mapper: FirmwareMapper
-};
-
-export const firmwareId: OperationURLParameter = {
-  parameterPath: "firmwareId",
-  mapper: {
-    serializedName: "firmwareId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: FirmwareMapper,
 };
 
 export const firmware1: OperationParameter = {
   parameterPath: "firmware",
-  mapper: FirmwareUpdateDefinitionMapper
+  mapper: FirmwareUpdateDefinitionMapper,
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const summaryName: OperationURLParameter = {
+  parameterPath: "summaryName",
   mapper: {
-    serializedName: "nextLink",
+    serializedName: "summaryName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
 export const workspace: OperationParameter = {
   parameterPath: "workspace",
-  mapper: WorkspaceMapper
+  mapper: WorkspaceMapper,
 };
 
 export const workspace1: OperationParameter = {
   parameterPath: "workspace",
-  mapper: WorkspaceUpdateDefinitionMapper
+  mapper: WorkspaceUpdateDefinitionMapper,
 };
 
 export const generateUploadUrl: OperationParameter = {
   parameterPath: "generateUploadUrl",
-  mapper: GenerateUploadUrlRequestMapper
+  mapper: GenerateUploadUrlRequestMapper,
 };

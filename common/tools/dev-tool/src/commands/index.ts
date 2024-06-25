@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { subCommand, makeCommandInfo } from "../framework/command";
+import { makeCommandInfo, subCommand } from "../framework/command";
+
 import { createPrinter } from "../util/printer";
 
 const log = createPrinter("dev-tool");

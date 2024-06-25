@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMExtension,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create or update the VMSS VM extension.
  *
  * @summary The operation to create or update the VMSS VM extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Create.json
  */
 async function createVirtualMachineScaleSetVMExtension() {
   const subscriptionId =
@@ -36,17 +36,18 @@ async function createVirtualMachineScaleSetVMExtension() {
     autoUpgradeMinorVersion: true,
     publisher: "extPublisher",
     settings: { UserName: "xyz@microsoft.com" },
-    typeHandlerVersion: "1.2"
+    typeHandlerVersion: "1.2",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMExtensions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    vmExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineScaleSetVMExtensions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      vmExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 

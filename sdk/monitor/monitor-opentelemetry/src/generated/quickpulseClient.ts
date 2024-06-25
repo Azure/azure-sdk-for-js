@@ -7,18 +7,23 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
   QuickpulseClientOptionalParams,
-  PingOptionalParams,
-  PingResponse,
-  PostOptionalParams,
-  PostResponse,
+  IsSubscribedOptionalParams,
+  IsSubscribedResponse,
+  PublishOptionalParams,
+  PublishResponse,
 } from "./models";
 
 export class QuickpulseClient extends coreClient.ServiceClient {
-  host: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the QuickpulseClient class.
@@ -45,116 +50,132 @@ export class QuickpulseClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{Host}",
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
 
     // Assigning values to Constant parameters
-    this.host = options.host || "https://rt.services.visualstudio.com";
+    this.apiVersion = options.apiVersion || "2024-04-01-preview";
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
-   * SDK ping
-   * @param ikey The ikey of the target Application Insights component that displays server info sent by
-   *             /QuickPulseService.svc/ping
+   * Determine whether there is any subscription to the metrics and documents.
+   * @param endpoint The endpoint of the Live Metrics service.
+   * @param ikey The instrumentation key of the target Application Insights component for which the
+   *             client checks whether there's any subscription to it.
    * @param options The options parameters.
    */
-  ping(ikey: string, options?: PingOptionalParams): Promise<PingResponse> {
-    return this.sendOperationRequest({ ikey, options }, pingOperationSpec);
+  isSubscribed(
+    endpoint: string,
+    ikey: string,
+    options?: IsSubscribedOptionalParams,
+  ): Promise<IsSubscribedResponse> {
+    return this.sendOperationRequest(
+      { endpoint, ikey, options },
+      isSubscribedOperationSpec,
+    );
   }
 
   /**
-   * SDK post
-   * @param ikey The ikey of the target Application Insights component that displays metrics and
-   *             documents sent by /QuickPulseService.svc/post
+   * Publish live metrics to the Live Metrics service when there is an active subscription to the
+   * metrics.
+   * @param endpoint The endpoint of the Live Metrics service.
+   * @param ikey The instrumentation key of the target Application Insights component for which the
+   *             client checks whether there's any subscription to it.
    * @param options The options parameters.
    */
-  post(ikey: string, options?: PostOptionalParams): Promise<PostResponse> {
-    return this.sendOperationRequest({ ikey, options }, postOperationSpec);
+  publish(
+    endpoint: string,
+    ikey: string,
+    options?: PublishOptionalParams,
+  ): Promise<PublishResponse> {
+    return this.sendOperationRequest(
+      { endpoint, ikey, options },
+      publishOperationSpec,
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const pingOperationSpec: coreClient.OperationSpec = {
+const isSubscribedOperationSpec: coreClient.OperationSpec = {
   path: "/QuickPulseService.svc/ping",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.CollectionConfigurationInfo,
-      headersMapper: Mappers.QuickpulseClientPingHeaders,
+      headersMapper: Mappers.QuickpulseClientIsSubscribedHeaders,
     },
-    400: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    401: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    403: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    404: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    500: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    503: {
+    default: {
       bodyMapper: Mappers.ServiceError,
     },
   },
   requestBody: Parameters.monitoringDataPoint,
-  queryParameters: [Parameters.ikey, Parameters.apikey],
-  urlParameters: [Parameters.host],
+  queryParameters: [Parameters.apiVersion, Parameters.ikey],
+  urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.xMsQpsTransmissionTime,
-    Parameters.xMsQpsMachineName,
-    Parameters.xMsQpsInstanceName,
-    Parameters.xMsQpsStreamId,
-    Parameters.xMsQpsRoleName,
-    Parameters.xMsQpsInvariantVersion,
-    Parameters.xMsQpsConfigurationEtag,
+    Parameters.transmissionTime,
+    Parameters.machineName,
+    Parameters.instanceName,
+    Parameters.streamId,
+    Parameters.roleName,
+    Parameters.invariantVersion,
+    Parameters.configurationEtag,
   ],
   mediaType: "json",
   serializer,
 };
-const postOperationSpec: coreClient.OperationSpec = {
+const publishOperationSpec: coreClient.OperationSpec = {
   path: "/QuickPulseService.svc/post",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.CollectionConfigurationInfo,
-      headersMapper: Mappers.QuickpulseClientPostHeaders,
+      headersMapper: Mappers.QuickpulseClientPublishHeaders,
     },
-    400: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    401: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    403: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    404: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    500: {
-      bodyMapper: Mappers.ServiceError,
-    },
-    503: {
+    default: {
       bodyMapper: Mappers.ServiceError,
     },
   },
   requestBody: Parameters.monitoringDataPoints,
-  queryParameters: [Parameters.ikey, Parameters.apikey],
-  urlParameters: [Parameters.host],
+  queryParameters: [Parameters.apiVersion, Parameters.ikey],
+  urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.xMsQpsTransmissionTime,
-    Parameters.xMsQpsConfigurationEtag,
+    Parameters.transmissionTime,
+    Parameters.configurationEtag,
   ],
   mediaType: "json",
   serializer,

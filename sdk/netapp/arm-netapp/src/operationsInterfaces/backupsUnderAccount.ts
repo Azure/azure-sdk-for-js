@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BackupsMigrationRequest,
   BackupsUnderAccountMigrateBackupsOptionalParams,
-  BackupsUnderAccountMigrateBackupsResponse
+  BackupsUnderAccountMigrateBackupsResponse,
 } from "../models";
 
 /** Interface representing a BackupsUnderAccount. */
@@ -26,7 +26,7 @@ export interface BackupsUnderAccount {
     resourceGroupName: string,
     accountName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderAccountMigrateBackupsOptionalParams
+    options?: BackupsUnderAccountMigrateBackupsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUnderAccountMigrateBackupsResponse>,
@@ -44,6 +44,6 @@ export interface BackupsUnderAccount {
     resourceGroupName: string,
     accountName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderAccountMigrateBackupsOptionalParams
+    options?: BackupsUnderAccountMigrateBackupsOptionalParams,
   ): Promise<BackupsUnderAccountMigrateBackupsResponse>;
 }

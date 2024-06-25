@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_SharedImageGallery.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_SharedImageGallery.json
  */
 async function createPoolCustomImage() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -30,13 +30,12 @@ async function createPoolCustomImage() {
     deploymentConfiguration: {
       virtualMachineConfiguration: {
         imageReference: {
-          id:
-            "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
+          id: "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1",
         },
-        nodeAgentSkuId: "batch.node.ubuntu 18.04"
-      }
+        nodeAgentSkuId: "batch.node.ubuntu 18.04",
+      },
     },
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -44,7 +43,7 @@ async function createPoolCustomImage() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -53,7 +52,7 @@ async function createPoolCustomImage() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_CloudServiceConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_CloudServiceConfiguration.json
  */
 async function createPoolFullCloudServiceConfiguration() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -65,50 +64,48 @@ async function createPoolFullCloudServiceConfiguration() {
     applicationLicenses: ["app-license0", "app-license1"],
     applicationPackages: [
       {
-        id:
-          "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
-        version: "asdf"
-      }
+        id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
+        version: "asdf",
+      },
     ],
     certificates: [
       {
-        id:
-          "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/sha1-1234567",
+        id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/sha1-1234567",
         storeLocation: "LocalMachine",
         storeName: "MY",
-        visibility: ["RemoteUser"]
-      }
+        visibility: ["RemoteUser"],
+      },
     ],
     deploymentConfiguration: {
       cloudServiceConfiguration: {
         osFamily: "4",
-        osVersion: "WA-GUEST-OS-4.45_201708-01"
-      }
+        osVersion: "WA-GUEST-OS-4.45_201708-01",
+      },
     },
     displayName: "my-pool-name",
     interNodeCommunication: "Enabled",
     metadata: [
       { name: "metadata-1", value: "value-1" },
-      { name: "metadata-2", value: "value-2" }
+      { name: "metadata-2", value: "value-2" },
     ],
     networkConfiguration: {
       publicIPAddressConfiguration: {
         ipAddressIds: [
           "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
-          "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268"
+          "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268",
         ],
-        provision: "UserManaged"
+        provision: "UserManaged",
       },
       subnetId:
-        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123"
+        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
     },
     scaleSettings: {
       fixedScale: {
         nodeDeallocationOption: "TaskCompletion",
         resizeTimeout: "PT8M",
         targetDedicatedNodes: 6,
-        targetLowPriorityNodes: 28
-      }
+        targetLowPriorityNodes: 28,
+      },
     },
     startTask: {
       commandLine: "cmd /c SET",
@@ -118,11 +115,12 @@ async function createPoolFullCloudServiceConfiguration() {
         {
           fileMode: "777",
           filePath: "c:\\temp\\gohere",
-          httpUrl: "https://testaccount.blob.core.windows.net/example-blob-file"
-        }
+          httpUrl:
+            "https://testaccount.blob.core.windows.net/example-blob-file",
+        },
       ],
       userIdentity: { autoUser: { elevationLevel: "Admin", scope: "Pool" } },
-      waitForSuccess: true
+      waitForSuccess: true,
     },
     taskSchedulingPolicy: { nodeFillType: "Pack" },
     taskSlotsPerNode: 13,
@@ -133,12 +131,12 @@ async function createPoolFullCloudServiceConfiguration() {
         linuxUserConfiguration: {
           gid: 4567,
           sshPrivateKey: "sshprivatekeyvalue",
-          uid: 1234
+          uid: 1234,
         },
-        password: "<ExamplePassword>"
-      }
+        password: "<ExamplePassword>",
+      },
     ],
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -146,7 +144,7 @@ async function createPoolFullCloudServiceConfiguration() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -155,7 +153,7 @@ async function createPoolFullCloudServiceConfiguration() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_VirtualMachineConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_VirtualMachineConfiguration.json
  */
 async function createPoolFullVirtualMachineConfiguration() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -171,28 +169,28 @@ async function createPoolFullVirtualMachineConfiguration() {
             caching: "ReadWrite",
             diskSizeGB: 30,
             lun: 0,
-            storageAccountType: "Premium_LRS"
+            storageAccountType: "Premium_LRS",
           },
           {
             caching: "None",
             diskSizeGB: 200,
             lun: 1,
-            storageAccountType: "Standard_LRS"
-          }
+            storageAccountType: "Standard_LRS",
+          },
         ],
         diskEncryptionConfiguration: { targets: ["OsDisk", "TemporaryDisk"] },
         imageReference: {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-Datacenter-SmallDisk",
-          version: "latest"
+          version: "latest",
         },
         licenseType: "Windows_Server",
         nodeAgentSkuId: "batch.node.windows amd64",
         nodePlacementConfiguration: { policy: "Zonal" },
         osDisk: { ephemeralOSDiskSettings: { placement: "CacheDisk" } },
-        windowsConfiguration: { enableAutomaticUpdates: false }
-      }
+        windowsConfiguration: { enableAutomaticUpdates: false },
+      },
     },
     networkConfiguration: {
       endpointConfiguration: {
@@ -207,27 +205,27 @@ async function createPoolFullVirtualMachineConfiguration() {
                 access: "Allow",
                 priority: 150,
                 sourceAddressPrefix: "192.100.12.45",
-                sourcePortRanges: ["1", "2"]
+                sourcePortRanges: ["1", "2"],
               },
               {
                 access: "Deny",
                 priority: 3500,
                 sourceAddressPrefix: "*",
-                sourcePortRanges: ["*"]
-              }
+                sourcePortRanges: ["*"],
+              },
             ],
-            protocol: "TCP"
-          }
-        ]
-      }
+            protocol: "TCP",
+          },
+        ],
+      },
     },
     scaleSettings: {
       autoScale: {
         evaluationInterval: "PT5M",
-        formula: "$TargetDedicatedNodes=1"
-      }
+        formula: "$TargetDedicatedNodes=1",
+      },
     },
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -235,7 +233,7 @@ async function createPoolFullVirtualMachineConfiguration() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -244,7 +242,7 @@ async function createPoolFullVirtualMachineConfiguration() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_MinimalCloudServiceConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_MinimalCloudServiceConfiguration.json
  */
 async function createPoolMinimalCloudServiceConfiguration() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -255,7 +253,7 @@ async function createPoolMinimalCloudServiceConfiguration() {
   const parameters: Pool = {
     deploymentConfiguration: { cloudServiceConfiguration: { osFamily: "5" } },
     scaleSettings: { fixedScale: { targetDedicatedNodes: 3 } },
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -263,7 +261,7 @@ async function createPoolMinimalCloudServiceConfiguration() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -272,7 +270,7 @@ async function createPoolMinimalCloudServiceConfiguration() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_MinimalVirtualMachineConfiguration.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_MinimalVirtualMachineConfiguration.json
  */
 async function createPoolMinimalVirtualMachineConfiguration() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -287,18 +285,18 @@ async function createPoolMinimalVirtualMachineConfiguration() {
           offer: "UbuntuServer",
           publisher: "Canonical",
           sku: "18.04-LTS",
-          version: "latest"
+          version: "latest",
         },
-        nodeAgentSkuId: "batch.node.ubuntu 18.04"
-      }
+        nodeAgentSkuId: "batch.node.ubuntu 18.04",
+      },
     },
     scaleSettings: {
       autoScale: {
         evaluationInterval: "PT5M",
-        formula: "$TargetDedicatedNodes=1"
-      }
+        formula: "$TargetDedicatedNodes=1",
+      },
     },
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -306,7 +304,7 @@ async function createPoolMinimalVirtualMachineConfiguration() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -315,7 +313,7 @@ async function createPoolMinimalVirtualMachineConfiguration() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_NoPublicIPAddresses.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_NoPublicIPAddresses.json
  */
 async function createPoolNoPublicIP() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -327,18 +325,17 @@ async function createPoolNoPublicIP() {
     deploymentConfiguration: {
       virtualMachineConfiguration: {
         imageReference: {
-          id:
-            "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
+          id: "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1",
         },
-        nodeAgentSkuId: "batch.node.ubuntu 18.04"
-      }
+        nodeAgentSkuId: "batch.node.ubuntu 18.04",
+      },
     },
     networkConfiguration: {
       publicIPAddressConfiguration: { provision: "NoPublicIPAddresses" },
       subnetId:
-        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123"
+        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
     },
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -346,7 +343,7 @@ async function createPoolNoPublicIP() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -355,7 +352,7 @@ async function createPoolNoPublicIP() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_PublicIPs.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_PublicIPs.json
  */
 async function createPoolPublicIPs() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -367,23 +364,22 @@ async function createPoolPublicIPs() {
     deploymentConfiguration: {
       virtualMachineConfiguration: {
         imageReference: {
-          id:
-            "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
+          id: "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1",
         },
-        nodeAgentSkuId: "batch.node.ubuntu 18.04"
-      }
+        nodeAgentSkuId: "batch.node.ubuntu 18.04",
+      },
     },
     networkConfiguration: {
       publicIPAddressConfiguration: {
         ipAddressIds: [
-          "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135"
+          "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
         ],
-        provision: "UserManaged"
+        provision: "UserManaged",
       },
       subnetId:
-        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123"
+        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
     },
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -391,7 +387,7 @@ async function createPoolPublicIPs() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -400,7 +396,7 @@ async function createPoolPublicIPs() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_ResourceTags.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_ResourceTags.json
  */
 async function createPoolResourceTags() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -415,16 +411,16 @@ async function createPoolResourceTags() {
           offer: "UbuntuServer",
           publisher: "Canonical",
           sku: "18_04-lts-gen2",
-          version: "latest"
+          version: "latest",
         },
-        nodeAgentSkuId: "batch.node.ubuntu 18.04"
-      }
+        nodeAgentSkuId: "batch.node.ubuntu 18.04",
+      },
     },
     resourceTags: { tagName1: "TagValue1", tagName2: "TagValue2" },
     scaleSettings: {
-      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 }
+      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 },
     },
-    vmSize: "Standard_d4s_v3"
+    vmSize: "Standard_d4s_v3",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -432,7 +428,7 @@ async function createPoolResourceTags() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -441,7 +437,7 @@ async function createPoolResourceTags() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_SecurityProfile.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_SecurityProfile.json
  */
 async function createPoolSecurityProfile() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -456,20 +452,20 @@ async function createPoolSecurityProfile() {
           offer: "UbuntuServer",
           publisher: "Canonical",
           sku: "18_04-lts-gen2",
-          version: "latest"
+          version: "latest",
         },
         nodeAgentSkuId: "batch.node.ubuntu 18.04",
         securityProfile: {
           encryptionAtHost: true,
           securityType: "trustedLaunch",
-          uefiSettings: { secureBootEnabled: undefined, vTpmEnabled: false }
-        }
-      }
+          uefiSettings: { secureBootEnabled: undefined, vTpmEnabled: false },
+        },
+      },
     },
     scaleSettings: {
-      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 }
+      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 },
     },
-    vmSize: "Standard_d4s_v3"
+    vmSize: "Standard_d4s_v3",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -477,7 +473,7 @@ async function createPoolSecurityProfile() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -486,7 +482,67 @@ async function createPoolSecurityProfile() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_UserAssignedIdentities.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_UpgradePolicy.json
+ */
+async function createPoolUpgradePolicy() {
+  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
+  const accountName = "sampleacct";
+  const poolName = "testpool";
+  const parameters: Pool = {
+    deploymentConfiguration: {
+      virtualMachineConfiguration: {
+        imageReference: {
+          offer: "WindowsServer",
+          publisher: "MicrosoftWindowsServer",
+          sku: "2019-datacenter-smalldisk",
+          version: "latest",
+        },
+        nodeAgentSkuId: "batch.node.windows amd64",
+        nodePlacementConfiguration: { policy: "Zonal" },
+        windowsConfiguration: { enableAutomaticUpdates: false },
+      },
+    },
+    scaleSettings: {
+      fixedScale: { targetDedicatedNodes: 2, targetLowPriorityNodes: 0 },
+    },
+    upgradePolicy: {
+      automaticOSUpgradePolicy: {
+        disableAutomaticRollback: true,
+        enableAutomaticOSUpgrade: true,
+        osRollingUpgradeDeferral: true,
+        useRollingUpgradePolicy: true,
+      },
+      mode: "automatic",
+      rollingUpgradePolicy: {
+        enableCrossZoneUpgrade: true,
+        maxBatchInstancePercent: 20,
+        maxUnhealthyInstancePercent: 20,
+        maxUnhealthyUpgradedInstancePercent: 20,
+        pauseTimeBetweenBatches: "PT0S",
+        prioritizeUnhealthyInstances: false,
+        rollbackFailedInstancesOnPolicyBreach: false,
+      },
+    },
+    vmSize: "Standard_d4s_v3",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new BatchManagementClient(credential, subscriptionId);
+  const result = await client.poolOperations.create(
+    resourceGroupName,
+    accountName,
+    poolName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a new pool inside the specified account.
+ *
+ * @summary Creates a new pool inside the specified account.
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_UserAssignedIdentities.json
  */
 async function createPoolUserAssignedIdentities() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -501,25 +557,27 @@ async function createPoolUserAssignedIdentities() {
           offer: "UbuntuServer",
           publisher: "Canonical",
           sku: "18.04-LTS",
-          version: "latest"
+          version: "latest",
         },
-        nodeAgentSkuId: "batch.node.ubuntu 18.04"
-      }
+        nodeAgentSkuId: "batch.node.ubuntu 18.04",
+      },
     },
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1": {},
-        "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id2": {}
-      }
+        "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1":
+          {},
+        "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id2":
+          {},
+      },
     },
     scaleSettings: {
       autoScale: {
         evaluationInterval: "PT5M",
-        formula: "$TargetDedicatedNodes=1"
-      }
+        formula: "$TargetDedicatedNodes=1",
+      },
     },
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -527,7 +585,7 @@ async function createPoolUserAssignedIdentities() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -536,7 +594,7 @@ async function createPoolUserAssignedIdentities() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_VirtualMachineConfiguration_Extensions.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_VirtualMachineConfiguration_Extensions.json
  */
 async function createPoolVirtualMachineConfigurationExtensions() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -550,7 +608,7 @@ async function createPoolVirtualMachineConfigurationExtensions() {
         imageReference: {
           offer: "0001-com-ubuntu-server-focal",
           publisher: "Canonical",
-          sku: "20_04-lts"
+          sku: "20_04-lts",
         },
         nodeAgentSkuId: "batch.node.ubuntu 20.04",
         extensions: [
@@ -562,21 +620,21 @@ async function createPoolVirtualMachineConfigurationExtensions() {
             publisher: "Microsoft.Azure.KeyVault",
             settings: {
               authenticationSettingsKey: "authenticationSettingsValue",
-              secretsManagementSettingsKey: "secretsManagementSettingsValue"
+              secretsManagementSettingsKey: "secretsManagementSettingsValue",
             },
-            typeHandlerVersion: "2.0"
-          }
-        ]
-      }
+            typeHandlerVersion: "2.0",
+          },
+        ],
+      },
     },
     scaleSettings: {
       autoScale: {
         evaluationInterval: "PT5M",
-        formula: "$TargetDedicatedNodes=1"
-      }
+        formula: "$TargetDedicatedNodes=1",
+      },
     },
     targetNodeCommunicationMode: "Default",
-    vmSize: "STANDARD_D4"
+    vmSize: "STANDARD_D4",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -584,7 +642,7 @@ async function createPoolVirtualMachineConfigurationExtensions() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -593,7 +651,7 @@ async function createPoolVirtualMachineConfigurationExtensions() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_VirtualMachineConfiguration_ManagedOSDisk.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_VirtualMachineConfiguration_ManagedOSDisk.json
  */
 async function createPoolVirtualMachineConfigurationOSDisk() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -607,21 +665,21 @@ async function createPoolVirtualMachineConfigurationOSDisk() {
         imageReference: {
           offer: "windowsserver",
           publisher: "microsoftwindowsserver",
-          sku: "2022-datacenter-smalldisk"
+          sku: "2022-datacenter-smalldisk",
         },
         nodeAgentSkuId: "batch.node.windows amd64",
         osDisk: {
           caching: "ReadWrite",
           diskSizeGB: 100,
           managedDisk: { storageAccountType: "StandardSSD_LRS" },
-          writeAcceleratorEnabled: false
-        }
-      }
+          writeAcceleratorEnabled: false,
+        },
+      },
     },
     scaleSettings: {
-      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 }
+      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 },
     },
-    vmSize: "Standard_d2s_v3"
+    vmSize: "Standard_d2s_v3",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -629,7 +687,7 @@ async function createPoolVirtualMachineConfigurationOSDisk() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -638,7 +696,7 @@ async function createPoolVirtualMachineConfigurationOSDisk() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_VirtualMachineConfiguration_ServiceArtifactReference.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_VirtualMachineConfiguration_ServiceArtifactReference.json
  */
 async function createPoolVirtualMachineConfigurationServiceArtifactReference() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -653,20 +711,23 @@ async function createPoolVirtualMachineConfigurationServiceArtifactReference() {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2019-datacenter-smalldisk",
-          version: "latest"
+          version: "latest",
         },
         nodeAgentSkuId: "batch.node.windows amd64",
         serviceArtifactReference: {
-          id:
-            "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Compute/galleries/myGallery/serviceArtifacts/myServiceArtifact/vmArtifactsProfiles/vmArtifactsProfile"
+          id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Compute/galleries/myGallery/serviceArtifacts/myServiceArtifact/vmArtifactsProfiles/vmArtifactsProfile",
         },
-        windowsConfiguration: { enableAutomaticUpdates: false }
-      }
+        windowsConfiguration: { enableAutomaticUpdates: false },
+      },
     },
     scaleSettings: {
-      fixedScale: { targetDedicatedNodes: 2, targetLowPriorityNodes: 0 }
+      fixedScale: { targetDedicatedNodes: 2, targetLowPriorityNodes: 0 },
     },
-    vmSize: "Standard_d4s_v3"
+    upgradePolicy: {
+      automaticOSUpgradePolicy: { enableAutomaticOSUpgrade: true },
+      mode: "automatic",
+    },
+    vmSize: "Standard_d4s_v3",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -674,7 +735,7 @@ async function createPoolVirtualMachineConfigurationServiceArtifactReference() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -683,7 +744,7 @@ async function createPoolVirtualMachineConfigurationServiceArtifactReference() {
  * This sample demonstrates how to Creates a new pool inside the specified account.
  *
  * @summary Creates a new pool inside the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolCreate_AcceleratedNetworking.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolCreate_AcceleratedNetworking.json
  */
 async function createPoolAcceleratedNetworking() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -698,20 +759,20 @@ async function createPoolAcceleratedNetworking() {
           offer: "WindowsServer",
           publisher: "MicrosoftWindowsServer",
           sku: "2016-datacenter-smalldisk",
-          version: "latest"
+          version: "latest",
         },
-        nodeAgentSkuId: "batch.node.windows amd64"
-      }
+        nodeAgentSkuId: "batch.node.windows amd64",
+      },
     },
     networkConfiguration: {
       enableAcceleratedNetworking: true,
       subnetId:
-        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123"
+        "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
     },
     scaleSettings: {
-      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 }
+      fixedScale: { targetDedicatedNodes: 1, targetLowPriorityNodes: 0 },
     },
-    vmSize: "STANDARD_D1_V2"
+    vmSize: "STANDARD_D1_V2",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -719,7 +780,7 @@ async function createPoolAcceleratedNetworking() {
     resourceGroupName,
     accountName,
     poolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -734,6 +795,7 @@ async function main() {
   createPoolPublicIPs();
   createPoolResourceTags();
   createPoolSecurityProfile();
+  createPoolUpgradePolicy();
   createPoolUserAssignedIdentities();
   createPoolVirtualMachineConfigurationExtensions();
   createPoolVirtualMachineConfigurationOSDisk();

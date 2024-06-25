@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a flow log for the specified network security group.
  *
  * @summary Create or update a flow log for the specified network security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherFlowLogCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherFlowLogCreate.json
  */
 async function createOrUpdateFlowLog() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function createOrUpdateFlowLog() {
     storageId:
       "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/nwtest1mgvbfmqsigdxe",
     targetResourceId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/desmondcentral-nsg"
+      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/desmondcentral-nsg",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function createOrUpdateFlowLog() {
     resourceGroupName,
     networkWatcherName,
     flowLogName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

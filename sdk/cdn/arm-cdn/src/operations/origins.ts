@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   OriginsUpdateOptionalParams,
   OriginsUpdateResponse,
   OriginsDeleteOptionalParams,
-  OriginsListByEndpointNextResponse
+  OriginsListByEndpointNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,13 +59,13 @@ export class OriginsImpl implements Origins {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: OriginsListByEndpointOptionalParams
+    options?: OriginsListByEndpointOptionalParams,
   ): PagedAsyncIterableIterator<Origin> {
     const iter = this.listByEndpointPagingAll(
       resourceGroupName,
       profileName,
       endpointName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class OriginsImpl implements Origins {
           profileName,
           endpointName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class OriginsImpl implements Origins {
     profileName: string,
     endpointName: string,
     options?: OriginsListByEndpointOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Origin[]> {
     let result: OriginsListByEndpointResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class OriginsImpl implements Origins {
         resourceGroupName,
         profileName,
         endpointName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class OriginsImpl implements Origins {
         profileName,
         endpointName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +129,13 @@ export class OriginsImpl implements Origins {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: OriginsListByEndpointOptionalParams
+    options?: OriginsListByEndpointOptionalParams,
   ): AsyncIterableIterator<Origin> {
     for await (const page of this.listByEndpointPagingPage(
       resourceGroupName,
       profileName,
       endpointName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -152,11 +152,11 @@ export class OriginsImpl implements Origins {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: OriginsListByEndpointOptionalParams
+    options?: OriginsListByEndpointOptionalParams,
   ): Promise<OriginsListByEndpointResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, options },
-      listByEndpointOperationSpec
+      listByEndpointOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class OriginsImpl implements Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsGetOptionalParams
+    options?: OriginsGetOptionalParams,
   ): Promise<OriginsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, originName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,7 +196,7 @@ export class OriginsImpl implements Origins {
     endpointName: string,
     originName: string,
     origin: Origin,
-    options?: OriginsCreateOptionalParams
+    options?: OriginsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OriginsCreateResponse>,
@@ -205,21 +205,20 @@ export class OriginsImpl implements Origins {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OriginsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -228,8 +227,8 @@ export class OriginsImpl implements Origins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -237,8 +236,8 @@ export class OriginsImpl implements Origins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -250,16 +249,16 @@ export class OriginsImpl implements Origins {
         endpointName,
         originName,
         origin,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       OriginsCreateResponse,
       OperationState<OriginsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -280,7 +279,7 @@ export class OriginsImpl implements Origins {
     endpointName: string,
     originName: string,
     origin: Origin,
-    options?: OriginsCreateOptionalParams
+    options?: OriginsCreateOptionalParams,
   ): Promise<OriginsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -288,7 +287,7 @@ export class OriginsImpl implements Origins {
       endpointName,
       originName,
       origin,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -308,7 +307,7 @@ export class OriginsImpl implements Origins {
     endpointName: string,
     originName: string,
     originUpdateProperties: OriginUpdateParameters,
-    options?: OriginsUpdateOptionalParams
+    options?: OriginsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OriginsUpdateResponse>,
@@ -317,21 +316,20 @@ export class OriginsImpl implements Origins {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OriginsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -340,8 +338,8 @@ export class OriginsImpl implements Origins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -349,8 +347,8 @@ export class OriginsImpl implements Origins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -362,16 +360,16 @@ export class OriginsImpl implements Origins {
         endpointName,
         originName,
         originUpdateProperties,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       OriginsUpdateResponse,
       OperationState<OriginsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -392,7 +390,7 @@ export class OriginsImpl implements Origins {
     endpointName: string,
     originName: string,
     originUpdateProperties: OriginUpdateParameters,
-    options?: OriginsUpdateOptionalParams
+    options?: OriginsUpdateOptionalParams,
   ): Promise<OriginsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -400,7 +398,7 @@ export class OriginsImpl implements Origins {
       endpointName,
       originName,
       originUpdateProperties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -418,25 +416,24 @@ export class OriginsImpl implements Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsDeleteOptionalParams
+    options?: OriginsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -445,8 +442,8 @@ export class OriginsImpl implements Origins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -454,8 +451,8 @@ export class OriginsImpl implements Origins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -466,13 +463,13 @@ export class OriginsImpl implements Origins {
         profileName,
         endpointName,
         originName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -491,14 +488,14 @@ export class OriginsImpl implements Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsDeleteOptionalParams
+    options?: OriginsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       endpointName,
       originName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -516,11 +513,11 @@ export class OriginsImpl implements Origins {
     profileName: string,
     endpointName: string,
     nextLink: string,
-    options?: OriginsListByEndpointNextOptionalParams
+    options?: OriginsListByEndpointNextOptionalParams,
   ): Promise<OriginsListByEndpointNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, nextLink, options },
-      listByEndpointNextOperationSpec
+      listByEndpointNextOperationSpec,
     );
   }
 }
@@ -528,39 +525,15 @@ export class OriginsImpl implements Origins {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByEndpointOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OriginListResult
+      bodyMapper: Mappers.OriginListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName1,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -569,31 +542,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.endpointName,
-    Parameters.originName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Origin,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+    Parameters.endpointName,
+    Parameters.originName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     201: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     202: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     204: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.origin1,
   queryParameters: [Parameters.apiVersion],
@@ -603,32 +597,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.endpointName,
-    Parameters.originName
+    Parameters.originName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     201: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     202: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     204: {
-      bodyMapper: Mappers.Origin
+      bodyMapper: Mappers.Origin,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.originUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
@@ -638,15 +631,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.endpointName,
-    Parameters.originName
+    Parameters.originName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -654,8 +646,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -664,21 +656,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.endpointName,
-    Parameters.originName
+    Parameters.originName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OriginListResult
+      bodyMapper: Mappers.OriginListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -686,8 +678,8 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.nextLink,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

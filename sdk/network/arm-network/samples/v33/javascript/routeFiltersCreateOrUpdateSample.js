@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a route filter in a specified resource group.
  *
  * @summary Creates or updates a route filter in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/RouteFilterCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteFilterCreate.json
  */
 async function routeFilterCreate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

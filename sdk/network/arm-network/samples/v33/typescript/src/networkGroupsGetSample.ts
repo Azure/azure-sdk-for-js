@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified network group.
  *
  * @summary Gets the specified network group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerGroupGet.json
  */
 async function networkGroupsGet() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function networkGroupsGet() {
   const result = await client.networkGroups.get(
     resourceGroupName,
     networkManagerName,
-    networkGroupName
+    networkGroupName,
   );
   console.log(result);
 }

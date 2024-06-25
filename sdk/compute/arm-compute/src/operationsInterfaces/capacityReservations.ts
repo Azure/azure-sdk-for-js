@@ -18,7 +18,7 @@ import {
   CapacityReservationsUpdateResponse,
   CapacityReservationsDeleteOptionalParams,
   CapacityReservationsGetOptionalParams,
-  CapacityReservationsGetResponse
+  CapacityReservationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface CapacityReservations {
   listByCapacityReservationGroup(
     resourceGroupName: string,
     capacityReservationGroupName: string,
-    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams
+    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
   ): PagedAsyncIterableIterator<CapacityReservation>;
   /**
    * The operation to create or update a capacity reservation. Please note some properties can be set
@@ -51,7 +51,7 @@ export interface CapacityReservations {
     capacityReservationGroupName: string,
     capacityReservationName: string,
     parameters: CapacityReservation,
-    options?: CapacityReservationsCreateOrUpdateOptionalParams
+    options?: CapacityReservationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CapacityReservationsCreateOrUpdateResponse>,
@@ -73,7 +73,7 @@ export interface CapacityReservations {
     capacityReservationGroupName: string,
     capacityReservationName: string,
     parameters: CapacityReservation,
-    options?: CapacityReservationsCreateOrUpdateOptionalParams
+    options?: CapacityReservationsCreateOrUpdateOptionalParams,
   ): Promise<CapacityReservationsCreateOrUpdateResponse>;
   /**
    * The operation to update a capacity reservation.
@@ -88,7 +88,7 @@ export interface CapacityReservations {
     capacityReservationGroupName: string,
     capacityReservationName: string,
     parameters: CapacityReservationUpdate,
-    options?: CapacityReservationsUpdateOptionalParams
+    options?: CapacityReservationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CapacityReservationsUpdateResponse>,
@@ -108,7 +108,7 @@ export interface CapacityReservations {
     capacityReservationGroupName: string,
     capacityReservationName: string,
     parameters: CapacityReservationUpdate,
-    options?: CapacityReservationsUpdateOptionalParams
+    options?: CapacityReservationsUpdateOptionalParams,
   ): Promise<CapacityReservationsUpdateResponse>;
   /**
    * The operation to delete a capacity reservation. This operation is allowed only when all the
@@ -123,7 +123,7 @@ export interface CapacityReservations {
     resourceGroupName: string,
     capacityReservationGroupName: string,
     capacityReservationName: string,
-    options?: CapacityReservationsDeleteOptionalParams
+    options?: CapacityReservationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a capacity reservation. This operation is allowed only when all the
@@ -138,7 +138,7 @@ export interface CapacityReservations {
     resourceGroupName: string,
     capacityReservationGroupName: string,
     capacityReservationName: string,
-    options?: CapacityReservationsDeleteOptionalParams
+    options?: CapacityReservationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation that retrieves information about the capacity reservation.
@@ -151,6 +151,6 @@ export interface CapacityReservations {
     resourceGroupName: string,
     capacityReservationGroupName: string,
     capacityReservationName: string,
-    options?: CapacityReservationsGetOptionalParams
+    options?: CapacityReservationsGetOptionalParams,
   ): Promise<CapacityReservationsGetResponse>;
 }

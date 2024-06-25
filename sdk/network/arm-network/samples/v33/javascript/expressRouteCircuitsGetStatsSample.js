@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all the stats from an express route circuit in a resource group.
  *
  * @summary Gets all the stats from an express route circuit in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCircuitStats.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCircuitStats.json
  */
 async function getExpressRouteCircuitTrafficStats() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

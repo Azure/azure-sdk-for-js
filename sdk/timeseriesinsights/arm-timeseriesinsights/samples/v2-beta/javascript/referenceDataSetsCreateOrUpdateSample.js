@@ -36,7 +36,7 @@ async function referenceDataSetsCreate() {
     resourceGroupName,
     environmentName,
     referenceDataSetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

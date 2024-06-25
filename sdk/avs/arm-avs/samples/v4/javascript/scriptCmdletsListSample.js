@@ -30,7 +30,7 @@ async function scriptCmdletsList() {
   for await (let item of client.scriptCmdlets.list(
     resourceGroupName,
     privateCloudName,
-    scriptPackageName
+    scriptPackageName,
   )) {
     resArray.push(item);
   }

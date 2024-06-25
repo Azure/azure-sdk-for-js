@@ -20,7 +20,7 @@ import {
   SecuritySolutionsListResponse,
   SecuritySolutionsGetOptionalParams,
   SecuritySolutionsGetResponse,
-  SecuritySolutionsListNextResponse
+  SecuritySolutionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
    * @param options The options parameters.
    */
   public list(
-    options?: SecuritySolutionsListOptionalParams
+    options?: SecuritySolutionsListOptionalParams,
   ): PagedAsyncIterableIterator<SecuritySolution> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SecuritySolutionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecuritySolution[]> {
     let result: SecuritySolutionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
   }
 
   private async *listPagingAll(
-    options?: SecuritySolutionsListOptionalParams
+    options?: SecuritySolutionsListOptionalParams,
   ): AsyncIterableIterator<SecuritySolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
    * @param options The options parameters.
    */
   private _list(
-    options?: SecuritySolutionsListOptionalParams
+    options?: SecuritySolutionsListOptionalParams,
   ): Promise<SecuritySolutionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -113,11 +113,11 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
     resourceGroupName: string,
     ascLocation: string,
     securitySolutionName: string,
-    options?: SecuritySolutionsGetOptionalParams
+    options?: SecuritySolutionsGetOptionalParams,
   ): Promise<SecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ascLocation, securitySolutionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -128,11 +128,11 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
    */
   private _listNext(
     nextLink: string,
-    options?: SecuritySolutionsListNextOptionalParams
+    options?: SecuritySolutionsListNextOptionalParams,
   ): Promise<SecuritySolutionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -140,61 +140,59 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securitySolutions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securitySolutions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySolutionList
+      bodyMapper: Mappers.SecuritySolutionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutions/{securitySolutionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutions/{securitySolutionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySolution
+      bodyMapper: Mappers.SecuritySolution,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
-    Parameters.securitySolutionName
+    Parameters.resourceGroupName,
+    Parameters.securitySolutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySolutionList
+      bodyMapper: Mappers.SecuritySolutionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

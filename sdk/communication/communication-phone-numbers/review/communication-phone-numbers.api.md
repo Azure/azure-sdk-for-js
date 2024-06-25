@@ -76,15 +76,22 @@ export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaC
 export interface OperatorDetails {
     mobileCountryCode?: string;
     mobileNetworkCode?: string;
-    name?: string;
+    name: string;
 }
 
 // @public
 export interface OperatorInformation {
+    internationalFormat?: string;
     isoCountryCode?: string;
+    nationalFormat?: string;
     numberType?: OperatorNumberType;
     operatorDetails?: OperatorDetails;
-    phoneNumber?: string;
+    phoneNumber: string;
+}
+
+// @public
+export interface OperatorInformationOptions {
+    includeAdditionalOperatorDetails?: boolean;
 }
 
 // @public
@@ -189,11 +196,16 @@ export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     cost: PhoneNumberCost;
+    error?: PhoneNumberSearchResultError;
+    errorCode?: number;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
     searchId: string;
 }
+
+// @public
+export type PhoneNumberSearchResultError = "NoError" | "UnknownErrorCode" | "OutOfStock" | "AuthorizationDenied" | "MissingAddress" | "InvalidAddress" | "InvalidOfferModel" | "NotEnoughLicenses" | "NoWallet" | "NotEnoughCredit" | "NumbersPartiallyAcquired" | "AllNumbersNotAcquired" | "ReservationExpired" | "PurchaseFailed" | "BillingUnavailable" | "ProvisioningFailed" | "UnknownSearchError";
 
 // @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
@@ -237,6 +249,8 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 
 // @public
 export interface SearchOperatorInformationOptions extends OperationOptions {
+    // (undocumented)
+    includeAdditionalOperatorDetails: boolean;
 }
 
 // @public

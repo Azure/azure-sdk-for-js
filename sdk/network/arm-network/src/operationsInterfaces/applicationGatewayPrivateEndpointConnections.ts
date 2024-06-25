@@ -15,7 +15,7 @@ import {
   ApplicationGatewayPrivateEndpointConnectionsUpdateOptionalParams,
   ApplicationGatewayPrivateEndpointConnectionsUpdateResponse,
   ApplicationGatewayPrivateEndpointConnectionsGetOptionalParams,
-  ApplicationGatewayPrivateEndpointConnectionsGetResponse
+  ApplicationGatewayPrivateEndpointConnectionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ApplicationGatewayPrivateEndpointConnections {
   list(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewayPrivateEndpointConnectionsListOptionalParams
+    options?: ApplicationGatewayPrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGatewayPrivateEndpointConnection>;
   /**
    * Deletes the specified private endpoint connection on application gateway.
@@ -43,7 +43,7 @@ export interface ApplicationGatewayPrivateEndpointConnections {
     resourceGroupName: string,
     applicationGatewayName: string,
     connectionName: string,
-    options?: ApplicationGatewayPrivateEndpointConnectionsDeleteOptionalParams
+    options?: ApplicationGatewayPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private endpoint connection on application gateway.
@@ -56,7 +56,7 @@ export interface ApplicationGatewayPrivateEndpointConnections {
     resourceGroupName: string,
     applicationGatewayName: string,
     connectionName: string,
-    options?: ApplicationGatewayPrivateEndpointConnectionsDeleteOptionalParams
+    options?: ApplicationGatewayPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the specified private endpoint connection on application gateway.
@@ -72,12 +72,10 @@ export interface ApplicationGatewayPrivateEndpointConnections {
     applicationGatewayName: string,
     connectionName: string,
     parameters: ApplicationGatewayPrivateEndpointConnection,
-    options?: ApplicationGatewayPrivateEndpointConnectionsUpdateOptionalParams
+    options?: ApplicationGatewayPrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ApplicationGatewayPrivateEndpointConnectionsUpdateResponse
-      >,
+      OperationState<ApplicationGatewayPrivateEndpointConnectionsUpdateResponse>,
       ApplicationGatewayPrivateEndpointConnectionsUpdateResponse
     >
   >;
@@ -95,7 +93,7 @@ export interface ApplicationGatewayPrivateEndpointConnections {
     applicationGatewayName: string,
     connectionName: string,
     parameters: ApplicationGatewayPrivateEndpointConnection,
-    options?: ApplicationGatewayPrivateEndpointConnectionsUpdateOptionalParams
+    options?: ApplicationGatewayPrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<ApplicationGatewayPrivateEndpointConnectionsUpdateResponse>;
   /**
    * Gets the specified private endpoint connection on application gateway.
@@ -108,6 +106,6 @@ export interface ApplicationGatewayPrivateEndpointConnections {
     resourceGroupName: string,
     applicationGatewayName: string,
     connectionName: string,
-    options?: ApplicationGatewayPrivateEndpointConnectionsGetOptionalParams
+    options?: ApplicationGatewayPrivateEndpointConnectionsGetOptionalParams,
   ): Promise<ApplicationGatewayPrivateEndpointConnectionsGetResponse>;
 }

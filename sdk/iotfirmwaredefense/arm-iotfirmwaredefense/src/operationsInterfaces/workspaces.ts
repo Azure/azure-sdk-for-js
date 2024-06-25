@@ -21,7 +21,7 @@ import {
   WorkspacesGetResponse,
   GenerateUploadUrlRequest,
   WorkspacesGenerateUploadUrlOptionalParams,
-  WorkspacesGenerateUploadUrlResponse
+  WorkspacesGenerateUploadUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Workspaces {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
+    options?: WorkspacesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Lists all of the firmware analysis workspaces in the specified resource group.
@@ -41,7 +41,7 @@ export interface Workspaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * The operation to create or update a firmware analysis workspace.
@@ -54,7 +54,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspace: Workspace,
-    options?: WorkspacesCreateOptionalParams
+    options?: WorkspacesCreateOptionalParams,
   ): Promise<WorkspacesCreateResponse>;
   /**
    * The operation to update a firmware analysis workspaces.
@@ -67,7 +67,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspace: WorkspaceUpdateDefinition,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse>;
   /**
    * The operation to delete a firmware analysis workspace.
@@ -78,7 +78,7 @@ export interface Workspaces {
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get firmware analysis workspace.
@@ -89,7 +89,7 @@ export interface Workspaces {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
+    options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
    * The operation to get a url for file upload.
@@ -102,6 +102,6 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     generateUploadUrl: GenerateUploadUrlRequest,
-    options?: WorkspacesGenerateUploadUrlOptionalParams
+    options?: WorkspacesGenerateUploadUrlOptionalParams,
   ): Promise<WorkspacesGenerateUploadUrlResponse>;
 }

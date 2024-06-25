@@ -10,7 +10,7 @@ import { TollFreeVerificationClient } from "../../src";
 import { assert } from "chai";
 import { configurationHttpClient } from "../public/utils/mockHttpClients";
 import { createMockToken } from "../public/utils/recordedClient";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import sinon from "sinon";
 
 describe("TollFreeVerificationClient - headers", function () {
@@ -35,14 +35,14 @@ describe("TollFreeVerificationClient - headers", function () {
   });
 
   it("[node] sets correct host", function (this: Context) {
-    if (!isNode) {
+    if (!isNodeLike) {
       this.skip();
     }
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
   it("sets correct default user-agent", function () {
-    const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(`azsdk-js-communication-toll-free-verification/${SDK_VERSION}`, "g"),
@@ -109,7 +109,7 @@ describe("TollFreeVerificationClient - headers", function () {
 
     request = spy.getCall(0).args[0];
 
-    const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(

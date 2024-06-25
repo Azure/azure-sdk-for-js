@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists NetworkVirtualApplianceConnections under the NVA.
  *
  * @summary Lists NetworkVirtualApplianceConnections under the NVA.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkVirtualApplianceConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceConnectionList.json
  */
 async function networkVirtualApplianceConnectionList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function networkVirtualApplianceConnectionList() {
   const resArray = new Array();
   for await (let item of client.networkVirtualApplianceConnections.list(
     resourceGroupName,
-    networkVirtualApplianceName
+    networkVirtualApplianceName,
   )) {
     resArray.push(item);
   }

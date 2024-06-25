@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists ExpressRoute gateways in a given resource group.
  *
  * @summary Lists ExpressRoute gateways in a given resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteGatewayListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteGatewayListByResourceGroup.json
  */
 async function expressRouteGatewayListByResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

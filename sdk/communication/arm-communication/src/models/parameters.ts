@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
@@ -23,8 +23,6 @@ import {
   EmailServiceResource as EmailServiceResourceMapper,
   EmailServiceResourceUpdate as EmailServiceResourceUpdateMapper,
   SenderUsernameResource as SenderUsernameResourceMapper,
-  SuppressionListResource as SuppressionListResourceMapper,
-  SuppressionListAddressResource as SuppressionListAddressResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -34,9 +32,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -45,22 +43,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01-preview",
+    defaultValue: "2023-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -69,10 +67,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -82,14 +80,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nameAvailabilityParameters: OperationParameter = {
   parameterPath: "nameAvailabilityParameters",
-  mapper: NameAvailabilityParametersMapper
+  mapper: NameAvailabilityParametersMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -98,14 +96,14 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const linkNotificationHubParameters: OperationParameter = {
   parameterPath: ["options", "linkNotificationHubParameters"],
-  mapper: LinkNotificationHubParametersMapper
+  mapper: LinkNotificationHubParametersMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -113,14 +111,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const communicationServiceName: OperationURLParameter = {
@@ -129,29 +127,29 @@ export const communicationServiceName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w]+$"),
       MaxLength: 63,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "communicationServiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CommunicationServiceResourceUpdateMapper
+  mapper: CommunicationServiceResourceUpdateMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CommunicationServiceResourceMapper
+  mapper: CommunicationServiceResourceMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RegenerateKeyParametersMapper
+  mapper: RegenerateKeyParametersMapper,
 };
 
 export const emailServiceName: OperationURLParameter = {
@@ -160,14 +158,14 @@ export const emailServiceName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
       MaxLength: 63,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "emailServiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const domainName: OperationURLParameter = {
@@ -175,39 +173,39 @@ export const domainName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 253,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "domainName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DomainResourceMapper
+  mapper: DomainResourceMapper,
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: UpdateDomainRequestParametersMapper
+  mapper: UpdateDomainRequestParametersMapper,
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VerificationParameterMapper
+  mapper: VerificationParameterMapper,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: EmailServiceResourceMapper
+  mapper: EmailServiceResourceMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: EmailServiceResourceUpdateMapper
+  mapper: EmailServiceResourceUpdateMapper,
 };
 
 export const senderUsername: OperationURLParameter = {
@@ -215,75 +213,17 @@ export const senderUsername: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 253,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "senderUsername",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SenderUsernameResourceMapper
-};
-
-export const domainName1: OperationURLParameter = {
-  parameterPath: "domainName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(".*"),
-      MaxLength: 253,
-      MinLength: 1
-    },
-    serializedName: "domainName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const suppressionListName: OperationURLParameter = {
-  parameterPath: "suppressionListName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
-      MaxLength: 253,
-      MinLength: 1
-    },
-    serializedName: "suppressionListName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SuppressionListResourceMapper
-};
-
-export const addressId: OperationURLParameter = {
-  parameterPath: "addressId",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
-      MaxLength: 253,
-      MinLength: 1
-    },
-    serializedName: "addressId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SuppressionListAddressResourceMapper
+  mapper: SenderUsernameResourceMapper,
 };

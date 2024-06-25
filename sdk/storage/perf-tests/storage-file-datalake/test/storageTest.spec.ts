@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getEnvVar, PerfTest } from "@azure/test-utils-perf";
+import { getEnvVar, PerfTest } from "@azure-tools/test-perf";
 
 import {
   DataLakeServiceClient,

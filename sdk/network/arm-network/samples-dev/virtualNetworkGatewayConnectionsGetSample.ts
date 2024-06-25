@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified virtual network gateway connection by resource group.
  *
  * @summary Gets the specified virtual network gateway connection by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayConnectionGet.json
  */
 async function getVirtualNetworkGatewayConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getVirtualNetworkGatewayConnection() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworkGatewayConnections.get(
     resourceGroupName,
-    virtualNetworkGatewayConnectionName
+    virtualNetworkGatewayConnectionName,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all route filters in a subscription.
  *
  * @summary Gets all route filters in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/RouteFilterList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteFilterList.json
  */
 async function routeFilterList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

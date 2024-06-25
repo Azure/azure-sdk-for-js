@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all Tap configurations in a network interface.
  *
  * @summary Get all Tap configurations in a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkInterfaceTapConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkInterfaceTapConfigurationList.json
  */
 async function listVirtualNetworkTapConfigurations() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function listVirtualNetworkTapConfigurations() {
   const resArray = new Array();
   for await (let item of client.networkInterfaceTapConfigurations.list(
     resourceGroupName,
-    networkInterfaceName
+    networkInterfaceName,
   )) {
     resArray.push(item);
   }

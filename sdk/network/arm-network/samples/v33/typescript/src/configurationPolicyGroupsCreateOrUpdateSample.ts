@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VpnServerConfigurationPolicyGroup,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,37 +21,39 @@ dotenv.config();
  * This sample demonstrates how to Creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
  *
  * @summary Creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ConfigurationPolicyGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ConfigurationPolicyGroupPut.json
  */
 async function configurationPolicyGroupPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const vpnServerConfigurationName = "vpnServerConfiguration1";
   const configurationPolicyGroupName = "policyGroup1";
-  const vpnServerConfigurationPolicyGroupParameters: VpnServerConfigurationPolicyGroup = {
-    isDefault: true,
-    policyMembers: [
-      {
-        name: "policy1",
-        attributeType: "RadiusAzureGroupId",
-        attributeValue: "6ad1bd08"
-      },
-      {
-        name: "policy2",
-        attributeType: "CertificateGroupId",
-        attributeValue: "red.com"
-      }
-    ],
-    priority: 0
-  };
+  const vpnServerConfigurationPolicyGroupParameters: VpnServerConfigurationPolicyGroup =
+    {
+      isDefault: true,
+      policyMembers: [
+        {
+          name: "policy1",
+          attributeType: "RadiusAzureGroupId",
+          attributeValue: "6ad1bd08",
+        },
+        {
+          name: "policy2",
+          attributeType: "CertificateGroupId",
+          attributeValue: "red.com",
+        },
+      ],
+      priority: 0,
+    };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.configurationPolicyGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vpnServerConfigurationName,
-    configurationPolicyGroupName,
-    vpnServerConfigurationPolicyGroupParameters
-  );
+  const result =
+    await client.configurationPolicyGroups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vpnServerConfigurationName,
+      configurationPolicyGroupName,
+      vpnServerConfigurationPolicyGroupParameters,
+    );
   console.log(result);
 }
 

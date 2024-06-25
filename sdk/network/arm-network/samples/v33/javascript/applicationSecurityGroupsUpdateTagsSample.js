@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an application security group's tags.
  *
  * @summary Updates an application security group's tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ApplicationSecurityGroupUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationSecurityGroupUpdateTags.json
  */
 async function updateApplicationSecurityGroupTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

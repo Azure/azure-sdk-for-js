@@ -7,7 +7,7 @@
  */
 
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import sinon from "sinon";
 import { SmsClient } from "../../src";

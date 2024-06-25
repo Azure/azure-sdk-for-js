@@ -816,6 +816,12 @@ export enum KnownLogicalReplicationOnSourceDbEnum {
 }
 
 // @public
+export enum KnownMigrateRolesEnum {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownMigrationDbState {
     Canceled = "Canceled",
     Canceling = "Canceling",
@@ -1020,8 +1026,15 @@ export enum KnownSkuTier {
 // @public
 export enum KnownSourceType {
     AWS = "AWS",
+    AWSAurora = "AWS_AURORA",
+    AWSEC2 = "AWS_EC2",
+    AWSRDS = "AWS_RDS",
     AzureVM = "AzureVM",
+    EDB = "EDB",
     GCP = "GCP",
+    GCPAlloyDB = "GCP_AlloyDB",
+    GCPCloudSQL = "GCP_CloudSQL",
+    GCPCompute = "GCP_Compute",
     OnPremises = "OnPremises",
     PostgreSQLSingleServer = "PostgreSQLSingleServer"
 }
@@ -1233,6 +1246,9 @@ export interface MaintenanceWindow {
 }
 
 // @public
+export type MigrateRolesEnum = string;
+
+// @public
 export type MigrationDbState = string;
 
 // @public
@@ -1266,7 +1282,9 @@ export interface MigrationResource extends TrackedResource {
     dbsToCancelMigrationOn?: string[];
     dbsToMigrate?: string[];
     dbsToTriggerCutoverOn?: string[];
+    migrateRoles?: MigrateRolesEnum;
     readonly migrationId?: string;
+    migrationInstanceResourceId?: string;
     migrationMode?: MigrationMode;
     migrationOption?: MigrationOption;
     migrationWindowEndTimeInUtc?: Date;
@@ -1292,6 +1310,7 @@ export interface MigrationResourceForPatch {
     dbsToCancelMigrationOn?: string[];
     dbsToMigrate?: string[];
     dbsToTriggerCutoverOn?: string[];
+    migrateRoles?: MigrateRolesEnum;
     migrationMode?: MigrationMode;
     migrationWindowStartTimeInUtc?: Date;
     overwriteDbsInTarget?: OverwriteDbsInTargetEnum;

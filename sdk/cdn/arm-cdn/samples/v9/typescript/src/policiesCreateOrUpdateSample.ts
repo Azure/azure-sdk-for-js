@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CdnWebApplicationFirewallPolicy,
-  CdnManagementClient
+  CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
  *
  * @summary Create or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafPolicyCreateOrUpdate.json
  */
 async function createsSpecificPolicy() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -41,7 +41,7 @@ async function createsSpecificPolicy() {
               negateCondition: false,
               operator: "GeoMatch",
               selector: undefined,
-              transforms: []
+              transforms: [],
             },
             {
               matchValue: ["windows"],
@@ -49,7 +49,7 @@ async function createsSpecificPolicy() {
               negateCondition: false,
               operator: "Contains",
               selector: "UserAgent",
-              transforms: []
+              transforms: [],
             },
             {
               matchValue: ["<?php", "?>"],
@@ -57,14 +57,14 @@ async function createsSpecificPolicy() {
               negateCondition: false,
               operator: "Contains",
               selector: "search",
-              transforms: ["UrlDecode", "Lowercase"]
-            }
+              transforms: ["UrlDecode", "Lowercase"],
+            },
           ],
-          priority: 2
-        }
-      ]
+          priority: 2,
+        },
+      ],
     },
-    location: "global",
+    location: "WestUs",
     managedRules: {
       managedRuleSets: [
         {
@@ -75,22 +75,22 @@ async function createsSpecificPolicy() {
                 {
                   action: "Redirect",
                   enabledState: "Enabled",
-                  ruleId: "GROUP1-0001"
+                  ruleId: "GROUP1-0001",
                 },
-                { enabledState: "Disabled", ruleId: "GROUP1-0002" }
-              ]
-            }
+                { enabledState: "Disabled", ruleId: "GROUP1-0002" },
+              ],
+            },
           ],
           ruleSetType: "DefaultRuleSet",
-          ruleSetVersion: "preview-1.0"
-        }
-      ]
+          ruleSetVersion: "preview-1.0",
+        },
+      ],
     },
     policySettings: {
       defaultCustomBlockResponseBody:
         "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
       defaultCustomBlockResponseStatusCode: 200,
-      defaultRedirectUrl: "http://www.bing.com"
+      defaultRedirectUrl: "http://www.bing.com",
     },
     rateLimitRules: {
       rules: [
@@ -105,23 +105,23 @@ async function createsSpecificPolicy() {
               negateCondition: false,
               operator: "IPMatch",
               selector: undefined,
-              transforms: []
-            }
+              transforms: [],
+            },
           ],
           priority: 1,
           rateLimitDurationInMinutes: 0,
-          rateLimitThreshold: 1000
-        }
-      ]
+          rateLimitThreshold: 1000,
+        },
+      ],
     },
-    sku: { name: "Standard_Microsoft" }
+    sku: { name: "Standard_Microsoft" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const result = await client.policies.beginCreateOrUpdateAndWait(
     resourceGroupName,
     policyName,
-    cdnWebApplicationFirewallPolicy
+    cdnWebApplicationFirewallPolicy,
   );
   console.log(result);
 }

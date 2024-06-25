@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all default security rules in a network security group.
  *
  * @summary Gets all default security rules in a network security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DefaultSecurityRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/DefaultSecurityRuleList.json
  */
 async function defaultSecurityRuleList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

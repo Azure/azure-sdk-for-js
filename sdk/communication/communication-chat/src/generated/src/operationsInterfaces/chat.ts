@@ -14,7 +14,7 @@ import {
   ChatListChatThreadsResponse,
   ChatDeleteChatThreadOptionalParams,
   ChatListChatThreadsNextOptionalParams,
-  ChatListChatThreadsNextResponse
+  ChatListChatThreadsNextResponse,
 } from "../models";
 
 /** Interface representing a Chat. */
@@ -26,14 +26,14 @@ export interface Chat {
    */
   createChatThread(
     createChatThreadRequest: CreateChatThreadRequest,
-    options?: ChatCreateChatThreadOptionalParams
+    options?: ChatCreateChatThreadOptionalParams,
   ): Promise<ChatCreateChatThreadResponse>;
   /**
    * Gets the list of chat threads of a user.
    * @param options The options parameters.
    */
   listChatThreads(
-    options?: ChatListChatThreadsOptionalParams
+    options?: ChatListChatThreadsOptionalParams,
   ): Promise<ChatListChatThreadsResponse>;
   /**
    * Deletes a thread.
@@ -42,7 +42,7 @@ export interface Chat {
    */
   deleteChatThread(
     chatThreadId: string,
-    options?: ChatDeleteChatThreadOptionalParams
+    options?: ChatDeleteChatThreadOptionalParams,
   ): Promise<void>;
   /**
    * ListChatThreadsNext
@@ -51,6 +51,6 @@ export interface Chat {
    */
   listChatThreadsNext(
     nextLink: string,
-    options?: ChatListChatThreadsNextOptionalParams
+    options?: ChatListChatThreadsNextOptionalParams,
   ): Promise<ChatListChatThreadsNextResponse>;
 }

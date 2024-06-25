@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AzureReachabilityReportParameters,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
  *
  * @summary NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherAzureReachabilityReportGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherAzureReachabilityReportGet.json
  */
 async function getAzureReachabilityReport() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,15 +32,16 @@ async function getAzureReachabilityReport() {
     endTime: new Date("2017-09-10T00:00:00Z"),
     providerLocation: { country: "United States", state: "washington" },
     providers: ["Frontier Communications of America, Inc. - ASN 5650"],
-    startTime: new Date("2017-09-07T00:00:00Z")
+    startTime: new Date("2017-09-07T00:00:00Z"),
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkWatchers.beginGetAzureReachabilityReportAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    parameters
-  );
+  const result =
+    await client.networkWatchers.beginGetAzureReachabilityReportAndWait(
+      resourceGroupName,
+      networkWatcherName,
+      parameters,
+    );
   console.log(result);
 }
 

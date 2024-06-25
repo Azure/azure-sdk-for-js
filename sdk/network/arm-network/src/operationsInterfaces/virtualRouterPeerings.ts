@@ -15,7 +15,7 @@ import {
   VirtualRouterPeeringsGetOptionalParams,
   VirtualRouterPeeringsGetResponse,
   VirtualRouterPeeringsCreateOrUpdateOptionalParams,
-  VirtualRouterPeeringsCreateOrUpdateResponse
+  VirtualRouterPeeringsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface VirtualRouterPeerings {
   list(
     resourceGroupName: string,
     virtualRouterName: string,
-    options?: VirtualRouterPeeringsListOptionalParams
+    options?: VirtualRouterPeeringsListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualRouterPeering>;
   /**
    * Deletes the specified peering from a Virtual Router.
@@ -43,7 +43,7 @@ export interface VirtualRouterPeerings {
     resourceGroupName: string,
     virtualRouterName: string,
     peeringName: string,
-    options?: VirtualRouterPeeringsDeleteOptionalParams
+    options?: VirtualRouterPeeringsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified peering from a Virtual Router.
@@ -56,7 +56,7 @@ export interface VirtualRouterPeerings {
     resourceGroupName: string,
     virtualRouterName: string,
     peeringName: string,
-    options?: VirtualRouterPeeringsDeleteOptionalParams
+    options?: VirtualRouterPeeringsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Virtual Router Peering.
@@ -69,7 +69,7 @@ export interface VirtualRouterPeerings {
     resourceGroupName: string,
     virtualRouterName: string,
     peeringName: string,
-    options?: VirtualRouterPeeringsGetOptionalParams
+    options?: VirtualRouterPeeringsGetOptionalParams,
   ): Promise<VirtualRouterPeeringsGetResponse>;
   /**
    * Creates or updates the specified Virtual Router Peering.
@@ -84,7 +84,7 @@ export interface VirtualRouterPeerings {
     virtualRouterName: string,
     peeringName: string,
     parameters: VirtualRouterPeering,
-    options?: VirtualRouterPeeringsCreateOrUpdateOptionalParams
+    options?: VirtualRouterPeeringsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualRouterPeeringsCreateOrUpdateResponse>,
@@ -104,6 +104,6 @@ export interface VirtualRouterPeerings {
     virtualRouterName: string,
     peeringName: string,
     parameters: VirtualRouterPeering,
-    options?: VirtualRouterPeeringsCreateOrUpdateOptionalParams
+    options?: VirtualRouterPeeringsCreateOrUpdateOptionalParams,
   ): Promise<VirtualRouterPeeringsCreateOrUpdateResponse>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a VirtualHub.
  *
  * @summary Deletes a VirtualHub.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualHubDelete.json
  */
 async function virtualHubDelete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function virtualHubDelete() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualHubs.beginDeleteAndWait(
     resourceGroupName,
-    virtualHubName
+    virtualHubName,
   );
   console.log(result);
 }

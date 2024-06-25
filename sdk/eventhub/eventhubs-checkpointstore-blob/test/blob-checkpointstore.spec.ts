@@ -9,7 +9,7 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, addToOffset } from "./utils/testUtils";
 import { BlobCheckpointStore } from "../src";
 import { ContainerClient, RestError } from "@azure/storage-blob";
 import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
@@ -481,7 +481,7 @@ describe("Blob Checkpoint Store", function (): void {
           ...eventHubProperties,
           partitionId: i.toString(),
           sequenceNumber: 100 + i,
-          offset: 1023 + i,
+          offset: `${1023 + i}`,
         };
 
         await checkpointStore.updateCheckpoint(checkpoint);
@@ -507,7 +507,7 @@ describe("Blob Checkpoint Store", function (): void {
         checkpoint.offset!.should.equal(1023 + i);
 
         // now update it
-        checkpoint.offset++;
+        checkpoint.offset = addToOffset(checkpoint.offset, 1);
         checkpoint.sequenceNumber++;
 
         await checkpointStore.updateCheckpoint(checkpoint);
@@ -556,7 +556,7 @@ describe("Blob Checkpoint Store", function (): void {
         consumerGroup: eventHubProperties.consumerGroup,
         eventHubName: eventHubProperties.eventHubName,
         fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
-        offset: 0,
+        offset: "0",
         partitionId: "0",
         sequenceNumber: 1,
       };
@@ -589,7 +589,7 @@ describe("Blob Checkpoint Store", function (): void {
         consumerGroup: eventHubProperties.consumerGroup,
         eventHubName: eventHubProperties.eventHubName,
         fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
-        offset: 0,
+        offset: "0",
         partitionId: "0",
         sequenceNumber: 1,
       };
@@ -615,7 +615,7 @@ describe("Blob Checkpoint Store", function (): void {
         consumerGroup: "testNamespace.servicebus.windows.net",
         eventHubName: "testEventHub",
         fullyQualifiedNamespace: "testConsumerGroup",
-        offset: 0,
+        offset: "0",
         partitionId: "0",
         sequenceNumber: 1,
       };
@@ -642,7 +642,7 @@ describe("Blob Checkpoint Store", function (): void {
         consumerGroup: "testNamespace.servicebus.windows.net",
         eventHubName: "testEventHub",
         fullyQualifiedNamespace: "testConsumerGroup",
-        offset: 0,
+        offset: "0",
         partitionId: "0",
         sequenceNumber: 1,
       };
@@ -739,7 +739,7 @@ describe("Blob Checkpoint Store", function (): void {
       ...commonData,
       partitionId: "100",
       sequenceNumber: 0,
-      offset: 0,
+      offset: "0",
     });
 
     // muck with the metadata in an incompatible way
@@ -771,7 +771,7 @@ describe("Blob Checkpoint Store", function (): void {
 
     await checkpointStore.updateCheckpoint({
       ...commonData,
-      offset: 0,
+      offset: "0",
       sequenceNumber: 0,
     });
 

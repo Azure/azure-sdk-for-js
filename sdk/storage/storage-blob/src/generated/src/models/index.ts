@@ -90,6 +90,7 @@ export interface StaticWebsite {
 export interface StorageError {
   message?: string;
   code?: string;
+  authenticationErrorDetail?: string;
 }
 
 /** Stats for the storage service. */
@@ -969,6 +970,8 @@ export interface ContainerGetAccountInfoHeaders {
   skuName?: SkuName;
   /** Identifies the account kind */
   accountKind?: AccountKind;
+  /** Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled. */
+  isHierarchicalNamespaceEnabled?: boolean;
 }
 
 /** Defines headers for Container_getAccountInfo operation. */
@@ -1544,7 +1547,7 @@ export interface BlobCopyFromURLHeaders {
   /** String identifier for this copy operation. */
   copyId?: string;
   /** State of the copy operation identified by x-ms-copy-id. */
-  copyStatus?: "success";
+  copyStatus?: SyncCopyStatusType;
   /** This response header is returned so that the client can check for the integrity of the copied content. This header is only returned if the source content MD5 was specified. */
   contentMD5?: Uint8Array;
   /** This response header is returned so that the client can check for the integrity of the copied content. */
@@ -1610,6 +1613,8 @@ export interface BlobGetAccountInfoHeaders {
   skuName?: SkuName;
   /** Identifies the account kind */
   accountKind?: AccountKind;
+  /** Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled. */
+  isHierarchicalNamespaceEnabled?: boolean;
 }
 
 /** Defines headers for Blob_getAccountInfo operation. */
@@ -2391,7 +2396,7 @@ export interface AppendPositionAccessConditions {
 /** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
 export enum KnownEncryptionAlgorithmType {
   /** AES256 */
-  AES256 = "AES256"
+  AES256 = "AES256",
 }
 
 /**
@@ -2412,7 +2417,7 @@ export enum KnownBlobExpiryOptions {
   /** RelativeToNow */
   RelativeToNow = "RelativeToNow",
   /** Absolute */
-  Absolute = "Absolute"
+  Absolute = "Absolute",
 }
 
 /**
@@ -2654,7 +2659,7 @@ export enum KnownStorageErrorCode {
   /** AuthorizationServiceMismatch */
   AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
   /** AuthorizationResourceTypeMismatch */
-  AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch"
+  AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
 }
 
 /**
@@ -2860,6 +2865,8 @@ export type BlockListType = "committed" | "uncommitted" | "all";
 export type SequenceNumberActionType = "max" | "update" | "increment";
 /** Defines values for QueryFormatType. */
 export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
@@ -2917,8 +2924,8 @@ export interface ServiceListContainersSegmentOptionalParams
 }
 
 /** Contains response data for the listContainersSegment operation. */
-export type ServiceListContainersSegmentResponse = ServiceListContainersSegmentHeaders &
-  ListContainersSegmentResponse;
+export type ServiceListContainersSegmentResponse =
+  ServiceListContainersSegmentHeaders & ListContainersSegmentResponse;
 
 /** Optional parameters. */
 export interface ServiceGetUserDelegationKeyOptionalParams
@@ -2930,12 +2937,17 @@ export interface ServiceGetUserDelegationKeyOptionalParams
 }
 
 /** Contains response data for the getUserDelegationKey operation. */
-export type ServiceGetUserDelegationKeyResponse = ServiceGetUserDelegationKeyHeaders &
-  UserDelegationKey;
+export type ServiceGetUserDelegationKeyResponse =
+  ServiceGetUserDelegationKeyHeaders & UserDelegationKey;
 
 /** Optional parameters. */
 export interface ServiceGetAccountInfoOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
 
 /** Contains response data for the getAccountInfo operation. */
 export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders;
@@ -3257,8 +3269,8 @@ export interface ContainerListBlobFlatSegmentOptionalParams
 }
 
 /** Contains response data for the listBlobFlatSegment operation. */
-export type ContainerListBlobFlatSegmentResponse = ContainerListBlobFlatSegmentHeaders &
-  ListBlobsFlatSegmentResponse;
+export type ContainerListBlobFlatSegmentResponse =
+  ContainerListBlobFlatSegmentHeaders & ListBlobsFlatSegmentResponse;
 
 /** Optional parameters. */
 export interface ContainerListBlobHierarchySegmentOptionalParams
@@ -3278,12 +3290,17 @@ export interface ContainerListBlobHierarchySegmentOptionalParams
 }
 
 /** Contains response data for the listBlobHierarchySegment operation. */
-export type ContainerListBlobHierarchySegmentResponse = ContainerListBlobHierarchySegmentHeaders &
-  ListBlobsHierarchySegmentResponse;
+export type ContainerListBlobHierarchySegmentResponse =
+  ContainerListBlobHierarchySegmentHeaders & ListBlobsHierarchySegmentResponse;
 
 /** Optional parameters. */
 export interface ContainerGetAccountInfoOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
 
 /** Contains response data for the getAccountInfo operation. */
 export type ContainerGetAccountInfoResponse = ContainerGetAccountInfoHeaders;
@@ -3436,7 +3453,8 @@ export interface BlobSetImmutabilityPolicyOptionalParams
 }
 
 /** Contains response data for the setImmutabilityPolicy operation. */
-export type BlobSetImmutabilityPolicyResponse = BlobSetImmutabilityPolicyHeaders;
+export type BlobSetImmutabilityPolicyResponse =
+  BlobSetImmutabilityPolicyHeaders;
 
 /** Optional parameters. */
 export interface BlobDeleteImmutabilityPolicyOptionalParams
@@ -3448,7 +3466,8 @@ export interface BlobDeleteImmutabilityPolicyOptionalParams
 }
 
 /** Contains response data for the deleteImmutabilityPolicy operation. */
-export type BlobDeleteImmutabilityPolicyResponse = BlobDeleteImmutabilityPolicyHeaders;
+export type BlobDeleteImmutabilityPolicyResponse =
+  BlobDeleteImmutabilityPolicyHeaders;
 
 /** Optional parameters. */
 export interface BlobSetLegalHoldOptionalParams
@@ -3691,7 +3710,12 @@ export type BlobSetTierResponse = BlobSetTierHeaders;
 
 /** Optional parameters. */
 export interface BlobGetAccountInfoOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  timeoutInSeconds?: number;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
+}
 
 /** Contains response data for the getAccountInfo operation. */
 export type BlobGetAccountInfoResponse = BlobGetAccountInfoHeaders;
@@ -3890,7 +3914,8 @@ export interface PageBlobUploadPagesFromURLOptionalParams
 }
 
 /** Contains response data for the uploadPagesFromURL operation. */
-export type PageBlobUploadPagesFromURLResponse = PageBlobUploadPagesFromURLHeaders;
+export type PageBlobUploadPagesFromURLResponse =
+  PageBlobUploadPagesFromURLHeaders;
 
 /** Optional parameters. */
 export interface PageBlobGetPageRangesOptionalParams
@@ -3943,8 +3968,8 @@ export interface PageBlobGetPageRangesDiffOptionalParams
 }
 
 /** Contains response data for the getPageRangesDiff operation. */
-export type PageBlobGetPageRangesDiffResponse = PageBlobGetPageRangesDiffHeaders &
-  PageList;
+export type PageBlobGetPageRangesDiffResponse =
+  PageBlobGetPageRangesDiffHeaders & PageList;
 
 /** Optional parameters. */
 export interface PageBlobResizeOptionalParams
@@ -3982,7 +4007,8 @@ export interface PageBlobUpdateSequenceNumberOptionalParams
 }
 
 /** Contains response data for the updateSequenceNumber operation. */
-export type PageBlobUpdateSequenceNumberResponse = PageBlobUpdateSequenceNumberHeaders;
+export type PageBlobUpdateSequenceNumberResponse =
+  PageBlobUpdateSequenceNumberHeaders;
 
 /** Optional parameters. */
 export interface PageBlobCopyIncrementalOptionalParams
@@ -4088,7 +4114,8 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams
 }
 
 /** Contains response data for the appendBlockFromUrl operation. */
-export type AppendBlobAppendBlockFromUrlResponse = AppendBlobAppendBlockFromUrlHeaders;
+export type AppendBlobAppendBlockFromUrlResponse =
+  AppendBlobAppendBlockFromUrlHeaders;
 
 /** Optional parameters. */
 export interface AppendBlobSealOptionalParams
@@ -4234,7 +4261,8 @@ export interface BlockBlobStageBlockFromURLOptionalParams
 }
 
 /** Contains response data for the stageBlockFromURL operation. */
-export type BlockBlobStageBlockFromURLResponse = BlockBlobStageBlockFromURLHeaders;
+export type BlockBlobStageBlockFromURLResponse =
+  BlockBlobStageBlockFromURLHeaders;
 
 /** Optional parameters. */
 export interface BlockBlobCommitBlockListOptionalParams

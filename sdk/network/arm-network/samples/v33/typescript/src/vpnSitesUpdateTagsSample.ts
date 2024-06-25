@@ -18,21 +18,21 @@ dotenv.config();
  * This sample demonstrates how to Updates VpnSite tags.
  *
  * @summary Updates VpnSite tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VpnSiteUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnSiteUpdateTags.json
  */
 async function vpnSiteUpdate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const vpnSiteName = "vpnSite1";
   const vpnSiteParameters: TagsObject = {
-    tags: { key1: "value1", key2: "value2" }
+    tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.vpnSites.updateTags(
     resourceGroupName,
     vpnSiteName,
-    vpnSiteParameters
+    vpnSiteParameters,
   );
   console.log(result);
 }

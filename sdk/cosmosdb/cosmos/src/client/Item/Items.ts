@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 } from "uuid";
-const uuid = v4;
+
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
@@ -45,6 +44,7 @@ import {
   withDiagnostics,
   addDignosticChild,
 } from "../../utils/diagnostics";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * @hidden
@@ -306,7 +306,7 @@ export class Items {
 
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-        body.id = uuid();
+        body.id = randomUUID();
       }
       const partitionKeyDefinition = await readPartitionKeyDefinition(
         diagnosticNode,
@@ -384,7 +384,7 @@ export class Items {
       // Generate random document id if the id is missing in the payload and
       // options.disableAutomaticIdGeneration != true
       if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-        body.id = uuid();
+        body.id = randomUUID();
       }
 
       const partitionKeyDefinition = await readPartitionKeyDefinition(

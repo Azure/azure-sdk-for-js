@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CreateRoomRequest as CreateRoomRequestMapper,
   UpdateRoomRequest as UpdateRoomRequestMapper,
-  UpdateParticipantsRequest as UpdateParticipantsRequestMapper
+  UpdateParticipantsRequest as UpdateParticipantsRequestMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -24,9 +24,9 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept: OperationParameter = {
@@ -36,29 +36,29 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const validFrom: OperationParameter = {
   parameterPath: ["options", "validFrom"],
-  mapper: CreateRoomRequestMapper
+  mapper: CreateRoomRequestMapper,
 };
 
 export const validUntil: OperationParameter = {
   parameterPath: ["options", "validUntil"],
-  mapper: CreateRoomRequestMapper
+  mapper: CreateRoomRequestMapper,
 };
 
 export const pstnDialOutEnabled: OperationParameter = {
   parameterPath: ["options", "pstnDialOutEnabled"],
-  mapper: CreateRoomRequestMapper
+  mapper: CreateRoomRequestMapper,
 };
 
 export const participants: OperationParameter = {
   parameterPath: ["options", "participants"],
-  mapper: CreateRoomRequestMapper
+  mapper: CreateRoomRequestMapper,
 };
 
 export const endpoint: OperationURLParameter = {
@@ -67,22 +67,22 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-30-preview",
+    defaultValue: "2024-04-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const repeatabilityRequestID: OperationParameter = {
@@ -90,9 +90,9 @@ export const repeatabilityRequestID: OperationParameter = {
   mapper: {
     serializedName: "Repeatability-Request-ID",
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const repeatabilityFirstSent: OperationParameter = {
@@ -100,9 +100,9 @@ export const repeatabilityFirstSent: OperationParameter = {
   mapper: {
     serializedName: "Repeatability-First-Sent",
     type: {
-      name: "DateTimeRfc1123"
-    }
-  }
+      name: "DateTimeRfc1123",
+    },
+  },
 };
 
 export const roomId: OperationURLParameter = {
@@ -111,9 +111,9 @@ export const roomId: OperationURLParameter = {
     serializedName: "roomId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType1: OperationParameter = {
@@ -123,24 +123,24 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const validFrom1: OperationParameter = {
   parameterPath: ["options", "validFrom"],
-  mapper: UpdateRoomRequestMapper
+  mapper: UpdateRoomRequestMapper,
 };
 
 export const validUntil1: OperationParameter = {
   parameterPath: ["options", "validUntil"],
-  mapper: UpdateRoomRequestMapper
+  mapper: UpdateRoomRequestMapper,
 };
 
 export const pstnDialOutEnabled1: OperationParameter = {
   parameterPath: ["options", "pstnDialOutEnabled"],
-  mapper: UpdateRoomRequestMapper
+  mapper: UpdateRoomRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -149,13 +149,13 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const participants1: OperationParameter = {
   parameterPath: ["options", "participants"],
-  mapper: UpdateParticipantsRequestMapper
+  mapper: UpdateParticipantsRequestMapper,
 };

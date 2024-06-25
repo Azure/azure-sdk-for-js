@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  FormDataMap,
   HttpClient,
   HttpMethods,
+  MultipartRequestBody,
   PipelineRequest,
   PipelineResponse,
-  RawHttpHeaders,
   RequestBodyType,
 } from "../interfaces.js";
 import { RestError } from "../restError.js";
@@ -17,7 +16,7 @@ import { createPipelineRequest } from "../pipelineRequest.js";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 import { isReadableStream } from "../util/typeGuards.js";
 import { HttpResponse, RequestParameters } from "./common.js";
-import { binaryArrayToString } from "./helpers/getBinaryBody.js";
+import { PartDescriptor, buildMultipartBody } from "./multipart.js";
 
 /**
  * Helper function to send request used by the client
@@ -32,63 +31,41 @@ export async function sendRequest(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
-  options: RequestParameters = {},
+  options: InternalRequestParameters = {},
   customHttpClient?: HttpClient,
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
-
   const response = await pipeline.sendRequest(httpClient, request);
-
-  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
-
-  const parsedBody: RequestBodyType | undefined = getResponseBody(response);
+  const headers = response.headers.toJSON();
+  const stream = response.readableStreamBody ?? response.browserStreamBody;
+  const parsedBody =
+    options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
+  const body = stream ?? parsedBody;
 
   if (options?.onResponse) {
-    options.onResponse({ ...response, request, rawHeaders, parsedBody });
+    options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
   }
 
   return {
     request,
-    headers: rawHeaders,
+    headers,
     status: `${response.status}`,
-    body: parsedBody,
+    body,
   };
 }
 
 /**
- * Helper function to send request used by the client
- * @param method - method to use to send the request
- * @param url - url to send the request to
- * @param pipeline - pipeline with the policies to run when sending the request
- * @param options - request options
- * @param customHttpClient - a custom HttpClient to use when making the request
- * @returns returns and HttpResponse
+ * Function to determine the request content type
+ * @param options - request options InternalRequestParameters
+ * @returns returns the content-type
  */
-export async function sendRequestAsStream<
-  TResponse extends HttpResponse & {
-    body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
-  },
->(
-  method: HttpMethods,
-  url: string,
-  pipeline: Pipeline,
-  options: RequestParameters = {},
-  customHttpClient?: HttpClient,
-): Promise<TResponse> {
-  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
-  const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
-  const response = await pipeline.sendRequest(httpClient, request);
-  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
-
-  const parsedBody = response.browserStreamBody ?? response.readableStreamBody;
-
-  return {
-    request,
-    headers: rawHeaders,
-    status: `${response.status}`,
-    body: parsedBody,
-  } as TResponse;
+function getRequestContentType(options: InternalRequestParameters = {}): string {
+  return (
+    options.contentType ??
+    (options.headers?.["content-type"] as string) ??
+    getContentType(options.body)
+  );
 }
 
 /**
@@ -97,11 +74,20 @@ export async function sendRequestAsStream<
  * @param body - body in the request
  * @returns returns the content-type
  */
-function getContentType(body: any): string {
+function getContentType(body: any): string | undefined {
   if (ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
 
+  if (typeof body === "string") {
+    try {
+      JSON.parse(body);
+      return "application/json; charset=UTF-8";
+    } catch (error: any) {
+      // If we fail to parse the body, it is not json
+      return undefined;
+    }
+  }
   // By default return json
   return "application/json; charset=UTF-8";
 }
@@ -115,22 +101,24 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const { body, formData } = getRequestBody(options.body, options.contentType);
-  const hasContent = body !== undefined || formData !== undefined;
+  const requestContentType = getRequestContentType(options);
+  const { body, multipartBody } = getRequestBody(options.body, requestContentType);
+  const hasContent = body !== undefined || multipartBody !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
-    accept: options.accept ?? "application/json",
-    ...(hasContent && {
-      "content-type": options.contentType ?? getContentType(options.body),
-    }),
+    accept: options.accept ?? options.headers?.accept ?? "application/json",
+    ...(hasContent &&
+      requestContentType && {
+        "content-type": requestContentType,
+      }),
   });
 
   return createPipelineRequest({
     url,
     method,
     body,
-    formData,
+    multipartBody,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
     tracingOptions: options.tracingOptions,
@@ -147,7 +135,7 @@ function buildPipelineRequest(
 
 interface RequestBody {
   body?: RequestBodyType;
-  formData?: FormDataMap;
+  multipartBody?: MultipartRequestBody;
 }
 
 /**
@@ -158,11 +146,11 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body: undefined };
   }
 
-  if (isReadableStream(body)) {
+  if (typeof FormData !== "undefined" && body instanceof FormData) {
     return { body };
   }
 
-  if (!contentType && typeof body === "string") {
+  if (isReadableStream(body)) {
     return { body };
   }
 
@@ -173,18 +161,15 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    if (body instanceof Uint8Array) {
-      return { body: binaryArrayToString(body) };
-    } else {
-      return { body: JSON.stringify(body) };
-    }
+    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
   switch (firstType) {
     case "multipart/form-data":
-      return isFormData(body)
-        ? { formData: processFormData(body) }
-        : { body: JSON.stringify(body) };
+      if (Array.isArray(body)) {
+        return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };
+      }
+      return { body: JSON.stringify(body) };
     case "text/plain":
       return { body: String(body) };
     default:
@@ -193,33 +178,6 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
       }
       return { body: JSON.stringify(body) };
   }
-}
-
-function isFormData(body: unknown): body is FormDataMap {
-  return body instanceof Object && Object.keys(body).length > 0;
-}
-
-/**
- * Checks if binary data is in Uint8Array format, if so decode it to a binary string
- * to send over the wire
- */
-function processFormData(formData?: FormDataMap): FormDataMap | undefined {
-  if (!formData) {
-    return formData;
-  }
-
-  const processedFormData: FormDataMap = {};
-
-  for (const element in formData) {
-    const item = formData[element];
-    if (item instanceof Uint8Array) {
-      processedFormData[element] = binaryArrayToString(item);
-    } else {
-      processedFormData[element] = item;
-    }
-  }
-
-  return processedFormData;
 }
 
 /**

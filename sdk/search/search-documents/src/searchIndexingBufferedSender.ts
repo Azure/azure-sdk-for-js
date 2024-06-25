@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationOptions } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
+import { delay } from "@azure/core-util";
+import EventEmitter from "events";
+import { IndexDocumentsResult } from "./generated/data/models";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   IndexDocumentsAction,
@@ -12,18 +17,13 @@ import {
   SearchIndexingBufferedSenderOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
 } from "./indexModels";
-import { IndexDocumentsResult } from "./generated/data/models";
-import { OperationOptions } from "@azure/core-client";
-import EventEmitter from "events";
-import { createSpan } from "./tracing";
-import { delay } from "./serviceUtils";
 import { getRandomIntegerInclusive } from "./serviceUtils";
-import { RestError } from "@azure/core-rest-pipeline";
+import { createSpan } from "./tracing";
 
 /**
  * Index Documents Client
  */
-export interface IndexDocumentsClient<T extends object> {
+export interface IndexDocumentsClient<TModel extends object> {
   /**
    * Perform a set of index modifications (upload, merge, mergeOrUpload, delete)
    * for the given set of documents.
@@ -32,7 +32,7 @@ export interface IndexDocumentsClient<T extends object> {
    * @param options - Additional options.
    */
   indexDocuments(
-    batch: IndexDocumentsBatch<T>,
+    batch: IndexDocumentsBatch<TModel>,
     options: IndexDocumentsOptions,
   ): Promise<IndexDocumentsResult>;
 }
@@ -50,13 +50,9 @@ export const DEFAULT_FLUSH_WINDOW: number = 60000;
  */
 export const DEFAULT_RETRY_COUNT: number = 3;
 /**
- * Default retry delay.
- */
-export const DEFAULT_RETRY_DELAY: number = 800;
-/**
  * Default Max Delay between retries.
  */
-export const DEFAULT_MAX_RETRY_DELAY: number = 60000;
+const DEFAULT_MAX_RETRY_DELAY: number = 60000;
 
 /**
  * Class used to perform buffered operations against a search index,

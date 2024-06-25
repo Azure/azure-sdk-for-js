@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
  *
  * @summary Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGetDdosProtectionStatus.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGetDdosProtectionStatus.json
  */
 async function getDdosProtectionStatusOfAVirtualNetwork() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

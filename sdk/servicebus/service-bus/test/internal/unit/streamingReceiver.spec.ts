@@ -13,7 +13,7 @@ import { AbortError } from "@azure/abort-controller";
 import { assertThrows } from "../../public/utils/testUtils";
 
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
   const createTestStreamingReceiver = addTestStreamingReceiver();
@@ -184,7 +184,8 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message: "Cannot request messages on the receiver since it is suspended.",
+        message:
+          "Error 0: AbortError: Cannot request messages on the receiver since it is suspended.",
       });
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
@@ -223,14 +224,14 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message: "Receiver was suspended during initialization.",
+        message: "Error 0: AbortError: Receiver was suspended during initialization.",
       });
 
       assert.isTrue(!closeLinkSpy.called, "closeLink should not be called if no link was created");
 
       assert.deepEqual(errors, [
         {
-          message: "Receiver was suspended during initialization.",
+          message: "Error 0: AbortError: Receiver was suspended during initialization.",
           errorSource: "receive",
         },
       ]);

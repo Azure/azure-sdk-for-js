@@ -8,7 +8,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createServiceBusLogger } from "../../../src/log";
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 describe("errors", () => {
   let verboseSpy: sinon.SinonSpy<any[], void>;

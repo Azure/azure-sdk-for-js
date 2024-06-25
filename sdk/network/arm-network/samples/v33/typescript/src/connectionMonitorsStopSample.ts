@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Stops the specified connection monitor.
  *
  * @summary Stops the specified connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherConnectionMonitorStop.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherConnectionMonitorStop.json
  */
 async function stopConnectionMonitor() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function stopConnectionMonitor() {
   const result = await client.connectionMonitors.beginStopAndWait(
     resourceGroupName,
     networkWatcherName,
-    connectionMonitorName
+    connectionMonitorName,
   );
   console.log(result);
 }

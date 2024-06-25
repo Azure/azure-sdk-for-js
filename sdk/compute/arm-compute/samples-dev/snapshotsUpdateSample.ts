@@ -29,14 +29,14 @@ async function updateASnapshotWithAcceleratedNetworking() {
   const snapshot: SnapshotUpdate = {
     diskSizeGB: 20,
     supportedCapabilities: { acceleratedNetwork: false },
-    tags: { department: "Development", project: "UpdateSnapshots" }
+    tags: { department: "Development", project: "UpdateSnapshots" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -55,14 +55,14 @@ async function updateASnapshot() {
   const snapshotName = "mySnapshot";
   const snapshot: SnapshotUpdate = {
     diskSizeGB: 20,
-    tags: { department: "Development", project: "UpdateSnapshots" }
+    tags: { department: "Development", project: "UpdateSnapshots" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }

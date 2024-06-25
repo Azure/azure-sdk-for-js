@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified Firewall Policy.
  *
  * @summary Deletes the specified Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyDelete.json
  */
 async function deleteFirewallPolicy() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteFirewallPolicy() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.firewallPolicies.beginDeleteAndWait(
     resourceGroupName,
-    firewallPolicyName
+    firewallPolicyName,
   );
   console.log(result);
 }

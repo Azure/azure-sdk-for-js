@@ -23,7 +23,7 @@ import {
   StaticMembersCreateOrUpdateOptionalParams,
   StaticMembersCreateOrUpdateResponse,
   StaticMembersDeleteOptionalParams,
-  StaticMembersListNextResponse
+  StaticMembersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,13 +50,13 @@ export class StaticMembersImpl implements StaticMembers {
     resourceGroupName: string,
     networkManagerName: string,
     networkGroupName: string,
-    options?: StaticMembersListOptionalParams
+    options?: StaticMembersListOptionalParams,
   ): PagedAsyncIterableIterator<StaticMember> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
       networkGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class StaticMembersImpl implements StaticMembers {
           networkManagerName,
           networkGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class StaticMembersImpl implements StaticMembers {
     networkManagerName: string,
     networkGroupName: string,
     options?: StaticMembersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StaticMember[]> {
     let result: StaticMembersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class StaticMembersImpl implements StaticMembers {
         resourceGroupName,
         networkManagerName,
         networkGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class StaticMembersImpl implements StaticMembers {
         networkManagerName,
         networkGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class StaticMembersImpl implements StaticMembers {
     resourceGroupName: string,
     networkManagerName: string,
     networkGroupName: string,
-    options?: StaticMembersListOptionalParams
+    options?: StaticMembersListOptionalParams,
   ): AsyncIterableIterator<StaticMember> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
       networkGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,7 +145,7 @@ export class StaticMembersImpl implements StaticMembers {
     networkManagerName: string,
     networkGroupName: string,
     staticMemberName: string,
-    options?: StaticMembersGetOptionalParams
+    options?: StaticMembersGetOptionalParams,
   ): Promise<StaticMembersGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -153,9 +153,9 @@ export class StaticMembersImpl implements StaticMembers {
         networkManagerName,
         networkGroupName,
         staticMemberName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class StaticMembersImpl implements StaticMembers {
     networkGroupName: string,
     staticMemberName: string,
     parameters: StaticMember,
-    options?: StaticMembersCreateOrUpdateOptionalParams
+    options?: StaticMembersCreateOrUpdateOptionalParams,
   ): Promise<StaticMembersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -183,9 +183,9 @@ export class StaticMembersImpl implements StaticMembers {
         networkGroupName,
         staticMemberName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -202,7 +202,7 @@ export class StaticMembersImpl implements StaticMembers {
     networkManagerName: string,
     networkGroupName: string,
     staticMemberName: string,
-    options?: StaticMembersDeleteOptionalParams
+    options?: StaticMembersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -210,9 +210,9 @@ export class StaticMembersImpl implements StaticMembers {
         networkManagerName,
         networkGroupName,
         staticMemberName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class StaticMembersImpl implements StaticMembers {
     resourceGroupName: string,
     networkManagerName: string,
     networkGroupName: string,
-    options?: StaticMembersListOptionalParams
+    options?: StaticMembersListOptionalParams,
   ): Promise<StaticMembersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, networkGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -248,7 +248,7 @@ export class StaticMembersImpl implements StaticMembers {
     networkManagerName: string,
     networkGroupName: string,
     nextLink: string,
-    options?: StaticMembersListNextOptionalParams
+    options?: StaticMembersListNextOptionalParams,
   ): Promise<StaticMembersListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -256,9 +256,9 @@ export class StaticMembersImpl implements StaticMembers {
         networkManagerName,
         networkGroupName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -266,16 +266,15 @@ export class StaticMembersImpl implements StaticMembers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StaticMember
+      bodyMapper: Mappers.StaticMember,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -284,27 +283,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.networkManagerName,
     Parameters.networkGroupName,
-    Parameters.staticMemberName
+    Parameters.staticMemberName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StaticMember
+      bodyMapper: Mappers.StaticMember,
     },
     201: {
-      bodyMapper: Mappers.StaticMember
+      bodyMapper: Mappers.StaticMember,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -312,22 +310,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.networkManagerName,
     Parameters.networkGroupName,
-    Parameters.staticMemberName
+    Parameters.staticMemberName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -336,48 +333,47 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.networkManagerName,
     Parameters.networkGroupName,
-    Parameters.staticMemberName
+    Parameters.staticMemberName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StaticMemberListResult
+      bodyMapper: Mappers.StaticMemberListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName,
-    Parameters.networkGroupName
+    Parameters.networkGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StaticMemberListResult
+      bodyMapper: Mappers.StaticMemberListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -385,8 +381,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.networkManagerName,
-    Parameters.networkGroupName
+    Parameters.networkGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates tags of a Security Partner Provider resource.
  *
  * @summary Updates tags of a Security Partner Provider resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SecurityPartnerProviderUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SecurityPartnerProviderUpdateTags.json
  */
 async function updateSecurityPartnerProviderTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

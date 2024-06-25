@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
  *
  * @summary Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCircuitRouteTableSummaryList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCircuitRouteTableSummaryList.json
  */
 async function listRouteTableSummary() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,12 +28,13 @@ async function listRouteTableSummary() {
   const devicePath = "devicePath";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRouteCircuits.beginListRoutesTableSummaryAndWait(
-    resourceGroupName,
-    circuitName,
-    peeringName,
-    devicePath
-  );
+  const result =
+    await client.expressRouteCircuits.beginListRoutesTableSummaryAndWait(
+      resourceGroupName,
+      circuitName,
+      peeringName,
+      devicePath,
+    );
   console.log(result);
 }
 

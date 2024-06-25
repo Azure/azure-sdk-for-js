@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyNatRuleCollectionGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyNatRuleCollectionGroupGet.json
  */
 async function getFirewallPolicyNatRuleCollectionGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getFirewallPolicyNatRuleCollectionGroup() {
   const result = await client.firewallPolicyRuleCollectionGroups.get(
     resourceGroupName,
     firewallPolicyName,
-    ruleCollectionGroupName
+    ruleCollectionGroupName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function getFirewallPolicyNatRuleCollectionGroup() {
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupGet.json
  */
 async function getFirewallPolicyRuleCollectionGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -51,7 +51,7 @@ async function getFirewallPolicyRuleCollectionGroup() {
   const result = await client.firewallPolicyRuleCollectionGroups.get(
     resourceGroupName,
     firewallPolicyName,
-    ruleCollectionGroupName
+    ruleCollectionGroupName,
   );
   console.log(result);
 }
@@ -60,7 +60,7 @@ async function getFirewallPolicyRuleCollectionGroup() {
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
  */
 async function getFirewallPolicyRuleCollectionGroupWithIPGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -72,7 +72,7 @@ async function getFirewallPolicyRuleCollectionGroupWithIPGroups() {
   const result = await client.firewallPolicyRuleCollectionGroups.get(
     resourceGroupName,
     firewallPolicyName,
-    ruleCollectionGroupName
+    ruleCollectionGroupName,
   );
   console.log(result);
 }
@@ -81,7 +81,7 @@ async function getFirewallPolicyRuleCollectionGroupWithIPGroups() {
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
  */
 async function getFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const subscriptionId =
@@ -95,7 +95,7 @@ async function getFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const result = await client.firewallPolicyRuleCollectionGroups.get(
     resourceGroupName,
     firewallPolicyName,
-    ruleCollectionGroupName
+    ruleCollectionGroupName,
   );
   console.log(result);
 }

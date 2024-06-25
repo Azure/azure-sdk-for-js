@@ -15,7 +15,7 @@ import { SmsApiClient } from "../smsApiClient";
 import {
   SendMessageRequest,
   SmsSendOptionalParams,
-  SmsSendOperationResponse
+  SmsSendOperationResponse,
 } from "../models";
 
 /** Class containing Sms operations. */
@@ -37,7 +37,7 @@ export class SmsImpl implements Sms {
    */
   async send(
     sendMessageRequest: SendMessageRequest,
-    options?: SmsSendOptionalParams
+    options?: SmsSendOptionalParams,
   ): Promise<SmsSendOperationResponse> {
     return tracingClient.withSpan(
       "SmsApiClient.send",
@@ -45,9 +45,9 @@ export class SmsImpl implements Sms {
       async (options) => {
         return this.client.sendOperationRequest(
           { sendMessageRequest, options },
-          sendOperationSpec
+          sendOperationSpec,
         ) as Promise<SmsSendOperationResponse>;
-      }
+      },
     );
   }
 }
@@ -59,13 +59,13 @@ const sendOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.SmsSendResponse
-    }
+      bodyMapper: Mappers.SmsSendResponse,
+    },
   },
   requestBody: Parameters.sendMessageRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

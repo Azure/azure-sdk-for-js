@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BastionShareableLinkListRequest,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a Bastion Shareable Links for all the VMs specified in the request.
  *
  * @summary Creates a Bastion Shareable Links for all the VMs specified in the request.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/BastionShareableLinkCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/BastionShareableLinkCreate.json
  */
 async function createBastionShareableLinksForTheRequestVMS() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,17 +31,15 @@ async function createBastionShareableLinksForTheRequestVMS() {
     vms: [
       {
         vm: {
-          id:
-            "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1"
-        }
+          id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1",
+        },
       },
       {
         vm: {
-          id:
-            "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2"
-        }
-      }
-    ]
+          id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2",
+        },
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -49,7 +47,7 @@ async function createBastionShareableLinksForTheRequestVMS() {
   for await (let item of client.beginListPutBastionShareableLinkAndWait(
     resourceGroupName,
     bastionHostName,
-    bslRequest
+    bslRequest,
   )) {
     resArray.push(item);
   }

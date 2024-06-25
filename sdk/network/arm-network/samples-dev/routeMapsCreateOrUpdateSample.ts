@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a RouteMap if it doesn't exist else updates the existing one.
  *
  * @summary Creates a RouteMap if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/RouteMapPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteMapPut.json
  */
 async function routeMapPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function routeMapPut() {
   const routeMapName = "routeMap1";
   const routeMapParameters: RouteMap = {
     associatedInboundConnections: [
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1"
+      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1",
     ],
     associatedOutboundConnections: [],
     rules: [
@@ -36,20 +36,20 @@ async function routeMapPut() {
         actions: [
           {
             type: "Add",
-            parameters: [{ asPath: ["22334"], community: [], routePrefix: [] }]
-          }
+            parameters: [{ asPath: ["22334"], community: [], routePrefix: [] }],
+          },
         ],
         matchCriteria: [
           {
             asPath: [],
             community: [],
             matchCondition: "Contains",
-            routePrefix: ["10.0.0.0/8"]
-          }
+            routePrefix: ["10.0.0.0/8"],
+          },
         ],
-        nextStepIfMatched: "Continue"
-      }
-    ]
+        nextStepIfMatched: "Continue",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -57,7 +57,7 @@ async function routeMapPut() {
     resourceGroupName,
     virtualHubName,
     routeMapName,
-    routeMapParameters
+    routeMapParameters,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ExpressRouteCrossConnectionPeering,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a peering in the specified ExpressRouteCrossConnection.
  *
  * @summary Creates or updates a peering in the specified ExpressRouteCrossConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCrossConnectionBgpPeeringCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCrossConnectionBgpPeeringCreate.json
  */
 async function expressRouteCrossConnectionBgpPeeringCreate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,21 +32,22 @@ async function expressRouteCrossConnectionBgpPeeringCreate() {
   const peeringParameters: ExpressRouteCrossConnectionPeering = {
     ipv6PeeringConfig: {
       primaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::/126",
-      secondaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::4/126"
+      secondaryPeerAddressPrefix: "3FFE:FFFF:0:CD30::4/126",
     },
     peerASN: 200,
     primaryPeerAddressPrefix: "192.168.16.252/30",
     secondaryPeerAddressPrefix: "192.168.18.252/30",
-    vlanId: 200
+    vlanId: 200,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRouteCrossConnectionPeerings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    crossConnectionName,
-    peeringName,
-    peeringParameters
-  );
+  const result =
+    await client.expressRouteCrossConnectionPeerings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      crossConnectionName,
+      peeringName,
+      peeringParameters,
+    );
   console.log(result);
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an Image.
  *
  * @summary Deletes an Image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/imageExamples/Images_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/imageExamples/Images_Delete_MaximumSet_Gen.json
  */
 async function imageDeleteMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function imageDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginDeleteAndWait(
     resourceGroupName,
-    imageName
+    imageName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function imageDeleteMaximumSetGen() {
  * This sample demonstrates how to Deletes an Image.
  *
  * @summary Deletes an Image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/imageExamples/Images_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/imageExamples/Images_Delete_MinimumSet_Gen.json
  */
 async function imageDeleteMinimumSetGen() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function imageDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginDeleteAndWait(
     resourceGroupName,
-    imageName
+    imageName,
   );
   console.log(result);
 }

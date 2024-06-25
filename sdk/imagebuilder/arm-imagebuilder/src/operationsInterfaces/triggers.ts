@@ -16,7 +16,7 @@ import {
   TriggersCreateOrUpdateOptionalParams,
   TriggersCreateOrUpdateResponse,
   TriggersDeleteOptionalParams,
-  TriggersDeleteResponse
+  TriggersDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Triggers {
   listByImageTemplate(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: TriggersListByImageTemplateOptionalParams
+    options?: TriggersListByImageTemplateOptionalParams,
   ): PagedAsyncIterableIterator<Trigger>;
   /**
    * Get the specified trigger for the specified image template resource
@@ -44,7 +44,7 @@ export interface Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     triggerName: string,
-    options?: TriggersGetOptionalParams
+    options?: TriggersGetOptionalParams,
   ): Promise<TriggersGetResponse>;
   /**
    * Create or update a trigger for the specified virtual machine image template
@@ -59,7 +59,7 @@ export interface Triggers {
     imageTemplateName: string,
     triggerName: string,
     parameters: Trigger,
-    options?: TriggersCreateOrUpdateOptionalParams
+    options?: TriggersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TriggersCreateOrUpdateResponse>,
@@ -79,7 +79,7 @@ export interface Triggers {
     imageTemplateName: string,
     triggerName: string,
     parameters: Trigger,
-    options?: TriggersCreateOrUpdateOptionalParams
+    options?: TriggersCreateOrUpdateOptionalParams,
   ): Promise<TriggersCreateOrUpdateResponse>;
   /**
    * Delete a trigger for the specified virtual machine image template
@@ -92,7 +92,7 @@ export interface Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     triggerName: string,
-    options?: TriggersDeleteOptionalParams
+    options?: TriggersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TriggersDeleteResponse>,
@@ -110,6 +110,6 @@ export interface Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     triggerName: string,
-    options?: TriggersDeleteOptionalParams
+    options?: TriggersDeleteOptionalParams,
   ): Promise<TriggersDeleteResponse>;
 }

@@ -10,7 +10,7 @@ import {
   FileWorkspacesGetOptionalParams,
   FileWorkspacesGetResponse,
   FileWorkspacesCreateOptionalParams,
-  FileWorkspacesCreateResponse
+  FileWorkspacesCreateResponse,
 } from "../models";
 
 /** Interface representing a FileWorkspaces. */
@@ -22,7 +22,7 @@ export interface FileWorkspaces {
    */
   get(
     fileWorkspaceName: string,
-    options?: FileWorkspacesGetOptionalParams
+    options?: FileWorkspacesGetOptionalParams,
   ): Promise<FileWorkspacesGetResponse>;
   /**
    * Creates a new file workspace for the specified subscription.
@@ -31,6 +31,6 @@ export interface FileWorkspaces {
    */
   create(
     fileWorkspaceName: string,
-    options?: FileWorkspacesCreateOptionalParams
+    options?: FileWorkspacesCreateOptionalParams,
   ): Promise<FileWorkspacesCreateResponse>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified local network gateway in a resource group.
  *
  * @summary Gets the specified local network gateway in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/LocalNetworkGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LocalNetworkGatewayGet.json
  */
 async function getLocalNetworkGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getLocalNetworkGateway() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.localNetworkGateways.get(
     resourceGroupName,
-    localNetworkGatewayName
+    localNetworkGatewayName,
   );
   console.log(result);
 }

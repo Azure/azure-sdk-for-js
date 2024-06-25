@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   NewRelicMonitorResource as NewRelicMonitorResourceMapper,
@@ -20,7 +20,8 @@ import {
   SwitchBillingRequest as SwitchBillingRequestMapper,
   HostsGetRequest as HostsGetRequestMapper,
   TagRule as TagRuleMapper,
-  TagRuleUpdate as TagRuleUpdateMapper
+  TagRuleUpdate as TagRuleUpdateMapper,
+  MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -30,9 +31,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -41,22 +42,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -65,24 +66,24 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const userEmail: OperationQueryParameter = {
@@ -91,9 +92,9 @@ export const userEmail: OperationQueryParameter = {
     serializedName: "userEmail",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location: OperationQueryParameter = {
@@ -102,9 +103,9 @@ export const location: OperationQueryParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -112,14 +113,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const monitorName: OperationURLParameter = {
@@ -128,9 +129,9 @@ export const monitorName: OperationURLParameter = {
     serializedName: "monitorName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -140,44 +141,58 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: NewRelicMonitorResourceMapper
+  mapper: NewRelicMonitorResourceMapper,
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: NewRelicMonitorResourceUpdateMapper
+  mapper: NewRelicMonitorResourceUpdateMapper,
 };
 
 export const request: OperationParameter = {
   parameterPath: "request",
-  mapper: MetricsRequestMapper
+  mapper: MetricsRequestMapper,
 };
 
 export const request1: OperationParameter = {
   parameterPath: "request",
-  mapper: MetricsStatusRequestMapper
+  mapper: MetricsStatusRequestMapper,
 };
 
 export const request2: OperationParameter = {
   parameterPath: "request",
-  mapper: AppServicesGetRequestMapper
+  mapper: AppServicesGetRequestMapper,
 };
 
 export const request3: OperationParameter = {
   parameterPath: "request",
-  mapper: SwitchBillingRequestMapper
+  mapper: SwitchBillingRequestMapper,
 };
 
 export const request4: OperationParameter = {
   parameterPath: "request",
-  mapper: HostsGetRequestMapper
+  mapper: HostsGetRequestMapper,
+};
+
+export const monitorName1: OperationURLParameter = {
+  parameterPath: "monitorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$"),
+    },
+    serializedName: "monitorName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const accountId: OperationQueryParameter = {
@@ -185,9 +200,9 @@ export const accountId: OperationQueryParameter = {
   mapper: {
     serializedName: "accountId",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const organizationId: OperationQueryParameter = {
@@ -195,9 +210,24 @@ export const organizationId: OperationQueryParameter = {
   mapper: {
     serializedName: "organizationId",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$",
+      ),
+    },
+    serializedName: "body",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const ruleSetName: OperationURLParameter = {
@@ -206,17 +236,33 @@ export const ruleSetName: OperationURLParameter = {
     serializedName: "ruleSetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource1: OperationParameter = {
   parameterPath: "resource",
-  mapper: TagRuleMapper
+  mapper: TagRuleMapper,
 };
 
 export const properties1: OperationParameter = {
   parameterPath: "properties",
-  mapper: TagRuleUpdateMapper
+  mapper: TagRuleUpdateMapper,
+};
+
+export const configurationName: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    serializedName: "configurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: MonitoredSubscriptionPropertiesMapper,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a connection monitor by name.
  *
  * @summary Gets a connection monitor by name.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherConnectionMonitorGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherConnectionMonitorGet.json
  */
 async function getConnectionMonitor() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getConnectionMonitor() {
   const result = await client.connectionMonitors.get(
     resourceGroupName,
     networkWatcherName,
-    connectionMonitorName
+    connectionMonitorName,
   );
   console.log(result);
 }

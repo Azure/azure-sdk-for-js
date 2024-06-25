@@ -19,11 +19,9 @@ require("dotenv").config();
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/Assessments/ListAssessments_example.json
  */
 async function listSecurityAssessments() {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential);
   const resArray = new Array();
   for await (let item of client.assessments.list(scope)) {
     resArray.push(item);

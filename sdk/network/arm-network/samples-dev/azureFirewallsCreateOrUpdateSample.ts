@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPut.json
  */
 async function createAzureFirewall() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,23 +36,21 @@ async function createAzureFirewall() {
             description: "Deny inbound rule",
             protocols: [{ port: 443, protocolType: "Https" }],
             sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
-            targetFqdns: ["www.test.com"]
-          }
-        ]
-      }
+            targetFqdns: ["www.test.com"],
+          },
+        ],
+      },
     ],
     ipConfigurations: [
       {
         name: "azureFirewallIpConfiguration",
         publicIPAddress: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName",
         },
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet",
+        },
+      },
     ],
     location: "West US",
     natRuleCollections: [
@@ -69,7 +67,7 @@ async function createAzureFirewall() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedAddress: "1.2.3.5",
-            translatedPort: "8443"
+            translatedPort: "8443",
           },
           {
             name: "DNAT-HTTP-traffic-With-FQDN",
@@ -79,10 +77,10 @@ async function createAzureFirewall() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedFqdn: "internalhttpserver",
-            translatedPort: "880"
-          }
-        ]
-      }
+            translatedPort: "880",
+          },
+        ],
+      },
     ],
     networkRuleCollections: [
       {
@@ -98,8 +96,8 @@ async function createAzureFirewall() {
             protocols: ["TCP"],
             sourceAddresses: [
               "192.168.1.1-192.168.1.12",
-              "10.1.4.12-10.1.4.255"
-            ]
+              "10.1.4.12-10.1.4.255",
+            ],
           },
           {
             name: "L4-traffic-with-FQDN",
@@ -108,22 +106,22 @@ async function createAzureFirewall() {
             destinationFqdns: ["www.amazon.com"],
             destinationPorts: ["443-444", "8443"],
             protocols: ["TCP"],
-            sourceAddresses: ["10.2.4.12-10.2.4.255"]
-          }
-        ]
-      }
+            sourceAddresses: ["10.2.4.12-10.2.4.255"],
+          },
+        ],
+      },
     ],
     sku: { name: "AZFW_VNet", tier: "Standard" },
     tags: { key1: "value1" },
     threatIntelMode: "Alert",
-    zones: []
+    zones: [],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.azureFirewalls.beginCreateOrUpdateAndWait(
     resourceGroupName,
     azureFirewallName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -132,7 +130,7 @@ async function createAzureFirewall() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallPutWithAdditionalProperties.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithAdditionalProperties.json
  */
 async function createAzureFirewallWithAdditionalProperties() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -151,23 +149,21 @@ async function createAzureFirewallWithAdditionalProperties() {
             description: "Deny inbound rule",
             protocols: [{ port: 443, protocolType: "Https" }],
             sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
-            targetFqdns: ["www.test.com"]
-          }
-        ]
-      }
+            targetFqdns: ["www.test.com"],
+          },
+        ],
+      },
     ],
     ipConfigurations: [
       {
         name: "azureFirewallIpConfiguration",
         publicIPAddress: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName",
         },
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet",
+        },
+      },
     ],
     ipGroups: [],
     location: "West US",
@@ -185,7 +181,7 @@ async function createAzureFirewallWithAdditionalProperties() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedAddress: "1.2.3.5",
-            translatedPort: "8443"
+            translatedPort: "8443",
           },
           {
             name: "DNAT-HTTP-traffic-With-FQDN",
@@ -195,10 +191,10 @@ async function createAzureFirewallWithAdditionalProperties() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedFqdn: "internalhttpserver",
-            translatedPort: "880"
-          }
-        ]
-      }
+            translatedPort: "880",
+          },
+        ],
+      },
     ],
     networkRuleCollections: [
       {
@@ -214,8 +210,8 @@ async function createAzureFirewallWithAdditionalProperties() {
             protocols: ["TCP"],
             sourceAddresses: [
               "192.168.1.1-192.168.1.12",
-              "10.1.4.12-10.1.4.255"
-            ]
+              "10.1.4.12-10.1.4.255",
+            ],
           },
           {
             name: "L4-traffic-with-FQDN",
@@ -224,22 +220,22 @@ async function createAzureFirewallWithAdditionalProperties() {
             destinationFqdns: ["www.amazon.com"],
             destinationPorts: ["443-444", "8443"],
             protocols: ["TCP"],
-            sourceAddresses: ["10.2.4.12-10.2.4.255"]
-          }
-        ]
-      }
+            sourceAddresses: ["10.2.4.12-10.2.4.255"],
+          },
+        ],
+      },
     ],
     sku: { name: "AZFW_VNet", tier: "Standard" },
     tags: { key1: "value1" },
     threatIntelMode: "Alert",
-    zones: []
+    zones: [],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.azureFirewalls.beginCreateOrUpdateAndWait(
     resourceGroupName,
     azureFirewallName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -248,7 +244,7 @@ async function createAzureFirewallWithAdditionalProperties() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallPutWithIpGroups.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithIpGroups.json
  */
 async function createAzureFirewallWithIPGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -266,23 +262,21 @@ async function createAzureFirewallWithIPGroups() {
             description: "Deny inbound rule",
             protocols: [{ port: 443, protocolType: "Https" }],
             sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
-            targetFqdns: ["www.test.com"]
-          }
-        ]
-      }
+            targetFqdns: ["www.test.com"],
+          },
+        ],
+      },
     ],
     ipConfigurations: [
       {
         name: "azureFirewallIpConfiguration",
         publicIPAddress: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName",
         },
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet",
+        },
+      },
     ],
     location: "West US",
     natRuleCollections: [
@@ -299,7 +293,7 @@ async function createAzureFirewallWithIPGroups() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedAddress: "1.2.3.5",
-            translatedPort: "8443"
+            translatedPort: "8443",
           },
           {
             name: "DNAT-HTTP-traffic-With-FQDN",
@@ -309,10 +303,10 @@ async function createAzureFirewallWithIPGroups() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedFqdn: "internalhttpserver",
-            translatedPort: "880"
-          }
-        ]
-      }
+            translatedPort: "880",
+          },
+        ],
+      },
     ],
     networkRuleCollections: [
       {
@@ -328,8 +322,8 @@ async function createAzureFirewallWithIPGroups() {
             protocols: ["TCP"],
             sourceAddresses: [
               "192.168.1.1-192.168.1.12",
-              "10.1.4.12-10.1.4.255"
-            ]
+              "10.1.4.12-10.1.4.255",
+            ],
           },
           {
             name: "L4-traffic-with-FQDN",
@@ -338,22 +332,22 @@ async function createAzureFirewallWithIPGroups() {
             destinationFqdns: ["www.amazon.com"],
             destinationPorts: ["443-444", "8443"],
             protocols: ["TCP"],
-            sourceAddresses: ["10.2.4.12-10.2.4.255"]
-          }
-        ]
-      }
+            sourceAddresses: ["10.2.4.12-10.2.4.255"],
+          },
+        ],
+      },
     ],
     sku: { name: "AZFW_VNet", tier: "Standard" },
     tags: { key1: "value1" },
     threatIntelMode: "Alert",
-    zones: []
+    zones: [],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.azureFirewalls.beginCreateOrUpdateAndWait(
     resourceGroupName,
     azureFirewallName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -362,7 +356,7 @@ async function createAzureFirewallWithIPGroups() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallPutWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithZones.json
  */
 async function createAzureFirewallWithZones() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -380,23 +374,21 @@ async function createAzureFirewallWithZones() {
             description: "Deny inbound rule",
             protocols: [{ port: 443, protocolType: "Https" }],
             sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
-            targetFqdns: ["www.test.com"]
-          }
-        ]
-      }
+            targetFqdns: ["www.test.com"],
+          },
+        ],
+      },
     ],
     ipConfigurations: [
       {
         name: "azureFirewallIpConfiguration",
         publicIPAddress: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName",
         },
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet",
+        },
+      },
     ],
     location: "West US 2",
     natRuleCollections: [
@@ -413,7 +405,7 @@ async function createAzureFirewallWithZones() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedAddress: "1.2.3.5",
-            translatedPort: "8443"
+            translatedPort: "8443",
           },
           {
             name: "DNAT-HTTP-traffic-With-FQDN",
@@ -423,10 +415,10 @@ async function createAzureFirewallWithZones() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedFqdn: "internalhttpserver",
-            translatedPort: "880"
-          }
-        ]
-      }
+            translatedPort: "880",
+          },
+        ],
+      },
     ],
     networkRuleCollections: [
       {
@@ -442,8 +434,8 @@ async function createAzureFirewallWithZones() {
             protocols: ["TCP"],
             sourceAddresses: [
               "192.168.1.1-192.168.1.12",
-              "10.1.4.12-10.1.4.255"
-            ]
+              "10.1.4.12-10.1.4.255",
+            ],
           },
           {
             name: "L4-traffic-with-FQDN",
@@ -452,22 +444,22 @@ async function createAzureFirewallWithZones() {
             destinationFqdns: ["www.amazon.com"],
             destinationPorts: ["443-444", "8443"],
             protocols: ["TCP"],
-            sourceAddresses: ["10.2.4.12-10.2.4.255"]
-          }
-        ]
-      }
+            sourceAddresses: ["10.2.4.12-10.2.4.255"],
+          },
+        ],
+      },
     ],
     sku: { name: "AZFW_VNet", tier: "Standard" },
     tags: { key1: "value1" },
     threatIntelMode: "Alert",
-    zones: ["1", "2", "3"]
+    zones: ["1", "2", "3"],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.azureFirewalls.beginCreateOrUpdateAndWait(
     resourceGroupName,
     azureFirewallName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -476,7 +468,7 @@ async function createAzureFirewallWithZones() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallPutWithMgmtSubnet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithMgmtSubnet.json
  */
 async function createAzureFirewallWithManagementSubnet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -494,35 +486,31 @@ async function createAzureFirewallWithManagementSubnet() {
             description: "Deny inbound rule",
             protocols: [{ port: 443, protocolType: "Https" }],
             sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
-            targetFqdns: ["www.test.com"]
-          }
-        ]
-      }
+            targetFqdns: ["www.test.com"],
+          },
+        ],
+      },
     ],
     ipConfigurations: [
       {
         name: "azureFirewallIpConfiguration",
         publicIPAddress: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName",
         },
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallSubnet",
+        },
+      },
     ],
     location: "West US",
     managementIpConfiguration: {
       name: "azureFirewallMgmtIpConfiguration",
       publicIPAddress: {
-        id:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/managementPipName"
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/managementPipName",
       },
       subnet: {
-        id:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallManagementSubnet"
-      }
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/AzureFirewallManagementSubnet",
+      },
     },
     natRuleCollections: [
       {
@@ -538,7 +526,7 @@ async function createAzureFirewallWithManagementSubnet() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedAddress: "1.2.3.5",
-            translatedPort: "8443"
+            translatedPort: "8443",
           },
           {
             name: "DNAT-HTTP-traffic-With-FQDN",
@@ -548,10 +536,10 @@ async function createAzureFirewallWithManagementSubnet() {
             protocols: ["TCP"],
             sourceAddresses: ["*"],
             translatedFqdn: "internalhttpserver",
-            translatedPort: "880"
-          }
-        ]
-      }
+            translatedPort: "880",
+          },
+        ],
+      },
     ],
     networkRuleCollections: [
       {
@@ -567,8 +555,8 @@ async function createAzureFirewallWithManagementSubnet() {
             protocols: ["TCP"],
             sourceAddresses: [
               "192.168.1.1-192.168.1.12",
-              "10.1.4.12-10.1.4.255"
-            ]
+              "10.1.4.12-10.1.4.255",
+            ],
           },
           {
             name: "L4-traffic-with-FQDN",
@@ -577,22 +565,22 @@ async function createAzureFirewallWithManagementSubnet() {
             destinationFqdns: ["www.amazon.com"],
             destinationPorts: ["443-444", "8443"],
             protocols: ["TCP"],
-            sourceAddresses: ["10.2.4.12-10.2.4.255"]
-          }
-        ]
-      }
+            sourceAddresses: ["10.2.4.12-10.2.4.255"],
+          },
+        ],
+      },
     ],
     sku: { name: "AZFW_VNet", tier: "Standard" },
     tags: { key1: "value1" },
     threatIntelMode: "Alert",
-    zones: []
+    zones: [],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.azureFirewalls.beginCreateOrUpdateAndWait(
     resourceGroupName,
     azureFirewallName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -601,7 +589,7 @@ async function createAzureFirewallWithManagementSubnet() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallPutInHub.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutInHub.json
  */
 async function createAzureFirewallInVirtualHub() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -609,8 +597,7 @@ async function createAzureFirewallInVirtualHub() {
   const azureFirewallName = "azurefirewall";
   const parameters: AzureFirewall = {
     firewallPolicy: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/policy1"
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/policy1",
     },
     hubIPAddresses: { publicIPs: { addresses: [], count: 1 } },
     location: "West US",
@@ -618,17 +605,16 @@ async function createAzureFirewallInVirtualHub() {
     tags: { key1: "value1" },
     threatIntelMode: "Alert",
     virtualHub: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
     },
-    zones: []
+    zones: [],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.azureFirewalls.beginCreateOrUpdateAndWait(
     resourceGroupName,
     azureFirewallName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

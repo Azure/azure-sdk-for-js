@@ -18,7 +18,7 @@ import {
   BackupPolicyPatch,
   BackupPoliciesUpdateOptionalParams,
   BackupPoliciesUpdateResponse,
-  BackupPoliciesDeleteOptionalParams
+  BackupPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface BackupPolicies {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupPolicy>;
   /**
    * Get a particular backup Policy
@@ -46,7 +46,7 @@ export interface BackupPolicies {
     resourceGroupName: string,
     accountName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesGetOptionalParams
+    options?: BackupPoliciesGetOptionalParams,
   ): Promise<BackupPoliciesGetResponse>;
   /**
    * Create a backup policy for Netapp Account
@@ -61,7 +61,7 @@ export interface BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicy,
-    options?: BackupPoliciesCreateOptionalParams
+    options?: BackupPoliciesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupPoliciesCreateResponse>,
@@ -81,7 +81,7 @@ export interface BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicy,
-    options?: BackupPoliciesCreateOptionalParams
+    options?: BackupPoliciesCreateOptionalParams,
   ): Promise<BackupPoliciesCreateResponse>;
   /**
    * Patch a backup policy for Netapp Account
@@ -96,7 +96,7 @@ export interface BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicyPatch,
-    options?: BackupPoliciesUpdateOptionalParams
+    options?: BackupPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupPoliciesUpdateResponse>,
@@ -116,7 +116,7 @@ export interface BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicyPatch,
-    options?: BackupPoliciesUpdateOptionalParams
+    options?: BackupPoliciesUpdateOptionalParams,
   ): Promise<BackupPoliciesUpdateResponse>;
   /**
    * Delete backup policy
@@ -129,7 +129,7 @@ export interface BackupPolicies {
     resourceGroupName: string,
     accountName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesDeleteOptionalParams
+    options?: BackupPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete backup policy
@@ -142,6 +142,6 @@ export interface BackupPolicies {
     resourceGroupName: string,
     accountName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesDeleteOptionalParams
+    options?: BackupPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

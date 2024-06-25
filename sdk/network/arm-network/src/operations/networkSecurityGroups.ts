@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   NetworkSecurityGroupsUpdateTagsOptionalParams,
   NetworkSecurityGroupsUpdateTagsResponse,
   NetworkSecurityGroupsListAllNextResponse,
-  NetworkSecurityGroupsListNextResponse
+  NetworkSecurityGroupsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
    * @param options The options parameters.
    */
   public listAll(
-    options?: NetworkSecurityGroupsListAllOptionalParams
+    options?: NetworkSecurityGroupsListAllOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityGroup> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: NetworkSecurityGroupsListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkSecurityGroup[]> {
     let result: NetworkSecurityGroupsListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
   }
 
   private async *listAllPagingAll(
-    options?: NetworkSecurityGroupsListAllOptionalParams
+    options?: NetworkSecurityGroupsListAllOptionalParams,
   ): AsyncIterableIterator<NetworkSecurityGroup> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
    */
   public list(
     resourceGroupName: string,
-    options?: NetworkSecurityGroupsListOptionalParams
+    options?: NetworkSecurityGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityGroup> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -128,14 +128,14 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: NetworkSecurityGroupsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkSecurityGroup[]> {
     let result: NetworkSecurityGroupsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,7 +161,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: NetworkSecurityGroupsListOptionalParams
+    options?: NetworkSecurityGroupsListOptionalParams,
   ): AsyncIterableIterator<NetworkSecurityGroup> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -177,25 +177,24 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
   async beginDelete(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: NetworkSecurityGroupsDeleteOptionalParams
+    options?: NetworkSecurityGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -204,8 +203,8 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -213,20 +212,20 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkSecurityGroupName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -241,12 +240,12 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: NetworkSecurityGroupsDeleteOptionalParams
+    options?: NetworkSecurityGroupsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkSecurityGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -260,11 +259,11 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
   get(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: NetworkSecurityGroupsGetOptionalParams
+    options?: NetworkSecurityGroupsGetOptionalParams,
   ): Promise<NetworkSecurityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkSecurityGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -279,7 +278,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     parameters: NetworkSecurityGroup,
-    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkSecurityGroupsCreateOrUpdateResponse>,
@@ -288,21 +287,20 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkSecurityGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +309,8 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,8 +318,8 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -331,9 +329,9 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
         resourceGroupName,
         networkSecurityGroupName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkSecurityGroupsCreateOrUpdateResponse,
@@ -341,7 +339,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -358,13 +356,13 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     parameters: NetworkSecurityGroup,
-    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<NetworkSecurityGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkSecurityGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -380,11 +378,11 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     parameters: TagsObject,
-    options?: NetworkSecurityGroupsUpdateTagsOptionalParams
+    options?: NetworkSecurityGroupsUpdateTagsOptionalParams,
   ): Promise<NetworkSecurityGroupsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkSecurityGroupName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -393,7 +391,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: NetworkSecurityGroupsListAllOptionalParams
+    options?: NetworkSecurityGroupsListAllOptionalParams,
   ): Promise<NetworkSecurityGroupsListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -405,11 +403,11 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
    */
   private _list(
     resourceGroupName: string,
-    options?: NetworkSecurityGroupsListOptionalParams
+    options?: NetworkSecurityGroupsListOptionalParams,
   ): Promise<NetworkSecurityGroupsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -420,11 +418,11 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
    */
   private _listAllNext(
     nextLink: string,
-    options?: NetworkSecurityGroupsListAllNextOptionalParams
+    options?: NetworkSecurityGroupsListAllNextOptionalParams,
   ): Promise<NetworkSecurityGroupsListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 
@@ -437,11 +435,11 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkSecurityGroupsListNextOptionalParams
+    options?: NetworkSecurityGroupsListNextOptionalParams,
   ): Promise<NetworkSecurityGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -449,8 +447,7 @@ export class NetworkSecurityGroupsImpl implements NetworkSecurityGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -458,85 +455,82 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkSecurityGroupName
+    Parameters.networkSecurityGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityGroup
+      bodyMapper: Mappers.NetworkSecurityGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkSecurityGroupName
+    Parameters.networkSecurityGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityGroup
+      bodyMapper: Mappers.NetworkSecurityGroup,
     },
     201: {
-      bodyMapper: Mappers.NetworkSecurityGroup
+      bodyMapper: Mappers.NetworkSecurityGroup,
     },
     202: {
-      bodyMapper: Mappers.NetworkSecurityGroup
+      bodyMapper: Mappers.NetworkSecurityGroup,
     },
     204: {
-      bodyMapper: Mappers.NetworkSecurityGroup
+      bodyMapper: Mappers.NetworkSecurityGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters41,
+  requestBody: Parameters.parameters43,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkSecurityGroupName
+    Parameters.networkSecurityGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityGroup
+      bodyMapper: Mappers.NetworkSecurityGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -544,86 +538,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkSecurityGroupName
+    Parameters.networkSecurityGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityGroupListResult
+      bodyMapper: Mappers.NetworkSecurityGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityGroupListResult
+      bodyMapper: Mappers.NetworkSecurityGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityGroupListResult
+      bodyMapper: Mappers.NetworkSecurityGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityGroupListResult
+      bodyMapper: Mappers.NetworkSecurityGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

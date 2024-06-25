@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "@azure/storage-file-share";
 
 // Expects the .env file at the same level as the "test" folder

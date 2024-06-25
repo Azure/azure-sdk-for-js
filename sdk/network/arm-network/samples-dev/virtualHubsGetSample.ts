@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a VirtualHub.
  *
  * @summary Retrieves the details of a VirtualHub.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualHubGet.json
  */
 async function virtualHubGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function virtualHubGet() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualHubs.get(
     resourceGroupName,
-    virtualHubName
+    virtualHubName,
   );
   console.log(result);
 }

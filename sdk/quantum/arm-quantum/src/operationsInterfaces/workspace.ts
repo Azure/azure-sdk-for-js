@@ -9,7 +9,11 @@
 import {
   CheckNameAvailabilityParameters,
   WorkspaceCheckNameAvailabilityOptionalParams,
-  WorkspaceCheckNameAvailabilityResponse
+  WorkspaceCheckNameAvailabilityResponse,
+  WorkspaceListKeysOptionalParams,
+  WorkspaceListKeysResponse,
+  APIKeys,
+  WorkspaceRegenerateKeysOptionalParams,
 } from "../models";
 
 /** Interface representing a Workspace. */
@@ -23,6 +27,33 @@ export interface Workspace {
   checkNameAvailability(
     locationName: string,
     checkNameAvailabilityParameters: CheckNameAvailabilityParameters,
-    options?: WorkspaceCheckNameAvailabilityOptionalParams
+    options?: WorkspaceCheckNameAvailabilityOptionalParams,
   ): Promise<WorkspaceCheckNameAvailabilityResponse>;
+  /**
+   * Get the keys to use with the Quantum APIs. A key is used to authenticate and authorize access to the
+   * Quantum REST APIs. Only one key is needed at a time; two are given to provide seamless key
+   * regeneration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the quantum workspace resource.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspaceListKeysOptionalParams,
+  ): Promise<WorkspaceListKeysResponse>;
+  /**
+   * Regenerate either the primary or secondary key for use with the Quantum APIs. The old key will stop
+   * working immediately.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the quantum workspace resource.
+   * @param keySpecification Which key to regenerate:  primary or secondary.
+   * @param options The options parameters.
+   */
+  regenerateKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    keySpecification: APIKeys,
+    options?: WorkspaceRegenerateKeysOptionalParams,
+  ): Promise<void>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ActiveConfigurationParameter,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists active security admin rules in a network manager.
  *
  * @summary Lists active security admin rules in a network manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerActiveSecurityAdminRulesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerActiveSecurityAdminRulesList.json
  */
 async function listActiveSecurityAdminRules() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function listActiveSecurityAdminRules() {
   const networkManagerName = "testNetworkManager";
   const parameters: ActiveConfigurationParameter = {
     regions: ["westus"],
-    skipToken: "fakeSkipTokenCode"
+    skipToken: "fakeSkipTokenCode",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.listActiveSecurityAdminRules(
     resourceGroupName,
     networkManagerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

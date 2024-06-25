@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Resets the virtual network gateway connection specified.
  *
  * @summary Resets the virtual network gateway connection specified.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayConnectionReset.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayConnectionReset.json
  */
 async function resetVirtualNetworkGatewayConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -27,14 +27,14 @@ async function updateADiskAccessResource() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const diskAccess: DiskAccessUpdate = {
-    tags: { department: "Development", project: "PrivateEndpoints" }
+    tags: { department: "Development", project: "PrivateEndpoints" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.beginUpdateAndWait(
     resourceGroupName,
     diskAccessName,
-    diskAccess
+    diskAccess,
   );
   console.log(result);
 }

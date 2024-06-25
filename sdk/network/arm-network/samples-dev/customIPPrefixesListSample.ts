@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all custom IP prefixes in a resource group.
  *
  * @summary Gets all custom IP prefixes in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/CustomIpPrefixList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/CustomIpPrefixList.json
  */
 async function listResourceGroupCustomIPPrefixes() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

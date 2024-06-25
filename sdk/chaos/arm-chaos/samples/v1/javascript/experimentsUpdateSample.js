@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update an experiment.
  *
  * @summary The operation to update an experiment.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/UpdateExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/UpdateExperiment.json
  */
 async function updateAnExperimentInAResourceGroup() {
   const subscriptionId =
@@ -31,13 +31,14 @@ async function updateAnExperimentInAResourceGroup() {
           {},
       },
     },
+    tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
   const result = await client.experiments.beginUpdateAndWait(
     resourceGroupName,
     experimentName,
-    experiment
+    experiment,
   );
   console.log(result);
 }

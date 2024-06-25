@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a RouteMap.
  *
  * @summary Retrieves the details of a RouteMap.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/RouteMapGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteMapGet.json
  */
 async function routeMapGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function routeMapGet() {
   const result = await client.routeMaps.get(
     resourceGroupName,
     virtualHubName,
-    routeMapName
+    routeMapName,
   );
   console.log(result);
 }

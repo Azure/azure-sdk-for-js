@@ -8,7 +8,7 @@
 
 import {
   ResourceNavigationLinksListOptionalParams,
-  ResourceNavigationLinksListResponse
+  ResourceNavigationLinksListResponse,
 } from "../models";
 
 /** Interface representing a ResourceNavigationLinks. */
@@ -24,6 +24,6 @@ export interface ResourceNavigationLinks {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: ResourceNavigationLinksListOptionalParams
+    options?: ResourceNavigationLinksListOptionalParams,
   ): Promise<ResourceNavigationLinksListResponse>;
 }
