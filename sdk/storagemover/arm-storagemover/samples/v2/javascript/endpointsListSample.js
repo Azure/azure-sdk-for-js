@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Endpoints in a Storage Mover.
  *
  * @summary Lists all Endpoints in a Storage Mover.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_List.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_List.json
  */
 async function endpointsList() {
   const subscriptionId =

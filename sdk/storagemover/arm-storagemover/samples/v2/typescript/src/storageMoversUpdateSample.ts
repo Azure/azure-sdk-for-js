@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   StorageMoverUpdateParameters,
-  StorageMoverClient
+  StorageMoverClient,
 } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates properties for a Storage Mover resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for a Storage Mover resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/StorageMovers_Update.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/StorageMovers_Update.json
  */
 async function storageMoversUpdate() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function storageMoversUpdate() {
     process.env["STORAGEMOVER_RESOURCE_GROUP"] || "examples-rg";
   const storageMoverName = "examples-storageMoverName";
   const storageMover: StorageMoverUpdateParameters = {
-    description: "Updated Storage Mover Description"
+    description: "Updated Storage Mover Description",
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const result = await client.storageMovers.update(
     resourceGroupName,
     storageMoverName,
-    storageMover
+    storageMover,
   );
   console.log(result);
 }

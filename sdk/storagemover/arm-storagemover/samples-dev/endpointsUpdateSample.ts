@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   EndpointBaseUpdateParameters,
-  StorageMoverClient
+  StorageMoverClient,
 } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_AzureStorageBlobContainer.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_AzureStorageBlobContainer.json
  */
 async function endpointsUpdateAzureStorageBlobContainer() {
   const subscriptionId =
@@ -34,8 +34,8 @@ async function endpointsUpdateAzureStorageBlobContainer() {
   const endpoint: EndpointBaseUpdateParameters = {
     properties: {
       description: "Updated Endpoint Description",
-      endpointType: "AzureStorageBlobContainer"
-    }
+      endpointType: "AzureStorageBlobContainer",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function endpointsUpdateAzureStorageBlobContainer() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -52,7 +52,7 @@ async function endpointsUpdateAzureStorageBlobContainer() {
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_AzureStorageSmbFileShare.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_AzureStorageSmbFileShare.json
  */
 async function endpointsUpdateAzureStorageSmbFileShare() {
   const subscriptionId =
@@ -65,8 +65,8 @@ async function endpointsUpdateAzureStorageSmbFileShare() {
   const endpoint: EndpointBaseUpdateParameters = {
     properties: {
       description: "Updated Endpoint Description",
-      endpointType: "AzureStorageSmbFileShare"
-    }
+      endpointType: "AzureStorageSmbFileShare",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -74,7 +74,7 @@ async function endpointsUpdateAzureStorageSmbFileShare() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -83,7 +83,7 @@ async function endpointsUpdateAzureStorageSmbFileShare() {
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_NfsMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_NfsMount.json
  */
 async function endpointsUpdateNfsMount() {
   const subscriptionId =
@@ -96,8 +96,8 @@ async function endpointsUpdateNfsMount() {
   const endpoint: EndpointBaseUpdateParameters = {
     properties: {
       description: "Updated Endpoint Description",
-      endpointType: "NfsMount"
-    }
+      endpointType: "NfsMount",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -105,7 +105,7 @@ async function endpointsUpdateNfsMount() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -114,7 +114,7 @@ async function endpointsUpdateNfsMount() {
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_SmbMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_SmbMount.json
  */
 async function endpointsUpdateSmbMount() {
   const subscriptionId =
@@ -132,10 +132,10 @@ async function endpointsUpdateSmbMount() {
         passwordUri:
           "https://examples-azureKeyVault.vault.azure.net/secrets/examples-updated-password",
         usernameUri:
-          "https://examples-azureKeyVault.vault.azure.net/secrets/examples-updated-username"
+          "https://examples-azureKeyVault.vault.azure.net/secrets/examples-updated-username",
       },
-      endpointType: "SmbMount"
-    }
+      endpointType: "SmbMount",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -143,7 +143,7 @@ async function endpointsUpdateSmbMount() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
