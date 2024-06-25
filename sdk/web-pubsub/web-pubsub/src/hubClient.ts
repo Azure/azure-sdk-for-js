@@ -955,7 +955,12 @@ export class WebPubSubServiceClient {
       async (updatedOptions) => {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-        const baseUrl = `${clientEndpoint}client/hubs/${this.hubName}`;
+        const clientEndpointType = options.clientEndpointType;
+        const clientPath =
+          clientEndpointType && clientEndpointType === "mqtt"
+            ? `clients/mqtt/hubs/${this.hubName}`
+            : `client/hubs/${this.hubName}`;
+        const baseUrl = clientEndpoint + clientPath;
 
         let token: string;
         if (isTokenCredential(this.credential)) {
@@ -966,7 +971,7 @@ export class WebPubSubServiceClient {
           token = response.token!;
         } else {
           const key = this.credential.key;
-          const audience = `${endpoint}client/hubs/${this.hubName}`;
+          const audience = endpoint + clientPath;
           const payload = { role: options?.roles, "webpubsub.group": options?.groups };
           const signOptions: jwt.SignOptions = {
             audience: audience,

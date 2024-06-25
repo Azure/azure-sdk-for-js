@@ -9,11 +9,11 @@
 import {
   OperationURLParameter,
   OperationQueryParameter,
-  OperationParameter
+  OperationParameter,
 } from "@azure/core-client";
 import {
   AddToGroupsRequest as AddToGroupsRequestMapper,
-  RemoveFromGroupsRequest as RemoveFromGroupsRequestMapper
+  RemoveFromGroupsRequest as RemoveFromGroupsRequestMapper,
 } from "../models/mappers";
 
 export const endpoint: OperationURLParameter = {
@@ -22,22 +22,22 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -47,14 +47,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const groupsToAdd: OperationParameter = {
   parameterPath: "groupsToAdd",
-  mapper: AddToGroupsRequestMapper
+  mapper: AddToGroupsRequestMapper,
 };
 
 export const accept: OperationParameter = {
@@ -64,23 +64,23 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const hub: OperationURLParameter = {
   parameterPath: "hub",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9_`,.[\\]]{0,127}$")
+      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9_`,.[\\]]{0,127}$"),
     },
     serializedName: "hub",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const excluded: OperationQueryParameter = {
@@ -91,12 +91,12 @@ export const excluded: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "Multi"
+  collectionFormat: "Multi",
 };
 
 export const reason: OperationQueryParameter = {
@@ -104,9 +104,9 @@ export const reason: OperationQueryParameter = {
   mapper: {
     serializedName: "reason",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept1: OperationParameter = {
@@ -116,9 +116,9 @@ export const accept1: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const userId: OperationQueryParameter = {
@@ -126,9 +126,9 @@ export const userId: OperationQueryParameter = {
   mapper: {
     serializedName: "userId",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roles: OperationQueryParameter = {
@@ -139,12 +139,12 @@ export const roles: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "Multi"
+  collectionFormat: "Multi",
 };
 
 export const expirationTimeInMinutes: OperationQueryParameter = {
@@ -152,13 +152,13 @@ export const expirationTimeInMinutes: OperationQueryParameter = {
   mapper: {
     defaultValue: 60,
     constraints: {
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "minutesToExpire",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const groups: OperationQueryParameter = {
@@ -169,17 +169,28 @@ export const groups: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "Multi"
+  collectionFormat: "Multi",
+};
+
+export const clientType: OperationQueryParameter = {
+  parameterPath: ["options", "clientType"],
+  mapper: {
+    defaultValue: "Default",
+    serializedName: "clientType",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const groupsToRemove: OperationParameter = {
   parameterPath: "groupsToRemove",
-  mapper: RemoveFromGroupsRequestMapper
+  mapper: RemoveFromGroupsRequestMapper,
 };
 
 export const contentType1: OperationParameter = {
@@ -189,9 +200,9 @@ export const contentType1: OperationParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: ["application/json", "application/octet-stream"]
-    }
-  }
+      allowedValues: ["application/json", "application/octet-stream"],
+    },
+  },
 };
 
 export const message: OperationParameter = {
@@ -200,9 +211,9 @@ export const message: OperationParameter = {
     serializedName: "message",
     required: true,
     type: {
-      name: "Stream"
-    }
-  }
+      name: "Stream",
+    },
+  },
 };
 
 export const accept2: OperationParameter = {
@@ -212,9 +223,9 @@ export const accept2: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType2: OperationParameter = {
@@ -224,9 +235,9 @@ export const contentType2: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const message1: OperationParameter = {
@@ -235,9 +246,9 @@ export const message1: OperationParameter = {
     serializedName: "message",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept3: OperationParameter = {
@@ -247,9 +258,9 @@ export const accept3: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const excludedConnections: OperationQueryParameter = {
@@ -260,12 +271,12 @@ export const excludedConnections: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "Multi"
+  collectionFormat: "Multi",
 };
 
 export const filter: OperationQueryParameter = {
@@ -273,9 +284,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const messageTtlSeconds: OperationQueryParameter = {
@@ -283,27 +294,27 @@ export const messageTtlSeconds: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 300,
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "messageTtlSeconds",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const connectionId: OperationURLParameter = {
   parameterPath: "connectionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "connectionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const group: OperationURLParameter = {
@@ -312,14 +323,14 @@ export const group: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^(?!\\s+$).+$"),
       MaxLength: 1024,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "group",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const permission: OperationURLParameter = {
@@ -328,9 +339,9 @@ export const permission: OperationURLParameter = {
     serializedName: "permission",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const targetName: OperationQueryParameter = {
@@ -338,21 +349,21 @@ export const targetName: OperationQueryParameter = {
   mapper: {
     serializedName: "targetName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const userId1: OperationURLParameter = {
   parameterPath: "userId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "userId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
