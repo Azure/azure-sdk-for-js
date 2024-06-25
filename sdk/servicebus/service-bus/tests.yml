@@ -9,8 +9,5 @@ extends:
       Clouds: 'Public,Canary'
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
-        AZURE_CLIENT_ID: $(SERVICEBUS_CLIENT_ID)
-        AZURE_TENANT_ID: $(SERVICEBUS_TENANT_ID)
-        AZURE_CLIENT_SECRET: $(SERVICEBUS_CLIENT_SECRET)
-        AZURE_SUBSCRIPTION_ID: $(SERVICEBUS_SUBSCRIPTION_ID)
         DEBUG: azure:service-bus:*,azure:core-amqp:*,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+
