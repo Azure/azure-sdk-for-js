@@ -144,13 +144,13 @@ export interface MsalClient {
    * Retrieves an access token by using a client assertion.
    *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
-   * @param clientAssertion - The client assertion used for authentication.
+   * @param clientAssertion - The client `getAssertion` callback used for authentication.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
    */
   getTokenByClientAssertion(
     scopes: string[],
-    clientAssertion: string,
+    clientAssertion: () => Promise<string>,
     options?: GetTokenOptions
   ): Promise<AccessToken>;
 
@@ -551,7 +551,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
   async function getTokenByClientAssertion(
     scopes: string[],
-    clientAssertion: string,
+    clientAssertion: () => Promise<string>,
     options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using client assertion`);
