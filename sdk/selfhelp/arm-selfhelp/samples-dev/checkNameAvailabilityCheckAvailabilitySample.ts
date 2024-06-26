@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  CheckNameAvailabilityPostOptionalParams,
+  CheckNameAvailabilityCheckAvailabilityOptionalParams,
   HelpRP,
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,12 +30,15 @@ async function exampleWhenNameIsAvailableForADiagnosticResource() {
     name: "sampleName",
     type: "Microsoft.Help/diagnostics",
   };
-  const options: CheckNameAvailabilityPostOptionalParams = {
+  const options: CheckNameAvailabilityCheckAvailabilityOptionalParams = {
     checkNameAvailabilityRequest,
   };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.checkNameAvailability.post(scope, options);
+  const result = await client.checkNameAvailability.checkAvailability(
+    scope,
+    options,
+  );
   console.log(result);
 }
 
@@ -51,12 +54,15 @@ async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
     name: "sampleName",
     type: "Microsoft.Help/diagnostics",
   };
-  const options: CheckNameAvailabilityPostOptionalParams = {
+  const options: CheckNameAvailabilityCheckAvailabilityOptionalParams = {
     checkNameAvailabilityRequest,
   };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.checkNameAvailability.post(scope, options);
+  const result = await client.checkNameAvailability.checkAvailability(
+    scope,
+    options,
+  );
   console.log(result);
 }
 
