@@ -52,9 +52,9 @@ describe("Cosmosdb test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroupName = "myjstest";
-    accountName = "myaccountxxyy2";
+    location = "eastasia";
+    resourceGroupName = "czwjstest";
+    accountName = "myaccountxxyz2";
   });
 
   afterEach(async function () {
@@ -71,7 +71,7 @@ describe("Cosmosdb test", () => {
         //   isZoneRedundant: false
         // },
         {
-          locationName: "eastus",
+          locationName: "eastasia",
           failoverPriority: 1
         },
         {

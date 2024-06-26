@@ -19,7 +19,7 @@ import {
   StorageMoverUpdateParameters,
   StorageMoversUpdateOptionalParams,
   StorageMoversUpdateResponse,
-  StorageMoversDeleteOptionalParams
+  StorageMoversDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface StorageMovers {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: StorageMoversListBySubscriptionOptionalParams
+    options?: StorageMoversListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<StorageMover>;
   /**
    * Lists all Storage Movers in a resource group.
@@ -39,7 +39,7 @@ export interface StorageMovers {
    */
   list(
     resourceGroupName: string,
-    options?: StorageMoversListOptionalParams
+    options?: StorageMoversListOptionalParams,
   ): PagedAsyncIterableIterator<StorageMover>;
   /**
    * Gets a Storage Mover resource.
@@ -50,7 +50,7 @@ export interface StorageMovers {
   get(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: StorageMoversGetOptionalParams
+    options?: StorageMoversGetOptionalParams,
   ): Promise<StorageMoversGetResponse>;
   /**
    * Creates or updates a top-level Storage Mover resource.
@@ -64,7 +64,7 @@ export interface StorageMovers {
     resourceGroupName: string,
     storageMoverName: string,
     storageMover: StorageMover,
-    options?: StorageMoversCreateOrUpdateOptionalParams
+    options?: StorageMoversCreateOrUpdateOptionalParams,
   ): Promise<StorageMoversCreateOrUpdateResponse>;
   /**
    * Updates properties for a Storage Mover resource. Properties not specified in the request body will
@@ -78,7 +78,7 @@ export interface StorageMovers {
     resourceGroupName: string,
     storageMoverName: string,
     storageMover: StorageMoverUpdateParameters,
-    options?: StorageMoversUpdateOptionalParams
+    options?: StorageMoversUpdateOptionalParams,
   ): Promise<StorageMoversUpdateResponse>;
   /**
    * Deletes a Storage Mover resource.
@@ -89,7 +89,7 @@ export interface StorageMovers {
   beginDelete(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: StorageMoversDeleteOptionalParams
+    options?: StorageMoversDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Storage Mover resource.
@@ -100,6 +100,6 @@ export interface StorageMovers {
   beginDeleteAndWait(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: StorageMoversDeleteOptionalParams
+    options?: StorageMoversDeleteOptionalParams,
   ): Promise<void>;
 }
