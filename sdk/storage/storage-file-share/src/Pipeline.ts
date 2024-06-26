@@ -42,7 +42,7 @@ import {
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache";
 import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2";
-import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2";
+import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
 import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
 import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory";
 import { ShareTokenIntent } from "./generatedModels";

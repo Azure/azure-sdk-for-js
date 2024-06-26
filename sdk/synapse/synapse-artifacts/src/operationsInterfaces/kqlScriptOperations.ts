@@ -15,7 +15,7 @@ import {
   KqlScriptGetByNameResponse,
   KqlScriptDeleteByNameOptionalParams,
   ArtifactRenameRequest,
-  KqlScriptRenameOptionalParams
+  KqlScriptRenameOptionalParams,
 } from "../models";
 
 /** Interface representing a KqlScriptOperations. */
@@ -29,7 +29,7 @@ export interface KqlScriptOperations {
   beginCreateOrUpdate(
     kqlScriptName: string,
     kqlScript: KqlScriptResource,
-    options?: KqlScriptCreateOrUpdateOptionalParams
+    options?: KqlScriptCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<KqlScriptCreateOrUpdateResponse>,
@@ -45,7 +45,7 @@ export interface KqlScriptOperations {
   beginCreateOrUpdateAndWait(
     kqlScriptName: string,
     kqlScript: KqlScriptResource,
-    options?: KqlScriptCreateOrUpdateOptionalParams
+    options?: KqlScriptCreateOrUpdateOptionalParams,
   ): Promise<KqlScriptCreateOrUpdateResponse>;
   /**
    * Get KQL script by name
@@ -54,7 +54,7 @@ export interface KqlScriptOperations {
    */
   getByName(
     kqlScriptName: string,
-    options?: KqlScriptGetByNameOptionalParams
+    options?: KqlScriptGetByNameOptionalParams,
   ): Promise<KqlScriptGetByNameResponse>;
   /**
    * Delete KQL script by name
@@ -63,7 +63,7 @@ export interface KqlScriptOperations {
    */
   beginDeleteByName(
     kqlScriptName: string,
-    options?: KqlScriptDeleteByNameOptionalParams
+    options?: KqlScriptDeleteByNameOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete KQL script by name
@@ -72,7 +72,7 @@ export interface KqlScriptOperations {
    */
   beginDeleteByNameAndWait(
     kqlScriptName: string,
-    options?: KqlScriptDeleteByNameOptionalParams
+    options?: KqlScriptDeleteByNameOptionalParams,
   ): Promise<void>;
   /**
    * Rename KQL script
@@ -83,7 +83,7 @@ export interface KqlScriptOperations {
   beginRename(
     kqlScriptName: string,
     renameRequest: ArtifactRenameRequest,
-    options?: KqlScriptRenameOptionalParams
+    options?: KqlScriptRenameOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rename KQL script
@@ -94,6 +94,6 @@ export interface KqlScriptOperations {
   beginRenameAndWait(
     kqlScriptName: string,
     renameRequest: ArtifactRenameRequest,
-    options?: KqlScriptRenameOptionalParams
+    options?: KqlScriptRenameOptionalParams,
   ): Promise<void>;
 }

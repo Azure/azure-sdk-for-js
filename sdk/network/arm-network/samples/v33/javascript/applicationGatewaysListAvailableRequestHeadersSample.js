@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all available request headers.
  *
  * @summary Lists all available request headers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayAvailableRequestHeadersGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayAvailableRequestHeadersGet.json
  */
 async function getAvailableRequestHeaders() {
   const subscriptionId =

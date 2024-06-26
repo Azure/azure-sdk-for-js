@@ -14,13 +14,13 @@
 
 /.devcontainer/ @jeremymeng
 /documentation/ @jeremymeng
-/samples/       @jeremymeng @witemple-msft
+/samples/       @jeremymeng
 
 ################
 # Architecture
 ################
 
-/design/ @bterlson @mpodwysocki @joheredi @jeremymeng @witemple-msft
+/design/ @bterlson @mpodwysocki @joheredi @jeremymeng @maorleger
 
 ###########
 # SDK
@@ -31,18 +31,13 @@
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
-# AzureSdkOwners: @xirzec @jeremymeng @deyaaeldeen @timovv @mpodwysocki
-/sdk/core/ @xirzec @jeremymeng @deyaaeldeen @timovv @mpodwysocki
+# AzureSdkOwners: @Azure/azure-sdk-for-js-core
+/sdk/core/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
 # AzureSdkOwners:  @jeremymeng @deyaaeldeen @HarshaNalluru
 /sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
-
-# PRLabel: %Azure.Core
-# ServiceLabel: %Azure.Core
-# AzureSdkOwners: @jeremymeng @deyaaeldeen
-/sdk/core/core-auth/ @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
@@ -174,7 +169,7 @@
 
 # PRLabel: %Storage
 # ServiceLabel: %Storage
-/sdk/storage/ @EmmaZhu @XiaoningLiu @vinjiang @jiacfan @ljian3377
+/sdk/storage/ @EmmaZhu @XiaoningLiu @vinjiang @jiacfan @ljian3377 @blueww
 
 # PRLabel: %Synapse
 # ServiceLabel: %Synapse
@@ -253,6 +248,11 @@
 # AzureSdkOwners: @KarishmaGhiya
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
+# PRLabel: %Notification Hub
+# ServiceLabel: %Notification Hub
+# AzureSdkOwners: @mpodwysocki
+/sdk/notificationhubs/notification-hubs @mpodwysocki @jeremymeng
+
 # PRLabel: %Cognitive - Content Safety
 # ServiceLabel: %Cognitive - Content Safety
 /sdk/contentsafety/ @xirzec
@@ -274,12 +274,8 @@
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
 
-# Smoke Tests
-/common/smoke-test/ @xirzec @jeremymeng
-
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger
-
+/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger @joheredi
 
 # Management Plane
 # PRLabel: %Mgmt
@@ -451,6 +447,9 @@
 /sdk/deviceupdate/arm-deviceupdate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/devopsinfrastructure/arm-devopsinfrastructure/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -533,6 +532,9 @@
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/iotcentral/arm-iotcentral/ @qiaozha @MaryGao
@@ -668,6 +670,9 @@
 
 # PRLabel: %Mgmt
 /sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
@@ -890,8 +895,8 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
@@ -1467,36 +1472,40 @@
 #/<NotInRepo>/          @ccmshowbackdevs
 
 ###########
-# Tools
-###########
-
-# PRLabel: %dev-tool
-/common/tools/dev-tool/ @witemple-msft
-
-# PRLabel: %eslint plugin
-/common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen
-
-###########
 # Eng Sys
 ###########
 /eng/           @ckairen @mikeharder @weshaggard @benbp
+/eng/common/    @Azure/azure-sdk-eng
 
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @ckairen @deyaaeldeen
-/common/ @mikeharder @ckairen @deyaaeldeen
-/common/config/rush/pnpm-lock.yaml @ckairen @deyaaeldeen @jeremymeng
-/common/smoke-test/ @mikeharder @ckairen @witemple-msft @deyaaeldeen @benbp
+/.vscode/ @mikeharder @ckairen @deyaaeldeen @jeremymeng
+/common/ @mikeharder @ckairen @deyaaeldeen @jeremymeng
+/common/config/rush/pnpm-lock.yaml @ckairen @jeremymeng @Azure/azure-sdk-js-dev
+# Smoke Tests
+/common/smoke-test/ @mikeharder @ckairen @jeremymeng @deyaaeldeen @benbp
 
-/rush.json @mikeharder @ckairen
-/tsconfig.json @mikeharder @ckairen @witemple-msft @deyaaeldeen
-/**/tsconfig.json @witemple-msft @deyaaeldeen
+###########
+# Tools
+###########
+
+# PRLabel: %dev-tool
+/common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv
+
+# PRLabel: %eslint plugin
+/common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen @jeremymeng
+
+/eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+
+/rush.json @mikeharder @ckairen @jeremymeng
+/tsconfig.json @mikeharder @ckairen @jeremymeng @deyaaeldeen
+/**/tsconfig.json @jeremymeng @deyaaeldeen
 /**/tsconfig.strict.json @deyaaeldeen
 /.scripts/ @mikeharder @ckairen
 
 # Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
+/eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
 /eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
 
 # PRLabel: %Mgmt

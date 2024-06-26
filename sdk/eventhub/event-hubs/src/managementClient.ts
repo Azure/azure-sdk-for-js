@@ -55,6 +55,10 @@ export interface EventHubProperties {
    * The slice of string partition identifiers.
    */
   partitionIds: string[];
+  /**
+   * Whether the hub has geographical disaster recovery enabled.
+   */
+  isGeoDrEnabled: boolean;
 }
 
 /**
@@ -80,7 +84,7 @@ export interface PartitionProperties {
   /**
    * The offset of the last enqueued message in the partition's message log.
    */
-  lastEnqueuedOffset: number;
+  lastEnqueuedOffset: string;
   /**
    * The time of the last enqueued message in the partition's message log in UTC.
    */
@@ -210,6 +214,7 @@ export class ManagementClient {
             name: info.name,
             createdOn: new Date(info.created_at),
             partitionIds: info.partition_ids,
+            isGeoDrEnabled: info.georeplication_factor > 1,
           };
           logger.verbose("the hub runtime info is: %O", runtimeInfo);
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Storage Mover resource.
  *
  * @summary Gets a Storage Mover resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/StorageMovers_Get.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/StorageMovers_Get.json
  */
 async function storageMoversGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function storageMoversGet() {
   const client = new StorageMoverClient(credential, subscriptionId);
   const result = await client.storageMovers.get(
     resourceGroupName,
-    storageMoverName
+    storageMoverName,
   );
   console.log(result);
 }

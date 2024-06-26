@@ -3,7 +3,7 @@
 
 import { AzureAuthorityHosts } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder, RecorderStartOptions, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, isLiveMode } from "@azure-tools/test-recorder";
 import {
   ContainerRegistryContentClient,
   ContainerRegistryClient,
@@ -110,14 +110,7 @@ export function createRegistryClient(
     return new ContainerRegistryClient(endpoint, recorder.configureClientOptions(clientOptions));
   }
 
-  const credential = createTestCredential(
-    { ...tokenCredentialOptions, httpClient },
-    {
-      tenantId: env.CONTAINERREGISTRY_TENANT_ID,
-      clientId: env.CONTAINERREGISTRY_CLIENT_ID,
-      clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    },
-  );
+  const credential = createTestCredential({ ...tokenCredentialOptions, httpClient });
 
   return new ContainerRegistryClient(
     endpoint,
@@ -140,14 +133,7 @@ export function createBlobClient(
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
   };
 
-  const credential = createTestCredential(
-    { ...tokenCredentialOptions },
-    {
-      tenantId: env.CONTAINERREGISTRY_TENANT_ID,
-      clientId: env.CONTAINERREGISTRY_CLIENT_ID,
-      clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    },
-  );
+  const credential = createTestCredential(tokenCredentialOptions);
 
   return new ContainerRegistryContentClient(
     endpoint,

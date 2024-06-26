@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all private endpoints in a resource group.
  *
  * @summary Gets all private endpoints in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/PrivateEndpointList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointList.json
  */
 async function listPrivateEndpointsInResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
