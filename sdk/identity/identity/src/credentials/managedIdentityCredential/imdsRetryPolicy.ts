@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy, retryPolicy } from "@azure/core-rest-pipeline";
-import { getRandomIntegerInclusive } from "@azure/core-util";
+
 import { MSIConfiguration } from "./models";
+import { getRandomIntegerInclusive } from "@azure/core-util";
 
 // Matches the default retry configuration in expontentialRetryStrategy.ts
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
@@ -20,7 +21,7 @@ export function imdsRetryPolicy(msiRetryConfig: MSIConfiguration["retryConfig"])
   return retryPolicy(
     [
       {
-        name: "Retry404",
+        name: "imdsRetryPolicy",
         retry: ({ retryCount, response }) => {
           if (response?.status !== 404) {
             return { skipStrategy: true };
