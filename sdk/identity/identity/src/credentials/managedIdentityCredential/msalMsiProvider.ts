@@ -55,16 +55,9 @@ export class MsalMsiProvider {
     clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
     options: ManagedIdentityCredentialOptions = {},
   ) {
-    // TODO: disambiguate this like we did in keyvault
-    let _options: ManagedIdentityCredentialOptions = {};
-    if (typeof clientIdOrOptions === "string") {
-      this.clientId = clientIdOrOptions;
-      _options = options;
-    } else {
-      this.clientId = clientIdOrOptions?.clientId;
-      _options = clientIdOrOptions ?? {};
-    }
-    this.resourceId = _options?.resourceId;
+    const { resolvedOptions, resolvedClientId } = disambiguateOverload(clientIdOrOptions, options);
+    this.clientId = resolvedClientId;
+    this.resourceId = resolvedOptions.resourceId;
 
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
@@ -74,16 +67,17 @@ export class MsalMsiProvider {
     }
 
     // ManagedIdentity uses http for local requests
-    _options.allowInsecureConnection = true;
+    resolvedOptions.allowInsecureConnection = true;
 
-    if (_options?.retryOptions?.maxRetries !== undefined) {
-      this.msiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
+    if (resolvedOptions?.retryOptions?.maxRetries !== undefined) {
+      this.msiRetryConfig.maxRetries = resolvedOptions.retryOptions.maxRetries;
     }
 
     this.identityClient = new IdentityClient({
-      ..._options,
+      ...resolvedOptions,
       additionalPolicies: [{ policy: imdsRetryPolicy(this.msiRetryConfig), position: "perCall" }],
     });
+
     this.managedIdentityApp = new ManagedIdentityApplication({
       managedIdentityIdParams: {
         userAssignedClientId: this.clientId,
@@ -102,7 +96,7 @@ export class MsalMsiProvider {
     });
 
     this.isAvailableIdentityClient = new IdentityClient({
-      ..._options,
+      ...resolvedOptions,
       retryOptions: {
         maxRetries: 0,
       },
@@ -140,10 +134,17 @@ export class MsalMsiProvider {
           resourceId: this.resourceId,
         });
 
+        // Most scenarios are handled by MSAL except for two:
+        // AKS pod identity - MSAL does not implement the token exchange flow.
+        // IMDS Endpoint probing - MSAL does not do any probing before trying to get a token.
+        // As a DefaultAzureCredential optimization we probe the IMDS endpoint with a short timeout and no retries before actually trying to get a token
+        // We will continue to implement these features in the Identity library.
+
         const identitySource = this.managedIdentityApp.getManagedIdentitySource();
-        const isImdsMsi = identitySource === "Imds" || identitySource === "DefaultToImds";
+        const isImdsMsi = identitySource === "DefaultToImds" || identitySource === "Imds"; // Neither actually checks that IMDS endpoint is available, just that it's the source the MSAL _would_ try to use.
 
         if (isTokenExchangeMsi) {
+          // In the AKS scenario we will use the existing tokenExchangeMsi indefinitely.
           logger.getToken.info("Using the token exchange managed identity.");
           const result = await tokenExchangeMsi.getToken({
             scopes,
@@ -161,8 +162,9 @@ export class MsalMsiProvider {
 
           return result;
         } else if (isImdsMsi) {
+          // In the IMDS scenario we will probe the IMDS endpoint to ensure it's available before trying to get a token.
+          // If the IMDS endpoint is not available and this is the source that MSAL will use, we will fail-fast with an error that tells DAC to move to the next credential.
           logger.getToken.info("Using the IMDS endpoint to probe for availability.");
-          // first probe, if we're in a DAC scenario, then get the token
           const isAvailable = await imdsMsi.isAvailable({
             scopes,
             clientId: this.clientId,
@@ -178,17 +180,15 @@ export class MsalMsiProvider {
           }
         }
 
-        // At this point we know that:
+        // If we got this far, it means:
         // - This is not a tokenExchangeMsi,
-        // - We already probed for IMDS endpoint availability if it's an IMDS MSI.
-        // We can proceed normally
+        // - We already probed for IMDS endpoint availability and failed-fast if it's unreachable.
+        // We can proceed normally by calling MSAL for a token.
         logger.getToken.info("Calling into MSAL for managed identity token.");
         const token = await this.managedIdentityApp.acquireToken({
           resource,
         });
 
-        // TODO: account caching, etc?
-        // TODO: handle forceRefresh
         this.ensureValidMsalToken(scopes, token, options);
         logger.getToken.info(formatSuccess(scopes));
 
@@ -261,4 +261,31 @@ function isNetworkError(err: any): boolean {
   }
 
   return false;
+}
+/**
+ * Disambiguate the two overloads for the constructor of ManagedIdentityCredential.
+ *
+ * The first overload is `new ManagedIdentityCredential(clientId: string, options?: ManagedIdentityCredentialOptions)`.
+ * The second overload is `new ManagedIdentityCredential(options?: ManagedIdentityCredentialOptions)`.
+ *
+ * This function takes the arguments passed to the constructor and returns a clientId and options object that are guaranteed to be correct.
+ *
+ * @param clientIdOrOptions - clientId in one overload, options in the other
+ * @param options - options in one overload, empty object in the other
+ * @returns
+ */
+function disambiguateOverload(
+  clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
+  options: ManagedIdentityCredentialOptions = {},
+): { resolvedClientId?: string; resolvedOptions: ManagedIdentityCredentialOptions } {
+  if (typeof clientIdOrOptions === "string") {
+    // new ManagedIdentityCredential(clientId: string, options?: ManagedIdentityCredentialOptions) format
+    return { resolvedClientId: clientIdOrOptions, resolvedOptions: options };
+  } else {
+    // new ManagedIdentityCredential(options?: ManagedIdentityCredentialOptions) format
+    return {
+      resolvedClientId: clientIdOrOptions?.clientId,
+      resolvedOptions: clientIdOrOptions ?? {},
+    };
+  }
 }
