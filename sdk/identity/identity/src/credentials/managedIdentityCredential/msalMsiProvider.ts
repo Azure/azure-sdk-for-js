@@ -15,6 +15,7 @@ import { AuthenticationRequiredError, CredentialUnavailableError } from "../../e
 import { MSIConfiguration } from "./models";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { imdsMsi } from "./imdsMsi";
+import { imdsRetryPolicy } from "./imdsRetryPolicy";
 
 const logger = credentialLogger("ManagedIdentityCredential(MSAL)");
 
@@ -79,7 +80,10 @@ export class MsalMsiProvider {
       this.msiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
     }
 
-    this.identityClient = new IdentityClient(_options);
+    this.identityClient = new IdentityClient({
+      ..._options,
+      additionalPolicies: [{ policy: imdsRetryPolicy(this.msiRetryConfig), position: "perCall" }],
+    });
     this.managedIdentityApp = new ManagedIdentityApplication({
       managedIdentityIdParams: {
         userAssignedClientId: this.clientId,
