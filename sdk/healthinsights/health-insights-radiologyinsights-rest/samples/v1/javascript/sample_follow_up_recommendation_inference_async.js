@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the follow up recommendations of the Radiology Insights request.
  */
 
 const dotenv = require("dotenv");
@@ -13,11 +13,11 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["AZURE_HEALTH_INSIGHTS_KEY"] || "";
-const endpoint = process.env["AZURE_HEALTH_INSIGHTS_ENDPOINT"] || "";
+const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the follow up recommendation inferences
  */
 
 function printResults(radiologyInsightsResult) {
@@ -27,9 +27,31 @@ function printResults(radiologyInsightsResult) {
       results.patientResults.forEach((patientResult) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
+            if (inference.kind === "followupRecommendation") {
+              console.log("Follow Up Recommendation Inference found");
+              console.log("   Is conditional: ", inference.isConditional);
+              console.log("   Is guidline: ", inference.isGuideline);
+              console.log("   Is hedging: ", inference.isHedging);
+              console.log("   Is option: ", inference.isOption);
+
+              var procedure = inference.recommendedProcedure;
+              if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
+                console.log("   Recommended Generic Procedure: ", procedure.code);
+                if ("description" in procedure) {
+                  console.log("   Description: ", procedure.description);
+                }
+              } else if ("kind" in procedure && procedure.kind === "imagingProcedureRecommendation") {
+                procedure.procedureCodes?.forEach((procedureCode) => {
+                  console.log("   Recommended Procedure Codes: ");
+                  displayCodes(procedureCode);
+                });
+
+                if ("imagingProcedures" in procedure) {
+                  procedure.imagingProcedures.forEach((imagingProcedure) => {
+                    console.log("   Recommended Imaging Procedure Codes: ");
+                    displayImaging(imagingProcedure);
+                  });
+                }
               }
             }
           });
@@ -43,6 +65,33 @@ function printResults(radiologyInsightsResult) {
         console.log(error.code, ":", error.message);
       }
     }
+  }
+}
+
+function displayCodes(codeableConcept) {
+  codeableConcept.coding?.forEach((coding) => {
+    if ("code" in coding && "display" in coding && "system" in coding) {
+      console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+    }
+  });
+}
+
+function displayImaging(images) {
+  console.log("     Modality Codes: ");
+  displayCodes(images.modality);
+  console.log("     Anatomy Codes: ");
+  displayCodes(images.anatomy);
+  if ("laterality" in images) {
+    console.log("     Laterality Codes: ");
+    displayCodes(images.laterality);
+  }
+  if ("contrast" in images) {
+    console.log("     Contrast Codes: ");
+    displayCodes(images.contrast.code);
+  }
+  if ("view" in images) {
+    console.log("     View Codes: ");
+    displayCodes(images.view.code);
   }
 }
 
@@ -74,8 +123,8 @@ function createRequestBody() {
   };
 
   const authorData = {
-    "id": "authorid1",
-    "name": "authorname1"
+    id: "authorid1",
+    fullName: "authorname1",
   };
 
   const orderedProceduresData = {
@@ -90,27 +139,28 @@ function createRequestBody() {
 
   const content = {
     sourceType: "inline",
-    value: "CLINICAL HISTORY:   "
-      + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-      + "\r\n "
-      + "\r\nCOMPARISON:   "
-      + "\r\nRight upper quadrant sonographic performed 1 day prior."
-      + "\r\n "
-      + "\r\nTECHNIQUE:   "
-      + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-      + "\r\nand spectral waveform analysis of the ovaries."
-      + "\r\n "
-      + "\r\nFINDINGS:   "
-      + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-      + "\r\nendometrial echo complex within physiologic normal limits. The "
-      + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-      + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-      + "\r\n "
-      + "\r\nIMPRESSION:   "
-      + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-      + "\r\n\nA new US pelvis within the next 6 months is recommended."
-      + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-      + "\r\n"
+    value: `CLINICAL HISTORY:
+    20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+
+    COMPARISON:
+    Right upper quadrant sonographic performed 1 day prior.
+
+    TECHNIQUE:
+    Transabdominal grayscale pelvic sonography with duplex color Doppler
+    and spectral waveform analysis of the ovaries.
+
+    FINDINGS:
+    The uterus is unremarkable given the transabdominal technique with
+    endometrial echo complex within physiologic normal limits. The
+    ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
+    left measuring 2.8 x 1.5 x 1.9 cm.
+    On duplex imaging, Doppler signal is symmetric.
+
+    IMPRESSION:
+    1. Normal pelvic sonography. Findings of testicular torsion.
+    A new US pelvis within the next 6 months is recommended.
+
+    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`
   };
 
   const patientDocumentData = {
@@ -122,14 +172,14 @@ function createRequestBody() {
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdDateTime: new Date("2021-06-01T00:00:00.000"),
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
     orderedProceduresAsCsv: "US PELVIS COMPLETE"
   };
 
 
   const patientData = {
     id: "Samantha Jones",
-    info: patientInfo,
+    details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData]
   };
@@ -171,21 +221,20 @@ function createRequestBody() {
     includeEvidence: true
   };
 
-  // create RI Data
-  const radiologyInsightsData = {
-    patients: [patientData],
-    configuration: configuration
+  const RadiologyInsightsJob = {
+    jobData: {
+      patients: [patientData],
+      configuration: configuration,
+    }
   };
 
-  const radiologyInsightsParameter = {
-    body: radiologyInsightsData
-  };
+
 
   return {
     body: radiologyInsightsData
-  } 
+  }
 
-}  
+}
 
 async function main() {
   const credential = new AzureKeyCredential(apiKey);
@@ -195,7 +244,9 @@ async function main() {
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
-  const initialResponse = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+  const dateString = Date.now();
+  const jobID = "jobId-" + dateString;
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
@@ -203,13 +254,13 @@ async function main() {
   const RadiologyInsightsResult = await poller.pollUntilDone();
   if (isUnexpected(RadiologyInsightsResult)) {
     throw RadiologyInsightsResult;
-  }  
+  }
   const resultBody = RadiologyInsightsResult.body;
   printResults(resultBody);
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The follow up recommendation encountered an error:", err);
 });
 
 module.exports = { main };

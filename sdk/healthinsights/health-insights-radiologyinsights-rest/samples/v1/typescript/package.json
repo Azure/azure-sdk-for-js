@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/health-insights-radiologyinsights-ts-beta",
+  "name": "@azure-samples/health-insights-radiologyinsights-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "HealthInsightsradiologyinsights client library samples for TypeScript (Beta)",
+  "description": "HealthInsightsradiologyinsights client library samples for TypeScript",
   "engines": {
     "node": ">=18.0.0"
   },

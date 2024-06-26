@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 import { Context } from "mocha";
-import { createClient, createRecorder } from "./utils/recordedClient";
 import { AzureHealthInsightsClient, getLongRunningPoller } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient";
 
 const codingData = {
   system: "http://www.nlm.nih.gov/research/umls",
@@ -51,7 +51,7 @@ const encounterData = {
 
 const authorData = {
   id: "authorid1",
-  name: "authorname1",
+  fullName: "authorname1",
 };
 
 const orderedProceduresData = {
@@ -65,8 +65,9 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value:
-    "\n\nThe results were faxed to Julie Carter on July 6 2016 at 3 PM.\n\nThe results were sent via Powerscribe to George Brown, PA.\n\n\t\t",
+  value: `
+The results were faxed to Julie Carter on July 6 2016 at 3 PM
+The results were sent via Powerscribe to George Brown, PA.`,
 };
 
 const patientDocumentData = {
@@ -78,13 +79,13 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdDateTime: new Date("2021-05-31T22:00:00.000Z"),
-  orderedProceduresAsCsv: "CT ABD/PELVIS",
+  createdAt: new Date("2021-05-31T22:00:00.000Z"),
+  orderedProceduresAsCsv: "US PELVIS COMPLETE",
 };
 
 const patientData = {
   id: "Samantha Jones",
-  info: patientInfo,
+  details: patientInfo,
   encounters: [encounterData],
   patientDocuments: [patientDocumentData],
 };
@@ -127,13 +128,15 @@ const configuration = {
 };
 
 // create RI Data
-const radiologyInsightsData = {
-  patients: [patientData],
-  configuration: configuration,
+const RadiologyInsightsJob = {
+  jobData: {
+    patients: [patientData],
+    configuration: configuration,
+  },
 };
 
-const radiologyInsightsParameter = {
-  body: radiologyInsightsData,
+const param = {
+  body: RadiologyInsightsJob,
 };
 
 describe("Radiology Insights Test", () => {
@@ -150,7 +153,9 @@ describe("Radiology Insights Test", () => {
   });
 
   it("radiology Insights test", async function () {
-    const result = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+    const result = await client
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795314335")
+      .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);

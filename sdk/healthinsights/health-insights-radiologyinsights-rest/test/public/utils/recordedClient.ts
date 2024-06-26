@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import {
   assertEnvironmentVariable,
   Recorder,
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
-import "./env";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
+import { Context } from "mocha";
 import AHIClient, { AzureHealthInsightsClient } from "../../../src";
+import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
-  HEALTH_INSIGHTS_ENDPOINT: "https://endpoint",
+  HEALTH_INSIGHTS_ENDPOINT: "https://sanitized/",
   HEALTH_INSIGHTS_KEY: "fake_key",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -22,6 +23,11 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3447", // .key is not a secret
+    "AZSDK4001", // URI need not be over sanitized since we have the fake endpoint set already
+    "AZSDK2030", // operation-location header is not a secret since the URI is fake, being done by the fake endpoint
+  ],
 };
 
 /**
@@ -39,5 +45,11 @@ export async function createClient(recorder: Recorder): Promise<AzureHealthInsig
   const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
   const key = assertEnvironmentVariable("HEALTH_INSIGHTS_KEY");
   const credential = new AzureKeyCredential(key);
+  return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
+}
+
+export async function createDefaultClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
+  const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
+  const credential = new DefaultAzureCredential();
   return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
 }

@@ -11,7 +11,8 @@ import {
   createHttpPoller,
 } from "@azure/core-lro";
 import {
-  CreateJob202Response,
+  CreateJob200Response,
+  CreateJob201Response,
   CreateJobDefaultResponse,
   CreateJobLogicalResponse,
 } from "./responses";
@@ -26,7 +27,7 @@ export async function getLongRunningPoller<
   TResult extends CreateJobLogicalResponse | CreateJobDefaultResponse,
 >(
   client: Client,
-  initialResponse: CreateJob202Response | CreateJobDefaultResponse,
+  initialResponse: CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<TResult extends HttpResponse>(

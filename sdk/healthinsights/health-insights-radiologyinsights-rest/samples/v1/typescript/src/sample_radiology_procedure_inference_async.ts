@@ -2,38 +2,58 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the radiology procedure of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
-
 import * as dotenv from "dotenv";
+
 import AzureHealthInsightsClient, {
   CreateJobParameters,
+  RadiologyInsightsJobOutput,
   getLongRunningPoller,
-  isUnexpected,
-  RadiologyInsightsResultOutput,
+  isUnexpected
 } from "@azure-rest/health-insights-radiologyinsights";
 
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["AZURE_HEALTH_INSIGHTS_KEY"] || "";
-const endpoint = process.env["AZURE_HEALTH_INSIGHTS_ENDPOINT"] || "";
+const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the radiology procedure inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
+function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
+            if (inference.kind === "radiologyProcedure") {
+              console.log("Radiology Procedure Inference found");
+              inference.procedureCodes?.forEach((procedureCode: any) => {
+                console.log("   Procedure Codes: ");
+                displayCodes(procedureCode);
+              });
+
+              if ("imagingProcedures" in inference) {
+                inference.imagingProcedures.forEach((imagingProcedure: any) => {
+                  console.log("   Imaging Procedure Codes: ");
+                  displayImaging(imagingProcedure);
+                });
+              }
+
+              if ("orderedProcedure" in inference) {
+                console.log("   Ordered procedures: ");
+                if ("code" in inference.orderedProcedure) {
+                  displayCodes(inference.orderedProcedure.code);
+                }
+              }
+
+              if ("description" in inference.orderedProcedure) {
+                console.log("   Description: " + inference.orderedProcedure.description);
               }
             }
           });
@@ -46,6 +66,34 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function displayCodes(codeableConcept: any): void {
+    codeableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      }
+    });
+  }
+
+  function displayImaging(images: any): void {
+    console.log("     Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("     Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if ("laterality" in images) {
+      console.log("     Laterality Codes: ");
+      displayCodes(images.laterality);
+    }
+    if ("contrast" in images) {
+      console.log("     Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if ("view" in images) {
+      console.log("     View Codes: ");
+      displayCodes(images.view.code);
+    }
+  }
+
 }
 
 // Create request body for radiology insights
@@ -53,8 +101,8 @@ function createRequestBody(): CreateJobParameters {
 
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "USPELVIS",
-    display: "US PELVIS COMPLETE"
+    code: "24727-0",
+    display: "CT HEAD W CONTRAST IV"
   };
 
   const code = {
@@ -76,13 +124,13 @@ function createRequestBody(): CreateJobParameters {
   };
 
   const authorData = {
-    "id": "authorid1",
-    "name": "authorname1"
+    id: "authorid1",
+    fullName: "authorname1",
   };
 
   const orderedProceduresData = {
     code: code,
-    description: "US PELVIS COMPLETE"
+    description: "CT HEAD W CONTRAST IV"
   };
 
   const administrativeMetadata = {
@@ -92,27 +140,16 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: "CLINICAL HISTORY:   "
-      + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-      + "\r\n "
-      + "\r\nCOMPARISON:   "
-      + "\r\nRight upper quadrant sonographic performed 1 day prior."
-      + "\r\n "
-      + "\r\nTECHNIQUE:   "
-      + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-      + "\r\nand spectral waveform analysis of the ovaries."
-      + "\r\n "
-      + "\r\nFINDINGS:   "
-      + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-      + "\r\nendometrial echo complex within physiologic normal limits. The "
-      + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-      + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-      + "\r\n "
-      + "\r\nIMPRESSION:   "
-      + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-      + "\r\n\nA new US pelvis within the next 6 months is recommended."
-      + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-      + "\r\n"
+    value: ` Exam:  Head CT with Contrast
+    
+    History:  Headaches for 2 months
+    Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast.
+    IV contrast:  100 mL IV Omnipaque 300.
+    
+    Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast.
+    However, there is no evidence of enhancing lesion in either internal auditory canal.
+    Impression: Negative CT of the brain without IV contrast.
+    I recommend a new brain CT within nine months.`,
   };
 
   const patientDocumentData = {
@@ -124,14 +161,14 @@ function createRequestBody(): CreateJobParameters {
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdDateTime: new Date("2021-06-01T00:00:00.000"),
-    orderedProceduresAsCsv: "US PELVIS COMPLETE"
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
   };
 
 
   const patientData = {
     id: "Samantha Jones",
-    info: patientInfo,
+    details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData]
   };
@@ -174,14 +211,16 @@ function createRequestBody(): CreateJobParameters {
   };
 
   // create RI Data
-  const radiologyInsightsData = {
-    patients: [patientData],
-    configuration: configuration
+  const RadiologyInsightsJob = {
+    jobData: {
+      patients: [patientData],
+      configuration: configuration,
+    }
   };
 
-  return {
-    body: radiologyInsightsData
-  }
+  const param = {
+    body: RadiologyInsightsJob,
+  };
 
 }
 
@@ -193,7 +232,9 @@ export async function main() {
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
-  const initialResponse = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+  const dateString = Date.now();
+  const jobID = "jobId-" + dateString;
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
@@ -207,5 +248,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The radiology procedure encountered an error:", err);
 });
