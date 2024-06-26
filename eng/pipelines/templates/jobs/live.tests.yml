@@ -82,7 +82,9 @@ jobs:
           parameters:
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
             SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
-            EnvVars: ${{ parameters.EnvVars }}
+            EnvVars:
+              Pool: $(Pool)
+              ${{ insert }}: ${{ parameters.EnvVars }}
             SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
         - ${{ if parameters.TestResourceDirectories }}:
@@ -273,7 +275,7 @@ jobs:
             TEST_MODE: "live"
             # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
             # so "execute samples" step correctly picks up Powershell credential.
-            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost" 
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
             SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
@@ -309,7 +311,7 @@ jobs:
             TEST_MODE: "live"
             # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
             # so "execute samples" step correctly picks up Powershell credential.
-            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost" 
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
