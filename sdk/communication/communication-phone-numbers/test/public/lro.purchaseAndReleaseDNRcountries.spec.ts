@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure/test-utils";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { isClientErrorStatusCode } from "./utils/statusCodeHelpers";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function () {
+  describe(`PhoneNumbersClient - lro - purchase and release DNR${
+    useAad ? " [AAD]" : ""
+  }`, function () {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
@@ -32,8 +35,8 @@ matrix([[true, false]], async function (useAad) {
       }
     });
 
-    it("can purchase and release a phone number", async function (this: Context) {
-      // search for phone number
+    it("can purchase and release a phone number with DNR countries", async function (this: Context) {
+      // search for phone number, replace countryCode by DNR countries eg IT
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
         countryCode: "US",
         phoneNumberType: "tollFree",
@@ -57,6 +60,7 @@ matrix([[true, false]], async function (useAad) {
       assert.isNotEmpty(purchasedPhoneNumber);
 
       // purchase phone number
+
       const purchasePoller = await client.beginPurchasePhoneNumbers(
         searchResults.searchId,
         consentToNotResellNumbers,
@@ -82,6 +86,49 @@ matrix([[true, false]], async function (useAad) {
       assert.equal(result.body.status, "succeeded");
 
       console.log(`Released: ${purchasedPhoneNumber}`);
+    }).timeout(90000);
+
+    it("will fail as no consent provided DNR", async function (this: Context) {
+      // search for phone number, replace countryCode by DNR countries eg IT
+      const searchRequest: SearchAvailablePhoneNumbersRequest = {
+        countryCode: "US",
+        phoneNumberType: "tollFree",
+        assignmentType: "application",
+        capabilities: {
+          sms: "none",
+          calling: "inbound",
+        },
+      };
+      const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
+      const searchResults = await searchPoller.pollUntilDone();
+
+      const consentToNotResellNumbers = false;
+
+      assert.ok(searchPoller.getOperationState().isCompleted);
+      assert.isNotEmpty(searchResults.searchId);
+      assert.isNotEmpty(searchResults.phoneNumbers);
+      assert.equal(searchResults.phoneNumbers.length, 1);
+
+      const purchasedPhoneNumber = searchResults.phoneNumbers[0];
+      assert.isNotEmpty(purchasedPhoneNumber);
+
+      // purchase phone number
+
+      try {
+        const purchasePoller = await client.beginPurchasePhoneNumbers(
+          searchResults.searchId,
+          consentToNotResellNumbers,
+        );
+        await purchasePoller.pollUntilDone();
+      } catch (error: any) {
+        assert.isTrue(
+          isClientErrorStatusCode(error.statusCode),
+          `Status code ${error.statusCode} does not indicate client error.`,
+        );
+        return;
+      }
+
+      assert.fail("beginPurchasePhoneNumbers should have thrown an exception.");
     }).timeout(90000);
   });
 });

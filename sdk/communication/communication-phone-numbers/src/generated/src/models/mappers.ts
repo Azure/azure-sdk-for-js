@@ -25,6 +25,10 @@ export const PhoneNumberAreaCodes: coreClient.CompositeMapper = {
             },
           },
         },
+              className: "PhoneNumberAreaCode",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
@@ -489,6 +493,12 @@ export const PhoneNumberPurchaseRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      consentToNotResellNumbers: {
+        serializedName: "consentToNotResellNumbers",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -630,6 +640,18 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PhoneNumberCost",
+        },
+      },
+      operatorId: {
+        serializedName: "operatorId",
+        type: {
+          name: "String",
+        },
+      },
+      operatorName: {
+        serializedName: "operatorName",
+        type: {
+          name: "String",
         },
       },
     },

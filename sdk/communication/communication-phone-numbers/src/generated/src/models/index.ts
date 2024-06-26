@@ -169,6 +169,8 @@ export interface PhoneNumberSearchResult {
 export interface PhoneNumberPurchaseRequest {
   /** The search id. */
   searchId?: string;
+  /** The consent to not resell numbers. */
+  consentToNotResellNumbers?: boolean;
 }
 
 export interface PhoneNumberOperation {
@@ -217,6 +219,10 @@ export interface PurchasedPhoneNumber {
   purchaseDate: Date;
   /** The incurred cost for a single phone number. */
   cost: PhoneNumberCost;
+  /** Id of the operator that provided the number */
+  operatorId?: string;
+  /** Name of the operator that provided the number */
+  operatorName?: string;
 }
 
 /** The list of purchased phone numbers. */
@@ -360,7 +366,8 @@ export type PhoneNumberOperationType =
   | "purchase"
   | "releasePhoneNumber"
   | "search"
-  | "updatePhoneNumberCapabilities";
+  | "updatePhoneNumberCapabilities"
+  | "reservationPurchase";
 /** Defines values for PhoneNumberOperationStatus. */
 export type PhoneNumberOperationStatus =
   | "notStarted"
@@ -467,6 +474,8 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
   extends coreClient.OperationOptions {
   /** The search id. */
   searchId?: string;
+  /** The consent to not resell numbers. */
+  consentToNotResellNumbers?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

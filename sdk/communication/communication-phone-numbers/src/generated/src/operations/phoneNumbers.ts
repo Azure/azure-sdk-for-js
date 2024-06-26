@@ -1263,7 +1263,10 @@ const purchasePhoneNumbersOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: {
-    parameterPath: { searchId: ["options", "searchId"] },
+    parameterPath: {
+      searchId: ["options", "searchId"],
+      consentToNotResellNumbers: ["options", "consentToNotResellNumbers"],
+    },
     mapper: { ...Mappers.PhoneNumberPurchaseRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
