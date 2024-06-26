@@ -37,6 +37,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   private certificatePath?: string;
   private clientSecret?: string;
   private userAssertionToken: string;
+  private clientAssertion?: () => Promise<string>;
 
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
@@ -116,6 +117,7 @@ export class OnBehalfOfCredential implements TokenCredential {
     this.clientSecret = clientSecret;
     this.userAssertionToken = userAssertionToken;
     this.sendCertificateChain = sendCertificateChain;
+    this.clientAssertion = getAssertion;
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
@@ -162,9 +164,18 @@ export class OnBehalfOfCredential implements TokenCredential {
           this.clientSecret,
           options
         );
+      } else if (this.clientAssertion) {
+        return this.msalClient.getTokenOnBehalfOf(
+          arrayScopes,
+          this.userAssertionToken,
+          this.clientAssertion,
+          options
+        );
       } else {
-        // this is a bug, as the constructor should have thrown an error if neither clientSecret nor certificatePath were provided
-        throw new Error("Expected either clientSecret or certificatePath to be defined.");
+        // this is an invalid scenario and is a bug, as the constructor should have thrown an error if neither clientSecret nor certificatePath nor clientAssertion were provided
+        throw new Error(
+          "Expected either clientSecret or certificatePath or clientAssertion to be defined."
+        );
       }
     });
   }
