@@ -23,7 +23,7 @@ export async function startRecorder(context: Context): Promise<Recorder> {
   });
   // SAS token may contain sensitive information
   await recorder.addSanitizers(
-    {      
+    {
       bodyKeySanitizers: [
         {
           value: "Sanitized",

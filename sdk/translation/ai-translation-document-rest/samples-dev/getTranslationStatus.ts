@@ -19,9 +19,7 @@ import {
   createBatchRequest,
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
-import {
-  GetTranslationStatus200Response,
-} from "../src/responses";
+import { GetTranslationStatus200Response } from "../src/responses";
 import { TranslationStatusOutput } from "../src";
 dotenv.config();
 

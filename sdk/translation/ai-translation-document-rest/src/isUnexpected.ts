@@ -2,29 +2,29 @@
 // Licensed under the MIT license.
 
 import {
-  CancelTranslation200Response,
-  CancelTranslationDefaultResponse,
   DocumentTranslate200Response,
   DocumentTranslateDefaultResponse,
+  StartTranslation202Response,
+  StartTranslationLogicalResponse,
+  StartTranslationDefaultResponse,
+  GetTranslationsStatus200Response,
+  GetTranslationsStatusDefaultResponse,
   GetDocumentStatus200Response,
   GetDocumentStatusDefaultResponse,
+  GetTranslationStatus200Response,
+  GetTranslationStatusDefaultResponse,
+  CancelTranslation200Response,
+  CancelTranslationDefaultResponse,
   GetDocumentsStatus200Response,
   GetDocumentsStatusDefaultResponse,
   GetSupportedFormats200Response,
   GetSupportedFormatsDefaultResponse,
-  GetTranslationStatus200Response,
-  GetTranslationStatusDefaultResponse,
-  GetTranslationsStatus200Response,
-  GetTranslationsStatusDefaultResponse,
-  StartTranslation202Response,
-  StartTranslationDefaultResponse,
-  StartTranslationLogicalResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /document:translate": ["200"],
-  "POST /document/batches": ["202"],
   "GET /document/batches": ["200"],
+  "POST /document/batches": ["202"],
   "GET /document/batches/{id}/documents/{documentId}": ["200"],
   "GET /document/batches/{id}": ["200"],
   "DELETE /document/batches/{id}": ["200"],

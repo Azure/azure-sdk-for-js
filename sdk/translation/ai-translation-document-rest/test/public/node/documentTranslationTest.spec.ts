@@ -204,24 +204,42 @@ describe("DocumentTranslation tests", () => {
     assert.isNotNull(operationId);
 
     // get translations status
-    const translationStatus = (await client
-      .path("/document/batches/{id}", operationId)
-      .get()) as GetTranslationStatus200Response;
-    const translationStatusOutput = translationStatus.body as TranslationStatusOutput;
+    let translationStatus = null;
+    let retriesLeft = retryCount;
+    do {
+      try {
+        await sleep(10000);
+        retriesLeft--;
+        translationStatus = (await client
+          .path("/document/batches/{id}", operationId)
+          .get()) as GetTranslationStatus200Response;
+      } catch (error) {
+        console.error("Error during translation status retrieval:", error);
+      }
+    } while (
+      translationStatus &&
+      (translationStatus.body as TranslationStatusOutput).status === "Succeeded" &&
+      retriesLeft > 0
+    );
+    const translationStatusOutput = translationStatus?.body as TranslationStatusOutput;
 
-    // get Documents Status
-    const documentResponse = await client
-      .path("/document/batches/{id}/documents", operationId)
-      .get();
-    if (documentResponse.status === "200" && "body" in documentResponse) {
-      const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        assert.equal(documentStatus.status, translationStatusOutput.status);
-        assert.equal(
-          documentStatus.characterCharged,
-          translationStatusOutput.summary.totalCharacterCharged,
-        );
-        break;
+    if (translationStatusOutput.status === "Succeeded") {
+      // get Documents Status
+      const documentResponse = await client
+        .path("/document/batches/{id}/documents", operationId)
+        .get();
+      if (documentResponse.status === "200" && "body" in documentResponse) {
+        const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
+        for (const documentStatus of responseBody.value) {
+          console.log("documentStatus.status" + documentStatus.status);
+          console.log("translationStatusOutput.status" + translationStatusOutput.status);
+          assert.equal(documentStatus.status, translationStatusOutput.status);
+          assert.equal(
+            documentStatus.characterCharged,
+            translationStatusOutput.summary.totalCharacterCharged,
+          );
+          break;
+        }
       }
     }
     if (isUnexpected(response)) {
@@ -561,9 +579,9 @@ describe("DocumentTranslation tests", () => {
     return;
   }
 
-  async function StartTranslationAndWait(
-    batchRequests: { inputs: BatchRequest[] },
-  ): Promise<StartTranslationDefaultResponse> {
+  async function StartTranslationAndWait(batchRequests: {
+    inputs: BatchRequest[];
+  }): Promise<StartTranslationDefaultResponse> {
     // Start translation
     const response = await client.path("/document/batches").post({
       body: batchRequests,

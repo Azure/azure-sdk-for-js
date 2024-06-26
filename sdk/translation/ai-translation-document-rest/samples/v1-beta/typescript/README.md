@@ -84,7 +84,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [gettranslationstatus]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document-rest/samples/v1-beta/typescript/src/getTranslationStatus.ts
 [gettranslationsstatus]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document-rest/samples/v1-beta/typescript/src/getTranslationsStatus.ts
 [synchronousdocumenttranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document-rest/samples/v1-beta/typescript/src/synchronousDocumentTranslation.ts
-[apiref]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/overview
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-translation-document
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document-rest/README.md

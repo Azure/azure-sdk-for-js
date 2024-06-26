@@ -11674,14 +11674,14 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-EI2wvQOpF4k+oWYDcur8FMIYu7eNQfHMjB+igeRst0b5LuR02DDy5zn1t3KUlspUw6oDXme9YaRO4MUNBh0B8g==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-1beNCHG8JIOTr4zb1uhu0VXnFd5n1zUiY038vRewBFO7IGkiztLe+5gN0qPh3/sliCKDKnIjDn87NK9H9+invw==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/core-lro': 2.7.2
+      '@azure/core-lro': 3.0.0-beta.1
       '@azure/identity': 4.3.0
       '@azure/storage-blob': 12.23.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.37)

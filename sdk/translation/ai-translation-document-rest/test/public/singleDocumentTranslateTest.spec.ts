@@ -7,12 +7,10 @@ import {
   DocumentTranslateDefaultResponse,
   DocumentTranslateParameters,
   DocumentTranslationClient,
-  createFile,
   isUnexpected,
 } from "../../src";
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { CreateFileOptions } from "@typespec/ts-http-runtime";
 
 describe("SingleDocumentTranslate tests", () => {
   let recorder: Recorder;
@@ -28,16 +26,19 @@ describe("SingleDocumentTranslate tests", () => {
   });
 
   it("document translate", async () => {
-    const file = await getDocumentFileContent();
-
     const options: DocumentTranslateParameters = {
       queryParameters: {
         targetLanguage: "hi",
       },
       contentType: "multipart/form-data",
-      body: {
-        document: file,
-      },
+      body: [
+        {
+          name: "document",
+          body: "This is a test.",
+          filename: "test-input.txt",
+          contentType: "text/html",
+        },
+      ],
     };
 
     const response = await client.path("/document:translate").post(options);
@@ -60,18 +61,25 @@ describe("SingleDocumentTranslate tests", () => {
   });
 
   it("single CSV glossary", async () => {
-    const documentFile = await getDocumentFileContent();
-    const glossaryFile = await getSingleGlossaryContent();
-
     const options: DocumentTranslateParameters = {
       queryParameters: {
         targetLanguage: "hi",
       },
       contentType: "multipart/form-data",
-      body: {
-        document: documentFile,
-        glossary: glossaryFile,
-      },
+      body: [
+        {
+          name: "document",
+          body: "This is a test.",
+          filename: "test-input.txt",
+          contentType: "text/html",
+        },
+        {
+          name: "glossary",
+          body: "test,test",
+          filename: "test-glossary.csv",
+          contentType: "text/csv",
+        },
+      ],
     };
 
     const response = await client.path("/document:translate").post(options);
@@ -93,18 +101,31 @@ describe("SingleDocumentTranslate tests", () => {
   });
 
   it("Multiple CSV glossary", async () => {
-    const documentFile = await getDocumentFileContent();
-    const glossaryFile = await getMultipleGlossaryContent();
-
     const options: DocumentTranslateParameters = {
       queryParameters: {
         targetLanguage: "hi",
       },
       contentType: "multipart/form-data",
-      body: {
-        document: documentFile,
-        glossary: glossaryFile,
-      },
+      body: [
+        {
+          name: "document",
+          body: "This is a test.",
+          filename: "test-input.txt",
+          contentType: "text/html",
+        },
+        {
+          name: "glossary",
+          body: "test,test",
+          filename: "test-glossary.csv",
+          contentType: "text/csv",
+        },
+        {
+          name: "glossary",
+          body: "test,test",
+          filename: "test-glossary.csv",
+          contentType: "text/csv",
+        },
+      ],
     };
 
     const response = (await client
@@ -124,50 +145,3 @@ describe("SingleDocumentTranslate tests", () => {
     }
   });
 });
-
-async function getDocumentFileContent(): Promise<File> {
-  const fileName = "test-input.txt";
-  const fileContent = new TextEncoder().encode("This is a test.");
-  const createFileOptions: CreateFileOptions = {
-    type: "text/html",
-  };
-  const file = createFile(fileContent, fileName, createFileOptions);
-  return file;
-}
-
-async function getSingleGlossaryContent() {
-  const file = await getGlossaryFileDetails();
-  const glossaries: (
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File
-  )[] = [];
-  glossaries.push(file);
-  return glossaries;
-}
-
-async function getMultipleGlossaryContent() {
-  const file = await getGlossaryFileDetails();
-  const glossaries: (
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File
-  )[] = [];
-  glossaries.push(file);
-  glossaries.push(file);
-  return glossaries;
-}
-
-async function getGlossaryFileDetails(): Promise<File> {
-  const fileName = "test-glossary.csv";
-  const fileContent = new TextEncoder().encode("test,test");
-  const createFileOptions: CreateFileOptions = {
-    type: "text/csv",
-  };
-  const file = createFile(fileContent, fileName, createFileOptions);
-  return file;
-}

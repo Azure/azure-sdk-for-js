@@ -46,14 +46,15 @@
     }
   },
   "dependencies": {
-    "@azure/core-auth": "^1.3.0",
-    "@azure-rest/core-client": "^1.1.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0",
     "@typespec/ts-http-runtime": "1.0.0-alpha.20240314.2",
     "@azure/core-paging": "^1.2.0",
-    "@azure/core-lro": "^2.5.4"
+    "@azure-rest/core-client": "^2.0.0",
+    "@azure/core-auth": "^1.6.0",
+    "tslib": "^2.6.2",
+    "@azure/core-lro": "3.0.0-beta.1",
+    "@azure/abort-controller": "^2.0.0"
   },
   "devDependencies": {
     "@azure/storage-blob": "^12.23.0",

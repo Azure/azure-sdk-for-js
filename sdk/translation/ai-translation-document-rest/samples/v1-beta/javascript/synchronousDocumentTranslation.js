@@ -6,7 +6,6 @@
  */
 
 const dotenv = require("dotenv");
-const { createFile } = require("../src");
 const createClient = require("../src/documentTranslationClient").default;
 dotenv.config();
 
@@ -20,16 +19,26 @@ async function main() {
   console.log("== Synchronous Document Translation ==");
 
   const client = createClient(endpoint, credentials);
-  const file = await getDocumentFileContent();
 
   const options = {
     queryParameters: {
       targetLanguage: "hi",
     },
     contentType: "multipart/form-data",
-    body: {
-      document: file,
-    },
+    body: [
+      {
+        name: "document",
+        body: "This is a test.",
+        filename: "test-input.txt",
+        contentType: "text/html",
+      },
+      {
+        name: "glossary",
+        body: "test,test",
+        filename: "test-glossary.csv",
+        contentType: "text/csv",
+      },
+    ],
   };
 
   const response = await client.path("/document:translate").post(options);
@@ -44,16 +53,6 @@ async function main() {
   main().catch((err) => {
     console.error(err);
   });
-}
-
-async function getDocumentFileContent() {
-  const fileName = "test-input.txt";
-  const fileContent = new TextEncoder().encode("This is a test.");
-  const createFileOptions = {
-    type: "text/html",
-  };
-  const file = createFile(fileContent, fileName, createFileOptions);
-  return file;
 }
 
 module.exports = { main };

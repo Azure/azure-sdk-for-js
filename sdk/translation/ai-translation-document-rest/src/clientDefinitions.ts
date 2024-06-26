@@ -2,33 +2,33 @@
 // Licensed under the MIT license.
 
 import {
-  CancelTranslation200Response,
-  CancelTranslationDefaultResponse,
+  DocumentTranslateParameters,
+  StartTranslationParameters,
+  GetTranslationsStatusParameters,
+  GetDocumentStatusParameters,
+  GetTranslationStatusParameters,
+  CancelTranslationParameters,
+  GetDocumentsStatusParameters,
+  GetSupportedFormatsParameters,
+} from "./parameters.js";
+import {
   DocumentTranslate200Response,
   DocumentTranslateDefaultResponse,
+  StartTranslation202Response,
+  StartTranslationDefaultResponse,
+  GetTranslationsStatus200Response,
+  GetTranslationsStatusDefaultResponse,
   GetDocumentStatus200Response,
   GetDocumentStatusDefaultResponse,
+  GetTranslationStatus200Response,
+  GetTranslationStatusDefaultResponse,
+  CancelTranslation200Response,
+  CancelTranslationDefaultResponse,
   GetDocumentsStatus200Response,
   GetDocumentsStatusDefaultResponse,
   GetSupportedFormats200Response,
   GetSupportedFormatsDefaultResponse,
-  GetTranslationStatus200Response,
-  GetTranslationStatusDefaultResponse,
-  GetTranslationsStatus200Response,
-  GetTranslationsStatusDefaultResponse,
-  StartTranslation202Response,
-  StartTranslationDefaultResponse,
-} from "./responses";
-import {
-  CancelTranslationParameters,
-  DocumentTranslateParameters,
-  GetDocumentStatusParameters,
-  GetDocumentsStatusParameters,
-  GetSupportedFormatsParameters,
-  GetTranslationStatusParameters,
-  GetTranslationsStatusParameters,
-  StartTranslationParameters,
-} from "./parameters";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface DocumentTranslate {

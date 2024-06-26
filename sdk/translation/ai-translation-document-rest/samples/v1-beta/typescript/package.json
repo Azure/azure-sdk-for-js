@@ -33,8 +33,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document-rest",
   "dependencies": {
     "@azure-rest/ai-translation-document": "next",
-    "dotenv": "latest",
-    "@typespec/ts-http-runtime": "1.0.0-alpha.20240314.2"
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

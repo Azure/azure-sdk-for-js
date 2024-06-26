@@ -275,5 +275,4 @@ describe("DocumentFilter tests", () => {
 
     return response as StartTranslation202Response;
   }
-  
 });

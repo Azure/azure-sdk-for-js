@@ -59,7 +59,9 @@ describe("CancelTranslation tests", () => {
       assert.isTrue(idOutput === id, "IDOutput is:" + idOutput);
       const statusOutput = (response as GetTranslationStatus200Response).body.status;
       assert.isTrue(
-        statusOutput === "Cancelled" || statusOutput === "Cancelling" || statusOutput === "NotStarted",
+        statusOutput === "Cancelled" ||
+          statusOutput === "Cancelling" ||
+          statusOutput === "NotStarted",
         "Status output is: " + statusOutput,
       );
     }

@@ -6,6 +6,8 @@
 
 /// <reference types="node" />
 
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { createFile } from '@azure/core-rest-pipeline';
@@ -22,7 +24,6 @@ import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -123,9 +124,30 @@ export interface DocumentTranslateBodyParam {
 }
 
 // @public
-export interface DocumentTranslateContent {
-    document: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
-    glossary?: (string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File)[];
+export type DocumentTranslateContent = FormData | Array<DocumentTranslateContentDocumentPartDescriptor | DocumentTranslateContentGlossaryPartDescriptor>;
+
+// @public (undocumented)
+export interface DocumentTranslateContentDocumentPartDescriptor {
+    // (undocumented)
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+    // (undocumented)
+    contentType?: string;
+    // (undocumented)
+    filename?: string;
+    // (undocumented)
+    name: "document";
+}
+
+// @public (undocumented)
+export interface DocumentTranslateContentGlossaryPartDescriptor {
+    // (undocumented)
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+    // (undocumented)
+    contentType?: string;
+    // (undocumented)
+    filename?: string;
+    // (undocumented)
+    name: "glossary";
 }
 
 // @public (undocumented)
@@ -467,6 +489,27 @@ export interface Routes {
     (path: "/document/batches/{id}", id: string): GetTranslationStatus;
     (path: "/document/batches/{id}/documents", id: string): GetDocumentsStatus;
     (path: "/document/formats"): GetSupportedFormats;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
