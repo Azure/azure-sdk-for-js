@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an Endpoint resource.
  *
  * @summary Deletes an Endpoint resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Delete.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Delete.json
  */
 async function endpointsDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function endpointsDelete() {
   const result = await client.endpoints.beginDeleteAndWait(
     resourceGroupName,
     storageMoverName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }
