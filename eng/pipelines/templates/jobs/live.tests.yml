@@ -77,16 +77,6 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
-      # Testing, remove before merge
-      - ${{ if parameters.UseFederatedAuth }}:
-        - pwsh: |
-            Write-Host "UseFederatedAuth: ${{ parameters.UseFederatedAuth }}"
-          displayName: UseFederatedAuth (inside condition) ${{ parameters.UseFederatedAuth }}
-      - pwsh: |
-          Write-Host "UseFederatedAuth: ${{ parameters.UseFederatedAuth }}"
-        displayName: UseFederatedAuth (outside condition) ${{ parameters.UseFederatedAuth }}
-
-
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/build-test-resource-config.yml
           parameters:
