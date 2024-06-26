@@ -226,7 +226,7 @@ export class MsalMsiProvider {
     msalToken?: MsalToken,
     getTokenOptions?: GetTokenOptions,
   ): asserts msalToken is ValidMsalToken {
-    const error = (message: string): Error => {
+    const createError = (message: string): Error => {
       logger.getToken.info(message);
       return new AuthenticationRequiredError({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
@@ -235,13 +235,13 @@ export class MsalMsiProvider {
       });
     };
     if (!msalToken) {
-      throw error("No response");
+      throw createError("No response");
     }
     if (!msalToken.expiresOn) {
-      throw error(`Response had no "expiresOn" property.`);
+      throw createError(`Response had no "expiresOn" property.`);
     }
     if (!msalToken.accessToken) {
-      throw error(`Response had no "accessToken" property.`);
+      throw createError(`Response had no "accessToken" property.`);
     }
   }
 }

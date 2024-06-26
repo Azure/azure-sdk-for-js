@@ -75,6 +75,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       | ManagedIdentityCredentialResourceIdOptions,
     options?: TokenCredentialOptions,
   ) {
+    // https://github.com/Azure/azure-sdk-for-js/issues/30189
     // If needed, you may release a hotfix to quickly rollback to the legacy implementation by changing the following line to:
     // this.implProvider = new LegacyMsiProvider(clientIdOrOptions, options);
     // Once stabilized, you can remove the legacy implementation and inline the msalMsiProvider code here as a drop-in replacement.
