@@ -30,8 +30,8 @@ const logger = credentialLogger("ManagedIdentityCredential");
 
 // As part of the migration of Managed Identity to MSAL, this legacy provider captures the existing behavior
 // ported over from the ManagedIdentityCredential verbatim. This is to ensure that the existing behavior
-// is maintained while the new implementation is being tested and validated. Part of the migration (tracked in #25253)
-// should include deleting this provider once it is no longer needed.
+// is maintained while the new implementation is being tested and validated.
+// https://github.com/Azure/azure-sdk-for-js/issues/30189  tracks deleting this provider once it is no longer needed.
 
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
