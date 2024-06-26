@@ -25,7 +25,7 @@ describe("ClientAssertionCredential (internal)", function () {
 
     doGetTokenSpy = setup.sandbox.spy(
       ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential",
+      "acquireTokenByClientCredential"
     );
   });
 
@@ -41,23 +41,23 @@ describe("ClientAssertionCredential (internal)", function () {
         new ClientAssertionCredential(
           undefined as any,
           env.AZURE_CLIENT_ID ?? "client",
-          async () => "assertion",
+          async () => "assertion"
         ),
-      expectedMessage,
+      expectedMessage
     );
     assert.throws(
       () =>
         new ClientAssertionCredential(
           env.AZURE_TENANT_ID ?? "tenant",
           undefined as any,
-          async () => "assertion",
+          async () => "assertion"
         ),
-      expectedMessage,
+      expectedMessage
     );
 
     assert.throws(
       () => new ClientAssertionCredential(undefined as any, undefined as any, undefined as any),
-      expectedMessage,
+      expectedMessage
     );
   });
 
@@ -80,6 +80,6 @@ describe("ClientAssertionCredential (internal)", function () {
     }
 
     assert.equal(doGetTokenSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.lastCall.firstArg.clientAssertion, jwt);
+    assert.equal(doGetTokenSpy.lastCall.firstArg.clientAssertion, getAssertion);
   });
 });

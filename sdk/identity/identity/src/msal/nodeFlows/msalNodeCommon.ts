@@ -291,15 +291,7 @@ export abstract class MsalNode implements MsalFlow {
     // write a test so that user callback is invoked just once and the second time the token is cached and user callback not called
     //
     if (this.getAssertion !== undefined) {
-      const clientAssertionCallback: ClientAssertionCallback = async (
-        _config: ClientAssertionConfig
-      ): Promise<string> => {
-        // network request that uses config.clientId and (optionally) config.tokenEndpoint
-        if (this.getAssertion !== undefined) return await this.getAssertion();
-        throw new Error("why is getAssertion is undefined");
-      };
-
-      this.msalConfig.auth.clientAssertion = clientAssertionCallback; //await this.getAssertion();
+      this.msalConfig.auth.clientAssertion = this.getAssertion;
     }
     // The confidential client requires either a secret, assertion or certificate.
     if (

@@ -38,16 +38,16 @@ export class ClientAssertionCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     getAssertion: () => Promise<string>,
-    options: ClientAssertionCredentialOptions = {}
+    options: ClientAssertionCredentialOptions = {},
   ) {
     if (!tenantId || !clientId || !getAssertion) {
       throw new Error(
-        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters."
+        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters.",
       );
     }
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     this.options = options;
@@ -76,16 +76,16 @@ export class ClientAssertionCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalClient.getTokenByClientAssertion(
           arrayScopes,
           this.getAssertion,
-          newOptions
+          newOptions,
         );
-      }
+      },
     );
   }
 }

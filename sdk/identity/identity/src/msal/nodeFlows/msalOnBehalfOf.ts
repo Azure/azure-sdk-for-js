@@ -23,8 +23,8 @@ export interface MsalOnBehalfOfOptions extends MsalNodeOptions {
    */
   certificatePath?: string;
   /**
-  * A function that retrieves the client assertion for the credential to use
-  */
+   * A function that retrieves the client assertion for the credential to use
+   */
   getAssertion?: () => Promise<string>;
   /**
    * Option to include x5c header for SubjectName and Issuer name authorization.

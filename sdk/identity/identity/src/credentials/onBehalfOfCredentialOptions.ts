@@ -54,7 +54,6 @@ export interface OnBehalfOfCredentialCertificateOptions {
   sendCertificateChain?: boolean;
 }
 
-
 /**
  * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with an assertion.
  */
