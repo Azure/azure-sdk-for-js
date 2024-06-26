@@ -72,51 +72,19 @@ export interface GetTokenInteractiveOptions extends GetTokenWithSilentAuthOption
  */
 export interface MsalClient {
   /**
-   * Retrieves an access token by using the on-behalf-of flow and a client certificate of the calling service.
-   *
-   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
-   * @param userAssertionToken - The access token that was sent to the middle-tier API. This token must have an audience of the app making this OBO request.
-   * @param clientCertificate - The client certificate used for authentication.
-   * @param options - Additional options that may be provided to the method.
-   * @returns An access token.
-   */
-  getTokenOnBehalfOf(
-    scopes: string[],
-    userAssertionToken: string,
-    clientCertificate: CertificateParts,
-    options?: GetTokenOptions
-  ): Promise<AccessToken>;
-  /**
-   *
-   * Retrieves an access token by using the on-behalf-of flow and a client secret of the calling service.
-   *
-   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
-   * @param userAssertionToken - The access token that was sent to the middle-tier API. This token must have an audience of the app making this OBO request.
-   * @param clientSecret - The client secret used for authentication.
-   * @param options - Additional options that may be provided to the method.
-   * @returns An access token.
-   */
-  getTokenOnBehalfOf(
-    scopes: string[],
-    userAssertionToken: string,
-    clientSecret: string,
-    options?: GetTokenOptions
-  ): Promise<AccessToken>;
-
-  /**
    *
    * Retrieves an access token by using the on-behalf-of flow and a client assertion callback of the calling service.
    *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param userAssertionToken - The access token that was sent to the middle-tier API. This token must have an audience of the app making this OBO request.
-   * @param getAssertion - The client assertion callback.
+   * @param clientCredentials - The client secret OR client certificate OR client `getAssertion` callback.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
    */
   getTokenOnBehalfOf(
     scopes: string[],
     userAssertionToken: string,
-    getAssertion: () => Promise<string>,
+    clientCredentials: string | CertificateParts | (() => Promise<string>),
     options?: GetTokenOptions
   ): Promise<AccessToken>;
 
@@ -731,24 +699,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     });
   }
 
-  function getTokenOnBehalfOf(
-    scopes: string[],
-    userAssertionToken: string,
-    clientSecret: string,
-    options?: GetTokenOptions
-  ): Promise<AccessToken>;
-  function getTokenOnBehalfOf(
-    scopes: string[],
-    userAssertionToken: string,
-    clientCertificate: CertificateParts,
-    options?: GetTokenOptions
-  ): Promise<AccessToken>;
-  function getTokenOnBehalfOf(
-    scopes: string[],
-    userAssertionToken: string,
-    getAssertion: () => Promise<string>,
-    options?: GetTokenOptions
-  ): Promise<AccessToken>;
   async function getTokenOnBehalfOf(
     scopes: string[],
     userAssertionToken: string,
