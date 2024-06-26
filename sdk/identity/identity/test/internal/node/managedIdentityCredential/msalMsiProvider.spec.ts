@@ -9,10 +9,8 @@ import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCre
 import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors";
-import { setLogLevel } from "@azure/logger";
-setLogLevel("verbose"); // TODO: delete before merging
 
-describe.only("ManagedIdentityCredential (MSAL)", function () {
+describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: Sinon.SinonStub;
   let imdsIsAvailableStub: Sinon.SinonStub;
 
