@@ -5,7 +5,6 @@ import { imdsRetryPolicy } from "../../../../src/credentials/managedIdentityCred
 import { PipelineRequest, SendRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { MSIConfiguration } from "../../../../src/credentials/managedIdentityCredential/models";
 import { assert } from "@azure-tools/test-utils";
-import { IdentityClient } from "../../../../src/client/identityClient";
 
 describe("imdsRetryPolicy", () => {
   const mockRetryConfig: MSIConfiguration["retryConfig"] = {
