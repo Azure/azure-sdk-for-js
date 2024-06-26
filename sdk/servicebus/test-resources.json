@@ -146,7 +146,7 @@
       "type": "string",
       "value": "[replace(reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint, ':443/', '')]"
     },
-    "SERVICEBUS_HOSTNAME": {
+    "SERVICEBUS_FULLY_QUALIFIED_NAMESPACE": {
       "type": "string",
       "value": "[replace(replace(reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
     },

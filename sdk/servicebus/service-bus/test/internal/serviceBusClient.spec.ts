@@ -588,24 +588,22 @@ describe("ServiceBusClient live tests", () => {
     let errorWasThrown: boolean = false;
 
     const env = getEnvVars();
-    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn))",
-    ) || "")[1];
+    const sbFullQualifiedNamespace = env.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE;
 
     /**
      * Utility to create TokenCredential using `@azure/identity`
      */
     function getDefaultTokenCredential(): TokenCredential {
       should.exist(
-        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests.",
+        env[EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE],
+        "define SERVICEBUS_FULLY_QUALIFIED_NAMESPACE in your environment before running integration tests.",
       );
       return createTestCredential();
     }
 
     it("throws error for invalid tokenCredentials", async function (): Promise<void> {
       try {
-        new ServiceBusClient(serviceBusEndpoint, [] as any);
+        new ServiceBusClient(sbFullQualifiedNamespace, [] as any);
       } catch (err: any) {
         errorWasThrown = true;
         should.equal(
@@ -620,7 +618,7 @@ describe("ServiceBusClient live tests", () => {
 
     it("throws error for undefined tokenCredentials", async function (): Promise<void> {
       try {
-        new ServiceBusClient(serviceBusEndpoint, undefined as any);
+        new ServiceBusClient(sbFullQualifiedNamespace, undefined as any);
       } catch (err: any) {
         errorWasThrown = true;
         should.equal(
@@ -657,7 +655,7 @@ describe("ServiceBusClient live tests", () => {
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
           await serviceBusClient.close();
 
-          const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+          const sbClient = new ServiceBusClient(sbFullQualifiedNamespace, tokenCreds);
           try {
             const sender = sbClient.createSender(entities.queue || entities.topic!);
             const receiver = entities.queue

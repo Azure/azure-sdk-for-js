@@ -22,6 +22,7 @@ import {
 import chai from "chai";
 import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src";
 import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../../src";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 const env = getEnvVars();
 const should = chai.should();
@@ -529,7 +530,8 @@ export function createServiceBusClientForTests(
   options?: ServiceBusClientOptions,
 ): ServiceBusClientForTests {
   const serviceBusClient = new ServiceBusClient(
-    getConnectionString(),
+    getFullyQualifiedNamespace(),
+    createTestCredential(),
     options,
   ) as ServiceBusClientForTests;
 
