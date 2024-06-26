@@ -14,6 +14,8 @@ setLogLevel("verbose"); // TODO: delete before merging
 
 describe.only("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: Sinon.SinonStub;
+  let imdsIsAvailableStub: Sinon.SinonStub;
+
   const validAuthenticationResult: Partial<AuthenticationResult> = {
     accessToken: "test_token",
     expiresOn: new Date(),
@@ -21,6 +23,7 @@ describe.only("ManagedIdentityCredential (MSAL)", function () {
 
   beforeEach(function () {
     acquireTokenStub = Sinon.stub(ManagedIdentityApplication.prototype, "acquireToken");
+    imdsIsAvailableStub = Sinon.stub(imdsMsi, "isAvailable").resolves(true); // Skip pinging the IMDS endpoint in tests
   });
 
   afterEach(function () {
@@ -82,12 +85,11 @@ describe.only("ManagedIdentityCredential (MSAL)", function () {
           Sinon.stub(ManagedIdentityApplication.prototype, "getManagedIdentitySource").returns(
             "DefaultToImds",
           );
-          const isAvailableStub = Sinon.stub(imdsMsi, "isAvailable").resolves(true);
           acquireTokenStub.resolves(validAuthenticationResult as AuthenticationResult);
 
           const provider = new MsalMsiProvider();
           await provider.getToken("scope");
-          assert.isTrue(isAvailableStub.calledOnce);
+          assert.isTrue(imdsIsAvailableStub.calledOnce);
         });
       });
     });

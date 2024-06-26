@@ -42,7 +42,6 @@ export const tokenExchangeMsi: MSI = {
       ...identityClientTokenCredentialOptions,
       disableInstanceDiscovery: true,
     } as WorkloadIdentityCredentialOptions);
-    const token = await workloadIdentityCredential.getToken(scopes, getTokenOptions);
-    return token;
+    return workloadIdentityCredential.getToken(scopes, getTokenOptions);
   },
 };
