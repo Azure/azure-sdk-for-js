@@ -23,6 +23,7 @@ import {
 import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
 import { getEnvVarValue } from "../public/utils/envVarUtils";
 import { delay } from "@azure/core-util";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -522,14 +523,14 @@ describe("Send Batch", () => {
 });
 
 describe("Premium namespaces - Sending", () => {
-  const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
+  const premiumNamespace = getEnvVarValue("SERVICEBUS_FULLY_QUALIFIED_NAMESPACE_PREMIUM");
   let atomClient: ServiceBusAdministrationClient;
 
   before(function (this: Mocha.Context) {
-    if (!premiumConnectionString) {
+    if (!premiumNamespace) {
       this.skip();
     }
-    atomClient = new ServiceBusAdministrationClient(premiumConnectionString);
+    atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
   });
   let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClient;
@@ -546,7 +547,7 @@ describe("Premium namespaces - Sending", () => {
       : TestClientType.UnpartitionedTopicWithSessions;
 
   before(() => {
-    serviceBusClient = new ServiceBusClient(premiumConnectionString || "");
+    serviceBusClient = new ServiceBusClient(premiumNamespace || "");
   });
 
   after(async () => {
@@ -554,7 +555,7 @@ describe("Premium namespaces - Sending", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    atomClient = new ServiceBusAdministrationClient(premiumConnectionString || "");
+    atomClient = new ServiceBusAdministrationClient(premiumNamespace || "");
     withSessions = !entityType.includes("WithSessions");
     const randomSeed = Math.ceil(Math.random() * 10000 + 1000);
     const isQueue = entityType.includes("Queue");

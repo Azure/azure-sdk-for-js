@@ -2969,14 +2969,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     }
 
     describe("Premium Namespaces", () => {
-      const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
+      const premiumNamespace = getEnvVarValue("SERVICEBUS_FULLY_QUALIFIED_NAMESPACE_PREMIUM");
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
       before(function (this: Mocha.Context) {
-        if (!premiumConnectionString) {
+        if (!premiumNamespace) {
           this.skip();
         }
-        atomClient = new ServiceBusAdministrationClient(premiumConnectionString);
+        atomClient = new ServiceBusAdministrationClient(premiumNamespace);
       });
 
       function setEntityNameWithMaxSize(
