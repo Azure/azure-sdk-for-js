@@ -6,13 +6,11 @@ import { ContainerClient, ContainerSASPermissions, BlobServiceClient } from "@az
 import { TestDocument, createTestDocument } from "../utils/TestDocument";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-// const { BlobServiceClient } = require("@azure/storage-blob");
-
-export const ONE_TEST_DOCUMENTS: TestDocument[] = [
+export const ONE_TEST_DOCUMENTS = [
   createTestDocument("Document1.txt", "First english test document"),
 ];
 
-export const TWO_TEST_DOCUMENTS: TestDocument[] = [
+export const TWO_TEST_DOCUMENTS = [
   createTestDocument("Document1.txt", "First english test file"),
   createTestDocument("File2.txt", "Second english test file"),
 ];
@@ -54,7 +52,7 @@ export async function createTargetContainer(
 export async function createGlossaryContainer(recorder: Recorder): Promise<string> {
   const glossaryName = "validGlossary.csv";
   const glossaryContent = "test, glossaryTest";
-  const documents: TestDocument[] = [createTestDocument(glossaryName, glossaryContent)];
+  const documents = [createTestDocument(glossaryName, glossaryContent)];
   const containerName = recorder.variable("glossaryContainer", `glossary-${getUniqueName()}`);
   const containerClient = await createContainer(recorder, containerName, documents);
 

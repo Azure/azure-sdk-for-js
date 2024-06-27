@@ -22,7 +22,6 @@ import {
   getTranslationOperationID,
   sleep,
 } from "../utils/testHelper";
-import { TestDocument } from "../utils/TestDocument";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -46,7 +45,7 @@ describe("TranslationFilter tests", () => {
     const cancelledIds = createTranslationJobs(1, 1, "Cancelled");
 
     // list translations with filter
-    const cancelledStatusList: string[] = ["Cancelled", "Cancelling"];
+    const cancelledStatusList = ["Cancelled", "Cancelling"];
     const testStartTime = recorder.variable("testStartTime", new Date().toISOString());
 
     const queryParams = {
@@ -58,21 +57,22 @@ describe("TranslationFilter tests", () => {
     const response = await client.path("/document/batches").get({
       queryParameters: queryParams,
     });
+
+    if (isUnexpected(response)) {
+      throw "get translation status job error:" + response.body;
+    }
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetTranslationsStatus200Response).body;
       for (const translationStatus of responseBody.value) {
         assert.isTrue(cancelledStatusList.includes(translationStatus.status));
         assert.isTrue((await cancelledIds).includes(translationStatus.id));
       }
-    }
-    if (isUnexpected(response)) {
-      throw "get translation status job error:" + response.body;
-    }
+    }    
   });
 
   it("Translation Statuses Filter By Id", async () => {
     const allIds = createTranslationJobs(2, 1, "Succeeded");
-    const targetIds: string[] = [];
+    const targetIds = [];
     targetIds.push((await allIds)[0]);
 
     // get Translation Status
@@ -82,15 +82,17 @@ describe("TranslationFilter tests", () => {
     const response = await client.path("/document/batches").get({
       queryParameters: queryParams,
     });
+
+    if (isUnexpected(response)) {
+      throw "get translation status job error:" + response.body;
+    }
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetTranslationsStatus200Response).body;
       for (const translationStatus of responseBody.value) {
         assert.isTrue(targetIds.includes(translationStatus.id));
       }
     }
-    if (isUnexpected(response)) {
-      throw "get translation status job error:" + response.body;
-    }
+    
   });
 
   it("Translation Statuses Filter By Created After", async () => {
@@ -104,6 +106,9 @@ describe("TranslationFilter tests", () => {
     const response = await client.path("/document/batches").get({
       queryParameters: queryParams,
     });
+    if (isUnexpected(response)) {
+      throw "get translation status job error:" + response.body;
+    }
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetTranslationsStatus200Response).body;
       for (const translationStatus of responseBody.value) {
@@ -111,9 +116,7 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() > testStartTime);
       }
     }
-    if (isUnexpected(response)) {
-      throw "get translation status job error:" + response.body;
-    }
+    
   });
 
   it("Translation Statuses Filter By Created Before", async () => {
@@ -138,10 +141,13 @@ describe("TranslationFilter tests", () => {
     const response = await client.path("/document/batches").get({
       queryParameters: queryParams,
     });
+    if (isUnexpected(response)) {
+      throw "get translation status job error:" + response.body;
+    }
 
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetTranslationsStatus200Response).body;
-      let idExists: boolean = false;
+      let idExists = false;
       for (const translationStatus of responseBody.value) {
         if ((await targetIds).includes(translationStatus.id)) {
           idExists = true;
@@ -149,11 +155,7 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() < endDateTime);
       }
       assert.isTrue(idExists);
-    }
-
-    if (isUnexpected(response)) {
-      throw "get translation status job error:" + response.body;
-    }
+    }    
   });
 
   it("Translation Statuses Filter By Created On", async () => {
@@ -161,7 +163,7 @@ describe("TranslationFilter tests", () => {
 
     // Add filter
     const startDateTime = recorder.variable("startDateTime", new Date().toISOString());
-    const orderByList: string[] = ["createdDateTimeUtc asc"];
+    const orderByList = ["createdDateTimeUtc asc"];
     const queryParams = {
       createdDateTimeUtcStart: startDateTime,
       orderby: orderByList,
@@ -170,6 +172,9 @@ describe("TranslationFilter tests", () => {
     const response = await client.path("/document/batches").get({
       queryParameters: queryParams,
     });
+    if (isUnexpected(response)) {
+      throw "get translation status job error:" + response.body;
+    }
     let timestamp = new Date(-8640000000000000); // Minimum valid Date value in JavaScript
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetTranslationsStatus200Response).body;
@@ -177,11 +182,7 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(new Date(translationStatus.createdDateTimeUtc) > timestamp);
         timestamp = new Date(translationStatus.createdDateTimeUtc);
       }
-    }
-
-    if (isUnexpected(response)) {
-      throw "get translation status job error:" + response.body;
-    }
+    }    
   });
 
   async function createTranslationJobs(
@@ -193,12 +194,12 @@ describe("TranslationFilter tests", () => {
     if (jobTerminalStatus.includes("cancelled")) {
       docsPerJob = 20; // in order to avoid job completing before canceling
     }
-    const testDocuments: TestDocument[] = createDummyTestDocuments(docsPerJob);
+    const testDocuments = createDummyTestDocuments(docsPerJob);
     const sourceUrl = await createSourceContainer(recorder, testDocuments);
     const sourceInput = createSourceInput(sourceUrl);
 
     // create a translation job
-    const translationIds: string[] = [];
+    const translationIds = [];
     for (let i = 1; i <= jobsCount; i++) {
       const targetUrl = await createTargetContainer(recorder);
       const targetInput = createTargetInput(targetUrl, "fr");

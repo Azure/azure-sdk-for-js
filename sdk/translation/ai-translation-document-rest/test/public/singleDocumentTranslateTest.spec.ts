@@ -26,7 +26,7 @@ describe ("SingleDocumentTranslate tests", () => {
   });
 
   it("document translate", async () => {
-    const options: DocumentTranslateParameters = {
+    const options = {
       queryParameters: {
         targetLanguage: "hi",
       },
@@ -41,7 +41,7 @@ describe ("SingleDocumentTranslate tests", () => {
       ],
     };
 
-    const response = await client.path("/document:translate").post(options);
+    const response = await client.path("/document:translate").post(options as DocumentTranslateParameters);
     if (isUnexpected(response)) {
       throw response.body;
     }
@@ -51,7 +51,7 @@ describe ("SingleDocumentTranslate tests", () => {
   });
 
   it("single CSV glossary", async () => {
-    const options: DocumentTranslateParameters = {
+    const options = {
       queryParameters: {
         targetLanguage: "hi",
       },
@@ -72,7 +72,7 @@ describe ("SingleDocumentTranslate tests", () => {
       ],
     };
 
-    const response = await client.path("/document:translate").post(options);
+    const response = await client.path("/document:translate").post(options as DocumentTranslateParameters);
     if (isUnexpected(response)) {
       throw response.body;
     }
@@ -82,7 +82,7 @@ describe ("SingleDocumentTranslate tests", () => {
   });
 
   it("Multiple CSV glossary", async () => {
-    const options: DocumentTranslateParameters = {
+    const options = {
       queryParameters: {
         targetLanguage: "hi",
       },
@@ -111,7 +111,7 @@ describe ("SingleDocumentTranslate tests", () => {
 
     const response = (await client
       .path("/document:translate")
-      .post(options)) as DocumentTranslateDefaultResponse;
+      .post(options as DocumentTranslateParameters )) as DocumentTranslateDefaultResponse;
 
     if (isUnexpected(response)) {
       assert.equal(response.status, "400");

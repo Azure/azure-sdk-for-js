@@ -20,7 +20,6 @@ import {
   createTargetInput,
   getTranslationOperationID,
 } from "../utils/testHelper";
-import { TestDocument } from "../utils/TestDocument";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -45,7 +44,7 @@ describe("DocumentFilter tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add Status filter
-    const succeededStatusList: string[] = ["Succeeded"];
+    const succeededStatusList = ["Succeeded"];
     const queryParams = {
       statuses: succeededStatusList,
     };
@@ -54,15 +53,16 @@ describe("DocumentFilter tests", () => {
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams,
     });
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
         assert.isTrue(succeededStatusList.includes(documentStatus.status));
       }
     }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
+    
   });
 
   it("Document Statuses Filter By ID", async () => {
@@ -71,16 +71,16 @@ describe("DocumentFilter tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // get Documents Status with operationID
-    const testIds: string[] = [];
+    const testIds = [];
     const response = await client.path("/document/batches/{id}/documents", operationId).get();
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
         testIds.push(documentStatus.id);
       }
-    }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
     }
 
     // Add id filter
@@ -94,14 +94,14 @@ describe("DocumentFilter tests", () => {
       .get({
         queryParameters: queryParams,
       });
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
     if (documentStatusResponse.status === "200" && "body" in documentStatusResponse) {
       const responseBody = (documentStatusResponse as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
         assert.isTrue(testIds.includes(documentStatus.id));
       }
-    }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
     }
   });
 
@@ -111,24 +111,24 @@ describe("DocumentFilter tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add orderBy filter
-    const orderByList: string[] = ["createdDateTimeUtc asc"];
+    const orderByList = ["createdDateTimeUtc asc"];
     const queryParams = {
       orderby: orderByList,
     };
 
     // get Documents Status w.r.t orderby
-    const testCreatedOnDateTimes: string[] = [];
+    const testCreatedOnDateTimes = [];
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams,
     });
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
         testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
       }
-    }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
     }
 
     // Asserting that only the last document is returned
@@ -140,6 +140,9 @@ describe("DocumentFilter tests", () => {
     const response2 = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams2,
     });
+    if (isUnexpected(response2)) {
+      throw "get documents status job error:" + response2.body;
+    }
     if (response2.status === "200" && "body" in response2) {
       const responseBody = (response2 as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
@@ -147,10 +150,7 @@ describe("DocumentFilter tests", () => {
         itemCount += 1;
       }
     }
-    assert.equal(itemCount, 1);
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
+    assert.equal(itemCount, 1);    
   });
 
   it("Document Statuses Filter By Created Before", async () => {
@@ -159,25 +159,25 @@ describe("DocumentFilter tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add orderBy filter
-    const orderByList: string[] = ["createdDateTimeUtc asc"];
+    const orderByList =  ["createdDateTimeUtc asc"];
     const queryParams = {
       orderby: orderByList,
     };
 
     // get Documents Status w.r.t orderby
-    const testCreatedOnDateTimes: string[] = [];
+    const testCreatedOnDateTimes =  [];
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams,
     });
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
         testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
       }
-    }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
+    }    
 
     // Asserting that only the first document is returned
     let itemCount2 = 0;
@@ -188,6 +188,9 @@ describe("DocumentFilter tests", () => {
     const response2 = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams2,
     });
+    if (isUnexpected(response2)) {
+      throw "get documents status job error:" + response2.body;
+    }
     if (response2.status === "200" && "body" in response2) {
       const responseBody = (response2 as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
@@ -195,10 +198,7 @@ describe("DocumentFilter tests", () => {
         itemCount2 += 1;
       }
     }
-    assert.equal(itemCount2, 1);
-    if (isUnexpected(response2)) {
-      throw "get documents status job error:" + response2.body;
-    }
+    assert.equal(itemCount2, 1);    
 
     // Asserting that the first 4/5 docs are returned
     let itemCount3 = 0;
@@ -209,6 +209,9 @@ describe("DocumentFilter tests", () => {
     const response3 = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams3,
     });
+    if (isUnexpected(response3)) {
+      throw "get documents status job error:" + response3.body;
+    }
     if (response3.status === "200" && "body" in response3) {
       const responseBody = (response3 as GetDocumentsStatus200Response).body;
       for (const documentStatus of responseBody.value) {
@@ -217,9 +220,7 @@ describe("DocumentFilter tests", () => {
       }
     }
     assert.equal(itemCount3, 4);
-    if (isUnexpected(response3)) {
-      throw "get documents status job error:" + response3.body;
-    }
+    
   });
 
   it("Document Statuses Filter By Created On", async () => {
@@ -228,7 +229,7 @@ describe("DocumentFilter tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add OrderBy filter
-    const orderByList: string[] = ["createdDateTimeUtc desc"];
+    const orderByList =  ["createdDateTimeUtc desc"];
     const queryParams = {
       statuses: orderByList,
     };
@@ -237,6 +238,9 @@ describe("DocumentFilter tests", () => {
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams,
     });
+    if (isUnexpected(response)) {
+      throw "get documents status job error:" + response.body;
+    }
     const timestamp = new Date();
     if (response.status === "200" && "body" in response) {
       const responseBody = (response as GetDocumentsStatus200Response).body;
@@ -245,13 +249,11 @@ describe("DocumentFilter tests", () => {
         assert.isTrue(createdDateTime < timestamp || createdDateTime === timestamp);
       }
     }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
+    
   });
 
   async function createSingleTranslationJob(count: number) {
-    const testDocs: TestDocument[] = createDummyTestDocuments(count);
+    const testDocs = createDummyTestDocuments(count);
     const sourceUrl = await createSourceContainer(recorder, testDocs);
     const sourceInput = createSourceInput(sourceUrl);
 

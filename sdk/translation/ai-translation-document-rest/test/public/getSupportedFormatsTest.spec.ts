@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { DocumentTranslationClient, GetSupportedFormatsParameters, isUnexpected } from "../../src";
+import { DocumentTranslationClient, isUnexpected } from "../../src";
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
@@ -37,7 +37,7 @@ describe ("GetSupportedFormats tests", () => {
 
   it("document formats", async () => {
     // Define the query parameters with the specified type
-    const options: GetSupportedFormatsParameters = {
+    const options = {
       queryParameters: {
         type: "document",
       },
@@ -63,7 +63,7 @@ describe ("GetSupportedFormats tests", () => {
 
   it("glossary formats", async () => {
     // Define the query parameters with the specified type
-    const options: GetSupportedFormatsParameters = {
+    const options = {
       queryParameters: {
         type: "glossary",
       },

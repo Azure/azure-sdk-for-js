@@ -4,13 +4,11 @@
 import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import {
-  DocumentFilter,
   DocumentStatusOutput,
   DocumentTranslationClient,
   GetDocumentStatus200Response,
   GetDocumentsStatus200Response,
   GetTranslationStatus200Response,
-  Glossary,
   StartTranslationDefaultResponse,
   TranslationStatusOutput,
   getLongRunningPoller,
@@ -40,7 +38,7 @@ import {
   getTranslationOperationID,
   sleep,
 } from "../utils/testHelper";
-import { TestDocument, createTestDocument } from "../utils/TestDocument";
+import { createTestDocument } from "../utils/TestDocument";
 import { BatchRequest } from "../../../src/models";
 
 export const testPollingOptions = {
@@ -149,7 +147,7 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Single Source Single Target With Prefix", async () => {
-    const documentFilter: DocumentFilter = {
+    const documentFilter = {
       prefix: "File",
     };
     const sourceUrl = await createSourceContainer(recorder, TWO_TEST_DOCUMENTS);
@@ -168,7 +166,7 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Single Source Single Target With Suffix", async () => {
-    const documentFilter: DocumentFilter = {
+    const documentFilter = {
       suffix: "txt",
     };
     const sourceInput = createSourceInput(
@@ -228,6 +226,9 @@ describe("DocumentTranslation tests", () => {
       const documentResponse = await client
         .path("/document/batches/{id}/documents", operationId)
         .get();
+      if (isUnexpected(documentResponse)) {
+        throw "get documents status job error:" + documentResponse.body;
+      }
       if (documentResponse.status === "200" && "body" in documentResponse) {
         const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
         for (const documentStatus of responseBody.value) {
@@ -242,9 +243,7 @@ describe("DocumentTranslation tests", () => {
         }
       }
     }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
+    
   });
 
   it("Get Document Status", async () => {
@@ -266,18 +265,23 @@ describe("DocumentTranslation tests", () => {
     const documentResponse = await client
       .path("/document/batches/{id}/documents", operationId)
       .get();
+
+    if (isUnexpected(documentResponse)) {
+      throw "get documents status job error:" + documentResponse.body;
+    }
     if (documentResponse.status === "200" && "body" in documentResponse) {
       const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
       for (const document of responseBody.value) {
         const documentStatus = await client
           .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
           .get();
+        if (isUnexpected(documentStatus)) {
+          throw "get documents status job error:" + documentStatus.body;
+        }
         validateDocumentStatus(documentStatus as GetDocumentStatus200Response, document.to);
       }
     }
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
+    
   });
 
   it("Wrong Source Right Target", async () => {
@@ -317,10 +321,6 @@ describe("DocumentTranslation tests", () => {
       (translationStatus?.body as TranslationStatusOutput).error?.innerError?.code,
       "InvalidDocumentAccessLevel",
     );
-
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
   });
 
   it("Right Source Wrong Target", async () => {
@@ -334,7 +334,6 @@ describe("DocumentTranslation tests", () => {
     const response = await client.path("/document/batches").post({
       body: batchRequests,
     });
-
     const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
@@ -363,14 +362,10 @@ describe("DocumentTranslation tests", () => {
       (translationStatus?.body as TranslationStatusOutput).error?.innerError?.code,
       "InvalidTargetDocumentAccessLevel",
     );
-
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
   });
 
   it("Supported And UnSupported Files", async () => {
-    const documents: TestDocument[] = [
+    const documents = [
       createTestDocument("Document1.txt", "First english test file"),
       createTestDocument("File2.jpg", "jpg"),
     ];
@@ -383,17 +378,17 @@ describe("DocumentTranslation tests", () => {
     // Start translation
     const batchRequests = { inputs: [batchRequest] };
     const response = await StartTranslationAndWait(batchRequests);
-
-    // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
-
     if (isUnexpected(response)) {
       throw "get documents status job error:" + response.body;
     }
+
+    // Validate the response
+    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
+    
   });
 
   it("Empty Document Error", async () => {
-    const documents: TestDocument[] = [createTestDocument("Document1.txt", "")];
+    const documents = [createTestDocument("Document1.txt", "")];
     const sourceUrl = await createSourceContainer(recorder, documents);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
@@ -403,7 +398,6 @@ describe("DocumentTranslation tests", () => {
     // Start translation
     const batchRequests = { inputs: [batchRequest] };
     const response = await StartTranslationAndWait(batchRequests);
-
     // Validate the response
     const operationLocationUrl = response.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
@@ -412,6 +406,9 @@ describe("DocumentTranslation tests", () => {
     const translationStatus = (await client
       .path("/document/batches/{id}", operationId)
       .get()) as GetTranslationStatus200Response;
+    if (isUnexpected(translationStatus)) {
+      throw "get documents status job error:" + translationStatus.body;
+    }
     const translationStatusOutput = translationStatus.body as TranslationStatusOutput;
     assert.equal(translationStatusOutput.status, "Failed");
     assert.equal(translationStatusOutput.summary.total, 1);
@@ -420,9 +417,6 @@ describe("DocumentTranslation tests", () => {
     assert.equal(translationStatusOutput.error?.code, "InvalidRequest");
     assert.equal(translationStatusOutput.error?.innerError?.code, "NoTranslatableText");
 
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
   });
 
   it("Existing File In Target Container", async () => {
@@ -464,10 +458,6 @@ describe("DocumentTranslation tests", () => {
       (translationStatus?.body as TranslationStatusOutput).error?.innerError?.code,
       "TargetFileAlreadyExists",
     );
-
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
-    }
   });
 
   it("Invalid Document GUID", async () => {
@@ -495,24 +485,19 @@ describe("DocumentTranslation tests", () => {
     documentResponse = await client
       .path("/document/batches/{id}/documents/{documentId}", operationId, " ")
       .get();
-    assert.equal(documentResponse.status, "404");
-
-    if (isUnexpected(response)) {
-      console.log("Error during get document status:", response.body);
-      throw "get documents status job error:" + response.body;
-    }
+    assert.equal(documentResponse.status, "404");    
   });
 
   it("Document Translation With Glossary", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
 
-    const targetContainer: Map<string, string> = await createTargetContainerWithInfo(recorder);
+    const targetContainer = await createTargetContainerWithInfo(recorder);
     const targetUrl = targetContainer.get("sasUrl") as string;
     const targetContainerName = targetContainer.get("containerName") as string;
     const glossaryUrl = await createGlossaryContainer(recorder);
 
-    const glossaries: Glossary[] = [
+    const glossaries = [
       {
         glossaryUrl: glossaryUrl,
         format: "csv",
@@ -532,10 +517,6 @@ describe("DocumentTranslation tests", () => {
 
     const result = downloadDocument(recorder, targetContainerName, "Document1.txt");
     assert.isTrue((await result).includes("glossaryTest"));
-
-    if (isUnexpected(response)) {
-      throw "Error:" + response.body;
-    }
   });
 
   async function validateTranslationStatus(
@@ -550,6 +531,9 @@ describe("DocumentTranslation tests", () => {
     const translationStatus = (await client
       .path("/document/batches/{id}", operationId)
       .get()) as GetTranslationStatus200Response;
+    if (isUnexpected(translationStatus)) {
+      throw "get documents status job error:" + translationStatus.body;
+    }
     const translationStatusOutput = translationStatus.body as TranslationStatusOutput;
     assert.equal(translationStatusOutput.summary.total, translationCount);
     assert.equal(translationStatusOutput.summary.success, translationCount);
