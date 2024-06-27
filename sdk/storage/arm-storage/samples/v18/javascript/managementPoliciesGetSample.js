@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the managementpolicy associated with the specified storage account.
  *
  * @summary Gets the managementpolicy associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountGetManagementPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetManagementPolicy.json
  */
 async function storageAccountGetManagementPolicies() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -28,7 +28,7 @@ async function storageAccountGetManagementPolicies() {
   const result = await client.managementPolicies.get(
     resourceGroupName,
     accountName,
-    managementPolicyName
+    managementPolicyName,
   );
   console.log(result);
 }
