@@ -134,5 +134,14 @@
     "build": "npm run clean && tshy && mkdirp ./review && dev-tool run extract-api",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure OpenAI",
+    "productSlugs": [
+      "azure",
+      "azure-rest",
+      "ai-inference",
+      "azure-inference"
+    ]
   }
 }
