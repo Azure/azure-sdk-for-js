@@ -26,6 +26,9 @@ dependencies:
   '@rush-temp/ai-form-recognizer':
     specifier: file:./projects/ai-form-recognizer.tgz
     version: file:projects/ai-form-recognizer.tgz
+  '@rush-temp/ai-inference':
+    specifier: file:./projects/ai-inference.tgz
+    version: file:projects/ai-inference.tgz
   '@rush-temp/ai-language-conversations':
     specifier: file:./projects/ai-language-conversations.tgz
     version: file:projects/ai-language-conversations.tgz
@@ -11446,6 +11449,69 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-inference.tgz:
+    resolution: {integrity: sha512-d7gLVKnKMLfQ6F3Yr/5KDxXq2EUevzHMiW0MqMLO7FAgLFTeg3kzYkPuhjWcoxgvCGTaoEtTEUvIyaUwLlJq5w==, tarball: file:projects/ai-inference.tgz}
+    name: '@rush-temp/ai-inference'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.4.0
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.3.0
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.39
+      '@types/node-fetch': 2.6.11
+      '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      autorest: 3.7.1
+      builtin-modules: 3.3.0
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      karma: 6.4.3(debug@4.3.5)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-edge-launcher: 0.4.2(karma@6.4.3)
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-json-preprocessor: 0.3.3(karma@6.4.3)
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1(karma@6.4.3)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.3)
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 3.0.1
+      mocha: 10.4.0
+      nyc: 15.1.0
+      playwright: 1.44.1
+      prettier: 3.3.2
+      puppeteer: 22.12.0(typescript@5.4.5)
+      rimraf: 5.0.7
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
+      tshy: 1.16.0
+      tslib: 2.6.3
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/ai-language-conversations.tgz:
