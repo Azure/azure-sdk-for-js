@@ -7,7 +7,7 @@ import {
   VitestTestContext,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import { ClientOptions } from "@azure-rest/core-client";
 import createClient, { ModelClient } from "../../../src/index.js";
 
@@ -36,7 +36,6 @@ export async function createModelClient(
   options?: ClientOptions,
 ): Promise<ModelClient> {
   const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
-  const apikey = assertEnvironmentVariable("AZURE_CLIENT_SECRET");
-  const credential = new AzureKeyCredential(apikey);
+  const credential = new DefaultAzureCredential();
   return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }
