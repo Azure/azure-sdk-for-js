@@ -2,7 +2,7 @@
     
 ## 18.3.0 (2024-06-27)
     
-### Feature Added
+### Features Added
 
   - Added operation group NetworkSecurityPerimeterConfigurations
   - Added operation group StorageTaskAssignmentInstancesReport
@@ -102,7 +102,7 @@
     
 ## 18.2.0 (2023-08-08)
 
-### Feature Added
+### Features Added
 
 - Added operation StorageAccounts.beginCustomerInitiatedMigration
 - Added operation StorageAccounts.beginCustomerInitiatedMigrationAndWait
@@ -146,7 +146,7 @@
 
 ## 18.1.0 (2022-11-24)
 
-### Feature Added
+### Features Added
 
 - Added Type Alias ListEncryptionScopesInclude
 - Interface EncryptionScopesListNextOptionalParams has a new optional parameter filter
@@ -165,7 +165,7 @@
 
 ## 18.0.0 (2022-08-16)
 
-### Feature Added
+### Features Added
 
 - Added Interface AzureEntityResource
 - Added Interface BlobContainer
@@ -204,13 +204,13 @@
 
 ## 17.2.1 (2022-06-15)
 
-### Feature Added
+### Features Added
 
 - Bug fix
 
 ## 17.2.0 (2022-03-30)
 
-### Feature Added
+### Features Added
 
 - Added Interface StorageAccountSkuConversionStatus
 - Added Interface TableAccessPolicy
@@ -238,7 +238,7 @@
 
 ## 17.1.0 (2022-02-14)
 
-### Feature Added
+### Features Added
 
 - Added operation group LocalUsersOperations
 - Added Interface LocalUserKeys
