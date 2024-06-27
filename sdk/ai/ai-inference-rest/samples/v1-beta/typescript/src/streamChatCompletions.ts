@@ -52,9 +52,7 @@ export async function main() {
       return;
     }
     for (const choice of (JSON.parse(event.data)).choices) {
-      if (choice.delta?.content) {
-        console.log(choice.delta?.content);
-      }
+      console.log(choice.delta?.content ?? "");
     }
   }
 
