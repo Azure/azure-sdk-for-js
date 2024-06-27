@@ -41,7 +41,7 @@ export async function main() {
 
   //Start translation
   const batchRequests = { inputs: [batchRequest] };
-  const response = await StartTranslationAndWait(client, batchRequests);  
+  const response = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = response.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 

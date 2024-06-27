@@ -12,7 +12,7 @@ import {
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe ("SingleDocumentTranslate tests", () => {
+describe("SingleDocumentTranslate tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
@@ -41,13 +41,14 @@ describe ("SingleDocumentTranslate tests", () => {
       ],
     };
 
-    const response = await client.path("/document:translate").post(options as DocumentTranslateParameters);
+    const response = await client
+      .path("/document:translate")
+      .post(options as DocumentTranslateParameters);
     if (isUnexpected(response)) {
       throw response.body;
     }
     assert.equal(response.status, "200");
     assert.isTrue(response.body !== null);
-
   });
 
   it("single CSV glossary", async () => {
@@ -72,7 +73,9 @@ describe ("SingleDocumentTranslate tests", () => {
       ],
     };
 
-    const response = await client.path("/document:translate").post(options as DocumentTranslateParameters);
+    const response = await client
+      .path("/document:translate")
+      .post(options as DocumentTranslateParameters);
     if (isUnexpected(response)) {
       throw response.body;
     }
@@ -111,11 +114,15 @@ describe ("SingleDocumentTranslate tests", () => {
 
     const response = (await client
       .path("/document:translate")
-      .post(options as DocumentTranslateParameters )) as DocumentTranslateDefaultResponse;
+      .post(options as DocumentTranslateParameters)) as DocumentTranslateDefaultResponse;
 
     if (isUnexpected(response)) {
       assert.equal(response.status, "400");
-      assert.isTrue(response.body.error.message.includes("The maximum number of glossary files has been exceeded"));
+      assert.isTrue(
+        response.body.error.message.includes(
+          "The maximum number of glossary files has been exceeded",
+        ),
+      );
     } else {
       assert.isFalse(true);
     }

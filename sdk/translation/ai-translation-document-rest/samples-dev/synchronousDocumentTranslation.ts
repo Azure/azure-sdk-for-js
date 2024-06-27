@@ -48,9 +48,7 @@ export async function main() {
   }
 
   if (response.status == "200") {
-    console.log(
-      "Response code: " + response.status + ", Response body: " + response.body,
-    );
+    console.log("Response code: " + response.status + ", Response body: " + response.body);
   }
 
   main().catch((err) => {

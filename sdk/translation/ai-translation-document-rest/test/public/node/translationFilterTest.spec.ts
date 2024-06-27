@@ -67,7 +67,7 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(cancelledStatusList.includes(translationStatus.status));
         assert.isTrue((await cancelledIds).includes(translationStatus.id));
       }
-    }    
+    }
   });
 
   it("Translation Statuses Filter By Id", async () => {
@@ -92,7 +92,6 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(targetIds.includes(translationStatus.id));
       }
     }
-    
   });
 
   it("Translation Statuses Filter By Created After", async () => {
@@ -116,7 +115,6 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() > testStartTime);
       }
     }
-    
   });
 
   it("Translation Statuses Filter By Created Before", async () => {
@@ -155,7 +153,7 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() < endDateTime);
       }
       assert.isTrue(idExists);
-    }    
+    }
   });
 
   it("Translation Statuses Filter By Created On", async () => {
@@ -182,7 +180,7 @@ describe("TranslationFilter tests", () => {
         assert.isTrue(new Date(translationStatus.createdDateTimeUtc) > timestamp);
         timestamp = new Date(translationStatus.createdDateTimeUtc);
       }
-    }    
+    }
   });
 
   async function createTranslationJobs(

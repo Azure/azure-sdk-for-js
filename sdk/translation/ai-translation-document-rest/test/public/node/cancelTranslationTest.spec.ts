@@ -22,7 +22,7 @@ import {
   getTranslationOperationID,
 } from "../utils/testHelper";
 
-describe ("CancelTranslation tests", () => {
+describe("CancelTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
@@ -63,10 +63,9 @@ describe ("CancelTranslation tests", () => {
     const statusOutput = (response as GetTranslationStatus200Response).body.status;
     assert.isTrue(
       statusOutput === "Cancelled" ||
-      statusOutput === "Cancelling" ||
-      statusOutput === "NotStarted",
+        statusOutput === "Cancelling" ||
+        statusOutput === "NotStarted",
       "Status output is: " + statusOutput,
-    );   
-    
+    );
   });
 });

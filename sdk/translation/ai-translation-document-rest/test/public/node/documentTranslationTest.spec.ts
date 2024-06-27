@@ -243,7 +243,6 @@ describe("DocumentTranslation tests", () => {
         }
       }
     }
-    
   });
 
   it("Get Document Status", async () => {
@@ -281,7 +280,6 @@ describe("DocumentTranslation tests", () => {
         validateDocumentStatus(documentStatus as GetDocumentStatus200Response, document.to);
       }
     }
-    
   });
 
   it("Wrong Source Right Target", async () => {
@@ -384,7 +382,6 @@ describe("DocumentTranslation tests", () => {
 
     // Validate the response
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
-    
   });
 
   it("Empty Document Error", async () => {
@@ -416,7 +413,6 @@ describe("DocumentTranslation tests", () => {
     assert.equal(translationStatusOutput.summary.failed, 1);
     assert.equal(translationStatusOutput.error?.code, "InvalidRequest");
     assert.equal(translationStatusOutput.error?.innerError?.code, "NoTranslatableText");
-
   });
 
   it("Existing File In Target Container", async () => {
@@ -485,7 +481,7 @@ describe("DocumentTranslation tests", () => {
     documentResponse = await client
       .path("/document/batches/{id}/documents/{documentId}", operationId, " ")
       .get();
-    assert.equal(documentResponse.status, "404");    
+    assert.equal(documentResponse.status, "404");
   });
 
   it("Document Translation With Glossary", async () => {

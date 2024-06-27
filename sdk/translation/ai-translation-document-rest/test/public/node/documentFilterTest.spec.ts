@@ -62,7 +62,6 @@ describe("DocumentFilter tests", () => {
         assert.isTrue(succeededStatusList.includes(documentStatus.status));
       }
     }
-    
   });
 
   it("Document Statuses Filter By ID", async () => {
@@ -150,7 +149,7 @@ describe("DocumentFilter tests", () => {
         itemCount += 1;
       }
     }
-    assert.equal(itemCount, 1);    
+    assert.equal(itemCount, 1);
   });
 
   it("Document Statuses Filter By Created Before", async () => {
@@ -159,13 +158,13 @@ describe("DocumentFilter tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add orderBy filter
-    const orderByList =  ["createdDateTimeUtc asc"];
+    const orderByList = ["createdDateTimeUtc asc"];
     const queryParams = {
       orderby: orderByList,
     };
 
     // get Documents Status w.r.t orderby
-    const testCreatedOnDateTimes =  [];
+    const testCreatedOnDateTimes = [];
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
       queryParameters: queryParams,
     });
@@ -177,7 +176,7 @@ describe("DocumentFilter tests", () => {
       for (const documentStatus of responseBody.value) {
         testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
       }
-    }    
+    }
 
     // Asserting that only the first document is returned
     let itemCount2 = 0;
@@ -198,7 +197,7 @@ describe("DocumentFilter tests", () => {
         itemCount2 += 1;
       }
     }
-    assert.equal(itemCount2, 1);    
+    assert.equal(itemCount2, 1);
 
     // Asserting that the first 4/5 docs are returned
     let itemCount3 = 0;
@@ -220,7 +219,6 @@ describe("DocumentFilter tests", () => {
       }
     }
     assert.equal(itemCount3, 4);
-    
   });
 
   it("Document Statuses Filter By Created On", async () => {
@@ -229,7 +227,7 @@ describe("DocumentFilter tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add OrderBy filter
-    const orderByList =  ["createdDateTimeUtc desc"];
+    const orderByList = ["createdDateTimeUtc desc"];
     const queryParams = {
       statuses: orderByList,
     };
@@ -249,7 +247,6 @@ describe("DocumentFilter tests", () => {
         assert.isTrue(createdDateTime < timestamp || createdDateTime === timestamp);
       }
     }
-    
   });
 
   async function createSingleTranslationJob(count: number) {

@@ -7,7 +7,7 @@ import { DocumentTranslationClient, isUnexpected } from "../../src";
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe ("GetSupportedFormats tests", () => {
+describe("GetSupportedFormats tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 

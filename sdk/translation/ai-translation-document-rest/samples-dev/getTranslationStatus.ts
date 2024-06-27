@@ -53,7 +53,7 @@ export async function main() {
   if (isUnexpected(response)) {
     throw response.body;
   }
-  
+
   if (response.status === "200" && "body" in response) {
     const responseBody = response.body as TranslationStatusOutput;
     console.log("Translation ID = " + responseBody.id);
