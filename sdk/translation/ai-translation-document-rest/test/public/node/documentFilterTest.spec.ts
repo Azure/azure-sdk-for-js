@@ -6,7 +6,6 @@ import { assert } from "chai";
 import {
   DocumentTranslationClient,
   isUnexpected,
-  GetDocumentsStatus200Response,
   getLongRunningPoller,
   StartTranslation202Response,
 } from "../.././../src";
@@ -56,11 +55,9 @@ describe("DocumentFilter tests", () => {
     if (isUnexpected(response)) {
       throw "get documents status job error:" + response.body;
     }
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        assert.isTrue(succeededStatusList.includes(documentStatus.status));
-      }
+    const responseBody = response.body;
+    for (const documentStatus of responseBody.value) {
+      assert.isTrue(succeededStatusList.includes(documentStatus.status));
     }
   });
 
@@ -75,11 +72,9 @@ describe("DocumentFilter tests", () => {
     if (isUnexpected(response)) {
       throw "get documents status job error:" + response.body;
     }
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        testIds.push(documentStatus.id);
-      }
+    let responseBody = response.body;
+    for (const documentStatus of responseBody.value) {
+      testIds.push(documentStatus.id);
     }
 
     // Add id filter
@@ -93,14 +88,13 @@ describe("DocumentFilter tests", () => {
       .get({
         queryParameters: queryParams,
       });
-    if (isUnexpected(response)) {
-      throw "get documents status job error:" + response.body;
+    if (isUnexpected(documentStatusResponse)) {
+      throw "get documents status job error:" + documentStatusResponse.body;
     }
-    if (documentStatusResponse.status === "200" && "body" in documentStatusResponse) {
-      const responseBody = (documentStatusResponse as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        assert.isTrue(testIds.includes(documentStatus.id));
-      }
+
+    responseBody = documentStatusResponse.body;
+    for (const documentStatus of responseBody.value) {
+      assert.isTrue(testIds.includes(documentStatus.id));
     }
   });
 
@@ -123,11 +117,9 @@ describe("DocumentFilter tests", () => {
     if (isUnexpected(response)) {
       throw "get documents status job error:" + response.body;
     }
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
-      }
+    let responseBody = response.body;
+    for (const documentStatus of responseBody.value) {
+      testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
     }
 
     // Asserting that only the last document is returned
@@ -142,13 +134,12 @@ describe("DocumentFilter tests", () => {
     if (isUnexpected(response2)) {
       throw "get documents status job error:" + response2.body;
     }
-    if (response2.status === "200" && "body" in response2) {
-      const responseBody = (response2 as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        assert.isNotNull(documentStatus);
-        itemCount += 1;
-      }
+    responseBody = response2.body;
+    for (const documentStatus of responseBody.value) {
+      assert.isNotNull(documentStatus);
+      itemCount += 1;
     }
+
     assert.equal(itemCount, 1);
   });
 
@@ -171,11 +162,9 @@ describe("DocumentFilter tests", () => {
     if (isUnexpected(response)) {
       throw "get documents status job error:" + response.body;
     }
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
-      }
+    let responseBody = response.body;
+    for (const documentStatus of responseBody.value) {
+      testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
     }
 
     // Asserting that only the first document is returned
@@ -190,13 +179,13 @@ describe("DocumentFilter tests", () => {
     if (isUnexpected(response2)) {
       throw "get documents status job error:" + response2.body;
     }
-    if (response2.status === "200" && "body" in response2) {
-      const responseBody = (response2 as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        assert.isNotNull(documentStatus);
-        itemCount2 += 1;
-      }
+
+    responseBody = response2.body;
+    for (const documentStatus of responseBody.value) {
+      assert.isNotNull(documentStatus);
+      itemCount2 += 1;
     }
+
     assert.equal(itemCount2, 1);
 
     // Asserting that the first 4/5 docs are returned
@@ -211,13 +200,12 @@ describe("DocumentFilter tests", () => {
     if (isUnexpected(response3)) {
       throw "get documents status job error:" + response3.body;
     }
-    if (response3.status === "200" && "body" in response3) {
-      const responseBody = (response3 as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        assert.isNotNull(documentStatus);
-        itemCount3 += 1;
-      }
+    responseBody = response3.body;
+    for (const documentStatus of responseBody.value) {
+      assert.isNotNull(documentStatus);
+      itemCount3 += 1;
     }
+
     assert.equal(itemCount3, 4);
   });
 
@@ -240,12 +228,11 @@ describe("DocumentFilter tests", () => {
       throw "get documents status job error:" + response.body;
     }
     const timestamp = new Date();
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetDocumentsStatus200Response).body;
-      for (const documentStatus of responseBody.value) {
-        const createdDateTime = new Date(documentStatus.createdDateTimeUtc);
-        assert.isTrue(createdDateTime < timestamp || createdDateTime === timestamp);
-      }
+
+    const responseBody = response.body;
+    for (const documentStatus of responseBody.value) {
+      const createdDateTime = new Date(documentStatus.createdDateTimeUtc);
+      assert.isTrue(createdDateTime < timestamp || createdDateTime === timestamp);
     }
   });
 

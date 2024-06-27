@@ -7,7 +7,6 @@ import {
   DocumentTranslationClient,
   isUnexpected,
   getLongRunningPoller,
-  GetTranslationsStatus200Response,
   GetTranslationStatus200Response,
   TranslationStatusOutput,
 } from "../.././../src";
@@ -61,12 +60,10 @@ describe("TranslationFilter tests", () => {
     if (isUnexpected(response)) {
       throw "get translation status job error:" + response.body;
     }
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetTranslationsStatus200Response).body;
-      for (const translationStatus of responseBody.value) {
-        assert.isTrue(cancelledStatusList.includes(translationStatus.status));
-        assert.isTrue((await cancelledIds).includes(translationStatus.id));
-      }
+    const responseBody = response.body;
+    for (const translationStatus of responseBody.value) {
+      assert.isTrue(cancelledStatusList.includes(translationStatus.status));
+      assert.isTrue((await cancelledIds).includes(translationStatus.id));
     }
   });
 
@@ -86,11 +83,10 @@ describe("TranslationFilter tests", () => {
     if (isUnexpected(response)) {
       throw "get translation status job error:" + response.body;
     }
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetTranslationsStatus200Response).body;
-      for (const translationStatus of responseBody.value) {
-        assert.isTrue(targetIds.includes(translationStatus.id));
-      }
+
+    const responseBody = response.body;
+    for (const translationStatus of responseBody.value) {
+      assert.isTrue(targetIds.includes(translationStatus.id));
     }
   });
 
@@ -108,12 +104,10 @@ describe("TranslationFilter tests", () => {
     if (isUnexpected(response)) {
       throw "get translation status job error:" + response.body;
     }
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetTranslationsStatus200Response).body;
-      for (const translationStatus of responseBody.value) {
-        assert.isTrue((await targetIds).includes(translationStatus.id));
-        assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() > testStartTime);
-      }
+    const responseBody = response.body;
+    for (const translationStatus of responseBody.value) {
+      assert.isTrue((await targetIds).includes(translationStatus.id));
+      assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() > testStartTime);
     }
   });
 
@@ -143,17 +137,15 @@ describe("TranslationFilter tests", () => {
       throw "get translation status job error:" + response.body;
     }
 
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetTranslationsStatus200Response).body;
-      let idExists = false;
-      for (const translationStatus of responseBody.value) {
-        if ((await targetIds).includes(translationStatus.id)) {
-          idExists = true;
-        }
-        assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() < endDateTime);
+    const responseBody = response.body;
+    let idExists = false;
+    for (const translationStatus of responseBody.value) {
+      if ((await targetIds).includes(translationStatus.id)) {
+        idExists = true;
       }
-      assert.isTrue(idExists);
+      assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() < endDateTime);
     }
+    assert.isTrue(idExists);
   });
 
   it("Translation Statuses Filter By Created On", async () => {
@@ -174,12 +166,11 @@ describe("TranslationFilter tests", () => {
       throw "get translation status job error:" + response.body;
     }
     let timestamp = new Date(-8640000000000000); // Minimum valid Date value in JavaScript
-    if (response.status === "200" && "body" in response) {
-      const responseBody = (response as GetTranslationsStatus200Response).body;
-      for (const translationStatus of responseBody.value) {
-        assert.isTrue(new Date(translationStatus.createdDateTimeUtc) > timestamp);
-        timestamp = new Date(translationStatus.createdDateTimeUtc);
-      }
+
+    const responseBody = response.body;
+    for (const translationStatus of responseBody.value) {
+      assert.isTrue(new Date(translationStatus.createdDateTimeUtc) > timestamp);
+      timestamp = new Date(translationStatus.createdDateTimeUtc);
     }
   });
 

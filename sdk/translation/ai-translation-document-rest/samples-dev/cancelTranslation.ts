@@ -18,7 +18,6 @@ import {
   createBatchRequest,
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
-import { GetTranslationStatus200Response } from "../src/responses";
 import { isUnexpected } from "../src/isUnexpected";
 dotenv.config();
 
@@ -53,10 +52,7 @@ export async function main() {
   if (isUnexpected(response)) {
     throw response.body;
   }
-  if (response.status === "200" && "body" in response) {
-    const statusOutput = (response as GetTranslationStatus200Response).body.status;
-    console.log("The status after cancelling the batch operation is:" + statusOutput);
-  }
+  console.log("The status after cancelling the batch operation is:" + response.body.status);
 
   main().catch((err) => {
     console.error(err);

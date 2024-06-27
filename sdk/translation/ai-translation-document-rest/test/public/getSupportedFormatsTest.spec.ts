@@ -26,7 +26,6 @@ describe("GetSupportedFormats tests", () => {
       throw response.body;
     }
 
-    assert.equal(response.status, "200");
     const fileFormatTypes = response.body;
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
@@ -48,7 +47,6 @@ describe("GetSupportedFormats tests", () => {
       throw response.body;
     }
 
-    assert.equal(response.status, "200");
     const fileFormatTypes = response.body;
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
@@ -74,7 +72,6 @@ describe("GetSupportedFormats tests", () => {
       throw response.body;
     }
 
-    assert.equal(response.status, "200");
     const fileFormatTypes = response.body;
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);

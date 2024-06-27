@@ -19,8 +19,7 @@ import {
   createBatchRequest,
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
-import { GetDocumentsStatus200Response } from "../src/responses";
-import { DocumentStatusOutput, isUnexpected } from "../src";
+import { isUnexpected } from "../src";
 dotenv.config();
 
 const endpoint =
@@ -50,25 +49,24 @@ export async function main() {
   if (isUnexpected(documentResponse)) {
     throw documentResponse.body;
   }
-  if (documentResponse.status === "200" && "body" in documentResponse) {
-    const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
-    for (const document of responseBody.value) {
-      //get document status
-      const documentStatus = await client
-        .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
-        .get();
-      if (isUnexpected(documentStatus)) {
-        throw documentStatus.body;
-      }
-      console.log("Document Status = " + documentStatus.status);
-      const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
-      console.log("Document ID = " + documentStatusOutput.id);
-      console.log("Document source path = " + documentStatusOutput.sourcePath);
-      console.log("Document path = " + documentStatusOutput.path);
-      console.log("Target language = " + documentStatusOutput.to);
-      console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
-      console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);
+
+  const responseBody = documentResponse.body;
+  for (const document of responseBody.value) {
+    //get document status
+    const documentStatus = await client
+      .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
+      .get();
+    if (isUnexpected(documentStatus)) {
+      throw documentStatus.body;
     }
+    console.log("Document Status = " + documentStatus.status);
+    const documentStatusOutput = documentStatus.body;
+    console.log("Document ID = " + documentStatusOutput.id);
+    console.log("Document source path = " + documentStatusOutput.sourcePath);
+    console.log("Document path = " + documentStatusOutput.path);
+    console.log("Target language = " + documentStatusOutput.to);
+    console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
+    console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);
   }
 
   main().catch((err) => {

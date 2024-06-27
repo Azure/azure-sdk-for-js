@@ -19,7 +19,6 @@ import {
   createBatchRequest,
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
-import { GetDocumentsStatus200Response } from "../src/responses";
 import { isUnexpected } from "../src/isUnexpected";
 dotenv.config();
 
@@ -41,7 +40,7 @@ export async function main() {
 
   //Start translation
   const batchRequests = { inputs: [batchRequest] };
-  const response = await StartTranslationAndWait(client, batchRequests);  
+  const response = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = response.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
@@ -50,13 +49,11 @@ export async function main() {
   if (isUnexpected(documentResponse)) {
     throw documentResponse.body;
   }
-  if (documentResponse.status === "200" && "body" in documentResponse) {
-    const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
-    for (const documentStatus of responseBody.value) {
-      console.log("Document Status is: " + documentStatus.status);
-      console.log("Characters charged is: " + documentStatus.characterCharged);
-      break;
-    }
+  const responseBody = documentResponse.body;
+  for (const documentStatus of responseBody.value) {
+    console.log("Document Status is: " + documentStatus.status);
+    console.log("Characters charged is: " + documentStatus.characterCharged);
+    break;
   }
 
   main().catch((err) => {

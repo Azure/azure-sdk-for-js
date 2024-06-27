@@ -7,7 +7,6 @@ import {
   DocumentStatusOutput,
   DocumentTranslationClient,
   GetDocumentStatus200Response,
-  GetDocumentsStatus200Response,
   GetTranslationStatus200Response,
   StartTranslationDefaultResponse,
   TranslationStatusOutput,
@@ -229,18 +228,16 @@ describe("DocumentTranslation tests", () => {
       if (isUnexpected(documentResponse)) {
         throw "get documents status job error:" + documentResponse.body;
       }
-      if (documentResponse.status === "200" && "body" in documentResponse) {
-        const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
-        for (const documentStatus of responseBody.value) {
-          console.log("documentStatus.status" + documentStatus.status);
-          console.log("translationStatusOutput.status" + translationStatusOutput.status);
-          assert.equal(documentStatus.status, translationStatusOutput.status);
-          assert.equal(
-            documentStatus.characterCharged,
-            translationStatusOutput.summary.totalCharacterCharged,
-          );
-          break;
-        }
+      const responseBody = documentResponse.body;
+      for (const documentStatus of responseBody.value) {
+        console.log("documentStatus.status" + documentStatus.status);
+        console.log("translationStatusOutput.status" + translationStatusOutput.status);
+        assert.equal(documentStatus.status, translationStatusOutput.status);
+        assert.equal(
+          documentStatus.characterCharged,
+          translationStatusOutput.summary.totalCharacterCharged,
+        );
+        break;
       }
     }
   });
@@ -268,17 +265,15 @@ describe("DocumentTranslation tests", () => {
     if (isUnexpected(documentResponse)) {
       throw "get documents status job error:" + documentResponse.body;
     }
-    if (documentResponse.status === "200" && "body" in documentResponse) {
-      const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
-      for (const document of responseBody.value) {
-        const documentStatus = await client
-          .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
-          .get();
-        if (isUnexpected(documentStatus)) {
-          throw "get documents status job error:" + documentStatus.body;
-        }
-        validateDocumentStatus(documentStatus as GetDocumentStatus200Response, document.to);
+    const responseBody = documentResponse.body;
+    for (const document of responseBody.value) {
+      const documentStatus = await client
+        .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
+        .get();
+      if (isUnexpected(documentStatus)) {
+        throw "get documents status job error:" + documentStatus.body;
       }
+      validateDocumentStatus(documentStatus as GetDocumentStatus200Response, document.to);
     }
   });
 

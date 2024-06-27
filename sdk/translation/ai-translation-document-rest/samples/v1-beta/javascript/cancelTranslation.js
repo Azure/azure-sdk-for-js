@@ -52,10 +52,7 @@ async function main() {
   if (isUnexpected(response)) {
     throw response.body;
   }
-  if (response.status === "200" && "body" in response) {
-    const statusOutput = response.body.status;
-    console.log("The status after cancelling the batch operation is:" + statusOutput);
-  }
+  console.log("The status after cancelling the batch operation is:" + response.body.status);
 
   main().catch((err) => {
     console.error(err);

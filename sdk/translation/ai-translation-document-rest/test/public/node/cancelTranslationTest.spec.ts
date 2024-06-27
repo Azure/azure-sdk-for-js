@@ -3,11 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {
-  DocumentTranslationClient,
-  GetTranslationStatus200Response,
-  isUnexpected,
-} from "../.././../src";
+import { DocumentTranslationClient, isUnexpected } from "../.././../src";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
 import {
   ONE_TEST_DOCUMENTS,
@@ -57,10 +53,10 @@ describe("CancelTranslation tests", () => {
     if (isUnexpected(response)) {
       throw response.body;
     }
-    assert.equal(response.status, "200");
-    const idOutput = (response as GetTranslationStatus200Response).body.id;
+
+    const idOutput = response.body.id;
     assert.isTrue(idOutput === id, "IDOutput is:" + idOutput);
-    const statusOutput = (response as GetTranslationStatus200Response).body.status;
+    const statusOutput = response.body.status;
     assert.isTrue(
       statusOutput === "Cancelled" ||
         statusOutput === "Cancelling" ||

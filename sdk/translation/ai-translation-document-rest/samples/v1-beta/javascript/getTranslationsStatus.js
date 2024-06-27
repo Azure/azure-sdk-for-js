@@ -54,16 +54,14 @@ async function main() {
   if (isUnexpected(response)) {
     throw response.body;
   }
-  if (response.status === "200" && "body" in response) {
-    const responseBody = response.body;
-    for (const translationStatus of responseBody.value) {
-      console.log("Translation ID = " + translationStatus.id);
-      console.log("Translation Status = " + translationStatus.status);
-      console.log("Translation createdDateTimeUtc = " + translationStatus.createdDateTimeUtc);
-      console.log("Translation lastActionDateTimeUtc = " + translationStatus.lastActionDateTimeUtc);
-      console.log("Total documents submitted for translation = " + translationStatus.summary.total);
-      console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
-    }
+  const responseBody = response.body;
+  for (const translationStatus of responseBody.value) {
+    console.log("Translation ID = " + translationStatus.id);
+    console.log("Translation Status = " + translationStatus.status);
+    console.log("Translation createdDateTimeUtc = " + translationStatus.createdDateTimeUtc);
+    console.log("Translation lastActionDateTimeUtc = " + translationStatus.lastActionDateTimeUtc);
+    console.log("Total documents submitted for translation = " + translationStatus.summary.total);
+    console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
   }
 
   main().catch((err) => {

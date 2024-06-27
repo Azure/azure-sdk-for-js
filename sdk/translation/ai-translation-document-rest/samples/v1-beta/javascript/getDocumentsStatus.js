@@ -49,13 +49,11 @@ async function main() {
   if (isUnexpected(documentResponse)) {
     throw documentResponse.body;
   }
-  if (documentResponse.status === "200" && "body" in documentResponse) {
-    const responseBody = documentResponse.body;
-    for (const documentStatus of responseBody.value) {
-      console.log("Document Status is: " + documentStatus.status);
-      console.log("Characters charged is: " + documentStatus.characterCharged);
-      break;
-    }
+  const responseBody = documentResponse.body;
+  for (const documentStatus of responseBody.value) {
+    console.log("Document Status is: " + documentStatus.status);
+    console.log("Characters charged is: " + documentStatus.characterCharged);
+    break;
   }
 
   main().catch((err) => {

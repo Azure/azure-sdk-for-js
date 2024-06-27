@@ -47,8 +47,6 @@ describe("SingleDocumentTranslate tests", () => {
     if (isUnexpected(response)) {
       throw response.body;
     }
-    assert.equal(response.status, "200");
-    assert.isTrue(response.body !== null);
   });
 
   it("single CSV glossary", async () => {
@@ -79,8 +77,6 @@ describe("SingleDocumentTranslate tests", () => {
     if (isUnexpected(response)) {
       throw response.body;
     }
-    assert.equal(response.status, "200");
-    assert.isTrue(response.body !== null);
     assert.isTrue(response.body.toString().includes("test"));
   });
 
