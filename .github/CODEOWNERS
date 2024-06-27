@@ -42,7 +42,7 @@
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
 # AzureSdkOwners: @joheredi @jeremymeng @deyaaeldeen
-/sdk/core/core-client-rest/ @joheredi @jeremymeng @deyaaeldeen
+/sdk/core/core-client-rest/ @joheredi @jeremymeng @deyaaeldeen @timovv
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
