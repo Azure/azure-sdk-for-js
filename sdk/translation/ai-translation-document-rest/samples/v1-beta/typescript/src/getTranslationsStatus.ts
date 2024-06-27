@@ -20,6 +20,7 @@ import {
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
 import { GetTranslationsStatus200Response } from "../src/responses";
+import { isUnexpected } from "../src/isUnexpected";
 dotenv.config();
 
 const endpoint =
@@ -51,6 +52,9 @@ export async function main() {
   const response = await client.path("/document/batches").get({
     queryParameters: queryParams,
   });
+  if (isUnexpected(response)) {
+    throw response.body;
+  }
   if (response.status === "200" && "body" in response) {
     const responseBody = (response as GetTranslationsStatus200Response).body;
     for (const translationStatus of responseBody.value) {

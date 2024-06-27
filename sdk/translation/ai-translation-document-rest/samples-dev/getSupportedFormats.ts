@@ -8,6 +8,7 @@
 import * as dotenv from "dotenv";
 import createClient from "../src/documentTranslationClient";
 import { SupportedFileFormatsOutput } from "../src/outputModels";
+import { isUnexpected } from "../src/isUnexpected";
 dotenv.config();
 
 const endpoint =
@@ -21,6 +22,9 @@ export async function main() {
 
   const client = createClient(endpoint, credentials);
   const response = await client.path("/document/formats").get();
+  if (isUnexpected(response)) {
+    throw response.body;
+  }
 
   const fileFormatTypes = response.body as SupportedFileFormatsOutput;
   fileFormatTypes.value.forEach(

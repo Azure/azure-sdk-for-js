@@ -12,7 +12,7 @@ import {
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe("SingleDocumentTranslate tests", () => {
+describe ("SingleDocumentTranslate tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
@@ -42,22 +42,12 @@ describe("SingleDocumentTranslate tests", () => {
     };
 
     const response = await client.path("/document:translate").post(options);
-    const typedResponse = response as DocumentTranslateDefaultResponse;
-
-    if (typedResponse.status === "200") {
-      console.log(
-        "Response code: " + typedResponse.status + ", Response body: " + typedResponse.body,
-      );
-      assert.isTrue(typedResponse.body !== null);
-    } else {
-      console.log(
-        "Response code: " +
-          typedResponse.status +
-          ", Response body: " +
-          typedResponse.body.error.message,
-      );
-      throw typedResponse.body;
+    if (isUnexpected(response)) {
+      throw response.body;
     }
+    assert.equal(response.status, "200");
+    assert.isTrue(response.body !== null);
+
   });
 
   it("single CSV glossary", async () => {
@@ -83,21 +73,12 @@ describe("SingleDocumentTranslate tests", () => {
     };
 
     const response = await client.path("/document:translate").post(options);
-
-    if (response.status === "200") {
-      console.log("Response code: " + response.status + ", Response body: " + response.body);
-      assert.isTrue(response.body !== null);
-      assert.isTrue(response.body.toString().includes("test"));
-    } else {
-      const typedResponse = response as DocumentTranslateDefaultResponse;
-      console.log(
-        "Response code: " +
-          typedResponse.status +
-          ", Response body: " +
-          typedResponse.body.error.message,
-      );
-      throw typedResponse.body;
+    if (isUnexpected(response)) {
+      throw response.body;
     }
+    assert.equal(response.status, "200");
+    assert.isTrue(response.body !== null);
+    assert.isTrue(response.body.toString().includes("test"));
   });
 
   it("Multiple CSV glossary", async () => {
@@ -133,13 +114,8 @@ describe("SingleDocumentTranslate tests", () => {
       .post(options)) as DocumentTranslateDefaultResponse;
 
     if (isUnexpected(response)) {
-      console.log(
-        "Response code: " +
-          response.status +
-          ", Response error message: " +
-          response.body.error.message,
-      );
-      assert.isTrue(response.body.error.message.includes("exceeded"));
+      assert.equal(response.status, "400");
+      assert.isTrue(response.body.error.message.includes("The maximum number of glossary files has been exceeded"));
     } else {
       assert.isFalse(true);
     }

@@ -7,7 +7,7 @@ import { DocumentTranslationClient, GetSupportedFormatsParameters, isUnexpected 
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe("GetSupportedFormats tests", () => {
+describe ("GetSupportedFormats tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
@@ -22,12 +22,11 @@ describe("GetSupportedFormats tests", () => {
 
   it("all formats", async () => {
     const response = await client.path("/document/formats").get();
-    assert.equal(response.status, "200");
-
     if (isUnexpected(response)) {
       throw response.body;
     }
 
+    assert.equal(response.status, "200");
     const fileFormatTypes = response.body;
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
@@ -45,12 +44,11 @@ describe("GetSupportedFormats tests", () => {
     };
 
     const response = await client.path("/document/formats").get(options);
-    assert.equal(response.status, "200");
-
     if (isUnexpected(response)) {
       throw response.body;
     }
 
+    assert.equal(response.status, "200");
     const fileFormatTypes = response.body;
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
@@ -72,12 +70,11 @@ describe("GetSupportedFormats tests", () => {
     };
 
     const response = await client.path("/document/formats").get(options);
-    assert.equal(response.status, "200");
-
     if (isUnexpected(response)) {
       throw response.body;
     }
 
+    assert.equal(response.status, "200");
     const fileFormatTypes = response.body;
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);

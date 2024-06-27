@@ -18,6 +18,7 @@ const {
   createBatchRequest,
   getTranslationOperationID,
 } = require("../test/public/utils/testHelper");
+const { isUnexpected } = require("../src/isUnexpected");
 dotenv.config();
 
 const endpoint =
@@ -48,6 +49,9 @@ async function main() {
 
   //get translation status and verify the job is cancelled, cancelling or notStarted
   const response = await client.path("/document/batches/{id}", id).get();
+  if (isUnexpected(response)) {
+    throw response.body;
+  }
   if (response.status === "200" && "body" in response) {
     const statusOutput = response.body.status;
     console.log("The status after cancelling the batch operation is:" + statusOutput);

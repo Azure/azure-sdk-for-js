@@ -19,6 +19,7 @@ const {
   createBatchRequest,
   getTranslationOperationID,
 } = require("../test/public/utils/testHelper");
+const { isUnexpected } = require("../src");
 dotenv.config();
 
 const endpoint =
@@ -40,12 +41,16 @@ async function main() {
   //Start translation
   const batchRequests = { inputs: [batchRequest] };
   const translationResponse = await StartTranslationAndWait(client, batchRequests);
-
   const operationLocationUrl = translationResponse.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
   //get Translation Status
   const response = await client.path("/document/batches/{id}", operationId).get();
+
+  if (isUnexpected(response)) {
+    throw response.body;
+  }
+
   if (response.status === "200" && "body" in response) {
     const responseBody = response.body;
     console.log("Translation ID = " + responseBody.id);

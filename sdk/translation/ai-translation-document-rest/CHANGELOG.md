@@ -3,7 +3,7 @@
 - Initial release. Please see the README and wiki for information on the new design.
 
 Version 1.0.0-beta.1 is preview of our efforts in creating a client library that is developer-friendly, idiomatic 
-to the Js/TS ecosystem, and as consistent across different languages and platforms as possible. 
+to the JS/TS ecosystem, and as consistent across different languages and platforms as possible. 
 
 This package's 
 [documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document-rest/README.md) 

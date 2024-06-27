@@ -6,7 +6,7 @@
  */
 
 import * as dotenv from "dotenv";
-import { DocumentTranslateDefaultResponse, DocumentTranslateParameters } from "../src";
+import { DocumentTranslateDefaultResponse, DocumentTranslateParameters, isUnexpected } from "../src";
 import createClient from "../src/documentTranslationClient";
 dotenv.config();
 
@@ -43,11 +43,13 @@ export async function main() {
   };
 
   const response = await client.path("/document:translate").post(options);
-  const typedResponse = response as DocumentTranslateDefaultResponse;
+  if (isUnexpected(response)) {
+    throw response.body;
+  }
 
-  if (typedResponse.status == "200") {
+  if (response.status == "200") {
     console.log(
-      "Response code: " + typedResponse.status + ", Response body: " + typedResponse.body,
+      "Response code: " + response.status + ", Response body: " + response.body,
     );
   }
 

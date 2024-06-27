@@ -19,6 +19,7 @@ const {
   createBatchRequest,
   getTranslationOperationID,
 } = require("../test/public/utils/testHelper");
+const { isUnexpected } = require("../src");
 dotenv.config();
 
 const endpoint =
@@ -45,6 +46,9 @@ async function main() {
 
   //get Documents Status
   const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
+  if (isUnexpected(documentResponse)) {
+    throw documentResponse.body;
+  }
   if (documentResponse.status === "200" && "body" in documentResponse) {
     const responseBody = documentResponse.body;
     for (const document of responseBody.value) {
@@ -52,6 +56,9 @@ async function main() {
       const documentStatus = await client
         .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
         .get();
+      if (isUnexpected(documentStatus)) {
+        throw documentStatus.body;
+      }
       console.log("Document Status = " + documentStatus.status);
       const documentStatusOutput = documentStatus.body;
       console.log("Document ID = " + documentStatusOutput.id);

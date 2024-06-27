@@ -20,7 +20,7 @@ import {
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
 import { GetDocumentsStatus200Response } from "../src/responses";
-import { DocumentStatusOutput } from "../src";
+import { DocumentStatusOutput, isUnexpected } from "../src";
 dotenv.config();
 
 const endpoint =
@@ -47,6 +47,9 @@ export async function main() {
 
   //get Documents Status
   const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
+  if (isUnexpected(documentResponse)) {
+    throw documentResponse.body;
+  }
   if (documentResponse.status === "200" && "body" in documentResponse) {
     const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
     for (const document of responseBody.value) {
@@ -54,6 +57,9 @@ export async function main() {
       const documentStatus = await client
         .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
         .get();
+      if (isUnexpected(documentStatus)) {
+        throw documentStatus.body;
+      }
       console.log("Document Status = " + documentStatus.status);
       const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
       console.log("Document ID = " + documentStatusOutput.id);

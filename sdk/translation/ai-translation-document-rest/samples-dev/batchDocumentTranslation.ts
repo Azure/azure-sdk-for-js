@@ -18,6 +18,7 @@ import {
   createBatchRequest,
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
+import { isUnexpected } from "../src/isUnexpected";
 dotenv.config();
 
 const endpoint =
@@ -41,6 +42,9 @@ export async function main() {
   const poller = await client.path("/document/batches").post({
     body: batchRequests,
   });
+  if (isUnexpected(poller)) {
+    throw poller.body;
+  }
   const id = getTranslationOperationID(poller.headers["operation-location"]);
   console.log("Translation started and the operationID is: " + id);
 

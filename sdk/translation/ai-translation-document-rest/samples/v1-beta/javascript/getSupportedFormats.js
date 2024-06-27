@@ -7,6 +7,7 @@
 
 const dotenv = require("dotenv");
 const createClient = require("../src/documentTranslationClient").default;
+const { isUnexpected } = require("../src/isUnexpected");
 dotenv.config();
 
 const endpoint =
@@ -20,6 +21,9 @@ async function main() {
 
   const client = createClient(endpoint, credentials);
   const response = await client.path("/document/formats").get();
+  if (isUnexpected(response)) {
+    throw response.body;
+  }
 
   const fileFormatTypes = response.body;
   fileFormatTypes.value.forEach((fileFormatType) => {

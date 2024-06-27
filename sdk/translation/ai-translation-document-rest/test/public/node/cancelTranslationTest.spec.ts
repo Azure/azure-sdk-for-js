@@ -22,7 +22,7 @@ import {
   getTranslationOperationID,
 } from "../utils/testHelper";
 
-describe("CancelTranslation tests", () => {
+describe ("CancelTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
@@ -54,19 +54,19 @@ describe("CancelTranslation tests", () => {
 
     // get translation status and verify
     const response = await client.path("/document/batches/{id}", id).get();
-    if (response.status === "200" && "body" in response) {
-      const idOutput = (response as GetTranslationStatus200Response).body.id;
-      assert.isTrue(idOutput === id, "IDOutput is:" + idOutput);
-      const statusOutput = (response as GetTranslationStatus200Response).body.status;
-      assert.isTrue(
-        statusOutput === "Cancelled" ||
-          statusOutput === "Cancelling" ||
-          statusOutput === "NotStarted",
-        "Status output is: " + statusOutput,
-      );
-    }
     if (isUnexpected(response)) {
       throw response.body;
     }
+    assert.equal(response.status, "200");
+    const idOutput = (response as GetTranslationStatus200Response).body.id;
+    assert.isTrue(idOutput === id, "IDOutput is:" + idOutput);
+    const statusOutput = (response as GetTranslationStatus200Response).body.status;
+    assert.isTrue(
+      statusOutput === "Cancelled" ||
+      statusOutput === "Cancelling" ||
+      statusOutput === "NotStarted",
+      "Status output is: " + statusOutput,
+    );   
+    
   });
 });
