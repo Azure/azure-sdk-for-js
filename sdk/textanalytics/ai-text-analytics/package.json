@@ -135,6 +135,6 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   }
 }
