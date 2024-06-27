@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
+import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter.js";
 import { SpanKind, context, trace } from "@opentelemetry/api";
 import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { Context } from "mocha";
-import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
+import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
 import { Span } from "@opentelemetry/sdk-trace-base";
-import { assert } from "chai";
-import { environmentCache } from "../../src/configuration";
-import { inMemoryExporter } from "./util/setup";
+import { environmentCache } from "../../src/configuration.js";
+import { inMemoryExporter } from "./util/setup.js";
 import { isTracingSuppressed } from "@opentelemetry/core";
-import sinon from "sinon";
 
 function unwrap(span: TracingSpan): Span {
   return (span as OpenTelemetrySpanWrapper).unwrap() as Span;
@@ -23,22 +21,30 @@ describe("OpenTelemetryInstrumenter", () => {
 
   describe("#createRequestHeaders", () => {
     afterEach(() => {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
 
     it("uses the passed in context if it exists", () => {
-      const propagationSpy = sinon.spy(propagator);
+      const propagationSpy = vi.spyOn(propagator, "inject");
       const span = trace.getTracer("test").startSpan("test");
       const tracingContext = trace.setSpan(context.active(), span);
       instrumenter.createRequestHeaders(tracingContext);
-      assert.isTrue(propagationSpy.inject.calledWith(tracingContext));
+      expect(propagationSpy).toHaveBeenCalledWith(
+        tracingContext,
+        expect.anything(),
+        expect.anything(),
+      );
     });
 
     it("uses the active context if no context was provided", () => {
-      const propagationSpy = sinon.spy(propagator);
+      const propagationSpy = vi.spyOn(propagator, "inject");
       instrumenter.createRequestHeaders();
       const activeContext = context.active();
-      assert.isTrue(propagationSpy.inject.calledWith(activeContext));
+      expect(propagationSpy).toHaveBeenCalledWith(
+        activeContext,
+        expect.anything(),
+        expect.anything(),
+      );
     });
   });
 
@@ -54,16 +60,16 @@ describe("OpenTelemetryInstrumenter", () => {
       const { span } = instrumenter.startSpan("test", { packageName, packageVersion });
       span.end();
       const otSpan = unwrap(span);
-      assert.lengthOf(inMemoryExporter.getFinishedSpans(), 1);
-      assert.equal(otSpan, inMemoryExporter.getFinishedSpans()[0]);
-      assert.equal(otSpan.kind, SpanKind.INTERNAL);
+      expect(inMemoryExporter.getFinishedSpans()).toHaveLength(1);
+      expect(inMemoryExporter.getFinishedSpans()[0]).toBe(otSpan);
+      expect(otSpan.kind).toBe(SpanKind.INTERNAL);
     });
 
     it("passes package information to the tracer", () => {
-      const getTracerSpy = sinon.spy(trace, "getTracer");
+      const getTracerSpy = vi.spyOn(trace, "getTracer");
       instrumenter.startSpan("test", { packageName, packageVersion });
 
-      assert.isTrue(getTracerSpy.calledWith(packageName, packageVersion));
+      expect(getTracerSpy).toHaveBeenCalledWith(packageName, packageVersion);
     });
 
     describe("with an existing context", () => {
@@ -75,7 +81,7 @@ describe("OpenTelemetryInstrumenter", () => {
           packageName,
         });
 
-        assert.equal(tracingContext.getValue(Symbol.for("foo")), "bar");
+        expect(tracingContext.getValue(Symbol.for("foo"))).toEqual("bar");
       });
 
       it("sets span on the context", () => {
@@ -86,17 +92,17 @@ describe("OpenTelemetryInstrumenter", () => {
           packageName,
         });
 
-        assert.equal(trace.getSpan(tracingContext), unwrap(span));
+        expect(trace.getSpan(tracingContext)).toBe(unwrap(span));
       });
     });
 
     describe("when a context is not provided", () => {
       it("uses the active context", () => {
-        const contextSpy = sinon.spy(context, "active");
+        const contextSpy = vi.spyOn(context, "active");
 
         instrumenter.startSpan("test", { packageName, packageVersion });
 
-        assert.isTrue(contextSpy.called);
+        expect(contextSpy).toHaveBeenCalled();
       });
 
       it("sets span on the context", () => {
@@ -105,7 +111,7 @@ describe("OpenTelemetryInstrumenter", () => {
           packageVersion,
         });
 
-        assert.equal(trace.getSpan(tracingContext), unwrap(span));
+        expect(trace.getSpan(tracingContext)).toBe(unwrap(span));
       });
     });
 
@@ -121,7 +127,7 @@ describe("OpenTelemetryInstrumenter", () => {
           packageVersion,
         });
 
-        assert.deepEqual(unwrap(span).attributes, spanAttributes);
+        expect(unwrap(span).attributes).to.deep.equal(spanAttributes);
       });
 
       describe("spanKind", () => {
@@ -130,12 +136,12 @@ describe("OpenTelemetryInstrumenter", () => {
             packageName,
             spanKind: "client",
           });
-          assert.equal(unwrap(span).kind, SpanKind.CLIENT);
+          expect(unwrap(span).kind).toBe(SpanKind.CLIENT);
         });
 
         it("defaults spanKind to INTERNAL if omitted", () => {
           const { span } = instrumenter.startSpan("test", { packageName });
-          assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
+          expect(unwrap(span).kind).toBe(SpanKind.INTERNAL);
         });
 
         // TODO: what's the right behavior? throw? log and continue?
@@ -144,7 +150,7 @@ describe("OpenTelemetryInstrumenter", () => {
             packageName,
             spanKind: "foo" as TracingSpanKind,
           });
-          assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
+          expect(unwrap(span).kind).toBe(SpanKind.INTERNAL);
         });
       });
 
@@ -166,9 +172,9 @@ describe("OpenTelemetryInstrumenter", () => {
         });
 
         const links = unwrap(span).links;
-        assert.equal(links.length, 1);
-        assert.deepEqual(links[0].attributes, { attr1: "value1" });
-        assert.deepEqual(links[0].context, trace.getSpan(linkedSpanContext)?.spanContext());
+        expect(links.length).toBe(1);
+        expect(links[0].attributes).toEqual({ attr1: "value1" });
+        expect(links[0].context).toEqual(trace.getSpan(linkedSpanContext)?.spanContext());
       });
 
       it("supports spanLinks from traceparentHeader", () => {
@@ -182,8 +188,8 @@ describe("OpenTelemetryInstrumenter", () => {
         });
 
         const links = unwrap(span).links;
-        assert.equal(links.length, 1);
-        assert.deepEqual(links[0].context, trace.getSpan(linkedContext!)?.spanContext());
+        expect(links.length).toBe(1);
+        expect(links[0].context).toEqual(trace.getSpan(linkedContext!)?.spanContext());
       });
     });
 
@@ -198,8 +204,8 @@ describe("OpenTelemetryInstrumenter", () => {
           const { tracingContext, span } = instrumenter.startSpan("test", {
             packageName,
           });
-          assert.isFalse(span.isRecording());
-          assert.isFalse(isTracingSuppressed(tracingContext));
+          expect(span.isRecording()).toBe(false);
+          expect(isTracingSuppressed(tracingContext)).toBe(false);
         });
       });
 
@@ -213,8 +219,8 @@ describe("OpenTelemetryInstrumenter", () => {
             packageName,
           });
 
-          assert.isTrue(span.isRecording());
-          assert.isTrue(isTracingSuppressed(tracingContext));
+          expect(span.isRecording()).toBe(true);
+          expect(isTracingSuppressed(tracingContext)).toBe(true);
         });
 
         it("does not suppress internal spans", () => {
@@ -222,8 +228,8 @@ describe("OpenTelemetryInstrumenter", () => {
             packageName,
           });
 
-          assert.isTrue(span.isRecording());
-          assert.isFalse(isTracingSuppressed(tracingContext));
+          expect(span.isRecording()).toBe(true);
+          expect(isTracingSuppressed(tracingContext)).toBe(false);
         });
       });
 
@@ -238,7 +244,7 @@ describe("OpenTelemetryInstrumenter", () => {
             packageName,
           });
 
-          assert.isFalse(span.isRecording());
+          expect(span.isRecording()).toBe(false);
         });
 
         it("does not suppress downstream spans", () => {
@@ -246,27 +252,27 @@ describe("OpenTelemetryInstrumenter", () => {
             packageName,
           });
 
-          assert.isFalse(isTracingSuppressed(tracingContext));
+          expect(isTracingSuppressed(tracingContext)).toBe(false);
         });
       });
     });
   });
 
   describe("#withContext", () => {
-    it("passes the correct arguments to OpenTelemetry", function (this: Context) {
-      const contextSpy = sinon.spy(context, "with");
+    it("passes the correct arguments to OpenTelemetry", function () {
+      const contextSpy = vi.spyOn(context, "with");
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       const callback = (arg1: number) => arg1 + 42;
       const callbackArg = 37;
       const activeContext = context.active();
       instrumenter.withContext(activeContext, callback, callbackArg);
 
-      assert.isTrue(contextSpy.calledWith(activeContext, callback, undefined, callbackArg));
+      expect(contextSpy).toHaveBeenCalledWith(activeContext, callback, undefined, callbackArg);
     });
 
     it("Returns the value of the callback", () => {
       const result = instrumenter.withContext(context.active(), () => 42);
-      assert.equal(result, 42);
+      expect(result).toBe(42);
     });
   });
 
@@ -274,10 +280,10 @@ describe("OpenTelemetryInstrumenter", () => {
     it("returns a new context with spanContext set", () => {
       const validTraceparentHeader = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01";
       const updatedContext = instrumenter.parseTraceparentHeader(validTraceparentHeader);
-      assert.exists(updatedContext);
+      expect(updatedContext).toBeDefined();
       const spanContext = trace.getSpanContext(updatedContext!);
-      assert.equal(spanContext?.spanId, "00f067aa0ba902b7");
-      assert.equal(spanContext?.traceId, "4bf92f3577b34da6a3ce929d0e0e4736");
+      expect(spanContext?.spanId).toBe("00f067aa0ba902b7");
+      expect(spanContext?.traceId).toBe("4bf92f3577b34da6a3ce929d0e0e4736");
     });
   });
 });
