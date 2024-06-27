@@ -310,11 +310,47 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.equal(error?.message, "Failed to refresh access token.");
   });
 
+  it("Adds a bearer token against an HTTP URL if allowInsecureConnection is set", async function () {
+    const mockToken = "token";
+    const tokenScopes = ["scope1", "scope2"];
+    const fakeGetToken = vi
+      .fn()
+      .mockResolvedValue({ token: mockToken, expiresOnTimestamp: new Date().getTime() });
+    const mockCredential: TokenCredential = {
+      getToken: fakeGetToken,
+    };
+
+    const request = createPipelineRequest({
+      url: "http://example.com",
+      allowInsecureConnection: true,
+    });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
+
+    const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential, {
+      allowInsecureConnection: true,
+    });
+    await bearerTokenAuthPolicy.sendRequest(request, next);
+
+    expect(fakeGetToken).toHaveBeenCalledWith(tokenScopes, {
+      abortSignal: undefined,
+      tracingOptions: undefined,
+    });
+    assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
+  });
+
   function createBearerTokenPolicy(
     scopes: string | string[],
     credential: TokenCredential,
+    options?: { allowInsecureConnection?: boolean },
   ): PipelinePolicy {
     return bearerTokenAuthenticationPolicy({
+      ...options,
       scopes,
       credential,
     });
