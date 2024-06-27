@@ -85,7 +85,7 @@ jobs:
             EnvVars:
               Pool: $(Pool)
               ${{ insert }}: ${{ parameters.EnvVars }}
-            ${{ if eq('true', parameters.UseFederatedAuth) }}:
+            ${{ if parameters.UseFederatedAuth }}:
               SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
         - ${{ if parameters.TestResourceDirectories }}:
