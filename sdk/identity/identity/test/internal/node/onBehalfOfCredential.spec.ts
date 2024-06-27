@@ -8,7 +8,7 @@ import { OnBehalfOfCredential } from "../../../src";
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
 
-describe("OnBehalfOfCredential", function () {
+describe.only("OnBehalfOfCredential", function () {
   let testContext: IdentityTestContextInterface;
 
   beforeEach(function () {
@@ -103,6 +103,7 @@ describe("OnBehalfOfCredential", function () {
 
     assert.equal(authDetails.requests.length, 2);
     const authRequest = authDetails.requests[1];
+    console.log(authRequest.body);
     assert.isTrue(authRequest.body.includes("client_assertion=eyJ")); // The assertion is base64 encoded JWT
 
     assert.exists(authDetails.result?.token);
