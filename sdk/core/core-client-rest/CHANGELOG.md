@@ -1,16 +1,10 @@
 # Release History
 
-## 2.1.0 (Unreleased)
+## 2.1.0 (2024-06-27)
 
 ### Features Added
 
 - The `onResponse` callback will now be called when the underlying request results in an error. In this scenario, the error to be thrown will be provided as the second argument to the callback.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 2.0.0 (2024-04-25)
 

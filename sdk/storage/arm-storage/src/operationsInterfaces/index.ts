@@ -6,6 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./blobServices";
+export * from "./blobContainers";
+export * from "./fileServices";
+export * from "./fileShares";
+export * from "./queueServices";
+export * from "./queue";
 export * from "./operations";
 export * from "./skus";
 export * from "./storageAccounts";
@@ -18,11 +24,9 @@ export * from "./privateLinkResources";
 export * from "./objectReplicationPoliciesOperations";
 export * from "./localUsersOperations";
 export * from "./encryptionScopes";
-export * from "./blobServices";
-export * from "./blobContainers";
-export * from "./fileServices";
-export * from "./fileShares";
-export * from "./queueServices";
-export * from "./queue";
 export * from "./tableServices";
 export * from "./tableOperations";
+export * from "./networkSecurityPerimeterConfigurations";
+export * from "./storageTaskAssignments";
+export * from "./storageTaskAssignmentsInstancesReport";
+export * from "./storageTaskAssignmentInstancesReport";

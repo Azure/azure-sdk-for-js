@@ -9,22 +9,27 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  VMMServer as VMMServerMapper,
-  ResourcePatch as ResourcePatchMapper,
-  Cloud as CloudMapper,
-  VirtualNetwork as VirtualNetworkMapper,
-  VirtualMachine as VirtualMachineMapper,
-  VirtualMachineUpdate as VirtualMachineUpdateMapper,
-  StopVirtualMachineOptions as StopVirtualMachineOptionsMapper,
+  VirtualMachineInstance as VirtualMachineInstanceMapper,
+  VirtualMachineInstanceUpdate as VirtualMachineInstanceUpdateMapper,
   VirtualMachineCreateCheckpoint as VirtualMachineCreateCheckpointMapper,
   VirtualMachineDeleteCheckpoint as VirtualMachineDeleteCheckpointMapper,
   VirtualMachineRestoreCheckpoint as VirtualMachineRestoreCheckpointMapper,
-  VirtualMachineTemplate as VirtualMachineTemplateMapper,
+  StopVirtualMachineOptions as StopVirtualMachineOptionsMapper,
+  GuestAgent as GuestAgentMapper,
   AvailabilitySet as AvailabilitySetMapper,
-  InventoryItem as InventoryItemMapper
+  AvailabilitySetTagsUpdate as AvailabilitySetTagsUpdateMapper,
+  Cloud as CloudMapper,
+  CloudTagsUpdate as CloudTagsUpdateMapper,
+  VirtualMachineTemplate as VirtualMachineTemplateMapper,
+  VirtualMachineTemplateTagsUpdate as VirtualMachineTemplateTagsUpdateMapper,
+  VirtualNetwork as VirtualNetworkMapper,
+  VirtualNetworkTagsUpdate as VirtualNetworkTagsUpdateMapper,
+  VmmServer as VmmServerMapper,
+  VmmServerTagsUpdate as VmmServerTagsUpdateMapper,
+  InventoryItem as InventoryItemMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -34,9 +39,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -45,55 +50,34 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const vmmServerName: OperationURLParameter = {
-  parameterPath: "vmmServerName",
-  mapper: {
-    serializedName: "vmmServerName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-06-05-preview",
+    defaultValue: "2023-10-07",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
+  mapper: {
+    serializedName: "resourceUri",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -103,14 +87,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: VMMServerMapper
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: VirtualMachineInstanceMapper,
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: VirtualMachineInstanceUpdateMapper,
 };
 
 export const force: OperationQueryParameter = {
@@ -118,14 +107,39 @@ export const force: OperationQueryParameter = {
   mapper: {
     serializedName: "force",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const deleteFromHost: OperationQueryParameter = {
+  parameterPath: ["options", "deleteFromHost"],
+  mapper: {
+    serializedName: "deleteFromHost",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: VirtualMachineCreateCheckpointMapper,
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: ResourcePatchMapper
+  mapper: VirtualMachineDeleteCheckpointMapper,
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: VirtualMachineRestoreCheckpointMapper,
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: StopVirtualMachineOptionsMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -134,139 +148,190 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
-export const cloudName: OperationURLParameter = {
-  parameterPath: "cloudName",
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: GuestAgentMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
   mapper: {
-    serializedName: "cloudName",
+    serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
-export const body2: OperationParameter = {
-  parameterPath: "body",
-  mapper: CloudMapper
-};
-
-export const virtualNetworkName: OperationURLParameter = {
-  parameterPath: "virtualNetworkName",
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
-    serializedName: "virtualNetworkName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body3: OperationParameter = {
-  parameterPath: "body",
-  mapper: VirtualNetworkMapper
-};
-
-export const virtualMachineName: OperationURLParameter = {
-  parameterPath: "virtualMachineName",
+export const availabilitySetResourceName: OperationURLParameter = {
+  parameterPath: "availabilitySetResourceName",
   mapper: {
-    serializedName: "virtualMachineName",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]"),
+      MaxLength: 54,
+      MinLength: 1,
+    },
+    serializedName: "availabilitySetResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body4: OperationParameter = {
-  parameterPath: "body",
-  mapper: VirtualMachineMapper
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
+  mapper: AvailabilitySetMapper,
 };
 
-export const retain: OperationQueryParameter = {
-  parameterPath: ["options", "retain"],
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AvailabilitySetTagsUpdateMapper,
+};
+
+export const cloudResourceName: OperationURLParameter = {
+  parameterPath: "cloudResourceName",
   mapper: {
-    serializedName: "retain",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]"),
+      MaxLength: 54,
+      MinLength: 1,
+    },
+    serializedName: "cloudResourceName",
+    required: true,
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body5: OperationParameter = {
-  parameterPath: "body",
-  mapper: VirtualMachineUpdateMapper
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: CloudMapper,
 };
 
-export const body6: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: StopVirtualMachineOptionsMapper
-};
-
-export const body7: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: VirtualMachineCreateCheckpointMapper
-};
-
-export const body8: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: VirtualMachineDeleteCheckpointMapper
-};
-
-export const body9: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: VirtualMachineRestoreCheckpointMapper
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: CloudTagsUpdateMapper,
 };
 
 export const virtualMachineTemplateName: OperationURLParameter = {
   parameterPath: "virtualMachineTemplateName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]"),
+      MaxLength: 54,
+      MinLength: 1,
+    },
     serializedName: "virtualMachineTemplateName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body10: OperationParameter = {
-  parameterPath: "body",
-  mapper: VirtualMachineTemplateMapper
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
+  mapper: VirtualMachineTemplateMapper,
 };
 
-export const availabilitySetName: OperationURLParameter = {
-  parameterPath: "availabilitySetName",
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: VirtualMachineTemplateTagsUpdateMapper,
+};
+
+export const virtualNetworkName: OperationURLParameter = {
+  parameterPath: "virtualNetworkName",
   mapper: {
-    serializedName: "availabilitySetName",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]"),
+      MaxLength: 54,
+      MinLength: 1,
+    },
+    serializedName: "virtualNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body11: OperationParameter = {
-  parameterPath: "body",
-  mapper: AvailabilitySetMapper
+export const resource5: OperationParameter = {
+  parameterPath: "resource",
+  mapper: VirtualNetworkMapper,
 };
 
-export const body12: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: InventoryItemMapper
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: VirtualNetworkTagsUpdateMapper,
 };
 
-export const inventoryItemName: OperationURLParameter = {
-  parameterPath: "inventoryItemName",
+export const vmmServerName: OperationURLParameter = {
+  parameterPath: "vmmServerName",
   mapper: {
-    serializedName: "inventoryItemName",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]"),
+      MaxLength: 54,
+      MinLength: 1,
+    },
+    serializedName: "vmmServerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resource6: OperationParameter = {
+  parameterPath: "resource",
+  mapper: VmmServerMapper,
+};
+
+export const properties5: OperationParameter = {
+  parameterPath: "properties",
+  mapper: VmmServerTagsUpdateMapper,
+};
+
+export const inventoryItemResourceName: OperationURLParameter = {
+  parameterPath: "inventoryItemResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      ),
+    },
+    serializedName: "inventoryItemResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource7: OperationParameter = {
+  parameterPath: "resource",
+  mapper: InventoryItemMapper,
 };

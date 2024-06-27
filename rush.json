@@ -2226,6 +2226,11 @@
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-inference",
+      "projectFolder": "sdk/ai/ai-inference-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
