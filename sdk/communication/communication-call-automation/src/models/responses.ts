@@ -86,3 +86,8 @@ export interface CancelAddParticipantOperationResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
+
+/**
+ * Connect call result
+ */
+export type ConnectCallResult = CallResult;

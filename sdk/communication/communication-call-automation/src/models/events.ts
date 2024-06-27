@@ -30,6 +30,7 @@ import {
   Tone,
   CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
   CancelAddParticipantFailed as RestCancelAddParticipantFailed,
+  ConnectFailed as RestConnectFailed,
   TranscriptionStarted as RestTranscriptionStarted,
   TranscriptionStopped as RestTranscriptionStopped,
   TranscriptionUpdated as RestTranscriptionUpdated,
@@ -68,6 +69,7 @@ export type CallAutomationEvent =
   | SendDtmfTonesFailed
   | CancelAddParticipantSucceeded
   | CancelAddParticipantFailed
+  | ConnectFailed
   | TranscriptionStarted
   | TranscriptionStopped
   | TranscriptionUpdated
@@ -103,6 +105,7 @@ export {
   RestSendDtmfTonesFailed,
   RestCancelAddParticipantSucceeded,
   RestCancelAddParticipantFailed,
+  RestConnectFailed,
   RestTranscriptionStarted,
   RestTranscriptionStopped,
   RestTranscriptionUpdated,
@@ -555,6 +558,21 @@ export interface CancelAddParticipantFailed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CancelAddParticipantFailed";
+}
+
+export interface ConnectFailed
+  extends Omit<
+    RestConnectFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "ConnectFailed";
 }
 
 export interface TranscriptionStarted

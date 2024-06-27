@@ -342,6 +342,16 @@ export interface CancelAddParticipantOperationOptions extends OperationOptions {
 }
 
 /**
+ * Options to Connect request.
+ */
+export interface ConnectCallOptions extends OperationOptions {
+  /** Used by customers to correlate the request to the response event. */
+  operationContext?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
+}
+
+/**
  * Options to start transcription
  */
 export interface StartTranscriptionOptions extends OperationOptions {

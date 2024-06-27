@@ -14,6 +14,7 @@ import {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
+  ConnectRequest,
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
@@ -22,12 +23,13 @@ import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import {
   AnswerCallOptions,
+  ConnectCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
 } from "./models/options";
-import { AnswerCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionProperties, CallInvite } from "./models/models";
+import { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses";
+import { CallConnectionProperties, CallInvite, CallLocator } from "./models/models";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -365,5 +367,77 @@ export class CallAutomationClient {
     };
 
     return this.callAutomationApiClient.rejectCall(request, optionsInternal);
+  }
+
+  /**
+   * Create connection to room call.
+   * @param callLocator - Call locator to create connection.
+   * @param callbackUrl - The callback url
+   * @param options - Additional request options contains connect api options.
+   */
+  public async connectCall(
+    callLocator: CallLocator,
+    callbackUrl: string,
+    options: ConnectCallOptions = {},
+  ): Promise<ConnectCallResult> {
+    const connectRequest: ConnectRequest = {
+      callLocator: callLocator,
+      callbackUri: callbackUrl,
+      operationContext: options.operationContext,
+      callIntelligenceOptions: options.callIntelligenceOptions,
+    };
+
+    if (callLocator.kind === "groupCallLocator") {
+      connectRequest.callLocator.kind = "groupCallLocator";
+      connectRequest.callLocator.groupCallId = callLocator.id;
+    } else if (callLocator.kind === "roomCallLocator") {
+      connectRequest.callLocator.kind = "roomCallLocator";
+      connectRequest.callLocator.roomId = callLocator.id;
+    } else {
+      connectRequest.callLocator.kind = "serverCallLocator";
+      connectRequest.callLocator.serverCallId = callLocator.id;
+    }
+
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: randomUUID(),
+    };
+
+    const {
+      callConnectionId,
+      targets,
+      sourceCallerIdNumber,
+      answeredBy,
+      source,
+      answeredFor,
+      ...result
+    } = await this.callAutomationApiClient.connect(connectRequest, optionsInternal);
+
+    if (callConnectionId) {
+      const callConnectionProperties: CallConnectionProperties = {
+        ...result,
+        callConnectionId: callConnectionId,
+        source: source ? communicationIdentifierConverter(source) : undefined,
+        answeredby: answeredBy ? communicationUserIdentifierConverter(answeredBy) : undefined,
+        targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
+        answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
+        sourceCallerIdNumber: sourceCallerIdNumber
+          ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
+          : undefined,
+      };
+      const callConnection = new CallConnection(
+        callConnectionId,
+        this.endpoint,
+        this.credential,
+        this.internalPipelineOptions,
+      );
+      const connectResult: ConnectCallResult = {
+        callConnectionProperties: callConnectionProperties,
+        callConnection: callConnection,
+      };
+      return connectResult;
+    }
+    throw "callConnectionProperties / callConnectionId is missing in connect result";
   }
 }

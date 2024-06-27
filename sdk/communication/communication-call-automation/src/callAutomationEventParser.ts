@@ -31,6 +31,7 @@ import {
   SendDtmfTonesFailed,
   CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
+  ConnectFailed,
   TranscriptionStarted,
   TranscriptionStopped,
   TranscriptionUpdated,
@@ -145,6 +146,9 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
+      break;
+    case "Microsoft.Communication.ConnectFailed":
+      callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
       break;
     case "Microsoft.Communication.TranscriptionStarted":
       callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;

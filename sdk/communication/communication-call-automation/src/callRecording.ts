@@ -85,6 +85,9 @@ export class CallRecording {
     if (options.callLocator.kind === "groupCallLocator") {
       startCallRecordingRequest.callLocator.kind = "groupCallLocator";
       startCallRecordingRequest.callLocator.groupCallId = options.callLocator.id;
+    } else if (options.callLocator.kind === "roomCallLocator") {
+      startCallRecordingRequest.callLocator.kind = "roomCallLocator";
+      startCallRecordingRequest.callLocator.roomId = options.callLocator.id;
     } else {
       startCallRecordingRequest.callLocator.kind = "serverCallLocator";
       startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
