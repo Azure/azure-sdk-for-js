@@ -735,3 +735,13 @@ export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: StorageTaskAssignmentUpdateParametersMapper,
 };
+
+export const maxpagesize2: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
+  mapper: {
+    serializedName: "$maxpagesize",
+    type: {
+      name: "Number",
+    },
+  },
+};

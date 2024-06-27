@@ -1309,6 +1309,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-storage@18.2.0:
+    resolution: {integrity: sha512-jLUsAVFq5YBOYQfhE6L+KaUs+lntctKVafPz50FFScfzPMHYT/SptQGZ7BKzAJBBE/evdt8afmt2NSdl8Szomg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.0
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-common@2.3.1:
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
@@ -10732,6 +10747,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.5.2:
+    resolution: {integrity: sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.38:
     resolution: {integrity: sha512-fYmIy7fKTSFAhG3fuPlubeGaMoAd6r0rSnfEsO5nEY55i26KSLt9EH7PLQiiqPUhNqYIJvSkTy1oArIcXAbPbA==}
     dev: false
@@ -12869,13 +12890,14 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-S3h9683K+Ib8amm3tg1uuzTdM1IOdn8zZvmfeKqy8bMxdyJ7wuh0CYlVIx2egWoitLUBwci8PFtAeTSAwJcSwA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-9uBZBXViyhFwTdRM2X7XTFIVcTA3XoisCl2iu60dZVCS7yNw4qwzholDqFEdh4aKxlppqfXGQLBKRrLZoCFB0A==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
@@ -14737,7 +14759,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-cM+ERHr1QjMHSBkkv/OKB37cdBJ6P67f6ZhHd7Ahw7+bX4ORyN/gW3shZEj5uNh0+g4dFAUqti7NiPNpfefGCQ==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-8EKlGWLc4xRj8Nw4h7OHoDYL6vx3w5U87zoLx27VsDtcQ0L8Y4aBVDJ0WfKfMGgVNfGZwah/qEId6R/HsWj7KA==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -14745,6 +14767,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
@@ -16087,13 +16110,14 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-v6CcwqoRM0EdMn4wS43DWIpozpZjmzM17HXGErCmhKMRBr9e3kcQc5H9nMeyTrpMnY3VgoqwjzcaFsWNuQ9kkg==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-ekRi/vLzoN9vr0X+fEnbHxChGfsH7vKOG1UMae+GNS4/6L4bokdv6L9OooLM8ECuAZ7qFVDZ4il7SOlhdUB/Ww==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
@@ -16260,13 +16284,14 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-S8emy+W8CUk8tBr7TqynpFaSvLVYhtlh1JToUMJE3YpFQCv19fDpTSMs5lRp3N1iDuWKRg45eCo4CAoEOIqePg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-rGP2QTU+Kis3u4drlzzCzgIfK/x4GU/58VjCTVlnKIcUrw6JzkGBtaq5tG2V+9isVnc5avsB94a6Yeljzlg+Yg==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.1
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)
@@ -20525,7 +20550,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.4.5
+      '@_ts/max': /typescript@5.5.2
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.2.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.34)

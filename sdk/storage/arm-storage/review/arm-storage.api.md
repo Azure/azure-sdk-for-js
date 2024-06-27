@@ -2950,7 +2950,7 @@ export type StorageTaskAssignmentInstancesReportListNextResponse = StorageTaskRe
 // @public
 export interface StorageTaskAssignmentInstancesReportListOptionalParams extends coreClient.OperationOptions {
     filter?: string;
-    maxpagesize?: string;
+    maxpagesize?: number;
 }
 
 // @public
@@ -3036,7 +3036,7 @@ export type StorageTaskAssignmentsInstancesReportListNextResponse = StorageTaskR
 // @public
 export interface StorageTaskAssignmentsInstancesReportListOptionalParams extends coreClient.OperationOptions {
     filter?: string;
-    maxpagesize?: string;
+    maxpagesize?: number;
 }
 
 // @public
@@ -3057,7 +3057,7 @@ export type StorageTaskAssignmentsListNextResponse = StorageTaskAssignmentsList;
 
 // @public
 export interface StorageTaskAssignmentsListOptionalParams extends coreClient.OperationOptions {
-    maxpagesize?: string;
+    maxpagesize?: number;
 }
 
 // @public

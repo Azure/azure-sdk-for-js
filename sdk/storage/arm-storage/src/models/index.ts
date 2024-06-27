@@ -5291,7 +5291,7 @@ export type StorageTaskAssignmentsDeleteResponse =
 export interface StorageTaskAssignmentsListOptionalParams
   extends coreClient.OperationOptions {
   /** Optional, specifies the maximum number of storage task assignment Ids to be included in the list response. */
-  maxpagesize?: string;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the list operation. */
@@ -5307,10 +5307,10 @@ export type StorageTaskAssignmentsListNextResponse = StorageTaskAssignmentsList;
 /** Optional parameters. */
 export interface StorageTaskAssignmentsInstancesReportListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
-  maxpagesize?: string;
   /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
   filter?: string;
+  /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
+  maxpagesize?: number;
 }
 
 /** Contains response data for the list operation. */
@@ -5328,10 +5328,10 @@ export type StorageTaskAssignmentsInstancesReportListNextResponse =
 /** Optional parameters. */
 export interface StorageTaskAssignmentInstancesReportListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
-  maxpagesize?: string;
   /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
   filter?: string;
+  /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
+  maxpagesize?: number;
 }
 
 /** Contains response data for the list operation. */
