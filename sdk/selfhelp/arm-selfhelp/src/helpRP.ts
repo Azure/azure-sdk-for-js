@@ -23,8 +23,7 @@ import {
   SimplifiedSolutionsImpl,
   TroubleshootersImpl,
   SolutionSelfHelpImpl,
-  DiscoverySolutionNLPTenantScopeImpl,
-  DiscoverySolutionNLPSubscriptionScopeImpl,
+  DiscoverySolutionNLPImpl,
 } from "./operations";
 import {
   Operations,
@@ -35,8 +34,7 @@ import {
   SimplifiedSolutions,
   Troubleshooters,
   SolutionSelfHelp,
-  DiscoverySolutionNLPTenantScope,
-  DiscoverySolutionNLPSubscriptionScope,
+  DiscoverySolutionNLP,
 } from "./operationsInterfaces";
 import { HelpRPOptionalParams } from "./models";
 
@@ -127,10 +125,7 @@ export class HelpRP extends coreClient.ServiceClient {
     this.simplifiedSolutions = new SimplifiedSolutionsImpl(this);
     this.troubleshooters = new TroubleshootersImpl(this);
     this.solutionSelfHelp = new SolutionSelfHelpImpl(this);
-    this.discoverySolutionNLPTenantScope =
-      new DiscoverySolutionNLPTenantScopeImpl(this);
-    this.discoverySolutionNLPSubscriptionScope =
-      new DiscoverySolutionNLPSubscriptionScopeImpl(this);
+    this.discoverySolutionNLP = new DiscoverySolutionNLPImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -170,6 +165,5 @@ export class HelpRP extends coreClient.ServiceClient {
   simplifiedSolutions: SimplifiedSolutions;
   troubleshooters: Troubleshooters;
   solutionSelfHelp: SolutionSelfHelp;
-  discoverySolutionNLPTenantScope: DiscoverySolutionNLPTenantScope;
-  discoverySolutionNLPSubscriptionScope: DiscoverySolutionNLPSubscriptionScope;
+  discoverySolutionNLP: DiscoverySolutionNLP;
 }

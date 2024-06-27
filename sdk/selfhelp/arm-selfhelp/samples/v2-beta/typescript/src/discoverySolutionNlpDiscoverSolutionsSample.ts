@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DiscoveryNlpRequest,
-  DiscoverySolutionNLPTenantScopePostOptionalParams,
+  DiscoverySolutionNLPDiscoverSolutionsOptionalParams,
   HelpRP,
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,12 +29,12 @@ async function discoverySolutionsUsingIssueSummaryAndServiceId() {
     issueSummary: "how to retrieve certs from deleted keyvault.",
     serviceId: "0d0fcd2e-c4fd-4349-8497-200edb39s3ca",
   };
-  const options: DiscoverySolutionNLPTenantScopePostOptionalParams = {
+  const options: DiscoverySolutionNLPDiscoverSolutionsOptionalParams = {
     discoverSolutionRequest,
   };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.discoverySolutionNLPTenantScope.post(options);
+  const result = await client.discoverySolutionNLP.discoverSolutions(options);
   console.log(result);
 }
 

@@ -8,15 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityPostOptionalParams,
-  HelpRP,
-} from "@azure/arm-selfhelp";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { HelpRP } = require("@azure/arm-selfhelp");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
@@ -26,16 +20,16 @@ dotenv.config();
  */
 async function exampleWhenNameIsAvailableForADiagnosticResource() {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
-  const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
+  const checkNameAvailabilityRequest = {
     name: "sampleName",
     type: "Microsoft.Help/diagnostics",
   };
-  const options: CheckNameAvailabilityPostOptionalParams = {
+  const options = {
     checkNameAvailabilityRequest,
   };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.checkNameAvailability.post(scope, options);
+  const result = await client.checkNameAvailability.checkAvailability(scope, options);
   console.log(result);
 }
 
@@ -47,16 +41,16 @@ async function exampleWhenNameIsAvailableForADiagnosticResource() {
  */
 async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
-  const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
+  const checkNameAvailabilityRequest = {
     name: "sampleName",
     type: "Microsoft.Help/diagnostics",
   };
-  const options: CheckNameAvailabilityPostOptionalParams = {
+  const options = {
     checkNameAvailabilityRequest,
   };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.checkNameAvailability.post(scope, options);
+  const result = await client.checkNameAvailability.checkAvailability(scope, options);
   console.log(result);
 }
 

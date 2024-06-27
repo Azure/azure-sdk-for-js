@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DiscoveryNlpRequest,
-  DiscoverySolutionNLPSubscriptionScopePostOptionalParams,
+  DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
   HelpRP,
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,15 +32,15 @@ async function discoverySolutionsUsingIssueSummaryAndServiceId() {
       "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourceGroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read",
     serviceId: "0d0fcd2e-c4fd-4349-8497-200edb39s3ca",
   };
-  const options: DiscoverySolutionNLPSubscriptionScopePostOptionalParams = {
-    discoverSolutionRequest,
-  };
+  const options: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams =
+    { discoverSolutionRequest };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.discoverySolutionNLPSubscriptionScope.post(
-    subscriptionId,
-    options,
-  );
+  const result =
+    await client.discoverySolutionNLP.discoverSolutionsBySubscription(
+      subscriptionId,
+      options,
+    );
   console.log(result);
 }
 

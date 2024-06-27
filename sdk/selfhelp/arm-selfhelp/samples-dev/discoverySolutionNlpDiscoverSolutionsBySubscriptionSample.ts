@@ -8,9 +8,15 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { HelpRP } = require("@azure/arm-selfhelp");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import {
+  DiscoveryNlpRequest,
+  DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
+  HelpRP,
+} from "@azure/arm-selfhelp";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue summary and subscription.
@@ -20,18 +26,21 @@ require("dotenv").config();
  */
 async function discoverySolutionsUsingIssueSummaryAndServiceId() {
   const subscriptionId = "0d0fcd2e-c4fd-4349-8497-200edb3923c6";
-  const discoverSolutionRequest = {
+  const discoverSolutionRequest: DiscoveryNlpRequest = {
     issueSummary: "how to retrieve certs from deleted keyvault.",
     resourceId:
       "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourceGroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read",
     serviceId: "0d0fcd2e-c4fd-4349-8497-200edb39s3ca",
   };
-  const options = {
-    discoverSolutionRequest,
-  };
+  const options: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams =
+    { discoverSolutionRequest };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.discoverySolutionNLPSubscriptionScope.post(subscriptionId, options);
+  const result =
+    await client.discoverySolutionNLP.discoverSolutionsBySubscription(
+      subscriptionId,
+      options,
+    );
   console.log(result);
 }
 
