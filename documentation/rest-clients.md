@@ -41,7 +41,7 @@ We will go into each step in the following sections
 
 ## 1. Initialize the Client
 
-First import the client
+First, import the client
 
 ```typescript
 import ExampleClient from "@azure-rest/example-client";
@@ -69,11 +69,11 @@ const client = ExampleClient("https://example.org/", new DefaultAzureCredential(
 
 ## 2. Send a request
 
-Once the client has been initialized we need to set a path to work with. For this, the REST client exposes 2 functions `path` and `pathUnchecked`
+Once the client has been initialized, we need to set a path to work with. For this, the REST client exposes 2 functions `path` and `pathUnchecked`
 
 ### Path
 
-The `path` function takes a string as the first parameter and accepts any path documented by the service, this function will help with autocomplete to discover all available paths. It also detects if the path needs parameters and makes them required positional parameters to `path`. Once the path is set users can access functions for all the supported verbs on that path
+The `path` function takes a string as the first parameter and accepts any path documented by the service, this function will help with autocomplete to discover all available paths. It also detects if the path needs parameters and makes them required positional parameters to `path`. Once the path is set, users can access functions for all the supported verbs on that path
 
 ```typescript
 import ExampleClient from "@azure-rest/example-client";
@@ -90,7 +90,7 @@ console.log(response.body);
 
 ### PathUnchecked
 
-PathUnchecked function is similar to Path, it takes a path as the first parameter, this can be any arbitrary path. It also detects if the path needs a path parameter and requires them as positional parameters to `pathUnchecked`. Once the path is set users can access functions for any verb on that path.
+PathUnchecked function is similar to Path, it takes a path as the first parameter, this can be any arbitrary path. It also detects if the path needs a path parameter and requires them as positional parameters to `pathUnchecked`. Once the path is set, users can access functions for any verb on that path.
 
 The main difference with `path` is that `pathUnchecked` doesn't have strongly typed payload, headers, or query parameters and has `any` as the response type.
 
@@ -123,7 +123,6 @@ const response = await client.path("/hello").post({body: {content: "Brian"}});
 
 console.log(response.status);
 // 200
-
 ```
 
 ### Headers and Query Parameters
@@ -141,7 +140,6 @@ const hello = await client
 
 console.log(hello.body);
 // {content: "Hello"}
-
 ```
 
 ## 3. Handle the Response

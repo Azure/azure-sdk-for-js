@@ -499,6 +499,7 @@ export interface QueueItem {
 
 // @public
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -508,6 +509,7 @@ export type QueuePeekMessagesResponse = WithResponse<{
 
 // @public
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -539,6 +541,7 @@ export interface QueueSASSignatureValues {
 
 // @public
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public

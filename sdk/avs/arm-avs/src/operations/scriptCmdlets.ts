@@ -20,7 +20,7 @@ import {
   ScriptCmdletsListResponse,
   ScriptCmdletsGetOptionalParams,
   ScriptCmdletsGetResponse,
-  ScriptCmdletsListNextResponse
+  ScriptCmdletsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,24 +37,23 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
   }
 
   /**
-   * List script cmdlet resources available for a private cloud to create a script execution resource on
-   * a private cloud
+   * List ScriptCmdlet resources by ScriptPackage
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package in the private cloud
+   * @param scriptPackageName Name of the script package.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
-    options?: ScriptCmdletsListOptionalParams
+    options?: ScriptCmdletsListOptionalParams,
   ): PagedAsyncIterableIterator<ScriptCmdlet> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
       scriptPackageName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +71,9 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
           privateCloudName,
           scriptPackageName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +82,7 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
     privateCloudName: string,
     scriptPackageName: string,
     options?: ScriptCmdletsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ScriptCmdlet[]> {
     let result: ScriptCmdletsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +91,7 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
         resourceGroupName,
         privateCloudName,
         scriptPackageName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +104,7 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
         privateCloudName,
         scriptPackageName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,45 +117,43 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
-    options?: ScriptCmdletsListOptionalParams
+    options?: ScriptCmdletsListOptionalParams,
   ): AsyncIterableIterator<ScriptCmdlet> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
       scriptPackageName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List script cmdlet resources available for a private cloud to create a script execution resource on
-   * a private cloud
+   * List ScriptCmdlet resources by ScriptPackage
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package in the private cloud
+   * @param scriptPackageName Name of the script package.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
-    options?: ScriptCmdletsListOptionalParams
+    options?: ScriptCmdletsListOptionalParams,
   ): Promise<ScriptCmdletsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, scriptPackageName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * Return information about a script cmdlet resource in a specific package on a private cloud
+   * Get a ScriptCmdlet
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package in the private cloud
-   * @param scriptCmdletName Name of the script cmdlet resource in the script package in the private
-   *                         cloud
+   * @param scriptPackageName Name of the script package.
+   * @param scriptCmdletName Name of the script cmdlet.
    * @param options The options parameters.
    */
   get(
@@ -164,7 +161,7 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
     privateCloudName: string,
     scriptPackageName: string,
     scriptCmdletName: string,
-    options?: ScriptCmdletsGetOptionalParams
+    options?: ScriptCmdletsGetOptionalParams,
   ): Promise<ScriptCmdletsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -172,9 +169,9 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
         privateCloudName,
         scriptPackageName,
         scriptCmdletName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,7 +179,7 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package in the private cloud
+   * @param scriptPackageName Name of the script package.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -191,7 +188,7 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
     privateCloudName: string,
     scriptPackageName: string,
     nextLink: string,
-    options?: ScriptCmdletsListNextOptionalParams
+    options?: ScriptCmdletsListNextOptionalParams,
   ): Promise<ScriptCmdletsListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -199,9 +196,9 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
         privateCloudName,
         scriptPackageName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -209,39 +206,15 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptCmdletsList
+      bodyMapper: Mappers.ScriptCmdletListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.scriptPackageName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets/{scriptCmdletName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScriptCmdlet
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -250,21 +223,43 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
     Parameters.scriptPackageName,
-    Parameters.scriptCmdletName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets/{scriptCmdletName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScriptCmdlet,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.scriptPackageName,
+    Parameters.scriptCmdletName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptCmdletsList
+      bodyMapper: Mappers.ScriptCmdletListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -272,8 +267,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.scriptPackageName
+    Parameters.scriptPackageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

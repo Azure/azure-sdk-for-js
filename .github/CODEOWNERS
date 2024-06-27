@@ -27,7 +27,7 @@
 ###########
 
 # Catch all
-/sdk/ @xirzec
+/sdk/ @xirzec @Azure/azure-sdk-js-dev
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
@@ -670,6 +670,9 @@
 
 # PRLabel: %Mgmt
 /sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
@@ -1495,7 +1498,7 @@
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
-/rush.json @mikeharder @ckairen @jeremymeng
+/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-for-js-core
 /tsconfig.json @mikeharder @ckairen @jeremymeng @deyaaeldeen
 /**/tsconfig.json @jeremymeng @deyaaeldeen
 /**/tsconfig.strict.json @deyaaeldeen

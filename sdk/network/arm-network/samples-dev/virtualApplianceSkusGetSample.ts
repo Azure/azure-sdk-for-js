@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves a single available sku for network virtual appliance.
  *
  * @summary Retrieves a single available sku for network virtual appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkVirtualApplianceSkuGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceSkuGet.json
  */
 async function networkVirtualApplianceSkuGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

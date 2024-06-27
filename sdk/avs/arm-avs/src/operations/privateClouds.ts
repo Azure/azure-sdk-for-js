@@ -16,17 +16,17 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   PrivateCloud,
-  PrivateCloudsListNextOptionalParams,
-  PrivateCloudsListOptionalParams,
-  PrivateCloudsListResponse,
   PrivateCloudsListInSubscriptionNextOptionalParams,
   PrivateCloudsListInSubscriptionOptionalParams,
   PrivateCloudsListInSubscriptionResponse,
+  PrivateCloudsListNextOptionalParams,
+  PrivateCloudsListOptionalParams,
+  PrivateCloudsListResponse,
   PrivateCloudsGetOptionalParams,
   PrivateCloudsGetResponse,
   PrivateCloudsCreateOrUpdateOptionalParams,
@@ -35,12 +35,14 @@ import {
   PrivateCloudsUpdateOptionalParams,
   PrivateCloudsUpdateResponse,
   PrivateCloudsDeleteOptionalParams,
-  PrivateCloudsRotateVcenterPasswordOptionalParams,
-  PrivateCloudsRotateNsxtPasswordOptionalParams,
   PrivateCloudsListAdminCredentialsOptionalParams,
   PrivateCloudsListAdminCredentialsResponse,
+  PrivateCloudsRotateNsxtPasswordOptionalParams,
+  PrivateCloudsRotateNsxtPasswordResponse,
+  PrivateCloudsRotateVcenterPasswordOptionalParams,
+  PrivateCloudsRotateVcenterPasswordResponse,
+  PrivateCloudsListInSubscriptionNextResponse,
   PrivateCloudsListNextResponse,
-  PrivateCloudsListInSubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,73 +59,11 @@ export class PrivateCloudsImpl implements PrivateClouds {
   }
 
   /**
-   * List private clouds in a resource group
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    options?: PrivateCloudsListOptionalParams
-  ): PagedAsyncIterableIterator<PrivateCloud> {
-    const iter = this.listPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    options?: PrivateCloudsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<PrivateCloud[]> {
-    let result: PrivateCloudsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    options?: PrivateCloudsListOptionalParams
-  ): AsyncIterableIterator<PrivateCloud> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List private clouds in a subscription
+   * List PrivateCloud resources by subscription ID
    * @param options The options parameters.
    */
   public listInSubscription(
-    options?: PrivateCloudsListInSubscriptionOptionalParams
+    options?: PrivateCloudsListInSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PrivateCloud> {
     const iter = this.listInSubscriptionPagingAll(options);
     return {
@@ -138,13 +78,13 @@ export class PrivateCloudsImpl implements PrivateClouds {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listInSubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listInSubscriptionPagingPage(
     options?: PrivateCloudsListInSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateCloud[]> {
     let result: PrivateCloudsListInSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -165,7 +105,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
   }
 
   private async *listInSubscriptionPagingAll(
-    options?: PrivateCloudsListInSubscriptionOptionalParams
+    options?: PrivateCloudsListInSubscriptionOptionalParams,
   ): AsyncIterableIterator<PrivateCloud> {
     for await (const page of this.listInSubscriptionPagingPage(options)) {
       yield* page;
@@ -173,35 +113,97 @@ export class PrivateCloudsImpl implements PrivateClouds {
   }
 
   /**
-   * List private clouds in a resource group
+   * List PrivateCloud resources by resource group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    options?: PrivateCloudsListOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateCloud> {
+    const iter = this.listPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    options?: PrivateCloudsListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PrivateCloud[]> {
+    let result: PrivateCloudsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    options?: PrivateCloudsListOptionalParams,
+  ): AsyncIterableIterator<PrivateCloud> {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List PrivateCloud resources by subscription ID
+   * @param options The options parameters.
+   */
+  private _listInSubscription(
+    options?: PrivateCloudsListInSubscriptionOptionalParams,
+  ): Promise<PrivateCloudsListInSubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listInSubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * List PrivateCloud resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    options?: PrivateCloudsListOptionalParams
+    options?: PrivateCloudsListOptionalParams,
   ): Promise<PrivateCloudsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * List private clouds in a subscription
-   * @param options The options parameters.
-   */
-  private _listInSubscription(
-    options?: PrivateCloudsListInSubscriptionOptionalParams
-  ): Promise<PrivateCloudsListInSubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listInSubscriptionOperationSpec
-    );
-  }
-
-  /**
-   * Get a private cloud
+   * Get a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -209,26 +211,26 @@ export class PrivateCloudsImpl implements PrivateClouds {
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsGetOptionalParams
+    options?: PrivateCloudsGetOptionalParams,
   ): Promise<PrivateCloudsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update a private cloud
+   * Create a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloud The private cloud
+   * @param privateCloud Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloud: PrivateCloud,
-    options?: PrivateCloudsCreateOrUpdateOptionalParams
+    options?: PrivateCloudsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateCloudsCreateOrUpdateResponse>,
@@ -237,21 +239,20 @@ export class PrivateCloudsImpl implements PrivateClouds {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateCloudsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -260,8 +261,8 @@ export class PrivateCloudsImpl implements PrivateClouds {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -269,61 +270,62 @@ export class PrivateCloudsImpl implements PrivateClouds {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, privateCloudName, privateCloud, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateCloudsCreateOrUpdateResponse,
       OperationState<PrivateCloudsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update a private cloud
+   * Create a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloud The private cloud
+   * @param privateCloud Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloud: PrivateCloud,
-    options?: PrivateCloudsCreateOrUpdateOptionalParams
+    options?: PrivateCloudsCreateOrUpdateOptionalParams,
   ): Promise<PrivateCloudsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
       privateCloud,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update a private cloud
+   * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated
+   * @param privateCloudUpdate The private cloud properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloudUpdate: PrivateCloudUpdate,
-    options?: PrivateCloudsUpdateOptionalParams
+    options?: PrivateCloudsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateCloudsUpdateResponse>,
@@ -332,21 +334,20 @@ export class PrivateCloudsImpl implements PrivateClouds {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateCloudsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -355,8 +356,8 @@ export class PrivateCloudsImpl implements PrivateClouds {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -364,8 +365,8 @@ export class PrivateCloudsImpl implements PrivateClouds {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -375,45 +376,46 @@ export class PrivateCloudsImpl implements PrivateClouds {
         resourceGroupName,
         privateCloudName,
         privateCloudUpdate,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateCloudsUpdateResponse,
       OperationState<PrivateCloudsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update a private cloud
+   * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated
+   * @param privateCloudUpdate The private cloud properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     privateCloudUpdate: PrivateCloudUpdate,
-    options?: PrivateCloudsUpdateOptionalParams
+    options?: PrivateCloudsUpdateOptionalParams,
   ): Promise<PrivateCloudsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       privateCloudName,
       privateCloudUpdate,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a private cloud
+   * Delete a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -421,25 +423,24 @@ export class PrivateCloudsImpl implements PrivateClouds {
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsDeleteOptionalParams
+    options?: PrivateCloudsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -448,8 +449,8 @@ export class PrivateCloudsImpl implements PrivateClouds {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -457,26 +458,27 @@ export class PrivateCloudsImpl implements PrivateClouds {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, privateCloudName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a private cloud
+   * Delete a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -484,96 +486,31 @@ export class PrivateCloudsImpl implements PrivateClouds {
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsDeleteOptionalParams
+    options?: PrivateCloudsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Rotate the vCenter password
+   * List the admin credentials for the private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  async beginRotateVcenterPassword(
+  listAdminCredentials(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsRotateVcenterPasswordOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, privateCloudName, options },
-      spec: rotateVcenterPasswordOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Rotate the vCenter password
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  async beginRotateVcenterPasswordAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: PrivateCloudsRotateVcenterPasswordOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginRotateVcenterPassword(
-      resourceGroupName,
-      privateCloudName,
-      options
+    options?: PrivateCloudsListAdminCredentialsOptionalParams,
+  ): Promise<PrivateCloudsListAdminCredentialsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, options },
+      listAdminCredentialsOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -585,25 +522,29 @@ export class PrivateCloudsImpl implements PrivateClouds {
   async beginRotateNsxtPassword(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsRotateNsxtPasswordOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: PrivateCloudsRotateNsxtPasswordOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateCloudsRotateNsxtPasswordResponse>,
+      PrivateCloudsRotateNsxtPasswordResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<PrivateCloudsRotateNsxtPasswordResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -612,8 +553,8 @@ export class PrivateCloudsImpl implements PrivateClouds {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -621,19 +562,23 @@ export class PrivateCloudsImpl implements PrivateClouds {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, privateCloudName, options },
-      spec: rotateNsxtPasswordOperationSpec
+      spec: rotateNsxtPasswordOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      PrivateCloudsRotateNsxtPasswordResponse,
+      OperationState<PrivateCloudsRotateNsxtPasswordResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -648,30 +593,118 @@ export class PrivateCloudsImpl implements PrivateClouds {
   async beginRotateNsxtPasswordAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsRotateNsxtPasswordOptionalParams
-  ): Promise<void> {
+    options?: PrivateCloudsRotateNsxtPasswordOptionalParams,
+  ): Promise<PrivateCloudsRotateNsxtPasswordResponse> {
     const poller = await this.beginRotateNsxtPassword(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List the admin credentials for the private cloud
+   * Rotate the vCenter password
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  listAdminCredentials(
+  async beginRotateVcenterPassword(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: PrivateCloudsListAdminCredentialsOptionalParams
-  ): Promise<PrivateCloudsListAdminCredentialsResponse> {
+    options?: PrivateCloudsRotateVcenterPasswordOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateCloudsRotateVcenterPasswordResponse>,
+      PrivateCloudsRotateVcenterPasswordResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<PrivateCloudsRotateVcenterPasswordResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, options },
+      spec: rotateVcenterPasswordOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      PrivateCloudsRotateVcenterPasswordResponse,
+      OperationState<PrivateCloudsRotateVcenterPasswordResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Rotate the vCenter password
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  async beginRotateVcenterPasswordAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: PrivateCloudsRotateVcenterPasswordOptionalParams,
+  ): Promise<PrivateCloudsRotateVcenterPasswordResponse> {
+    const poller = await this.beginRotateVcenterPassword(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListInSubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListInSubscription method.
+   * @param options The options parameters.
+   */
+  private _listInSubscriptionNext(
+    nextLink: string,
+    options?: PrivateCloudsListInSubscriptionNextOptionalParams,
+  ): Promise<PrivateCloudsListInSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, options },
-      listAdminCredentialsOperationSpec
+      { nextLink, options },
+      listInSubscriptionNextOperationSpec,
     );
   }
 
@@ -684,111 +717,93 @@ export class PrivateCloudsImpl implements PrivateClouds {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PrivateCloudsListNextOptionalParams
+    options?: PrivateCloudsListNextOptionalParams,
   ): Promise<PrivateCloudsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListInSubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListInSubscription method.
-   * @param options The options parameters.
-   */
-  private _listInSubscriptionNext(
-    nextLink: string,
-    options?: PrivateCloudsListInSubscriptionNextOptionalParams
-  ): Promise<PrivateCloudsListInSubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listInSubscriptionNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateCloudList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listInSubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/privateClouds",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudList
+      bodyMapper: Mappers.PrivateCloudListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloudListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateCloud,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     201: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     202: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     204: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.privateCloud,
   queryParameters: [Parameters.apiVersion],
@@ -796,32 +811,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     201: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     202: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     204: {
-      bodyMapper: Mappers.PrivateCloud
+      bodyMapper: Mappers.PrivateCloud,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.privateCloudUpdate,
   queryParameters: [Parameters.apiVersion],
@@ -829,15 +843,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -845,123 +858,136 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const rotateVcenterPasswordOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/rotateVcenterPassword",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const rotateNsxtPasswordOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/rotateNsxtPassword",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAdminCredentialsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/listAdminCredentials",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/listAdminCredentials",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminCredentials
+      bodyMapper: Mappers.AdminCredentials,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const rotateNsxtPasswordOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/rotateNsxtPassword",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudList
+      headersMapper: Mappers.PrivateCloudsRotateNsxtPasswordHeaders,
+    },
+    201: {
+      headersMapper: Mappers.PrivateCloudsRotateNsxtPasswordHeaders,
+    },
+    202: {
+      headersMapper: Mappers.PrivateCloudsRotateNsxtPasswordHeaders,
+    },
+    204: {
+      headersMapper: Mappers.PrivateCloudsRotateNsxtPasswordHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const rotateVcenterPasswordOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/rotateVcenterPassword",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.PrivateCloudsRotateVcenterPasswordHeaders,
+    },
+    201: {
+      headersMapper: Mappers.PrivateCloudsRotateVcenterPasswordHeaders,
+    },
+    202: {
+      headersMapper: Mappers.PrivateCloudsRotateVcenterPasswordHeaders,
+    },
+    204: {
+      headersMapper: Mappers.PrivateCloudsRotateVcenterPasswordHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listInSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudList
+      bodyMapper: Mappers.PrivateCloudListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateCloudListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
