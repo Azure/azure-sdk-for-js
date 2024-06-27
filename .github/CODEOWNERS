@@ -291,6 +291,9 @@
 /sdk/appcontainers/arm-appcontainers/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/appcomplianceautomation/arm-appcomplianceautomation/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/apicenter/arm-apicenter/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
