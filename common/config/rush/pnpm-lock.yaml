@@ -899,6 +899,9 @@ dependencies:
   '@rush-temp/functions-authentication-events':
     specifier: file:./projects/functions-authentication-events.tgz
     version: file:projects/functions-authentication-events.tgz
+  '@rush-temp/health-deidentification':
+    specifier: file:./projects/health-deidentification.tgz
+    version: file:projects/health-deidentification.tgz
   '@rush-temp/health-insights-cancerprofiling':
     specifier: file:./projects/health-insights-cancerprofiling.tgz
     version: file:projects/health-insights-cancerprofiling.tgz
@@ -4081,7 +4084,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.16.0
     dev: false
 
   /ajv@6.12.6:
@@ -20599,6 +20602,42 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/health-deidentification.tgz:
+    resolution: {integrity: sha512-3mp7rpJHhVf45U+2BqmkBuK0h4wWw33274ULRF1RUY8t55JbqvQMkzhFdbPChgDzKLP3Gbwg0jDibcWzP2yDTg==, tarball: file:projects/health-deidentification.tgz}
+    name: '@rush-temp/health-deidentification'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 3.0.0-beta.1
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@types/node': 18.19.39
+      '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      loupe: 3.1.1
+      mkdirp: 3.0.1
+      playwright: 1.44.1
+      rimraf: 5.0.7
+      tshy: 1.16.0
+      tslib: 2.6.3
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/health-insights-cancerprofiling.tgz:
