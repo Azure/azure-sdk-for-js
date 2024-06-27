@@ -3923,19 +3923,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 7.10.0
       eslint-visitor-keys: 3.4.3
-    dev: false
-
-  /@typespec/ts-http-runtime@1.0.0-alpha.20240314.2:
-    resolution: {integrity: sha512-Rc/bFkKLbrEo9KKXiSdRYNSmosZ1W6ycQKEKScpXvK4jaXFNyCvmS0tLv7rEN4EzEEds2fPzEHNtX4e8gMu/lA==}
-    engines: {node: '>=18.0.0'}
-    dependencies:
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.4
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-    
+    dev: false    
 
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
@@ -11694,7 +11682,6 @@ packages:
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
       '@types/node': 18.19.37
-      '@typespec/ts-http-runtime': 1.0.0-alpha.20240314.2
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3

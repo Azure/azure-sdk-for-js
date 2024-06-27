@@ -77,24 +77,26 @@ Used to synchronously translate a single document. The method doesn't require an
 ```typescript
 console.log("== Synchronous Document Translation ==");
 const client = createClient(endpoint, credentials);
-const file = await getDocumentFileContent();
-
 const options: DocumentTranslateParameters = {
-    queryParameters: {
-    targetLanguage: 'hi'
+  queryParameters: {
+    targetLanguage: "hi",
+  },
+  contentType: "multipart/form-data",
+  body: [
+    {
+      name: "document",
+      body: "This is a test.",
+      filename: "test-input.txt",
+      contentType: "text/html",
     },
-    contentType: 'multipart/form-data',
-    body: {
-    document: file
-    }
+  ],
 };
 
 const response = await client.path("/document:translate").post(options);
-const typedResponse = response as DocumentTranslateDefaultResponse;    
-
-if(typedResponse.status == "200") {
-    console.log('Response code: ' + typedResponse.status + ', Response body: ' + typedResponse.body); 
+if (isUnexpected(response)) {
+  throw response.body;
 }
+console.log('Response code: ' + response.status + ', Response body: ' + response.body); 
 ```
 
 ### Batch Document Translation
@@ -144,10 +146,10 @@ await client.path("/document/batches/{id}", id).delete();
 
 //get translation status and verify the job is cancelled, cancelling or notStarted
 const response = await client.path("/document/batches/{id}", id).get();
-if (response.status === "200" && "body" in response) { 
-const statusOutput = (response as GetTranslationStatus200Response).body.status; 
-console.log("The status after cancelling the batch operation is:" + statusOutput);
+if (isUnexpected(response)) {
+  throw response.body;
 }
+console.log("The status after cancelling the batch operation is:" + response.body.status);
 ```
 
 ### Get Documents Status
@@ -172,13 +174,15 @@ const operationId = getTranslationOperationID(operationLocationUrl);
 
 //get Documents Status
 const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
-if (documentResponse.status === "200" && "body" in documentResponse) {
-const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
+if (isUnexpected(documentResponse)) {
+  throw documentResponse.body;
+}
+
+const responseBody = documentResponse.body;
 for (const documentStatus of responseBody.value) {
     console.log("Document Status is: " + documentStatus.status);
     console.log("Characters charged is: " + documentStatus.characterCharged);
     break;          
-}
 }
 ```
 
@@ -203,8 +207,11 @@ const operationId = getTranslationOperationID(operationLocationUrl);
 
 //get Documents Status
 const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
-if (documentResponse.status === "200" && "body" in documentResponse) {  
-const responseBody = (documentResponse as GetDocumentsStatus200Response).body;
+if (isUnexpected(documentResponse)) {
+  throw documentResponse.body;
+}
+
+const responseBody = documentResponse.body;
 for (const document of responseBody.value) {
     //get document status
     const documentStatus = await client.path("/document/batches/{id}/documents/{documentId}", operationId, document.id).get();
@@ -216,7 +223,6 @@ for (const document of responseBody.value) {
     console.log("Target language = " + documentStatusOutput.to);
     console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
     console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);        
-}
 }
 ```
 
@@ -246,17 +252,18 @@ console.log("== Get Translations Status ==");
   const response = await client.path("/document/batches").get({
       queryParameters: queryParams 
     });
-  if (response.status === "200" && "body" in response) {  
-    const responseBody = (response as GetTranslationsStatus200Response).body;
-    for (const translationStatus of responseBody.value) {
-      console.log("Translation ID = " + translationStatus.id);
-      console.log("Translation Status = " + translationStatus.status);
-      console.log("Translation createdDateTimeUtc = " + translationStatus.createdDateTimeUtc);
-      console.log("Translation lastActionDateTimeUtc = " + translationStatus.lastActionDateTimeUtc);
-      console.log("Total documents submitted for translation = " + translationStatus.summary.total);
-      console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
-    }
-  }
+  if (isUnexpected(response)) {
+    throw response.body;
+  }  
+  const responseBody = response.body;
+  for (const translationStatus of responseBody.value) {
+    console.log("Translation ID = " + translationStatus.id);
+    console.log("Translation Status = " + translationStatus.status);
+    console.log("Translation createdDateTimeUtc = " + translationStatus.createdDateTimeUtc);
+    console.log("Translation lastActionDateTimeUtc = " + translationStatus.lastActionDateTimeUtc);
+    console.log("Total documents submitted for translation = " + translationStatus.summary.total);
+    console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
+  }  
 ```
 
 ### Get Translation Status
@@ -281,15 +288,16 @@ const operationId = getTranslationOperationID(operationLocationUrl);
 
 //get Translation Status
 const response = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
-if (response.status === "200" && "body" in response) {     
-const responseBody = response.body as TranslationStatusOutput;    
-console.log("Translation ID = " + responseBody.id);
-console.log("Translation Status = " + responseBody.status);
-console.log("Translation createdDateTimeUtc = " + responseBody.createdDateTimeUtc);
-console.log("Translation lastActionDateTimeUtc = " + responseBody.lastActionDateTimeUtc);
-console.log("Total documents submitted for translation = " + responseBody.summary.total);
-console.log("Total characters charged = " + responseBody.summary.totalCharacterCharged);
-}  
+if (isUnexpected(response)) {
+    throw response.body;
+}
+
+console.log("Translation ID = " + response.body.id);
+console.log("Translation Status = " + response.body.status);
+console.log("Translation createdDateTimeUtc = " + response.body.createdDateTimeUtc);
+console.log("Translation lastActionDateTimeUtc = " + response.body.lastActionDateTimeUtc);
+console.log("Total documents submitted for translation = " + response.body.summary.total);
+console.log("Total characters charged = " + response.body.summary.totalCharacterCharged);
 ```
 
 

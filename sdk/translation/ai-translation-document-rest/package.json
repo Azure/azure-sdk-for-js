@@ -48,7 +48,6 @@
   "dependencies": {
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
-    "@typespec/ts-http-runtime": "1.0.0-alpha.20240314.2",
     "@azure/core-paging": "^1.2.0",
     "@azure-rest/core-client": "^2.0.0",
     "@azure/core-auth": "^1.6.0",
