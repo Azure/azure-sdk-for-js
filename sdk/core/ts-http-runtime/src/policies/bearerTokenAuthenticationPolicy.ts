@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
-import { TypeSpecRuntimeLogger } from "../logger/logger.js";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+
 import { PipelinePolicy } from "../pipeline.js";
-import { createTokenCycler } from "../util/tokenCycler.js";
+import { TypeSpecRuntimeLogger } from "../logger/logger.js";
 import { logger as coreLogger } from "../log.js";
+import { createTokenCycler } from "../util/tokenCycler.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -100,6 +101,11 @@ export interface BearerTokenAuthenticationPolicyOptions {
    * A logger can be sent for debugging purposes.
    */
   logger?: TypeSpecRuntimeLogger;
+  /**
+   * Allows for connecting to HTTP endpoints instead of enforcing HTTPS.
+   * CAUTION: Never use this option in production.
+   */
+  allowInsecureConnection?: boolean;
 }
 
 /**
@@ -171,9 +177,15 @@ export function bearerTokenAuthenticationPolicy(
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
-        throw new Error(
-          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
-        );
+        if (request.allowInsecureConnection && options.allowInsecureConnection) {
+          coreLogger.warning(
+            "Sending bearer token over insecure transport. Assume any token issued is compromised.",
+          );
+        } else {
+          throw new Error(
+            "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
+          );
+        }
       }
 
       await callbacks.authorizeRequest({
