@@ -17384,7 +17384,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
-      tsx: 4.15.6
+      tsx: 4.15.7
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -17988,7 +17988,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-fRcpkLHYVz0hvoLmSv4mpO7EPSubOclfipXdZitugRHEy5OYdCCGbznLDKAARP/h3RaapLx3tGORo7eeOAtNog==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-TD7uHh4ZMT+QNfBD4dCYLGdjy/BO19qQ73U0+qo7oDgUHCb2ar+/kghBBErxPgN3t2UuM38RZBNkfZhTGS9GIQ==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -18008,6 +18008,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.7
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
