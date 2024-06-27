@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';

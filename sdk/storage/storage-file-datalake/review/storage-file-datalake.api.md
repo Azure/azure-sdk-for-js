@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AnonymousCredential } from '@azure/storage-blob';
 import { AnonymousCredentialPolicy } from '@azure/storage-blob';

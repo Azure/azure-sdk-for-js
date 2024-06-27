@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpHeaders } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';

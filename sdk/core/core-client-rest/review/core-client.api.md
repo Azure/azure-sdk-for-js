@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
