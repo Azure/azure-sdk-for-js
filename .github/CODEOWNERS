@@ -62,7 +62,6 @@
 
 # ServiceOwners:  @anilba06 @gkostal
 # ServiceLabel: %Attestation
-
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
@@ -130,14 +129,17 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-# AzureSdkOwners: @sarangan12 
+# AzureSdkOwners: @sarangan12
 # ServiceLabel: %Event Grid
 /sdk/eventgrid/ @sarangan12
 
 # PRLabel: %Event Hubs
 # ServiceLabel: %Event Hubs
-# AzureSdkOwners: @deyaaeldeen @jeremymeng 
+# AzureSdkOwners: @deyaaeldeen @jeremymeng
 /sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru
+
+# PRLabel: %Cognitive - Face
+/sdk/face/ @chungshengfu
 
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
@@ -231,12 +233,12 @@
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
-/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco 
+/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
 
 # PRLabel: %Schema Registry
 # ServiceLabel: %Schema Registry
 # AzureSdkOwners: @minhanh-phan
-/sdk/schemaregistry/ @minhanh-phan @deyaaeldeen 
+/sdk/schemaregistry/ @minhanh-phan @deyaaeldeen
 
 # PRLabel: %Cognitive - Form Recognizer
 # ServiceLabel: %Cognitive - Form Recognizer
