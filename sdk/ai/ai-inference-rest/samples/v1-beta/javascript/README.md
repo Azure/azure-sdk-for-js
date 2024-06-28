@@ -7,7 +7,7 @@ products:
 urlFragment: ai-inference-javascript-beta
 ---
 
-# Azure OpenAI client library samples for JavaScript (Beta)
+# Azure AI Inference client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure OpenAI in some common scenarios.
 

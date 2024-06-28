@@ -7,7 +7,7 @@ products:
 urlFragment: ai-inference-typescript-beta
 ---
 
-# Azure OpenAI client library samples for TypeScript (Beta)
+# Azure AI Inference client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for Azure OpenAI in some common scenarios.
 
