@@ -8,21 +8,21 @@ Synchronous single file supports the processing of single file translations. The
 
 The following operations are supported by the Document Translation feature:
 
-Synchronous document translation: Used to synchronously translate a single document. The method doesn't require an Azure Blob storage account.
+- **Synchronous document translation**: Used to synchronously translate a single document. The method doesn't require an Azure Blob storage account.
 
-Start batch translation: Used to execute an asynchronous batch translation request. The method requires an Azure Blob storage account with storage containers for your source and translated documents.
+- **Start batch translation**: Used to execute an asynchronous batch translation request. The method requires an Azure Blob storage account with storage containers for your source and translated documents.
 
-Get status for all translation jobs: Used to request a list and the status of all translation jobs submitted by the user (associated with the resource).
+- **Get status for all translation jobs**: Used to request a list and the status of all translation jobs submitted by the user (associated with the resource).
 
-Get status for a specific translation job: Used to request the status of a specific translation job. The response includes the overall job status and the status for documents that are being translated as part of that job.
+- **Get status for a specific translation job**: Used to request the status of a specific translation job. The response includes the overall job status and the status for documents that are being translated as part of that job.
 
-Get status for all documents: Used to request the status for all documents in a translation job.
+- **Get status for all documents**: Used to request the status for all documents in a translation job.
 
-Get status for a specific document: This returns the status for a specific document in a job as indicated in the request by the id and documentId query parameters.
+- **Get status for a specific document**: This returns the status for a specific document in a job as indicated in the request by the id and documentId query parameters.
 
-Cancel translation: This cancels a translation job that is currently processing or queued (pending) as indicated in the request by the id query parameter. An operation isn't canceled if already completed, failed, or still canceling. In those instances, a bad request is returned. Completed translations can't be canceled and are charged.
+- **Cancel translation**: This cancels a translation job that is currently processing or queued (pending) as indicated in the request by the id query parameter. An operation isn't canceled if already completed, failed, or still canceling. In those instances, a bad request is returned. Completed translations can't be canceled and are charged.
 
-Get supported formats: This returns a list of document or glossary formats supported by the Document Translation feature. The list includes common file extensions and content-type if using the upload API.
+- **Get supported formats**: This returns a list of document or glossary formats supported by the Document Translation feature. The list includes common file extensions and content-type if using the upload API.
 
 Key links:
 
