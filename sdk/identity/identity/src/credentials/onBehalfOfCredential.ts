@@ -63,7 +63,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialCertificateOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions
+      CredentialPersistenceOptions,
   );
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
@@ -89,7 +89,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialSecretOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions
+      CredentialPersistenceOptions,
   );
 
   /**
@@ -116,7 +116,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialAssertionOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions
+      CredentialPersistenceOptions,
   );
 
   constructor(options: OnBehalfOfCredentialOptions) {
@@ -137,7 +137,7 @@ export class OnBehalfOfCredential implements TokenCredential {
       !userAssertionToken
     ) {
       throw new Error(
-        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath or getAssertion) and userAssertionToken are required parameters.`
+        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath or getAssertion) and userAssertionToken are required parameters.`,
       );
     }
     this.certificatePath = certificatePath;
@@ -148,7 +148,7 @@ export class OnBehalfOfCredential implements TokenCredential {
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      additionallyAllowedTenantIds
+      additionallyAllowedTenantIds,
     );
 
     this.msalClient = createMsalClient(clientId, this.tenantId, {
@@ -171,7 +171,7 @@ export class OnBehalfOfCredential implements TokenCredential {
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds,
-        logger
+        logger,
       );
 
       const arrayScopes = ensureScopes(scopes);
@@ -182,26 +182,26 @@ export class OnBehalfOfCredential implements TokenCredential {
           arrayScopes,
           this.userAssertionToken,
           clientCertificate,
-          newOptions
+          newOptions,
         );
       } else if (this.clientSecret) {
         return this.msalClient.getTokenOnBehalfOf(
           arrayScopes,
           this.userAssertionToken,
           this.clientSecret,
-          options
+          options,
         );
       } else if (this.clientAssertion) {
         return this.msalClient.getTokenOnBehalfOf(
           arrayScopes,
           this.userAssertionToken,
           this.clientAssertion,
-          options
+          options,
         );
       } else {
         // this is an invalid scenario and is a bug, as the constructor should have thrown an error if neither clientSecret nor certificatePath nor clientAssertion were provided
         throw new Error(
-          "Expected either clientSecret or certificatePath or clientAssertion to be defined."
+          "Expected either clientSecret or certificatePath or clientAssertion to be defined.",
         );
       }
     });
@@ -223,7 +223,7 @@ export class OnBehalfOfCredential implements TokenCredential {
 
   private async parseCertificate(
     configuration: ClientCertificatePEMCertificatePath,
-    sendCertificateChain?: boolean
+    sendCertificateChain?: boolean,
   ): Promise<Omit<CertificateParts, "privateKey"> & { certificateContents: string }> {
     const certificatePath = configuration.certificatePath;
     const certificateContents = await readFile(certificatePath, "utf8");
