@@ -500,7 +500,7 @@ export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEven
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
-  properties: Record<string, unknown>;
+  properties: Record<string, any>;
   /** The thread metadata */
   metadata: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
@@ -530,7 +530,7 @@ export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThrea
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
-  properties: Record<string, unknown>;
+  properties: Record<string, any>;
   /** The thread metadata */
   metadata: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
@@ -562,7 +562,7 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatT
   /** The thread metadata */
   metadata: Record<string, string>;
   /** The updated thread properties */
-  properties: Record<string, unknown>;
+  properties: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdated event. */
@@ -572,7 +572,7 @@ export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEv
   /** The time at which the properties of the thread were updated */
   editTime: Date;
   /** The updated thread properties */
-  properties: Record<string, unknown>;
+  properties: Record<string, any>;
   /** The thread metadata */
   metadata: Record<string, string>;
 }
@@ -673,11 +673,11 @@ export interface AcsRecordingFileStatusUpdatedEventData {
   /** The recording duration in milliseconds */
   recordingDurationMs?: number;
   /** The recording content type- AudioVideo, or Audio */
-  recordingContentType: recordingContentType;
+  recordingContentType: RecordingContentType;
   /** The recording  channel type - Mixed, Unmixed */
-  recordingChannelType: recordingChannelType;
+  recordingChannelType: RecordingChannelType;
   /** The recording format type - Mp4, Mp3, Wav */
-  recordingFormatType: recordingFormatType;
+  recordingFormatType: RecordingFormatType;
   /** The reason for ending recording session */
   sessionEndReason?: string;
 }
@@ -706,13 +706,13 @@ export interface AcsRecordingChunkInfo {
 
 /** Recording content type */
 /** "AudioVideo", "Audio" */
-export type recordingContentType = string;
+export type RecordingContentType = string;
 /** Recording channel type */
 /** "Mixed", "Unmixed" */
-export type recordingChannelType = string;
+export type RecordingChannelType = string;
 /** Recording format type */
 /** "Wav", "Mp3", "Mp4" */
-export type recordingFormatType = string;
+export type RecordingFormatType = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailDeliveryReportReceived event. */
 export interface AcsEmailDeliveryReportReceivedEventData {
@@ -841,7 +841,7 @@ export interface AcsRouterWorkerSelector {
   /** Router Job Worker Selector Label Operator */
   labelOperator: AcsRouterLabelOperator;
   /** Router Job Worker Selector Value */
-  labelValue: unknown;
+  labelValue: any;
   /** Router Job Worker Selector Time to Live in Seconds */
   ttlSeconds: number;
   /** Router Job Worker Selector State */
@@ -1202,6 +1202,40 @@ export interface AcsMessageInteractiveListReplyContent {
   description?: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageAnalysisCompleted event. */
+export interface AcsMessageAnalysisCompletedEventData extends AcsMessageEventData {
+  /** The original message received. */
+  originalMessage: string;
+  /** The analysed message channel kind. */
+  channelKind: "whatsapp";
+  /** The intent of the analysed message. */
+  intentAnalysis: string;
+  /** List of key phrases extracted. */
+  keyPhraseExtraction: string[];
+  /** The analysed message language detection. */
+  languageDetection: AcsMessageLanguageDetection;
+  /** The analysed message sentiment. */
+  sentiment: AcsMessageSentiment;
+}
+
+/** Message Analysis Language Detection */
+export interface AcsMessageLanguageDetection {
+  /** The language of the message. */
+  language: string;
+  /** The confidence score of the language detected. */
+  confidenceScore: string;
+  /** The translation of the message. */
+  translation: string;
+}
+
+/** Message Analysis Sentiment */
+export interface AcsMessageSentiment {
+  /** The score of the analysis. */
+  score: number;
+  /** The description of the analysis. */
+  description: string;
+}
+
 /** The content of the event request message. */
 export interface ContainerRegistryEventData {
   /** The event ID. */
@@ -1547,7 +1581,7 @@ export interface DeviceConnectionStateEventInfo {
 /** Schema of the Data property of an EventGridEvent for a device telemetry event (DeviceTelemetry). */
 export interface DeviceTelemetryEvent {
   /** The content of the message from the device. */
-  body: Record<string, unknown>;
+  body: Record<string, any>;
   /** Application properties are user-defined strings that can be added to the message. These fields are optional. */
   properties: Record<string, string>;
   /** System properties help identify contents and source of the messages. */
@@ -1844,9 +1878,9 @@ export interface MachineLearningServicesModelRegisteredEventData {
   /** The version of the model that was registered. */
   modelVersion?: string;
   /** The tags of the model that was registered. */
-  modelTags: Record<string, unknown>;
+  modelTags: Record<string, any>;
   /** The properties of the model that was registered. */
-  modelProperties: Record<string, unknown>;
+  modelProperties: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelDeployed event. */
@@ -1858,9 +1892,9 @@ export interface MachineLearningServicesModelDeployedEventData {
   /** A common separated list of model IDs. The IDs of the models deployed in the service. */
   modelIds?: string;
   /** The tags of the deployed service. */
-  serviceTags: Record<string, unknown>;
+  serviceTags: Record<string, any>;
   /** The properties of the deployed service. */
-  serviceProperties: Record<string, unknown>;
+  serviceProperties: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.RunCompleted event. */
@@ -1874,9 +1908,9 @@ export interface MachineLearningServicesRunCompletedEventData {
   /** The Run Type of the completed Run. */
   runType?: string;
   /** The tags of the completed Run. */
-  runTags: Record<string, unknown>;
+  runTags: Record<string, any>;
   /** The properties of the completed Run. */
-  runProperties: Record<string, unknown>;
+  runProperties: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.DatasetDriftDetected event. */
@@ -1910,9 +1944,9 @@ export interface MachineLearningServicesRunStatusChangedEventData {
   /** The Run Type of the Machine Learning Run. */
   runType?: string;
   /** The tags of the Machine Learning Run. */
-  runTags: Record<string, unknown>;
+  runTags: Record<string, any>;
   /** The properties of the Machine Learning Run. */
-  runProperties: Record<string, unknown>;
+  runProperties: Record<string, any>;
   /** The status of the Machine Learning Run. */
   runStatus?: string;
 }
@@ -2730,7 +2764,7 @@ export interface StorageBlobCreatedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.BlobDeleted event. */
@@ -2752,7 +2786,7 @@ export interface StorageBlobDeletedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.DirectoryCreated event. */
@@ -2772,7 +2806,7 @@ export interface StorageDirectoryCreatedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.DirectoryDeleted event. */
@@ -2792,7 +2826,7 @@ export interface StorageDirectoryDeletedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.BlobRenamed event. */
@@ -2812,7 +2846,7 @@ export interface StorageBlobRenamedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.DirectoryRenamed event. */
@@ -2832,7 +2866,7 @@ export interface StorageDirectoryRenamedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.LifecyclePolicyCompleted event. */
@@ -2878,7 +2912,7 @@ export interface StorageBlobTierChangedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.AsyncOperationInitiated event. */
@@ -2902,7 +2936,7 @@ export interface StorageAsyncOperationInitiatedEventData {
   /** The identity of the requester that triggered this event. */
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
-  storageDiagnostics: Record<string, unknown>;
+  storageDiagnostics: Record<string, any>;
 }
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.BlobInventoryPolicyCompleted event. */
@@ -3394,7 +3428,7 @@ export interface ResourceNotificationsResourceUpdatedDetails {
   /** the tags on the resource for which the event is being emitted */
   tags: Record<string, string>;
   /** properties in the payload of the resource for which the event is being emitted */
-  properties: Record<string, unknown>;
+  properties: Record<string, any>;
 }
 
 /** details of operational info */
@@ -3457,6 +3491,6 @@ export interface ResourceNotificationsResourceManagementDeletedEventData
   extends ResourceNotificationsResourceDeletedEventData {}
 
 /** "2024-01-01" */
-export type ServiceApiVersions = string;
+export type ServiceApiVersions = "2024-01-01";
 /** Alias for MediaJobOutputUnion */
 export type MediaJobOutputUnion = MediaJobOutputAsset | MediaJobOutput;

@@ -108,7 +108,7 @@ export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThrea
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
     metadata: Record<string, string>;
     participants: AcsChatThreadParticipant[];
-    properties: Record<string, unknown>;
+    properties: Record<string, any>;
 }
 
 // @public
@@ -116,7 +116,7 @@ export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEven
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
     metadata: Record<string, string>;
     participants: AcsChatThreadParticipant[];
-    properties: Record<string, unknown>;
+    properties: Record<string, any>;
 }
 
 // @public
@@ -149,7 +149,7 @@ export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEv
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: Date;
     metadata: Record<string, string>;
-    properties: Record<string, unknown>;
+    properties: Record<string, any>;
 }
 
 // @public
@@ -157,7 +157,7 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatT
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: Date;
     metadata: Record<string, string>;
-    properties: Record<string, unknown>;
+    properties: Record<string, any>;
 }
 
 // @public
@@ -214,6 +214,16 @@ export interface AcsIncomingCallEventData {
 
 // @public
 export type AcsInteractiveReplyKind = string;
+
+// @public
+export interface AcsMessageAnalysisCompletedEventData extends AcsMessageEventData {
+    channelKind: "whatsapp";
+    intentAnalysis: string;
+    keyPhraseExtraction: string[];
+    languageDetection: AcsMessageLanguageDetection;
+    originalMessage: string;
+    sentiment: AcsMessageSentiment;
+}
 
 // @public
 export interface AcsMessageButtonContent {
@@ -275,6 +285,13 @@ export interface AcsMessageInteractiveListReplyContent {
 }
 
 // @public
+export interface AcsMessageLanguageDetection {
+    confidenceScore: string;
+    language: string;
+    translation: string;
+}
+
+// @public
 export interface AcsMessageMediaContent {
     caption?: string;
     fileName?: string;
@@ -290,6 +307,12 @@ export interface AcsMessageReceivedEventData extends AcsMessageEventData {
     context: AcsMessageContext;
     interactiveContent: AcsMessageInteractiveContent;
     mediaContent: AcsMessageMediaContent;
+}
+
+// @public
+export interface AcsMessageSentiment {
+    description: string;
+    score: number;
 }
 
 // @public
@@ -526,7 +549,7 @@ export interface AcsRouterWorkerSelector {
     expirationTime: Date;
     key?: string;
     labelOperator: AcsRouterLabelOperator;
-    labelValue: unknown;
+    labelValue: any;
     state: AcsRouterWorkerSelectorState;
     ttlSeconds: number;
 }
@@ -1061,7 +1084,7 @@ export interface DeviceLifeCycleEvent {
 
 // @public
 export interface DeviceTelemetryEvent {
-    body: Record<string, unknown>;
+    body: Record<string, any>;
     properties: Record<string, string>;
     systemProperties: Record<string, string>;
 }
@@ -1781,15 +1804,15 @@ export interface MachineLearningServicesModelDeployedEventData {
     modelIds?: string;
     serviceComputeType?: string;
     serviceName?: string;
-    serviceProperties: Record<string, unknown>;
-    serviceTags: Record<string, unknown>;
+    serviceProperties: Record<string, any>;
+    serviceTags: Record<string, any>;
 }
 
 // @public
 export interface MachineLearningServicesModelRegisteredEventData {
     modelName?: string;
-    modelProperties: Record<string, unknown>;
-    modelTags: Record<string, unknown>;
+    modelProperties: Record<string, any>;
+    modelTags: Record<string, any>;
     modelVersion?: string;
 }
 
@@ -1798,8 +1821,8 @@ export interface MachineLearningServicesRunCompletedEventData {
     experimentId?: string;
     experimentName?: string;
     runId?: string;
-    runProperties: Record<string, unknown>;
-    runTags: Record<string, unknown>;
+    runProperties: Record<string, any>;
+    runTags: Record<string, any>;
     runType?: string;
 }
 
@@ -1808,9 +1831,9 @@ export interface MachineLearningServicesRunStatusChangedEventData {
     experimentId?: string;
     experimentName?: string;
     runId?: string;
-    runProperties: Record<string, unknown>;
+    runProperties: Record<string, any>;
     runStatus?: string;
-    runTags: Record<string, unknown>;
+    runTags: Record<string, any>;
     runType?: string;
 }
 
@@ -2298,7 +2321,7 @@ export interface ResourceNotificationsResourceUpdatedDetails {
     id?: string;
     location?: string;
     name?: string;
-    properties: Record<string, unknown>;
+    properties: Record<string, any>;
     tags: Record<string, string>;
     type?: string;
 }
@@ -2356,7 +2379,7 @@ export interface ResourceWriteSuccessEventData {
 }
 
 // @public
-export type ServiceApiVersions = string;
+export type ServiceApiVersions = "2024-01-01";
 
 // @public
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
@@ -2428,7 +2451,7 @@ export interface StorageAsyncOperationInitiatedEventData {
     identity?: string;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
     url?: string;
 }
 
@@ -2444,7 +2467,7 @@ export interface StorageBlobCreatedEventData {
     identity?: string;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
     url?: string;
 }
 
@@ -2457,7 +2480,7 @@ export interface StorageBlobDeletedEventData {
     identity?: string;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
     url?: string;
 }
 
@@ -2481,7 +2504,7 @@ export interface StorageBlobRenamedEventData {
     requestId?: string;
     sequencer?: string;
     sourceUrl?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
 }
 
 // @public
@@ -2494,7 +2517,7 @@ export interface StorageBlobTierChangedEventData {
     identity?: string;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
     url?: string;
 }
 
@@ -2506,7 +2529,7 @@ export interface StorageDirectoryCreatedEventData {
     identity?: string;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
     url?: string;
 }
 
@@ -2518,7 +2541,7 @@ export interface StorageDirectoryDeletedEventData {
     recursive?: string;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
     url?: string;
 }
 
@@ -2531,7 +2554,7 @@ export interface StorageDirectoryRenamedEventData {
     requestId?: string;
     sequencer?: string;
     sourceUrl?: string;
-    storageDiagnostics: Record<string, unknown>;
+    storageDiagnostics: Record<string, any>;
 }
 
 // @public
@@ -2647,6 +2670,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
     "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+    "Microsoft.Communication.AdvancedMessageAnalysisCompleted": AcsMessageAnalysisCompletedEventData;
     "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
     "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
