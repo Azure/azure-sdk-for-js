@@ -12,7 +12,7 @@
 
 ## 4.1.0 (2022-11-18)
     
-**Features**
+### Features Added
 
   - Added Interface AuthorizationPolicyResourceFormat
   - Added Interface ConnectorMappingResourceFormat
@@ -36,7 +36,7 @@
     
 ## 4.0.1 (2022-04-15)
 
-**features**
+### Features Added
 
   - Bug fix
 

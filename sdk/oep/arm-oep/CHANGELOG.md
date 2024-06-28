@@ -12,13 +12,13 @@
 
 ## 1.0.0-beta.3 (2022-12-01)
     
-**Features**
+### Features Added
 
   - Added Interface EnergyService
     
 ## 1.0.0-beta.2 (2022-04-27)
 
-**Features**
+### Features Added
 
   - Bug fix
     

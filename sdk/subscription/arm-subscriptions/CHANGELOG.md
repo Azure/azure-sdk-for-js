@@ -12,7 +12,7 @@
 
 ## 5.1.0 (2022-11-11)
     
-**Features**
+### Features Added
 
   - Added Type Alias Provisioning
   - Interface AcceptOwnershipStatusResponse has a new optional parameter provisioningState
@@ -29,13 +29,13 @@
     
 ## 5.0.1 (2022-05-05)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 5.0.0 (2022-01-17)
     
-**Features**
+### Features Added
 
   - Added operation group SubscriptionOperations
   - Added operation group Subscriptions
@@ -69,7 +69,7 @@
   - Class SubscriptionClient has a new parameter subscriptions
   - Class SubscriptionClient has a new parameter tenants
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Subscription
   - Interface CanceledSubscriptionId no longer has parameter value

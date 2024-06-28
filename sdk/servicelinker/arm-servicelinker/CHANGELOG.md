@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-16)
     
-**Features**
+### Features Added
 
   - Added Interface AzureKeyVaultProperties
   - Added Interface AzureResource
@@ -33,12 +33,12 @@
     
 ## 2.0.0 (2022-05-16)
     
-**Features**
+### Features Added
 
   - Added Interface ValidateOperationResult
   - Enum KnownValidationResultStatus has a new value Failure
 
-**Breaking Changes**
+### Breaking Changes
 
   - Enum KnownValidationResultStatus no longer has value Failed
     

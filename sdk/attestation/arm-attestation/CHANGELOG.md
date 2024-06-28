@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-11-16)
     
-**Features**
+### Features Added
 
   - Added Interface AttestationProvider
   - Added Interface PrivateEndpointConnection
@@ -20,13 +20,13 @@
     
 ## 2.0.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  revert credential scopes
 
 ## 2.0.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  fix better user experience of credential scopes in government cloud
 

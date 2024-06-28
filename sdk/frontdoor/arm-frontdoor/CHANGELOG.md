@@ -12,7 +12,7 @@
 
 ## 5.3.0 (2024-04-15)
     
-**Features**
+### Features Added
 
   - Added Interface GroupByVariable
   - Added Interface WebApplicationFirewallScrubbingRules
@@ -36,7 +36,7 @@
     
 ## 5.2.0 (2023-05-09)
     
-**Features**
+### Features Added
 
   - Added operation Policies.beginUpdate
   - Added operation Policies.beginUpdateAndWait
@@ -58,7 +58,7 @@
     
 ## 5.1.0 (2022-11-23)
     
-**Features**
+### Features Added
 
   - Added Interface BackendPool
   - Added Interface BackendPoolProperties
@@ -85,7 +85,7 @@
     
 ## 5.0.1 (2022-04-26)
 
-**Features**
+### Features Added
 
   - Bug fix
 

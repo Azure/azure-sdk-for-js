@@ -12,7 +12,7 @@
 
 ## 21.6.0 (2024-04-26)
     
-**Features**
+### Features Added
 
   - Added Interface EventGridAndResourceGraph
   - Added Interface ScheduledEventsAdditionalPublishingTargets
@@ -39,14 +39,14 @@
     
 ## 21.5.0 (2024-03-01)
     
-**Features**
+### Features Added
 
   - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
     
     
 ## 21.4.0 (2023-12-28)
     
-**Features**
+### Features Added
 
   - Added Type Alias ProvisionedBandwidthCopyOption
   - Interface CreationData has a new optional parameter provisionedBandwidthCopySpeed
@@ -56,7 +56,7 @@
     
 ## 21.3.0 (2023-12-08)
     
-**Features**
+### Features Added
 
   - Added operation DedicatedHosts.beginRedeploy
   - Added operation DedicatedHosts.beginRedeployAndWait
@@ -151,7 +151,7 @@
     
 ## 21.2.0 (2023-08-14)
     
-**Features**
+### Features Added
 
   - Added Type Alias DomainNameLabelScopeTypes
   - Added Type Alias NetworkInterfaceAuxiliaryMode
@@ -175,7 +175,7 @@
     
 ## 21.1.0 (2023-07-07)
     
-**Features**
+### Features Added
 
   - Added Type Alias FileFormat
   - Interface GrantAccessData has a new optional parameter fileFormat
@@ -184,7 +184,7 @@
     
 ## 21.0.0 (2023-05-17)
     
-**Features**
+### Features Added
 
   - Added operation DedicatedHosts.listAvailableSizes
   - Added operation VirtualMachineScaleSets.beginReapply
@@ -234,7 +234,7 @@
   - Added Enum KnownExpandTypesForListVMs
   - Added Enum KnownRestorePointEncryptionType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter identifier of interface CommunityGalleryImage is changed from GalleryImageIdentifier to CommunityGalleryImageIdentifier
   - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from StorageAccountType to EdgeZoneStorageAccountType
@@ -244,7 +244,7 @@
     
 ## 20.0.0 (2023-01-05)
     
-**Features**
+### Features Added
 
   - Added Interface AlternativeOption
   - Added Interface GalleryApplicationCustomAction
@@ -292,7 +292,7 @@
   - Added Enum KnownPolicyViolationCategory
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AvailabilitySetsListBySubscriptionNextOptionalParams no longer has parameter expand
   - Interface CapacityReservationGroupsListByResourceGroupNextOptionalParams no longer has parameter expand
@@ -320,7 +320,7 @@
     
 ## 19.2.0 (2022-09-21)
     
-**Features**
+### Features Added
 
   - Added Interface PriorityMixPolicy
   - Added Type Alias DiskControllerTypes
@@ -348,7 +348,7 @@
     
 ## 19.1.0 (2022-06-27)
     
-**Features**
+### Features Added
 
   - Added Interface AvailabilitySet
   - Added Interface AvailabilitySetUpdate
@@ -444,7 +444,7 @@
     
 ## 19.0.0 (2022-06-06)
     
-**Features**
+### Features Added
 
   - Added operation CommunityGalleryImages.list
   - Added operation CommunityGalleryImageVersions.list
@@ -495,7 +495,7 @@
   - Enum KnownDiskStorageAccountTypes has a new value PremiumV2LRS
   - Enum KnownGallerySharingPermissionTypes has a new value Community
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownGalleryApplicationVersionPropertiesProvisioningState
   - Removed Enum KnownGalleryImagePropertiesProvisioningState
@@ -506,7 +506,7 @@
     
 ## 18.0.0 (2022-05-23)
     
-**Features**
+### Features Added
 
   - Added Interface DedicatedHostGroupPropertiesAdditionalCapabilities
   - Added Interface LinuxVMGuestPatchAutomaticByPlatformSettings
@@ -534,19 +534,19 @@
   - Added Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
   - Enum KnownStorageAccountTypes has a new value PremiumV2LRS
 
-**Breaking Changes**
+### Breaking Changes
 
   - Delete parameters of Resource in TypeAlias VirtualMachineExtension
     
 ## 17.3.1 (2022-04-06)
 
-**features**
+### Features Added
 
   -  Bug fix
 
 ## 17.3.0 (2022-03-02)
     
-**Features**
+### Features Added
 
   - Added Type Alias Architecture
   - Added Type Alias ArchitectureTypes
@@ -566,7 +566,7 @@
     
 ## 17.2.0 (2022-02-14)
     
-**Features**
+### Features Added
 
   - Added operation DedicatedHosts.beginRestart
   - Added operation DedicatedHosts.beginRestartAndWait
@@ -638,7 +638,7 @@
     
 ## 17.1.0 (2022-01-06)
     
-**Features**
+### Features Added
 
   - Interface AccessUri has a new optional parameter securityDataAccessSAS
   - Interface CreationData has a new optional parameter securityDataUri

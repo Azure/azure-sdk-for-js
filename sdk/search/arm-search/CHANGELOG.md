@@ -12,7 +12,7 @@
 
 ## 3.3.0-beta.1 (2024-03-12)
     
-**Features**
+### Features Added
 
   - Added operation group NetworkSecurityPerimeterConfigurations
   - Added Interface NetworkSecurityPerimeterConfiguration
@@ -65,7 +65,7 @@
     
 ## 3.2.0 (2023-10-09)
     
-**Features**
+### Features Added
 
   - Added operation group Usages
   - Added Interface DataPlaneAadOrApiKeyAuthOption
@@ -101,7 +101,7 @@
     
 ## 3.1.0 (2022-12-07)
     
-**Features**
+### Features Added
 
   - Added Interface PrivateEndpointConnection
   - Added Interface PrivateLinkResource
@@ -112,7 +112,7 @@
     
 ## 3.0.1 (2022-04-29)
 
-**Features**
+### Features Added
 
   - Bug fix
   

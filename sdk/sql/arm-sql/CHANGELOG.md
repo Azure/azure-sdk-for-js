@@ -13,7 +13,7 @@
 ## 11.0.0-beta.1 (2024-05-13)
 Compared with version 10.0.0
     
-**Features**
+### Features Added
 
   - Added operation group JobPrivateEndpoints
   - Added operation DistributedAvailabilityGroups.beginFailover
@@ -167,7 +167,7 @@ Compared with version 10.0.0
   - Added Enum KnownRoleChangeType
   - Added Enum KnownSeedingModeType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface DistributedAvailabilityGroup no longer has parameter lastHardenedLsn
   - Interface DistributedAvailabilityGroup no longer has parameter linkState
@@ -189,7 +189,7 @@ Compared with version 10.0.0
     
 ## 10.1.0-beta.3 (2023-12-18)
     
-**Features**
+### Features Added
 
   - Added operation group JobPrivateEndpoints
   - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
@@ -264,7 +264,7 @@ Compared with version 10.0.0
     
 ## 10.1.0-beta.2 (2023-09-20)
 
-**Features**
+### Features Added
 
   - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
   - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
@@ -297,7 +297,7 @@ Compared with version 10.0.0
 
 ## 10.1.0-beta.1 (2023-07-28)
 
-**Features**
+### Features Added
 
   - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
   - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
@@ -318,7 +318,7 @@ Compared with version 10.0.0
 
 ## 10.0.0 (2023-03-22)
     
-**Features**
+### Features Added
 
   - Added operation group DatabaseAdvancedThreatProtectionSettings
   - Added operation group DatabaseEncryptionProtectors
@@ -767,7 +767,7 @@ Compared with version 10.0.0
   - Enum KnownReplicationLinkType has a new value Standby
   - Enum KnownSecondaryType has a new value Standby
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group OperationsHealthOperations
   - Removed operation ReplicationLinks.beginUnlink
@@ -796,7 +796,7 @@ Compared with version 10.0.0
     
 ## 9.1.0 (2022-12-14)
     
-**Features**
+### Features Added
 
   - Added Interface Advisor
   - Added Interface BackupShortTermRetentionPolicy
@@ -1026,7 +1026,7 @@ Compared with version 10.0.0
     
 ## 9.0.1 (2022-05-01)
 
-**Features**
+### Features Added
 
   - Bug fix
 

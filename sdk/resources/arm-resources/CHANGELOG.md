@@ -12,7 +12,7 @@
 
 ## 5.2.0 (2023-03-13)
     
-**Features**
+### Features Added
 
   - Interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams no longer has parameter top
   - Interface DeploymentOperationsListAtScopeNextOptionalParams no longer has parameter top
@@ -43,7 +43,7 @@
     
 ## 5.1.0 (2022-11-10)
     
-**Features**
+### Features Added
 
   - Added Interface DeploymentWhatIfProperties
   - Added Interface GenericResource
@@ -51,7 +51,7 @@
     
 ## 5.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 

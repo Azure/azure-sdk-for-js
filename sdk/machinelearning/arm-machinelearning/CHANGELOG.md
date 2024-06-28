@@ -2,7 +2,7 @@
     
 ## 2.2.0 (2024-05-20)
 
-**Features**
+### Features Added
     
   - Interface BatchDeploymentsListNextOptionalParams no longer has parameter orderBy
   - Interface BatchDeploymentsListNextOptionalParams no longer has parameter skip
@@ -101,17 +101,17 @@
     
 ## 2.1.1 (2022-11-28)
 
-**Features**
+### Features Added
 
 -  Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 2.1.0 (2022-11-01)
     
-**Features**
+### Features Added
 
   - Added operation group Schedules
   - Added Interface AutoForecastHorizon
@@ -284,7 +284,7 @@
     
 ## 2.0.0 (2022-08-05)
     
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureBlobDatastore has a new required parameter datastoreType
   - Interface AzureDataLakeGen1Datastore has a new required parameter datastoreType

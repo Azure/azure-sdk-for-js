@@ -2,7 +2,7 @@
     
 ## 2.0.0-beta.2 (2023-10-10)
     
-**Features**
+### Features Added
 
   - Added operation group WebPubSubReplicas
   - Added operation WebPubSub.listReplicaSkus
@@ -38,14 +38,14 @@
   - Interface WebPubSubResource has a new optional parameter resourceStopped
   - Added Enum KnownServiceKind
 
-**Breaking Changes**
+### Breaking Changes
 
   - Parameter location of interface TrackedResource is now required
     
     
 ## 2.0.0-beta.1 (2023-07-11)
     
-**Features**
+### Features Added
 
   - Added operation group WebPubSubReplicas
   - Added operation WebPubSub.listReplicaSkus
@@ -83,14 +83,14 @@
   - Interface WebPubSubHub no longer has parameter systemData
   - Interface WebPubSubResource no longer has parameter systemData
 
-**Breaking Changes**
+### Breaking Changes
 
   - Parameter location of interface TrackedResource is now required
     
  
 ## 1.1.0 (2023-03-09)
     
-**Features**
+### Features Added
 
   - Added operation group WebPubSubCustomCertificates
   - Added operation group WebPubSubCustomDomains

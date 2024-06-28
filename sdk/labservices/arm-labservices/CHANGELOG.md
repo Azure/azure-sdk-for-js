@@ -12,7 +12,7 @@
 
 ## 3.1.0 (2023-01-17)
     
-**Features**
+### Features Added
 
   - Added Type Alias ConnectionType
   - Added function getContinuationToken

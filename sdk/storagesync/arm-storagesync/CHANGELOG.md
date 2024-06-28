@@ -12,7 +12,7 @@
 
 ## 9.1.0 (2022-12-12)
     
-**Features**
+### Features Added
 
   - Added Interface CloudEndpoint
   - Added Interface CloudEndpointCreateParameters
@@ -31,7 +31,7 @@
     
 ## 9.0.1 (2022-05-01)
 
-**Features**
+### Features Added
 
   - Bug fix
     

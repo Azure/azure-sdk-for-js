@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-19)
     
-**Features**
+### Features Added
 
   - Added Interface MonetaryCommitment
   - Added Interface MonetaryCredit
@@ -24,7 +24,7 @@
     
 ## 2.0.0 (2022-03-10)
 
-**features**
+### Features Added
 
   - update version
     

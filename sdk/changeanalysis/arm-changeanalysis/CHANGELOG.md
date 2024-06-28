@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-11-17)
     
-**Features**
+### Features Added
 
   - Added Interface Change
   - Added Interface ProxyResource
