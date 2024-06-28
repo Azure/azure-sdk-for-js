@@ -4,7 +4,7 @@ languages:
   - typescript
 products:
   - azure
-  - ai-inference
+  - ai
 urlFragment: ai-inference-typescript-beta
 ---
 

@@ -4,7 +4,7 @@ languages:
   - javascript
 products:
   - azure
-  - ai-inference
+  - ai
 urlFragment: ai-inference-javascript-beta
 ---
 
