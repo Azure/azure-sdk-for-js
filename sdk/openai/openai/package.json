@@ -3,32 +3,72 @@
   "version": "2.0.0-beta.1",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
-  "main": "dist/index.cjs",
-  "module": "dist-esm/src/index.js",
-  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "types": "./types/src/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
     },
     "./models": {
-      "types": "./types/src/models/index.d.ts",
-      "import": "./dist-esm/src/models/index.js"
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
   },
-  "types": "openai.d.ts",
+  "files": [
+    "dist/",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./models": "./src/models/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser"
+    ],
+    "selfLink": false
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "generate": "tsp-client update",
     "bundle": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && npm run bundle && dev-tool run extract-api",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "build:test": "npm run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\"  \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run unit-test:browser",
     "integration-test:node": "echo skipped",
@@ -37,22 +77,12 @@
     "lint": "eslint README.md package.json api-extractor.json src --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
-    "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/openai.d.ts",
-    "openai.shims.d.ts",
-    "types/src",
-    "README.md",
-    "CHANGELOG.md",
-    "LICENSE"
-  ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
     "node": ">=18.0.0"
@@ -84,14 +114,14 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.16.0",
-    "openai": "^4.47.1",
     "rimraf": "^3.0.2",
+    "tshy": "^1.13.0",
     "typescript": "~5.4.5"
   },
   "dependencies": {
-    "tslib": "^2.4.0",
+    "@azure-rest/core-client": "^1.0.0",
     "openai": "^4.47.2",
-    "@azure-rest/core-client": "^1.0.0"
+    "tslib": "^2.4.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure OpenAI",
@@ -103,5 +133,6 @@
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
     }
-  }
+  },
+  "type": "module"
 }

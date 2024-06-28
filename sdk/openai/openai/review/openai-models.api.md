@@ -306,8 +306,6 @@ export interface ElasticsearchIndexFieldMappingOptions {
     vector_fields?: string[];
 }
 
-export { ErrorModel }
-
 // @public
 export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
     type: "max_tokens";

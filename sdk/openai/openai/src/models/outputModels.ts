@@ -130,7 +130,7 @@ export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputPar
  *   in the generation of a corresponding chat completions response. This context information is only populated when
  *   using an Azure OpenAI request configured to use a matching extension.
  */
-export declare interface AzureChatExtensionsMessageContextOutput {
+export interface AzureChatExtensionsMessageContextOutput {
   /**
    *   The contextual information associated with the Azure chat extensions used for a chat completions request.
    *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
@@ -147,7 +147,7 @@ export declare interface AzureChatExtensionsMessageContextOutput {
  *   in the generation of a corresponding chat completions response. This context information is only populated when
  *   using an Azure OpenAI request configured to use a matching extension.
  */
-export declare interface AzureChatExtensionsMessageContextOutput {
+export interface AzureChatExtensionsMessageContextOutput {
   /**
    *   The contextual information associated with the Azure chat extensions used for a chat completions request.
    *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
@@ -236,7 +236,7 @@ export interface ContentFilterBlocklistIdResultOutput {
 }
 
 /** A representation of a single polygon point as used by the Azure grounding enhancement. */
-export declare interface AzureGroundingEnhancementCoordinatePointOutput {
+export interface AzureGroundingEnhancementCoordinatePointOutput {
   /** The x-coordinate (horizontal axis) of the point. */
   x: number;
   /** The y-coordinate (vertical axis) of the point. */
@@ -244,7 +244,7 @@ export declare interface AzureGroundingEnhancementCoordinatePointOutput {
 }
 
 /** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
-export declare interface AzureGroundingEnhancementLineOutput {
+export interface AzureGroundingEnhancementLineOutput {
   /** The text within the line. */
   text: string;
   /** An array of spans that represent detected objects and its bounding box information. */
@@ -252,7 +252,7 @@ export declare interface AzureGroundingEnhancementLineOutput {
 }
 
 /** A span object that represents a detected object and its bounding box information. */
-export declare interface AzureGroundingEnhancementLineSpanOutput {
+export interface AzureGroundingEnhancementLineSpanOutput {
   /** The text content of the span that represents the detected object. */
   text: string;
   /**
@@ -267,7 +267,7 @@ export declare interface AzureGroundingEnhancementLineSpanOutput {
 }
 
 /** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-export declare interface AzureGroundingEnhancementOutput {
+export interface AzureGroundingEnhancementOutput {
   /** The lines of text detected by the grounding enhancement. */
   lines: Array<AzureGroundingEnhancementLineOutput>;
 }
@@ -277,7 +277,7 @@ export declare interface AzureGroundingEnhancementOutput {
  * in the generation of a corresponding chat completions response. This context information is only populated when
  * using an Azure OpenAI request configured to use a matching extension.
  */
-export declare interface AzureChatExtensionDataSourceResponseCitationOutput {
+export interface AzureChatExtensionDataSourceResponseCitationOutput {
   /** The content of the citation. */
   content: string;
   /** The title of the citation. */

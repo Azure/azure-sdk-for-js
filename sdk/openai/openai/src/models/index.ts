@@ -65,7 +65,6 @@ declare module "openai/resources/index" {
   }
 
   interface ChatCompletion {
-    /* eslint-disable-line */
     /**
      * Content filtering results for zero or more prompts in the request. In a streaming request,
      * results for different prompts may arrive at different times or in different orders.
@@ -157,4 +156,3 @@ export {
 };
 export * from "./outputModels.js";
 export * from "./models.js";
-export { ErrorModel } from "@azure-rest/core-client";
