@@ -39,17 +39,25 @@ export class MongoClusterManagementClient {
   /** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure Cosmos DB for MongoDB vCore resources including clusters and firewall rules. */
   constructor(
     credential: TokenCredential,
+    subscriptionId: string,
     options: MongoClusterManagementClientOptions = {},
   ) {
     this._client = createMongoClusterManagement(credential, options);
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.mongoClusters = getMongoClustersOperations(this._client);
-    this.firewallRules = getFirewallRulesOperations(this._client);
+    this.mongoClusters = getMongoClustersOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.firewallRules = getFirewallRulesOperations(
+      this._client,
+      subscriptionId,
+    );
     this.privateEndpointConnections = getPrivateEndpointConnectionsOperations(
       this._client,
+      subscriptionId,
     );
-    this.privateLinks = getPrivateLinksOperations(this._client);
+    this.privateLinks = getPrivateLinksOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */

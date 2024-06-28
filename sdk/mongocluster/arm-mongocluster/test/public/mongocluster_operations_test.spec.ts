@@ -34,9 +34,9 @@ describe("MongoCluster test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new MongoClusterManagementClient(credential, recorder.configureClientOptions({}));
+    client = new MongoClusterManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
+    resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
   });
@@ -49,7 +49,6 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters create test", async function () {
     const res = await client.mongoClusters.createOrUpdate(
-      subscriptionId,
       resourceGroup,
       resourcename,
       {
@@ -73,9 +72,8 @@ describe("MongoCluster test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it.only("firerules create test", async function () {
+  it("firerules create test", async function () {
     const res = await client.firewallRules.createOrUpdate(
-      subscriptionId,
       resourceGroup,
       resourcename,
       "testfilerule",
@@ -92,7 +90,6 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters get test", async function () {
     const res = await client.mongoClusters.get(
-      subscriptionId,
       resourceGroup,
       resourcename
     );
@@ -101,7 +98,7 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.mongoClusters.listByResourceGroup(subscriptionId, resourceGroup)) {
+    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -109,7 +106,6 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters update test", async function () {
     const res = await client.mongoClusters.update(
-      subscriptionId,
       resourceGroup,
       resourcename,
       {
@@ -121,9 +117,9 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters delete test", async function () {
     const resArray = new Array();
-    const res = await client.mongoClusters.delete(subscriptionId, resourceGroup, resourcename
+    const res = await client.mongoClusters.delete(resourceGroup, resourcename
     )
-    for await (let item of client.mongoClusters.listByResourceGroup(subscriptionId, resourceGroup)) {
+    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

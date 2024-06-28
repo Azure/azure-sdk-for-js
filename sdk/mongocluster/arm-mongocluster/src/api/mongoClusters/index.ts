@@ -4,12 +4,14 @@
 import { getLongRunningPoller } from "../pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
+  mongoClusterPropertiesSerializer,
+  mongoClusterUpdatePropertiesSerializer,
   MongoCluster,
   MongoClusterUpdate,
-  MongoClusterListResult,
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
+  _MongoClusterListResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { buildPagedAsyncIterator } from "../pagingHelpers.js";
@@ -44,6 +46,7 @@ import {
   operationOptionsToRequestParameters,
   createRestError,
 } from "@azure-rest/core-client";
+import { serializeRecord } from "../../helpers/serializerHelpers.js";
 import {
   MongoClustersGetOptionalParams,
   MongoClustersCreateOrUpdateOptionalParams,
@@ -55,7 +58,7 @@ import {
   MongoClustersCheckNameAvailabilityOptionalParams,
 } from "../../models/options.js";
 
-export function _mongoClustersGetSend(
+export function _getSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -74,7 +77,7 @@ export function _mongoClustersGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersGetDeserialize(
+export async function _getDeserialize(
   result: MongoClustersGet200Response | MongoClustersGetDefaultResponse,
 ): Promise<MongoCluster> {
   if (isUnexpected(result)) {
@@ -82,8 +85,8 @@ export async function _mongoClustersGetDeserialize(
   }
 
   return {
-    location: result.body["location"],
     tags: result.body["tags"],
+    location: result.body["location"],
     id: result.body["id"],
     name: result.body["name"],
     type: result.body["type"],
@@ -200,24 +203,24 @@ export async function _mongoClustersGetDeserialize(
 }
 
 /** Gets information about a mongo cluster. */
-export async function mongoClustersGet(
+export async function get(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersGetOptionalParams = { requestOptions: {} },
 ): Promise<MongoCluster> {
-  const result = await _mongoClustersGetSend(
+  const result = await _getSend(
     context,
     subscriptionId,
     resourceGroupName,
     mongoClusterName,
     options,
   );
-  return _mongoClustersGetDeserialize(result);
+  return _getDeserialize(result);
 }
 
-export function _mongoClustersCreateOrUpdateSend(
+export function _createOrUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -240,45 +243,18 @@ export function _mongoClustersCreateOrUpdateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
+        tags: !resource.tags
+          ? resource.tags
+          : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
-        tags: resource["tags"],
         properties: !resource.properties
-          ? undefined
-          : {
-              createMode: resource.properties?.["createMode"],
-              restoreParameters: !resource.properties?.restoreParameters
-                ? undefined
-                : {
-                    pointInTimeUTC:
-                      resource.properties?.restoreParameters?.[
-                        "pointInTimeUTC"
-                      ]?.toISOString(),
-                    sourceResourceId:
-                      resource.properties?.restoreParameters?.[
-                        "sourceResourceId"
-                      ],
-                  },
-              administratorLogin: resource.properties?.["administratorLogin"],
-              administratorLoginPassword:
-                resource.properties?.["administratorLoginPassword"],
-              serverVersion: resource.properties?.["serverVersion"],
-              publicNetworkAccess: resource.properties?.["publicNetworkAccess"],
-              nodeGroupSpecs:
-                resource.properties?.["nodeGroupSpecs"] === undefined
-                  ? resource.properties?.["nodeGroupSpecs"]
-                  : resource.properties?.["nodeGroupSpecs"].map((p) => ({
-                      sku: p["sku"],
-                      diskSizeGB: p["diskSizeGB"],
-                      enableHa: p["enableHa"],
-                      kind: p["kind"],
-                      nodeCount: p["nodeCount"],
-                    })),
-            },
+          ? resource.properties
+          : mongoClusterPropertiesSerializer(resource.properties),
       },
     });
 }
 
-export async function _mongoClustersCreateOrUpdateDeserialize(
+export async function _createOrUpdateDeserialize(
   result:
     | MongoClustersCreateOrUpdate200Response
     | MongoClustersCreateOrUpdate201Response
@@ -291,8 +267,8 @@ export async function _mongoClustersCreateOrUpdateDeserialize(
 
   result = result as MongoClustersCreateOrUpdateLogicalResponse;
   return {
-    location: result.body["location"],
     tags: result.body["tags"],
+    location: result.body["location"],
     id: result.body["id"],
     name: result.body["name"],
     type: result.body["type"],
@@ -409,7 +385,7 @@ export async function _mongoClustersCreateOrUpdateDeserialize(
 }
 
 /** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
-export function mongoClustersCreateOrUpdate(
+export function createOrUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -417,26 +393,22 @@ export function mongoClustersCreateOrUpdate(
   resource: MongoCluster,
   options: MongoClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(
-    context,
-    _mongoClustersCreateOrUpdateDeserialize,
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _mongoClustersCreateOrUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          mongoClusterName,
-          resource,
-          options,
-        ),
-    },
-  ) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        resource,
+        options,
+      ),
+  }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
-export function _mongoClustersUpdateSend(
+export function _updateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -459,32 +431,17 @@ export function _mongoClustersUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: properties["tags"],
+        tags: !properties.tags
+          ? properties.tags
+          : (serializeRecord(properties.tags as any) as any),
         properties: !properties.properties
-          ? undefined
-          : {
-              administratorLogin: properties.properties?.["administratorLogin"],
-              administratorLoginPassword:
-                properties.properties?.["administratorLoginPassword"],
-              serverVersion: properties.properties?.["serverVersion"],
-              publicNetworkAccess:
-                properties.properties?.["publicNetworkAccess"],
-              nodeGroupSpecs:
-                properties.properties?.["nodeGroupSpecs"] === undefined
-                  ? properties.properties?.["nodeGroupSpecs"]
-                  : properties.properties?.["nodeGroupSpecs"].map((p) => ({
-                      sku: p["sku"],
-                      diskSizeGB: p["diskSizeGB"],
-                      enableHa: p["enableHa"],
-                      kind: p["kind"],
-                      nodeCount: p["nodeCount"],
-                    })),
-            },
+          ? properties.properties
+          : mongoClusterUpdatePropertiesSerializer(properties.properties),
       },
     });
 }
 
-export async function _mongoClustersUpdateDeserialize(
+export async function _updateDeserialize(
   result:
     | MongoClustersUpdate200Response
     | MongoClustersUpdate202Response
@@ -497,8 +454,8 @@ export async function _mongoClustersUpdateDeserialize(
 
   result = result as MongoClustersUpdateLogicalResponse;
   return {
-    location: result.body["location"],
     tags: result.body["tags"],
+    location: result.body["location"],
     id: result.body["id"],
     name: result.body["name"],
     type: result.body["type"],
@@ -615,7 +572,7 @@ export async function _mongoClustersUpdateDeserialize(
 }
 
 /** Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition. */
-export function mongoClustersUpdate(
+export function update(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -623,11 +580,11 @@ export function mongoClustersUpdate(
   properties: MongoClusterUpdate,
   options: MongoClustersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(context, _mongoClustersUpdateDeserialize, {
+  return getLongRunningPoller(context, _updateDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _mongoClustersUpdateSend(
+      _updateSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -638,7 +595,7 @@ export function mongoClustersUpdate(
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
-export function _mongoClustersDeleteSend(
+export function _$deleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -660,7 +617,7 @@ export function _mongoClustersDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersDeleteDeserialize(
+export async function _$deleteDeserialize(
   result:
     | MongoClustersDelete202Response
     | MongoClustersDelete204Response
@@ -676,18 +633,23 @@ export async function _mongoClustersDeleteDeserialize(
 }
 
 /** Deletes a mongo cluster. */
-export function mongoClustersDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _mongoClustersDeleteDeserialize, {
+  return getLongRunningPoller(context, _$deleteDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _mongoClustersDeleteSend(
+      _$deleteSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -697,7 +659,7 @@ export function mongoClustersDelete(
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _mongoClustersListByResourceGroupSend(
+export function _listByResourceGroupSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -717,19 +679,19 @@ export function _mongoClustersListByResourceGroupSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersListByResourceGroupDeserialize(
+export async function _listByResourceGroupDeserialize(
   result:
     | MongoClustersListByResourceGroup200Response
     | MongoClustersListByResourceGroupDefaultResponse,
-): Promise<MongoClusterListResult> {
+): Promise<_MongoClusterListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   return {
     value: result.body["value"].map((p) => ({
-      location: p["location"],
       tags: p["tags"],
+      location: p["location"],
       id: p["id"],
       name: p["name"],
       type: p["type"],
@@ -841,7 +803,7 @@ export async function _mongoClustersListByResourceGroupDeserialize(
 }
 
 /** List all the mongo clusters in a given resource group. */
-export function mongoClustersListByResourceGroup(
+export function listByResourceGroup(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -852,18 +814,18 @@ export function mongoClustersListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _mongoClustersListByResourceGroupSend(
+      _listByResourceGroupSend(
         context,
         subscriptionId,
         resourceGroupName,
         options,
       ),
-    _mongoClustersListByResourceGroupDeserialize,
+    _listByResourceGroupDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _mongoClustersListSend(
+export function _listSend(
   context: Client,
   subscriptionId: string,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
@@ -878,17 +840,17 @@ export function _mongoClustersListSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersListDeserialize(
+export async function _listDeserialize(
   result: MongoClustersList200Response | MongoClustersListDefaultResponse,
-): Promise<MongoClusterListResult> {
+): Promise<_MongoClusterListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   return {
     value: result.body["value"].map((p) => ({
-      location: p["location"],
       tags: p["tags"],
+      location: p["location"],
       id: p["id"],
       name: p["name"],
       type: p["type"],
@@ -1000,20 +962,20 @@ export async function _mongoClustersListDeserialize(
 }
 
 /** List all the mongo clusters in a given subscription. */
-export function mongoClustersList(
+export function list(
   context: Client,
   subscriptionId: string,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<MongoCluster> {
   return buildPagedAsyncIterator(
     context,
-    () => _mongoClustersListSend(context, subscriptionId, options),
-    _mongoClustersListDeserialize,
+    () => _listSend(context, subscriptionId, options),
+    _listDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _mongoClustersListConnectionStringsSend(
+export function _listConnectionStringsSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -1035,7 +997,7 @@ export function _mongoClustersListConnectionStringsSend(
     .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersListConnectionStringsDeserialize(
+export async function _listConnectionStringsDeserialize(
   result:
     | MongoClustersListConnectionStrings200Response
     | MongoClustersListConnectionStringsDefaultResponse,
@@ -1056,7 +1018,7 @@ export async function _mongoClustersListConnectionStringsDeserialize(
 }
 
 /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
-export async function mongoClustersListConnectionStrings(
+export async function listConnectionStrings(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -1065,17 +1027,17 @@ export async function mongoClustersListConnectionStrings(
     requestOptions: {},
   },
 ): Promise<ListConnectionStringsResult> {
-  const result = await _mongoClustersListConnectionStringsSend(
+  const result = await _listConnectionStringsSend(
     context,
     subscriptionId,
     resourceGroupName,
     mongoClusterName,
     options,
   );
-  return _mongoClustersListConnectionStringsDeserialize(result);
+  return _listConnectionStringsDeserialize(result);
 }
 
-export function _mongoClustersCheckNameAvailabilitySend(
+export function _checkNameAvailabilitySend(
   context: Client,
   subscriptionId: string,
   location: string,
@@ -1099,7 +1061,7 @@ export function _mongoClustersCheckNameAvailabilitySend(
     });
 }
 
-export async function _mongoClustersCheckNameAvailabilityDeserialize(
+export async function _checkNameAvailabilityDeserialize(
   result:
     | MongoClustersCheckNameAvailability200Response
     | MongoClustersCheckNameAvailabilityDefaultResponse,
@@ -1116,7 +1078,7 @@ export async function _mongoClustersCheckNameAvailabilityDeserialize(
 }
 
 /** Check if mongo cluster name is available for use. */
-export async function mongoClustersCheckNameAvailability(
+export async function checkNameAvailability(
   context: Client,
   subscriptionId: string,
   location: string,
@@ -1125,12 +1087,12 @@ export async function mongoClustersCheckNameAvailability(
     requestOptions: {},
   },
 ): Promise<CheckNameAvailabilityResponse> {
-  const result = await _mongoClustersCheckNameAvailabilitySend(
+  const result = await _checkNameAvailabilitySend(
     context,
     subscriptionId,
     location,
     body,
     options,
   );
-  return _mongoClustersCheckNameAvailabilityDeserialize(result);
+  return _checkNameAvailabilityDeserialize(result);
 }

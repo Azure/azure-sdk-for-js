@@ -10,14 +10,14 @@ import {
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
 import {
-  mongoClustersGet,
-  mongoClustersCreateOrUpdate,
-  mongoClustersUpdate,
-  mongoClustersDelete,
-  mongoClustersListByResourceGroup,
-  mongoClustersList,
-  mongoClustersListConnectionStrings,
-  mongoClustersCheckNameAvailability,
+  get,
+  createOrUpdate,
+  update,
+  $delete,
+  listByResourceGroup,
+  list,
+  listConnectionStrings,
+  checkNameAvailability,
 } from "../../api/mongoClusters/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -34,63 +34,57 @@ import {
 
 export interface MongoClustersOperations {
   get: (
-    subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
     options?: MongoClustersGetOptionalParams,
   ) => Promise<MongoCluster>;
   createOrUpdate: (
-    subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
     resource: MongoCluster,
     options?: MongoClustersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
   update: (
-    subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
     properties: MongoClusterUpdate,
     options?: MongoClustersUpdateOptionalParams,
   ) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
   delete: (
-    subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
     options?: MongoClustersDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   listByResourceGroup: (
-    subscriptionId: string,
     resourceGroupName: string,
     options?: MongoClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MongoCluster>;
   list: (
-    subscriptionId: string,
     options?: MongoClustersListOptionalParams,
   ) => PagedAsyncIterableIterator<MongoCluster>;
   listConnectionStrings: (
-    subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
     options?: MongoClustersListConnectionStringsOptionalParams,
   ) => Promise<ListConnectionStringsResult>;
   checkNameAvailability: (
-    subscriptionId: string,
     location: string,
     body: CheckNameAvailabilityRequest,
     options?: MongoClustersCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckNameAvailabilityResponse>;
 }
 
-export function getMongoClusters(context: DocumentDBContext) {
+export function getMongoClusters(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     get: (
-      subscriptionId: string,
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersGetOptionalParams,
     ) =>
-      mongoClustersGet(
+      get(
         context,
         subscriptionId,
         resourceGroupName,
@@ -98,13 +92,12 @@ export function getMongoClusters(context: DocumentDBContext) {
         options,
       ),
     createOrUpdate: (
-      subscriptionId: string,
       resourceGroupName: string,
       mongoClusterName: string,
       resource: MongoCluster,
       options?: MongoClustersCreateOrUpdateOptionalParams,
     ) =>
-      mongoClustersCreateOrUpdate(
+      createOrUpdate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -113,13 +106,12 @@ export function getMongoClusters(context: DocumentDBContext) {
         options,
       ),
     update: (
-      subscriptionId: string,
       resourceGroupName: string,
       mongoClusterName: string,
       properties: MongoClusterUpdate,
       options?: MongoClustersUpdateOptionalParams,
     ) =>
-      mongoClustersUpdate(
+      update(
         context,
         subscriptionId,
         resourceGroupName,
@@ -128,12 +120,11 @@ export function getMongoClusters(context: DocumentDBContext) {
         options,
       ),
     delete: (
-      subscriptionId: string,
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersDeleteOptionalParams,
     ) =>
-      mongoClustersDelete(
+      $delete(
         context,
         subscriptionId,
         resourceGroupName,
@@ -141,25 +132,18 @@ export function getMongoClusters(context: DocumentDBContext) {
         options,
       ),
     listByResourceGroup: (
-      subscriptionId: string,
       resourceGroupName: string,
       options?: MongoClustersListByResourceGroupOptionalParams,
     ) =>
-      mongoClustersListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    list: (subscriptionId: string, options?: MongoClustersListOptionalParams) =>
-      mongoClustersList(context, subscriptionId, options),
+      listByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    list: (options?: MongoClustersListOptionalParams) =>
+      list(context, subscriptionId, options),
     listConnectionStrings: (
-      subscriptionId: string,
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersListConnectionStringsOptionalParams,
     ) =>
-      mongoClustersListConnectionStrings(
+      listConnectionStrings(
         context,
         subscriptionId,
         resourceGroupName,
@@ -167,25 +151,19 @@ export function getMongoClusters(context: DocumentDBContext) {
         options,
       ),
     checkNameAvailability: (
-      subscriptionId: string,
       location: string,
       body: CheckNameAvailabilityRequest,
       options?: MongoClustersCheckNameAvailabilityOptionalParams,
     ) =>
-      mongoClustersCheckNameAvailability(
-        context,
-        subscriptionId,
-        location,
-        body,
-        options,
-      ),
+      checkNameAvailability(context, subscriptionId, location, body, options),
   };
 }
 
 export function getMongoClustersOperations(
   context: DocumentDBContext,
+  subscriptionId: string,
 ): MongoClustersOperations {
   return {
-    ...getMongoClusters(context),
+    ...getMongoClusters(context, subscriptionId),
   };
 }

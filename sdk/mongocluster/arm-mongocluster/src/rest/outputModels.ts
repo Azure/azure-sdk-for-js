@@ -114,27 +114,27 @@ export interface NodeGroupSpecOutput {
 }
 
 /** The private endpoint connection resource */
-export interface PrivateEndpointConnectionOutput extends ProxyResourceOutput {
+export interface PrivateEndpointConnectionOutput extends ResourceOutput {
   /** The private endpoint connection properties */
   properties?: PrivateEndpointConnectionPropertiesOutput;
 }
 
-/** Properties of he private endpoint connection resource */
+/** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesOutput {
-  /** The group identifiers for the private endpoint resource */
+  /** The group ids for the private endpoint resource. */
   readonly groupIds?: string[];
-  /** The private endpoint resource */
+  /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpointOutput;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningStateOutput;
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningStateOutput;
 }
 
-/** The private endpoint resource */
+/** The Private Endpoint resource. */
 export interface PrivateEndpointOutput {
   /** The resource identifier for private endpoint */
-  id?: string;
+  readonly id?: string;
 }
 
 /** A collection of information about the state of the connection between service consumer and provider. */
@@ -147,10 +147,7 @@ export interface PrivateLinkServiceConnectionStateOutput {
   actionsRequired?: string;
 }
 
-/** The base proxy resource. */
-export interface ProxyResourceOutput extends ResourceOutput {}
-
-/** Common properties for all Azure Resource Manager resources. */
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface ResourceOutput {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   readonly id?: string;
@@ -165,50 +162,91 @@ export interface ResourceOutput {
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemDataOutput {
   /** The identity that created the resource. */
-  readonly createdBy?: string;
+  createdBy?: string;
   /** The type of identity that created the resource. */
-  readonly createdByType?: CreatedByTypeOutput;
-  /** The type of identity that created the resource. */
-  readonly createdAt?: string;
+  createdByType?: CreatedByTypeOutput;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
   /** The identity that last modified the resource. */
-  readonly lastModifiedBy?: string;
+  lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
-  readonly lastModifiedByType?: CreatedByTypeOutput;
+  lastModifiedByType?: CreatedByTypeOutput;
   /** The timestamp of resource last modification (UTC) */
-  readonly lastModifiedAt?: string;
+  lastModifiedAt?: string;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResourceOutput extends ResourceOutput {
-  /** The geo-location where the resource lives */
-  location: string;
   /** Resource tags. */
   tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
-/** The base extension resource. */
-export interface ExtensionResourceOutput extends ResourceOutput {}
-
-/** The resource model definition for an Azure Resource Manager resource with an etag. */
-export interface AzureEntityResourceOutput extends ResourceOutput {
-  /** Resource Etag. */
-  readonly etag: string;
+/** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
+export interface ResourceModelWithAllowedPropertySetOutput
+  extends TrackedResourceOutput {
+  /**
+   * The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource.
+   * If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.
+   */
+  managedBy?: string;
+  /**
+   * Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.
+   * If supported, the resource provider must validate and persist this value.
+   */
+  kind?: string;
+  /**
+   * The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.
+   * Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19),
+   * If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   */
+  eTag?: string;
+  identity?: IdentityOutput;
+  sku?: SkuOutput;
+  plan?: PlanOutput;
 }
 
-export interface PrivateLinkResourceOutput extends ProxyResourceOutput {
-  /** Properties of the private link resource. */
-  properties?: PrivateLinkResourcePropertiesOutput;
+/** Identity for the resource. */
+export interface IdentityOutput {
+  /** The principal ID of resource identity. The value must be an UUID. */
+  readonly principalId?: string;
+  /** The tenant ID of resource. The value must be an UUID. */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityTypeOutput;
 }
 
-/** Properties of a private link resource. */
-export interface PrivateLinkResourcePropertiesOutput {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
+/** The resource model definition representing SKU */
+export interface SkuOutput {
+  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
+  name: string;
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+  tier?: SkuTierOutput;
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  capacity?: number;
 }
+
+/** Plan for the resource. */
+export interface PlanOutput {
+  /** A user defined name of the 3rd Party Artifact that is being procured. */
+  name: string;
+  /** The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic */
+  publisher: string;
+  /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
+  product: string;
+  /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
+  promotionCode?: string;
+  /** The version of the desired product/artifact. */
+  version?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResourceOutput extends ResourceOutput {}
 
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRuleOutput extends ProxyResourceOutput {
@@ -239,6 +277,31 @@ export interface PrivateLinkResourceOutput extends ProxyResourceOutput {
   properties?: PrivateLinkResourcePropertiesOutput;
 }
 
+/** Properties of a private link resource. */
+export interface PrivateLinkResourcePropertiesOutput {
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+/** The base extension resource. */
+export interface ExtensionResourceOutput extends ResourceOutput {}
+
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export interface AzureEntityResourceOutput extends ResourceOutput {
+  /** Resource Etag. */
+  readonly etag?: string;
+}
+
+/** A private link resource. */
+export interface PrivateLinkResourceOutput extends ResourceOutput {
+  /** Resource properties. */
+  properties?: PrivateLinkResourcePropertiesOutput;
+}
+
 /** The connection strings for the given mongo cluster. */
 export interface ListConnectionStringsResultOutput {
   /** An array that contains the connection strings for a mongo cluster. */
@@ -264,65 +327,37 @@ export interface CheckNameAvailabilityResponseOutput {
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export type PagedOperationOutput = Paged<OperationOutput>;
+export type OperationListResultOutput = Paged<OperationOutput>;
 /** Alias for OriginOutput */
-export type OriginOutput = "user" | "system" | "user,system" | string;
+export type OriginOutput = string;
 /** Alias for ActionTypeOutput */
-export type ActionTypeOutput = "Internal" | string;
+export type ActionTypeOutput = string;
 /** Alias for CreateModeOutput */
-export type CreateModeOutput = string | "Default" | "PointInTimeRestore";
+export type CreateModeOutput = string;
 /** Alias for ResourceProvisioningStateOutput */
-export type ResourceProvisioningStateOutput =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | string;
+export type ResourceProvisioningStateOutput = string;
 /** Alias for ProvisioningStateOutput */
-export type ProvisioningStateOutput =
-  | string
-  | ResourceProvisioningStateOutput
-  | "InProgress"
-  | "Updating"
-  | "Dropping";
+export type ProvisioningStateOutput = string;
 /** Alias for MongoClusterStatusOutput */
-export type MongoClusterStatusOutput =
-  | string
-  | "Ready"
-  | "Provisioning"
-  | "Updating"
-  | "Starting"
-  | "Stopping"
-  | "Stopped"
-  | "Dropping";
+export type MongoClusterStatusOutput = string;
 /** Alias for PublicNetworkAccessOutput */
-export type PublicNetworkAccessOutput = string | "Enabled" | "Disabled";
+export type PublicNetworkAccessOutput = string;
 /** Alias for NodeKindOutput */
-export type NodeKindOutput = string | "Shard";
+export type NodeKindOutput = string;
 /** Alias for PrivateEndpointServiceConnectionStatusOutput */
-export type PrivateEndpointServiceConnectionStatusOutput =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | string;
+export type PrivateEndpointServiceConnectionStatusOutput = string;
 /** Alias for PrivateEndpointConnectionProvisioningStateOutput */
-export type PrivateEndpointConnectionProvisioningStateOutput =
-  | ResourceProvisioningStateOutput
-  | "Creating"
-  | "Deleting";
+export type PrivateEndpointConnectionProvisioningStateOutput = string;
 /** Alias for CreatedByTypeOutput */
-export type CreatedByTypeOutput =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key"
-  | string;
+export type CreatedByTypeOutput = string;
+/** Alias for ResourceIdentityTypeOutput */
+export type ResourceIdentityTypeOutput = "SystemAssigned";
+/** Alias for SkuTierOutput */
+export type SkuTierOutput = "Free" | "Basic" | "Standard" | "Premium";
 /** The response of a MongoCluster list operation. */
 export type MongoClusterListResultOutput = Paged<MongoClusterOutput>;
 /** Alias for CheckNameAvailabilityReasonOutput */
-export type CheckNameAvailabilityReasonOutput =
-  | "Invalid"
-  | "AlreadyExists"
-  | string;
+export type CheckNameAvailabilityReasonOutput = string;
 /** The response of a FirewallRule list operation. */
 export type FirewallRuleListResultOutput = Paged<FirewallRuleOutput>;
 /** The response of a PrivateEndpointConnectionResource list operation. */
