@@ -10,6 +10,7 @@
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import "@azure/openai/models";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -39,20 +40,18 @@ export async function main() {
     ],
     max_tokens: 128,
     model: "",
-    ...({
-      data_sources: [
-        {
-          type: "azure_search",
-          parameters: {
-            endpoint: azureSearchEndpoint,
-            index_name: azureSearchIndexName,
-            authentication: {
-              type: "system_assigned_managed_identity",
-            },
+    data_sources: [
+      {
+        type: "azure_search",
+        parameters: {
+          endpoint: azureSearchEndpoint,
+          index_name: azureSearchIndexName,
+          authentication: {
+            type: "system_assigned_managed_identity",
           },
         },
-      ],
-    } as Record<string, any>),
+      },
+    ],
   });
 
   for await (const event of events) {

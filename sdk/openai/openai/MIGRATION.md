@@ -410,7 +410,7 @@ for (const choice of results.choices) {
     console.log(
       `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`);
   }
-  const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
+  const { hate, sexual, self_harm, violence } = choice.contentFilterResults;
   ...
 }
 ```

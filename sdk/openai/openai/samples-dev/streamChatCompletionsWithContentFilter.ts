@@ -10,6 +10,7 @@
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import "@azure/openai/models";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -39,7 +40,7 @@ export async function main() {
   for await (const event of events) {
     for (const choice of event.choices) {
       console.log(`Chunk: ${choice.delta?.content}`);
-      const filterResults = (choice as any).content_filter_results;
+      const filterResults = choice.content_filter_results;
       if (!filterResults) {
         continue;
       }
@@ -48,7 +49,7 @@ export async function main() {
           `\tContent filter ran into an error ${filterResults.error.code}: ${filterResults.error.message}`,
         );
       } else {
-        const { hate, sexual, selfHarm, violence } = filterResults;
+        const { hate, sexual, self_harm, violence } = filterResults;
         console.log(
           `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
         );
@@ -56,7 +57,7 @@ export async function main() {
           `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
         );
         console.log(
-          `\tSelf-harm category is filtered: ${selfHarm?.filtered}, with ${selfHarm?.severity} severity`,
+          `\tSelf-harm category is filtered: ${self_harm?.filtered}, with ${self_harm?.severity} severity`,
         );
         console.log(
           `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
