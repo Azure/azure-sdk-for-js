@@ -138,8 +138,7 @@
   "//sampleConfiguration": {
     "productName": "Azure OpenAI",
     "productSlugs": [
-      "azure",
-      "ai"
+      "azure"
     ]
   }
 }
