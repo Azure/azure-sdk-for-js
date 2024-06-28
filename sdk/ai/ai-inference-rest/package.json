@@ -139,9 +139,7 @@
     "productName": "Azure OpenAI",
     "productSlugs": [
       "azure",
-      "azure-rest",
-      "ai-inference",
-      "azure-inference"
+      "ai-inference"
     ]
   }
 }
