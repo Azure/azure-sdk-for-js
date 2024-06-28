@@ -1513,3 +1513,6 @@
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao
+
+/eng/emitter-package-lock.json @qiaozha @MaryGao
+/eng/emitter-package.json @qiaozha @MaryGao
