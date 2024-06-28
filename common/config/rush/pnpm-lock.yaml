@@ -1468,6 +1468,16 @@ packages:
       tslib: 2.6.3
     dev: false
 
+  /@azure/core-lro@3.0.0:
+    resolution: {integrity: sha512-t46lsD0jDJ1o71hIGzoUfT9jH+rIkNJAJLhhPqW8XLbPueHBnP4x5PNJ2szXlLoztH/00OcUUH3FbFnAntOSWA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
+    dev: false
+
   /@azure/core-lro@3.0.0-beta.1:
     resolution: {integrity: sha512-KbkVHWhLnlDQRtIZGCPQFB6y2xgeL7p5iICRYTCDjHBpWX9W/I3HkkvbvK4SordNsKwWbLKfPLrOJKJdsJocEQ==}
     engines: {node: '>=18.0.0'}
@@ -3926,7 +3936,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 7.10.0
       eslint-visitor-keys: 3.4.3
-    dev: false    
+    dev: false
 
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
@@ -10329,6 +10339,24 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
+  /tshy@1.15.1:
+    resolution: {integrity: sha512-7p30vmXaNX7OL1yLy/MYUtO0SJOm9fQSnzk3DXaM+LmQosooCB4elVeHAGIIZdABhL2E8dx5t/5msR5lh0xnaQ==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      chokidar: 3.6.0
+      foreground-child: 3.2.1
+      minimatch: 9.0.4
+      mkdirp: 3.0.1
+      polite-json: 4.0.1
+      resolve-import: 1.4.5
+      rimraf: 5.0.7
+      sync-content: 1.0.2
+      typescript: 5.5.2
+      walk-up-path: 3.0.1
+    dev: false
+
   /tshy@1.16.0:
     resolution: {integrity: sha512-5PE9ZzKdbCqTRE4vutgNJUcR7jNdKQxr0ixUT489o1ljH1M7hkg/yCiWoD0nOgSVGwk0e8zO2otAVfril5aZHQ==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -11732,9 +11760,9 @@ packages:
       - supports-color
       - utf-8-validate
     dev: false
-    
+
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-1beNCHG8JIOTr4zb1uhu0VXnFd5n1zUiY038vRewBFO7IGkiztLe+5gN0qPh3/sliCKDKnIjDn87NK9H9+invw==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-EQApuU7CzaZR6kQOPXi7VvSqfn0M8pPb3aW+mB/VDgok4XYcLMLZbMo/dGXiO4NAdcKH3ctccb69aRXyKwVqwA==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -11744,10 +11772,10 @@ packages:
       '@azure/core-lro': 3.0.0-beta.1
       '@azure/identity': 4.3.0
       '@azure/storage-blob': 12.23.0
-      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.37)
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/chai': 4.3.16
-      '@types/mocha': 10.0.6
-      '@types/node': 18.19.37
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.39
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11769,7 +11797,7 @@ packages:
       prettier: 3.3.2
       rimraf: 5.0.7
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.37)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tshy: 1.15.1
       tslib: 2.6.3
       typescript: 5.4.5
@@ -11780,7 +11808,7 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
-    dev: false  
+    dev: false
 
   file:projects/ai-translation-text.tgz:
     resolution: {integrity: sha512-tjMi1e0jZ6A/L5v5CB+XLrR5UF8JkDmro+8nEygRHxCbxErYgbt+NG+TRGRq/ZoBBn5Q+DCRjkKvWKfCoJrDow==, tarball: file:projects/ai-translation-text.tgz}
@@ -20225,12 +20253,12 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-L/wjKN7fasXkO1DsINCv4zE0cyQ98h5tYaW+oC9G6+VDPo6js2LADkx3ZbTXDfi2xoTfqHyjtHkzDuLYtoO9HQ==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-RqL+u8Bv7IeVUCXHYDUK67X6hG1mwFWA+AZ+GRqN06rFTGIhBjlDiw7cpE5uEuEPeL+TIT7VFcANV2nmaWYaMw==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-lro': 2.7.2
+      '@azure/core-lro': 3.0.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/node': 18.19.39
       '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
@@ -20581,7 +20609,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-fpCOyM0dO+71rfZa6CfTklgsZbUvfdTWY0UIVoh492rxwawM2T2NKXcZOH9dfP7dHAiThnOjOZzq6h2d99X4Cg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-lC0ETP1LwXefVLXMlLZK+H+cTyU7Di4o6UD+ZOoiZMZ6/6Kx0Io2+NTjH+3s8vpU+FfYKrm8QuGoYE6cg1G3ug==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
