@@ -103,7 +103,7 @@ describe("OnBehalfOfCredential", function () {
 
     assert.equal(authDetails.requests.length, 2);
     const authRequest = authDetails.requests[1];
-    assert.isTrue(authRequest.body.includes("client_assertion=foo")); // The assertion is base64 encoded JWT
+    assert.isTrue(authRequest.body.includes("client_assertion=foo"));
 
     assert.exists(authDetails.result?.token);
     assert.isNumber(authDetails.result?.expiresOnTimestamp);
