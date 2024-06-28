@@ -5,9 +5,9 @@ extends:
     parameters:
       PackageName: "@azure/service-bus"
       ServiceDirectory: servicebus
+      UseFederatedAuth: true
       TimeoutInMinutes: 90
       Clouds: 'Public,Canary'
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
         DEBUG: azure:service-bus:*,azure:core-amqp:*,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
-
