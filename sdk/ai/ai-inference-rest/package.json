@@ -75,7 +75,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/modelClientClient.ts",
+        "path": "src/modelClient.ts",
         "prefix": "package-version"
       }
     ]
@@ -136,7 +136,7 @@
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
   },
   "//sampleConfiguration": {
-    "productName": "Azure OpenAI",
+    "productName": "Azure AI Inference",
     "productSlugs": [
       "azure"
     ]
