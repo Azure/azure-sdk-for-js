@@ -22,7 +22,7 @@ export function getHeaderName(): string {
 /**
  * @internal
  */
-export function setPlatformSpecificData(map: Map<string, string>): void {
+export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
   if (process && process.versions) {
     const versions = process.versions as ExtendedPlatformVersions;
     if (versions.bun) {

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a firewall rule.
  *
  * @summary Deletes a firewall rule.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2021-12-01-preview/examples/FirewallRuleDelete.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2023-06-01-preview/examples/FirewallRuleDelete.json
  */
 async function deleteAFirewallRule() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function deleteAFirewallRule() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.firewallRules.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    firewallRuleName
+    firewallRuleName,
   );
   console.log(result);
 }

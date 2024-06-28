@@ -1,6 +1,6 @@
 # Release History
 
-## 4.3.0-beta.3 (Unreleased)
+## 4.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,15 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- `OnBehalfOfCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29890](https://github.com/Azure/azure-sdk-for-js/pull/29890)
+- `InteractiveBrowserCredential` migrated to use MSALClient internally instead of MSALNode flow in Node. This is an internal refactoring and should not result in any behavioral changes. [#29894](https://github.com/Azure/azure-sdk-for-js/pull/29894)
+
+## 4.3.0 (2024-06-18)
+
+### Features Added
+
+- Added `AzurePipelinesCredential` for supporting workload identity federation in Azure Pipelines with service connections.
 
 ## 4.3.0-beta.2 (2024-06-10)
 

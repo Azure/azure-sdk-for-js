@@ -18,7 +18,7 @@ import {
   ReplicasListByServerNextOptionalParams,
   ReplicasListByServerOptionalParams,
   ReplicasListByServerResponse,
-  ReplicasListByServerNextResponse
+  ReplicasListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,12 +43,12 @@ export class ReplicasImpl implements Replicas {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Server> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class ReplicasImpl implements Replicas {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     serverName: string,
     options?: ReplicasListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Server[]> {
     let result: ReplicasListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class ReplicasImpl implements Replicas {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,12 +103,12 @@ export class ReplicasImpl implements Replicas {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): AsyncIterableIterator<Server> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class ReplicasImpl implements Replicas {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): Promise<ReplicasListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class ReplicasImpl implements Replicas {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ReplicasListByServerNextOptionalParams
+    options?: ReplicasListByServerNextOptionalParams,
   ): Promise<ReplicasListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -154,45 +154,44 @@ export class ReplicasImpl implements Replicas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/replicas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerListResult
+      bodyMapper: Mappers.ServerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerListResult
+      bodyMapper: Mappers.ServerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

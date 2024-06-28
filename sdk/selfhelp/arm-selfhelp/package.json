@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for HelpRP.",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -40,7 +40,7 @@
     "@azure-tools/test-credential": "^1.1.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
-    "esm": "^3.2.18",
+    "tsx": "^4.7.1",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -76,7 +76,7 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "prepack": "npm run build",
     "pack": "npm pack 2>&1",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",

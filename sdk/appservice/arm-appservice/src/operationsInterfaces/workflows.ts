@@ -10,7 +10,7 @@ import {
   RegenerateActionParameter,
   WorkflowsRegenerateAccessKeyOptionalParams,
   Workflow,
-  WorkflowsValidateOptionalParams
+  WorkflowsValidateOptionalParams,
 } from "../models";
 
 /** Interface representing a Workflows. */
@@ -28,7 +28,7 @@ export interface Workflows {
     name: string,
     workflowName: string,
     keyType: RegenerateActionParameter,
-    options?: WorkflowsRegenerateAccessKeyOptionalParams
+    options?: WorkflowsRegenerateAccessKeyOptionalParams,
   ): Promise<void>;
   /**
    * Validates the workflow definition.
@@ -43,6 +43,6 @@ export interface Workflows {
     name: string,
     workflowName: string,
     validate: Workflow,
-    options?: WorkflowsValidateOptionalParams
+    options?: WorkflowsValidateOptionalParams,
   ): Promise<void>;
 }

@@ -19,7 +19,7 @@ import {
   ConfigurationsGetResponse,
   ConfigurationListForBatchUpdate,
   ConfigurationsBatchUpdateOptionalParams,
-  ConfigurationsBatchUpdateResponse
+  ConfigurationsBatchUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Configurations {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Configuration>;
   /**
    * Updates a configuration of a server.
@@ -49,7 +49,7 @@ export interface Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsCreateOrUpdateResponse>,
@@ -69,7 +69,7 @@ export interface Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationsCreateOrUpdateResponse>;
   /**
    * Updates a configuration of a server.
@@ -84,7 +84,7 @@ export interface Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsUpdateResponse>,
@@ -104,7 +104,7 @@ export interface Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsUpdateOptionalParams,
   ): Promise<ConfigurationsUpdateResponse>;
   /**
    * Gets information about a configuration of server.
@@ -117,7 +117,7 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse>;
   /**
    * Update a list of configurations in a given server.
@@ -130,7 +130,7 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     parameters: ConfigurationListForBatchUpdate,
-    options?: ConfigurationsBatchUpdateOptionalParams
+    options?: ConfigurationsBatchUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsBatchUpdateResponse>,
@@ -148,6 +148,6 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     parameters: ConfigurationListForBatchUpdate,
-    options?: ConfigurationsBatchUpdateOptionalParams
+    options?: ConfigurationsBatchUpdateOptionalParams,
   ): Promise<ConfigurationsBatchUpdateResponse>;
 }

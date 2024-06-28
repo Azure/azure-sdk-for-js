@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the available Storage Rest API operations.
  *
  * @summary Lists all of the available Storage Rest API operations.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/OperationsList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/OperationsList.json
  */
 async function operationsList() {
   const subscriptionId =
