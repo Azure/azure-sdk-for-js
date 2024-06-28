@@ -9,19 +9,18 @@
 
 const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
-const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
 async function main() {
   console.log("== Chat Completions Sample ==");
 
-  const client = new ModelClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [

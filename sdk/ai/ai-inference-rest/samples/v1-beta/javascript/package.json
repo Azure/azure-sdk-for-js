@@ -28,7 +28,7 @@
   "dependencies": {
     "@azure-rest/ai-inference": "next",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.6.0",
+    "@azure/identity": "^4.3.0",
     "@azure/core-sse": "^2.1.3"
   }
 }
