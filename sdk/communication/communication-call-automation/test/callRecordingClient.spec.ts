@@ -299,4 +299,3 @@ describe("CallRecording Live Tests", function () {
     await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
   }).timeout(60000);
 });
- 

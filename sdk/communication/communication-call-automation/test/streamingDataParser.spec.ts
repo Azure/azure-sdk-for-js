@@ -11,7 +11,7 @@ describe("Stream data parser unit tests", function () {
   const transcriptionMetaDataJson =
     '{"kind":"TranscriptionMetadata","transcriptionMetadata":{"subscriptionId":"0000a000-9999-5555-ae00-cd00e0bc0000","locale":"en-US","callConnectionId":"6d09449c-6677-4f91-8cb7-012c338e6ec1","correlationId":"6d09449c-6677-4f91-8cb7-012c338e6ec1"}}';
   const transcriptionDataJson =
-    '{"kind":"TranscriptionData","transcriptionData":{"text":"Hello everyone.","format":"display","confidence":0.8249790668487549,"offset":2516933652456984600,"words":[{"text":"hello","offset":2516933652456984600},{"text":"everyone","offset":2516933652459784700}],"participantRawID":"4:+910000000000","resultStatus":"Final"}}';
+    '{"kind":"TranscriptionData","transcriptionData":{"text":"Hello everyone.","format":"display","confidence":0.922650933265686,"offset":212483227,"duration":9600000,"words":[{"text":"hello","offset":212483227,"duration":2800000},{"text":"everyone","offset":215283227,"duration":6800000}],"participantRawID":"4:+000000000000","resultStatus":"Final"}}';
 
   const audioMetadataJson =
     '{"kind":"AudioMetadata","audioMetadata":{"subscriptionId":"4af370df-3868-461f-8242-91f077a6f8a6","encoding":"PCM","sampleRate":16000,"channels":1,"length":640}}';
@@ -87,18 +87,21 @@ function validateTranscriptionMetadata(transcriptionMetadata: TranscriptionMetad
 function validateTranscriptionData(transcriptionData: TranscriptionData): void {
   assert.equal(transcriptionData.text, "Hello everyone.");
   assert.equal(transcriptionData.resultState, "Final");
-  assert.equal(transcriptionData.confidence, 0.8249790668487549);
-  assert.equal(transcriptionData.offsetInTicks, 2516933652456984600);
+  assert.equal(transcriptionData.confidence, 0.922650933265686);
+  assert.equal(transcriptionData.offsetInTicks, 212483227);
+  assert.equal(transcriptionData.durationInTicks, 9600000);
   assert.equal(transcriptionData.words.length, 2);
   assert.equal(transcriptionData.words[0].text, "hello");
-  assert.equal(transcriptionData.words[0].offsetInTicks, 2516933652456984600);
+  assert.equal(transcriptionData.words[0].offsetInTicks, 212483227);
+  assert.equal(transcriptionData.words[0].durationInTicks, 2800000);
   assert.equal(transcriptionData.words[1].text, "everyone");
-  assert.equal(transcriptionData.words[1].offsetInTicks, 2516933652459784700);
+  assert.equal(transcriptionData.words[1].offsetInTicks, 215283227);
+  assert.equal(transcriptionData.words[1].durationInTicks, 6800000);
   if ("kind" in transcriptionData.participant) {
     assert.equal(transcriptionData.participant.kind, "phoneNumber");
   }
   if ("phoneNumber" in transcriptionData.participant) {
-    assert.equal(transcriptionData.participant.phoneNumber, "+910000000000");
+    assert.equal(transcriptionData.participant.phoneNumber, "+000000000000");
   }
 }
 

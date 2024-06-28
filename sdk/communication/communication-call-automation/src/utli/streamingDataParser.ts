@@ -35,11 +35,17 @@ export function streamingData(
         text: jsonObject.transcriptionData.text,
         format: jsonObject.transcriptionData.format,
         confidence: jsonObject.transcriptionData.confidence,
-        offsetInTicks: jsonObject.transcriptionData.offsetInTicks,
-        durationInTicks: jsonObject.transcriptionData.durationInTicks,
-        words: jsonObject.transcriptionData.words,
+        offsetInTicks: jsonObject.transcriptionData.offset,
+        durationInTicks: jsonObject.transcriptionData.duration,
+        words: jsonObject.transcriptionData.words.map(
+          (word: { text: string; offset: number; duration: number }) => ({
+            text: word.text,
+            offsetInTicks: word.offset,
+            durationInTicks: word.duration,
+          }),
+        ),
         participant: createIdentifierFromRawId(jsonObject.transcriptionData.participantRawID),
-        resultState: jsonObject.transcriptionData.resultState,
+        resultState: jsonObject.transcriptionData.resultStatus,
       };
       return transcriptionData;
     }
