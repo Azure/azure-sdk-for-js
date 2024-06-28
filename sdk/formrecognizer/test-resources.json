@@ -11,7 +11,7 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "centralus",
+      "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "The location of the resource. By default, this is the same as the resource group."
       }
@@ -36,7 +36,7 @@
     },
     "blobResourceId": {
       "type": "string",
-      "defaultValue": "[resourceId('2cd617ea-1866-46b1-90e3-fffb087ebf9b', 'TrainingData', 'Microsoft.Storage/storageAccounts', parameters('blobStorageAccount'))]"
+      "defaultValue": "[resourceId('TrainingData', 'Microsoft.Storage/storageAccounts', parameters('blobStorageAccount'))]"
     },
     "trainingDataSasProperties": {
       "type": "object",
@@ -85,7 +85,7 @@
       "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
       "apiVersion": "2018-09-01-preview",
       "name": "[format('{0}/Microsoft.Authorization/{1}', parameters('baseName'), guid(parameters('baseName')))]",
-      "dependsOn": ["[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]"],
+      "dependsOn": [ "[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]" ],
       "properties": {
         "principalId": "[parameters('testApplicationOid')]",
         "roleDefinitionId": "[variables('frRoleId')]"
