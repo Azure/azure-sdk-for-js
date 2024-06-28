@@ -9,138 +9,25 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
+  GetCollectionCountRequest as GetCollectionCountRequestMapper,
+  GetOverviewStatusRequest as GetOverviewStatusRequestMapper,
+  ListInUseStorageAccountsRequest as ListInUseStorageAccountsRequestMapper,
+  OnboardRequest as OnboardRequestMapper,
+  TriggerEvaluationRequest as TriggerEvaluationRequestMapper,
   ReportResource as ReportResourceMapper,
   ReportResourcePatch as ReportResourcePatchMapper,
-  SnapshotDownloadRequest as SnapshotDownloadRequestMapper
+  SyncCertRecordRequest as SyncCertRecordRequestMapper,
+  EvidenceResource as EvidenceResourceMapper,
+  EvidenceFileDownloadRequest as EvidenceFileDownloadRequestMapper,
+  ScopingConfigurationResource as ScopingConfigurationResourceMapper,
+  SnapshotDownloadRequest as SnapshotDownloadRequestMapper,
+  WebhookResource as WebhookResourceMapper,
+  WebhookResourcePatch as WebhookResourcePatchMapper,
 } from "../models/mappers";
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
-  mapper: {
-    serializedName: "$host",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-11-16-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const skipToken: OperationQueryParameter = {
-  parameterPath: ["options", "skipToken"],
-  mapper: {
-    serializedName: "$skipToken",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    constraints: {
-      InclusiveMaximum: 100,
-      InclusiveMinimum: 1
-    },
-    serializedName: "$top",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const select: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "$select",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const offerGuid: OperationQueryParameter = {
-  parameterPath: ["options", "offerGuid"],
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "offerGuid",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const reportCreatorTenantId: OperationQueryParameter = {
-  parameterPath: ["options", "reportCreatorTenantId"],
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "reportCreatorTenantId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const reportName: OperationURLParameter = {
-  parameterPath: "reportName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-a-zA-Z0-9_]+$")
-    },
-    serializedName: "reportName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -149,33 +36,289 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ReportResourceMapper
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: CheckNameAvailabilityRequestMapper,
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ReportResourcePatchMapper
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const $host: OperationURLParameter = {
+  parameterPath: "$host",
+  mapper: {
+    serializedName: "$host",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-06-27",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body1: OperationParameter = {
+  parameterPath: "body",
+  mapper: GetCollectionCountRequestMapper,
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: GetOverviewStatusRequestMapper,
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: ListInUseStorageAccountsRequestMapper,
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: OnboardRequestMapper,
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: TriggerEvaluationRequestMapper,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const skipToken: OperationQueryParameter = {
+  parameterPath: ["options", "skipToken"],
+  mapper: {
+    serializedName: "$skipToken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMaximum: 100,
+      InclusiveMinimum: 1,
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const select: OperationQueryParameter = {
+  parameterPath: ["options", "select"],
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "$select",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const orderby: OperationQueryParameter = {
+  parameterPath: ["options", "orderby"],
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "$orderby",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const offerGuid: OperationQueryParameter = {
+  parameterPath: ["options", "offerGuid"],
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "offerGuid",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const reportCreatorTenantId: OperationQueryParameter = {
+  parameterPath: ["options", "reportCreatorTenantId"],
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "reportCreatorTenantId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const reportName: OperationURLParameter = {
+  parameterPath: "reportName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-a-zA-Z0-9_]{1,50}$"),
+    },
+    serializedName: "reportName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ReportResourceMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ReportResourcePatchMapper,
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: SyncCertRecordRequestMapper,
+};
+
+export const evidenceName: OperationURLParameter = {
+  parameterPath: "evidenceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-_.]+$"),
+    },
+    serializedName: "evidenceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: EvidenceResourceMapper,
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: EvidenceFileDownloadRequestMapper,
+};
+
+export const scopingConfigurationName: OperationURLParameter = {
+  parameterPath: "scopingConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_]*$"),
+    },
+    serializedName: "scopingConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ScopingConfigurationResourceMapper,
 };
 
 export const snapshotName: OperationURLParameter = {
   parameterPath: "snapshotName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-_]{1,64}$"),
+    },
     serializedName: "snapshotName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SnapshotDownloadRequestMapper
+export const body8: OperationParameter = {
+  parameterPath: "body",
+  mapper: SnapshotDownloadRequestMapper,
+};
+
+export const webhookName: OperationURLParameter = {
+  parameterPath: "webhookName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-a-zA-Z0-9_]{1,50}$"),
+    },
+    serializedName: "webhookName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: WebhookResourceMapper,
+};
+
+export const properties5: OperationParameter = {
+  parameterPath: "properties",
+  mapper: WebhookResourcePatchMapper,
 };

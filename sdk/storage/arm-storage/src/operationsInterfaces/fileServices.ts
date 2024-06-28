@@ -13,7 +13,7 @@ import {
   FileServicesSetServicePropertiesOptionalParams,
   FileServicesSetServicePropertiesResponse,
   FileServicesGetServicePropertiesOptionalParams,
-  FileServicesGetServicePropertiesResponse
+  FileServicesGetServicePropertiesResponse,
 } from "../models";
 
 /** Interface representing a FileServices. */
@@ -30,7 +30,7 @@ export interface FileServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: FileServicesListOptionalParams
+    options?: FileServicesListOptionalParams,
   ): Promise<FileServicesListResponse>;
   /**
    * Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
@@ -48,7 +48,7 @@ export interface FileServices {
     resourceGroupName: string,
     accountName: string,
     parameters: FileServiceProperties,
-    options?: FileServicesSetServicePropertiesOptionalParams
+    options?: FileServicesSetServicePropertiesOptionalParams,
   ): Promise<FileServicesSetServicePropertiesResponse>;
   /**
    * Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
@@ -63,6 +63,6 @@ export interface FileServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: FileServicesGetServicePropertiesOptionalParams
+    options?: FileServicesGetServicePropertiesOptionalParams,
   ): Promise<FileServicesGetServicePropertiesResponse>;
 }

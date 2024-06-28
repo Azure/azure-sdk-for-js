@@ -20,13 +20,14 @@ import {
   ObjectReplicationPoliciesGetResponse,
   ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ObjectReplicationPoliciesCreateOrUpdateResponse,
-  ObjectReplicationPoliciesDeleteOptionalParams
+  ObjectReplicationPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ObjectReplicationPoliciesOperations operations. */
 export class ObjectReplicationPoliciesOperationsImpl
-  implements ObjectReplicationPoliciesOperations {
+  implements ObjectReplicationPoliciesOperations
+{
   private readonly client: StorageManagementClient;
 
   /**
@@ -49,7 +50,7 @@ export class ObjectReplicationPoliciesOperationsImpl
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<ObjectReplicationPolicy> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -67,9 +68,9 @@ export class ObjectReplicationPoliciesOperationsImpl
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +78,7 @@ export class ObjectReplicationPoliciesOperationsImpl
     resourceGroupName: string,
     accountName: string,
     options?: ObjectReplicationPoliciesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ObjectReplicationPolicy[]> {
     let result: ObjectReplicationPoliciesListResponse;
     result = await this._list(resourceGroupName, accountName, options);
@@ -87,12 +88,12 @@ export class ObjectReplicationPoliciesOperationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams,
   ): AsyncIterableIterator<ObjectReplicationPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -110,11 +111,11 @@ export class ObjectReplicationPoliciesOperationsImpl
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams,
   ): Promise<ObjectReplicationPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -135,11 +136,11 @@ export class ObjectReplicationPoliciesOperationsImpl
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesGetOptionalParams
+    options?: ObjectReplicationPoliciesGetOptionalParams,
   ): Promise<ObjectReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, objectReplicationPolicyId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -163,7 +164,7 @@ export class ObjectReplicationPoliciesOperationsImpl
     accountName: string,
     objectReplicationPolicyId: string,
     properties: ObjectReplicationPolicy,
-    options?: ObjectReplicationPoliciesCreateOrUpdateOptionalParams
+    options?: ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ObjectReplicationPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -171,9 +172,9 @@ export class ObjectReplicationPoliciesOperationsImpl
         accountName,
         objectReplicationPolicyId,
         properties,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -194,11 +195,11 @@ export class ObjectReplicationPoliciesOperationsImpl
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesDeleteOptionalParams
+    options?: ObjectReplicationPoliciesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, objectReplicationPolicyId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -206,94 +207,90 @@ export class ObjectReplicationPoliciesOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ObjectReplicationPolicies
+      bodyMapper: Mappers.ObjectReplicationPolicies,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ObjectReplicationPolicy
+      bodyMapper: Mappers.ObjectReplicationPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.objectReplicationPolicyId
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.objectReplicationPolicyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ObjectReplicationPolicy
+      bodyMapper: Mappers.ObjectReplicationPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.objectReplicationPolicyId
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.objectReplicationPolicyId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.objectReplicationPolicyId
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.objectReplicationPolicyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

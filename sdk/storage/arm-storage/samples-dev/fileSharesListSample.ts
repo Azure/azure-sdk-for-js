@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FileSharesListOptionalParams,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/DeletedFileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedFileSharesList.json
  */
 async function listDeletedShares() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function listDeletedShares() {
   for await (let item of client.fileShares.list(
     resourceGroupName,
     accountName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -47,7 +47,7 @@ async function listDeletedShares() {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileShareSnapshotsList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileShareSnapshotsList.json
  */
 async function listShareSnapshots() {
   const subscriptionId =
@@ -62,7 +62,7 @@ async function listShareSnapshots() {
   for await (let item of client.fileShares.list(
     resourceGroupName,
     accountName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -73,7 +73,7 @@ async function listShareSnapshots() {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesList.json
  */
 async function listShares() {
   const subscriptionId =
@@ -85,7 +85,7 @@ async function listShares() {
   const resArray = new Array();
   for await (let item of client.fileShares.list(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }
