@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for StorageManagementClient.",
-  "version": "18.3.0",
+  "version": "18.3.1",
   "engines": {
     "node": ">=18.0.0"
   },
