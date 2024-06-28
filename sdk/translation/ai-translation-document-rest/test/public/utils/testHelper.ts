@@ -68,7 +68,7 @@ export function getTranslationOperationID(url: string): string {
 }
 
 export function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, isPlaybackMode()? 1 : ms));
+  return new Promise((resolve) => setTimeout(resolve, isPlaybackMode() ? 1 : ms));
 }
 
 export function createDummyTestDocuments(count: number): TestDocument[] {
