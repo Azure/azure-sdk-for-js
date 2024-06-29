@@ -12,7 +12,7 @@ import { ClientOptions } from "@azure-rest/core-client";
 import createClient, { ModelClient } from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
-  AZURE_ENDPOINT: "https://endpoint",
+  AZURE_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/model/",
   SUBSCRIPTION_ID: "azure_subscription_id",
   AZURE_CLIENT_SECRET: "azureclientsecret"
 };
