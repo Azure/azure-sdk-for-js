@@ -14,7 +14,7 @@ import createClient, { ModelClient } from "../../../src/index.js";
 const envSetupForPlayback: Record<string, string> = {
   AZURE_ENDPOINT: "https://endpoint",
   SUBSCRIPTION_ID: "azure_subscription_id",
-  AZURE_API_KEY: "azureapikey"
+  AZURE_CLIENT_SECRET: "azureclientsecret"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -37,7 +37,7 @@ export async function createModelClient(
   options?: ClientOptions,
 ): Promise<ModelClient> {
   const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
-  const apikey = assertEnvironmentVariable("AZURE_API_KEY");
+  const apikey = assertEnvironmentVariable("AZURE_CLIENT_SECRET");
   const credential = new AzureKeyCredential(apikey);
   return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }
