@@ -21,7 +21,7 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 export async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const client = ModelClient(endpoint, new DefaultAzureCredential()));
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [

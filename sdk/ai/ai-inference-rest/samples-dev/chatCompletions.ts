@@ -19,8 +19,9 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 
 export async function main() {
   console.log("== Chat Completions Sample ==");
+  const credential = new DefaultAzureCredential();
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const client = ModelClient(endpoint, credential);
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [

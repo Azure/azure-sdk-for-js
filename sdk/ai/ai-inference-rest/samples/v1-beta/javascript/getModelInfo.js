@@ -7,17 +7,17 @@
  * @summary get model info.
  */
 
-import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
-import { DefaultAzureCredential } from "@azure/identity";
+const ModelClient = require("@azure-rest/ai-inference").default,
+  { isUnexpected } = require("@azure-rest/ai-inference");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 
-export async function main() {
+async function main() {
   console.log("== Get Model Info Sample ==");
 
   const client = ModelClient(endpoint, new DefaultAzureCredential());
@@ -27,9 +27,13 @@ export async function main() {
     throw response.body.error;
   }
 
-  console.log(`Model name: ${response.body.model_name}, type: ${response.body.model_type}, provider name: ${response.body.model_provider_name}`);
+  console.log(
+    `Model name: ${response.body.model_name}, type: ${response.body.model_type}, provider name: ${response.body.model_provider_name}`,
+  );
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
