@@ -7,13 +7,14 @@ import {
   VitestTestContext,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import createClient, { ModelClient } from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   AZURE_ENDPOINT: "https://endpoint",
   SUBSCRIPTION_ID: "azure_subscription_id",
+  AZURE_API_KEY: "azureapikey"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -36,5 +37,7 @@ export async function createModelClient(
   options?: ClientOptions,
 ): Promise<ModelClient> {
   const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
-  return createClient(endpoint, createTestCredential(), recorder?.configureClientOptions(options ?? {}));
+  const apikey = assertEnvironmentVariable("AZURE_API_KEY");
+  const credential = new AzureKeyCredential(apikey);
+  return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }
