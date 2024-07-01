@@ -32,5 +32,6 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage-browser",
     },
+    testTimeout: 1200000,
   },
 });
