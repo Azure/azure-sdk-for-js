@@ -39,8 +39,3 @@ extends:
       ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly')) }}:
         MatrixFilters:
           - ArmTemplateParameters=^(?!.*enableHsm.*true)
-      EnvVars:
-        AZURE_CLIENT_ID: $(KEYVAULT_CLIENT_ID)
-        AZURE_TENANT_ID: $(KEYVAULT_TENANT_ID)
-        AZURE_CLIENT_SECRET: $(KEYVAULT_CLIENT_SECRET)
-        AZURE_SUBSCRIPTION_ID: $(KEYVAULT_SUBSCRIPTION_ID) 
