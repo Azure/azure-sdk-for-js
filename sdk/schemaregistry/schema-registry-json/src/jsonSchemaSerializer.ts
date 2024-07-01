@@ -129,7 +129,7 @@ export class JsonSchemaSerializer<MessageT = MessageContent> {
         `Json validation failed. See 'cause' for more details. Schema ID: ${schemaId}`,
       );
     }
-    return returnedMessage;
+    return returnedMessage as T;
   }
 
   private async getSchemaById(schemaId: string): Promise<string> {
