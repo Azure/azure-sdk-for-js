@@ -128,13 +128,14 @@
 
 # AzureSdkOwners: @sarangan12
 # ServiceLabel: %Event Grid
+# ServiceOwners: @robece
 
 # PRLabel: %Event Hubs
 /sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru
 
 # ServiceLabel: %Event Hubs
 # AzureSdkOwners: @deyaaeldeen @jeremymeng
-# ServiceOwners: @aschhabria
+# ServiceOwners: @axisc
 
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
@@ -247,7 +248,7 @@
 
 # ServiceLabel: %Schema Registry
 # AzureSdkOwners: @minhanh-phan
-# ServiceOwners: @aschhabria
+# ServiceOwners: @axisc
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @HarshaNalluru @jeremymeng
