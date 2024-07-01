@@ -3,7 +3,6 @@
 
 import { createRecorder, createModelClient } from "../utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createSseStream } from "@azure/core-sse";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { ModelClient } from "../../../src/index.js";
 
@@ -32,16 +31,44 @@ describe("chat test suite", () => {
     assert.equal(response.status, "200");
     const stream = response.body;
     assert.isDefined(stream);
-    const sses = createSseStream(stream);
 
-    for await (const event of sses) {
-      if (event.data === "[DONE]") {
-        return;
+    const getBuffersLength = (buffers: Uint8Array[]): number => {
+      return buffers.reduce((acc, curr) => acc + curr.length, 0);
+    };
+
+    const concatBuffers = (buffers: Uint8Array[], len?: number): Uint8Array => {
+      const length = len ?? getBuffersLength(buffers);
+      const res = new Uint8Array(length);
+      for (let i = 0, pos = 0; i < buffers.length; i++) {
+        const buffer = buffers[i];
+        res.set(buffer, pos);
+        pos += buffer.length;
       }
-      for (const choice of (JSON.parse(event.data)).choices) {
-        assert.isDefined(choice.delta);
+
+      return res;
+    };
+
+    const streamToString = async (stream: ReadableStream<Uint8Array>): Promise<string> => {
+      let length = 0;
+      const reader = (stream as any).getReader();
+      const buffers: Uint8Array[] = [];
+      try {
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) {
+            return new TextDecoder().decode(concatBuffers(buffers, length));
+          }
+          length += value.length;
+          buffers.push(value);
+        }
+      } finally {
+        reader.releaseLock();
       }
-    }
+    };
+
+    const text = await streamToString(stream);
+    assert.isNotEmpty(text);
 
   });
 

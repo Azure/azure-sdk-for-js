@@ -19,7 +19,7 @@ export default function createClient(
 ): DocumentTranslationClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/translator`;
   options.apiVersion = options.apiVersion ?? "2024-05-01";
-  const userAgentInfo = `azsdk-js-ai-translation-document-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-translation-document-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

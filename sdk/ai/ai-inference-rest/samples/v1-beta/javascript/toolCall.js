@@ -7,12 +7,12 @@
  * @summary get chat completions with functions.
  */
 
-import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
-import { DefaultAzureCredential } from "@azure/identity";
+const ModelClient = require("@azure-rest/ai-inference").default,
+  { isUnexpected } = require("@azure-rest/ai-inference");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
@@ -36,10 +36,10 @@ const getCurrentWeather = {
   },
 };
 
-export async function main() {
+async function main() {
   console.log("== Chat Completions Sample With Functions ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential()));
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [{ role: "user", content: "What's the weather like in Boston?" }],
@@ -49,7 +49,7 @@ export async function main() {
           function: getCurrentWeather,
         },
       ],
-    }
+    },
   });
 
   if (isUnexpected(response)) {
@@ -64,3 +64,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

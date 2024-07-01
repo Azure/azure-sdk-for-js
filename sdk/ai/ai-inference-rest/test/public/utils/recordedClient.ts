@@ -7,13 +7,14 @@ import {
   VitestTestContext,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { DefaultAzureCredential } from "@azure/identity";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import createClient, { ModelClient } from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
-  AZURE_ENDPOINT: "https://endpoint",
+  AZURE_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/gpt-4o/",
   SUBSCRIPTION_ID: "azure_subscription_id",
+  AZURE_CLIENT_SECRET: "azureclientsecret"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -36,6 +37,7 @@ export async function createModelClient(
   options?: ClientOptions,
 ): Promise<ModelClient> {
   const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
-  const credential = new DefaultAzureCredential();
+  const apikey = assertEnvironmentVariable("AZURE_CLIENT_SECRET");
+  const credential = new AzureKeyCredential(apikey);
   return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }
