@@ -200,7 +200,7 @@ export class BlobCheckpointStore implements CheckpointStore {
 
       const offset = checkpointMetadata.offset;
       if (offset == null) {
-        throw new Error(`Missing metadata property 'offset' on blob '${blobName}'`);
+        throw new Error(`Missing metadata property 'offset' on blob '${blob.name}'`);
       }
       const sequenceNumber = parseIntOrThrow(
         blob.name,
