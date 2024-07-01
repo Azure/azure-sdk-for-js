@@ -227,21 +227,19 @@
 # ServiceOwners: @glharper
 
 # PRLabel: %OpenAI
-# ServiceLabel: %OpenAI
 sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %OpenAI
-# ServiceLabel: %OpenAI
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
-/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
+/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco 
 
 # PRLabel: %Schema Registry
 # ServiceLabel: %Schema Registry
 # AzureSdkOwners: @minhanh-phan
-/sdk/schemaregistry/ @minhanh-phan @deyaaeldeen
+/sdk/schemaregistry/ @minhanh-phan @deyaaeldeen 
 
 # PRLabel: %Cognitive - Form Recognizer
 # ServiceLabel: %Cognitive - Form Recognizer
