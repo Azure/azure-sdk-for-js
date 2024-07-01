@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Operation, _OperationListResult } from "../../models/models.js";
+import {
+  Operation,
+  Origin,
+  ActionType,
+  _OperationListResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
@@ -17,7 +22,7 @@ import {
 } from "@azure-rest/core-client";
 import { OperationsListOptionalParams } from "../../models/options.js";
 
-export function _listSend(
+export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse> {
@@ -26,7 +31,7 @@ export function _listSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listDeserialize(
+export async function _operationsListDeserialize(
   result: OperationsList200Response | OperationsListDefaultResponse,
 ): Promise<_OperationListResult> {
   if (isUnexpected(result)) {
@@ -45,22 +50,22 @@ export async function _listDeserialize(
             operation: p.display?.["operation"],
             description: p.display?.["description"],
           },
-      origin: p["origin"],
-      actionType: p["actionType"],
+      origin: p["origin"] as Origin,
+      actionType: p["actionType"] as ActionType,
     })),
     nextLink: result.body["nextLink"],
   };
 }
 
 /** List the operations for the provider */
-export function list(
+export function operationsList(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
-    _listDeserialize,
+    () => _operationsListSend(context, options),
+    _operationsListDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

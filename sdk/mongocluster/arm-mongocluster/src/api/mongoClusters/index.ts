@@ -6,11 +6,19 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   mongoClusterPropertiesSerializer,
   mongoClusterUpdatePropertiesSerializer,
+  CreatedByType,
+  PrivateEndpointServiceConnectionStatus,
+  PrivateEndpointConnectionProvisioningState,
   MongoCluster,
+  CreateMode,
+  MongoClusterStatus,
+  PublicNetworkAccess,
+  NodeKind,
   MongoClusterUpdate,
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
+  CheckNameAvailabilityReason,
   _MongoClusterListResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
@@ -58,7 +66,7 @@ import {
   MongoClustersCheckNameAvailabilityOptionalParams,
 } from "../../models/options.js";
 
-export function _getSend(
+export function _mongoClustersGetSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -77,7 +85,7 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(
+export async function _mongoClustersGetDeserialize(
   result: MongoClustersGet200Response | MongoClustersGetDefaultResponse,
 ): Promise<MongoCluster> {
   if (isUnexpected(result)) {
@@ -94,13 +102,17 @@ export async function _getDeserialize(
       ? undefined
       : {
           createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdByType: result.body.systemData?.[
+            "createdByType"
+          ] as CreatedByType,
           createdAt:
             result.body.systemData?.["createdAt"] !== undefined
               ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
           lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedByType: result.body.systemData?.[
+            "lastModifiedByType"
+          ] as CreatedByType,
           lastModifiedAt:
             result.body.systemData?.["lastModifiedAt"] !== undefined
               ? new Date(result.body.systemData?.["lastModifiedAt"])
@@ -109,7 +121,7 @@ export async function _getDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          createMode: result.body.properties?.["createMode"],
+          createMode: result.body.properties?.["createMode"] as CreateMode,
           restoreParameters: !result.body.properties?.restoreParameters
             ? undefined
             : {
@@ -135,8 +147,12 @@ export async function _getDeserialize(
           connectionString: result.body.properties?.["connectionString"],
           earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
           provisioningState: result.body.properties?.["provisioningState"],
-          clusterStatus: result.body.properties?.["clusterStatus"],
-          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
+          clusterStatus: result.body.properties?.[
+            "clusterStatus"
+          ] as MongoClusterStatus,
+          publicNetworkAccess: result.body.properties?.[
+            "publicNetworkAccess"
+          ] as PublicNetworkAccess,
           nodeGroupSpecs:
             result.body.properties?.["nodeGroupSpecs"] === undefined
               ? result.body.properties?.["nodeGroupSpecs"]
@@ -144,7 +160,7 @@ export async function _getDeserialize(
                   sku: p["sku"],
                   diskSizeGB: p["diskSizeGB"],
                   enableHa: p["enableHa"],
-                  kind: p["kind"],
+                  kind: p["kind"] as NodeKind,
                   nodeCount: p["nodeCount"],
                 })),
           privateEndpointConnections:
@@ -159,14 +175,17 @@ export async function _getDeserialize(
                       ? undefined
                       : {
                           createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
+                          createdByType: p.systemData?.[
+                            "createdByType"
+                          ] as CreatedByType,
                           createdAt:
                             p.systemData?.["createdAt"] !== undefined
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType: p.systemData?.[
+                            "lastModifiedByType"
+                          ] as CreatedByType,
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -180,10 +199,10 @@ export async function _getDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
+                            status: p.properties
+                              ?.privateLinkServiceConnectionState[
+                              "status"
+                            ] as PrivateEndpointServiceConnectionStatus,
                             description:
                               p.properties?.privateLinkServiceConnectionState[
                                 "description"
@@ -193,8 +212,9 @@ export async function _getDeserialize(
                                 "actionsRequired"
                               ],
                           },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
+                          provisioningState: p.properties?.[
+                            "provisioningState"
+                          ] as PrivateEndpointConnectionProvisioningState,
                         },
                   }),
                 ),
@@ -203,24 +223,24 @@ export async function _getDeserialize(
 }
 
 /** Gets information about a mongo cluster. */
-export async function get(
+export async function mongoClustersGet(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersGetOptionalParams = { requestOptions: {} },
 ): Promise<MongoCluster> {
-  const result = await _getSend(
+  const result = await _mongoClustersGetSend(
     context,
     subscriptionId,
     resourceGroupName,
     mongoClusterName,
     options,
   );
-  return _getDeserialize(result);
+  return _mongoClustersGetDeserialize(result);
 }
 
-export function _createOrUpdateSend(
+export function _mongoClustersCreateOrUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -254,7 +274,7 @@ export function _createOrUpdateSend(
     });
 }
 
-export async function _createOrUpdateDeserialize(
+export async function _mongoClustersCreateOrUpdateDeserialize(
   result:
     | MongoClustersCreateOrUpdate200Response
     | MongoClustersCreateOrUpdate201Response
@@ -276,13 +296,17 @@ export async function _createOrUpdateDeserialize(
       ? undefined
       : {
           createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdByType: result.body.systemData?.[
+            "createdByType"
+          ] as CreatedByType,
           createdAt:
             result.body.systemData?.["createdAt"] !== undefined
               ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
           lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedByType: result.body.systemData?.[
+            "lastModifiedByType"
+          ] as CreatedByType,
           lastModifiedAt:
             result.body.systemData?.["lastModifiedAt"] !== undefined
               ? new Date(result.body.systemData?.["lastModifiedAt"])
@@ -291,7 +315,7 @@ export async function _createOrUpdateDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          createMode: result.body.properties?.["createMode"],
+          createMode: result.body.properties?.["createMode"] as CreateMode,
           restoreParameters: !result.body.properties?.restoreParameters
             ? undefined
             : {
@@ -317,8 +341,12 @@ export async function _createOrUpdateDeserialize(
           connectionString: result.body.properties?.["connectionString"],
           earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
           provisioningState: result.body.properties?.["provisioningState"],
-          clusterStatus: result.body.properties?.["clusterStatus"],
-          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
+          clusterStatus: result.body.properties?.[
+            "clusterStatus"
+          ] as MongoClusterStatus,
+          publicNetworkAccess: result.body.properties?.[
+            "publicNetworkAccess"
+          ] as PublicNetworkAccess,
           nodeGroupSpecs:
             result.body.properties?.["nodeGroupSpecs"] === undefined
               ? result.body.properties?.["nodeGroupSpecs"]
@@ -326,7 +354,7 @@ export async function _createOrUpdateDeserialize(
                   sku: p["sku"],
                   diskSizeGB: p["diskSizeGB"],
                   enableHa: p["enableHa"],
-                  kind: p["kind"],
+                  kind: p["kind"] as NodeKind,
                   nodeCount: p["nodeCount"],
                 })),
           privateEndpointConnections:
@@ -341,14 +369,17 @@ export async function _createOrUpdateDeserialize(
                       ? undefined
                       : {
                           createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
+                          createdByType: p.systemData?.[
+                            "createdByType"
+                          ] as CreatedByType,
                           createdAt:
                             p.systemData?.["createdAt"] !== undefined
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType: p.systemData?.[
+                            "lastModifiedByType"
+                          ] as CreatedByType,
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -362,10 +393,10 @@ export async function _createOrUpdateDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
+                            status: p.properties
+                              ?.privateLinkServiceConnectionState[
+                              "status"
+                            ] as PrivateEndpointServiceConnectionStatus,
                             description:
                               p.properties?.privateLinkServiceConnectionState[
                                 "description"
@@ -375,8 +406,9 @@ export async function _createOrUpdateDeserialize(
                                 "actionsRequired"
                               ],
                           },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
+                          provisioningState: p.properties?.[
+                            "provisioningState"
+                          ] as PrivateEndpointConnectionProvisioningState,
                         },
                   }),
                 ),
@@ -385,7 +417,7 @@ export async function _createOrUpdateDeserialize(
 }
 
 /** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
-export function createOrUpdate(
+export function mongoClustersCreateOrUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -393,22 +425,26 @@ export function createOrUpdate(
   resource: MongoCluster,
   options: MongoClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        resource,
-        options,
-      ),
-  }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
+  return getLongRunningPoller(
+    context,
+    _mongoClustersCreateOrUpdateDeserialize,
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _mongoClustersCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
-export function _updateSend(
+export function _mongoClustersUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -441,7 +477,7 @@ export function _updateSend(
     });
 }
 
-export async function _updateDeserialize(
+export async function _mongoClustersUpdateDeserialize(
   result:
     | MongoClustersUpdate200Response
     | MongoClustersUpdate202Response
@@ -463,13 +499,17 @@ export async function _updateDeserialize(
       ? undefined
       : {
           createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdByType: result.body.systemData?.[
+            "createdByType"
+          ] as CreatedByType,
           createdAt:
             result.body.systemData?.["createdAt"] !== undefined
               ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
           lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedByType: result.body.systemData?.[
+            "lastModifiedByType"
+          ] as CreatedByType,
           lastModifiedAt:
             result.body.systemData?.["lastModifiedAt"] !== undefined
               ? new Date(result.body.systemData?.["lastModifiedAt"])
@@ -478,7 +518,7 @@ export async function _updateDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          createMode: result.body.properties?.["createMode"],
+          createMode: result.body.properties?.["createMode"] as CreateMode,
           restoreParameters: !result.body.properties?.restoreParameters
             ? undefined
             : {
@@ -504,8 +544,12 @@ export async function _updateDeserialize(
           connectionString: result.body.properties?.["connectionString"],
           earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
           provisioningState: result.body.properties?.["provisioningState"],
-          clusterStatus: result.body.properties?.["clusterStatus"],
-          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
+          clusterStatus: result.body.properties?.[
+            "clusterStatus"
+          ] as MongoClusterStatus,
+          publicNetworkAccess: result.body.properties?.[
+            "publicNetworkAccess"
+          ] as PublicNetworkAccess,
           nodeGroupSpecs:
             result.body.properties?.["nodeGroupSpecs"] === undefined
               ? result.body.properties?.["nodeGroupSpecs"]
@@ -513,7 +557,7 @@ export async function _updateDeserialize(
                   sku: p["sku"],
                   diskSizeGB: p["diskSizeGB"],
                   enableHa: p["enableHa"],
-                  kind: p["kind"],
+                  kind: p["kind"] as NodeKind,
                   nodeCount: p["nodeCount"],
                 })),
           privateEndpointConnections:
@@ -528,14 +572,17 @@ export async function _updateDeserialize(
                       ? undefined
                       : {
                           createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
+                          createdByType: p.systemData?.[
+                            "createdByType"
+                          ] as CreatedByType,
                           createdAt:
                             p.systemData?.["createdAt"] !== undefined
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType: p.systemData?.[
+                            "lastModifiedByType"
+                          ] as CreatedByType,
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -549,10 +596,10 @@ export async function _updateDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
+                            status: p.properties
+                              ?.privateLinkServiceConnectionState[
+                              "status"
+                            ] as PrivateEndpointServiceConnectionStatus,
                             description:
                               p.properties?.privateLinkServiceConnectionState[
                                 "description"
@@ -562,8 +609,9 @@ export async function _updateDeserialize(
                                 "actionsRequired"
                               ],
                           },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
+                          provisioningState: p.properties?.[
+                            "provisioningState"
+                          ] as PrivateEndpointConnectionProvisioningState,
                         },
                   }),
                 ),
@@ -572,7 +620,7 @@ export async function _updateDeserialize(
 }
 
 /** Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition. */
-export function update(
+export function mongoClustersUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -580,11 +628,11 @@ export function update(
   properties: MongoClusterUpdate,
   options: MongoClustersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(context, _updateDeserialize, {
+  return getLongRunningPoller(context, _mongoClustersUpdateDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(
+      _mongoClustersUpdateSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -595,7 +643,7 @@ export function update(
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
-export function _$deleteSend(
+export function _mongoClustersDeleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -617,7 +665,7 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
+export async function _mongoClustersDeleteDeserialize(
   result:
     | MongoClustersDelete202Response
     | MongoClustersDelete204Response
@@ -633,23 +681,18 @@ export async function _$deleteDeserialize(
 }
 
 /** Deletes a mongo cluster. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export function $delete(
+export function mongoClustersDelete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, {
+  return getLongRunningPoller(context, _mongoClustersDeleteDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(
+      _mongoClustersDeleteSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -659,7 +702,7 @@ export function $delete(
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _listByResourceGroupSend(
+export function _mongoClustersListByResourceGroupSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -679,7 +722,7 @@ export function _listByResourceGroupSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByResourceGroupDeserialize(
+export async function _mongoClustersListByResourceGroupDeserialize(
   result:
     | MongoClustersListByResourceGroup200Response
     | MongoClustersListByResourceGroupDefaultResponse,
@@ -699,13 +742,15 @@ export async function _listByResourceGroupDeserialize(
         ? undefined
         : {
             createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
+            createdByType: p.systemData?.["createdByType"] as CreatedByType,
             createdAt:
               p.systemData?.["createdAt"] !== undefined
                 ? new Date(p.systemData?.["createdAt"])
                 : undefined,
             lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
+            lastModifiedByType: p.systemData?.[
+              "lastModifiedByType"
+            ] as CreatedByType,
             lastModifiedAt:
               p.systemData?.["lastModifiedAt"] !== undefined
                 ? new Date(p.systemData?.["lastModifiedAt"])
@@ -714,7 +759,7 @@ export async function _listByResourceGroupDeserialize(
       properties: !p.properties
         ? undefined
         : {
-            createMode: p.properties?.["createMode"],
+            createMode: p.properties?.["createMode"] as CreateMode,
             restoreParameters: !p.properties?.restoreParameters
               ? undefined
               : {
@@ -735,8 +780,12 @@ export async function _listByResourceGroupDeserialize(
             connectionString: p.properties?.["connectionString"],
             earliestRestoreTime: p.properties?.["earliestRestoreTime"],
             provisioningState: p.properties?.["provisioningState"],
-            clusterStatus: p.properties?.["clusterStatus"],
-            publicNetworkAccess: p.properties?.["publicNetworkAccess"],
+            clusterStatus: p.properties?.[
+              "clusterStatus"
+            ] as MongoClusterStatus,
+            publicNetworkAccess: p.properties?.[
+              "publicNetworkAccess"
+            ] as PublicNetworkAccess,
             nodeGroupSpecs:
               p.properties?.["nodeGroupSpecs"] === undefined
                 ? p.properties?.["nodeGroupSpecs"]
@@ -744,7 +793,7 @@ export async function _listByResourceGroupDeserialize(
                     sku: p["sku"],
                     diskSizeGB: p["diskSizeGB"],
                     enableHa: p["enableHa"],
-                    kind: p["kind"],
+                    kind: p["kind"] as NodeKind,
                     nodeCount: p["nodeCount"],
                   })),
             privateEndpointConnections:
@@ -758,14 +807,17 @@ export async function _listByResourceGroupDeserialize(
                       ? undefined
                       : {
                           createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
+                          createdByType: p.systemData?.[
+                            "createdByType"
+                          ] as CreatedByType,
                           createdAt:
                             p.systemData?.["createdAt"] !== undefined
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType: p.systemData?.[
+                            "lastModifiedByType"
+                          ] as CreatedByType,
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -779,10 +831,10 @@ export async function _listByResourceGroupDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
+                            status: p.properties
+                              ?.privateLinkServiceConnectionState[
+                              "status"
+                            ] as PrivateEndpointServiceConnectionStatus,
                             description:
                               p.properties?.privateLinkServiceConnectionState[
                                 "description"
@@ -792,8 +844,9 @@ export async function _listByResourceGroupDeserialize(
                                 "actionsRequired"
                               ],
                           },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
+                          provisioningState: p.properties?.[
+                            "provisioningState"
+                          ] as PrivateEndpointConnectionProvisioningState,
                         },
                   })),
           },
@@ -803,7 +856,7 @@ export async function _listByResourceGroupDeserialize(
 }
 
 /** List all the mongo clusters in a given resource group. */
-export function listByResourceGroup(
+export function mongoClustersListByResourceGroup(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -814,18 +867,18 @@ export function listByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listByResourceGroupSend(
+      _mongoClustersListByResourceGroupSend(
         context,
         subscriptionId,
         resourceGroupName,
         options,
       ),
-    _listByResourceGroupDeserialize,
+    _mongoClustersListByResourceGroupDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _listSend(
+export function _mongoClustersListSend(
   context: Client,
   subscriptionId: string,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
@@ -840,7 +893,7 @@ export function _listSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listDeserialize(
+export async function _mongoClustersListDeserialize(
   result: MongoClustersList200Response | MongoClustersListDefaultResponse,
 ): Promise<_MongoClusterListResult> {
   if (isUnexpected(result)) {
@@ -858,13 +911,15 @@ export async function _listDeserialize(
         ? undefined
         : {
             createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
+            createdByType: p.systemData?.["createdByType"] as CreatedByType,
             createdAt:
               p.systemData?.["createdAt"] !== undefined
                 ? new Date(p.systemData?.["createdAt"])
                 : undefined,
             lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
+            lastModifiedByType: p.systemData?.[
+              "lastModifiedByType"
+            ] as CreatedByType,
             lastModifiedAt:
               p.systemData?.["lastModifiedAt"] !== undefined
                 ? new Date(p.systemData?.["lastModifiedAt"])
@@ -873,7 +928,7 @@ export async function _listDeserialize(
       properties: !p.properties
         ? undefined
         : {
-            createMode: p.properties?.["createMode"],
+            createMode: p.properties?.["createMode"] as CreateMode,
             restoreParameters: !p.properties?.restoreParameters
               ? undefined
               : {
@@ -894,8 +949,12 @@ export async function _listDeserialize(
             connectionString: p.properties?.["connectionString"],
             earliestRestoreTime: p.properties?.["earliestRestoreTime"],
             provisioningState: p.properties?.["provisioningState"],
-            clusterStatus: p.properties?.["clusterStatus"],
-            publicNetworkAccess: p.properties?.["publicNetworkAccess"],
+            clusterStatus: p.properties?.[
+              "clusterStatus"
+            ] as MongoClusterStatus,
+            publicNetworkAccess: p.properties?.[
+              "publicNetworkAccess"
+            ] as PublicNetworkAccess,
             nodeGroupSpecs:
               p.properties?.["nodeGroupSpecs"] === undefined
                 ? p.properties?.["nodeGroupSpecs"]
@@ -903,7 +962,7 @@ export async function _listDeserialize(
                     sku: p["sku"],
                     diskSizeGB: p["diskSizeGB"],
                     enableHa: p["enableHa"],
-                    kind: p["kind"],
+                    kind: p["kind"] as NodeKind,
                     nodeCount: p["nodeCount"],
                   })),
             privateEndpointConnections:
@@ -917,14 +976,17 @@ export async function _listDeserialize(
                       ? undefined
                       : {
                           createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
+                          createdByType: p.systemData?.[
+                            "createdByType"
+                          ] as CreatedByType,
                           createdAt:
                             p.systemData?.["createdAt"] !== undefined
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType: p.systemData?.[
+                            "lastModifiedByType"
+                          ] as CreatedByType,
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -938,10 +1000,10 @@ export async function _listDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
+                            status: p.properties
+                              ?.privateLinkServiceConnectionState[
+                              "status"
+                            ] as PrivateEndpointServiceConnectionStatus,
                             description:
                               p.properties?.privateLinkServiceConnectionState[
                                 "description"
@@ -951,8 +1013,9 @@ export async function _listDeserialize(
                                 "actionsRequired"
                               ],
                           },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
+                          provisioningState: p.properties?.[
+                            "provisioningState"
+                          ] as PrivateEndpointConnectionProvisioningState,
                         },
                   })),
           },
@@ -962,20 +1025,20 @@ export async function _listDeserialize(
 }
 
 /** List all the mongo clusters in a given subscription. */
-export function list(
+export function mongoClustersList(
   context: Client,
   subscriptionId: string,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<MongoCluster> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, subscriptionId, options),
-    _listDeserialize,
+    () => _mongoClustersListSend(context, subscriptionId, options),
+    _mongoClustersListDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _listConnectionStringsSend(
+export function _mongoClustersListConnectionStringsSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -997,7 +1060,7 @@ export function _listConnectionStringsSend(
     .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listConnectionStringsDeserialize(
+export async function _mongoClustersListConnectionStringsDeserialize(
   result:
     | MongoClustersListConnectionStrings200Response
     | MongoClustersListConnectionStringsDefaultResponse,
@@ -1018,7 +1081,7 @@ export async function _listConnectionStringsDeserialize(
 }
 
 /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
-export async function listConnectionStrings(
+export async function mongoClustersListConnectionStrings(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -1027,17 +1090,17 @@ export async function listConnectionStrings(
     requestOptions: {},
   },
 ): Promise<ListConnectionStringsResult> {
-  const result = await _listConnectionStringsSend(
+  const result = await _mongoClustersListConnectionStringsSend(
     context,
     subscriptionId,
     resourceGroupName,
     mongoClusterName,
     options,
   );
-  return _listConnectionStringsDeserialize(result);
+  return _mongoClustersListConnectionStringsDeserialize(result);
 }
 
-export function _checkNameAvailabilitySend(
+export function _mongoClustersCheckNameAvailabilitySend(
   context: Client,
   subscriptionId: string,
   location: string,
@@ -1061,7 +1124,7 @@ export function _checkNameAvailabilitySend(
     });
 }
 
-export async function _checkNameAvailabilityDeserialize(
+export async function _mongoClustersCheckNameAvailabilityDeserialize(
   result:
     | MongoClustersCheckNameAvailability200Response
     | MongoClustersCheckNameAvailabilityDefaultResponse,
@@ -1072,13 +1135,13 @@ export async function _checkNameAvailabilityDeserialize(
 
   return {
     nameAvailable: result.body["nameAvailable"],
-    reason: result.body["reason"],
+    reason: result.body["reason"] as CheckNameAvailabilityReason,
     message: result.body["message"],
   };
 }
 
 /** Check if mongo cluster name is available for use. */
-export async function checkNameAvailability(
+export async function mongoClustersCheckNameAvailability(
   context: Client,
   subscriptionId: string,
   location: string,
@@ -1087,12 +1150,12 @@ export async function checkNameAvailability(
     requestOptions: {},
   },
 ): Promise<CheckNameAvailabilityResponse> {
-  const result = await _checkNameAvailabilitySend(
+  const result = await _mongoClustersCheckNameAvailabilitySend(
     context,
     subscriptionId,
     location,
     body,
     options,
   );
-  return _checkNameAvailabilityDeserialize(result);
+  return _mongoClustersCheckNameAvailabilityDeserialize(result);
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  CreatedByType,
   PrivateLinkResource,
   _PrivateLinkResourceListResult,
 } from "../../models/models.js";
@@ -20,7 +21,7 @@ import {
 } from "@azure-rest/core-client";
 import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
 
-export function _listByMongoClusterSend(
+export function _privateLinksListByMongoClusterSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -42,7 +43,7 @@ export function _listByMongoClusterSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByMongoClusterDeserialize(
+export async function _privateLinksListByMongoClusterDeserialize(
   result:
     | PrivateLinksListByMongoCluster200Response
     | PrivateLinksListByMongoClusterDefaultResponse,
@@ -60,13 +61,15 @@ export async function _listByMongoClusterDeserialize(
         ? undefined
         : {
             createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
+            createdByType: p.systemData?.["createdByType"] as CreatedByType,
             createdAt:
               p.systemData?.["createdAt"] !== undefined
                 ? new Date(p.systemData?.["createdAt"])
                 : undefined,
             lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
+            lastModifiedByType: p.systemData?.[
+              "lastModifiedByType"
+            ] as CreatedByType,
             lastModifiedAt:
               p.systemData?.["lastModifiedAt"] !== undefined
                 ? new Date(p.systemData?.["lastModifiedAt"])
@@ -85,7 +88,7 @@ export async function _listByMongoClusterDeserialize(
 }
 
 /** list private links on the given resource */
-export function listByMongoCluster(
+export function privateLinksListByMongoCluster(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -97,14 +100,14 @@ export function listByMongoCluster(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listByMongoClusterSend(
+      _privateLinksListByMongoClusterSend(
         context,
         subscriptionId,
         resourceGroupName,
         mongoClusterName,
         options,
       ),
-    _listByMongoClusterDeserialize,
+    _privateLinksListByMongoClusterDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

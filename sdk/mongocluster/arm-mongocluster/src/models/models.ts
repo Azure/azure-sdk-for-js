@@ -59,14 +59,7 @@ export interface SystemData {
 }
 
 /** The kind of entity that created the resource. */
-export type CreatedByType = string;
-
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key",
-}
+export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
@@ -200,23 +193,16 @@ export function privateLinkServiceConnectionStateSerializer(
 }
 
 /** The private endpoint connection status. */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  Pending = "Pending",
-  Approved = "Approved",
-  Rejected = "Rejected",
-}
-
+export type PrivateEndpointServiceConnectionStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected";
 /** The current provisioning state. */
-export type PrivateEndpointConnectionProvisioningState = string;
-
-export enum KnownPrivateEndpointConnectionProvisioningState {
-  Succeeded = "Succeeded",
-  Creating = "Creating",
-  Deleting = "Deleting",
-  Failed = "Failed",
-}
+export type PrivateEndpointConnectionProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Failed";
 
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRule extends ProxyResource {
@@ -252,13 +238,7 @@ export function firewallRulePropertiesSerializer(
 }
 
 /** The provisioning state of a resource type. */
-export type ResourceProvisioningState = string;
-
-export enum KnownResourceProvisioningState {
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Canceled = "Canceled",
-}
+export type ResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
 
 /** The response of a FirewallRule list operation. */
 export interface _FirewallRuleListResult {
@@ -349,12 +329,7 @@ export function mongoClusterPropertiesSerializer(
 }
 
 /** The mode that the Mongo Cluster is created with. */
-export type CreateMode = string;
-
-export enum KnownCreateMode {
-  Default = "Default",
-  PointInTimeRestore = "PointInTimeRestore",
-}
+export type CreateMode = "Default" | "PointInTimeRestore";
 
 /** Parameters used for restore operations */
 export interface MongoClusterRestoreParameters {
@@ -374,25 +349,16 @@ export function mongoClusterRestoreParametersSerializer(
 }
 
 /** The status of the Mongo cluster resource. */
-export type MongoClusterStatus = string;
-
-export enum KnownMongoClusterStatus {
-  Ready = "Ready",
-  Provisioning = "Provisioning",
-  Updating = "Updating",
-  Starting = "Starting",
-  Stopping = "Stopping",
-  Stopped = "Stopped",
-  Dropping = "Dropping",
-}
-
+export type MongoClusterStatus =
+  | "Ready"
+  | "Provisioning"
+  | "Updating"
+  | "Starting"
+  | "Stopping"
+  | "Stopped"
+  | "Dropping";
 /** Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' */
-export type PublicNetworkAccess = string;
-
-export enum KnownPublicNetworkAccess {
-  Enabled = "Enabled",
-  Disabled = "Disabled",
-}
+export type PublicNetworkAccess = "Enabled" | "Disabled";
 
 /** Specification for a node group. */
 export interface NodeGroupSpec {
@@ -421,11 +387,7 @@ export function nodeGroupSpecSerializer(
 }
 
 /** The kind of the node on the cluster. */
-export type NodeKind = string;
-
-export enum KnownNodeKind {
-  Shard = "Shard",
-}
+export type NodeKind = "Shard";
 
 /** The private endpoint connection resource */
 export interface PrivateEndpointConnection extends Resource {
@@ -530,12 +492,7 @@ export interface CheckNameAvailabilityResponse {
 }
 
 /** Possible reasons for a name not being available. */
-export type CheckNameAvailabilityReason = string;
-
-export enum KnownCheckNameAvailabilityReason {
-  Invalid = "Invalid",
-  AlreadyExists = "AlreadyExists",
-}
+export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
@@ -572,21 +529,9 @@ export interface OperationDisplay {
 }
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export type Origin = string;
-
-export enum KnownOrigin {
-  user = "user",
-  system = "system",
-  "user,system" = "user,system",
-}
-
+export type Origin = "user" | "system" | "user,system";
 /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export type ActionType = string;
-
-export enum KnownActionType {
-  Internal = "Internal",
-}
-
+export type ActionType = "Internal";
 /** The available API versions. */
 export type Versions = "2024-03-01-preview";
 /** Alias for ProvisioningState */

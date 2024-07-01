@@ -7,20 +7,20 @@ import {
   deserializeState,
   ResourceLocationConfig,
 } from "@azure/core-lro";
-import { MongoClusterManagementClient } from "./mongoClusterManagementClient.js";
+import { DocumentDBClient } from "./documentDBClient.js";
 import { getLongRunningPoller } from "./api/pollingHelpers.js";
 import {
-  _createOrUpdateDeserialize,
-  _updateDeserialize,
-  _$deleteDeserialize,
+  _mongoClustersCreateOrUpdateDeserialize,
+  _mongoClustersUpdateDeserialize,
+  _mongoClustersDeleteDeserialize,
 } from "./api/mongoClusters/index.js";
 import {
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeFirewallRules,
-  _$deleteDeserialize as _$deleteDeserializeFirewallRules,
+  _firewallRulesCreateOrUpdateDeserialize,
+  _firewallRulesDeleteDeserialize,
 } from "./api/firewallRules/index.js";
 import {
-  _createDeserialize,
-  _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections,
+  _privateEndpointConnectionsCreateDeserialize,
+  _privateEndpointConnectionsDeleteDeserialize,
 } from "./api/privateEndpointConnections/index.js";
 import {
   PathUncheckedResponse,
@@ -48,7 +48,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: MongoClusterManagementClient,
+  client: DocumentDBClient,
   serializedState: string,
   sourceOperation: (
     ...args: any[]
@@ -88,19 +88,19 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 
 const deserializeMap: Record<string, Function> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    _createOrUpdateDeserialize,
+    _mongoClustersCreateOrUpdateDeserialize,
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    _updateDeserialize,
+    _mongoClustersUpdateDeserialize,
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    _$deleteDeserialize,
+    _mongoClustersDeleteDeserialize,
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
-    _createOrUpdateDeserializeFirewallRules,
+    _firewallRulesCreateOrUpdateDeserialize,
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
-    _$deleteDeserializeFirewallRules,
+    _firewallRulesDeleteDeserialize,
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    _createDeserialize,
+    _privateEndpointConnectionsCreateDeserialize,
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    _$deleteDeserializePrivateEndpointConnections,
+    _privateEndpointConnectionsDeleteDeserialize,
 };
 
 function getDeserializationHelper(

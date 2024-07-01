@@ -5,7 +5,10 @@ import { getLongRunningPoller } from "../pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   privateEndpointConnectionPropertiesSerializer,
+  CreatedByType,
   PrivateEndpointConnectionResource,
+  PrivateEndpointServiceConnectionStatus,
+  PrivateEndpointConnectionProvisioningState,
   _PrivateEndpointConnectionResourceListResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
@@ -39,7 +42,7 @@ import {
   PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../../models/options.js";
 
-export function _listByMongoClusterSend(
+export function _privateEndpointConnectionsListByMongoClusterSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -61,7 +64,7 @@ export function _listByMongoClusterSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByMongoClusterDeserialize(
+export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
   result:
     | PrivateEndpointConnectionsListByMongoCluster200Response
     | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
@@ -79,13 +82,15 @@ export async function _listByMongoClusterDeserialize(
         ? undefined
         : {
             createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
+            createdByType: p.systemData?.["createdByType"] as CreatedByType,
             createdAt:
               p.systemData?.["createdAt"] !== undefined
                 ? new Date(p.systemData?.["createdAt"])
                 : undefined,
             lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
+            lastModifiedByType: p.systemData?.[
+              "lastModifiedByType"
+            ] as CreatedByType,
             lastModifiedAt:
               p.systemData?.["lastModifiedAt"] !== undefined
                 ? new Date(p.systemData?.["lastModifiedAt"])
@@ -99,7 +104,9 @@ export async function _listByMongoClusterDeserialize(
               ? undefined
               : { id: p.properties?.privateEndpoint?.["id"] },
             privateLinkServiceConnectionState: {
-              status: p.properties?.privateLinkServiceConnectionState["status"],
+              status: p.properties?.privateLinkServiceConnectionState[
+                "status"
+              ] as PrivateEndpointServiceConnectionStatus,
               description:
                 p.properties?.privateLinkServiceConnectionState["description"],
               actionsRequired:
@@ -107,7 +114,9 @@ export async function _listByMongoClusterDeserialize(
                   "actionsRequired"
                 ],
             },
-            provisioningState: p.properties?.["provisioningState"],
+            provisioningState: p.properties?.[
+              "provisioningState"
+            ] as PrivateEndpointConnectionProvisioningState,
           },
     })),
     nextLink: result.body["nextLink"],
@@ -115,7 +124,7 @@ export async function _listByMongoClusterDeserialize(
 }
 
 /** List existing private connections */
-export function listByMongoCluster(
+export function privateEndpointConnectionsListByMongoCluster(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -127,19 +136,19 @@ export function listByMongoCluster(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listByMongoClusterSend(
+      _privateEndpointConnectionsListByMongoClusterSend(
         context,
         subscriptionId,
         resourceGroupName,
         mongoClusterName,
         options,
       ),
-    _listByMongoClusterDeserialize,
+    _privateEndpointConnectionsListByMongoClusterDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _getSend(
+export function _privateEndpointConnectionsGetSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -161,7 +170,7 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(
+export async function _privateEndpointConnectionsGetDeserialize(
   result:
     | PrivateEndpointConnectionsGet200Response
     | PrivateEndpointConnectionsGetDefaultResponse,
@@ -178,13 +187,17 @@ export async function _getDeserialize(
       ? undefined
       : {
           createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdByType: result.body.systemData?.[
+            "createdByType"
+          ] as CreatedByType,
           createdAt:
             result.body.systemData?.["createdAt"] !== undefined
               ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
           lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedByType: result.body.systemData?.[
+            "lastModifiedByType"
+          ] as CreatedByType,
           lastModifiedAt:
             result.body.systemData?.["lastModifiedAt"] !== undefined
               ? new Date(result.body.systemData?.["lastModifiedAt"])
@@ -198,10 +211,9 @@ export async function _getDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
+            status: result.body.properties?.privateLinkServiceConnectionState[
+              "status"
+            ] as PrivateEndpointServiceConnectionStatus,
             description:
               result.body.properties?.privateLinkServiceConnectionState[
                 "description"
@@ -211,13 +223,15 @@ export async function _getDeserialize(
                 "actionsRequired"
               ],
           },
-          provisioningState: result.body.properties?.["provisioningState"],
+          provisioningState: result.body.properties?.[
+            "provisioningState"
+          ] as PrivateEndpointConnectionProvisioningState,
         },
   };
 }
 
 /** Get a specific private connection */
-export async function get(
+export async function privateEndpointConnectionsGet(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -225,7 +239,7 @@ export async function get(
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnectionResource> {
-  const result = await _getSend(
+  const result = await _privateEndpointConnectionsGetSend(
     context,
     subscriptionId,
     resourceGroupName,
@@ -233,10 +247,10 @@ export async function get(
     privateEndpointConnectionName,
     options,
   );
-  return _getDeserialize(result);
+  return _privateEndpointConnectionsGetDeserialize(result);
 }
 
-export function _createSend(
+export function _privateEndpointConnectionsCreateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -271,7 +285,7 @@ export function _createSend(
     });
 }
 
-export async function _createDeserialize(
+export async function _privateEndpointConnectionsCreateDeserialize(
   result:
     | PrivateEndpointConnectionsCreate200Response
     | PrivateEndpointConnectionsCreate201Response
@@ -292,13 +306,17 @@ export async function _createDeserialize(
       ? undefined
       : {
           createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdByType: result.body.systemData?.[
+            "createdByType"
+          ] as CreatedByType,
           createdAt:
             result.body.systemData?.["createdAt"] !== undefined
               ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
           lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedByType: result.body.systemData?.[
+            "lastModifiedByType"
+          ] as CreatedByType,
           lastModifiedAt:
             result.body.systemData?.["lastModifiedAt"] !== undefined
               ? new Date(result.body.systemData?.["lastModifiedAt"])
@@ -312,10 +330,9 @@ export async function _createDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
+            status: result.body.properties?.privateLinkServiceConnectionState[
+              "status"
+            ] as PrivateEndpointServiceConnectionStatus,
             description:
               result.body.properties?.privateLinkServiceConnectionState[
                 "description"
@@ -325,13 +342,15 @@ export async function _createDeserialize(
                 "actionsRequired"
               ],
           },
-          provisioningState: result.body.properties?.["provisioningState"],
+          provisioningState: result.body.properties?.[
+            "provisioningState"
+          ] as PrivateEndpointConnectionProvisioningState,
         },
   };
 }
 
 /** Create a Private endpoint connection */
-export function create(
+export function privateEndpointConnectionsCreate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -345,26 +364,30 @@ export function create(
   OperationState<PrivateEndpointConnectionResource>,
   PrivateEndpointConnectionResource
 > {
-  return getLongRunningPoller(context, _createDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        privateEndpointConnectionName,
-        resource,
-        options,
-      ),
-  }) as PollerLike<
+  return getLongRunningPoller(
+    context,
+    _privateEndpointConnectionsCreateDeserialize,
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _privateEndpointConnectionsCreateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          privateEndpointConnectionName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
 }
 
-export function _$deleteSend(
+export function _privateEndpointConnectionsDeleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -390,7 +413,7 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
+export async function _privateEndpointConnectionsDeleteDeserialize(
   result:
     | PrivateEndpointConnectionsDelete202Response
     | PrivateEndpointConnectionsDelete204Response
@@ -406,12 +429,7 @@ export async function _$deleteDeserialize(
 }
 
 /** Delete the private endpoint connection */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export function $delete(
+export function privateEndpointConnectionsDelete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -421,17 +439,21 @@ export function $delete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        privateEndpointConnectionName,
-        options,
-      ),
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _privateEndpointConnectionsDeleteDeserialize,
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _privateEndpointConnectionsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          privateEndpointConnectionName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }

@@ -12,40 +12,17 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./models": "./src/models/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./api/mongoClusters": "./src/api/mongoClusters/index.ts",
-      "./api/firewallRules": "./src/api/firewallRules/index.ts",
-      "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts",
-      "./api/privateLinks": "./src/api/privateLinks/index.ts"
+      "./models": "./src/models/index.ts"
     },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
+    "dialects": ["esm", "commonjs"],
+    "esmDialects": ["browser", "react-native"],
     "selfLink": false
   },
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE",
-    "review/*"
-  ],
+  "files": ["dist", "README.md", "LICENSE", "review/*"],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -61,12 +38,12 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.0.0",
+    "@azure-rest/core-client": "^2.1.0",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.6.2",
-    "@azure/core-lro": "3.0.0-beta.2",
+    "@azure/core-lro": "3.0.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.5.0"
   },
@@ -115,154 +92,5 @@
     "build": "npm run clean && tshy && mkdirp ./review && dev-tool run extract-api",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    },
-    "./api": {
-      "browser": {
-        "types": "./dist/browser/api/index.d.ts",
-        "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/index.d.ts",
-        "default": "./dist/esm/api/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/index.d.ts",
-        "default": "./dist/commonjs/api/index.js"
-      }
-    },
-    "./models": {
-      "browser": {
-        "types": "./dist/browser/models/index.d.ts",
-        "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/models/index.d.ts",
-        "default": "./dist/esm/models/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/models/index.d.ts",
-        "default": "./dist/commonjs/models/index.js"
-      }
-    },
-    "./api/operations": {
-      "browser": {
-        "types": "./dist/browser/api/operations/index.d.ts",
-        "default": "./dist/browser/api/operations/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/operations/index.d.ts",
-        "default": "./dist/esm/api/operations/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/operations/index.d.ts",
-        "default": "./dist/commonjs/api/operations/index.js"
-      }
-    },
-    "./api/mongoClusters": {
-      "browser": {
-        "types": "./dist/browser/api/mongoClusters/index.d.ts",
-        "default": "./dist/browser/api/mongoClusters/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/mongoClusters/index.d.ts",
-        "default": "./dist/react-native/api/mongoClusters/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/mongoClusters/index.d.ts",
-        "default": "./dist/esm/api/mongoClusters/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/mongoClusters/index.d.ts",
-        "default": "./dist/commonjs/api/mongoClusters/index.js"
-      }
-    },
-    "./api/firewallRules": {
-      "browser": {
-        "types": "./dist/browser/api/firewallRules/index.d.ts",
-        "default": "./dist/browser/api/firewallRules/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/firewallRules/index.d.ts",
-        "default": "./dist/react-native/api/firewallRules/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/firewallRules/index.d.ts",
-        "default": "./dist/esm/api/firewallRules/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/firewallRules/index.d.ts",
-        "default": "./dist/commonjs/api/firewallRules/index.js"
-      }
-    },
-    "./api/privateEndpointConnections": {
-      "browser": {
-        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/browser/api/privateEndpointConnections/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/react-native/api/privateEndpointConnections/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/esm/api/privateEndpointConnections/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
-      }
-    },
-    "./api/privateLinks": {
-      "browser": {
-        "types": "./dist/browser/api/privateLinks/index.d.ts",
-        "default": "./dist/browser/api/privateLinks/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/privateLinks/index.d.ts",
-        "default": "./dist/react-native/api/privateLinks/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/privateLinks/index.d.ts",
-        "default": "./dist/esm/api/privateLinks/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/privateLinks/index.d.ts",
-        "default": "./dist/commonjs/api/privateLinks/index.js"
-      }
-    }
-  },
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts"
+  }
 }

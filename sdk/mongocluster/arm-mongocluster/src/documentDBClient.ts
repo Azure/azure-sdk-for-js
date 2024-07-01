@@ -24,14 +24,14 @@ import {
   PrivateLinksOperations,
 } from "./classic/privateLinks/index.js";
 import {
-  createMongoClusterManagement,
-  MongoClusterManagementClientOptions,
+  createDocumentDB,
+  DocumentDBClientOptions,
   DocumentDBContext,
 } from "./api/index.js";
 
-export { MongoClusterManagementClientOptions } from "./api/mongoClusterManagementContext.js";
+export { DocumentDBClientOptions } from "./api/documentDBContext.js";
 
-export class MongoClusterManagementClient {
+export class DocumentDBClient {
   private _client: DocumentDBContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
@@ -40,9 +40,9 @@ export class MongoClusterManagementClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: MongoClusterManagementClientOptions = {},
+    options: DocumentDBClientOptions = {},
   ) {
-    this._client = createMongoClusterManagement(credential, options);
+    this._client = createDocumentDB(credential, options);
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
     this.mongoClusters = getMongoClustersOperations(
