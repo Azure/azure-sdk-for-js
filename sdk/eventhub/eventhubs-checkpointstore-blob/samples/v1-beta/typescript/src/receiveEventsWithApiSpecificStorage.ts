@@ -5,34 +5,35 @@
  * @summary Demonstrates how to use the EventHubConsumerClient to process events from all partitions
  * of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
  *
+ * This sample uses the `createCustomPipeline` function to override the targetted version of the Storage service.
+ *
  * Checkpointing using a durable store allows your application to be more resilient. When you restart
  * your application after a crash (or an intentional stop), your application can continue consuming
  * events from where it last checkpointed.
  */
 
-const { EventHubConsumerClient } = require("@azure/event-hubs");
+import { DefaultAzureCredential } from "@azure/identity";
+import { EventHubConsumerClient } from "@azure/event-hubs";
+import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
+import { ContainerClient } from "@azure/storage-blob";
+import { createCustomPipeline } from "./createCustomPipeline";
 
-const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
-const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
-
-const connectionString =
-  process.env["EVENT_HUB_CONNECTION_STRING"] || "<event-hub-connection-string>";
-const eventHubName = process.env["EVENT_HUB_NAME"] || "<eventHubName>";
+const fqns = process.env["EVENTHUB_FQNS"] || "<fully qualified namespace>";
+const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
 const consumerGroup =
-  process.env["EVENT_HUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
+  process.env["EVENTHUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
 const storageContainerUrl =
   process.env["STORAGE_CONTAINER_URL"] ||
   "https://<storageaccount>.blob.core.windows.net/<containername>";
-const storageAccountName = process.env["STORAGE_ACCOUNT_NAME"] || "<storageaccount>";
-const storageAccountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<key>";
 
-async function main() {
-  // this client will be used by our eventhubs-checkpointstore-blob, which
-  // persists any checkpoints from this session in Azure Storage
-  const storageCredential = new StorageSharedKeyCredential(storageAccountName, storageAccountKey);
-  const containerClient = new ContainerClient(storageContainerUrl, storageCredential);
+export async function main() {
+  const credential = new DefaultAzureCredential();
+  // The `containerClient` will be used by our eventhubs-checkpointstore-blob, which
+  // persists any checkpoints from this session in Azure Storage.
+  const storageContainerPipeline = createCustomPipeline(credential);
+  const containerClient = new ContainerClient(storageContainerUrl, storageContainerPipeline);
 
-  if (!(await containerClient.exists())) {
+  if (!containerClient.exists()) {
     await containerClient.create();
   }
 
@@ -40,9 +41,10 @@ async function main() {
 
   const consumerClient = new EventHubConsumerClient(
     consumerGroup,
-    connectionString,
+    fqns,
     eventHubName,
-    checkpointStore
+    credential,
+    checkpointStore,
   );
 
   // The below code will set up your program to listen to events from your Event Hub instance.
@@ -51,22 +53,16 @@ async function main() {
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {
-      if (events.length === 0) {
-        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
-        // will pass you an empty array.
-        return;
-      }
-
       for (const event of events) {
         console.log(
-          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
         );
       }
 
       try {
         // save a checkpoint for the last event now that we've processed this batch.
         await context.updateCheckpoint(events[events.length - 1]);
-      } catch (err) {
+      } catch (err: any) {
         console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
         throw err;
       }
@@ -74,16 +70,16 @@ async function main() {
       console.log(
         `Successfully checkpointed event with sequence number: ${
           events[events.length - 1].sequenceNumber
-        } from partition: 'partitionContext.partitionId'`
+        } from partition: 'partitionContext.partitionId'`,
       );
     },
     processError: async (err, context) => {
       console.log(`Error on partition "${context.partitionId}": ${err}`);
-    }
+    },
   });
 
   // after 30 seconds, stop processing
-  await new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     setTimeout(async () => {
       await subscription.close();
       await consumerClient.close();

@@ -25,7 +25,7 @@ const API_VERSION = "2017-11-09";
  * The createCustomPipeline function returns a new pipeline that overwrites
  * the API version sent via the `x-ms-version` header to "2017-11-09".
  */
-export function createCustomPipeline(credentials) {
+function createCustomPipeline(credentials) {
   const storagePipeline = newPipeline(credentials);
   const storageVersionPolicy = {
     create(nextPolicy) {
@@ -34,9 +34,9 @@ export function createCustomPipeline(credentials) {
           httpRequest.headers.set("x-ms-version", API_VERSION);
           const response = await nextPolicy.sendRequest(httpRequest);
           return response;
-        }
+        },
       };
-    }
+    },
   };
   const pipelineFactoriesCount = storagePipeline.factories.length;
   // Set the storage version policy as the second to last so that the HTTP header
@@ -45,3 +45,5 @@ export function createCustomPipeline(credentials) {
 
   return storagePipeline;
 }
+
+module.exports = { createCustomPipeline };
