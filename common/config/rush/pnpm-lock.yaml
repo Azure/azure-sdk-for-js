@@ -185,6 +185,9 @@ dependencies:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-compute-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-computefleet':
+    specifier: file:./projects/arm-computefleet.tgz
+    version: file:projects/arm-computefleet.tgz
   '@rush-temp/arm-confidentialledger':
     specifier: file:./projects/arm-confidentialledger.tgz
     version: file:projects/arm-confidentialledger.tgz
@@ -1460,6 +1463,16 @@ packages:
 
   /@azure/core-lro@2.7.2:
     resolution: {integrity: sha512-0YIpccoX8m/k00O7mDDMdJpbr6mf1yWo2dfmxt5A8XVZVVMz2SSKaEbMCeJRvgQ0IaSlqhjT47p4hVIRRy90xw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
+    dev: false
+
+  /@azure/core-lro@3.0.0:
+    resolution: {integrity: sha512-t46lsD0jDJ1o71hIGzoUfT9jH+rIkNJAJLhhPqW8XLbPueHBnP4x5PNJ2szXlLoztH/00OcUUH3FbFnAntOSWA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -10277,6 +10290,23 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
+  /tshy@1.11.1:
+    resolution: {integrity: sha512-AzATR8weBaUW46Nh4B1k5cfxVuADKJTXe95xHh7BzcI1RjQQy6HeUXQDY+erGEGTLpiv6N6xMFmtEsMMc7x40Q==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      chokidar: 3.6.0
+      foreground-child: 3.2.1
+      mkdirp: 3.0.1
+      polite-json: 4.0.1
+      resolve-import: 1.4.5
+      rimraf: 5.0.7
+      sync-content: 1.0.2
+      typescript: 5.3.3
+      walk-up-path: 3.0.1
+    dev: false
+
   /tshy@1.15.1:
     resolution: {integrity: sha512-7p30vmXaNX7OL1yLy/MYUtO0SJOm9fQSnzk3DXaM+LmQosooCB4elVeHAGIIZdABhL2E8dx5t/5msR5lh0xnaQ==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -13132,6 +13162,42 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-computefleet.tgz:
+    resolution: {integrity: sha512-YQcnLUHnpDyEBAQc1ThYKf2idTCuSsbHKkEfb5C0vuMUwco5IRmLAuFOBkINwkyv7bPSKbTETN2TYOolt5XVbA==, tarball: file:projects/arm-computefleet.tgz}
+    name: '@rush-temp/arm-computefleet'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 3.0.0
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@types/node': 18.19.39
+      '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.44.1
+      prettier: 3.3.2
+      rimraf: 5.0.7
+      tshy: 1.11.1
+      tslib: 2.6.3
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/arm-confidentialledger.tgz:

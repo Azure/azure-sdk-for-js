@@ -2236,6 +2236,11 @@
       "packageName": "@azure-rest/ai-inference",
       "projectFolder": "sdk/ai/ai-inference-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-computefleet",
+      "projectFolder": "sdk/computefleet/arm-computefleet",
+      "versionPolicyName": "management"
     }
   ]
 }
