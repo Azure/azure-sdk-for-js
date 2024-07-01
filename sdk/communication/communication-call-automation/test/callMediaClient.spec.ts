@@ -21,6 +21,7 @@ import {
   RecognitionChoice,
   DtmfTone,
   MediaStreamingOptions,
+  CallParticipant,
 } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
@@ -1074,6 +1075,59 @@ describe("Call Media Client Live Tests", function () {
       8000,
     );
     assert.isDefined(mediaStreamingStopped);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Hold Unhold participant in a call", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "hold_unhold_participant_in_a_call";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.getCallMedia().hold(testUser2);
+    await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+    const participantHold: CallParticipant = await callConnection.getParticipant(testUser2);
+    assert.isDefined(participantHold);
+    assert.isTrue(participantHold.isOnHold);
+
+    await callConnection.getCallMedia().unhold(testUser2);
+    await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
+    const participantUnhold = await callConnection.getParticipant(testUser2);
+    assert.isDefined(participantUnhold);
+    assert.isFalse(participantUnhold.isOnHold);
+
+    const playSource: FileSource = {
+      url: "https://dummy.com/dummyurl.wav",
+      kind: "fileSource",
+    };
+
+    const holdOptions: HoldOptions = {
+      playSource: playSource,
+      operationContext: "holdFailedContext",
+    };
+    await callConnection.getCallMedia().hold(testUser2, holdOptions);
+    const holdFailedEvent = await waitForEvent("HoldFailed", callConnectionId, 8000);
+    assert.isDefined(holdFailedEvent);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
