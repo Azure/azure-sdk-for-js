@@ -136,20 +136,24 @@
   "outputs": {
     "SERVICEBUS_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+      "value": "[replace(listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString, parameters('baseName'), 'jyminvalidname')]"
     },
     "SERVICEBUS_CONNECTION_STRING_PREMIUM": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('baseNamePremium'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+      "value": "[replace(listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('baseNamePremium'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString, variables('baseNamePremium'), 'jyminvalidpremium')]"
     },
     "SERVICEBUS_ENDPOINT": {
       "type": "string",
       "value": "[replace(reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint, ':443/', '')]"
     },
-    "SERVICEBUS_HOSTNAME": {
+    "SERVICEBUS_FULLY_QUALIFIED_NAMESPACE": {
       "type": "string",
       "value": "[replace(replace(reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
     },
+    "SERVICEBUS_FULLY_QUALIFIED_NAMESPACE_PREMIUM": {
+      "type": "string",
+      "value": "[replace(replace(reference(resourceId('Microsoft.ServiceBus/namespaces', variables('baseNamePremium'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
+    },    
     "QUEUE_NAME": {
       "type": "string",
       "value": "testQueue"

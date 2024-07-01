@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvironmentCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
@@ -15,6 +15,7 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSender,
   ServiceBusReceiverOptions,
+  TokenCredential,
 } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
@@ -587,36 +588,22 @@ describe("ServiceBusClient live tests", () => {
     let errorWasThrown: boolean = false;
 
     const env = getEnvVars();
-    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn))",
-    ) || "")[1];
+    const sbFullQualifiedNamespace = env.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE;
 
     /**
-     * Utility to create EnvironmentCredential using `@azure/identity`
+     * Utility to create TokenCredential using `@azure/identity`
      */
-    function getDefaultTokenCredential(): EnvironmentCredential {
+    function getDefaultTokenCredential(): TokenCredential {
       should.exist(
-        env[EnvVarNames.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests.",
+        env[EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE],
+        "define SERVICEBUS_FULLY_QUALIFIED_NAMESPACE in your environment before running integration tests.",
       );
-      should.exist(
-        env[EnvVarNames.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarNames.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests.",
-      );
-      return new EnvironmentCredential();
+      return createTestCredential();
     }
 
     it("throws error for invalid tokenCredentials", async function (): Promise<void> {
       try {
-        new ServiceBusClient(serviceBusEndpoint, [] as any);
+        new ServiceBusClient(sbFullQualifiedNamespace, [] as any);
       } catch (err: any) {
         errorWasThrown = true;
         should.equal(
@@ -631,7 +618,7 @@ describe("ServiceBusClient live tests", () => {
 
     it("throws error for undefined tokenCredentials", async function (): Promise<void> {
       try {
-        new ServiceBusClient(serviceBusEndpoint, undefined as any);
+        new ServiceBusClient(sbFullQualifiedNamespace, undefined as any);
       } catch (err: any) {
         errorWasThrown = true;
         should.equal(
@@ -668,7 +655,7 @@ describe("ServiceBusClient live tests", () => {
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
           await serviceBusClient.close();
 
-          const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+          const sbClient = new ServiceBusClient(sbFullQualifiedNamespace, tokenCreds);
           try {
             const sender = sbClient.createSender(entities.queue || entities.topic!);
             const receiver = entities.queue

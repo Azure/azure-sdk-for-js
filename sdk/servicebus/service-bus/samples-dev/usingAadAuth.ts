@@ -30,7 +30,8 @@ dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
-  process.env.SERVICEBUS_HOSTNAME || "<your-servicebus-namespace>.servicebus.windows.net";
+  process.env.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE ||
+  "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here

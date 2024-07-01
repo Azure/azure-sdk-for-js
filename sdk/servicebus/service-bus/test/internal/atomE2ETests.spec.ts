@@ -14,19 +14,21 @@ import {
 } from "../../src";
 import { DEFAULT_RULE_NAME } from "../../src/util/constants";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils";
-import { getConnectionString } from "../public/utils/testutils2";
+import { getFullyQualifiedNamespace } from "../public/utils/testutils2";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
 
+const fullyQualifiedNamespace = getFullyQualifiedNamespace();
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
-  new ServiceBusAdministrationClient(getConnectionString());
+  new ServiceBusAdministrationClient(fullyQualifiedNamespace, createTestCredential());
 
 describe("Filter messages with the rules set by the ATOM API", () => {
   const topicName = "new-topic";
   const subscriptionName = "new-subscription";
-  const serviceBusClient = new ServiceBusClient(getConnectionString());
+  const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, createTestCredential());
 
   beforeEach(async () => {
     await recreateTopic(topicName);
@@ -88,7 +90,7 @@ describe("getSubscriptionRuntimeProperties", () => {
   const topicName = "new-topic-2";
   const subscriptionName1 = "new-subscription-1";
   const subscriptionName2 = "new-subscription-2";
-  const serviceBusClient = new ServiceBusClient(getConnectionString());
+  const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, createTestCredential());
 
   beforeEach(async () => {
     await recreateTopic(topicName);
