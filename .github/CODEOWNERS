@@ -227,10 +227,13 @@
 # ServiceOwners: @glharper
 
 # PRLabel: %OpenAI
+/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
+
+# PRLabel: %AI Model Inference
 sdk/ai/ai-inference-rest @glharper @dargilco
 
-# PRLabel: %OpenAI
-/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
+# ServiceLabel: %AI Model Inference
+# ServiceOwners: @glharper @dargilco
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
