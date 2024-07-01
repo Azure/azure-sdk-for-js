@@ -220,7 +220,7 @@ export function createTokenCycler(
     }
 
     if (cycler.shouldRefresh) {
-      refresh(scopes, tokenOptions);
+      await refresh(scopes, tokenOptions);
     }
 
     return token as AccessToken;
