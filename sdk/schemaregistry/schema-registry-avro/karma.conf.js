@@ -56,7 +56,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "RECORDINGS_RELATIVE_PATH",
-      "EVENTHUB_AVRO_HOST_NAME"
+      "EVENTHUB_AVRO_HOST_NAME",
     ],
 
     // test results reporter to use
