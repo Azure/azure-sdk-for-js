@@ -20,10 +20,7 @@ import { RedisManagementClient } from "../src/redisManagementClient";
 import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -39,7 +36,11 @@ const recorderOptions: RecorderStartOptions = {
       value: `fakeKey`,
       target: `[a-z0-9_A-z=]{40,100}`
     }]
-  }
+  },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -172,7 +173,7 @@ describe("Redis test", () => {
         break;
       } else {
         // The resource is activating
-        await delay(300000);
+        await delay(isPlaybackMode() ? 1000 : 300000);
       }
     }
   }).timeout(3600000);

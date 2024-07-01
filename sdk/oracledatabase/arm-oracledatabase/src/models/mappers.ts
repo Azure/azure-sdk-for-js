@@ -234,7 +234,6 @@ export const AutonomousDatabaseListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -613,6 +612,20 @@ export const AutonomousDatabaseBaseProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number",
+        },
+      },
+      nextLongTermBackupTimeStamp: {
+        serializedName: "nextLongTermBackupTimeStamp",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      longTermBackupSchedule: {
+        serializedName: "longTermBackupSchedule",
+        type: {
+          name: "Composite",
+          className: "LongTermBackUpScheduleDetails",
         },
       },
       isPreview: {
@@ -1217,6 +1230,43 @@ export const ConnectionUrlType: coreClient.CompositeMapper = {
   },
 };
 
+export const LongTermBackUpScheduleDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LongTermBackUpScheduleDetails",
+    modelProperties: {
+      repeatCadence: {
+        serializedName: "repeatCadence",
+        type: {
+          name: "String",
+        },
+      },
+      timeOfBackup: {
+        serializedName: "timeOfBackup",
+        type: {
+          name: "DateTime",
+        },
+      },
+      retentionPeriodInDays: {
+        constraints: {
+          InclusiveMaximum: 2558,
+          InclusiveMinimum: 90,
+        },
+        serializedName: "retentionPeriodInDays",
+        type: {
+          name: "Number",
+        },
+      },
+      isDisabled: {
+        serializedName: "isDisabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1320,7 +1370,6 @@ export const CloudExadataInfrastructureListResult: coreClient.CompositeMapper =
         },
         nextLink: {
           serializedName: "nextLink",
-          readOnly: true,
           type: {
             name: "String",
           },
@@ -1759,7 +1808,6 @@ export const CloudVmClusterListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -1929,7 +1977,6 @@ export const CloudVmClusterProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "systemVersion",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2094,7 +2141,7 @@ export const CloudVmClusterProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NSGCidr",
+              className: "NsgCidr",
             },
           },
         },
@@ -2191,10 +2238,10 @@ export const CloudVmClusterProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const NSGCidr: coreClient.CompositeMapper = {
+export const NsgCidr: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "NSGCidr",
+    className: "NsgCidr",
     modelProperties: {
       source: {
         constraints: {
@@ -2370,7 +2417,6 @@ export const AutonomousDatabaseCharacterSetListResult: coreClient.CompositeMappe
         },
         nextLink: {
           serializedName: "nextLink",
-          readOnly: true,
           type: {
             name: "String",
           },
@@ -2422,7 +2468,6 @@ export const AutonomousDatabaseNationalCharacterSetListResult: coreClient.Compos
         },
         nextLink: {
           serializedName: "nextLink",
-          readOnly: true,
           type: {
             name: "String",
           },
@@ -2473,7 +2518,6 @@ export const AutonomousDbVersionListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2558,7 +2602,6 @@ export const DbSystemShapeListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2741,7 +2784,6 @@ export const DnsPrivateViewListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2844,7 +2886,6 @@ export const DnsPrivateZoneListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2967,7 +3008,6 @@ export const GiVersionListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2987,6 +3027,51 @@ export const GiVersionProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "version",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SystemVersionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemVersionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SystemVersion",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SystemVersionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemVersionProperties",
+    modelProperties: {
+      systemVersion: {
+        serializedName: "systemVersion",
         required: true,
         readOnly: true,
         type: {
@@ -3017,7 +3102,6 @@ export const OracleSubscriptionListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -3136,7 +3220,7 @@ export const OracleSubscriptionUpdate: coreClient.CompositeMapper = {
         serializedName: "plan",
         type: {
           name: "Composite",
-          className: "ResourcePlanTypeUpdate",
+          className: "PlanUpdate",
         },
       },
       properties: {
@@ -3150,10 +3234,10 @@ export const OracleSubscriptionUpdate: coreClient.CompositeMapper = {
   },
 };
 
-export const ResourcePlanTypeUpdate: coreClient.CompositeMapper = {
+export const PlanUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ResourcePlanTypeUpdate",
+    className: "PlanUpdate",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -3504,6 +3588,13 @@ export const AutonomousDatabaseUpdateProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      longTermBackupSchedule: {
+        serializedName: "longTermBackupSchedule",
+        type: {
+          name: "Composite",
+          className: "LongTermBackUpScheduleDetails",
+        },
+      },
       localAdgAutoFailoverMaxDataLossLimit: {
         constraints: {
           InclusiveMaximum: 3600,
@@ -3628,7 +3719,6 @@ export const AutonomousDatabaseBackupListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -3642,16 +3732,19 @@ export const AutonomousDatabaseBackupProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AutonomousDatabaseBackupProperties",
     modelProperties: {
-      autonomousDatabaseId: {
-        serializedName: "autonomousDatabaseId",
-        required: true,
+      autonomousDatabaseOcid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "autonomousDatabaseOcid",
         readOnly: true,
         type: {
           name: "String",
         },
       },
-      databaseSizeInTBs: {
-        serializedName: "databaseSizeInTBs",
+      databaseSizeInTbs: {
+        serializedName: "databaseSizeInTbs",
         readOnly: true,
         type: {
           name: "Number",
@@ -3712,15 +3805,15 @@ export const AutonomousDatabaseBackupProperties: coreClient.CompositeMapper = {
       retentionPeriodInDays: {
         constraints: {
           InclusiveMaximum: 3650,
-          InclusiveMinimum: 90,
+          InclusiveMinimum: 60,
         },
         serializedName: "retentionPeriodInDays",
         type: {
           name: "Number",
         },
       },
-      sizeInTBs: {
-        serializedName: "sizeInTBs",
+      sizeInTbs: {
+        serializedName: "sizeInTbs",
         readOnly: true,
         type: {
           name: "Number",
@@ -3733,6 +3826,13 @@ export const AutonomousDatabaseBackupProperties: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
+      timeStarted: {
+        serializedName: "timeStarted",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       timeEnded: {
         serializedName: "timeEnded",
         readOnly: true,
@@ -3740,8 +3840,8 @@ export const AutonomousDatabaseBackupProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      type: {
-        serializedName: "type",
+      backupType: {
+        serializedName: "backupType",
         readOnly: true,
         type: {
           name: "String",
@@ -3783,7 +3883,7 @@ export const AutonomousDatabaseBackupUpdateProperties: coreClient.CompositeMappe
         retentionPeriodInDays: {
           constraints: {
             InclusiveMaximum: 3650,
-            InclusiveMinimum: 90,
+            InclusiveMinimum: 60,
           },
           serializedName: "retentionPeriodInDays",
           type: {
@@ -3852,6 +3952,22 @@ export const AutonomousDatabaseWalletFile: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestoreAutonomousDatabaseDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestoreAutonomousDatabaseDetails",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -3963,7 +4079,6 @@ export const DbServerListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4380,7 +4495,6 @@ export const DbNodeListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4720,7 +4834,6 @@ export const VirtualNetworkAddressListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4794,6 +4907,35 @@ export const VirtualNetworkAddressProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const SystemVersionsFilter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemVersionsFilter",
+    modelProperties: {
+      giVersion: {
+        serializedName: "giVersion",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      shape: {
+        serializedName: "shape",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      isLatestVersion: {
+        serializedName: "isLatestVersion",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -5145,6 +5287,23 @@ export const GiVersion: coreClient.CompositeMapper = {
   },
 };
 
+export const SystemVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemVersion",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SystemVersionProperties",
+        },
+      },
+    },
+  },
+};
+
 export const OracleSubscription: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5258,16 +5417,16 @@ export const AutonomousDatabasesUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AutonomousDatabasesUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5279,16 +5438,16 @@ export const AutonomousDatabasesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AutonomousDatabasesDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5300,16 +5459,58 @@ export const AutonomousDatabasesFailoverHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AutonomousDatabasesFailoverHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
         },
       },
+    },
+  },
+};
+
+export const AutonomousDatabasesRestoreHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutonomousDatabasesRestoreHeaders",
+    modelProperties: {
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AutonomousDatabasesShrinkHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutonomousDatabasesShrinkHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5322,16 +5523,16 @@ export const AutonomousDatabasesSwitchoverHeaders: coreClient.CompositeMapper =
       name: "Composite",
       className: "AutonomousDatabasesSwitchoverHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5360,16 +5561,16 @@ export const CloudExadataInfrastructuresUpdateHeaders: coreClient.CompositeMappe
       name: "Composite",
       className: "CloudExadataInfrastructuresUpdateHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5382,16 +5583,16 @@ export const CloudExadataInfrastructuresDeleteHeaders: coreClient.CompositeMappe
       name: "Composite",
       className: "CloudExadataInfrastructuresDeleteHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5404,16 +5605,16 @@ export const CloudExadataInfrastructuresAddStorageCapacityHeaders: coreClient.Co
       name: "Composite",
       className: "CloudExadataInfrastructuresAddStorageCapacityHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5441,16 +5642,16 @@ export const CloudVmClustersUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CloudVmClustersUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5462,16 +5663,16 @@ export const CloudVmClustersDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CloudVmClustersDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5483,16 +5684,16 @@ export const CloudVmClustersAddVmsHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CloudVmClustersAddVmsHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5504,16 +5705,16 @@ export const CloudVmClustersRemoveVmsHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CloudVmClustersRemoveVmsHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5541,16 +5742,16 @@ export const OracleSubscriptionsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OracleSubscriptionsUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5562,16 +5763,16 @@ export const OracleSubscriptionsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OracleSubscriptionsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5584,16 +5785,16 @@ export const OracleSubscriptionsListActivationLinksHeaders: coreClient.Composite
       name: "Composite",
       className: "OracleSubscriptionsListActivationLinksHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5606,16 +5807,16 @@ export const OracleSubscriptionsListCloudAccountDetailsHeaders: coreClient.Compo
       name: "Composite",
       className: "OracleSubscriptionsListCloudAccountDetailsHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5628,16 +5829,16 @@ export const OracleSubscriptionsListSaasSubscriptionDetailsHeaders: coreClient.C
       name: "Composite",
       className: "OracleSubscriptionsListSaasSubscriptionDetailsHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5666,16 +5867,16 @@ export const AutonomousDatabaseBackupsUpdateHeaders: coreClient.CompositeMapper 
       name: "Composite",
       className: "AutonomousDatabaseBackupsUpdateHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5688,16 +5889,16 @@ export const AutonomousDatabaseBackupsDeleteHeaders: coreClient.CompositeMapper 
       name: "Composite",
       className: "AutonomousDatabaseBackupsDeleteHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -5709,16 +5910,16 @@ export const DbNodesActionHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DbNodesActionHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -5747,16 +5948,16 @@ export const VirtualNetworkAddressesDeleteHeaders: coreClient.CompositeMapper =
       name: "Composite",
       className: "VirtualNetworkAddressesDeleteHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },

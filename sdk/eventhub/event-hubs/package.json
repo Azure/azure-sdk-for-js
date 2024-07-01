@@ -99,7 +99,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "4.4.0-beta.2",
+    "@azure/core-amqp": "4.4.0-beta.1",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.5.0",
@@ -149,7 +149,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "moment": "^2.24.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",

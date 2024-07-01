@@ -11,7 +11,7 @@ import {
   GlobalGetDeletedWebAppResponse,
   GlobalGetDeletedWebAppSnapshotsOptionalParams,
   GlobalGetDeletedWebAppSnapshotsResponse,
-  GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams
+  GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
 } from "../models";
 
 /** Interface representing a Global. */
@@ -23,7 +23,7 @@ export interface Global {
    */
   getDeletedWebApp(
     deletedSiteId: string,
-    options?: GlobalGetDeletedWebAppOptionalParams
+    options?: GlobalGetDeletedWebAppOptionalParams,
   ): Promise<GlobalGetDeletedWebAppResponse>;
   /**
    * Description for Get all deleted apps for a subscription.
@@ -32,7 +32,7 @@ export interface Global {
    */
   getDeletedWebAppSnapshots(
     deletedSiteId: string,
-    options?: GlobalGetDeletedWebAppSnapshotsOptionalParams
+    options?: GlobalGetDeletedWebAppSnapshotsOptionalParams,
   ): Promise<GlobalGetDeletedWebAppSnapshotsResponse>;
   /**
    * Description for Gets an operation in a subscription and given region
@@ -43,6 +43,6 @@ export interface Global {
   getSubscriptionOperationWithAsyncResponse(
     location: string,
     operationId: string,
-    options?: GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams
+    options?: GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
   ): Promise<void>;
 }

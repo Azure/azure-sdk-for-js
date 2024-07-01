@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/core-client",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "description": "Core library for interfacing with Azure Rest Clients",
   "sdk-type": "client",
   "type": "module",

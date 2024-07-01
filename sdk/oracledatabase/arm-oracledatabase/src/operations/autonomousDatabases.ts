@@ -42,6 +42,11 @@ import {
   GenerateAutonomousDatabaseWalletDetails,
   AutonomousDatabasesGenerateWalletOptionalParams,
   AutonomousDatabasesGenerateWalletResponse,
+  RestoreAutonomousDatabaseDetails,
+  AutonomousDatabasesRestoreOptionalParams,
+  AutonomousDatabasesRestoreResponse,
+  AutonomousDatabasesShrinkOptionalParams,
+  AutonomousDatabasesShrinkResponse,
   AutonomousDatabasesSwitchoverOptionalParams,
   AutonomousDatabasesSwitchoverResponse,
   AutonomousDatabasesListBySubscriptionNextResponse,
@@ -624,6 +629,191 @@ export class AutonomousDatabasesImpl implements AutonomousDatabases {
   }
 
   /**
+   * Restores an Autonomous Database based on the provided request parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginRestore(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: RestoreAutonomousDatabaseDetails,
+    options?: AutonomousDatabasesRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AutonomousDatabasesRestoreResponse>,
+      AutonomousDatabasesRestoreResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AutonomousDatabasesRestoreResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, autonomousdatabasename, body, options },
+      spec: restoreOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AutonomousDatabasesRestoreResponse,
+      OperationState<AutonomousDatabasesRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restores an Autonomous Database based on the provided request parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginRestoreAndWait(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: RestoreAutonomousDatabaseDetails,
+    options?: AutonomousDatabasesRestoreOptionalParams,
+  ): Promise<AutonomousDatabasesRestoreResponse> {
+    const poller = await this.beginRestore(
+      resourceGroupName,
+      autonomousdatabasename,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * This operation shrinks the current allocated storage down to the current actual used data storage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param options The options parameters.
+   */
+  async beginShrink(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    options?: AutonomousDatabasesShrinkOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AutonomousDatabasesShrinkResponse>,
+      AutonomousDatabasesShrinkResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AutonomousDatabasesShrinkResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, autonomousdatabasename, options },
+      spec: shrinkOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AutonomousDatabasesShrinkResponse,
+      OperationState<AutonomousDatabasesShrinkResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation shrinks the current allocated storage down to the current actual used data storage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param options The options parameters.
+   */
+  async beginShrinkAndWait(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    options?: AutonomousDatabasesShrinkOptionalParams,
+  ): Promise<AutonomousDatabasesShrinkResponse> {
+    const poller = await this.beginShrink(
+      resourceGroupName,
+      autonomousdatabasename,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Perform switchover action on Autonomous Database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param autonomousdatabasename The database name.
@@ -957,6 +1147,68 @@ const generateWalletOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const restoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/restore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    201: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    202: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    204: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.autonomousdatabasename,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const shrinkOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/shrink",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    201: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    202: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    204: {
+      bodyMapper: Mappers.AutonomousDatabase,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.autonomousdatabasename,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const switchoverOperationSpec: coreClient.OperationSpec = {

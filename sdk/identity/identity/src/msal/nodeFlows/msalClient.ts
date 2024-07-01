@@ -26,12 +26,17 @@ import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils";
+import { interactiveBrowserMockable } from "./msalOpenBrowser";
+import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
 
 /**
  * The default logger used if no logger was passed in by the credential.
  */
 const msalLogger = credentialLogger("MsalClient");
 
+/**
+ * Represents the options for acquiring a token using flows that support silent authentication.
+ */
 export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
   /**
    * Disables automatic authentication. If set to true, the method will throw an error if the user needs to authenticate.
@@ -44,9 +49,55 @@ export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
 }
 
 /**
+ * Represents the options for acquiring a token interactively.
+ */
+export interface GetTokenInteractiveOptions extends GetTokenWithSilentAuthOptions {
+  /**
+   * Window handle for parent window, required for WAM authentication.
+   */
+  parentWindowHandle?: Buffer;
+  /**
+   * Shared configuration options for browser customization
+   */
+  browserCustomizationOptions?: InteractiveBrowserCredentialNodeOptions["browserCustomizationOptions"];
+  /**
+   * loginHint allows a user name to be pre-selected for interactive logins.
+   * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
+   */
+  loginHint?: string;
+}
+
+/**
  * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
+  /**
+   *
+   * Retrieves an access token by using the on-behalf-of flow and a client assertion callback of the calling service.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param userAssertionToken - The access token that was sent to the middle-tier API. This token must have an audience of the app making this OBO request.
+   * @param clientCredentials - The client secret OR client certificate OR client `getAssertion` callback.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
+  getTokenOnBehalfOf(
+    scopes: string[],
+    userAssertionToken: string,
+    clientCredentials: string | CertificateParts | (() => Promise<string>),
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+
+  /**
+   * Retrieves an access token by using an interactive prompt (InteractiveBrowserCredential).
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
+  getTokenByInteractiveRequest(
+    scopes: string[],
+    options: GetTokenInteractiveOptions,
+  ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a user's username and password.
    *
@@ -93,13 +144,13 @@ export interface MsalClient {
    * Retrieves an access token by using a client assertion.
    *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
-   * @param clientAssertion - The client assertion used for authentication.
+   * @param clientAssertion - The client `getAssertion` callback used for authentication.
    * @param options - Additional options that may be provided to the method.
    * @returns An access token.
    */
   getTokenByClientAssertion(
     scopes: string[],
-    clientAssertion: string,
+    clientAssertion: () => Promise<string>,
     options?: GetTokenOptions,
   ): Promise<AccessToken>;
 
@@ -340,7 +391,9 @@ export function createMsalClient(
 
     // Initialize a new app and cache it
     state.logger.getToken.info(
-      `Creating new ConfidentialClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"}.`,
+      `Creating new ConfidentialClientApplication with CAE ${
+        options.enableCae ? "enabled" : "disabled"
+      }.`,
     );
 
     const cachePlugin = options.enableCae
@@ -498,7 +551,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
   async function getTokenByClientAssertion(
     scopes: string[],
-    clientAssertion: string,
+    clientAssertion: () => Promise<string>,
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using client assertion`);
@@ -646,6 +699,128 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     });
   }
 
+  async function getTokenOnBehalfOf(
+    scopes: string[],
+    userAssertionToken: string,
+    clientCredentials: string | CertificateParts | (() => Promise<string>),
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token on behalf of another user`);
+
+    if (typeof clientCredentials === "string") {
+      // Client secret
+      msalLogger.getToken.info(`Using client secret for on behalf of flow`);
+      state.msalConfig.auth.clientSecret = clientCredentials;
+    } else if (typeof clientCredentials === "function") {
+      // Client Assertion
+      msalLogger.getToken.info(`Using client assertion callback for on behalf of flow`);
+      state.msalConfig.auth.clientAssertion = clientCredentials;
+    } else {
+      // Client certificate
+      msalLogger.getToken.info(`Using client certificate for on behalf of flow`);
+      state.msalConfig.auth.clientCertificate = clientCredentials;
+    }
+
+    const msalApp = await getConfidentialApp(options);
+    try {
+      const response = await msalApp.acquireTokenOnBehalfOf({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options.claims,
+        oboAssertion: userAssertionToken,
+      });
+      ensureValidMsalToken(scopes, response, options);
+
+      msalLogger.getToken.info(formatSuccess(scopes));
+
+      return {
+        token: response.accessToken,
+        expiresOnTimestamp: response.expiresOn.getTime(),
+      };
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
+  }
+
+  async function getTokenByInteractiveRequest(
+    scopes: string[],
+    options: GetTokenInteractiveOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token interactively`);
+
+    const app = await getPublicApp(options);
+
+    /**
+     * A helper function that supports brokered authentication through the MSAL's public application.
+     *
+     * When options.useDefaultBrokerAccount is true, the method will attempt to authenticate using the default broker account.
+     * If the default broker account is not available, the method will fall back to interactive authentication.
+     */
+    async function getBrokeredToken(
+      useDefaultBrokerAccount: boolean,
+    ): Promise<msal.AuthenticationResult> {
+      msalLogger.verbose("Authentication will resume through the broker");
+      const interactiveRequest = createBaseInteractiveRequest();
+      if (state.pluginConfiguration.broker.parentWindowHandle) {
+        interactiveRequest.windowHandle = Buffer.from(
+          state.pluginConfiguration.broker.parentWindowHandle,
+        );
+      } else {
+        // this is a bug, as the pluginConfiguration handler should validate this case.
+        msalLogger.warning(
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
+        );
+      }
+
+      if (state.pluginConfiguration.broker.enableMsaPassthrough) {
+        (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
+          "consumer_passthrough";
+      }
+      if (useDefaultBrokerAccount) {
+        interactiveRequest.prompt = "none";
+        msalLogger.verbose("Attempting broker authentication using the default broker account");
+      } else {
+        msalLogger.verbose("Attempting broker authentication without the default broker account");
+      }
+
+      try {
+        return await app.acquireTokenInteractive(interactiveRequest);
+      } catch (e: any) {
+        msalLogger.verbose(`Failed to authenticate through the broker: ${e.message}`);
+        // If we tried to use the default broker account and failed, fall back to interactive authentication
+        if (useDefaultBrokerAccount) {
+          return getBrokeredToken(/* useDefaultBrokerAccount: */ false);
+        } else {
+          throw e;
+        }
+      }
+    }
+
+    function createBaseInteractiveRequest(): msal.InteractiveRequest {
+      return {
+        openBrowser: async (url) => {
+          await interactiveBrowserMockable.open(url, { wait: true, newInstance: true });
+        },
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+        loginHint: options?.loginHint,
+        errorTemplate: options?.browserCustomizationOptions?.errorMessage,
+        successTemplate: options?.browserCustomizationOptions?.successMessage,
+      };
+    }
+
+    return withSilentAuthentication(app, scopes, options, async () => {
+      const interactiveRequest = createBaseInteractiveRequest();
+
+      if (state.pluginConfiguration.broker.isEnabled) {
+        return getBrokeredToken(state.pluginConfiguration.broker.useDefaultBrokerAccount ?? false);
+      }
+
+      return app.acquireTokenInteractive(interactiveRequest);
+    });
+  }
+
   return {
     getActiveAccount,
     getTokenByClientSecret,
@@ -654,5 +829,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     getTokenByDeviceCode,
     getTokenByUsernamePassword,
     getTokenByAuthorizationCode,
+    getTokenOnBehalfOf,
+    getTokenByInteractiveRequest,
   };
 }

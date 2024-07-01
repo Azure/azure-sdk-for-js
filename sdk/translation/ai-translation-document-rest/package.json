@@ -1,0 +1,123 @@
+{
+  "name": "@azure-rest/ai-translation-document",
+  "sdk-type": "client",
+  "author": "Microsoft Corporation",
+  "description": "A generated SDK for DocumentTranslationClient.",
+  "version": "1.0.0-beta.1",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "translate",
+    "translation"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/ai-translation-document-rest.d.ts",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document-rest/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/ai-translation-document.d.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Document Translation Service",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-translator"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+    }
+  },
+  "dependencies": {
+    "@azure/core-rest-pipeline": "^1.8.0",
+    "@azure/logger": "^1.0.0",
+    "@azure/core-paging": "^1.2.0",
+    "@azure-rest/core-client": "^2.0.0",
+    "@azure/core-auth": "^1.6.0",
+    "tslib": "^2.6.2",
+    "@azure/core-lro": "3.0.0-beta.1",
+    "@azure/abort-controller": "^2.0.0"
+  },
+  "devDependencies": {
+    "@azure/storage-blob": "^12.23.0",
+    "@microsoft/api-extractor": "^7.47.0",
+    "rimraf": "^5.0.5",
+    "autorest": "latest",
+    "@types/node": "^18.0.0",
+    "dotenv": "^16.0.0",
+    "eslint": "^8.55.0",
+    "mkdirp": "^3.0.1",
+    "source-map-support": "^0.5.9",
+    "typescript": "~5.4.5",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure-tools/test-credential": "^1.0.0",
+    "@azure/identity": "^4.0.1",
+    "@azure-tools/test-recorder": "^3.5.2",
+    "mocha": "^10.0.0",
+    "@types/mocha": "^10.0.0",
+    "cross-env": "^7.0.2",
+    "@types/chai": "^4.2.8",
+    "chai": "^4.2.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-mocha": "^2.0.1",
+    "karma-source-map-support": "~1.4.0",
+    "karma-sourcemap-loader": "^0.3.8",
+    "karma": "^6.2.0",
+    "nyc": "^17.0.0",
+    "ts-node": "^10.0.0",
+    "prettier": "^3.2.5",
+    "tshy": "1.15.1"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:node": "tsc -p . && dev-tool run bundle --browser-test false",
+    "build:samples": "echo Obsolete.",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:debug": "tsc -p . && dev-tool run bundle && dev-tool run extract-api",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "echo skipped",
+    "integration-test:browser": "dev-tool run test:browser",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
+    "unit-test:browser": "dev-tool run test:browser",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && mkdirp ./review && dev-tool run extract-api"
+  },
+  "sideEffects": false,
+  "autoPublish": false
+}
