@@ -271,7 +271,7 @@
 /sdk/contentsafety/ @xirzec
 
 # ServiceLabel: %Cognitive - Content Safety
-# AzureSdkOwners: @xirec
+# AzureSdkOwners: @xirzec
 
 # PRLabel: %Search
 /sdk/search/ @dgetu @Azure/azsdk-search
