@@ -13,6 +13,8 @@ extends:
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           Location: 'eastus2'
           ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFiles:
+          - sdk/storage/sub-config-azure-preview.json
         UsGov:
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           MatrixFilters:
