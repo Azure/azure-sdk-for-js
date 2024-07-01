@@ -1,5 +1,5 @@
 # Release History
-## 1.0.0-beta.2 (2024-06-29)
+## 1.0.0-beta.2 (2024-07-01)
 
 ### Other Changes
 - Re-release of 1.0.0-beta.1 as the SDK package was released without types
