@@ -102,7 +102,7 @@ export interface FirewallRulesListByMongoClusterOptionalParams extends Operation
 // @public (undocumented)
 export interface FirewallRulesOperations {
     // (undocumented)
-    createOrUpdate: (resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, resource: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, resource: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FirewallRule>, FirewallRule>;
     // (undocumented)
     delete: (resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     // (undocumented)
@@ -442,7 +442,7 @@ export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams exte
 // @public (undocumented)
 export interface PrivateEndpointConnectionsOperations {
     // (undocumented)
-    create: (resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<void>, void>;
+    create: (resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>;
     // (undocumented)
     delete: (resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     // (undocumented)

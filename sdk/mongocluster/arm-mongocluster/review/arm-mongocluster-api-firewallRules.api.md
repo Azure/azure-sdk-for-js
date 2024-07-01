@@ -24,10 +24,10 @@ export function _$deleteDeserialize(result: FirewallRulesDelete202Response | Fir
 export function _$deleteSend(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): StreamableMethod<FirewallRulesDelete202Response | FirewallRulesDelete204Response | FirewallRulesDeleteDefaultResponse | FirewallRulesDeleteLogicalResponse>;
 
 // @public
-export function createOrUpdate(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, resource: FirewallRule_2, options?: FirewallRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, resource: FirewallRule_2, options?: FirewallRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<FirewallRule_2>, FirewallRule_2>;
 
 // @public (undocumented)
-export function _createOrUpdateDeserialize(result: FirewallRulesCreateOrUpdate200Response | FirewallRulesCreateOrUpdate201Response | FirewallRulesCreateOrUpdate202Response | FirewallRulesCreateOrUpdateDefaultResponse | FirewallRulesCreateOrUpdateLogicalResponse): Promise<void>;
+export function _createOrUpdateDeserialize(result: FirewallRulesCreateOrUpdate200Response | FirewallRulesCreateOrUpdate201Response | FirewallRulesCreateOrUpdate202Response | FirewallRulesCreateOrUpdateDefaultResponse | FirewallRulesCreateOrUpdateLogicalResponse): Promise<FirewallRule_2>;
 
 // @public (undocumented)
 export function _createOrUpdateSend(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, resource: FirewallRule_2, options?: FirewallRulesCreateOrUpdateOptionalParams): StreamableMethod<FirewallRulesCreateOrUpdate200Response | FirewallRulesCreateOrUpdate201Response | FirewallRulesCreateOrUpdate202Response | FirewallRulesCreateOrUpdateDefaultResponse | FirewallRulesCreateOrUpdateLogicalResponse>;

@@ -24,10 +24,10 @@ export function _$deleteDeserialize(result: PrivateEndpointConnectionsDelete202R
 export function _$deleteSend(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): StreamableMethod<PrivateEndpointConnectionsDelete202Response | PrivateEndpointConnectionsDelete204Response | PrivateEndpointConnectionsDeleteDefaultResponse | PrivateEndpointConnectionsDeleteLogicalResponse>;
 
 // @public
-export function create(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource_2, options?: PrivateEndpointConnectionsCreateOptionalParams): PollerLike<OperationState<void>, void>;
+export function create(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource_2, options?: PrivateEndpointConnectionsCreateOptionalParams): PollerLike<OperationState<PrivateEndpointConnectionResource_2>, PrivateEndpointConnectionResource_2>;
 
 // @public (undocumented)
-export function _createDeserialize(result: PrivateEndpointConnectionsCreate200Response | PrivateEndpointConnectionsCreate201Response | PrivateEndpointConnectionsCreate202Response | PrivateEndpointConnectionsCreateDefaultResponse | PrivateEndpointConnectionsCreateLogicalResponse): Promise<void>;
+export function _createDeserialize(result: PrivateEndpointConnectionsCreate200Response | PrivateEndpointConnectionsCreate201Response | PrivateEndpointConnectionsCreate202Response | PrivateEndpointConnectionsCreateDefaultResponse | PrivateEndpointConnectionsCreateLogicalResponse): Promise<PrivateEndpointConnectionResource_2>;
 
 // @public (undocumented)
 export function _createSend(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource_2, options?: PrivateEndpointConnectionsCreateOptionalParams): StreamableMethod<PrivateEndpointConnectionsCreate200Response | PrivateEndpointConnectionsCreate201Response | PrivateEndpointConnectionsCreate202Response | PrivateEndpointConnectionsCreateDefaultResponse | PrivateEndpointConnectionsCreateLogicalResponse>;
