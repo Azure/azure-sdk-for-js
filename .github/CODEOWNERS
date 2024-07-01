@@ -130,13 +130,13 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-# AzureSdkOwners: @sarangan12
+# AzureSdkOwners: @sarangan12 
 # ServiceLabel: %Event Grid
 /sdk/eventgrid/ @sarangan12
 
 # PRLabel: %Event Hubs
 # ServiceLabel: %Event Hubs
-# AzureSdkOwners: @deyaaeldeen @jeremymeng
+# AzureSdkOwners: @deyaaeldeen @jeremymeng 
 /sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru
 
 # ServiceLabel: %Cognitive - Health Insights
@@ -227,9 +227,11 @@
 # ServiceOwners: @glharper
 
 # PRLabel: %OpenAI
+# ServiceLabel: %OpenAI
 sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %OpenAI
+# ServiceLabel: %OpenAI
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %Image Analysis
