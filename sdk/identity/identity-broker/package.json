@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-broker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "sdk-type": "client",
   "description": "A native plugin for Azure Identity credentials to enable broker authentication such as WAM",
   "main": "dist/index.js",
@@ -14,13 +14,13 @@
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-esm types \"*.tgz\" \"*.log\"",
     "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
@@ -59,7 +59,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.4.0",
     "@azure/identity": "^4.0.1",
-    "@azure/msal-node": "^2.5.1",
+    "@azure/msal-node": "^2.9.2",
     "@azure/msal-node-extensions": "^1.0.7",
     "tslib": "^2.2.0"
   },
@@ -70,7 +70,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger": "^1.0.4",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.35.1",
     "@types/mocha": "^10.0.0",
@@ -81,7 +81,7 @@
     "mocha": "^10.0.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.1",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "sinon": "^17.0.0"
   },
   "//sampleConfiguration": {

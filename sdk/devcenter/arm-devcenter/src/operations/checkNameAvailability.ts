@@ -14,7 +14,7 @@ import { DevCenterClient } from "../devCenterClient";
 import {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityExecuteOptionalParams,
-  CheckNameAvailabilityExecuteResponse
+  CheckNameAvailabilityExecuteResponse,
 } from "../models";
 
 /** Class containing CheckNameAvailability operations. */
@@ -36,11 +36,11 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
    */
   execute(
     nameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityExecuteOptionalParams
+    options?: CheckNameAvailabilityExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityExecuteResponse> {
     return this.client.sendOperationRequest(
       { nameAvailabilityRequest, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 }
@@ -48,21 +48,20 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.nameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

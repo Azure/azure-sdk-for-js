@@ -1,5 +1,15 @@
 # Release History
 
+## 1.9.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.9.0 (2024-04-09)
 
 ### Features Added
@@ -75,7 +85,6 @@
 ### Bugs Fixed
 
 - UUID fix for older versions of Node.js
-  - [#25501](https://github.com/Azure/azure-sdk-for-js/issues/25501)
   - [#25541](https://github.com/Azure/azure-sdk-for-js/issues/25541)
   - [#25538](https://github.com/Azure/azure-sdk-for-js/issues/25538)
   - [#25532](https://github.com/Azure/azure-sdk-for-js/issues/25532)

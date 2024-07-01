@@ -12,14 +12,16 @@ urlFragment: identity-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Identity in some common scenarios.
 
-| **File Name**                                                   | **Description**                                                                                                     |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| [azureDeveloperCliCredential.js][azuredeveloperclicredential]   | Authenticates using Azure Developer CLI Credential                                                                  |
-| [clientSecretCredential.js][clientsecretcredential]             | Authenticates with an app registration’s client ID and secret.                                                      |
-| [defaultAzureCredential.js][defaultazurecredential]             | Tries several authentication methods using a single credential, which is the simplest way to use `@azure/identity`. |
-| [environmentCredential.js][environmentcredential]               | Authenticates as an app registration automatically using environment variables.                                     |
-| [interactiveBrowserCredential.js][interactivebrowsercredential] | Authenticates using Interactive Browser Credential                                                                  |
-| [workloadIdentityCredential.js][workloadidentitycredential]     | Authenticates using Workload Identity Credential                                                                    |
+| **File Name**                                                                                             | **Description**                                                                                                     |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [azureDeveloperCliCredential.js][azuredeveloperclicredential]                                             | Authenticates using Azure Developer CLI Credential                                                                  |
+| [clientSecretCredential.js][clientsecretcredential]                                                       | Authenticates with an app registration’s client ID and secret.                                                      |
+| [defaultAzureCredential.js][defaultazurecredential]                                                       | Tries several authentication methods using a single credential, which is the simplest way to use `@azure/identity`. |
+| [environmentCredential.js][environmentcredential]                                                         | Authenticates as an app registration automatically using environment variables.                                     |
+| [interactiveBrowserCredential.js][interactivebrowsercredential]                                           | Authenticates using Interactive Browser Credential                                                                  |
+| [tokenProvider.js][tokenprovider]                                                                         | demonstrates how to get a bearer token.                                                                             |
+| [workloadIdentityCredential.js][workloadidentitycredential]                                               | Authenticates using Workload Identity Credential                                                                    |
+| [azurePipelinesCredential\azurePipelinesCredential.js][azurepipelinescredential_azurepipelinescredential] | Authenticates using AzurePipelines Credential                                                                       |
 
 ## Prerequisites
 
@@ -67,7 +69,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/defaultAzureCredential.js
 [environmentcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/environmentCredential.js
 [interactivebrowsercredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/interactiveBrowserCredential.js
+[tokenprovider]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/tokenProvider.js
 [workloadidentitycredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/workloadIdentityCredential.js
+[azurepipelinescredential_azurepipelinescredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v4/javascript/azurePipelinesCredential/azurePipelinesCredential.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/identity
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureactivedirectoryappregistration]: https://learn.microsoft.com/entra/identity-platform/quickstart-register-app

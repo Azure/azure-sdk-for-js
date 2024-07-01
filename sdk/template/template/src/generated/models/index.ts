@@ -42,27 +42,97 @@ export interface ErrorModel {
 export interface KeyValueListResult {
   /** The collection value. */
   items?: ConfigurationSetting[];
+  /** An identifier representing the returned state of the resource. */
+  etag?: string;
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string;
 }
 
 export interface ConfigurationSetting {
-  /** The unique name of the key-value. */
-  key: string;
-  /** The label of the key-value. */
+  /** The key of the key-value. */
+  key?: string;
+  /** The label the key-value belongs to. */
   label?: string;
-  /** The content type of the key-value. */
+  /** The content type of the value stored within the key-value. */
   contentType?: string;
   /** The value of the key-value. */
   value?: string;
-  /** The time the key-value was last modified. */
+  /** A date representing the last time the key-value was modified. */
   lastModified?: Date;
-  /** Dictionary of <string> */
+  /** The tags of the key-value */
   tags?: { [propertyName: string]: string };
-  /** Indicates whether or not this key-value is readonly. */
+  /** Indicates whether the key-value is locked. */
   isReadOnly?: boolean;
-  /** The entity-tag of the key-value. */
+  /** A value representing the current state of the resource. */
   etag?: string;
+}
+
+/** The result of a snapshot list request. */
+export interface SnapshotListResult {
+  /** The collection value. */
+  items?: Snapshot[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+export interface Snapshot {
+  /**
+   * The name of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The current status of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SnapshotStatus;
+  /** A list of filters used to filter the key-values included in the snapshot. */
+  filters: KeyValueFilter[];
+  /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
+  compositionType?: CompositionType;
+  /**
+   * The time that the snapshot was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /**
+   * The time that the snapshot will expire.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expires?: Date;
+  /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
+  retentionPeriod?: number;
+  /**
+   * The size in bytes of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: number;
+  /**
+   * The amount of key-values in the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly itemsCount?: number;
+  /** The tags of the snapshot. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * A value representing the current state of the snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+}
+
+/** Enables filtering of key-values. */
+export interface KeyValueFilter {
+  /** Filters key-values by their key field. */
+  key: string;
+  /** Filters key-values by their label field. */
+  label?: string;
+}
+
+/** Parameters used to update a snapshot. */
+export interface SnapshotUpdateParameters {
+  /** The desired status of the snapshot. */
+  status?: SnapshotStatus;
 }
 
 /** The result of a list request. */
@@ -81,6 +151,36 @@ export interface Label {
   readonly name?: string;
 }
 
+/** Details of a long running operation. */
+export interface OperationDetails {
+  /** The unique id of the operation. */
+  id: string;
+  /** The current status of the operation */
+  status: State;
+  /** An error, available when the status is `Failed`, describing why the operation failed. */
+  error?: ErrorDetail;
+}
+
+/** The details of an error. */
+export interface ErrorDetail {
+  /** One of a server-defined set of error codes. */
+  code: string;
+  /** A human-readable representation of the error. */
+  message: string;
+  /** An array of details about specific errors that led to this reported error. */
+  details?: ErrorDetail[];
+  /** An object containing more specific information than the current object about the error. */
+  innererror?: InnerError;
+}
+
+/** An object containing specific information about an error. */
+export interface InnerError {
+  /** One of a server-defined set of error codes. */
+  code?: string;
+  /** An object containing more specific information than the current object about the error. */
+  innererror?: InnerError;
+}
+
 /** Defines headers for GeneratedClient_getKeys operation. */
 export interface GeneratedClientGetKeysHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
@@ -97,12 +197,16 @@ export interface GeneratedClientCheckKeysHeaders {
 export interface GeneratedClientGetKeyValuesHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for GeneratedClient_checkKeyValues operation. */
 export interface GeneratedClientCheckKeyValuesHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for GeneratedClient_getKeyValue operation. */
@@ -111,8 +215,6 @@ export interface GeneratedClientGetKeyValueHeaders {
   syncToken?: string;
   /** An identifier representing the returned state of the resource. */
   eTag?: string;
-  /** A UTC datetime that specifies the last time the resource was modified. */
-  lastModified?: string;
 }
 
 /** Defines headers for GeneratedClient_putKeyValue operation. */
@@ -137,8 +239,60 @@ export interface GeneratedClientCheckKeyValueHeaders {
   syncToken?: string;
   /** An identifier representing the returned state of the resource. */
   eTag?: string;
-  /** A UTC datetime that specifies the last time the resource was modified. */
-  lastModified?: string;
+}
+
+/** Defines headers for GeneratedClient_getSnapshots operation. */
+export interface GeneratedClientGetSnapshotsHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+}
+
+/** Defines headers for GeneratedClient_checkSnapshots operation. */
+export interface GeneratedClientCheckSnapshotsHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+}
+
+/** Defines headers for GeneratedClient_getSnapshot operation. */
+export interface GeneratedClientGetSnapshotHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+  /** Includes links to related resources. */
+  link?: string;
+}
+
+/** Defines headers for GeneratedClient_createSnapshot operation. */
+export interface GeneratedClientCreateSnapshotHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+  /** Includes links to related resources. */
+  link?: string;
+  /** The URL to track the status of the long running operation. */
+  operationLocation?: string;
+}
+
+/** Defines headers for GeneratedClient_updateSnapshot operation. */
+export interface GeneratedClientUpdateSnapshotHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+  /** Includes links to related resources. */
+  link?: string;
+}
+
+/** Defines headers for GeneratedClient_checkSnapshot operation. */
+export interface GeneratedClientCheckSnapshotHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+  /** Includes links to related resources. */
+  link?: string;
 }
 
 /** Defines headers for GeneratedClient_getLabels operation. */
@@ -173,12 +327,16 @@ export interface GeneratedClientDeleteLockHeaders {
 export interface GeneratedClientGetRevisionsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for GeneratedClient_checkRevisions operation. */
 export interface GeneratedClientCheckRevisionsHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
 /** Defines headers for GeneratedClient_getKeysNext operation. */
@@ -189,6 +347,14 @@ export interface GeneratedClientGetKeysNextHeaders {
 
 /** Defines headers for GeneratedClient_getKeyValuesNext operation. */
 export interface GeneratedClientGetKeyValuesNextHeaders {
+  /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
+  syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
+}
+
+/** Defines headers for GeneratedClient_getSnapshotsNext operation. */
+export interface GeneratedClientGetSnapshotsNextHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
 }
@@ -203,18 +369,128 @@ export interface GeneratedClientGetLabelsNextHeaders {
 export interface GeneratedClientGetRevisionsNextHeaders {
   /** Enables real-time consistency between requests by providing the returned value in the next request made to the server. */
   syncToken?: string;
+  /** An identifier representing the returned state of the resource. */
+  eTag?: string;
 }
 
-/** Defines values for SettingFields. */
-export type SettingFields =
-  | "key"
-  | "label"
-  | "content_type"
-  | "value"
-  | "last_modified"
-  | "tags"
-  | "locked"
-  | "etag";
+/** Known values of {@link KeyValueFields} that the service accepts. */
+export enum KnownKeyValueFields {
+  Key = "key",
+  Label = "label",
+  ContentType = "content_type",
+  Value = "value",
+  LastModified = "last_modified",
+  Tags = "tags",
+  Locked = "locked",
+  Etag = "etag"
+}
+
+/**
+ * Defines values for KeyValueFields. \
+ * {@link KnownKeyValueFields} can be used interchangeably with KeyValueFields,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **key** \
+ * **label** \
+ * **content_type** \
+ * **value** \
+ * **last_modified** \
+ * **tags** \
+ * **locked** \
+ * **etag**
+ */
+export type KeyValueFields = string;
+
+/** Known values of {@link SnapshotFields} that the service accepts. */
+export enum KnownSnapshotFields {
+  Name = "name",
+  Status = "status",
+  Filters = "filters",
+  CompositionType = "composition_type",
+  Created = "created",
+  Expires = "expires",
+  RetentionPeriod = "retention_period",
+  Size = "size",
+  ItemsCount = "items_count",
+  Tags = "tags",
+  Etag = "etag"
+}
+
+/**
+ * Defines values for SnapshotFields. \
+ * {@link KnownSnapshotFields} can be used interchangeably with SnapshotFields,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **name** \
+ * **status** \
+ * **filters** \
+ * **composition_type** \
+ * **created** \
+ * **expires** \
+ * **retention_period** \
+ * **size** \
+ * **items_count** \
+ * **tags** \
+ * **etag**
+ */
+export type SnapshotFields = string;
+
+/** Known values of {@link SnapshotStatus} that the service accepts. */
+export enum KnownSnapshotStatus {
+  Provisioning = "provisioning",
+  Ready = "ready",
+  Archived = "archived",
+  Failed = "failed"
+}
+
+/**
+ * Defines values for SnapshotStatus. \
+ * {@link KnownSnapshotStatus} can be used interchangeably with SnapshotStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **provisioning** \
+ * **ready** \
+ * **archived** \
+ * **failed**
+ */
+export type SnapshotStatus = string;
+
+/** Known values of {@link CompositionType} that the service accepts. */
+export enum KnownCompositionType {
+  Key = "key",
+  KeyLabel = "key_label"
+}
+
+/**
+ * Defines values for CompositionType. \
+ * {@link KnownCompositionType} can be used interchangeably with CompositionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **key** \
+ * **key_label**
+ */
+export type CompositionType = string;
+
+/** Known values of {@link LabelFields} that the service accepts. */
+export enum KnownLabelFields {
+  Name = "name"
+}
+
+/**
+ * Defines values for LabelFields. \
+ * {@link KnownLabelFields} can be used interchangeably with LabelFields,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **name**
+ */
+export type LabelFields = string;
+/** Defines values for State. */
+export type State =
+  | "NotStarted"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /** Optional parameters. */
 export interface GetKeysOptionalParams extends coreClient.OperationOptions {
@@ -254,7 +530,13 @@ export interface GetKeyValuesOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
+  /** A filter used get key-values for a snapshot. The value should be the name of the snapshot. Not valid when used with 'key' and 'label' filters. */
+  snapshot?: string;
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
 }
 
 /** Contains response data for the getKeyValues operation. */
@@ -273,7 +555,13 @@ export interface CheckKeyValuesOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
+  /** A filter used get key-values for a snapshot. Not valid when used with 'key' and 'label' filters. */
+  snapshot?: string;
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
 }
 
 /** Contains response data for the checkKeyValues operation. */
@@ -286,7 +574,7 @@ export interface GetKeyValueOptionalParams extends coreClient.OperationOptions {
   /** The label of the key-value to retrieve. */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
   ifMatch?: string;
   /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
@@ -334,7 +622,7 @@ export interface CheckKeyValueOptionalParams
   /** The label of the key-value to retrieve. */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
   ifMatch?: string;
   /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
@@ -345,6 +633,84 @@ export interface CheckKeyValueOptionalParams
 export type CheckKeyValueResponse = GeneratedClientCheckKeyValueHeaders;
 
 /** Optional parameters. */
+export interface GetSnapshotsOptionalParams
+  extends coreClient.OperationOptions {
+  /** A filter for the name of the returned snapshots. */
+  name?: string;
+  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
+  after?: string;
+  /** Used to select what fields are present in the returned resource(s). */
+  select?: SnapshotFields[];
+  /** Used to filter returned snapshots by their status property. */
+  status?: SnapshotStatus[];
+}
+
+/** Contains response data for the getSnapshots operation. */
+export type GetSnapshotsResponse = GeneratedClientGetSnapshotsHeaders &
+  SnapshotListResult;
+
+/** Optional parameters. */
+export interface CheckSnapshotsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
+  after?: string;
+}
+
+/** Contains response data for the checkSnapshots operation. */
+export type CheckSnapshotsResponse = GeneratedClientCheckSnapshotsHeaders;
+
+/** Optional parameters. */
+export interface GetSnapshotOptionalParams extends coreClient.OperationOptions {
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
+  /** Used to select what fields are present in the returned resource(s). */
+  select?: SnapshotFields[];
+}
+
+/** Contains response data for the getSnapshot operation. */
+export type GetSnapshotResponse = GeneratedClientGetSnapshotHeaders & Snapshot;
+
+/** Optional parameters. */
+export interface CreateSnapshotOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createSnapshot operation. */
+export type CreateSnapshotResponse = GeneratedClientCreateSnapshotHeaders &
+  Snapshot;
+
+/** Optional parameters. */
+export interface UpdateSnapshotOptionalParams
+  extends coreClient.OperationOptions {
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the updateSnapshot operation. */
+export type UpdateSnapshotResponse = GeneratedClientUpdateSnapshotHeaders &
+  Snapshot;
+
+/** Optional parameters. */
+export interface CheckSnapshotOptionalParams
+  extends coreClient.OperationOptions {
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the checkSnapshot operation. */
+export type CheckSnapshotResponse = GeneratedClientCheckSnapshotHeaders;
+
+/** Optional parameters. */
 export interface GetLabelsOptionalParams extends coreClient.OperationOptions {
   /** A filter for the name of the returned labels. */
   name?: string;
@@ -353,7 +719,7 @@ export interface GetLabelsOptionalParams extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: string[];
+  select?: LabelFields[];
 }
 
 /** Contains response data for the getLabels operation. */
@@ -369,7 +735,7 @@ export interface CheckLabelsOptionalParams extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: string[];
+  select?: LabelFields[];
 }
 
 /** Contains response data for the checkLabels operation. */
@@ -415,7 +781,7 @@ export interface GetRevisionsOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getRevisions operation. */
@@ -434,11 +800,18 @@ export interface CheckRevisionsOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the checkRevisions operation. */
 export type CheckRevisionsResponse = GeneratedClientCheckRevisionsHeaders;
+
+/** Optional parameters. */
+export interface GetOperationDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOperationDetails operation. */
+export type GetOperationDetailsResponse = OperationDetails;
 
 /** Optional parameters. */
 export interface GetKeysNextOptionalParams extends coreClient.OperationOptions {
@@ -466,12 +839,35 @@ export interface GetKeyValuesNextOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
+  /** A filter used get key-values for a snapshot. The value should be the name of the snapshot. Not valid when used with 'key' and 'label' filters. */
+  snapshot?: string;
+  /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
+  ifMatch?: string;
+  /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
+  ifNoneMatch?: string;
 }
 
 /** Contains response data for the getKeyValuesNext operation. */
 export type GetKeyValuesNextResponse = GeneratedClientGetKeyValuesNextHeaders &
   KeyValueListResult;
+
+/** Optional parameters. */
+export interface GetSnapshotsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** A filter for the name of the returned snapshots. */
+  name?: string;
+  /** Instructs the server to return elements that appear after the element referred to by the specified token. */
+  after?: string;
+  /** Used to select what fields are present in the returned resource(s). */
+  select?: SnapshotFields[];
+  /** Used to filter returned snapshots by their status property. */
+  status?: SnapshotStatus[];
+}
+
+/** Contains response data for the getSnapshotsNext operation. */
+export type GetSnapshotsNextResponse = GeneratedClientGetSnapshotsNextHeaders &
+  SnapshotListResult;
 
 /** Optional parameters. */
 export interface GetLabelsNextOptionalParams
@@ -483,7 +879,7 @@ export interface GetLabelsNextOptionalParams
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: string[];
+  select?: LabelFields[];
 }
 
 /** Contains response data for the getLabelsNext operation. */
@@ -502,7 +898,7 @@ export interface GetRevisionsNextOptionalParams
   /** A filter used to match labels */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
-  select?: SettingFields[];
+  select?: KeyValueFields[];
 }
 
 /** Contains response data for the getRevisionsNext operation. */

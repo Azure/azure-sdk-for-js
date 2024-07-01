@@ -4,11 +4,10 @@
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-
 import { ClientSecretCredential } from "../../../src/credentials/clientSecretCredential";
 import { Context } from "mocha";
 import { IdentityClient } from "../../../src/client/identityClient";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("MultiTenantAuthentication", function () {
   let cleanup: MsalTestCleanup;

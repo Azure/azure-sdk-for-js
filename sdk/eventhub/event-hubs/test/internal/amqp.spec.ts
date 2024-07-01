@@ -6,7 +6,7 @@ import { Constants } from "@azure/core-amqp";
 import chai from "chai";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 testWithServiceTypes(() => {
   describe("AMQP message encoding", () => {

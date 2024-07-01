@@ -13,7 +13,7 @@ import {
 import { CommunicationIdentityClient, TokenScope } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {

@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { ChatThreadImpl, ChatImpl } from "./operations";
 import { ChatThread, Chat } from "./operationsInterfaces";
@@ -35,10 +35,10 @@ export class ChatApiClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: ChatApiClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-chat/1.4.1`;
+    const packageDetails = `azsdk-js-communication-chat/1.5.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -48,16 +48,16 @@ export class ChatApiClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2023-11-07";
+    this.apiVersion = options.apiVersion || "2024-03-07";
     this.chatThread = new ChatThreadImpl(this);
     this.chat = new ChatImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -72,7 +72,7 @@ export class ChatApiClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -86,7 +86,7 @@ export class ChatApiClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

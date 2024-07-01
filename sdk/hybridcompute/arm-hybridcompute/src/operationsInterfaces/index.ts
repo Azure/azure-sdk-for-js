@@ -8,13 +8,14 @@
 
 export * from "./licenses";
 export * from "./machines";
-export * from "./licenseProfiles";
 export * from "./machineExtensions";
 export * from "./extensionMetadata";
 export * from "./operations";
 export * from "./networkProfileOperations";
-export * from "./hybridIdentityMetadataOperations";
-export * from "./agentVersionOperations";
+export * from "./machineRunCommands";
+export * from "./gateways";
+export * from "./settingsOperations";
 export * from "./privateLinkScopes";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
+export * from "./networkSecurityPerimeterConfigurations";

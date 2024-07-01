@@ -22,7 +22,7 @@ import {
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsStartJobResponse,
   JobDefinitionsStopJobOptionalParams,
-  JobDefinitionsStopJobResponse
+  JobDefinitionsStopJobResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface JobDefinitions {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: JobDefinitionsListOptionalParams
+    options?: JobDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<JobDefinition>;
   /**
    * Gets a Job Definition resource.
@@ -54,7 +54,7 @@ export interface JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsGetOptionalParams
+    options?: JobDefinitionsGetOptionalParams,
   ): Promise<JobDefinitionsGetResponse>;
   /**
    * Creates or updates a Job Definition resource, which contains configuration for a single unit of
@@ -72,7 +72,7 @@ export interface JobDefinitions {
     projectName: string,
     jobDefinitionName: string,
     jobDefinition: JobDefinition,
-    options?: JobDefinitionsCreateOrUpdateOptionalParams
+    options?: JobDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<JobDefinitionsCreateOrUpdateResponse>;
   /**
    * Updates properties for a Job Definition resource. Properties not specified in the request body will
@@ -90,7 +90,7 @@ export interface JobDefinitions {
     projectName: string,
     jobDefinitionName: string,
     jobDefinition: JobDefinitionUpdateParameters,
-    options?: JobDefinitionsUpdateOptionalParams
+    options?: JobDefinitionsUpdateOptionalParams,
   ): Promise<JobDefinitionsUpdateResponse>;
   /**
    * Deletes a Job Definition resource.
@@ -105,7 +105,7 @@ export interface JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsDeleteOptionalParams
+    options?: JobDefinitionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Job Definition resource.
@@ -120,10 +120,11 @@ export interface JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsDeleteOptionalParams
+    options?: JobDefinitionsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Requests an Agent to start a new instance of this Job Definition, generating a new Job Run resource.
+   * Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for
+   * execution.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageMoverName The name of the Storage Mover resource.
    * @param projectName The name of the Project resource.
@@ -135,7 +136,7 @@ export interface JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsStartJobOptionalParams
+    options?: JobDefinitionsStartJobOptionalParams,
   ): Promise<JobDefinitionsStartJobResponse>;
   /**
    * Requests the Agent of any active instance of this Job Definition to stop.
@@ -150,6 +151,6 @@ export interface JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsStopJobOptionalParams
+    options?: JobDefinitionsStopJobOptionalParams,
   ): Promise<JobDefinitionsStopJobResponse>;
 }

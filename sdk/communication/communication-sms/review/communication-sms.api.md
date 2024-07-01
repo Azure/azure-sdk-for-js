@@ -25,6 +25,7 @@ export interface SmsClientOptions extends CommonClientOptions {
 
 // @public
 export interface SmsSendOptions extends OperationOptions {
+    deliveryReportTimeoutInSeconds?: number;
     enableDeliveryReport?: boolean;
     tag?: string;
 }

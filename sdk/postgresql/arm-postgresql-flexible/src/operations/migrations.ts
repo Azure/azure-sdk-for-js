@@ -26,7 +26,7 @@ import {
   MigrationsUpdateOptionalParams,
   MigrationsUpdateResponse,
   MigrationsDeleteOptionalParams,
-  MigrationsListByTargetServerNextResponse
+  MigrationsListByTargetServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,13 +53,13 @@ export class MigrationsImpl implements Migrations {
     subscriptionId: string,
     resourceGroupName: string,
     targetDbServerName: string,
-    options?: MigrationsListByTargetServerOptionalParams
+    options?: MigrationsListByTargetServerOptionalParams,
   ): PagedAsyncIterableIterator<MigrationResource> {
     const iter = this.listByTargetServerPagingAll(
       subscriptionId,
       resourceGroupName,
       targetDbServerName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class MigrationsImpl implements Migrations {
           resourceGroupName,
           targetDbServerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class MigrationsImpl implements Migrations {
     resourceGroupName: string,
     targetDbServerName: string,
     options?: MigrationsListByTargetServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MigrationResource[]> {
     let result: MigrationsListByTargetServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class MigrationsImpl implements Migrations {
         subscriptionId,
         resourceGroupName,
         targetDbServerName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class MigrationsImpl implements Migrations {
         resourceGroupName,
         targetDbServerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +123,13 @@ export class MigrationsImpl implements Migrations {
     subscriptionId: string,
     resourceGroupName: string,
     targetDbServerName: string,
-    options?: MigrationsListByTargetServerOptionalParams
+    options?: MigrationsListByTargetServerOptionalParams,
   ): AsyncIterableIterator<MigrationResource> {
     for await (const page of this.listByTargetServerPagingPage(
       subscriptionId,
       resourceGroupName,
       targetDbServerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,7 +150,7 @@ export class MigrationsImpl implements Migrations {
     targetDbServerName: string,
     migrationName: string,
     parameters: MigrationResource,
-    options?: MigrationsCreateOptionalParams
+    options?: MigrationsCreateOptionalParams,
   ): Promise<MigrationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -159,9 +159,9 @@ export class MigrationsImpl implements Migrations {
         targetDbServerName,
         migrationName,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -178,7 +178,7 @@ export class MigrationsImpl implements Migrations {
     resourceGroupName: string,
     targetDbServerName: string,
     migrationName: string,
-    options?: MigrationsGetOptionalParams
+    options?: MigrationsGetOptionalParams,
   ): Promise<MigrationsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -186,9 +186,9 @@ export class MigrationsImpl implements Migrations {
         resourceGroupName,
         targetDbServerName,
         migrationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -208,7 +208,7 @@ export class MigrationsImpl implements Migrations {
     targetDbServerName: string,
     migrationName: string,
     parameters: MigrationResourceForPatch,
-    options?: MigrationsUpdateOptionalParams
+    options?: MigrationsUpdateOptionalParams,
   ): Promise<MigrationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -217,9 +217,9 @@ export class MigrationsImpl implements Migrations {
         targetDbServerName,
         migrationName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -236,7 +236,7 @@ export class MigrationsImpl implements Migrations {
     resourceGroupName: string,
     targetDbServerName: string,
     migrationName: string,
-    options?: MigrationsDeleteOptionalParams
+    options?: MigrationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -244,9 +244,9 @@ export class MigrationsImpl implements Migrations {
         resourceGroupName,
         targetDbServerName,
         migrationName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -261,11 +261,11 @@ export class MigrationsImpl implements Migrations {
     subscriptionId: string,
     resourceGroupName: string,
     targetDbServerName: string,
-    options?: MigrationsListByTargetServerOptionalParams
+    options?: MigrationsListByTargetServerOptionalParams,
   ): Promise<MigrationsListByTargetServerResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, resourceGroupName, targetDbServerName, options },
-      listByTargetServerOperationSpec
+      listByTargetServerOperationSpec,
     );
   }
 
@@ -282,7 +282,7 @@ export class MigrationsImpl implements Migrations {
     resourceGroupName: string,
     targetDbServerName: string,
     nextLink: string,
-    options?: MigrationsListByTargetServerNextOptionalParams
+    options?: MigrationsListByTargetServerNextOptionalParams,
   ): Promise<MigrationsListByTargetServerNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -290,9 +290,9 @@ export class MigrationsImpl implements Migrations {
         resourceGroupName,
         targetDbServerName,
         nextLink,
-        options
+        options,
       },
-      listByTargetServerNextOperationSpec
+      listByTargetServerNextOperationSpec,
     );
   }
 }
@@ -300,19 +300,18 @@ export class MigrationsImpl implements Migrations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationResource
+      bodyMapper: Mappers.MigrationResource,
     },
     201: {
-      bodyMapper: Mappers.MigrationResource
+      bodyMapper: Mappers.MigrationResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -321,23 +320,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId1,
     Parameters.resourceGroupName1,
     Parameters.targetDbServerName,
-    Parameters.migrationName
+    Parameters.migrationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationResource
+      bodyMapper: Mappers.MigrationResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -345,22 +343,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId1,
     Parameters.resourceGroupName1,
     Parameters.targetDbServerName,
-    Parameters.migrationName
+    Parameters.migrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationResource
+      bodyMapper: Mappers.MigrationResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
@@ -369,22 +366,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId1,
     Parameters.resourceGroupName1,
     Parameters.targetDbServerName,
-    Parameters.migrationName
+    Parameters.migrationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations/{migrationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -392,51 +388,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId1,
     Parameters.resourceGroupName1,
     Parameters.targetDbServerName,
-    Parameters.migrationName
+    Parameters.migrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTargetServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/migrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationResourceListResult
+      bodyMapper: Mappers.MigrationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.migrationListFilter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId1,
     Parameters.resourceGroupName1,
-    Parameters.targetDbServerName
+    Parameters.targetDbServerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTargetServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationResourceListResult
+      bodyMapper: Mappers.MigrationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId1,
     Parameters.resourceGroupName1,
-    Parameters.targetDbServerName
+    Parameters.targetDbServerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

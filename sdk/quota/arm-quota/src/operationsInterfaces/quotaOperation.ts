@@ -17,6 +17,6 @@ export interface QuotaOperation {
    * @param options The options parameters.
    */
   list(
-    options?: QuotaOperationListOptionalParams
+    options?: QuotaOperationListOptionalParams,
   ): PagedAsyncIterableIterator<OperationResponse>;
 }

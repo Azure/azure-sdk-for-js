@@ -12,3 +12,4 @@ export {
   getImageGenerations,
   getEmbeddings,
 } from "./operations.js";
+export { isOpenAIError } from "./util.js";

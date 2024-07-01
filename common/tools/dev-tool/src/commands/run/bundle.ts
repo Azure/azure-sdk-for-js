@@ -75,6 +75,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   let moduleField = info.packageJson.module;
   if (!moduleField) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const defaultExport = info.packageJson.exports?.["."]?.import as any;
     if (defaultExport) {
       moduleField = defaultExport?.default;
@@ -117,7 +118,7 @@ export default leafCommand(commandInfo, async (options) => {
         exports: "named",
         esModule: true,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       log.error(error);
       return false;
     }
@@ -180,7 +181,7 @@ export default leafCommand(commandInfo, async (options) => {
     };
 
     try {
-      const browserBundle = await rollup.rollup(browserTestConfig as any);
+      const browserBundle = await rollup.rollup(browserTestConfig);
 
       await browserBundle.write({
         file: `dist-test/index.browser.js`,
@@ -195,7 +196,7 @@ export default leafCommand(commandInfo, async (options) => {
         // inlined.
         inlineDynamicImports: true,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       log.error(error);
       return false;
     }

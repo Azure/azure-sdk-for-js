@@ -72,6 +72,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
         redis4: { enabled: true },
         // Instrumentations generating logs
         bunyan: { enabled: true },
+        winston: { enabled: true },
     },
     enableLiveMetrics: true,
     enableStandardMetrics: true,
@@ -92,15 +93,15 @@ useAzureMonitor(options);
 | ------------------------------- |------------------------------------------------------------------------------------------------------------|-------|
 | azureMonitorExporterOptions     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter) | | | |
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. | 1|
-| instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false },"bunyan": { enabled: false }}|
+| instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false },"bunyan": { enabled: false }, "winston": { enabled: false } }|
 | browserSdkLoaderOptions| Allow configuration of Web Instrumentations. | { enabled: false, connectionString: "" } |
 | resource       | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources) ||
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. |1|
-| enableLiveMetrics          | Enable/Disable Live Metrics. |false|
+| enableLiveMetrics          | Enable/Disable Live Metrics. |true|
 | enableStandardMetrics      | Enable/Disable Standard Metrics. |true|
-<!--- TODO: Enable when feature is released | enableTraceBasedSamplingForLogs      | Enable log sampling based on trace. |true|-->
 | logRecordProcessors        | Array of log record processors to register to the global logger provider. ||
 | spanProcessors             | Array of span processors to register to the global tracer provider. ||
+<!--- TODO: Enable when feature is released | enableTraceBasedSamplingForLogs      | Enable log sampling based on trace. |true|-->
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances. 
 
@@ -148,7 +149,9 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 
 
 ### Logs
-- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-bunyan) 
+- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-bunyan)
+
+- [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-winston)
 
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
@@ -374,7 +377,7 @@ and thus draw attention to them in relevant experiences including the failures b
 
 ```typescript
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
-import { trace } from "@opentelemetry/api";
+import { trace, Exception } from "@opentelemetry/api";
 
 useAzureMonitor();
 const tracer =  trace.getTracer("testMeter");
@@ -384,7 +387,7 @@ try{
     throw new Error("Test Error");
 }
 catch(error){
-    span.recordException(error);
+    span.recordException(error as Exception);
 }
 ```
 

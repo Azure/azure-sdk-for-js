@@ -3,58 +3,73 @@
 
 /**
  * @file Rule to force main to point to a CommonJS or UMD module.
- * @author Arpan Laha
+ *
  */
 
-import { Literal, Property } from "estree";
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
-import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/utils";
+import { VerifierMessages, createRule, getVerifiers, stripPath, usesTshy } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-package-json-main-is-cjs",
-    "force package.json's main value to point to a CommonJS or UMD module",
-    "code",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-package-json-main-is-cjs",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "force package.json's main value to point to a CommonJS or UMD module",
+      recommended: "recommended",
+    },
+    messages: {
+      ...VerifierMessages,
+      MainNotLiteral: "main value in package.json is not a Literal",
+      MainInvalid:
+        "main is set to {{actual}} when it should be set to dist/index.js or dist/index.cjs",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     const verifiers = getVerifiers(context, {
       outer: "main",
     });
-    return stripPath(context.filename) === "package.json"
-      ? ({
-          // callback functions
+    if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    if (usesTshy(context.filename)) {
+      return {};
+    }
+    return {
+      // check to see if main exists at the outermost level
+      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check to see if main exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+      // check the node corresponding to main to see if its value is dist/index.js
+      "ExpressionStatement > ObjectExpression > Property[key.value='main']": (
+        node: TSESTree.Property,
+      ): void => {
+        if (node.value.type !== "Literal") {
+          context.report({
+            node: node.value,
+            messageId: "MainNotLiteral",
+          });
+        }
 
-          // check the node corresponding to main to see if its value is dist/index.js
-          "ExpressionStatement > ObjectExpression > Property[key.value='main']": (
-            node: Property,
-          ): void => {
-            if (node.value.type !== "Literal") {
-              context.report({
-                node: node.value,
-                message: "name is not a Literal",
-              });
-            }
+        const nodeValue = node.value as TSESTree.Literal;
+        const main = nodeValue.value as string;
 
-            const nodeValue = node.value as Literal;
-            const main = nodeValue.value as string;
-
-            if (!/^(\.\/)?dist\/index\.(c)?js$/.test(main)) {
-              context.report({
-                node: nodeValue,
-                message: `main is set to ${main} when it should be set to dist/index.js or dist/index.cjs`,
-                fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-                  fixer.replaceText(nodeValue, `"dist/index.js"`),
-              });
-            }
-          },
-        } as Rule.RuleListener)
-      : {};
+        if (!/^(\.\/)?dist\/index\.(c)?js$/.test(main)) {
+          context.report({
+            node: nodeValue,
+            messageId: "MainInvalid",
+            data: {
+              actual: main,
+            },
+            fix: (fixer) => fixer.replaceText(nodeValue, `"dist/index.js"`),
+          });
+        }
+      },
+    };
   },
-};
+});

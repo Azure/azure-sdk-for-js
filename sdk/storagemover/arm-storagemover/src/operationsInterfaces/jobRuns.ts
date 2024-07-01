@@ -11,7 +11,7 @@ import {
   JobRun,
   JobRunsListOptionalParams,
   JobRunsGetOptionalParams,
-  JobRunsGetResponse
+  JobRunsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface JobRuns {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobRunsListOptionalParams
+    options?: JobRunsListOptionalParams,
   ): PagedAsyncIterableIterator<JobRun>;
   /**
    * Gets a Job Run resource.
@@ -47,6 +47,6 @@ export interface JobRuns {
     projectName: string,
     jobDefinitionName: string,
     jobRunName: string,
-    options?: JobRunsGetOptionalParams
+    options?: JobRunsGetOptionalParams,
   ): Promise<JobRunsGetResponse>;
 }

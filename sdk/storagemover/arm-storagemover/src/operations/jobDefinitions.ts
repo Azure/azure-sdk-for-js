@@ -16,7 +16,7 @@ import { StorageMoverClient } from "../storageMoverClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   JobDefinitionsStartJobResponse,
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStopJobResponse,
-  JobDefinitionsListNextResponse
+  JobDefinitionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,13 +63,13 @@ export class JobDefinitionsImpl implements JobDefinitions {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: JobDefinitionsListOptionalParams
+    options?: JobDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<JobDefinition> {
     const iter = this.listPagingAll(
       resourceGroupName,
       storageMoverName,
       projectName,
-      options
+      options,
     );
     return {
       next() {
@@ -87,9 +87,9 @@ export class JobDefinitionsImpl implements JobDefinitions {
           storageMoverName,
           projectName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -98,7 +98,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
     storageMoverName: string,
     projectName: string,
     options?: JobDefinitionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobDefinition[]> {
     let result: JobDefinitionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
         resourceGroupName,
         storageMoverName,
         projectName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -120,7 +120,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
         storageMoverName,
         projectName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,13 +133,13 @@ export class JobDefinitionsImpl implements JobDefinitions {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: JobDefinitionsListOptionalParams
+    options?: JobDefinitionsListOptionalParams,
   ): AsyncIterableIterator<JobDefinition> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       storageMoverName,
       projectName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -156,11 +156,11 @@ export class JobDefinitionsImpl implements JobDefinitions {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: JobDefinitionsListOptionalParams
+    options?: JobDefinitionsListOptionalParams,
   ): Promise<JobDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, projectName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -177,7 +177,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsGetOptionalParams
+    options?: JobDefinitionsGetOptionalParams,
   ): Promise<JobDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -185,9 +185,9 @@ export class JobDefinitionsImpl implements JobDefinitions {
         storageMoverName,
         projectName,
         jobDefinitionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -207,7 +207,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
     projectName: string,
     jobDefinitionName: string,
     jobDefinition: JobDefinition,
-    options?: JobDefinitionsCreateOrUpdateOptionalParams
+    options?: JobDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<JobDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -216,9 +216,9 @@ export class JobDefinitionsImpl implements JobDefinitions {
         projectName,
         jobDefinitionName,
         jobDefinition,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -238,7 +238,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
     projectName: string,
     jobDefinitionName: string,
     jobDefinition: JobDefinitionUpdateParameters,
-    options?: JobDefinitionsUpdateOptionalParams
+    options?: JobDefinitionsUpdateOptionalParams,
   ): Promise<JobDefinitionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -247,9 +247,9 @@ export class JobDefinitionsImpl implements JobDefinitions {
         projectName,
         jobDefinitionName,
         jobDefinition,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -266,25 +266,24 @@ export class JobDefinitionsImpl implements JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsDeleteOptionalParams
+    options?: JobDefinitionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +292,8 @@ export class JobDefinitionsImpl implements JobDefinitions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,8 +301,8 @@ export class JobDefinitionsImpl implements JobDefinitions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -314,14 +313,14 @@ export class JobDefinitionsImpl implements JobDefinitions {
         storageMoverName,
         projectName,
         jobDefinitionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -340,20 +339,21 @@ export class JobDefinitionsImpl implements JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsDeleteOptionalParams
+    options?: JobDefinitionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       storageMoverName,
       projectName,
       jobDefinitionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Requests an Agent to start a new instance of this Job Definition, generating a new Job Run resource.
+   * Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for
+   * execution.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageMoverName The name of the Storage Mover resource.
    * @param projectName The name of the Project resource.
@@ -365,7 +365,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsStartJobOptionalParams
+    options?: JobDefinitionsStartJobOptionalParams,
   ): Promise<JobDefinitionsStartJobResponse> {
     return this.client.sendOperationRequest(
       {
@@ -373,9 +373,9 @@ export class JobDefinitionsImpl implements JobDefinitions {
         storageMoverName,
         projectName,
         jobDefinitionName,
-        options
+        options,
       },
-      startJobOperationSpec
+      startJobOperationSpec,
     );
   }
 
@@ -392,7 +392,7 @@ export class JobDefinitionsImpl implements JobDefinitions {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobDefinitionsStopJobOptionalParams
+    options?: JobDefinitionsStopJobOptionalParams,
   ): Promise<JobDefinitionsStopJobResponse> {
     return this.client.sendOperationRequest(
       {
@@ -400,9 +400,9 @@ export class JobDefinitionsImpl implements JobDefinitions {
         storageMoverName,
         projectName,
         jobDefinitionName,
-        options
+        options,
       },
-      stopJobOperationSpec
+      stopJobOperationSpec,
     );
   }
 
@@ -419,11 +419,11 @@ export class JobDefinitionsImpl implements JobDefinitions {
     storageMoverName: string,
     projectName: string,
     nextLink: string,
-    options?: JobDefinitionsListNextOptionalParams
+    options?: JobDefinitionsListNextOptionalParams,
   ): Promise<JobDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, projectName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -431,39 +431,15 @@ export class JobDefinitionsImpl implements JobDefinitions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobDefinitionList
+      bodyMapper: Mappers.JobDefinitionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageMoverName,
-    Parameters.projectName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobDefinition
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -472,22 +448,43 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
     Parameters.projectName,
-    Parameters.jobDefinitionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobDefinition,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageMoverName,
+    Parameters.projectName,
+    Parameters.jobDefinitionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.JobDefinition
+      bodyMapper: Mappers.JobDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.jobDefinition,
   queryParameters: [Parameters.apiVersion],
@@ -497,23 +494,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
     Parameters.projectName,
-    Parameters.jobDefinitionName
+    Parameters.jobDefinitionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.JobDefinition
+      bodyMapper: Mappers.JobDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.jobDefinition1,
   queryParameters: [Parameters.apiVersion],
@@ -523,15 +519,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
     Parameters.projectName,
-    Parameters.jobDefinitionName
+    Parameters.jobDefinitionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -539,8 +534,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -549,22 +544,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
     Parameters.projectName,
-    Parameters.jobDefinitionName
+    Parameters.jobDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const startJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/startJob",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/startJob",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.JobRunResourceId
+      bodyMapper: Mappers.JobRunResourceId,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -573,22 +567,21 @@ const startJobOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
     Parameters.projectName,
-    Parameters.jobDefinitionName
+    Parameters.jobDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/stopJob",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/stopJob",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.JobRunResourceId
+      bodyMapper: Mappers.JobRunResourceId,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -597,21 +590,21 @@ const stopJobOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
     Parameters.projectName,
-    Parameters.jobDefinitionName
+    Parameters.jobDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobDefinitionList
+      bodyMapper: Mappers.JobDefinitionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -619,8 +612,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

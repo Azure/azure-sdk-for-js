@@ -55,7 +55,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mocha": "^10.0.0",
-    "c8": "^9.1.0",
+    "nyc": "^17.0.0",
     "rimraf": "^5.0.5",
     "uglify-js": "^3.4.9",
     "@types/chai-as-promised": "^7.1.0",
@@ -69,7 +69,7 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "@azure-tools/test-credential": "^1.0.0"
   },
   "bugs": {
@@ -87,8 +87,8 @@
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "tsc -p . && dev-tool run bundle && api-extractor run --local",
-    "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build": "tsc -p . && dev-tool run bundle && dev-tool run extract-api",
+    "build:debug": "tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "echo skip",
     "integration-test:node": "echo skip",
@@ -104,7 +104,7 @@
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "dev-tool run extract-api",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log"
   },
   "sideEffects": false,

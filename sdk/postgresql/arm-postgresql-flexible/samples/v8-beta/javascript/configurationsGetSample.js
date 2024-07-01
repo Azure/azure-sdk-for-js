@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about a configuration of server.
  *
  * @summary Gets information about a configuration of server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ConfigurationGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ConfigurationGet.json
  */
 async function configurationGet() {
   const subscriptionId =

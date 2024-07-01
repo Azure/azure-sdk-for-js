@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DatabaseColumnsListByDatabaseOptionalParams,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -38,7 +38,7 @@ async function filterDatabaseColumns() {
     schema,
     table,
     column,
-    orderBy
+    orderBy,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function filterDatabaseColumns() {
     resourceGroupName,
     serverName,
     databaseName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -73,7 +73,7 @@ async function listDatabaseColumns() {
   for await (let item of client.databaseColumns.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

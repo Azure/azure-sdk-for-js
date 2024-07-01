@@ -2,13 +2,15 @@
   "name": "typescript-emitter-package",
   "main": "dist/src/index.js",
   "dependencies": {
-    "@azure-tools/typespec-ts": "0.26.1",
-    "@azure-tools/typespec-azure-core": "0.40.0",
-    "@azure-tools/typespec-autorest": "0.40.0",
-    "@azure-tools/typespec-client-generator-core": "0.40.0",
-    "@typespec/compiler": "0.54.0",
-    "@typespec/http": "0.54.0",
-    "@typespec/rest": "0.54.0",
-    "@typespec/versioning": "0.54.0"
+    "@azure-tools/typespec-ts": "0.30.0",
+    "@azure-tools/typespec-azure-core": "0.43.0",
+    "@azure-tools/typespec-autorest": "0.43.0",
+    "@azure-tools/typespec-client-generator-core": "0.43.0",
+    "@azure-tools/typespec-azure-resource-manager": "0.43.0",
+    "@azure-tools/typespec-azure-rulesets": "0.43.0",
+    "@typespec/compiler": "0.57.0",
+    "@typespec/http": "0.57.0",
+    "@typespec/rest": "0.57.0",
+    "@typespec/versioning": "0.57.0"
   }
 }

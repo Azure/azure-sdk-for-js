@@ -31,7 +31,7 @@ async function listRecoverableDatabasesByManagedInstances() {
   const resArray = new Array();
   for await (let item of client.recoverableManagedDatabases.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an availability set.
  *
  * @summary Delete an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Delete_MaximumSet_Gen.json
  */
 async function availabilitySetDeleteMaximumSetGen() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function availabilitySetDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete an availability set.
  *
  * @summary Delete an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Delete_MinimumSet_Gen.json
  */
 async function availabilitySetDeleteMinimumSetGen() {
   const subscriptionId =

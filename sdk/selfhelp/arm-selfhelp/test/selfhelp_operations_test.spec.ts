@@ -89,4 +89,7 @@ describe("help test", () => {
     assert.notEqual(resArray.length, 0)
   });
 
+  it("discoverySolutionNLPSubscriptionScope post test", async function () {
+    const res = await client.discoverySolutionNLP.discoverSolutionsBySubscription(subscriptionId, { discoverSolutionRequest: { issueSummary: "how to retrieve certs from deleted keyvault." } });
+  });
 })

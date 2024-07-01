@@ -33,7 +33,7 @@ async function getAllLongTermRetentionBackupsUnderTheDatabase() {
   for await (let item of client.longTermRetentionManagedInstanceBackups.listByDatabase(
     locationName,
     managedInstanceName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

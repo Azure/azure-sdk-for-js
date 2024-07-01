@@ -18,7 +18,8 @@ import {
   AttachedNetworksGetByDevCenterResponse,
   AttachedNetworksCreateOrUpdateOptionalParams,
   AttachedNetworksCreateOrUpdateResponse,
-  AttachedNetworksDeleteOptionalParams
+  AttachedNetworksDeleteOptionalParams,
+  AttachedNetworksDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +34,7 @@ export interface AttachedNetworks {
   listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: AttachedNetworksListByProjectOptionalParams
+    options?: AttachedNetworksListByProjectOptionalParams,
   ): PagedAsyncIterableIterator<AttachedNetworkConnection>;
   /**
    * Lists the attached NetworkConnections for a DevCenter.
@@ -44,7 +45,7 @@ export interface AttachedNetworks {
   listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: AttachedNetworksListByDevCenterOptionalParams
+    options?: AttachedNetworksListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<AttachedNetworkConnection>;
   /**
    * Gets an attached NetworkConnection.
@@ -57,7 +58,7 @@ export interface AttachedNetworks {
     resourceGroupName: string,
     projectName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksGetByProjectOptionalParams
+    options?: AttachedNetworksGetByProjectOptionalParams,
   ): Promise<AttachedNetworksGetByProjectResponse>;
   /**
    * Gets an attached NetworkConnection.
@@ -70,7 +71,7 @@ export interface AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksGetByDevCenterOptionalParams
+    options?: AttachedNetworksGetByDevCenterOptionalParams,
   ): Promise<AttachedNetworksGetByDevCenterResponse>;
   /**
    * Creates or updates an attached NetworkConnection.
@@ -85,7 +86,7 @@ export interface AttachedNetworks {
     devCenterName: string,
     attachedNetworkConnectionName: string,
     body: AttachedNetworkConnection,
-    options?: AttachedNetworksCreateOrUpdateOptionalParams
+    options?: AttachedNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AttachedNetworksCreateOrUpdateResponse>,
@@ -105,7 +106,7 @@ export interface AttachedNetworks {
     devCenterName: string,
     attachedNetworkConnectionName: string,
     body: AttachedNetworkConnection,
-    options?: AttachedNetworksCreateOrUpdateOptionalParams
+    options?: AttachedNetworksCreateOrUpdateOptionalParams,
   ): Promise<AttachedNetworksCreateOrUpdateResponse>;
   /**
    * Un-attach a NetworkConnection.
@@ -118,8 +119,13 @@ export interface AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: AttachedNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AttachedNetworksDeleteResponse>,
+      AttachedNetworksDeleteResponse
+    >
+  >;
   /**
    * Un-attach a NetworkConnection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -131,6 +137,6 @@ export interface AttachedNetworks {
     resourceGroupName: string,
     devCenterName: string,
     attachedNetworkConnectionName: string,
-    options?: AttachedNetworksDeleteOptionalParams
-  ): Promise<void>;
+    options?: AttachedNetworksDeleteOptionalParams,
+  ): Promise<AttachedNetworksDeleteResponse>;
 }

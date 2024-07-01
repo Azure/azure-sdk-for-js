@@ -72,6 +72,12 @@ export interface InterfaceProperties {
   ipv4Subnet?: string;
   /** The default IPv4 gateway (router). */
   ipv4Gateway?: string;
+  /** VLAN identifier of the network interface. Example: 501. */
+  vlanId?: number;
+  /** The list of IPv4 addresses, for a multi-node system. */
+  ipv4AddressList?: string[];
+  /** The IPv4 addresses of the endpoints to send BFD probes to. */
+  bfdIpv4Endpoints?: string[];
 }
 
 /** The network address and port translation settings to use for the attached data network. */
@@ -230,7 +236,9 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity (currently only UserAssigned allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -264,6 +272,29 @@ export interface MobileNetworkListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Response for list SIM groups API service call. */
+export interface SimGroupListResult {
+  /** A list of SIM groups in a resource group. */
+  value?: SimGroup[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An Azure key vault key. */
+export interface KeyVaultKey {
+  /** The key URL, unversioned. For example: https://contosovault.vault.azure.net/keys/azureKey. */
+  keyUrl?: string;
+}
+
+/** Reference to a mobile network resource. */
+export interface MobileNetworkResourceId {
+  /** Mobile network resource ID. */
+  id: string;
 }
 
 /** List of the operations. */
@@ -473,6 +504,8 @@ export interface EventHubConfiguration {
 export interface SignalingConfiguration {
   /** Configuration enabling 4G NAS reroute. */
   nasReroute?: NASRerouteConfiguration;
+  /** An ordered list of NAS encryption algorithms, used to encrypt control plane traffic between the UE and packet core, in order from most to least preferred. If not specified, the packet core will use a built-in default ordering. */
+  nasEncryption?: NasEncryptionType[];
 }
 
 /** Configuration enabling NAS reroute. */
@@ -487,6 +520,11 @@ export interface HomeNetworkPrivateKeysProvisioning {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state: HomeNetworkPrivateKeysProvisioningState;
+}
+
+export interface UserConsentConfiguration {
+  /** Allow Microsoft to access non-PII telemetry information from the packet core. */
+  allowSupportTelemetryAccess?: boolean;
 }
 
 /** Response for packet core control planes API service call. */
@@ -506,6 +544,46 @@ export interface PacketCoreControlPlaneCollectDiagnosticsPackage {
   storageAccountBlobUrl: string;
 }
 
+/** Response for the list routing information API service call. */
+export interface RoutingInfoListResult {
+  /** A list of the routing information for the packet core control plane */
+  value?: RoutingInfoModel[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An IPv4 route. */
+export interface Ipv4Route {
+  /** The destination IPv4 prefix. */
+  destination?: string;
+  /** A list of next hops for the destination. */
+  nextHops?: Ipv4RouteNextHop[];
+}
+
+/** The next hop in an IPv4 route. */
+export interface Ipv4RouteNextHop {
+  /** The next hop address. */
+  address?: string;
+  /** The priority of this next hop. Next hops with lower preference values are preferred. */
+  priority?: number;
+}
+
+export interface UserPlaneDataRoutesItem {
+  /** Reference to an attached data network resource. */
+  attachedDataNetwork?: AttachedDataNetworkResourceId;
+  /** A list of IPv4 routes. */
+  routes?: Ipv4Route[];
+}
+
+/** Reference to an attached data network resource. */
+export interface AttachedDataNetworkResourceId {
+  /** Attached data network resource ID. */
+  id: string;
+}
+
 /** Platform specific packet core control plane version properties. */
 export interface Platform {
   /** The platform type where this version can be deployed. */
@@ -520,6 +598,8 @@ export interface Platform {
   recommendedVersion?: RecommendedVersion;
   /** Indicates whether this version is obsoleted for this platform. */
   obsoleteVersion?: ObsoleteVersion;
+  /** The list of versions to which a high availability upgrade from this version is supported. */
+  haUpgradesAvailable?: string[];
 }
 
 /** Response for packet core control plane version API service call. */
@@ -660,12 +740,6 @@ export interface SimStaticIpProperties {
   slice?: SliceResourceId;
   /** The static IP configuration for the SIM to use at the defined network scope. */
   staticIp?: SimStaticIpPropertiesStaticIp;
-}
-
-/** Reference to an attached data network resource. */
-export interface AttachedDataNetworkResourceId {
-  /** Attached data network resource ID. */
-  id: string;
 }
 
 /** Reference to a slice resource. */
@@ -811,27 +885,26 @@ export interface SimNameAndEncryptedProperties {
   encryptedCredentials?: string;
 }
 
-/** An Azure key vault key. */
-export interface KeyVaultKey {
-  /** The key URL, unversioned. For example: https://contosovault.vault.azure.net/keys/azureKey. */
-  keyUrl?: string;
+/** The SIMs to move. */
+export interface SimMove {
+  /** The SIM Group where the SIMs should be moved. */
+  targetSimGroupId?: SimGroupResourceId;
+  /** A list of SIM resource names to be moved. */
+  sims?: string[];
 }
 
-/** Reference to a mobile network resource. */
-export interface MobileNetworkResourceId {
-  /** Mobile network resource ID. */
+/** Reference to a SIM group resource. */
+export interface SimGroupResourceId {
+  /** SIM group resource ID. */
   id: string;
 }
 
-/** Response for list SIM groups API service call. */
-export interface SimGroupListResult {
-  /** A list of SIM groups in a resource group. */
-  value?: SimGroup[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The SIMs to clone. */
+export interface SimClone {
+  /** The SIM Group where the SIMs should be cloned. */
+  targetSimGroupId?: SimGroupResourceId;
+  /** A list of SIM resource names to be cloned. */
+  sims?: string[];
 }
 
 /** Per-slice settings */
@@ -964,12 +1037,6 @@ export interface DnnIpPair {
   dnn?: string;
   /** IPv4 address. */
   ipV4Addr?: string;
-}
-
-/** Reference to a SIM group resource. */
-export interface SimGroupResourceId {
-  /** SIM group resource ID. */
-  id: string;
 }
 
 /** Allocation and Retention Priority (ARP) parameters. */
@@ -1262,6 +1329,21 @@ export interface MobileNetwork extends TrackedResource {
   readonly serviceKey?: string;
 }
 
+/** SIM group resource. */
+export interface SimGroup extends TrackedResource {
+  /** The identity used to retrieve the encryption key from Azure key vault. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * The provisioning state of the SIM group resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** A key to encrypt the SIM data that belongs to this SIM group. */
+  encryptionKey?: KeyVaultKey;
+  /** Mobile network that this SIM group belongs to. The mobile network must be in the same location as the SIM group. */
+  mobileNetwork?: MobileNetworkResourceId;
+}
+
 /** Packet core control plane resource. */
 export interface PacketCoreControlPlane extends TrackedResource {
   /** The identity used to retrieve the ingress certificate from Azure key vault. */
@@ -1314,6 +1396,8 @@ export interface PacketCoreControlPlane extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly homeNetworkPrivateKeysProvisioning?: HomeNetworkPrivateKeysProvisioning;
+  /** The user consent configuration for the packet core. */
+  userConsent?: UserConsentConfiguration;
 }
 
 /** Packet core data plane resource. Must be created in the same location as its parent packet core control plane. */
@@ -1342,21 +1426,6 @@ export interface Service extends TrackedResource {
   serviceQosPolicy?: QosPolicy;
   /** The set of data flow policy rules that make up this service. */
   pccRules: PccRuleConfiguration[];
-}
-
-/** SIM group resource. */
-export interface SimGroup extends TrackedResource {
-  /** The identity used to retrieve the encryption key from Azure key vault. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * The provisioning state of the SIM group resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** A key to encrypt the SIM data that belongs to this SIM group. */
-  encryptionKey?: KeyVaultKey;
-  /** Mobile network that this SIM group belongs to. The mobile network must be in the same location as the SIM group. */
-  mobileNetwork?: MobileNetworkResourceId;
 }
 
 /** SIM policy resource. */
@@ -1468,6 +1537,16 @@ export interface PacketCapture extends ProxyResource {
   readonly outputFiles?: string[];
 }
 
+/** Routing information */
+export interface RoutingInfoModel extends ProxyResource {
+  /** A list of IPv4 routes. */
+  controlPlaneAccessRoutes?: Ipv4Route[];
+  /** A list of IPv4 routes. */
+  userPlaneAccessRoutes?: Ipv4Route[];
+  /** A list of attached data networks and their IPv4 routes. */
+  userPlaneDataRoutes?: UserPlaneDataRoutesItem[];
+}
+
 /** Packet core control plane version resource. */
 export interface PacketCoreControlPlaneVersion extends ProxyResource {
   /**
@@ -1539,6 +1618,18 @@ export interface UeInfo extends ProxyResource {
   ueIpAddresses?: DnnIpPair[];
   /** The timestamp of last list UEs call to the packet core (UTC). */
   lastReadAt?: Date;
+}
+
+/** Defines headers for Sims_move operation. */
+export interface SimsMoveHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Sims_clone operation. */
+export interface SimsCloneHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -1879,6 +1970,27 @@ export enum KnownCertificateProvisioningState {
  * **Failed**: The certificate failed to be provisioned. The "reason" property explains why.
  */
 export type CertificateProvisioningState = string;
+
+/** Known values of {@link NasEncryptionType} that the service accepts. */
+export enum KnownNasEncryptionType {
+  /** NAS signaling is not encrypted. */
+  NEA0EEA0 = "NEA0/EEA0",
+  /** NAS signaling is encrypted with SNOW 3G cipher. */
+  NEA1EEA1 = "NEA1/EEA1",
+  /**  NAS signaling is encrypted with AES cipher. */
+  NEA2EEA2 = "NEA2/EEA2",
+}
+
+/**
+ * Defines values for NasEncryptionType. \
+ * {@link KnownNasEncryptionType} can be used interchangeably with NasEncryptionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NEA0\/EEA0**: NAS signaling is not encrypted. \
+ * **NEA1\/EEA1**: NAS signaling is encrypted with SNOW 3G cipher. \
+ * **NEA2\/EEA2**:  NAS signaling is encrypted with AES cipher.
+ */
+export type NasEncryptionType = string;
 
 /** Known values of {@link HomeNetworkPrivateKeysProvisioningState} that the service accepts. */
 export enum KnownHomeNetworkPrivateKeysProvisioningState {
@@ -2415,6 +2527,13 @@ export interface MobileNetworksListByResourceGroupOptionalParams
 export type MobileNetworksListByResourceGroupResponse = MobileNetworkListResult;
 
 /** Optional parameters. */
+export interface MobileNetworksListSimGroupsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSimGroups operation. */
+export type MobileNetworksListSimGroupsResponse = SimGroupListResult;
+
+/** Optional parameters. */
 export interface MobileNetworksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2429,6 +2548,13 @@ export interface MobileNetworksListByResourceGroupNextOptionalParams
 /** Contains response data for the listByResourceGroupNext operation. */
 export type MobileNetworksListByResourceGroupNextResponse =
   MobileNetworkListResult;
+
+/** Optional parameters. */
+export interface MobileNetworksListSimGroupsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSimGroupsNext operation. */
+export type MobileNetworksListSimGroupsNextResponse = SimGroupListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2604,6 +2730,27 @@ export interface PacketCoreControlPlanesListByResourceGroupNextOptionalParams
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PacketCoreControlPlanesListByResourceGroupNextResponse =
   PacketCoreControlPlaneListResult;
+
+/** Optional parameters. */
+export interface RoutingInfoListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RoutingInfoListResponse = RoutingInfoListResult;
+
+/** Optional parameters. */
+export interface RoutingInfoGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoutingInfoGetResponse = RoutingInfoModel;
+
+/** Optional parameters. */
+export interface RoutingInfoListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RoutingInfoListNextResponse = RoutingInfoListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsGetOptionalParams
@@ -2821,6 +2968,28 @@ export interface SimsBulkUploadEncryptedOptionalParams
 
 /** Contains response data for the bulkUploadEncrypted operation. */
 export type SimsBulkUploadEncryptedResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimsMoveOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the move operation. */
+export type SimsMoveResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimsCloneOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the clone operation. */
+export type SimsCloneResponse = AsyncOperationStatus;
 
 /** Optional parameters. */
 export interface SimsListByGroupNextOptionalParams

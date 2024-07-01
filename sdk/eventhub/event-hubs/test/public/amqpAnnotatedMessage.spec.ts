@@ -22,7 +22,7 @@ import { randomUUID } from "@azure/core-util";
 const should = chai.should();
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Database,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/DatabaseCreate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/DatabaseCreate.json
  */
 async function createADatabase() {
   const subscriptionId =
@@ -35,13 +35,13 @@ async function createADatabase() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.databases.beginCreateAndWait(
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

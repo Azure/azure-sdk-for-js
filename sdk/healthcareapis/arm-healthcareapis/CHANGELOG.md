@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,20 @@
 
 ### Other Changes
 
+## 3.1.0 (2024-04-19)
+    
+**Features**
+
+  - Added Interface SmartIdentityProviderApplication
+  - Added Interface SmartIdentityProviderConfiguration
+  - Added Interface StorageConfiguration
+  - Added Type Alias SmartDataActions
+  - Interface DicomService has a new optional parameter enableDataPartitions
+  - Interface DicomService has a new optional parameter storageConfiguration
+  - Interface FhirServiceAuthenticationConfiguration has a new optional parameter smartIdentityProviders
+  - Added Enum KnownSmartDataActions
+    
+    
 ## 3.0.0 (2023-12-07)
     
 **Features**

@@ -16,7 +16,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   ChannelsUpdateOptionalParams,
   ChannelsGetFullUrlOptionalParams,
   ChannelsGetFullUrlResponse,
-  ChannelsListByPartnerNamespaceNextResponse
+  ChannelsListByPartnerNamespaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,12 +58,12 @@ export class ChannelsImpl implements Channels {
   public listByPartnerNamespace(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: ChannelsListByPartnerNamespaceOptionalParams
+    options?: ChannelsListByPartnerNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<Channel> {
     const iter = this.listByPartnerNamespacePagingAll(
       resourceGroupName,
       partnerNamespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class ChannelsImpl implements Channels {
           resourceGroupName,
           partnerNamespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     options?: ChannelsListByPartnerNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Channel[]> {
     let result: ChannelsListByPartnerNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class ChannelsImpl implements Channels {
       result = await this._listByPartnerNamespace(
         resourceGroupName,
         partnerNamespaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class ChannelsImpl implements Channels {
         resourceGroupName,
         partnerNamespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +122,12 @@ export class ChannelsImpl implements Channels {
   private async *listByPartnerNamespacePagingAll(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: ChannelsListByPartnerNamespaceOptionalParams
+    options?: ChannelsListByPartnerNamespaceOptionalParams,
   ): AsyncIterableIterator<Channel> {
     for await (const page of this.listByPartnerNamespacePagingPage(
       resourceGroupName,
       partnerNamespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,11 +144,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsGetOptionalParams
+    options?: ChannelsGetOptionalParams,
   ): Promise<ChannelsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerNamespaceName, channelName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -165,7 +165,7 @@ export class ChannelsImpl implements Channels {
     partnerNamespaceName: string,
     channelName: string,
     channelInfo: Channel,
-    options?: ChannelsCreateOrUpdateOptionalParams
+    options?: ChannelsCreateOrUpdateOptionalParams,
   ): Promise<ChannelsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -173,9 +173,9 @@ export class ChannelsImpl implements Channels {
         partnerNamespaceName,
         channelName,
         channelInfo,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -190,25 +190,24 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsDeleteOptionalParams
+    options?: ChannelsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -217,8 +216,8 @@ export class ChannelsImpl implements Channels {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -226,19 +225,19 @@ export class ChannelsImpl implements Channels {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, partnerNamespaceName, channelName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -255,13 +254,13 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsDeleteOptionalParams
+    options?: ChannelsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       partnerNamespaceName,
       channelName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -279,7 +278,7 @@ export class ChannelsImpl implements Channels {
     partnerNamespaceName: string,
     channelName: string,
     channelUpdateParameters: ChannelUpdateParameters,
-    options?: ChannelsUpdateOptionalParams
+    options?: ChannelsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -287,9 +286,9 @@ export class ChannelsImpl implements Channels {
         partnerNamespaceName,
         channelName,
         channelUpdateParameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -302,11 +301,11 @@ export class ChannelsImpl implements Channels {
   private _listByPartnerNamespace(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: ChannelsListByPartnerNamespaceOptionalParams
+    options?: ChannelsListByPartnerNamespaceOptionalParams,
   ): Promise<ChannelsListByPartnerNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerNamespaceName, options },
-      listByPartnerNamespaceOperationSpec
+      listByPartnerNamespaceOperationSpec,
     );
   }
 
@@ -321,11 +320,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     channelName: string,
-    options?: ChannelsGetFullUrlOptionalParams
+    options?: ChannelsGetFullUrlOptionalParams,
   ): Promise<ChannelsGetFullUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerNamespaceName, channelName, options },
-      getFullUrlOperationSpec
+      getFullUrlOperationSpec,
     );
   }
 
@@ -340,11 +339,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     partnerNamespaceName: string,
     nextLink: string,
-    options?: ChannelsListByPartnerNamespaceNextOptionalParams
+    options?: ChannelsListByPartnerNamespaceNextOptionalParams,
   ): Promise<ChannelsListByPartnerNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, partnerNamespaceName, nextLink, options },
-      listByPartnerNamespaceNextOperationSpec
+      listByPartnerNamespaceNextOperationSpec,
     );
   }
 }
@@ -352,14 +351,13 @@ export class ChannelsImpl implements Channels {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Channel
+      bodyMapper: Mappers.Channel,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -367,23 +365,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.partnerNamespaceName,
-    Parameters.channelName
+    Parameters.channelName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Channel
+      bodyMapper: Mappers.Channel,
     },
     201: {
-      bodyMapper: Mappers.Channel
+      bodyMapper: Mappers.Channel,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.channelInfo,
   queryParameters: [Parameters.apiVersion],
@@ -392,15 +389,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.partnerNamespaceName,
-    Parameters.channelName
+    Parameters.channelName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -409,13 +405,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.partnerNamespaceName,
-    Parameters.channelName
+    Parameters.channelName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.channelUpdateParameters,
@@ -425,41 +420,39 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.partnerNamespaceName,
-    Parameters.channelName
+    Parameters.channelName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByPartnerNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChannelsListResult
+      bodyMapper: Mappers.ChannelsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerNamespaceName
+    Parameters.partnerNamespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getFullUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}/getFullUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}/getFullUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscriptionFullUrl
+      bodyMapper: Mappers.EventSubscriptionFullUrl,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -467,27 +460,27 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.partnerNamespaceName,
-    Parameters.channelName
+    Parameters.channelName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPartnerNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChannelsListResult
+      bodyMapper: Mappers.ChannelsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.partnerNamespaceName
+    Parameters.partnerNamespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

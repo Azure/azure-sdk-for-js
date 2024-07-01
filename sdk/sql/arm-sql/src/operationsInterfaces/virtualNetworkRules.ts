@@ -15,7 +15,7 @@ import {
   VirtualNetworkRulesGetResponse,
   VirtualNetworkRulesCreateOrUpdateOptionalParams,
   VirtualNetworkRulesCreateOrUpdateResponse,
-  VirtualNetworkRulesDeleteOptionalParams
+  VirtualNetworkRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface VirtualNetworkRules {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: VirtualNetworkRulesListByServerOptionalParams
+    options?: VirtualNetworkRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkRule>;
   /**
    * Gets a virtual network rule.
@@ -45,7 +45,7 @@ export interface VirtualNetworkRules {
     resourceGroupName: string,
     serverName: string,
     virtualNetworkRuleName: string,
-    options?: VirtualNetworkRulesGetOptionalParams
+    options?: VirtualNetworkRulesGetOptionalParams,
   ): Promise<VirtualNetworkRulesGetResponse>;
   /**
    * Creates or updates an existing virtual network rule.
@@ -61,7 +61,7 @@ export interface VirtualNetworkRules {
     serverName: string,
     virtualNetworkRuleName: string,
     parameters: VirtualNetworkRule,
-    options?: VirtualNetworkRulesCreateOrUpdateOptionalParams
+    options?: VirtualNetworkRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualNetworkRulesCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface VirtualNetworkRules {
     serverName: string,
     virtualNetworkRuleName: string,
     parameters: VirtualNetworkRule,
-    options?: VirtualNetworkRulesCreateOrUpdateOptionalParams
+    options?: VirtualNetworkRulesCreateOrUpdateOptionalParams,
   ): Promise<VirtualNetworkRulesCreateOrUpdateResponse>;
   /**
    * Deletes the virtual network rule with the given name.
@@ -96,7 +96,7 @@ export interface VirtualNetworkRules {
     resourceGroupName: string,
     serverName: string,
     virtualNetworkRuleName: string,
-    options?: VirtualNetworkRulesDeleteOptionalParams
+    options?: VirtualNetworkRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the virtual network rule with the given name.
@@ -110,6 +110,6 @@ export interface VirtualNetworkRules {
     resourceGroupName: string,
     serverName: string,
     virtualNetworkRuleName: string,
-    options?: VirtualNetworkRulesDeleteOptionalParams
+    options?: VirtualNetworkRulesDeleteOptionalParams,
   ): Promise<void>;
 }

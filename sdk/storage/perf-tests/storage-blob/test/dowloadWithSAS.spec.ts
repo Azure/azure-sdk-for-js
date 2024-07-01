@@ -51,8 +51,9 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
     this.sasUrl = `https://${getValueInConnString(
       getEnvVar("STORAGE_CONNECTION_STRING"),
       "AccountName",
-    )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${StorageBlobDownloadWithSASTest.blobName
-      }?${sasParams}`;
+    )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${
+      StorageBlobDownloadWithSASTest.blobName
+    }?${sasParams}`;
 
     this.blobClientFromSAS = new BlobClient(this.sasUrl);
   }

@@ -16,6 +16,23 @@ import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AIServicesVisionParameters {
+    apiKey?: string;
+    authIdentity?: SearchIndexerDataIdentity;
+    modelVersion?: string;
+    resourceUri: string;
+}
+
+// @public
+export interface AIServicesVisionVectorizer extends BaseVectorSearchVectorizer {
+    aIServicesVisionParameters?: AIServicesVisionParameters;
+    kind: "aiServicesVision";
+}
+
+// @public
+export type AIStudioModelCatalogName = string;
+
+// @public
 export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
 // @public
@@ -100,27 +117,43 @@ export interface AzureMachineLearningSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
-export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill {
-    apiKey?: string;
-    authIdentity?: SearchIndexerDataIdentity;
-    deploymentId?: string;
-    odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
-    resourceUri?: string;
+export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
+    amlParameters?: AzureMachineLearningVectorizerParameters;
+    kind: "aml";
 }
+
+// @public
+export type AzureMachineLearningVectorizerParameters = NoAuthAzureMachineLearningVectorizerParameters | KeyAuthAzureMachineLearningVectorizerParameters | TokenAuthAzureMachineLearningVectorizerParameters;
+
+// @public
+export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill, AzureOpenAIParameters {
+    dimensions?: number;
+    odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
+}
+
+// @public
+export type AzureOpenAIModelName = string;
 
 // @public
 export interface AzureOpenAIParameters {
     apiKey?: string;
     authIdentity?: SearchIndexerDataIdentity;
     deploymentId?: string;
+    modelName?: AzureOpenAIModelName;
     resourceUri?: string;
 }
 
 // @public
-export type AzureOpenAIVectorizer = BaseVectorSearchVectorizer & {
-    kind: "azureOpenAI";
+export interface AzureOpenAIVectorizer extends BaseVectorSearchVectorizer {
     azureOpenAIParameters?: AzureOpenAIParameters;
-};
+    kind: "azureOpenAI";
+}
+
+// @public
+export interface BaseAzureMachineLearningVectorizerParameters {
+    modelName?: AIStudioModelCatalogName;
+    timeout?: string;
+}
 
 // @public
 export interface BaseCharFilter {
@@ -181,7 +214,7 @@ export interface BaseSearchIndexerSkill {
     description?: string;
     inputs: InputFieldMappingEntry[];
     name?: string;
-    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Custom.AmlSkill" | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Custom.AmlSkill" | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill" | "#Microsoft.Skills.Vision.VectorizeSkill";
     outputs: OutputFieldMappingEntry[];
 }
 
@@ -192,6 +225,7 @@ export interface BaseSearchRequestOptions<TModel extends object, TFields extends
     highlightFields?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
+    hybridSearch?: HybridSearchOptions;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
@@ -223,6 +257,8 @@ export interface BaseVectorQuery<TModel extends object> {
     kind: VectorQueryKind;
     kNearestNeighborsCount?: number;
     oversampling?: number;
+    threshold?: VectorThreshold;
+    weight?: number;
 }
 
 // @public
@@ -243,6 +279,11 @@ export interface BaseVectorSearchCompressionConfiguration {
 export interface BaseVectorSearchVectorizer {
     kind: VectorSearchVectorizerKind;
     name: string;
+}
+
+// @public
+export interface BaseVectorThreshold {
+    kind: "vectorSimilarity" | "searchScore";
 }
 
 // @public (undocumented)
@@ -444,10 +485,10 @@ export interface CustomNormalizer extends BaseLexicalNormalizer {
 }
 
 // @public
-export type CustomVectorizer = BaseVectorSearchVectorizer & {
-    kind: "customWebApi";
+export interface CustomVectorizer extends BaseVectorSearchVectorizer {
     customVectorizerParameters?: CustomVectorizerParameters;
-};
+    kind: "customWebApi";
+}
 
 // @public
 export interface CustomVectorizerParameters {
@@ -738,6 +779,15 @@ export interface HnswParameters {
 }
 
 // @public
+export type HybridCountAndFacetMode = string;
+
+// @public
+export interface HybridSearchOptions {
+    countAndFacetMode?: HybridCountAndFacetMode;
+    maxTextRecallSize?: number;
+}
+
+// @public
 export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
     defaultLanguageCode?: ImageAnalysisSkillLanguage;
     details?: ImageDetail[];
@@ -903,6 +953,13 @@ export interface KeepTokenFilter extends BaseTokenFilter {
 }
 
 // @public
+export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
+    authenticationKey: string;
+    authKind: "key";
+    scoringUri: string;
+}
+
+// @public
 export interface KeyPhraseExtractionSkill extends BaseSearchIndexerSkill {
     defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
     maxKeyPhraseCount?: number;
@@ -925,6 +982,16 @@ export interface KeywordTokenizer {
     maxTokenLength?: number;
     name: string;
     odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.KeywordTokenizer";
+}
+
+// @public
+export enum KnownAIStudioModelCatalogName {
+    CohereEmbedV3English = "Cohere-embed-v3-english",
+    CohereEmbedV3Multilingual = "Cohere-embed-v3-multilingual",
+    FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
+    FacebookDinoV2ImageEmbeddingsViTGiant = "Facebook-DinoV2-Image-Embeddings-ViT-Giant",
+    OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
+    OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336"
 }
 
 // @public
@@ -1025,6 +1092,14 @@ export enum KnownAnalyzerNames {
 }
 
 // @public
+export enum KnownAzureOpenAIModelName {
+    Experimental = "experimental",
+    TextEmbedding3Large = "text-embedding-3-large",
+    TextEmbedding3Small = "text-embedding-3-small",
+    TextEmbeddingAda002 = "text-embedding-ada-002"
+}
+
+// @public
 export enum KnownBlobIndexerDataToExtract {
     AllMetadata = "allMetadata",
     ContentAndMetadata = "contentAndMetadata",
@@ -1113,6 +1188,12 @@ export enum KnownEntityRecognitionSkillLanguage {
     Tr = "tr",
     ZhHans = "zh-Hans",
     ZhHant = "zh-Hant"
+}
+
+// @public
+export enum KnownHybridCountAndFacetMode {
+    CountAllResults = "countAllResults",
+    CountRetrievableResults = "countRetrievableResults"
 }
 
 // @public
@@ -1647,7 +1728,8 @@ export enum KnownSearchIndexerDataSourceType {
     AzureSql = "azuresql",
     AzureTable = "azuretable",
     CosmosDb = "cosmosdb",
-    MySql = "mysql"
+    MySql = "mysql",
+    OneLake = "onelake"
 }
 
 // @public
@@ -1914,8 +1996,15 @@ export enum KnownTokenizerNames {
 }
 
 // @public
+export enum KnownVectorEncodingFormat {
+    PackedBit = "packedBit"
+}
+
+// @public
 export enum KnownVectorQueryKind {
-    $DO_NOT_NORMALIZE$_text = "text",
+    ImageBinary = "imageBinary",
+    ImageUrl = "imageUrl",
+    Text = "text",
     Vector = "vector"
 }
 
@@ -1931,8 +2020,16 @@ export enum KnownVectorSearchCompressionTargetDataType {
 
 // @public
 export enum KnownVectorSearchVectorizerKind {
+    AIServicesVision = "aiServicesVision",
+    AML = "aml",
     AzureOpenAI = "azureOpenAI",
     CustomWebApi = "customWebApi"
+}
+
+// @public
+export enum KnownVectorThresholdKind {
+    SearchScore = "searchScore",
+    VectorSimilarity = "vectorSimilarity"
 }
 
 // @public
@@ -2101,6 +2198,12 @@ export interface NGramTokenizer extends BaseLexicalTokenizer {
     minGram?: number;
     odatatype: "#Microsoft.Azure.Search.NGramTokenizer";
     tokenChars?: TokenCharacterKind[];
+}
+
+// @public
+export interface NoAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
+    authKind: "none";
+    scoringUri: string;
 }
 
 // @public
@@ -2369,7 +2472,7 @@ export type SearchField = SimpleField | ComplexField;
 export type SearchFieldArray<TModel extends object = object> = (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false ? readonly string[] : readonly SelectFields<TModel>[];
 
 // @public
-export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)" | "Collection(Edm.Single)" | "Collection(Edm.Half)" | "Collection(Edm.Int16)" | "Collection(Edm.SByte)";
+export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)" | "Collection(Edm.Single)" | "Collection(Edm.Half)" | "Collection(Edm.Int16)" | "Collection(Edm.SByte)" | "Collection(Edm.Byte)";
 
 // @public
 export interface SearchIndex {
@@ -2527,7 +2630,7 @@ export interface SearchIndexerDataSourceConnection {
 }
 
 // @public (undocumented)
-export type SearchIndexerDataSourceType = "azuresql" | "cosmosdb" | "azureblob" | "azuretable" | "mysql" | "adlsgen2";
+export type SearchIndexerDataSourceType = "azuresql" | "cosmosdb" | "azureblob" | "azuretable" | "mysql" | "adlsgen2" | "onelake";
 
 // @public
 export interface SearchIndexerDataUserAssignedIdentity extends BaseSearchIndexerDataIdentity {
@@ -2620,7 +2723,7 @@ export interface SearchIndexerLimits {
 }
 
 // @public
-export type SearchIndexerSkill = AzureMachineLearningSkill | AzureOpenAIEmbeddingSkill | ConditionalSkill | CustomEntityLookupSkill | DocumentExtractionSkill | EntityLinkingSkill | EntityRecognitionSkill | EntityRecognitionSkillV3 | ImageAnalysisSkill | KeyPhraseExtractionSkill | LanguageDetectionSkill | MergeSkill | OcrSkill | PIIDetectionSkill | SentimentSkill | SentimentSkillV3 | ShaperSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
+export type SearchIndexerSkill = AzureMachineLearningSkill | AzureOpenAIEmbeddingSkill | ConditionalSkill | CustomEntityLookupSkill | DocumentExtractionSkill | EntityLinkingSkill | EntityRecognitionSkill | EntityRecognitionSkillV3 | ImageAnalysisSkill | KeyPhraseExtractionSkill | LanguageDetectionSkill | MergeSkill | OcrSkill | PIIDetectionSkill | SentimentSkill | SentimentSkillV3 | ShaperSkill | SplitSkill | TextTranslationSkill | VisionVectorizeSkill | WebApiSkill;
 
 // @public
 export interface SearchIndexerSkillset {
@@ -2759,6 +2862,12 @@ export type SearchResult<TModel extends object, TFields extends SelectFields<TMo
 };
 
 // @public
+export interface SearchScoreThreshold extends BaseVectorThreshold {
+    kind: "searchScore";
+    value: number;
+}
+
+// @public
 export interface SearchServiceStatistics {
     counters: ServiceCounters;
     limits: ServiceLimits;
@@ -2872,6 +2981,7 @@ export interface ServiceLimits {
     maxComplexObjectsInCollectionsPerDocument?: number;
     maxFieldNestingDepthPerIndex?: number;
     maxFieldsPerIndex?: number;
+    maxStoragePerIndex?: number;
 }
 
 // @public
@@ -2915,6 +3025,7 @@ export interface SimpleField {
     synonymMapNames?: string[];
     type: SearchFieldDataType;
     vectorSearchDimensions?: number;
+    vectorSearchEncodingFormat?: VectorEncodingFormat;
     vectorSearchProfileName?: string;
 }
 
@@ -3066,6 +3177,13 @@ export interface TextWeights {
 }
 
 // @public
+export interface TokenAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
+    authKind: "token";
+    region?: string;
+    resourceId: string;
+}
+
+// @public
 export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuation" | "symbol";
 
 // @public
@@ -3098,13 +3216,28 @@ export interface UniqueTokenFilter extends BaseTokenFilter {
 // @public
 export type UploadDocumentsOptions = IndexDocumentsOptions;
 
+// @public
+export type VectorEncodingFormat = string;
+
 // @public (undocumented)
 export type VectorFilterMode = "postFilter" | "preFilter";
 
 // @public
+export interface VectorizableImageBinaryQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+    binaryImage: string;
+    kind: "imageBinary";
+}
+
+// @public
+export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
+    kind: "imageUrl";
+    url: string;
+}
+
+// @public
 export interface VectorizableTextQuery<TModel extends object> extends BaseVectorQuery<TModel> {
     kind: "text";
-    text?: string;
+    text: string;
 }
 
 // @public
@@ -3114,10 +3247,10 @@ export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<
 }
 
 // @public
-export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel>;
+export type VectorQuery<TModel extends object> = VectorizedQuery<TModel> | VectorizableTextQuery<TModel> | VectorizableImageUrlQuery<TModel> | VectorizableImageBinaryQuery<TModel>;
 
 // @public (undocumented)
-export type VectorQueryKind = "vector" | "text";
+export type VectorQueryKind = "vector" | "text" | "imageUrl" | "imageBinary";
 
 // @public
 export interface VectorSearch {
@@ -3134,7 +3267,7 @@ export type VectorSearchAlgorithmConfiguration = HnswAlgorithmConfiguration | Ex
 export type VectorSearchAlgorithmKind = "hnsw" | "exhaustiveKnn";
 
 // @public (undocumented)
-export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
+export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct" | "hamming";
 
 // @public
 export type VectorSearchCompressionConfiguration = ScalarQuantizationCompressionConfiguration;
@@ -3160,10 +3293,25 @@ export interface VectorSearchProfile {
 }
 
 // @public
-export type VectorSearchVectorizer = AzureOpenAIVectorizer | CustomVectorizer;
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | CustomVectorizer | AIServicesVisionVectorizer | AzureMachineLearningVectorizer;
 
 // @public (undocumented)
-export type VectorSearchVectorizerKind = "azureOpenAI" | "customWebApi";
+export type VectorSearchVectorizerKind = "azureOpenAI" | "customWebApi" | "aiServicesVision" | "aml";
+
+// @public
+export interface VectorSimilarityThreshold extends BaseVectorThreshold {
+    kind: "vectorSimilarity";
+    value: number;
+}
+
+// @public
+export type VectorThreshold = VectorSimilarityThreshold | SearchScoreThreshold;
+
+// @public
+export interface VisionVectorizeSkill extends BaseSearchIndexerSkill {
+    modelVersion?: string;
+    odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
+}
 
 // @public (undocumented)
 export type VisualFeature = "adult" | "brands" | "categories" | "description" | "faces" | "objects" | "tags";

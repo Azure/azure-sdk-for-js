@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or Update configuration record
  *
  * @summary Create or Update configuration record
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/MaintenanceConfigurations_CreateOrUpdateForResource.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_CreateOrUpdateForResource.json
  */
 async function maintenanceConfigurationsCreateOrUpdateForResource() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function maintenanceConfigurationsCreateOrUpdateForResource() {
   const result = await client.maintenanceConfigurations.createOrUpdate(
     resourceGroupName,
     resourceName,
-    configuration
+    configuration,
   );
   console.log(result);
 }

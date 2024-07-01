@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the full endpoint URL for a nested event subscription for domain topic.
  *
  * @summary Get the full endpoint URL for a nested event subscription for domain topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainTopicEventSubscriptions_GetFullUrl.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainTopicEventSubscriptions_GetFullUrl.json
  */
 async function domainTopicEventSubscriptionsGetFullUrl() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function domainTopicEventSubscriptionsGetFullUrl() {
     resourceGroupName,
     domainName,
     topicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

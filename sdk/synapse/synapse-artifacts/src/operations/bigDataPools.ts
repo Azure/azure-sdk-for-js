@@ -16,7 +16,7 @@ import {
   BigDataPoolsListOptionalParams,
   BigDataPoolsListResponse,
   BigDataPoolsGetOptionalParams,
-  BigDataPoolsGetResponse
+  BigDataPoolsGetResponse,
 } from "../models";
 
 /** Class containing BigDataPools operations. */
@@ -36,7 +36,7 @@ export class BigDataPoolsImpl implements BigDataPools {
    * @param options The options parameters.
    */
   async list(
-    options?: BigDataPoolsListOptionalParams
+    options?: BigDataPoolsListOptionalParams,
   ): Promise<BigDataPoolsListResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.list",
@@ -44,9 +44,9 @@ export class BigDataPoolsImpl implements BigDataPools {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          listOperationSpec
+          listOperationSpec,
         ) as Promise<BigDataPoolsListResponse>;
-      }
+      },
     );
   }
 
@@ -57,7 +57,7 @@ export class BigDataPoolsImpl implements BigDataPools {
    */
   async get(
     bigDataPoolName: string,
-    options?: BigDataPoolsGetOptionalParams
+    options?: BigDataPoolsGetOptionalParams,
   ): Promise<BigDataPoolsGetResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.get",
@@ -65,9 +65,9 @@ export class BigDataPoolsImpl implements BigDataPools {
       async (options) => {
         return this.client.sendOperationRequest(
           { bigDataPoolName, options },
-          getOperationSpec
+          getOperationSpec,
         ) as Promise<BigDataPoolsGetResponse>;
-      }
+      },
     );
   }
 }
@@ -79,30 +79,30 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfoListResult
+      bodyMapper: Mappers.BigDataPoolResourceInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/bigDataPools/{bigDataPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.bigDataPoolName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

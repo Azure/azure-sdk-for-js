@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a database.
  *
  * @summary Deletes a database.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/DatabaseDelete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/DatabaseDelete.json
  */
 async function deleteADatabase() {
   const subscriptionId =
@@ -31,12 +31,12 @@ async function deleteADatabase() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.databases.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

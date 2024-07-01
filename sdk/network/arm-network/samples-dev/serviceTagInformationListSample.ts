@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceTagInformationListResult.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ServiceTagInformationListResult.json
  */
 async function getListOfServiceTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -41,7 +41,7 @@ async function getListOfServiceTags() {
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
  */
 async function getListOfServiceTagsWithNoAddressPrefixes() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -66,7 +66,7 @@ async function getListOfServiceTagsWithNoAddressPrefixes() {
  * This sample demonstrates how to Gets a list of service tag information resources with pagination.
  *
  * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceTagInformationListResultWithTagname.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ServiceTagInformationListResultWithTagname.json
  */
 async function getListOfServiceTagsWithTagName() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an existing delivery rule within a rule set.
  *
  * @summary Gets an existing delivery rule within a rule set.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Rules_Get.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_Get.json
  */
 async function rulesGet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function rulesGet() {
     resourceGroupName,
     profileName,
     ruleSetName,
-    ruleName
+    ruleName,
   );
   console.log(result);
 }

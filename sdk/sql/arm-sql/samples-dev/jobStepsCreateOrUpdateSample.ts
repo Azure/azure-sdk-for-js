@@ -38,7 +38,7 @@ async function createOrUpdateAJobStepWithAllPropertiesSpecified() {
       maximumRetryIntervalSeconds: 222,
       retryAttempts: 42,
       retryIntervalBackoffMultiplier: 3,
-      timeoutSeconds: 1234
+      timeoutSeconds: 1234,
     },
     output: {
       type: "SqlDatabase",
@@ -49,11 +49,11 @@ async function createOrUpdateAJobStepWithAllPropertiesSpecified() {
       schemaName: "myschema1234",
       serverName: "server3",
       subscriptionId: "3501b905-a848-4b5d-96e8-b253f62d735a",
-      tableName: "mytable5678"
+      tableName: "mytable5678",
     },
     stepId: 1,
     targetGroup:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -63,7 +63,7 @@ async function createOrUpdateAJobStepWithAllPropertiesSpecified() {
     jobAgentName,
     jobName,
     stepName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -88,7 +88,7 @@ async function createOrUpdateAJobStepWithMinimalPropertiesSpecified() {
     credential:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
     targetGroup:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -98,7 +98,7 @@ async function createOrUpdateAJobStepWithMinimalPropertiesSpecified() {
     jobAgentName,
     jobName,
     stepName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

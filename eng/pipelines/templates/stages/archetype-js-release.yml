@@ -13,7 +13,7 @@ parameters:
 stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
       - ${{ each artifact in parameters.Artifacts }}:
-          - stage: 
+          - stage:
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
             displayName: 'Release: ${{artifact.name}}'
@@ -106,6 +106,14 @@ stages:
                                 eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
                               displayName: Cleanup Npm Next Tag
                               condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
+                            - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+                              parameters:
+                                ArtifactPath: $(Pipeline.Workspace)/packages
+                                Artifacts: ${{parameters.Artifacts}}
+                                ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
+                                MarkPackageAsShipped: true
+                                ArtifactName: ${{parameters.ArtifactName}}
+                                PackageName: ${{artifact.name}}
               - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
                   - deployment: PublishDocs
                     displayName: Docs.MS Release
@@ -163,7 +171,6 @@ stages:
                             - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
                               parameters:
                                 FolderForUpload: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                BlobSASKey: $(azure-sdk-docs-prod-sas)
                                 BlobName: $(azure-sdk-docs-prod-blob-name)
                                 TargetLanguage: javascript
                                 ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
@@ -257,7 +264,7 @@ stages:
                       Registry: ${{parameters.Registry}}
                       PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
                       Tag: "dev"
-                    
+
       - job: PublishDocsToNightlyBranch
         condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
         dependsOn: PublishPackages

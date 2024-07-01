@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns all signatures overrides for a specific policy.
  *
  * @summary Returns all signatures overrides for a specific policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicySignatureOverridesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicySignatureOverridesGet.json
  */
 async function getSignatureOverrides() {
   const subscriptionId =

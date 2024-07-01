@@ -16,10 +16,10 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
 } from "../../../src/receivers/sessionReceiver";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSenderImpl } from "../../../src/sender";
 import { MessageReceiver } from "../../../src/core/messageReceiver";
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
 

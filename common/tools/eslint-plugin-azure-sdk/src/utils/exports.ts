@@ -3,28 +3,24 @@
 
 /**
  * @file Utilities for analyzing the exports of a package
- * @author Arpan Laha
+ *
  */
-
-import { ClassDeclaration, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { TSESTree, TSESLint, ESLintUtils } from "@typescript-eslint/utils";
 import { SourceFile, Symbol as TSSymbol } from "typescript";
-import { Rule } from "eslint";
 
 /**
  * Gets all Symbols of Types of all top-level exports from a package.
  * @param context the ESLint runtime context
  * @returns a list of Symbols containing type information for all top-level exports, or undefined if improperly configured
  */
-const getExports = (context: Rule.RuleContext): TSSymbol[] | undefined => {
-  const parserServices = context.sourceCode.parserServices as ParserServices;
-  if (parserServices.program === undefined) {
-    return undefined;
-  }
-
+function getExports<TMessageIds extends string, TOptions extends readonly unknown[]>(
+  context: TSESLint.RuleContext<TMessageIds, TOptions>,
+): TSSymbol[] | undefined {
+  const parserServices = ESLintUtils.getParserServices(context);
   const program = parserServices.program;
+
   const typeChecker = program.getTypeChecker();
-  const sourceFile = program.getSourceFile(context.settings.main);
+  const sourceFile = program.getSourceFile(context.settings.main as string);
   if (sourceFile === undefined) {
     return undefined;
   }
@@ -42,7 +38,7 @@ const getExports = (context: Rule.RuleContext): TSSymbol[] | undefined => {
     .filter(
       (exportSymbol: TSSymbol | undefined): boolean => exportSymbol !== undefined,
     ) as TSSymbol[];
-};
+}
 
 /**
  * Determines whether a given Symbol originates from the library or an external source
@@ -88,7 +84,9 @@ const addToSeenLocalExports = (exportSymbol: TSSymbol, localExports: TSSymbol[])
  * @param context the ESLint runtime context
  * @returns a list of Symbols corresponding to Types of exports and members that are defined inside the package
  */
-export const getLocalExports = (context: Rule.RuleContext): TSSymbol[] | undefined => {
+export function getLocalExports<TMessageIds extends string, TOptions extends readonly unknown[]>(
+  context: TSESLint.RuleContext<TMessageIds, TOptions>,
+): TSSymbol[] | undefined {
   const localExports: TSSymbol[] = [];
 
   const exportSymbols = getExports(context);
@@ -113,10 +111,10 @@ export const getLocalExports = (context: Rule.RuleContext): TSSymbol[] | undefin
   });
 
   return localExports;
-};
+}
 
-export const getPublicMethods = (node: ClassDeclaration): MethodDefinition[] =>
-  node.body.body.filter((method): method is MethodDefinition => {
+export const getPublicMethods = (node: TSESTree.ClassDeclaration): TSESTree.MethodDefinition[] =>
+  node.body.body.filter((method): method is TSESTree.MethodDefinition => {
     const TSMethod = method as TSESTree.MethodDefinition;
     return method.type === "MethodDefinition" && TSMethod.accessibility !== "private";
   });

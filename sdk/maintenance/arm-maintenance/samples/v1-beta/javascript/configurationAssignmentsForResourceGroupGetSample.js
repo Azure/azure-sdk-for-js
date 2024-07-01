@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get configuration assignment for resource..
  *
  * @summary Get configuration assignment for resource..
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignmentsForResourceGroup_Get.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignmentsForResourceGroup_Get.json
  */
 async function configurationAssignmentsForResourceGroupGet() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function configurationAssignmentsForResourceGroupGet() {
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const result = await client.configurationAssignmentsForResourceGroup.get(
     resourceGroupName,
-    configurationAssignmentName
+    configurationAssignmentName,
   );
   console.log(result);
 }

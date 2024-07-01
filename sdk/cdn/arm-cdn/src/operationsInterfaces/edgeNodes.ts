@@ -17,6 +17,6 @@ export interface EdgeNodes {
    * @param options The options parameters.
    */
   list(
-    options?: EdgeNodesListOptionalParams
+    options?: EdgeNodesListOptionalParams,
   ): PagedAsyncIterableIterator<EdgeNode>;
 }

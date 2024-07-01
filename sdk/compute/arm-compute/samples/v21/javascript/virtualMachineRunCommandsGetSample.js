@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets specific run command for a subscription in a location.
  *
  * @summary Gets specific run command for a subscription in a location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/runCommandExamples/RunCommand_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/runCommandExamples/RunCommand_Get.json
  */
 async function virtualMachineRunCommandGet() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the existing origins within an endpoint.
  *
  * @summary Lists all of the existing origins within an endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Origins_ListByEndpoint.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Origins_ListByEndpoint.json
  */
 async function originsListByEndpoint() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

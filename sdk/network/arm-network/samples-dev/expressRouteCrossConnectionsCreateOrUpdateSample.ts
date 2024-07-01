@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the specified ExpressRouteCrossConnection.
  *
  * @summary Update the specified ExpressRouteCrossConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteCrossConnectionUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCrossConnectionUpdate.json
  */
 async function updateExpressRouteCrossConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

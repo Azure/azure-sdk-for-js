@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 import { BatchingReceiver } from "../../../src/core/batchingReceiver";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver";

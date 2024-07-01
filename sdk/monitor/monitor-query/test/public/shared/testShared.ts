@@ -28,6 +28,9 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 export interface RecorderAndLogsClient {
   client: LogsQueryClient;
@@ -84,10 +87,10 @@ export async function createRecorderAndMetricsClient(
   recorder: Recorder,
 ): Promise<RecorderAndMetricsClient> {
   await recorder.start(recorderOptions);
-  const client = new MetricsQueryClient(
-    createTestCredential(),
-    recorder.configureClientOptions({}),
-  );
+  const client = new MetricsQueryClient(createTestCredential(), {
+    audience: "https://management.azure.com",
+    ...recorder.configureClientOptions({}),
+  });
 
   return {
     client: client,

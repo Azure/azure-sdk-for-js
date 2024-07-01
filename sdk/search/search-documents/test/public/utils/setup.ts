@@ -1,19 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { computeSha256Hash, delay, isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
 import { assert } from "chai";
 import {
   GeographyPoint,
   KnownAnalyzerNames,
   SearchClient,
+  SearchField,
   SearchIndex,
   SearchIndexClient,
   SearchIndexerClient,
+  VectorSearchAlgorithmConfiguration,
+  VectorSearchCompressionConfiguration,
+  VectorSearchVectorizer,
 } from "../../../src";
-import { delay } from "../../../src/serviceUtils";
-import { COMPRESSION_DISABLED } from "../../compressionDisabled";
 import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -23,209 +26,273 @@ export async function createIndex(
   client: SearchIndexClient,
   name: string,
   serviceVersion: string,
-): Promise<void> {
-  const algorithmConfigurationName = "algorithm-configuration-name";
-  const vectorizerName = "vectorizer-name";
-  const vectorSearchProfileName = "profile-name";
-  const compressedVectorSearchProfileName = "compressed-profile-name";
-  const compressionConfigurationName = "compression-configuration-name";
+): Promise<SearchIndex> {
+  const isPreview = serviceVersion.toLowerCase().includes("preview");
+
+  const vectorizers: VectorSearchVectorizer[] = [
+    {
+      kind: "azureOpenAI",
+      name: "vector-search-vectorizer",
+      azureOpenAIParameters: {
+        deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
+        resourceUri: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
+        modelName: "text-embedding-ada-002",
+      },
+    },
+  ];
+  await Promise.all(vectorizers.map(renameUniquelyInPlace));
+  const [azureOpenAiVectorizerName] = vectorizers.map((v) => v.name);
+
+  const algorithmConfigurations: VectorSearchAlgorithmConfiguration[] = [
+    {
+      name: "vector-search-algorithm-configuration",
+      kind: "hnsw",
+      parameters: { metric: "dotProduct" },
+    },
+    {
+      name: "vector-search-algorithm-configuration",
+      kind: "exhaustiveKnn",
+      parameters: { metric: "euclidean" },
+    },
+  ];
+  await Promise.all(algorithmConfigurations.map(renameUniquelyInPlace));
+  const [hnswAlgorithmConfigurationName, exhaustiveKnnAlgorithmConfigurationName] =
+    algorithmConfigurations.map((c) => c.name);
+
+  const compressionConfigurations: VectorSearchCompressionConfiguration[] = [
+    {
+      name: "vector-search-compression-configuration",
+      kind: "scalarQuantization",
+      parameters: { quantizedDataType: "int8" },
+      rerankWithOriginalVectors: true,
+    },
+  ];
+  await Promise.all(compressionConfigurations.map(renameUniquelyInPlace));
+  const [scalarQuantizationCompressionConfigurationName] = compressionConfigurations.map(
+    (c) => c.name,
+  );
+
+  const vectorSearchProfiles = [
+    {
+      name: "vector-search-profile",
+      vectorizer: isPreview ? azureOpenAiVectorizerName : undefined,
+      algorithmConfigurationName: exhaustiveKnnAlgorithmConfigurationName,
+    },
+    {
+      name: "vector-search-profile",
+      vectorizer: isPreview ? azureOpenAiVectorizerName : undefined,
+      algorithmConfigurationName: hnswAlgorithmConfigurationName,
+      compressionConfigurationName: isPreview
+        ? scalarQuantizationCompressionConfigurationName
+        : undefined,
+    },
+  ];
+  await Promise.all(vectorSearchProfiles.map(renameUniquelyInPlace));
+  const [azureOpenAiVectorSearchProfileName, azureOpenAiCompressedVectorSearchProfileName] =
+    vectorSearchProfiles.map((p) => p.name);
+
+  const vectorFields: SearchField[] = [
+    {
+      type: "Collection(Edm.Single)",
+      name: "vectorDescription",
+      searchable: true,
+      vectorSearchDimensions: 1536,
+      hidden: true,
+      vectorSearchProfileName: azureOpenAiVectorSearchProfileName,
+    },
+    {
+      type: "Collection(Edm.Half)",
+      name: "compressedVectorDescription",
+      searchable: true,
+      hidden: true,
+      vectorSearchDimensions: 1536,
+      vectorSearchProfileName: azureOpenAiCompressedVectorSearchProfileName,
+      stored: false,
+    },
+  ];
+
+  const fields: SearchField[] = [
+    {
+      type: "Edm.String",
+      name: "hotelId",
+      key: true,
+      filterable: true,
+      sortable: true,
+    },
+    {
+      type: "Edm.String",
+      name: "hotelName",
+      searchable: true,
+      filterable: true,
+      sortable: true,
+    },
+    {
+      type: "Edm.String",
+      name: "description",
+      searchable: true,
+      analyzerName: KnownAnalyzerNames.EnLucene,
+    },
+    {
+      type: "Edm.String",
+      name: "descriptionFr",
+      searchable: true,
+      analyzerName: KnownAnalyzerNames.FrLucene,
+    },
+    {
+      type: "Edm.String",
+      name: "category",
+      searchable: true,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      type: "Collection(Edm.String)",
+      name: "tags",
+      searchable: true,
+      filterable: true,
+      facetable: true,
+    },
+    {
+      type: "Edm.Boolean",
+      name: "parkingIncluded",
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      type: "Edm.Boolean",
+      name: "smokingAllowed",
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      type: "Edm.DateTimeOffset",
+      name: "lastRenovationDate",
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      type: "Edm.Double",
+      name: "rating",
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      type: "Edm.GeographyPoint",
+      name: "location",
+      filterable: true,
+      sortable: true,
+    },
+    {
+      type: "Edm.ComplexType",
+      name: "address",
+      fields: [
+        {
+          type: "Edm.String",
+          name: "streetAddress",
+          searchable: true,
+        },
+        {
+          type: "Edm.String",
+          name: "city",
+          searchable: true,
+          filterable: true,
+          sortable: true,
+          facetable: true,
+        },
+        {
+          type: "Edm.String",
+          name: "stateProvince",
+          searchable: true,
+          filterable: true,
+          sortable: true,
+          facetable: true,
+        },
+        {
+          type: "Edm.String",
+          name: "country",
+          searchable: true,
+          filterable: true,
+          sortable: true,
+          facetable: true,
+        },
+        {
+          type: "Edm.String",
+          name: "postalCode",
+          searchable: true,
+          filterable: true,
+          sortable: true,
+          facetable: true,
+        },
+      ],
+    },
+    {
+      type: "Collection(Edm.ComplexType)",
+      name: "rooms",
+      fields: [
+        {
+          type: "Edm.String",
+          name: "description",
+          searchable: true,
+          analyzerName: KnownAnalyzerNames.EnLucene,
+        },
+        {
+          type: "Edm.String",
+          name: "descriptionFr",
+          searchable: true,
+          analyzerName: KnownAnalyzerNames.FrLucene,
+        },
+        {
+          type: "Edm.String",
+          name: "type",
+          searchable: true,
+          filterable: true,
+          facetable: true,
+        },
+        {
+          type: "Edm.Double",
+          name: "baseRate",
+          filterable: true,
+          facetable: true,
+        },
+        {
+          type: "Edm.String",
+          name: "bedOptions",
+          searchable: true,
+          filterable: true,
+          facetable: true,
+        },
+        {
+          type: "Edm.Int32",
+          name: "sleepsCount",
+          filterable: true,
+          facetable: true,
+        },
+        {
+          type: "Edm.Boolean",
+          name: "smokingAllowed",
+          filterable: true,
+          facetable: true,
+        },
+        {
+          type: "Collection(Edm.String)",
+          name: "tags",
+          searchable: true,
+          filterable: true,
+          facetable: true,
+        },
+      ],
+    },
+    ...vectorFields,
+  ];
 
   const hotelIndex: SearchIndex = {
     name,
-    fields: [
-      {
-        type: "Edm.String",
-        name: "hotelId",
-        key: true,
-        filterable: true,
-        sortable: true,
-      },
-      {
-        type: "Edm.String",
-        name: "hotelName",
-        searchable: true,
-        filterable: true,
-        sortable: true,
-      },
-      {
-        type: "Edm.String",
-        name: "description",
-        searchable: true,
-        analyzerName: KnownAnalyzerNames.EnLucene,
-      },
-      {
-        type: "Edm.String",
-        name: "descriptionFr",
-        searchable: true,
-        analyzerName: KnownAnalyzerNames.FrLucene,
-      },
-      {
-        type: "Edm.String",
-        name: "category",
-        searchable: true,
-        filterable: true,
-        sortable: true,
-        facetable: true,
-      },
-      {
-        type: "Collection(Edm.String)",
-        name: "tags",
-        searchable: true,
-        filterable: true,
-        facetable: true,
-      },
-      {
-        type: "Edm.Boolean",
-        name: "parkingIncluded",
-        filterable: true,
-        sortable: true,
-        facetable: true,
-      },
-      {
-        type: "Edm.Boolean",
-        name: "smokingAllowed",
-        filterable: true,
-        sortable: true,
-        facetable: true,
-      },
-      {
-        type: "Edm.DateTimeOffset",
-        name: "lastRenovationDate",
-        filterable: true,
-        sortable: true,
-        facetable: true,
-      },
-      {
-        type: "Edm.Double",
-        name: "rating",
-        filterable: true,
-        sortable: true,
-        facetable: true,
-      },
-      {
-        type: "Edm.GeographyPoint",
-        name: "location",
-        filterable: true,
-        sortable: true,
-      },
-      {
-        type: "Edm.ComplexType",
-        name: "address",
-        fields: [
-          {
-            type: "Edm.String",
-            name: "streetAddress",
-            searchable: true,
-          },
-          {
-            type: "Edm.String",
-            name: "city",
-            searchable: true,
-            filterable: true,
-            sortable: true,
-            facetable: true,
-          },
-          {
-            type: "Edm.String",
-            name: "stateProvince",
-            searchable: true,
-            filterable: true,
-            sortable: true,
-            facetable: true,
-          },
-          {
-            type: "Edm.String",
-            name: "country",
-            searchable: true,
-            filterable: true,
-            sortable: true,
-            facetable: true,
-          },
-          {
-            type: "Edm.String",
-            name: "postalCode",
-            searchable: true,
-            filterable: true,
-            sortable: true,
-            facetable: true,
-          },
-        ],
-      },
-      {
-        type: "Collection(Edm.ComplexType)",
-        name: "rooms",
-        fields: [
-          {
-            type: "Edm.String",
-            name: "description",
-            searchable: true,
-            analyzerName: KnownAnalyzerNames.EnLucene,
-          },
-          {
-            type: "Edm.String",
-            name: "descriptionFr",
-            searchable: true,
-            analyzerName: KnownAnalyzerNames.FrLucene,
-          },
-          {
-            type: "Edm.String",
-            name: "type",
-            searchable: true,
-            filterable: true,
-            facetable: true,
-          },
-          {
-            type: "Edm.Double",
-            name: "baseRate",
-            filterable: true,
-            facetable: true,
-          },
-          {
-            type: "Edm.String",
-            name: "bedOptions",
-            searchable: true,
-            filterable: true,
-            facetable: true,
-          },
-          {
-            type: "Edm.Int32",
-            name: "sleepsCount",
-            filterable: true,
-            facetable: true,
-          },
-          {
-            type: "Edm.Boolean",
-            name: "smokingAllowed",
-            filterable: true,
-            facetable: true,
-          },
-          {
-            type: "Collection(Edm.String)",
-            name: "tags",
-            searchable: true,
-            filterable: true,
-            facetable: true,
-          },
-        ],
-      },
-      {
-        type: "Collection(Edm.Single)",
-        name: "vectorDescription",
-        searchable: true,
-        vectorSearchDimensions: 1536,
-        hidden: true,
-        vectorSearchProfileName,
-      },
-      {
-        type: "Collection(Edm.Half)",
-        name: "compressedVectorDescription",
-        searchable: true,
-        hidden: true,
-        vectorSearchDimensions: 1536,
-        vectorSearchProfileName: compressedVectorSearchProfileName,
-        stored: false,
-      },
-    ],
+    fields,
     suggesters: [
       {
         name: "sg",
@@ -255,54 +322,15 @@ export async function createIndex(
       allowedOrigins: ["*"],
     },
     vectorSearch: {
-      algorithms: [
-        {
-          name: algorithmConfigurationName,
-          kind: "hnsw",
-          parameters: {
-            metric: "dotProduct",
-          },
-        },
-      ],
-      vectorizers: serviceVersion.includes("Preview")
-        ? [
-            {
-              kind: "azureOpenAI",
-              name: vectorizerName,
-              azureOpenAIParameters: {
-                apiKey: env.AZURE_OPENAI_KEY,
-                deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-                resourceUri: env.AZURE_OPENAI_ENDPOINT,
-              },
-            },
-          ]
-        : undefined,
-      compressions: [
-        {
-          name: compressionConfigurationName,
-          kind: "scalarQuantization",
-          parameters: { quantizedDataType: "int8" },
-          rerankWithOriginalVectors: true,
-        },
-      ],
-      profiles: [
-        {
-          name: vectorSearchProfileName,
-          vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
-          algorithmConfigurationName,
-        },
-        {
-          name: compressedVectorSearchProfileName,
-          vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
-          algorithmConfigurationName,
-          compressionConfigurationName,
-        },
-      ],
+      algorithms: algorithmConfigurations,
+      vectorizers: isPreview ? vectorizers : undefined,
+      compressions: isPreview ? compressionConfigurations : undefined,
+      profiles: vectorSearchProfiles,
     },
     semanticSearch: {
       configurations: [
         {
-          name: "semantic-configuration-name",
+          name: "semantic-configuration",
           prioritizedFields: {
             titleField: { name: "hotelName" },
             contentFields: [{ name: "description" }],
@@ -313,21 +341,7 @@ export async function createIndex(
     },
   };
 
-  // This feature isn't publically available yet
-  if (COMPRESSION_DISABLED) {
-    hotelIndex.fields = hotelIndex.fields.filter(
-      (field) => field.name !== "compressedVectorDescription",
-    );
-    const vs = hotelIndex.vectorSearch;
-    if (vs) {
-      delete vs.compressions;
-      vs.profiles = vs.profiles?.filter(
-        (profile) => profile.name !== compressedVectorSearchProfileName,
-      );
-    }
-  }
-
-  await client.createIndex(hotelIndex);
+  return client.createIndex(hotelIndex);
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -559,9 +573,7 @@ async function addVectorDescriptions(
 ): Promise<void> {
   const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
-  const descriptions = documents
-    .filter(({ description }) => description)
-    .map(({ description }) => description!);
+  const descriptions = documents.map(({ description }) => description).filter(isDefined);
 
   const embeddingsArray = await openAIClient.getEmbeddings(deploymentName, descriptions);
 
@@ -569,9 +581,7 @@ async function addVectorDescriptions(
     const { embedding, index } = embeddingItem;
     const document = documents[index];
     document.vectorDescription = embedding;
-    if (!COMPRESSION_DISABLED) {
-      document.compressedVectorDescription = embedding;
-    }
+    document.compressedVectorDescription = embedding;
   });
 }
 
@@ -756,4 +766,10 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
 
 export function createRandomIndexName(): string {
   return `hotel-live-test-${Math.floor(Math.random() * 100000) + 1000000}`;
+}
+
+async function renameUniquelyInPlace(obj: { name: string }): Promise<void> {
+  const hash = await computeSha256Hash(JSON.stringify(obj), "hex");
+  const name = [obj.name, hash.toLowerCase()].join("-");
+  obj.name = name;
 }

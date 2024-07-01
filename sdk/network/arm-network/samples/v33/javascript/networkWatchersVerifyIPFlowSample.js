@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Verify IP flow from the specified VM to a location given the currently configured NSG rules.
  *
  * @summary Verify IP flow from the specified VM to a location given the currently configured NSG rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherIpFlowVerify.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkWatcherIpFlowVerify.json
  */
 async function ipFlowVerify() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
