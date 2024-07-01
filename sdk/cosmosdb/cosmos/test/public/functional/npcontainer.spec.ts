@@ -8,6 +8,8 @@ import {
   Container,
   PluginConfig,
   CosmosClientOptions,
+  OperationInput,
+  PatchOperationType,
 } from "../../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint } from "../common/_testConfig";
@@ -107,5 +109,44 @@ describe("Non Partitioned Container", function () {
     const response = await container.item(item1.id, undefined).read();
     assert.equal(response.statusCode, StatusCodes.NotFound);
     assert.equal(response.resource, undefined);
+  });
+
+  it("should handle bulk operations", async () => {
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "1", key: 1 },
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: { id: "2", key: 2 },
+      },
+      {
+        operationType: "Replace",
+        id: "1",
+        resourceBody: { id: "1", key: 2 },
+      },
+      {
+        operationType: "Delete",
+        id: "2",
+      },
+      {
+        operationType: "Read",
+        id: "1",
+      },
+      {
+        operationType: "Patch",
+        id: "1",
+        resourceBody: { operations: [{ op: PatchOperationType.incr, value: 1, path: "/key" }] },
+      },
+    ];
+    const response = await container.items.bulk(operations);
+    assert.equal(response.length, 6);
+    assert.equal(response[0].statusCode, StatusCodes.Created);
+    assert.equal(response[1].statusCode, StatusCodes.Created);
+    assert.equal(response[2].statusCode, StatusCodes.Ok);
+    assert.equal(response[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response[4].statusCode, StatusCodes.Ok);
+    assert.equal(response[5].statusCode, StatusCodes.Ok);
   });
 });
