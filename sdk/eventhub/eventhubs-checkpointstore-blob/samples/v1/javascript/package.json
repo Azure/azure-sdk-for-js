@@ -28,6 +28,6 @@
     "dotenv": "latest",
     "@azure/storage-blob": "^12.9.0",
     "@azure/identity": "^4.3.0",
-    "@azure/event-hubs": "5.13.0-beta.2"
+    "@azure/event-hubs": "^5.12.0"
   }
 }
