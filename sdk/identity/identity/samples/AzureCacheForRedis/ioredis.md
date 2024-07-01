@@ -48,6 +48,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+function extractUsernameFromToken(accessToken: AccessToken): string{
+  const base64Metadata = accessToken.token.split(".")[1]
+  const { _appid, _upn, _tid, oid } = JSON.parse(
+    Buffer.from(base64Metadata, "base64").toString("utf8"),
+  );
+  return oid;
+}
+
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
@@ -60,7 +68,7 @@ async function main() {
 
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const redis = new Redis({
-    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    username: extractUsernameFromToken(accessToken),
     password: accessToken.token,
     tls: {
       host: process.env.REDIS_HOSTNAME,
@@ -116,13 +124,21 @@ async function returnPassword(credential: TokenCredential) {
     return credential.getToken(redisScope);
 }
 
+function extractUsernameFromToken(accessToken: AccessToken): string{
+  const base64Metadata = accessToken.token.split(".")[1]
+  const { _appid, _upn, _tid, oid } = JSON.parse(
+    Buffer.from(base64Metadata, "base64").toString("utf8"),
+  );
+  return oid;
+}
+
 async function main() {
   // Construct a Token Credential from Identity library
   const credential = new DefaultAzureCredential();
   let accessToken = await returnPassword(credential);
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redis = new Redis({
-    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    username: extractUsernameFromToken(accessToken),
     password: accessToken.token,
     tls: {
       host: process.env.REDIS_HOSTNAME,
@@ -143,7 +159,7 @@ async function main() {
       if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
         redis.disconnect();
         redis = new Redis({
-          username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+          username: extractUsernameFromToken(accessToken),
           password: accessToken.token,
           tls: {
             host: process.env.REDIS_HOSTNAME,
@@ -192,6 +208,14 @@ async function returnPassword(credential: TokenCredential) {
     return accessToken;
 }
 
+function extractUsernameFromToken(accessToken: AccessToken): string{
+  const base64Metadata = accessToken.token.split(".")[1]
+  const { _appid, _upn, _tid, oid } = JSON.parse(
+    Buffer.from(base64Metadata, "base64").toString("utf8"),
+  );
+  return oid;
+}
+
 async function main() {
   // Construct a Token Credential from Identity library
   const credential = new DefaultAzureCredential();
@@ -203,7 +227,7 @@ async function main() {
     let randomTimestamp = randomNumber(120000,300000);
     id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
     if(redis){
-      await redis.auth(process.env.REDIS_SERVICE_PRINCIPAL_NAME, accessTokenCache.token);
+      await redis.auth(extractUsernameFromToken(accessToken), accessTokenCache.token);
     }
   }
 
@@ -212,7 +236,7 @@ async function main() {
   let accessToken: AccessToken | undefined = {...accessTokenCache};
   // Create ioredis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redis = new Redis({
-    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    username: extractUsernameFromToken(accessToken),
     password: accessToken.token,
     tls: {
       host: process.env.REDIS_HOSTNAME,
@@ -234,7 +258,7 @@ async function main() {
         redis.disconnect();
         accessToken = {...accessTokenCache};
         redis = new Redis({
-          username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+          username: extractUsernameFromToken(accessToken),
           password: accessToken.token,
           tls: {
             host: process.env.REDIS_HOSTNAME,
