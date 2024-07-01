@@ -31,7 +31,7 @@ export interface FirewallRulesOperations {
     firewallRuleName: string,
     resource: FirewallRule,
     options?: FirewallRulesCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<FirewallRule>, FirewallRule>;
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,

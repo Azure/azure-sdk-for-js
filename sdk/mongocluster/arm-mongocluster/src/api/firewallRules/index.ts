@@ -157,13 +157,40 @@ export async function _createOrUpdateDeserialize(
     | FirewallRulesCreateOrUpdate202Response
     | FirewallRulesCreateOrUpdateDefaultResponse
     | FirewallRulesCreateOrUpdateLogicalResponse,
-): Promise<void> {
+): Promise<FirewallRule> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   result = result as FirewallRulesCreateOrUpdateLogicalResponse;
-  return;
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          provisioningState: result.body.properties?.["provisioningState"],
+          startIpAddress: result.body.properties?.["startIpAddress"],
+          endIpAddress: result.body.properties?.["endIpAddress"],
+        },
+  };
 }
 
 /** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
@@ -175,7 +202,7 @@ export function createOrUpdate(
   firewallRuleName: string,
   resource: FirewallRule,
   options: FirewallRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<FirewallRule>, FirewallRule> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -189,7 +216,7 @@ export function createOrUpdate(
         resource,
         options,
       ),
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
 
 export function _$deleteSend(

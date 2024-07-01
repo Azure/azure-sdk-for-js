@@ -36,7 +36,10 @@ export interface PrivateEndpointConnectionsOperations {
     privateEndpointConnectionName: string,
     resource: PrivateEndpointConnectionResource,
     options?: PrivateEndpointConnectionsCreateOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<PrivateEndpointConnectionResource>,
+    PrivateEndpointConnectionResource
+  >;
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,

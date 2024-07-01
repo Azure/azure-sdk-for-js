@@ -278,13 +278,56 @@ export async function _createDeserialize(
     | PrivateEndpointConnectionsCreate202Response
     | PrivateEndpointConnectionsCreateDefaultResponse
     | PrivateEndpointConnectionsCreateLogicalResponse,
-): Promise<void> {
+): Promise<PrivateEndpointConnectionResource> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   result = result as PrivateEndpointConnectionsCreateLogicalResponse;
-  return;
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          groupIds: result.body.properties?.["groupIds"],
+          privateEndpoint: !result.body.properties?.privateEndpoint
+            ? undefined
+            : { id: result.body.properties?.privateEndpoint?.["id"] },
+          privateLinkServiceConnectionState: {
+            status:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "status"
+              ],
+            description:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "description"
+              ],
+            actionsRequired:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "actionsRequired"
+              ],
+          },
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+  };
 }
 
 /** Create a Private endpoint connection */
@@ -298,7 +341,10 @@ export function create(
   options: PrivateEndpointConnectionsCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<
+  OperationState<PrivateEndpointConnectionResource>,
+  PrivateEndpointConnectionResource
+> {
   return getLongRunningPoller(context, _createDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -312,7 +358,10 @@ export function create(
         resource,
         options,
       ),
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<
+    OperationState<PrivateEndpointConnectionResource>,
+    PrivateEndpointConnectionResource
+  >;
 }
 
 export function _$deleteSend(
