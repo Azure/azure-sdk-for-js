@@ -12,7 +12,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
 
-// @public (undocumented)
+// @public
 export type ClientEndpointType = "default" | "mqtt";
 
 // @public

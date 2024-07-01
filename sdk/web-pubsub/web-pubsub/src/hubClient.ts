@@ -236,6 +236,9 @@ export interface HubHasPermissionOptions extends OperationOptions {
   targetName?: string;
 }
 
+/**
+ * The type of client endpoint that is being requested.
+ */
 export type ClientEndpointType = "default" | "mqtt";
 
 /**
@@ -955,7 +958,7 @@ export class WebPubSubServiceClient {
       async (updatedOptions) => {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-        const clientEndpointType = options.clientEndpointType;
+        const clientEndpointType = updatedOptions.clientEndpointType;
         const clientPath =
           clientEndpointType && clientEndpointType === "mqtt"
             ? `clients/mqtt/hubs/${this.hubName}`
@@ -972,17 +975,17 @@ export class WebPubSubServiceClient {
         } else {
           const key = this.credential.key;
           const audience = endpoint + clientPath;
-          const payload = { role: options?.roles, "webpubsub.group": options?.groups };
+          const payload = { role: updatedOptions?.roles, "webpubsub.group": updatedOptions?.groups };
           const signOptions: jwt.SignOptions = {
             audience: audience,
             expiresIn:
-              options?.expirationTimeInMinutes === undefined
+              updatedOptions?.expirationTimeInMinutes === undefined
                 ? "1h"
-                : `${options.expirationTimeInMinutes}m`,
+                : `${updatedOptions.expirationTimeInMinutes}m`,
             algorithm: "HS256",
           };
-          if (options?.userId) {
-            signOptions.subject = options?.userId;
+          if (updatedOptions?.userId) {
+            signOptions.subject = updatedOptions?.userId;
           }
           token = jwt.sign(payload, key, signOptions);
         }
