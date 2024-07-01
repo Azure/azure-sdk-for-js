@@ -47,12 +47,8 @@
   "type": "module",
   "files": [
     "dist/",
-    "dist/esm/",
-    "/dist/commonjs/index.d.ts",
     "README.md",
-    "CHANGELOG.md",
-    "LICENSE",
-    "review/*"
+    "LICENSE"
   ],
   "engines": {
     "node": ">=18.0.0"
