@@ -27,7 +27,7 @@
 ###########
 
 # Catch all
-/sdk/ @xirzec
+/sdk/ @xirzec @Azure/azure-sdk-js-dev
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
@@ -42,7 +42,7 @@
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
 # AzureSdkOwners: @joheredi @jeremymeng @deyaaeldeen
-/sdk/core/core-client-rest/ @joheredi @jeremymeng @deyaaeldeen
+/sdk/core/core-client-rest/ @joheredi @jeremymeng @deyaaeldeen @timovv
 
 # PRLabel: %Azure.Core
 # ServiceLabel: %Azure.Core
@@ -289,6 +289,9 @@
 
 # PRLabel: %Mgmt
 /sdk/appcontainers/arm-appcontainers/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/appcomplianceautomation/arm-appcomplianceautomation/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/apicenter/arm-apicenter/ @qiaozha @MaryGao
@@ -1498,7 +1501,7 @@
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
-/rush.json @mikeharder @ckairen @jeremymeng
+/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-for-js-core
 /tsconfig.json @mikeharder @ckairen @jeremymeng @deyaaeldeen
 /**/tsconfig.json @jeremymeng @deyaaeldeen
 /**/tsconfig.strict.json @deyaaeldeen
@@ -1510,3 +1513,6 @@
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao
+
+/eng/emitter-package-lock.json @qiaozha @MaryGao
+/eng/emitter-package.json @qiaozha @MaryGao

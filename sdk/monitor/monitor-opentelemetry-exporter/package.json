@@ -88,7 +88,7 @@
     "@opentelemetry/sdk-trace-node": "^1.25.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",

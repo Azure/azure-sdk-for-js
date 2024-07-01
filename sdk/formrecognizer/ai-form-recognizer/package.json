@@ -118,7 +118,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "magic-string": "~0.30.10",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "rollup": "^4.0.0",
