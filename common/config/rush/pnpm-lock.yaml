@@ -19811,7 +19811,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-JR+kVww42bMncvfSWGE2wAYwPbrYrTDwTN1E8aEGR+tOXPc/cnnlFu4A6muRyEkTW5MSYpMtmEG6No6nMmcJyQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-OQpeBaAk9Haquh4m2kJkeVj0RiSWlQnqmNNytjtlqwqIevib4fmodcWk1VGYFev0YQ6X+40dejfgmjQ70hIxpg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -19826,7 +19826,7 @@ packages:
       rimraf: 5.0.7
       tshy: 1.16.2
       tslib: 2.6.3
-      typescript: 5.4.5
+      typescript: 5.5.3
       vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20528,7 +20528,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-nsjCw12vNrUGBArD3lzwwafHEfoqtijuQm5XzmxZBJkt9lpsyZw7i1CKIeovu8PzRdRlNhIMMX5pr3WH8v4a3A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-zPIg0zLrkyA7jIPjccl4ybbZRo+4riRmY24kFD4KFFL2UUlm9IGQ0CB4mPCwYRHzRYYYYKKFV7oKhbLSP0bXHw==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
