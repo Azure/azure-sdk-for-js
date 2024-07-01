@@ -1,30 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates how to send events to an Event Hub.
- */
+/*
+  This sample demonstrates how the send() function can be used to send events to Event Hubs.
+  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
+*/
 
 const { EventHubProducerClient } = require("@azure/event-hubs");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { InteractiveBrowserCredential } = require("@azure/identity");
+const {
+  appClientId,
+  appTenantId,
+  eventHubName,
+  fullyQualifiedNamespace
+} = require("./configuration");
 
-// Load the .env file if it exists
-require("dotenv/config");
+const contentContainer = document.getElementById("sendContent");
+function outputLog(text) {
+  const currentContent = contentContainer.value;
+  contentContainer.value = `${currentContent}${text}\n`;
+}
 
-const fullyQualifiedNamespace = process.env["EVENTHUB_FQNS"] || "<your fully qualified namespace>";
-const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
-
-async function main() {
-  console.log(`Running sendEvents sample`);
-
-  const credential = new DefaultAzureCredential();
+async function send() {
+  const credential = new InteractiveBrowserCredential({
+    tenantId: appTenantId,
+    clientId: appClientId
+  });
 
   const producer = new EventHubProducerClient(fullyQualifiedNamespace, eventHubName, credential);
 
-  console.log("Creating and sending a batch of events...");
-
   const eventsToSend = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-
   try {
     // By not specifying a partition ID or a partition key we allow the server to choose
     // which partition will accept this message.
@@ -36,77 +41,56 @@ async function main() {
     // If you would like more control you can pass either a `partitionKey` or a `partitionId`
     // into the createBatch() `options` parameter which will allow you full control over the
     // destination.
-    const batchOptions = {
-      // The maxSizeInBytes lets you manually control the size of the batch.
-      // if this is not set we will get the maximum batch size from Event Hubs.
-      //
-      // For this sample you can change the batch size to see how different parts
-      // of the sample handle batching. In production we recommend using the default
-      // and not specifying a maximum size.
-      //
-      // maxSizeInBytes: 200
-    };
-
+    const batchOptions = {};
     let batch = await producer.createBatch(batchOptions);
-
+    outputLog(`Created a batch.`);
     let numEventsSent = 0;
-
     // add events to our batch
     let i = 0;
-
     while (i < eventsToSend.length) {
       // messages can fail to be added to the batch if they exceed the maximum size configured for
       // the EventHub.
       const isAdded = batch.tryAdd({ body: eventsToSend[i] });
-
       if (isAdded) {
-        console.log(`Added eventsToSend[${i}] to the batch`);
+        outputLog(`Added event "${i}" to the batch.`);
         ++i;
         continue;
+      } else {
+        outputLog(`Failed to add event "${i}" to the batch.`);
       }
-
       if (batch.count === 0) {
         // If we can't add it and the batch is empty that means the message we're trying to send
         // is too large, even when it would be the _only_ message in the batch.
         //
         // At this point you'll need to decide if you're okay with skipping this message entirely
         // or find some way to shrink it.
-        console.log(`Message was too large and can't be sent until it's made smaller. Skipping...`);
+        outputLog(`Message was too large and can't be sent until it's made smaller. Skipping...`);
         ++i;
         continue;
       }
-
       // otherwise this just signals a good spot to send our batch
-      console.log(`Batch is full - sending ${batch.count} messages as a single batch.`);
+      outputLog(`Batch is full - sending ${batch.count} messages as a single batch.`);
       await producer.sendBatch(batch);
       numEventsSent += batch.count;
-
       // and create a new one to house the next set of messages
       batch = await producer.createBatch(batchOptions);
     }
-
     // send any remaining messages, if any.
     if (batch.count > 0) {
-      console.log(`Sending remaining ${batch.count} messages as a single batch.`);
+      outputLog(`Sending remaining ${batch.count} messages as a single batch.`);
       await producer.sendBatch(batch);
       numEventsSent += batch.count;
     }
-
-    console.log(`Sent ${numEventsSent} events`);
-
+    outputLog(`Sent ${numEventsSent} events`);
     if (numEventsSent !== eventsToSend.length) {
       throw new Error(`Not all messages were sent (${numEventsSent}/${eventsToSend.length})`);
     }
   } catch (err) {
-    console.log("Error when creating & sending a batch of events: ", err);
+    outputLog("Error when creating & sending a batch of events: ", err);
   }
-
   await producer.close();
-  console.log(`Exiting sendEvents sample`);
 }
 
-main().catch((error) => {
-  console.error("Error running sample:", error);
-});
-
-module.exports = { main };
+module.exports = {
+  send
+};

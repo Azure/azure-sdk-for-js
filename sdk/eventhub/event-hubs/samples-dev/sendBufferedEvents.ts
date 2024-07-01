@@ -10,15 +10,15 @@
  */
 
 import { EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure/event-hubs";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQNS"] || "<your fully qualified namespace>";
+const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
 
-async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
+async function onSendEventsErrorHandler(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
   console.log(JSON.stringify(ctx.error, undefined, 2));
   console.log(
@@ -33,20 +33,27 @@ async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
 export async function main(): Promise<void> {
   console.log(`Running sendBufferedEvents sample`);
 
+  const credential = new DefaultAzureCredential();
+
   /**
    * Create a buffered client that batches the enqueued events and sends it either
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
-  const client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
-    /** An error handler must be provided */
-    onSendEventsErrorHandler: handleError,
+  const client = new EventHubBufferedProducerClient(
+    fullyQualifiedNamespace,
+    eventHubName,
+    credential,
+    {
+      /** An error handler must be provided */
+      onSendEventsErrorHandler,
 
-    /** wait for up to 750 milliseconds before sending a batch */
-    maxWaitTimeInMs: 750,
+      /** wait for up to 750 milliseconds before sending a batch */
+      maxWaitTimeInMs: 750,
 
-    /** buffer up to 1000 events per partition before sending */
-    maxEventBufferLengthPerPartition: 1000,
-  });
+      /** buffer up to 1000 events per partition before sending */
+      maxEventBufferLengthPerPartition: 1000,
+    },
+  );
 
   function createData(count: number): number[] {
     return [...Array(count).keys()];

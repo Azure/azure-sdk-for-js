@@ -8,19 +8,25 @@
  */
 
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQNS"] || "<your fully qualified namespace>";
+const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
+const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
 export async function main() {
   console.log(`Running receiveEvents sample`);
 
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+  const credential = new DefaultAzureCredential();
+  const consumerClient = new EventHubConsumerClient(
+    consumerGroup,
+    fullyQualifiedNamespace,
+    eventHubName,
+    credential,
+  );
 
   const subscription = consumerClient.subscribe(
     {
