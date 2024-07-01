@@ -975,7 +975,10 @@ export class WebPubSubServiceClient {
         } else {
           const key = this.credential.key;
           const audience = endpoint + clientPath;
-          const payload = { role: updatedOptions?.roles, "webpubsub.group": updatedOptions?.groups };
+          const payload = {
+            role: updatedOptions?.roles,
+            "webpubsub.group": updatedOptions?.groups,
+          };
           const signOptions: jwt.SignOptions = {
             audience: audience,
             expiresIn:
