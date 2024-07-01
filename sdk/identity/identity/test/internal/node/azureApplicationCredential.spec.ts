@@ -7,6 +7,8 @@ import { AzureApplicationCredential } from "../../../src/credentials/azureApplic
 import { IdentityTestContext } from "../../httpRequests";
 import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
+import * as dac from "../../../src/credentials/defaultAzureCredential";
+import { LegacyMsiProvider } from "../../../src/credentials/managedIdentityCredential/legacyMsiProvider";
 
 describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
   let envCopy: string = "";
@@ -19,7 +21,13 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     delete process.env.AZURE_CLIENT_SECRET;
     delete process.env.AZURE_TENANT_ID;
     testContext = new IdentityTestContext({});
+    testContext.sandbox
+      .stub(dac, "createDefaultManagedIdentityCredential")
+      .callsFake(
+        (...args) => new LegacyMsiProvider({ ...args, clientId: process.env.AZURE_CLIENT_ID }),
+      );
   });
+
   afterEach(async () => {
     const env = JSON.parse(envCopy);
     process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
