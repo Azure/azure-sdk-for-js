@@ -13,7 +13,6 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { MongoClusterManagementClient } from "../../src/mongoClusterManagementClient.js"
 import { createRecorder } from "./utils/recordedClient.js";
 import { AzureFleetClient } from "../src/azureFleetClient.js";
 
@@ -49,7 +48,7 @@ describe("AzureFleet test", () => {
   });
 
   it("mongoClusters create test", async function () {
-    const res = await client.mongoClusters.createOrUpdate(
+    const res = await client..createOrUpdate(
       resourceGroup,
       resourcename,
       {
