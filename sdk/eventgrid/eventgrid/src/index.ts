@@ -363,4 +363,7 @@ export {
   AcsChatThreadDeletedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
   AcsChatThreadEventInThreadBase,
+  AcsMessageAnalysisCompleted as AcsMessageAnalysisCompletedEventData,
+  AcsMessageLanguageDetection,
+  AcsMessageSentiment,
 } from "./generated/models";

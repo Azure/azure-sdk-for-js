@@ -254,6 +254,16 @@ export interface AcsIncomingCallEventData {
 export type AcsInteractiveReplyKind = string;
 
 // @public
+export type AcsMessageAnalysisCompletedEventData = AcsMessageEventData & {
+    originalMessage: string;
+    channelKind: AcsMessageChannelKind;
+    intentAnalysis: string;
+    keyPhraseExtraction: string[];
+    languageDetection: AcsMessageLanguageDetection;
+    sentiments: AcsMessageSentiment;
+};
+
+// @public
 export interface AcsMessageButtonContent {
     payload: string;
     text: string;
@@ -313,6 +323,13 @@ export interface AcsMessageInteractiveListReplyContent {
 }
 
 // @public
+export interface AcsMessageLanguageDetection {
+    confidenceScore: string;
+    language: string;
+    translation: string;
+}
+
+// @public
 export interface AcsMessageMediaContent {
     caption: string;
     fileName: string;
@@ -329,6 +346,12 @@ export type AcsMessageReceivedEventData = AcsMessageEventData & {
     button: AcsMessageButtonContent;
     interactiveContent: AcsMessageInteractiveContent;
 };
+
+// @public
+export interface AcsMessageSentiment {
+    description: string;
+    score: number;
+}
 
 // @public
 export interface AcsRecordingChunkInfo {
@@ -2715,6 +2738,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
     "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+    "Microsoft.Communication.AdvancedMessageAnalysisCompleted": AcsMessageAnalysisCompletedEventData;
     "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
     "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
