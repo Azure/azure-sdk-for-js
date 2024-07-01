@@ -112,7 +112,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "echo Skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
