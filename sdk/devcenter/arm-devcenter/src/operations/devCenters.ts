@@ -16,7 +16,7 @@ import { DevCenterClient } from "../devCenterClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,8 +35,9 @@ import {
   DevCentersUpdateOptionalParams,
   DevCentersUpdateResponse,
   DevCentersDeleteOptionalParams,
+  DevCentersDeleteResponse,
   DevCentersListBySubscriptionNextResponse,
-  DevCentersListByResourceGroupNextResponse
+  DevCentersListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +58,7 @@ export class DevCentersImpl implements DevCenters {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DevCentersListBySubscriptionOptionalParams
+    options?: DevCentersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DevCenter> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +73,13 @@ export class DevCentersImpl implements DevCenters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: DevCentersListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DevCenter[]> {
     let result: DevCentersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class DevCentersImpl implements DevCenters {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DevCentersListBySubscriptionOptionalParams
+    options?: DevCentersListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<DevCenter> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +114,7 @@ export class DevCentersImpl implements DevCenters {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DevCentersListByResourceGroupOptionalParams
+    options?: DevCentersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DevCenter> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +131,16 @@ export class DevCentersImpl implements DevCenters {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DevCentersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DevCenter[]> {
     let result: DevCentersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +155,7 @@ export class DevCentersImpl implements DevCenters {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +166,11 @@ export class DevCentersImpl implements DevCenters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DevCentersListByResourceGroupOptionalParams
+    options?: DevCentersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DevCenter> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,11 +181,11 @@ export class DevCentersImpl implements DevCenters {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DevCentersListBySubscriptionOptionalParams
+    options?: DevCentersListBySubscriptionOptionalParams,
   ): Promise<DevCentersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -195,11 +196,11 @@ export class DevCentersImpl implements DevCenters {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DevCentersListByResourceGroupOptionalParams
+    options?: DevCentersListByResourceGroupOptionalParams,
   ): Promise<DevCentersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -212,11 +213,11 @@ export class DevCentersImpl implements DevCenters {
   get(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevCentersGetOptionalParams
+    options?: DevCentersGetOptionalParams,
   ): Promise<DevCentersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -231,7 +232,7 @@ export class DevCentersImpl implements DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenter,
-    options?: DevCentersCreateOrUpdateOptionalParams
+    options?: DevCentersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevCentersCreateOrUpdateResponse>,
@@ -240,21 +241,20 @@ export class DevCentersImpl implements DevCenters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DevCentersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -263,8 +263,8 @@ export class DevCentersImpl implements DevCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -272,15 +272,15 @@ export class DevCentersImpl implements DevCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, body, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DevCentersCreateOrUpdateResponse,
@@ -288,7 +288,7 @@ export class DevCentersImpl implements DevCenters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -305,13 +305,13 @@ export class DevCentersImpl implements DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenter,
-    options?: DevCentersCreateOrUpdateOptionalParams
+    options?: DevCentersCreateOrUpdateOptionalParams,
   ): Promise<DevCentersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       devCenterName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -327,7 +327,7 @@ export class DevCentersImpl implements DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenterUpdate,
-    options?: DevCentersUpdateOptionalParams
+    options?: DevCentersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevCentersUpdateResponse>,
@@ -336,21 +336,20 @@ export class DevCentersImpl implements DevCenters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DevCentersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -359,8 +358,8 @@ export class DevCentersImpl implements DevCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -368,15 +367,15 @@ export class DevCentersImpl implements DevCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DevCentersUpdateResponse,
@@ -384,7 +383,7 @@ export class DevCentersImpl implements DevCenters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -401,13 +400,13 @@ export class DevCentersImpl implements DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenterUpdate,
-    options?: DevCentersUpdateOptionalParams
+    options?: DevCentersUpdateOptionalParams,
   ): Promise<DevCentersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       devCenterName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -421,25 +420,29 @@ export class DevCentersImpl implements DevCenters {
   async beginDelete(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevCentersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: DevCentersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevCentersDeleteResponse>,
+      DevCentersDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<DevCentersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -448,8 +451,8 @@ export class DevCentersImpl implements DevCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -457,20 +460,23 @@ export class DevCentersImpl implements DevCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DevCentersDeleteResponse,
+      OperationState<DevCentersDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -485,12 +491,12 @@ export class DevCentersImpl implements DevCenters {
   async beginDeleteAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevCentersDeleteOptionalParams
-  ): Promise<void> {
+    options?: DevCentersDeleteOptionalParams,
+  ): Promise<DevCentersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -502,11 +508,11 @@ export class DevCentersImpl implements DevCenters {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DevCentersListBySubscriptionNextOptionalParams
+    options?: DevCentersListBySubscriptionNextOptionalParams,
   ): Promise<DevCentersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -519,11 +525,11 @@ export class DevCentersImpl implements DevCenters {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DevCentersListByResourceGroupNextOptionalParams
+    options?: DevCentersListByResourceGroupNextOptionalParams,
   ): Promise<DevCentersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -531,85 +537,81 @@ export class DevCentersImpl implements DevCenters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/devcenters",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/devcenters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevCenterListResult
+      bodyMapper: Mappers.DevCenterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevCenterListResult
+      bodyMapper: Mappers.DevCenterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     201: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     202: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     204: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
@@ -617,32 +619,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     201: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     202: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     204: {
-      bodyMapper: Mappers.DevCenter
+      bodyMapper: Mappers.DevCenter,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -650,71 +651,78 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DevCentersDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DevCentersDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DevCentersDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DevCentersDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevCenterListResult
+      bodyMapper: Mappers.DevCenterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevCenterListResult
+      bodyMapper: Mappers.DevCenterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

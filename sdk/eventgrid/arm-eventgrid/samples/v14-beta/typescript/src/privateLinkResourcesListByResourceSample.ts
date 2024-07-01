@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the private link resources under a topic, domain, or partner namespace or namespace.
  *
  * @summary List all the private link resources under a topic, domain, or partner namespace or namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PrivateLinkResources_ListByResource.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PrivateLinkResources_ListByResource.json
  */
 async function privateLinkResourcesListByResource() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function privateLinkResourcesListByResource() {
   for await (let item of client.privateLinkResources.listByResource(
     resourceGroupName,
     parentType,
-    parentName
+    parentName,
   )) {
     resArray.push(item);
   }

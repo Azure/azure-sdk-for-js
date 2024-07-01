@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RestorePointCollectionUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update the restore point collection.
  *
  * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
  */
 async function restorePointCollectionUpdateMaximumSetGen() {
   const subscriptionId =
@@ -31,17 +31,16 @@ async function restorePointCollectionUpdateMaximumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: RestorePointCollectionUpdate = {
     source: {
-      id:
-        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },
-    tags: { key8536: "aaaaaaaaaaaaaaaaaaa" }
+    tags: { key8536: "aaaaaaaaaaaaaaaaaaa" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.restorePointCollections.update(
     resourceGroupName,
     restorePointCollectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -50,7 +49,7 @@ async function restorePointCollectionUpdateMaximumSetGen() {
  * This sample demonstrates how to The operation to update the restore point collection.
  *
  * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
  */
 async function restorePointCollectionUpdateMinimumSetGen() {
   const subscriptionId =
@@ -64,7 +63,7 @@ async function restorePointCollectionUpdateMinimumSetGen() {
   const result = await client.restorePointCollections.update(
     resourceGroupName,
     restorePointCollectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

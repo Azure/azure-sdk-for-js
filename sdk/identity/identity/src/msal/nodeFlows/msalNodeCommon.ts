@@ -5,7 +5,12 @@ import * as msalNode from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AppType, AuthenticationRecord, MsalResult } from "../types";
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import {
+  CACHE_CAE_SUFFIX,
+  CACHE_NON_CAE_SUFFIX,
+  DEFAULT_TOKEN_CACHE_NAME,
+  DeveloperSignOnClientId,
+} from "../../constants";
 import { CredentialLogger, formatSuccess } from "../../util/logging";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
@@ -33,8 +38,8 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
-import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 
 /**
@@ -65,7 +70,12 @@ export interface MsalNodeOptions extends MsalFlowOptions {
     enableUnsafeSupportLogging?: boolean;
   };
 }
+export type ClientAssertionCallback = (config: ClientAssertionConfig) => Promise<string>;
 
+export type ClientAssertionConfig = {
+  clientId: string;
+  tokenEndpoint?: string;
+};
 /**
  * MSAL partial base client for Node.js.
  *
@@ -108,7 +118,7 @@ export abstract class MsalNode implements MsalFlow {
    */
   private cachedClaims: string | undefined;
 
-  protected getAssertion: (() => Promise<string>) | undefined;
+  protected getAssertion?: () => Promise<string>;
   constructor(options: MsalNodeOptions) {
     this.logger = options.logger;
     this.msalConfig = this.defaultNodeMsalConfig(options);
@@ -126,12 +136,13 @@ export abstract class MsalNode implements MsalFlow {
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
+      const cacheBaseName = options.tokenCachePersistenceOptions.name || DEFAULT_TOKEN_CACHE_NAME;
       const nonCaeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_NON_CAE_SUFFIX}`,
+        name: `${cacheBaseName}.${CACHE_NON_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       const caeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_CAE_SUFFIX}`,
+        name: `${cacheBaseName}.${CACHE_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       this.createCachePlugin = () => persistenceProvider!(nonCaeOptions);
@@ -159,10 +170,7 @@ export abstract class MsalNode implements MsalFlow {
       );
     }
 
-    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
-    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
-      this.azureRegion = "AUTO_DISCOVER";
-    }
+    this.azureRegion = calculateRegionalAuthority(options.regionalAuthority);
   }
 
   /**
@@ -280,8 +288,10 @@ export abstract class MsalNode implements MsalFlow {
       this.app.public = new msalNode.PublicClientApplication(this.msalConfig);
     }
 
-    if (this.getAssertion) {
-      this.msalConfig.auth.clientAssertion = await this.getAssertion();
+    // write a test so that user callback is invoked just once and the second time the token is cached and user callback not called
+    //
+    if (this.getAssertion !== undefined) {
+      this.msalConfig.auth.clientAssertion = this.getAssertion;
     }
     // The confidential client requires either a secret, assertion or certificate.
     if (
@@ -445,7 +455,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         this.cachedClaims = optionsClaims;
       }
       if (this.cachedClaims && !optionsClaims) {
-        (options as any).claims = this.cachedClaims;
+        options.claims = this.cachedClaims;
       }
       // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);

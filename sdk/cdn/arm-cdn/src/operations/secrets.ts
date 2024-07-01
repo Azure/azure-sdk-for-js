@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   SecretsCreateOptionalParams,
   SecretsCreateResponse,
   SecretsDeleteOptionalParams,
-  SecretsListByProfileNextResponse
+  SecretsListByProfileNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,12 +55,12 @@ export class SecretsImpl implements Secrets {
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: SecretsListByProfileOptionalParams
+    options?: SecretsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<Secret> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class SecretsImpl implements Secrets {
           resourceGroupName,
           profileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     profileName: string,
     options?: SecretsListByProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Secret[]> {
     let result: SecretsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class SecretsImpl implements Secrets {
       result = await this._listByProfile(
         resourceGroupName,
         profileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class SecretsImpl implements Secrets {
         resourceGroupName,
         profileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,12 +119,12 @@ export class SecretsImpl implements Secrets {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: SecretsListByProfileOptionalParams
+    options?: SecretsListByProfileOptionalParams,
   ): AsyncIterableIterator<Secret> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
       profileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class SecretsImpl implements Secrets {
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: SecretsListByProfileOptionalParams
+    options?: SecretsListByProfileOptionalParams,
   ): Promise<SecretsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listByProfileOperationSpec
+      listByProfileOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsGetOptionalParams
+    options?: SecretsGetOptionalParams,
   ): Promise<SecretsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, secretName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,7 +182,7 @@ export class SecretsImpl implements Secrets {
     profileName: string,
     secretName: string,
     secret: Secret,
-    options?: SecretsCreateOptionalParams
+    options?: SecretsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SecretsCreateResponse>,
@@ -191,21 +191,20 @@ export class SecretsImpl implements Secrets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SecretsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -214,8 +213,8 @@ export class SecretsImpl implements Secrets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -223,15 +222,15 @@ export class SecretsImpl implements Secrets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, secretName, secret, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       SecretsCreateResponse,
@@ -239,7 +238,7 @@ export class SecretsImpl implements Secrets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -259,14 +258,14 @@ export class SecretsImpl implements Secrets {
     profileName: string,
     secretName: string,
     secret: Secret,
-    options?: SecretsCreateOptionalParams
+    options?: SecretsCreateOptionalParams,
   ): Promise<SecretsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
       secretName,
       secret,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -283,25 +282,24 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsDeleteOptionalParams
+    options?: SecretsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -310,8 +308,8 @@ export class SecretsImpl implements Secrets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -319,20 +317,20 @@ export class SecretsImpl implements Secrets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, secretName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -350,13 +348,13 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsDeleteOptionalParams
+    options?: SecretsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       secretName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -373,11 +371,11 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: SecretsListByProfileNextOptionalParams
+    options?: SecretsListByProfileNextOptionalParams,
   ): Promise<SecretsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listByProfileNextOperationSpec
+      listByProfileNextOperationSpec,
     );
   }
 }
@@ -385,38 +383,15 @@ export class SecretsImpl implements Secrets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretListResult
+      bodyMapper: Mappers.SecretListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Secret
+      bodyMapper: Mappers.AfdErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -424,31 +399,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.secretName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Secret,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+    Parameters.secretName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Secret
+      bodyMapper: Mappers.Secret,
     },
     201: {
-      bodyMapper: Mappers.Secret
+      bodyMapper: Mappers.Secret,
     },
     202: {
-      bodyMapper: Mappers.Secret
+      bodyMapper: Mappers.Secret,
     },
     204: {
-      bodyMapper: Mappers.Secret
+      bodyMapper: Mappers.Secret,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.secret,
   queryParameters: [Parameters.apiVersion],
@@ -457,15 +452,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.secretName
+    Parameters.secretName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/secrets/{secretName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -473,8 +467,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -482,29 +476,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.secretName
+    Parameters.secretName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretListResult
+      bodyMapper: Mappers.SecretListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

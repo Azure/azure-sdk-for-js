@@ -34,3 +34,7 @@ extends:
     Artifacts:
       - name: azure-eventgrid
         safeName: azureeventgrid
+      - name: azure-eventgrid-namespaces
+        safeName: azureeventgridnamespaces
+      - name: azure-eventgrid-system-events
+        safeName: azureeventgridsystemevents

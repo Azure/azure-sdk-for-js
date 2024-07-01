@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BackupsMigrationRequest,
   BackupsUnderVolumeMigrateBackupsOptionalParams,
-  BackupsUnderVolumeMigrateBackupsResponse
+  BackupsUnderVolumeMigrateBackupsResponse,
 } from "../models";
 
 /** Interface representing a BackupsUnderVolume. */
@@ -30,7 +30,7 @@ export interface BackupsUnderVolume {
     poolName: string,
     volumeName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderVolumeMigrateBackupsOptionalParams
+    options?: BackupsUnderVolumeMigrateBackupsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUnderVolumeMigrateBackupsResponse>,
@@ -52,6 +52,6 @@ export interface BackupsUnderVolume {
     poolName: string,
     volumeName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderVolumeMigrateBackupsOptionalParams
+    options?: BackupsUnderVolumeMigrateBackupsOptionalParams,
   ): Promise<BackupsUnderVolumeMigrateBackupsResponse>;
 }

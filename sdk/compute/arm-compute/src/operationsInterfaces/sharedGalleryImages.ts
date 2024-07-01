@@ -11,7 +11,7 @@ import {
   SharedGalleryImage,
   SharedGalleryImagesListOptionalParams,
   SharedGalleryImagesGetOptionalParams,
-  SharedGalleryImagesGetResponse
+  SharedGalleryImagesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface SharedGalleryImages {
   list(
     location: string,
     galleryUniqueName: string,
-    options?: SharedGalleryImagesListOptionalParams
+    options?: SharedGalleryImagesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedGalleryImage>;
   /**
    * Get a shared gallery image by subscription id or tenant id.
@@ -40,6 +40,6 @@ export interface SharedGalleryImages {
     location: string,
     galleryUniqueName: string,
     galleryImageName: string,
-    options?: SharedGalleryImagesGetOptionalParams
+    options?: SharedGalleryImagesGetOptionalParams,
   ): Promise<SharedGalleryImagesGetResponse>;
 }

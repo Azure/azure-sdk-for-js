@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher";
-import { assert } from "chai";
-import { IncomingMessage, ServerResponse } from "http";
-import { Socket } from "net";
-import * as sinon from "sinon";
+
+import { describe, it, assert, expect, vi, beforeEach } from "vitest";
+import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher.js";
+import { IncomingMessage, ServerResponse } from "node:http";
+import { Socket } from "node:net";
 
 function buildRequest(
   req: IncomingMessage,
@@ -49,25 +49,25 @@ describe("Can handle user event", function () {
   });
 
   it("Should not handle the request if request is not cloud events", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
-    assert.isTrue(endSpy.notCalled);
+    expect(endSpy).not.toBeCalled();
   });
 
   it("Should not handle the request if hub does not match", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
-    assert.isTrue(endSpy.notCalled);
+    expect(endSpy).not.toBeCalled();
   });
 
   it("Should handle number requests", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -84,11 +84,11 @@ describe("Can handle user event", function () {
 
     assert.isTrue(result);
     assert.equal(200, res.statusCode, "should be 200");
-    assert.isTrue(endSpy.calledOnce);
+    expect(endSpy).toBeCalledTimes(1);
   });
 
   it("Should handle boolean requests", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -105,11 +105,11 @@ describe("Can handle user event", function () {
 
     assert.isTrue(result);
     assert.equal(200, res.statusCode, "should be 200");
-    assert.isTrue(endSpy.calledOnce);
+    expect(endSpy).toBeCalledTimes(1);
   });
 
   it("Should handle complex object requests", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -125,11 +125,11 @@ describe("Can handle user event", function () {
     const result = await process;
 
     assert.isTrue(result);
-    assert.isTrue(endSpy.calledOnce);
+    expect(endSpy).toBeCalledTimes(1);
   });
 
   it("Should handle complex array requests", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -146,11 +146,11 @@ describe("Can handle user event", function () {
     const result = await process;
 
     assert.isTrue(result);
-    assert.isTrue(endSpy.calledOnce);
+    expect(endSpy).toBeCalledTimes(1);
   });
 
   it("Should handle binary requests", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1", "user1", "application/octet-stream");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -171,11 +171,11 @@ describe("Can handle user event", function () {
     const result = await process;
 
     assert.isTrue(result, "should be able to process");
-    assert.isTrue(endSpy.calledOnce, "should be called once");
+    expect(endSpy).toBeCalledTimes(1);
   });
 
   it("Should handle text requests", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1", "user1", "text/plain");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -192,11 +192,11 @@ describe("Can handle user event", function () {
     const result = await process;
 
     assert.isTrue(result, "should be able to process");
-    assert.isTrue(endSpy.calledOnce, "should be called once");
+    expect(endSpy).toBeCalledTimes(1);
   });
 
   it("Should handle text requests with charset", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1", "user1", "text/plain; charset=UTF-8;");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -213,33 +213,33 @@ describe("Can handle user event", function () {
     const result = await process;
 
     assert.isTrue(result, "should be able to process");
-    assert.isTrue(endSpy.calledOnce, "should be called once");
+    expect(endSpy).toBeCalledTimes(1);
   });
 
   it("Should response with 200 when option is not specified", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub");
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be 200");
   });
 
   it("Should response with 200 when handler is not specified", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {});
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be 200");
   });
 
   it("Should response with error when handler returns error", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -251,12 +251,12 @@ describe("Can handle user event", function () {
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(500, res.statusCode, "should be error");
   });
 
   it("Should response with success when handler returns success", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -268,12 +268,12 @@ describe("Can handle user event", function () {
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be success");
   });
 
   it("Should response with success when returns success binary", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -285,13 +285,13 @@ describe("Can handle user event", function () {
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be success");
     assert.equal("application/octet-stream", res.getHeader("content-type"), "should be binary");
   });
 
   it("Should response with success when returns success text", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -303,13 +303,13 @@ describe("Can handle user event", function () {
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be success");
     assert.equal("text/plain; charset=utf-8", res.getHeader("content-type"), "should be text");
   });
 
   it("Should response with success when returns success json", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -321,7 +321,7 @@ describe("Can handle user event", function () {
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be success");
     assert.equal(
       "application/json; charset=utf-8",
@@ -331,7 +331,7 @@ describe("Can handle user event", function () {
   });
 
   it("Should be able to set connection state", async function () {
-    const endSpy = sinon.spy(res, "end");
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -347,7 +347,7 @@ describe("Can handle user event", function () {
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be success");
 
     assert.equal(

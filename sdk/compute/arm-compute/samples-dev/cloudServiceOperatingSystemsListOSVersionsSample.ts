@@ -28,7 +28,7 @@ async function listCloudServiceOSVersionsInASubscription() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.cloudServiceOperatingSystems.listOSVersions(
-    location
+    location,
   )) {
     resArray.push(item);
   }

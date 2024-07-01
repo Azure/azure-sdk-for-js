@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified parameters. Deleting a profile will result in the deletion of all of the sub-resources including endpoints, origins and custom domains.
  *
  * @summary Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified parameters. Deleting a profile will result in the deletion of all of the sub-resources including endpoints, origins and custom domains.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Profiles_Delete.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_Delete.json
  */
 async function profilesDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function profilesDelete() {
   const client = new CdnManagementClient(credential, subscriptionId);
   const result = await client.profiles.beginDeleteAndWait(
     resourceGroupName,
-    profileName
+    profileName,
   );
   console.log(result);
 }

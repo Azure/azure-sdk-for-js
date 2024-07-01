@@ -3,13 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {
-  DictionaryExampleItemOutput,
-  DictionaryExampleTextItem,
-  LookupDictionaryExamplesQueryParamProperties,
-  TextTranslationClient,
-  isUnexpected,
-} from "../../src";
+import { TextTranslationClient, isUnexpected } from "../../src";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
@@ -27,8 +21,8 @@ describe("DictionaryExamples tests", () => {
   });
 
   it("single input element", async () => {
-    const inputText: DictionaryExampleTextItem[] = [{ text: "fly", translation: "volar" }];
-    const parameters: LookupDictionaryExamplesQueryParamProperties & Record<string, unknown> = {
+    const inputText = [{ text: "fly", translation: "volar" }];
+    const parameters = {
       to: "es",
       from: "en",
     };
@@ -42,17 +36,17 @@ describe("DictionaryExamples tests", () => {
       throw response.body;
     }
 
-    const dictionaryExamples = response.body as DictionaryExampleItemOutput[];
+    const dictionaryExamples = response.body;
     assert.equal(dictionaryExamples[0].normalizedSource, "fly");
     assert.isTrue(dictionaryExamples[0].normalizedTarget === "volar");
   });
 
   it("multiple input elements", async () => {
-    const inputText: DictionaryExampleTextItem[] = [
+    const inputText = [
       { text: "fly", translation: "volar" },
       { text: "beef", translation: "came" },
     ];
-    const parameters: LookupDictionaryExamplesQueryParamProperties & Record<string, unknown> = {
+    const parameters = {
       to: "es",
       from: "en",
     };
@@ -66,7 +60,7 @@ describe("DictionaryExamples tests", () => {
       throw response.body;
     }
 
-    const dictionaryExamples = response.body as DictionaryExampleItemOutput[];
+    const dictionaryExamples = response.body;
     assert.isTrue(dictionaryExamples.length === 2);
   });
 });

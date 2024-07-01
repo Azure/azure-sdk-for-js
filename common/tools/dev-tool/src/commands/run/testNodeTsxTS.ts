@@ -10,11 +10,11 @@ export const commandInfo = makeCommandInfo(
   "test:node-tsx-ts",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "no-test-proxy": {
-      shortName: "ntp",
+    "test-proxy": {
+      shortName: "tp",
       kind: "boolean",
-      default: false,
-      description: "whether to disable launching test-proxy",
+      default: true,
+      description: "whether to enable launching test-proxy",
     },
   },
 );
@@ -34,7 +34,7 @@ export default leafCommand(commandInfo, async (options) => {
     name: "node-tests",
   };
 
-  if (!options["no-test-proxy"]) {
+  if (options["test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

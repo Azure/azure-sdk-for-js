@@ -10,7 +10,7 @@ import {
   MdeOnboardingsListOptionalParams,
   MdeOnboardingsListResponse,
   MdeOnboardingsGetOptionalParams,
-  MdeOnboardingsGetResponse
+  MdeOnboardingsGetResponse,
 } from "../models";
 
 /** Interface representing a MdeOnboardings. */
@@ -20,13 +20,13 @@ export interface MdeOnboardings {
    * @param options The options parameters.
    */
   list(
-    options?: MdeOnboardingsListOptionalParams
+    options?: MdeOnboardingsListOptionalParams,
   ): Promise<MdeOnboardingsListResponse>;
   /**
    * The default configuration or data needed to onboard the machine to MDE
    * @param options The options parameters.
    */
   get(
-    options?: MdeOnboardingsGetOptionalParams
+    options?: MdeOnboardingsGetOptionalParams,
   ): Promise<MdeOnboardingsGetResponse>;
 }

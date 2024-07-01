@@ -25,7 +25,7 @@ import {
   ProofOfPossessionNonceRequest,
   CertificatesRetrieveProofOfPossessionNonceOptionalParams,
   CertificatesRetrieveProofOfPossessionNonceResponse,
-  CertificatesListByCatalogNextResponse
+  CertificatesListByCatalogNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +50,12 @@ export class CertificatesImpl implements Certificates {
   public listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: CertificatesListByCatalogOptionalParams
+    options?: CertificatesListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<Certificate> {
     const iter = this.listByCatalogPagingAll(
       resourceGroupName,
       catalogName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class CertificatesImpl implements Certificates {
           resourceGroupName,
           catalogName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     catalogName: string,
     options?: CertificatesListByCatalogOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Certificate[]> {
     let result: CertificatesListByCatalogResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class CertificatesImpl implements Certificates {
       result = await this._listByCatalog(
         resourceGroupName,
         catalogName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class CertificatesImpl implements Certificates {
         resourceGroupName,
         catalogName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class CertificatesImpl implements Certificates {
   private async *listByCatalogPagingAll(
     resourceGroupName: string,
     catalogName: string,
-    options?: CertificatesListByCatalogOptionalParams
+    options?: CertificatesListByCatalogOptionalParams,
   ): AsyncIterableIterator<Certificate> {
     for await (const page of this.listByCatalogPagingPage(
       resourceGroupName,
       catalogName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class CertificatesImpl implements Certificates {
   private _listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: CertificatesListByCatalogOptionalParams
+    options?: CertificatesListByCatalogOptionalParams,
   ): Promise<CertificatesListByCatalogResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      listByCatalogOperationSpec
+      listByCatalogOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     catalogName: string,
     serialNumber: string,
-    options?: CertificatesGetOptionalParams
+    options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, serialNumber, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,11 +174,11 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     catalogName: string,
     serialNumber: string,
-    options?: CertificatesRetrieveCertChainOptionalParams
+    options?: CertificatesRetrieveCertChainOptionalParams,
   ): Promise<CertificatesRetrieveCertChainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, serialNumber, options },
-      retrieveCertChainOperationSpec
+      retrieveCertChainOperationSpec,
     );
   }
 
@@ -196,7 +196,7 @@ export class CertificatesImpl implements Certificates {
     catalogName: string,
     serialNumber: string,
     proofOfPossessionNonceRequest: ProofOfPossessionNonceRequest,
-    options?: CertificatesRetrieveProofOfPossessionNonceOptionalParams
+    options?: CertificatesRetrieveProofOfPossessionNonceOptionalParams,
   ): Promise<CertificatesRetrieveProofOfPossessionNonceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -204,9 +204,9 @@ export class CertificatesImpl implements Certificates {
         catalogName,
         serialNumber,
         proofOfPossessionNonceRequest,
-        options
+        options,
       },
-      retrieveProofOfPossessionNonceOperationSpec
+      retrieveProofOfPossessionNonceOperationSpec,
     );
   }
 
@@ -221,11 +221,11 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     catalogName: string,
     nextLink: string,
-    options?: CertificatesListByCatalogNextOptionalParams
+    options?: CertificatesListByCatalogNextOptionalParams,
   ): Promise<CertificatesListByCatalogNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, nextLink, options },
-      listByCatalogNextOperationSpec
+      listByCatalogNextOperationSpec,
     );
   }
 }
@@ -233,44 +233,42 @@ export class CertificatesImpl implements Certificates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCatalogOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult
+      bodyMapper: Mappers.CertificateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.maxpagesize
+    Parameters.maxpagesize,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates/{serialNumber}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates/{serialNumber}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.Certificate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -278,22 +276,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.serialNumber
+    Parameters.serialNumber,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const retrieveCertChainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates/{serialNumber}/retrieveCertChain",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates/{serialNumber}/retrieveCertChain",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateChainResponse
+      bodyMapper: Mappers.CertificateChainResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -301,22 +298,21 @@ const retrieveCertChainOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.serialNumber
+    Parameters.serialNumber,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const retrieveProofOfPossessionNonceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates/{serialNumber}/retrieveProofOfPossessionNonce",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/certificates/{serialNumber}/retrieveProofOfPossessionNonce",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ProofOfPossessionNonceResponse
+      bodyMapper: Mappers.ProofOfPossessionNonceResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.proofOfPossessionNonceRequest,
   queryParameters: [Parameters.apiVersion],
@@ -325,30 +321,30 @@ const retrieveProofOfPossessionNonceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.serialNumber
+    Parameters.serialNumber,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByCatalogNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult
+      bodyMapper: Mappers.CertificateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

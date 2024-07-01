@@ -28,7 +28,7 @@ async function frontendEndpointsDisableHttps() {
   const result = await client.frontendEndpoints.beginDisableHttpsAndWait(
     resourceGroupName,
     frontDoorName,
-    frontendEndpointName
+    frontendEndpointName,
   );
   console.log(result);
 }

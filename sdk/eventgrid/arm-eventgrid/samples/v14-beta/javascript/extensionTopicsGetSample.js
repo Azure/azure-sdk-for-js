@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the properties of an extension topic.
  *
  * @summary Get the properties of an extension topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/ExtensionTopics_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/ExtensionTopics_Get.json
  */
 async function extensionTopicsGet() {
   const scope =

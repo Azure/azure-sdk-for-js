@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production
  *
  * @summary Gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/CloudServiceSwapList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/CloudServiceSwapList.json
  */
 async function getSwapResourceList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

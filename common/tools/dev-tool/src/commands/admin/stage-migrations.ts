@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { readFile, writeFile } from "fs/promises";
-import path from "path";
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { getServiceFolders } from "./list/service-folders";

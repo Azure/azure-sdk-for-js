@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, getYieldedValue } from "@azure/test-utils";
+import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { useFakeTimers } from "sinon";
 

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete schedule.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Schedule/delete.json
  */
 async function deleteSchedule() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const name = "string";
   const credential = new DefaultAzureCredential();
@@ -27,9 +33,13 @@ async function deleteSchedule() {
   const result = await client.schedules.beginDeleteAndWait(
     resourceGroupName,
     workspaceName,
-    name
+    name,
   );
   console.log(result);
 }
 
-deleteSchedule().catch(console.error);
+async function main() {
+  deleteSchedule();
+}
+
+main().catch(console.error);

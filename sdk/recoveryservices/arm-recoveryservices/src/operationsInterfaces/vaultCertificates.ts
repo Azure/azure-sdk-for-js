@@ -9,7 +9,7 @@
 import {
   CertificateRequest,
   VaultCertificatesCreateOptionalParams,
-  VaultCertificatesCreateResponse
+  VaultCertificatesCreateResponse,
 } from "../models";
 
 /** Interface representing a VaultCertificates. */
@@ -27,6 +27,6 @@ export interface VaultCertificates {
     vaultName: string,
     certificateName: string,
     certificateRequest: CertificateRequest,
-    options?: VaultCertificatesCreateOptionalParams
+    options?: VaultCertificatesCreateOptionalParams,
   ): Promise<VaultCertificatesCreateResponse>;
 }

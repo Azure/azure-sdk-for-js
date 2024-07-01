@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the status of a cluster instance.
  *
  * @summary Gets the status of a cluster instance.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/GetClusterInstanceView.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/GetClusterInstanceView.json
  */
 async function hdInsightClusterGetInstanceView() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function hdInsightClusterGetInstanceView() {
   const result = await client.clusters.getInstanceView(
     resourceGroupName,
     clusterPoolName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

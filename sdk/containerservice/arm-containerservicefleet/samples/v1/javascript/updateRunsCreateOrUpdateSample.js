@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a UpdateRun
  *
  * @summary Create a UpdateRun
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2023-10-15/examples/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_CreateOrUpdate.json
  */
 async function createAnUpdateRun() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function createAnUpdateRun() {
     resourceGroupName,
     fleetName,
     updateRunName,
-    resource
+    resource,
   );
   console.log(result);
 }

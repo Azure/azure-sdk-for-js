@@ -39,7 +39,7 @@ async function getsATimeseriesForAGivenExperiment() {
     startDateTimeUTC,
     endDateTimeUTC,
     aggregationInterval,
-    timeseriesType
+    timeseriesType,
   );
   console.log(result);
 }

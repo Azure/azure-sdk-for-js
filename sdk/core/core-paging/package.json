@@ -2,27 +2,32 @@
   "name": "@azure/core-paging",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.5.1",
+  "version": "1.6.3",
   "description": "Core types for paging async iterable iterators",
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "browser": {
+        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
+        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
@@ -52,16 +57,16 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "private": false,
   "scripts": {
     "build:samples": "echo Obsolete",
-    "build:test": "npm run clean && tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && api-extractor run --local",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* temp *.tgz types *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "tshy && api-extractor run --local",
+    "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -69,10 +74,10 @@
     "lint": "eslint package.json src --ext .ts --ext .cts --ext .mts",
     "lint:fix": "eslint package.json src --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -88,10 +93,9 @@
     "@vitest/coverage-istanbul": "^1.3.1",
     "eslint": "^8.56.0",
     "playwright": "^1.41.2",
-    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "tshy": "^1.11.1",
-    "typescript": "~5.3.3",
+    "tshy": "^1.13.0",
+    "typescript": "~5.4.5",
     "vitest": "^1.3.1"
   },
   "//metadata": {

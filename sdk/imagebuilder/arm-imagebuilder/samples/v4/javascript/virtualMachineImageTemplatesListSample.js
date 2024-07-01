@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the VM image templates associated with the subscription.
  *
  * @summary Gets information about the VM image templates associated with the subscription.
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/ListImageTemplates.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/ListImageTemplates.json
  */
 async function listImagesBySubscription() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";

@@ -4,13 +4,14 @@
 import { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
 import {
   PluginConfiguration,
-  generatePluginConfiguration,
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
+  msalPlugins,
 } from "../../../src/msal/nodeFlows/msalPlugins";
 
 import { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
-import { assert } from "@azure/test-utils";
+import Sinon from "sinon";
+import { assert } from "@azure-tools/test-utils";
 
 describe("#generatePluginConfiguration", function () {
   let options: MsalClientOptions;
@@ -20,10 +21,11 @@ describe("#generatePluginConfiguration", function () {
   });
 
   it("returns a PluginConfiguration with default values", function () {
-    const result = generatePluginConfiguration(options);
+    const result = msalPlugins.generatePluginConfiguration(options);
     const expected: PluginConfiguration = {
       cache: {},
       broker: {
+        isEnabled: false,
         enableMsaPassthrough: false,
         parentWindowHandle: undefined,
       },
@@ -39,28 +41,39 @@ describe("#generatePluginConfiguration", function () {
     it("should throw an error if persistence provider is not configured", () => {
       options.tokenCachePersistenceOptions = { enabled: true };
       assert.throws(
-        () => generatePluginConfiguration(options),
+        () => msalPlugins.generatePluginConfiguration(options),
         /Persistent token caching was requested/,
       );
     });
 
     it("configures the cache plugin correctly", async function () {
       options.tokenCachePersistenceOptions = { enabled: true };
-      // TODO: use stub
-      const cachePlugin: ICachePlugin = {
-        afterCacheAccess: async () => {
-          // no-op
-        },
-        beforeCacheAccess: async () => {
-          // no-op
-        },
+
+      const cachePlugin = {
+        afterCacheAccess: Sinon.stub(),
+        beforeCacheAccess: Sinon.stub(),
       };
       const pluginProvider: () => Promise<ICachePlugin> = () => Promise.resolve(cachePlugin);
       msalNodeFlowCacheControl.setPersistence(pluginProvider);
-      const result = generatePluginConfiguration(options);
+      const result = msalPlugins.generatePluginConfiguration(options);
       assert.exists(result.cache.cachePlugin);
       const plugin = await result.cache.cachePlugin;
       assert.strictEqual(plugin, cachePlugin);
+    });
+
+    it("configures the CAE cache plugin correctly", async function () {
+      options.tokenCachePersistenceOptions = { enabled: true };
+
+      const cachePluginCae = {
+        afterCacheAccess: Sinon.stub(),
+        beforeCacheAccess: Sinon.stub(),
+      };
+      const pluginProvider: () => Promise<ICachePlugin> = () => Promise.resolve(cachePluginCae);
+      msalNodeFlowCacheControl.setPersistence(pluginProvider);
+      const result = msalPlugins.generatePluginConfiguration(options);
+      assert.exists(result.cache.cachePluginCae);
+      const plugin = await result.cache.cachePluginCae;
+      assert.strictEqual(plugin, cachePluginCae);
     });
   });
 
@@ -74,7 +87,7 @@ describe("#generatePluginConfiguration", function () {
     it("throws an error if native broker is not configured", () => {
       options.brokerOptions = { enabled: true, parentWindowHandle };
       assert.throws(
-        () => generatePluginConfiguration(options),
+        () => msalPlugins.generatePluginConfiguration(options),
         /Broker for WAM was requested to be enabled/,
       );
     });
@@ -88,10 +101,11 @@ describe("#generatePluginConfiguration", function () {
       const nativeBrokerPlugin: INativeBrokerPlugin = {} as INativeBrokerPlugin;
       msalNodeFlowNativeBrokerControl.setNativeBroker(nativeBrokerPlugin);
 
-      const result = generatePluginConfiguration(options);
+      const result = msalPlugins.generatePluginConfiguration(options);
       assert.strictEqual(result.broker.nativeBrokerPlugin, nativeBrokerPlugin);
       assert.strictEqual(result.broker.enableMsaPassthrough, true);
       assert.strictEqual(result.broker.parentWindowHandle, parentWindowHandle);
+      assert.strictEqual(result.broker.isEnabled, true);
     });
   });
 });

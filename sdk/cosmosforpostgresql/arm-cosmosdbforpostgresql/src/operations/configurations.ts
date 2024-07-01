@@ -16,7 +16,7 @@ import { CosmosDBForPostgreSQL } from "../cosmosDBForPostgreSQL";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -39,7 +39,7 @@ import {
   ConfigurationsUpdateOnNodeOptionalParams,
   ConfigurationsUpdateOnNodeResponse,
   ConfigurationsListByServerNextResponse,
-  ConfigurationsListByClusterNextResponse
+  ConfigurationsListByClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,13 +66,13 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerConfiguration> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       clusterName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -90,9 +90,9 @@ export class ConfigurationsImpl implements Configurations {
           clusterName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -101,7 +101,7 @@ export class ConfigurationsImpl implements Configurations {
     clusterName: string,
     serverName: string,
     options?: ConfigurationsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerConfiguration[]> {
     let result: ConfigurationsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +110,7 @@ export class ConfigurationsImpl implements Configurations {
         resourceGroupName,
         clusterName,
         serverName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -123,7 +123,7 @@ export class ConfigurationsImpl implements Configurations {
         clusterName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -136,13 +136,13 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerConfiguration> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       clusterName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -157,12 +157,12 @@ export class ConfigurationsImpl implements Configurations {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationsListByClusterOptionalParams
+    options?: ConfigurationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Configuration> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -179,9 +179,9 @@ export class ConfigurationsImpl implements Configurations {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -189,7 +189,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     options?: ConfigurationsListByClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Configuration[]> {
     let result: ConfigurationsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -197,7 +197,7 @@ export class ConfigurationsImpl implements Configurations {
       result = await this._listByCluster(
         resourceGroupName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -209,7 +209,7 @@ export class ConfigurationsImpl implements Configurations {
         resourceGroupName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -221,12 +221,12 @@ export class ConfigurationsImpl implements Configurations {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationsListByClusterOptionalParams
+    options?: ConfigurationsListByClusterOptionalParams,
   ): AsyncIterableIterator<Configuration> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -243,11 +243,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): Promise<ConfigurationsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -260,11 +260,11 @@ export class ConfigurationsImpl implements Configurations {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationsListByClusterOptionalParams
+    options?: ConfigurationsListByClusterOptionalParams,
   ): Promise<ConfigurationsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -279,11 +279,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -298,11 +298,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetCoordinatorOptionalParams
+    options?: ConfigurationsGetCoordinatorOptionalParams,
   ): Promise<ConfigurationsGetCoordinatorResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, configurationName, options },
-      getCoordinatorOperationSpec
+      getCoordinatorOperationSpec,
     );
   }
 
@@ -319,7 +319,7 @@ export class ConfigurationsImpl implements Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnCoordinatorOptionalParams
+    options?: ConfigurationsUpdateOnCoordinatorOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsUpdateOnCoordinatorResponse>,
@@ -328,21 +328,20 @@ export class ConfigurationsImpl implements Configurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationsUpdateOnCoordinatorResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -351,8 +350,8 @@ export class ConfigurationsImpl implements Configurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -360,8 +359,8 @@ export class ConfigurationsImpl implements Configurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -372,9 +371,9 @@ export class ConfigurationsImpl implements Configurations {
         clusterName,
         configurationName,
         parameters,
-        options
+        options,
       },
-      spec: updateOnCoordinatorOperationSpec
+      spec: updateOnCoordinatorOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationsUpdateOnCoordinatorResponse,
@@ -382,7 +381,7 @@ export class ConfigurationsImpl implements Configurations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -401,14 +400,14 @@ export class ConfigurationsImpl implements Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnCoordinatorOptionalParams
+    options?: ConfigurationsUpdateOnCoordinatorOptionalParams,
   ): Promise<ConfigurationsUpdateOnCoordinatorResponse> {
     const poller = await this.beginUpdateOnCoordinator(
       resourceGroupName,
       clusterName,
       configurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -424,11 +423,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetNodeOptionalParams
+    options?: ConfigurationsGetNodeOptionalParams,
   ): Promise<ConfigurationsGetNodeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, configurationName, options },
-      getNodeOperationSpec
+      getNodeOperationSpec,
     );
   }
 
@@ -445,7 +444,7 @@ export class ConfigurationsImpl implements Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnNodeOptionalParams
+    options?: ConfigurationsUpdateOnNodeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsUpdateOnNodeResponse>,
@@ -454,21 +453,20 @@ export class ConfigurationsImpl implements Configurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationsUpdateOnNodeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -477,8 +475,8 @@ export class ConfigurationsImpl implements Configurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -486,8 +484,8 @@ export class ConfigurationsImpl implements Configurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -498,9 +496,9 @@ export class ConfigurationsImpl implements Configurations {
         clusterName,
         configurationName,
         parameters,
-        options
+        options,
       },
-      spec: updateOnNodeOperationSpec
+      spec: updateOnNodeOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationsUpdateOnNodeResponse,
@@ -508,7 +506,7 @@ export class ConfigurationsImpl implements Configurations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -527,14 +525,14 @@ export class ConfigurationsImpl implements Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnNodeOptionalParams
+    options?: ConfigurationsUpdateOnNodeOptionalParams,
   ): Promise<ConfigurationsUpdateOnNodeResponse> {
     const poller = await this.beginUpdateOnNode(
       resourceGroupName,
       clusterName,
       configurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -552,11 +550,11 @@ export class ConfigurationsImpl implements Configurations {
     clusterName: string,
     serverName: string,
     nextLink: string,
-    options?: ConfigurationsListByServerNextOptionalParams
+    options?: ConfigurationsListByServerNextOptionalParams,
   ): Promise<ConfigurationsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 
@@ -571,11 +569,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: ConfigurationsListByClusterNextOptionalParams
+    options?: ConfigurationsListByClusterNextOptionalParams,
   ): Promise<ConfigurationsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByClusterNextOperationSpec
+      listByClusterNextOperationSpec,
     );
   }
 }
@@ -583,16 +581,15 @@ export class ConfigurationsImpl implements Configurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers/{serverName}/configurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers/{serverName}/configurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfigurationListResult
+      bodyMapper: Mappers.ServerConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -600,44 +597,42 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/configurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/configurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterConfigurationListResult
+      bodyMapper: Mappers.ClusterConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/configurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/configurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -645,22 +640,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCoordinatorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/coordinatorConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/coordinatorConfigurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -668,31 +662,30 @@ const getCoordinatorOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOnCoordinatorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/coordinatorConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/coordinatorConfigurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     201: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     202: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     204: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -701,23 +694,22 @@ const updateOnCoordinatorOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getNodeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/nodeConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/nodeConfigurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -725,31 +717,30 @@ const getNodeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOnNodeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/nodeConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/nodeConfigurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     201: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     202: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     204: {
-      bodyMapper: Mappers.ServerConfiguration
+      bodyMapper: Mappers.ServerConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -758,22 +749,22 @@ const updateOnNodeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConfigurationListResult
+      bodyMapper: Mappers.ServerConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -781,29 +772,29 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.nextLink,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterConfigurationListResult
+      bodyMapper: Mappers.ClusterConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

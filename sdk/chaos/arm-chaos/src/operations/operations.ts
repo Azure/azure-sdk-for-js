@@ -18,7 +18,7 @@ import {
   OperationsListAllNextOptionalParams,
   OperationsListAllOptionalParams,
   OperationsListAllResponse,
-  OperationsListAllNextResponse
+  OperationsListAllNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   public listAll(
-    options?: OperationsListAllOptionalParams
+    options?: OperationsListAllOptionalParams,
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: OperationsListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listAllPagingAll(
-    options?: OperationsListAllOptionalParams
+    options?: OperationsListAllOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: OperationsListAllOptionalParams
+    options?: OperationsListAllOptionalParams,
   ): Promise<OperationsListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -105,11 +105,11 @@ export class OperationsImpl implements Operations {
    */
   private _listAllNext(
     nextLink: string,
-    options?: OperationsListAllNextOptionalParams
+    options?: OperationsListAllNextOptionalParams,
   ): Promise<OperationsListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 }
@@ -121,29 +121,29 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

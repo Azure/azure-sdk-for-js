@@ -30,7 +30,7 @@ async function getFrontendEndpoint() {
   const result = await client.frontendEndpoints.get(
     resourceGroupName,
     frontDoorName,
-    frontendEndpointName
+    frontendEndpointName,
   );
   console.log(result);
 }

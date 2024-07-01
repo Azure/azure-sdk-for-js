@@ -19,7 +19,7 @@ import {
   MachinesAssessPatchesResponse,
   MachineInstallPatchesParameters,
   MachinesInstallPatchesOptionalParams,
-  MachinesInstallPatchesResponse
+  MachinesInstallPatchesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Machines {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams
+    options?: MachinesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Machine>;
   /**
    * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the
@@ -41,7 +41,7 @@ export interface Machines {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: MachinesListBySubscriptionOptionalParams
+    options?: MachinesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Machine>;
   /**
    * The operation to delete a hybrid machine.
@@ -52,7 +52,7 @@ export interface Machines {
   delete(
     resourceGroupName: string,
     machineName: string,
-    options?: MachinesDeleteOptionalParams
+    options?: MachinesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves information about the model view or the instance view of a hybrid machine.
@@ -63,7 +63,7 @@ export interface Machines {
   get(
     resourceGroupName: string,
     machineName: string,
-    options?: MachinesGetOptionalParams
+    options?: MachinesGetOptionalParams,
   ): Promise<MachinesGetResponse>;
   /**
    * The operation to assess patches on a hybrid machine identity in Azure.
@@ -74,7 +74,7 @@ export interface Machines {
   beginAssessPatches(
     resourceGroupName: string,
     name: string,
-    options?: MachinesAssessPatchesOptionalParams
+    options?: MachinesAssessPatchesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachinesAssessPatchesResponse>,
@@ -90,7 +90,7 @@ export interface Machines {
   beginAssessPatchesAndWait(
     resourceGroupName: string,
     name: string,
-    options?: MachinesAssessPatchesOptionalParams
+    options?: MachinesAssessPatchesOptionalParams,
   ): Promise<MachinesAssessPatchesResponse>;
   /**
    * The operation to install patches on a hybrid machine identity in Azure.
@@ -103,7 +103,7 @@ export interface Machines {
     resourceGroupName: string,
     name: string,
     installPatchesInput: MachineInstallPatchesParameters,
-    options?: MachinesInstallPatchesOptionalParams
+    options?: MachinesInstallPatchesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachinesInstallPatchesResponse>,
@@ -121,6 +121,6 @@ export interface Machines {
     resourceGroupName: string,
     name: string,
     installPatchesInput: MachineInstallPatchesParameters,
-    options?: MachinesInstallPatchesOptionalParams
+    options?: MachinesInstallPatchesOptionalParams,
   ): Promise<MachinesInstallPatchesResponse>;
 }

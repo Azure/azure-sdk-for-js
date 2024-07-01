@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AdaptiveApplicationControlsListOptionalParams,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function getsAListOfApplicationControlGroupsOfMachinesForTheSubscription()
   const summary = false;
   const options: AdaptiveApplicationControlsListOptionalParams = {
     includePathRecommendations,
-    summary
+    summary,
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);

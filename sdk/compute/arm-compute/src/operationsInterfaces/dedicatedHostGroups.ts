@@ -18,7 +18,7 @@ import {
   DedicatedHostGroupsUpdateResponse,
   DedicatedHostGroupsDeleteOptionalParams,
   DedicatedHostGroupsGetOptionalParams,
-  DedicatedHostGroupsGetResponse
+  DedicatedHostGroupsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface DedicatedHostGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DedicatedHostGroupsListByResourceGroupOptionalParams
+    options?: DedicatedHostGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHostGroup>;
   /**
    * Lists all of the dedicated host groups in the subscription. Use the nextLink property in the
@@ -40,7 +40,7 @@ export interface DedicatedHostGroups {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DedicatedHostGroupsListBySubscriptionOptionalParams
+    options?: DedicatedHostGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHostGroup>;
   /**
    * Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups
@@ -54,7 +54,7 @@ export interface DedicatedHostGroups {
     resourceGroupName: string,
     hostGroupName: string,
     parameters: DedicatedHostGroup,
-    options?: DedicatedHostGroupsCreateOrUpdateOptionalParams
+    options?: DedicatedHostGroupsCreateOrUpdateOptionalParams,
   ): Promise<DedicatedHostGroupsCreateOrUpdateResponse>;
   /**
    * Update an dedicated host group.
@@ -67,7 +67,7 @@ export interface DedicatedHostGroups {
     resourceGroupName: string,
     hostGroupName: string,
     parameters: DedicatedHostGroupUpdate,
-    options?: DedicatedHostGroupsUpdateOptionalParams
+    options?: DedicatedHostGroupsUpdateOptionalParams,
   ): Promise<DedicatedHostGroupsUpdateResponse>;
   /**
    * Delete a dedicated host group.
@@ -78,7 +78,7 @@ export interface DedicatedHostGroups {
   delete(
     resourceGroupName: string,
     hostGroupName: string,
-    options?: DedicatedHostGroupsDeleteOptionalParams
+    options?: DedicatedHostGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves information about a dedicated host group.
@@ -89,6 +89,6 @@ export interface DedicatedHostGroups {
   get(
     resourceGroupName: string,
     hostGroupName: string,
-    options?: DedicatedHostGroupsGetOptionalParams
+    options?: DedicatedHostGroupsGetOptionalParams,
   ): Promise<DedicatedHostGroupsGetResponse>;
 }

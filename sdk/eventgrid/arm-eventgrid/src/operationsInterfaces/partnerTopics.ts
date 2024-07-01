@@ -23,7 +23,7 @@ import {
   PartnerTopicsActivateOptionalParams,
   PartnerTopicsActivateResponse,
   PartnerTopicsDeactivateOptionalParams,
-  PartnerTopicsDeactivateResponse
+  PartnerTopicsDeactivateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface PartnerTopics {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PartnerTopicsListBySubscriptionOptionalParams
+    options?: PartnerTopicsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PartnerTopic>;
   /**
    * List all the partner topics under a resource group.
@@ -43,7 +43,7 @@ export interface PartnerTopics {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerTopicsListByResourceGroupOptionalParams
+    options?: PartnerTopicsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PartnerTopic>;
   /**
    * Get properties of a partner topic.
@@ -54,7 +54,7 @@ export interface PartnerTopics {
   get(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsGetOptionalParams
+    options?: PartnerTopicsGetOptionalParams,
   ): Promise<PartnerTopicsGetResponse>;
   /**
    * Asynchronously creates a new partner topic with the specified parameters.
@@ -67,7 +67,7 @@ export interface PartnerTopics {
     resourceGroupName: string,
     partnerTopicName: string,
     partnerTopicInfo: PartnerTopic,
-    options?: PartnerTopicsCreateOrUpdateOptionalParams
+    options?: PartnerTopicsCreateOrUpdateOptionalParams,
   ): Promise<PartnerTopicsCreateOrUpdateResponse>;
   /**
    * Delete existing partner topic.
@@ -78,7 +78,7 @@ export interface PartnerTopics {
   beginDelete(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsDeleteOptionalParams
+    options?: PartnerTopicsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing partner topic.
@@ -89,7 +89,7 @@ export interface PartnerTopics {
   beginDeleteAndWait(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsDeleteOptionalParams
+    options?: PartnerTopicsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Asynchronously updates a partner topic with the specified parameters.
@@ -102,7 +102,7 @@ export interface PartnerTopics {
     resourceGroupName: string,
     partnerTopicName: string,
     partnerTopicUpdateParameters: PartnerTopicUpdateParameters,
-    options?: PartnerTopicsUpdateOptionalParams
+    options?: PartnerTopicsUpdateOptionalParams,
   ): Promise<PartnerTopicsUpdateResponse>;
   /**
    * Activate a newly created partner topic.
@@ -113,7 +113,7 @@ export interface PartnerTopics {
   activate(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsActivateOptionalParams
+    options?: PartnerTopicsActivateOptionalParams,
   ): Promise<PartnerTopicsActivateResponse>;
   /**
    * Deactivate specific partner topic.
@@ -124,6 +124,6 @@ export interface PartnerTopics {
   deactivate(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicsDeactivateOptionalParams
+    options?: PartnerTopicsDeactivateOptionalParams,
   ): Promise<PartnerTopicsDeactivateResponse>;
 }

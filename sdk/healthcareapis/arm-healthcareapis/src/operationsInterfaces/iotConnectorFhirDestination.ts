@@ -13,7 +13,7 @@ import {
   IotFhirDestination,
   IotConnectorFhirDestinationCreateOrUpdateOptionalParams,
   IotConnectorFhirDestinationCreateOrUpdateResponse,
-  IotConnectorFhirDestinationDeleteOptionalParams
+  IotConnectorFhirDestinationDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a IotConnectorFhirDestination. */
@@ -31,7 +31,7 @@ export interface IotConnectorFhirDestination {
     workspaceName: string,
     iotConnectorName: string,
     fhirDestinationName: string,
-    options?: IotConnectorFhirDestinationGetOptionalParams
+    options?: IotConnectorFhirDestinationGetOptionalParams,
   ): Promise<IotConnectorFhirDestinationGetResponse>;
   /**
    * Creates or updates an IoT Connector FHIR destination resource with the specified parameters.
@@ -49,7 +49,7 @@ export interface IotConnectorFhirDestination {
     iotConnectorName: string,
     fhirDestinationName: string,
     iotFhirDestination: IotFhirDestination,
-    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams
+    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>,
@@ -72,7 +72,7 @@ export interface IotConnectorFhirDestination {
     iotConnectorName: string,
     fhirDestinationName: string,
     iotFhirDestination: IotFhirDestination,
-    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams
+    options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams,
   ): Promise<IotConnectorFhirDestinationCreateOrUpdateResponse>;
   /**
    * Deletes an IoT Connector FHIR destination.
@@ -87,7 +87,7 @@ export interface IotConnectorFhirDestination {
     workspaceName: string,
     iotConnectorName: string,
     fhirDestinationName: string,
-    options?: IotConnectorFhirDestinationDeleteOptionalParams
+    options?: IotConnectorFhirDestinationDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an IoT Connector FHIR destination.
@@ -102,6 +102,6 @@ export interface IotConnectorFhirDestination {
     workspaceName: string,
     iotConnectorName: string,
     fhirDestinationName: string,
-    options?: IotConnectorFhirDestinationDeleteOptionalParams
+    options?: IotConnectorFhirDestinationDeleteOptionalParams,
   ): Promise<void>;
 }

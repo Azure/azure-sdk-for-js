@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified virtual network peering.
  *
  * @summary Deletes the specified virtual network peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkPeeringDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkPeeringDelete.json
  */
 async function deletePeering() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

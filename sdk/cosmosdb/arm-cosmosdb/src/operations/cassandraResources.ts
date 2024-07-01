@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -55,7 +55,7 @@ import {
   CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
   CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
-  CassandraResourcesMigrateCassandraTableToManualThroughputResponse
+  CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,12 +80,12 @@ export class CassandraResourcesImpl implements CassandraResources {
   public listCassandraKeyspaces(
     resourceGroupName: string,
     accountName: string,
-    options?: CassandraResourcesListCassandraKeyspacesOptionalParams
+    options?: CassandraResourcesListCassandraKeyspacesOptionalParams,
   ): PagedAsyncIterableIterator<CassandraKeyspaceGetResults> {
     const iter = this.listCassandraKeyspacesPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -102,9 +102,9 @@ export class CassandraResourcesImpl implements CassandraResources {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -112,13 +112,13 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     options?: CassandraResourcesListCassandraKeyspacesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<CassandraKeyspaceGetResults[]> {
     let result: CassandraResourcesListCassandraKeyspacesResponse;
     result = await this._listCassandraKeyspaces(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -126,12 +126,12 @@ export class CassandraResourcesImpl implements CassandraResources {
   private async *listCassandraKeyspacesPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: CassandraResourcesListCassandraKeyspacesOptionalParams
+    options?: CassandraResourcesListCassandraKeyspacesOptionalParams,
   ): AsyncIterableIterator<CassandraKeyspaceGetResults> {
     for await (const page of this.listCassandraKeyspacesPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,13 +148,13 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesListCassandraTablesOptionalParams
+    options?: CassandraResourcesListCassandraTablesOptionalParams,
   ): PagedAsyncIterableIterator<CassandraTableGetResults> {
     const iter = this.listCassandraTablesPagingAll(
       resourceGroupName,
       accountName,
       keyspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -172,9 +172,9 @@ export class CassandraResourcesImpl implements CassandraResources {
           accountName,
           keyspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -183,14 +183,14 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     options?: CassandraResourcesListCassandraTablesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<CassandraTableGetResults[]> {
     let result: CassandraResourcesListCassandraTablesResponse;
     result = await this._listCassandraTables(
       resourceGroupName,
       accountName,
       keyspaceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -199,13 +199,13 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesListCassandraTablesOptionalParams
+    options?: CassandraResourcesListCassandraTablesOptionalParams,
   ): AsyncIterableIterator<CassandraTableGetResults> {
     for await (const page of this.listCassandraTablesPagingPage(
       resourceGroupName,
       accountName,
       keyspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -220,11 +220,11 @@ export class CassandraResourcesImpl implements CassandraResources {
   private _listCassandraKeyspaces(
     resourceGroupName: string,
     accountName: string,
-    options?: CassandraResourcesListCassandraKeyspacesOptionalParams
+    options?: CassandraResourcesListCassandraKeyspacesOptionalParams,
   ): Promise<CassandraResourcesListCassandraKeyspacesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listCassandraKeyspacesOperationSpec
+      listCassandraKeyspacesOperationSpec,
     );
   }
 
@@ -240,11 +240,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesGetCassandraKeyspaceOptionalParams
+    options?: CassandraResourcesGetCassandraKeyspaceOptionalParams,
   ): Promise<CassandraResourcesGetCassandraKeyspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, keyspaceName, options },
-      getCassandraKeyspaceOperationSpec
+      getCassandraKeyspaceOperationSpec,
     );
   }
 
@@ -262,7 +262,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     createUpdateCassandraKeyspaceParameters: CassandraKeyspaceCreateUpdateParameters,
-    options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
+    options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>,
@@ -271,21 +271,20 @@ export class CassandraResourcesImpl implements CassandraResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesCreateUpdateCassandraKeyspaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -294,8 +293,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -303,8 +302,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -315,16 +314,16 @@ export class CassandraResourcesImpl implements CassandraResources {
         accountName,
         keyspaceName,
         createUpdateCassandraKeyspaceParameters,
-        options
+        options,
       },
-      spec: createUpdateCassandraKeyspaceOperationSpec
+      spec: createUpdateCassandraKeyspaceOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesCreateUpdateCassandraKeyspaceResponse,
       OperationState<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -344,14 +343,14 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     createUpdateCassandraKeyspaceParameters: CassandraKeyspaceCreateUpdateParameters,
-    options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
+    options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams,
   ): Promise<CassandraResourcesCreateUpdateCassandraKeyspaceResponse> {
     const poller = await this.beginCreateUpdateCassandraKeyspace(
       resourceGroupName,
       accountName,
       keyspaceName,
       createUpdateCassandraKeyspaceParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -367,7 +366,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
+    options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>,
@@ -376,21 +375,20 @@ export class CassandraResourcesImpl implements CassandraResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesDeleteCassandraKeyspaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -399,8 +397,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -408,22 +406,22 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, keyspaceName, options },
-      spec: deleteCassandraKeyspaceOperationSpec
+      spec: deleteCassandraKeyspaceOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesDeleteCassandraKeyspaceResponse,
       OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -440,13 +438,13 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams
+    options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams,
   ): Promise<CassandraResourcesDeleteCassandraKeyspaceResponse> {
     const poller = await this.beginDeleteCassandraKeyspace(
       resourceGroupName,
       accountName,
       keyspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -463,11 +461,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams
+    options?: CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams,
   ): Promise<CassandraResourcesGetCassandraKeyspaceThroughputResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, keyspaceName, options },
-      getCassandraKeyspaceThroughputOperationSpec
+      getCassandraKeyspaceThroughputOperationSpec,
     );
   }
 
@@ -485,32 +483,29 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams
+    options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
-      >,
+      OperationState<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse>,
       CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -519,8 +514,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -528,8 +523,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -540,18 +535,16 @@ export class CassandraResourcesImpl implements CassandraResources {
         accountName,
         keyspaceName,
         updateThroughputParameters,
-        options
+        options,
       },
-      spec: updateCassandraKeyspaceThroughputOperationSpec
+      spec: updateCassandraKeyspaceThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesUpdateCassandraKeyspaceThroughputResponse,
-      OperationState<
-        CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
-      >
+      OperationState<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -571,14 +564,14 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams
+    options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams,
   ): Promise<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse> {
     const poller = await this.beginUpdateCassandraKeyspaceThroughput(
       resourceGroupName,
       accountName,
       keyspaceName,
       updateThroughputParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -594,32 +587,29 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams
+    options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
-      >,
+      OperationState<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>,
       CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -628,8 +618,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -637,24 +627,22 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, keyspaceName, options },
-      spec: migrateCassandraKeyspaceToAutoscaleOperationSpec
+      spec: migrateCassandraKeyspaceToAutoscaleOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse,
-      OperationState<
-        CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
-      >
+      OperationState<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -671,13 +659,13 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams
+    options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams,
   ): Promise<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse> {
     const poller = await this.beginMigrateCassandraKeyspaceToAutoscale(
       resourceGroupName,
       accountName,
       keyspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -693,32 +681,29 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams
+    options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
-      >,
+      OperationState<CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>,
       CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -727,8 +712,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -736,24 +721,22 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, keyspaceName, options },
-      spec: migrateCassandraKeyspaceToManualThroughputOperationSpec
+      spec: migrateCassandraKeyspaceToManualThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse,
-      OperationState<
-        CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
-      >
+      OperationState<CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -770,15 +753,13 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams
-  ): Promise<
-    CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
-  > {
+    options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams,
+  ): Promise<CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse> {
     const poller = await this.beginMigrateCassandraKeyspaceToManualThroughput(
       resourceGroupName,
       accountName,
       keyspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -794,11 +775,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesListCassandraTablesOptionalParams
+    options?: CassandraResourcesListCassandraTablesOptionalParams,
   ): Promise<CassandraResourcesListCassandraTablesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, keyspaceName, options },
-      listCassandraTablesOperationSpec
+      listCassandraTablesOperationSpec,
     );
   }
 
@@ -815,11 +796,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesGetCassandraTableOptionalParams
+    options?: CassandraResourcesGetCassandraTableOptionalParams,
   ): Promise<CassandraResourcesGetCassandraTableResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, keyspaceName, tableName, options },
-      getCassandraTableOperationSpec
+      getCassandraTableOperationSpec,
     );
   }
 
@@ -839,7 +820,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     tableName: string,
     createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters,
-    options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams
+    options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>,
@@ -848,21 +829,20 @@ export class CassandraResourcesImpl implements CassandraResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesCreateUpdateCassandraTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -871,8 +851,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -880,8 +860,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -893,16 +873,16 @@ export class CassandraResourcesImpl implements CassandraResources {
         keyspaceName,
         tableName,
         createUpdateCassandraTableParameters,
-        options
+        options,
       },
-      spec: createUpdateCassandraTableOperationSpec
+      spec: createUpdateCassandraTableOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesCreateUpdateCassandraTableResponse,
       OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -924,7 +904,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     tableName: string,
     createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters,
-    options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams
+    options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams,
   ): Promise<CassandraResourcesCreateUpdateCassandraTableResponse> {
     const poller = await this.beginCreateUpdateCassandraTable(
       resourceGroupName,
@@ -932,7 +912,7 @@ export class CassandraResourcesImpl implements CassandraResources {
       keyspaceName,
       tableName,
       createUpdateCassandraTableParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -950,7 +930,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesDeleteCassandraTableOptionalParams
+    options?: CassandraResourcesDeleteCassandraTableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraResourcesDeleteCassandraTableResponse>,
@@ -959,21 +939,20 @@ export class CassandraResourcesImpl implements CassandraResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesDeleteCassandraTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -982,8 +961,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -991,8 +970,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1003,16 +982,16 @@ export class CassandraResourcesImpl implements CassandraResources {
         accountName,
         keyspaceName,
         tableName,
-        options
+        options,
       },
-      spec: deleteCassandraTableOperationSpec
+      spec: deleteCassandraTableOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesDeleteCassandraTableResponse,
       OperationState<CassandraResourcesDeleteCassandraTableResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1031,14 +1010,14 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesDeleteCassandraTableOptionalParams
+    options?: CassandraResourcesDeleteCassandraTableOptionalParams,
   ): Promise<CassandraResourcesDeleteCassandraTableResponse> {
     const poller = await this.beginDeleteCassandraTable(
       resourceGroupName,
       accountName,
       keyspaceName,
       tableName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1057,11 +1036,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesGetCassandraTableThroughputOptionalParams
+    options?: CassandraResourcesGetCassandraTableThroughputOptionalParams,
   ): Promise<CassandraResourcesGetCassandraTableThroughputResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, keyspaceName, tableName, options },
-      getCassandraTableThroughputOperationSpec
+      getCassandraTableThroughputOperationSpec,
     );
   }
 
@@ -1081,7 +1060,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     tableName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams
+    options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>,
@@ -1090,21 +1069,20 @@ export class CassandraResourcesImpl implements CassandraResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesUpdateCassandraTableThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1113,8 +1091,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1122,8 +1100,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1135,16 +1113,16 @@ export class CassandraResourcesImpl implements CassandraResources {
         keyspaceName,
         tableName,
         updateThroughputParameters,
-        options
+        options,
       },
-      spec: updateCassandraTableThroughputOperationSpec
+      spec: updateCassandraTableThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesUpdateCassandraTableThroughputResponse,
       OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1166,7 +1144,7 @@ export class CassandraResourcesImpl implements CassandraResources {
     keyspaceName: string,
     tableName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams
+    options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams,
   ): Promise<CassandraResourcesUpdateCassandraTableThroughputResponse> {
     const poller = await this.beginUpdateCassandraTableThroughput(
       resourceGroupName,
@@ -1174,7 +1152,7 @@ export class CassandraResourcesImpl implements CassandraResources {
       keyspaceName,
       tableName,
       updateThroughputParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1192,32 +1170,29 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams
+    options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        CassandraResourcesMigrateCassandraTableToAutoscaleResponse
-      >,
+      OperationState<CassandraResourcesMigrateCassandraTableToAutoscaleResponse>,
       CassandraResourcesMigrateCassandraTableToAutoscaleResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesMigrateCassandraTableToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1226,8 +1201,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1235,8 +1210,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1247,16 +1222,16 @@ export class CassandraResourcesImpl implements CassandraResources {
         accountName,
         keyspaceName,
         tableName,
-        options
+        options,
       },
-      spec: migrateCassandraTableToAutoscaleOperationSpec
+      spec: migrateCassandraTableToAutoscaleOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
       OperationState<CassandraResourcesMigrateCassandraTableToAutoscaleResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1275,14 +1250,14 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams
+    options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   ): Promise<CassandraResourcesMigrateCassandraTableToAutoscaleResponse> {
     const poller = await this.beginMigrateCassandraTableToAutoscale(
       resourceGroupName,
       accountName,
       keyspaceName,
       tableName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1300,32 +1275,29 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
+    options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        CassandraResourcesMigrateCassandraTableToManualThroughputResponse
-      >,
+      OperationState<CassandraResourcesMigrateCassandraTableToManualThroughputResponse>,
       CassandraResourcesMigrateCassandraTableToManualThroughputResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CassandraResourcesMigrateCassandraTableToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1334,8 +1306,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1343,8 +1315,8 @@ export class CassandraResourcesImpl implements CassandraResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1355,18 +1327,16 @@ export class CassandraResourcesImpl implements CassandraResources {
         accountName,
         keyspaceName,
         tableName,
-        options
+        options,
       },
-      spec: migrateCassandraTableToManualThroughputOperationSpec
+      spec: migrateCassandraTableToManualThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
-      OperationState<
-        CassandraResourcesMigrateCassandraTableToManualThroughputResponse
-      >
+      OperationState<CassandraResourcesMigrateCassandraTableToManualThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1385,16 +1355,14 @@ export class CassandraResourcesImpl implements CassandraResources {
     accountName: string,
     keyspaceName: string,
     tableName: string,
-    options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
-  ): Promise<
-    CassandraResourcesMigrateCassandraTableToManualThroughputResponse
-  > {
+    options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
+  ): Promise<CassandraResourcesMigrateCassandraTableToManualThroughputResponse> {
     const poller = await this.beginMigrateCassandraTableToManualThroughput(
       resourceGroupName,
       accountName,
       keyspaceName,
       tableName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1403,32 +1371,12 @@ export class CassandraResourcesImpl implements CassandraResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listCassandraKeyspacesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CassandraKeyspaceListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CassandraKeyspaceGetResults
-    }
+      bodyMapper: Mappers.CassandraKeyspaceListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1436,28 +1384,45 @@ const getCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.keyspaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraKeyspaceGetResults,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createUpdateCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CassandraKeyspaceGetResults
+      bodyMapper: Mappers.CassandraKeyspaceGetResults,
     },
     201: {
-      bodyMapper: Mappers.CassandraKeyspaceGetResults
+      bodyMapper: Mappers.CassandraKeyspaceGetResults,
     },
     202: {
-      bodyMapper: Mappers.CassandraKeyspaceGetResults
+      bodyMapper: Mappers.CassandraKeyspaceGetResults,
     },
     204: {
-      bodyMapper: Mappers.CassandraKeyspaceGetResults
-    }
+      bodyMapper: Mappers.CassandraKeyspaceGetResults,
+    },
   },
   requestBody: Parameters.createUpdateCassandraKeyspaceParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1466,29 +1431,28 @@ const createUpdateCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders,
     },
     201: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders,
     },
     202: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders,
     },
     204: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders
-    }
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraKeyspaceHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1496,18 +1460,17 @@ const deleteCassandraKeyspaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
-  serializer
+  serializer,
 };
 const getCassandraKeyspaceThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1515,114 +1478,113 @@ const getCassandraKeyspaceThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const updateCassandraKeyspaceThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+const updateCassandraKeyspaceThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
+    httpMethod: "PUT",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
     },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+    requestBody: Parameters.updateThroughputParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.keyspaceName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const migrateCassandraKeyspaceToAutoscaleOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.keyspaceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const migrateCassandraKeyspaceToManualThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
-  },
-  requestBody: Parameters.updateThroughputParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.keyspaceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const migrateCassandraKeyspaceToAutoscaleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.keyspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const migrateCassandraKeyspaceToManualThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.keyspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.keyspaceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listCassandraTablesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CassandraTableListResult
-    }
+      bodyMapper: Mappers.CassandraTableListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1630,19 +1592,18 @@ const listCassandraTablesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCassandraTableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CassandraTableGetResults
-    }
+      bodyMapper: Mappers.CassandraTableGetResults,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1651,28 +1612,27 @@ const getCassandraTableOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createUpdateCassandraTableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CassandraTableGetResults
+      bodyMapper: Mappers.CassandraTableGetResults,
     },
     201: {
-      bodyMapper: Mappers.CassandraTableGetResults
+      bodyMapper: Mappers.CassandraTableGetResults,
     },
     202: {
-      bodyMapper: Mappers.CassandraTableGetResults
+      bodyMapper: Mappers.CassandraTableGetResults,
     },
     204: {
-      bodyMapper: Mappers.CassandraTableGetResults
-    }
+      bodyMapper: Mappers.CassandraTableGetResults,
+    },
   },
   requestBody: Parameters.createUpdateCassandraTableParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1682,29 +1642,28 @@ const createUpdateCassandraTableOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteCassandraTableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders,
     },
     201: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders,
     },
     202: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders,
     },
     204: {
-      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders
-    }
+      headersMapper: Mappers.CassandraResourcesDeleteCassandraTableHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1713,18 +1672,17 @@ const deleteCassandraTableOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
-  serializer
+  serializer,
 };
 const getCassandraTableThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1733,28 +1691,27 @@ const getCassandraTableThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateCassandraTableThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
   },
   requestBody: Parameters.updateThroughputParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1764,75 +1721,75 @@ const updateCassandraTableThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName,
-    Parameters.keyspaceName
+    Parameters.keyspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const migrateCassandraTableToAutoscaleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+const migrateCassandraTableToAutoscaleOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.tableName,
+      Parameters.keyspaceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const migrateCassandraTableToManualThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.tableName,
-    Parameters.keyspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const migrateCassandraTableToManualThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.tableName,
-    Parameters.keyspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.tableName,
+      Parameters.keyspaceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

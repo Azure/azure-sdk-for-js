@@ -10,12 +10,13 @@
 // Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request.
  *
  * @summary Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getComputeOneSkuQuotaLimit.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeOneSkuQuotaLimit.json
  */
 async function quotasGetRequestForCompute() {
   const resourceName = "standardNDSFamily";
@@ -27,13 +28,11 @@ async function quotasGetRequestForCompute() {
   console.log(result);
 }
 
-quotasGetRequestForCompute().catch(console.error);
-
 /**
  * This sample demonstrates how to Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request.
  *
  * @summary Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getNetworkOneSkuQuotaLimit.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getNetworkOneSkuQuotaLimit.json
  */
 async function quotasUsagesRequestForNetwork() {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
@@ -45,4 +44,9 @@ async function quotasUsagesRequestForNetwork() {
   console.log(result);
 }
 
-quotasUsagesRequestForNetwork().catch(console.error);
+async function main() {
+  quotasGetRequestForCompute();
+  quotasUsagesRequestForNetwork();
+}
+
+main().catch(console.error);

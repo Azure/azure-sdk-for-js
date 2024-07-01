@@ -14,13 +14,13 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   BackupsMigrationRequest,
   BackupsUnderAccountMigrateBackupsOptionalParams,
-  BackupsUnderAccountMigrateBackupsResponse
+  BackupsUnderAccountMigrateBackupsResponse,
 } from "../models";
 
 /** Class containing BackupsUnderAccount operations. */
@@ -46,7 +46,7 @@ export class BackupsUnderAccountImpl implements BackupsUnderAccount {
     resourceGroupName: string,
     accountName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderAccountMigrateBackupsOptionalParams
+    options?: BackupsUnderAccountMigrateBackupsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUnderAccountMigrateBackupsResponse>,
@@ -55,21 +55,20 @@ export class BackupsUnderAccountImpl implements BackupsUnderAccount {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupsUnderAccountMigrateBackupsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -78,8 +77,8 @@ export class BackupsUnderAccountImpl implements BackupsUnderAccount {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -87,15 +86,15 @@ export class BackupsUnderAccountImpl implements BackupsUnderAccount {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, body, options },
-      spec: migrateBackupsOperationSpec
+      spec: migrateBackupsOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupsUnderAccountMigrateBackupsResponse,
@@ -103,7 +102,7 @@ export class BackupsUnderAccountImpl implements BackupsUnderAccount {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -120,13 +119,13 @@ export class BackupsUnderAccountImpl implements BackupsUnderAccount {
     resourceGroupName: string,
     accountName: string,
     body: BackupsMigrationRequest,
-    options?: BackupsUnderAccountMigrateBackupsOptionalParams
+    options?: BackupsUnderAccountMigrateBackupsOptionalParams,
   ): Promise<BackupsUnderAccountMigrateBackupsResponse> {
     const poller = await this.beginMigrateBackups(
       resourceGroupName,
       accountName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -135,35 +134,34 @@ export class BackupsUnderAccountImpl implements BackupsUnderAccount {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const migrateBackupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateBackups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateBackups",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders,
     },
     201: {
-      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders,
     },
     202: {
-      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders,
     },
     204: {
-      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders
+      headersMapper: Mappers.BackupsUnderAccountMigrateBackupsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body37,
+  requestBody: Parameters.body36,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

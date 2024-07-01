@@ -14,13 +14,13 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   BackupRestoreFiles,
   BackupsUnderBackupVaultRestoreFilesOptionalParams,
-  BackupsUnderBackupVaultRestoreFilesResponse
+  BackupsUnderBackupVaultRestoreFilesResponse,
 } from "../models";
 
 /** Class containing BackupsUnderBackupVault operations. */
@@ -50,7 +50,7 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
     backupVaultName: string,
     backupName: string,
     body: BackupRestoreFiles,
-    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams
+    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUnderBackupVaultRestoreFilesResponse>,
@@ -59,21 +59,20 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupsUnderBackupVaultRestoreFilesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -82,8 +81,8 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -91,8 +90,8 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -104,9 +103,9 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
         backupVaultName,
         backupName,
         body,
-        options
+        options,
       },
-      spec: restoreFilesOperationSpec
+      spec: restoreFilesOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupsUnderBackupVaultRestoreFilesResponse,
@@ -114,7 +113,7 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -135,7 +134,7 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
     backupVaultName: string,
     backupName: string,
     body: BackupRestoreFiles,
-    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams
+    options?: BackupsUnderBackupVaultRestoreFilesOptionalParams,
   ): Promise<BackupsUnderBackupVaultRestoreFilesResponse> {
     const poller = await this.beginRestoreFiles(
       resourceGroupName,
@@ -143,7 +142,7 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
       backupVaultName,
       backupName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -152,27 +151,26 @@ export class BackupsUnderBackupVaultImpl implements BackupsUnderBackupVault {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const restoreFilesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}/restoreFiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}/restoreFiles",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders
+      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders,
     },
     201: {
-      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders
+      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders,
     },
     202: {
-      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders
+      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders,
     },
     204: {
-      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders
+      headersMapper: Mappers.BackupsUnderBackupVaultRestoreFilesHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body36,
+  requestBody: Parameters.body35,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -180,9 +178,9 @@ const restoreFilesOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupVaultName,
-    Parameters.backupName
+    Parameters.backupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

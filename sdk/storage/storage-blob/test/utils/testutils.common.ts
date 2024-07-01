@@ -37,6 +37,7 @@ const mockAccountName = "fakestorageaccount";
 // const mockMDAccountName = "md-fakestorageaccount";
 // const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
+const mockTenantId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
@@ -58,7 +59,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // which depends on this environment variable
     // ACCOUNT_TOKEN: `${mockAccountKey}`,
     AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockAccountKey}`,
+    AZURE_TENANT_ID: `${mockTenantId}`,
     AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     // MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     // MD_ACCOUNT_KEY: `${mockAccountKey}`,
@@ -71,6 +72,8 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
     // ORS_DEST_ACCOUNT_SAS: `${mockSas}`,
     // ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    ENCRYPTION_SCOPE_1: "test1",
+    ENCRYPTION_SCOPE_2: "test2",
     SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
@@ -96,6 +99,9 @@ export const recorderEnvSetup: RecorderStartOptions = {
       },
     ],
   },
+  removeCentralSanitizers: [
+    "AZSDK2011", // "x-ms-encryption-key-sha256" provided is a fake value from ./fakeTestSecrets.ts
+  ],
 };
 
 export const recorderEnvSetupWithCopySource: RecorderStartOptions = {
@@ -117,8 +123,8 @@ export const recorderEnvSetupWithCopySource: RecorderStartOptions = {
     // MD_ACCOUNT_KEY: `${mockAccountKey}`,
     // MD_ACCOUNT_SAS: `${mockSas}`,
     // MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
-    // ENCRYPTION_SCOPE_1: "antjoscope1",
-    // ENCRYPTION_SCOPE_2: "antjoscope2",
+    ENCRYPTION_SCOPE_1: "test1",
+    ENCRYPTION_SCOPE_2: "test2",
     // IMMUTABLE_CONTAINER_NAME: "fakecontainername",
     // ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
     // ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
@@ -146,6 +152,9 @@ export const recorderEnvSetupWithCopySource: RecorderStartOptions = {
       },
     ],
   },
+  removeCentralSanitizers: [
+    "AZSDK2008", // need copy source that is not "sanitized", URL is however sanitized through other sanitizers
+  ],
 };
 
 /**

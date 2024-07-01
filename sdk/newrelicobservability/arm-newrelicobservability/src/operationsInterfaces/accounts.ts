@@ -21,6 +21,6 @@ export interface Accounts {
   list(
     userEmail: string,
     location: string,
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): PagedAsyncIterableIterator<AccountResource>;
 }

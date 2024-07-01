@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
 import { MonitorQueryLog } from "./monitorQueryLog.spec";
 
 type MonitorQueryTestOptions = Record<string, unknown>;

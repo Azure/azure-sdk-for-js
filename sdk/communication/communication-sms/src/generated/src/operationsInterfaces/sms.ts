@@ -9,7 +9,7 @@
 import {
   SendMessageRequest,
   SmsSendOptionalParams,
-  SmsSendOperationResponse
+  SmsSendOperationResponse,
 } from "../models";
 
 /** Interface representing a Sms. */
@@ -21,6 +21,6 @@ export interface Sms {
    */
   send(
     sendMessageRequest: SendMessageRequest,
-    options?: SmsSendOptionalParams
+    options?: SmsSendOptionalParams,
   ): Promise<SmsSendOperationResponse>;
 }

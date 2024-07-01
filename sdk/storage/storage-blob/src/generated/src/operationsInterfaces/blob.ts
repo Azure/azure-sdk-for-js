@@ -56,7 +56,7 @@ import {
   BlobGetTagsOptionalParams,
   BlobGetTagsResponse,
   BlobSetTagsOptionalParams,
-  BlobSetTagsResponse
+  BlobSetTagsResponse,
 } from "../models";
 
 /** Interface representing a Blob. */
@@ -73,7 +73,7 @@ export interface Blob {
    * @param options The options parameters.
    */
   getProperties(
-    options?: BlobGetPropertiesOptionalParams
+    options?: BlobGetPropertiesOptionalParams,
   ): Promise<BlobGetPropertiesResponse>;
   /**
    * If the storage account's soft delete feature is disabled then, when a blob is deleted, it is
@@ -103,28 +103,28 @@ export interface Blob {
    */
   setExpiry(
     expiryOptions: BlobExpiryOptions,
-    options?: BlobSetExpiryOptionalParams
+    options?: BlobSetExpiryOptionalParams,
   ): Promise<BlobSetExpiryResponse>;
   /**
    * The Set HTTP Headers operation sets system properties on the blob
    * @param options The options parameters.
    */
   setHttpHeaders(
-    options?: BlobSetHttpHeadersOptionalParams
+    options?: BlobSetHttpHeadersOptionalParams,
   ): Promise<BlobSetHttpHeadersResponse>;
   /**
    * The Set Immutability Policy operation sets the immutability policy on the blob
    * @param options The options parameters.
    */
   setImmutabilityPolicy(
-    options?: BlobSetImmutabilityPolicyOptionalParams
+    options?: BlobSetImmutabilityPolicyOptionalParams,
   ): Promise<BlobSetImmutabilityPolicyResponse>;
   /**
    * The Delete Immutability Policy operation deletes the immutability policy on the blob
    * @param options The options parameters.
    */
   deleteImmutabilityPolicy(
-    options?: BlobDeleteImmutabilityPolicyOptionalParams
+    options?: BlobDeleteImmutabilityPolicyOptionalParams,
   ): Promise<BlobDeleteImmutabilityPolicyResponse>;
   /**
    * The Set Legal Hold operation sets a legal hold on the blob.
@@ -133,7 +133,7 @@ export interface Blob {
    */
   setLegalHold(
     legalHold: boolean,
-    options?: BlobSetLegalHoldOptionalParams
+    options?: BlobSetLegalHoldOptionalParams,
   ): Promise<BlobSetLegalHoldResponse>;
   /**
    * The Set Blob Metadata operation sets user-defined metadata for the specified blob as one or more
@@ -141,7 +141,7 @@ export interface Blob {
    * @param options The options parameters.
    */
   setMetadata(
-    options?: BlobSetMetadataOptionalParams
+    options?: BlobSetMetadataOptionalParams,
   ): Promise<BlobSetMetadataResponse>;
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
@@ -149,7 +149,7 @@ export interface Blob {
    * @param options The options parameters.
    */
   acquireLease(
-    options?: BlobAcquireLeaseOptionalParams
+    options?: BlobAcquireLeaseOptionalParams,
   ): Promise<BlobAcquireLeaseResponse>;
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
@@ -159,7 +159,7 @@ export interface Blob {
    */
   releaseLease(
     leaseId: string,
-    options?: BlobReleaseLeaseOptionalParams
+    options?: BlobReleaseLeaseOptionalParams,
   ): Promise<BlobReleaseLeaseResponse>;
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
@@ -169,7 +169,7 @@ export interface Blob {
    */
   renewLease(
     leaseId: string,
-    options?: BlobRenewLeaseOptionalParams
+    options?: BlobRenewLeaseOptionalParams,
   ): Promise<BlobRenewLeaseResponse>;
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
@@ -183,7 +183,7 @@ export interface Blob {
   changeLease(
     leaseId: string,
     proposedLeaseId: string,
-    options?: BlobChangeLeaseOptionalParams
+    options?: BlobChangeLeaseOptionalParams,
   ): Promise<BlobChangeLeaseResponse>;
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
@@ -191,14 +191,14 @@ export interface Blob {
    * @param options The options parameters.
    */
   breakLease(
-    options?: BlobBreakLeaseOptionalParams
+    options?: BlobBreakLeaseOptionalParams,
   ): Promise<BlobBreakLeaseResponse>;
   /**
    * The Create Snapshot operation creates a read-only snapshot of a blob
    * @param options The options parameters.
    */
   createSnapshot(
-    options?: BlobCreateSnapshotOptionalParams
+    options?: BlobCreateSnapshotOptionalParams,
   ): Promise<BlobCreateSnapshotResponse>;
   /**
    * The Start Copy From URL operation copies a blob or an internet resource to a new blob.
@@ -210,7 +210,7 @@ export interface Blob {
    */
   startCopyFromURL(
     copySource: string,
-    options?: BlobStartCopyFromURLOptionalParams
+    options?: BlobStartCopyFromURLOptionalParams,
   ): Promise<BlobStartCopyFromURLResponse>;
   /**
    * The Copy From URL operation copies a blob or an internet resource to a new blob. It will not return
@@ -223,7 +223,7 @@ export interface Blob {
    */
   copyFromURL(
     copySource: string,
-    options?: BlobCopyFromURLOptionalParams
+    options?: BlobCopyFromURLOptionalParams,
   ): Promise<BlobCopyFromURLResponse>;
   /**
    * The Abort Copy From URL operation aborts a pending Copy From URL operation, and leaves a destination
@@ -234,7 +234,7 @@ export interface Blob {
    */
   abortCopyFromURL(
     copyId: string,
-    options?: BlobAbortCopyFromURLOptionalParams
+    options?: BlobAbortCopyFromURLOptionalParams,
   ): Promise<BlobAbortCopyFromURLResponse>;
   /**
    * The Set Tier operation sets the tier on a blob. The operation is allowed on a page blob in a premium
@@ -247,14 +247,14 @@ export interface Blob {
    */
   setTier(
     tier: AccessTier,
-    options?: BlobSetTierOptionalParams
+    options?: BlobSetTierOptionalParams,
   ): Promise<BlobSetTierResponse>;
   /**
    * Returns the sku name and account kind
    * @param options The options parameters.
    */
   getAccountInfo(
-    options?: BlobGetAccountInfoOptionalParams
+    options?: BlobGetAccountInfoOptionalParams,
   ): Promise<BlobGetAccountInfoResponse>;
   /**
    * The Query operation enables users to select/project on blob data by providing simple query

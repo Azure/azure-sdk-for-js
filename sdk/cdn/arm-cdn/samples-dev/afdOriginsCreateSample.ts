@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new origin within the specified origin group.
  *
  * @summary Creates a new origin within the specified origin group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDOrigins_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOrigins_Create.json
  */
 async function afdOriginsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function afdOriginsCreate() {
     hostName: "host1.blob.core.windows.net",
     httpPort: 80,
     httpsPort: 443,
-    originHostHeader: "host1.foo.com"
+    originHostHeader: "host1.foo.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function afdOriginsCreate() {
     profileName,
     originGroupName,
     originName,
-    origin
+    origin,
   );
   console.log(result);
 }

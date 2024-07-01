@@ -19,14 +19,14 @@ export interface MetricsBatch {
    * @param subscriptionId The subscription identifier for the resources in this batch.
    * @param metricnamespace Metric namespace that contains the requested metric names.
    * @param metricnames The names of the metrics (comma separated) to retrieve.
-   * @param resourceIds The comma separated list of resource IDs to query metrics for.
+   * @param batchRequest Metrics batch body including the list of resource ids
    * @param options The options parameters.
    */
   batch(
     subscriptionId: string,
     metricnamespace: string,
     metricnames: string[],
-    resourceIds: ResourceIdList,
+    batchRequest: ResourceIdList,
     options?: MetricsBatchBatchOptionalParams
   ): Promise<MetricsBatchBatchResponse>;
 }

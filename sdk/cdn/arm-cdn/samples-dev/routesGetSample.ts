@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  *
  * @summary Gets an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Routes_Get.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Routes_Get.json
  */
 async function routesGet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function routesGet() {
     resourceGroupName,
     profileName,
     endpointName,
-    routeName
+    routeName,
   );
   console.log(result);
 }

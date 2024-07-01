@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new custom domain within an endpoint.
  *
  * @summary Creates a new custom domain within an endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/CustomDomains_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_Create.json
  */
 async function customDomainsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function customDomainsCreate() {
   const endpointName = "endpoint1";
   const customDomainName = "www-someDomain-net";
   const customDomainProperties: CustomDomainParameters = {
-    hostName: "www.someDomain.net"
+    hostName: "www.someDomain.net",
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -36,7 +36,7 @@ async function customDomainsCreate() {
     profileName,
     endpointName,
     customDomainName,
-    customDomainProperties
+    customDomainProperties,
   );
   console.log(result);
 }

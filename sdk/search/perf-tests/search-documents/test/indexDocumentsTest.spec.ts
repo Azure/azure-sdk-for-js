@@ -1,5 +1,5 @@
 import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { generateHotels } from "./core/documentsGenerator";
 import { Hotel } from "./core/hotel";
 import { IndexDocumentsBatch } from "@azure/search-documents";

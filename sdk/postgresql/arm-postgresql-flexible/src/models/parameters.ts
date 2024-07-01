@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ActiveDirectoryAdministratorAdd as ActiveDirectoryAdministratorAddMapper,
@@ -30,7 +30,7 @@ import {
   ServerThreatProtectionSettingsModel as ServerThreatProtectionSettingsModelMapper,
   VirtualEndpointResource as VirtualEndpointResourceMapper,
   VirtualEndpointResourceForPatch as VirtualEndpointResourceForPatchMapper,
-  VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper
+  VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -40,14 +40,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ActiveDirectoryAdministratorAddMapper
+  mapper: ActiveDirectoryAdministratorAddMapper,
 };
 
 export const accept: OperationParameter = {
@@ -57,9 +57,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -68,10 +68,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -80,9 +80,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -90,14 +90,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const serverName: OperationURLParameter = {
@@ -106,14 +106,14 @@ export const serverName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "serverName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const objectId: OperationURLParameter = {
@@ -122,21 +122,21 @@ export const objectId: OperationURLParameter = {
     serializedName: "objectId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01-preview",
+    defaultValue: "2023-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -145,10 +145,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const backupName: OperationURLParameter = {
@@ -156,14 +156,14 @@ export const backupName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._]+$"),
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "backupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const locationName: OperationURLParameter = {
@@ -171,19 +171,19 @@ export const locationName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._]+$"),
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "locationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nameAvailabilityRequest: OperationParameter = {
   parameterPath: "nameAvailabilityRequest",
-  mapper: CheckNameAvailabilityRequestMapper
+  mapper: CheckNameAvailabilityRequestMapper,
 };
 
 export const configurationName: OperationURLParameter = {
@@ -191,29 +191,29 @@ export const configurationName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._]+$"),
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationForUpdateMapper
+  mapper: ConfigurationForUpdateMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationMapper
+  mapper: ConfigurationMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DatabaseMapper
+  mapper: DatabaseMapper,
 };
 
 export const databaseName: OperationURLParameter = {
@@ -221,19 +221,19 @@ export const databaseName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._]+$"),
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "databaseName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: FirewallRuleMapper
+  mapper: FirewallRuleMapper,
 };
 
 export const firewallRuleName: OperationURLParameter = {
@@ -241,58 +241,58 @@ export const firewallRuleName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._]+$"),
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "firewallRuleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ServerMapper
+  mapper: ServerMapper,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ServerForUpdateMapper
+  mapper: ServerForUpdateMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: RestartParameterMapper
+  mapper: RestartParameterMapper,
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: LtrPreBackupRequestMapper
+  mapper: LtrPreBackupRequestMapper,
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: LtrBackupRequestMapper
+  mapper: LtrBackupRequestMapper,
 };
 
 export const backupName1: OperationURLParameter = {
   parameterPath: "backupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*")
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*"),
     },
     serializedName: "backupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: MigrationResourceMapper
+  mapper: MigrationResourceMapper,
 };
 
 export const subscriptionId1: OperationURLParameter = {
@@ -300,62 +300,62 @@ export const subscriptionId1: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "([a-z0-9]){8,8}[-]([a-z0-9]){4,4}[-]([a-z0-9]){4,4}[-]([a-z0-9]){4,4}[-]([a-z0-9]){12,12}"
-      )
+        "([a-z0-9]){8,8}[-]([a-z0-9]){4,4}[-]([a-z0-9]){4,4}[-]([a-z0-9]){4,4}[-]([a-z0-9]){12,12}",
+      ),
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName1: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-a-z0-9A-Z._()]+[^.]$")
+      Pattern: new RegExp("^[-a-z0-9A-Z._()]+[^.]$"),
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const targetDbServerName: OperationURLParameter = {
   parameterPath: "targetDbServerName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("([-a-z0-9]){3,63}")
+      Pattern: new RegExp("([-a-z0-9]){3,63}"),
     },
     serializedName: "targetDbServerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const migrationName: OperationURLParameter = {
   parameterPath: "migrationName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]*$")
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
     },
     serializedName: "migrationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: MigrationResourceForPatchMapper
+  mapper: MigrationResourceForPatchMapper,
 };
 
 export const migrationListFilter: OperationQueryParameter = {
@@ -363,47 +363,47 @@ export const migrationListFilter: OperationQueryParameter = {
   mapper: {
     serializedName: "migrationListFilter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters12: OperationParameter = {
   parameterPath: "parameters",
-  mapper: MigrationNameAvailabilityResourceMapper
+  mapper: MigrationNameAvailabilityResourceMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]*\\.[a-fA-F0-9\\-]+$")
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]*\\.[a-fA-F0-9\\-]+$"),
     },
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters13: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const groupName: OperationURLParameter = {
   parameterPath: "groupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "groupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const threatProtectionName: OperationURLParameter = {
@@ -412,19 +412,19 @@ export const threatProtectionName: OperationURLParameter = {
     serializedName: "threatProtectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters14: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ServerThreatProtectionSettingsModelMapper
+  mapper: ServerThreatProtectionSettingsModelMapper,
 };
 
 export const parameters15: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualEndpointResourceMapper
+  mapper: VirtualEndpointResourceMapper,
 };
 
 export const virtualEndpointName: OperationURLParameter = {
@@ -433,22 +433,22 @@ export const virtualEndpointName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]{0,62}(?<!-)$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "virtualEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters16: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualEndpointResourceForPatchMapper
+  mapper: VirtualEndpointResourceForPatchMapper,
 };
 
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualNetworkSubnetUsageParameterMapper
+  mapper: VirtualNetworkSubnetUsageParameterMapper,
 };

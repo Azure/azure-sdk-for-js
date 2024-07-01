@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RestorableMongodbCollectionGetResult,
-  RestorableMongodbCollectionsListOptionalParams
+  RestorableMongodbCollectionsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,6 +26,6 @@ export interface RestorableMongodbCollections {
   list(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
+    options?: RestorableMongodbCollectionsListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableMongodbCollectionGetResult>;
 }

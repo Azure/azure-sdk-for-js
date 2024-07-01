@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new origin group within the specified profile.
  *
  * @summary Creates a new origin group within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDOriginGroups_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOriginGroups_Create.json
  */
 async function afdOriginGroupsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,14 +30,14 @@ async function afdOriginGroupsCreate() {
       probeIntervalInSeconds: 10,
       probePath: "/path2",
       probeProtocol: "NotSet",
-      probeRequestType: "NotSet"
+      probeRequestType: "NotSet",
     },
     loadBalancingSettings: {
       additionalLatencyInMilliseconds: 1000,
       sampleSize: 3,
-      successfulSamplesRequired: 3
+      successfulSamplesRequired: 3,
     },
-    trafficRestorationTimeToHealedOrNewEndpointsInMinutes: 5
+    trafficRestorationTimeToHealedOrNewEndpointsInMinutes: 5,
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function afdOriginGroupsCreate() {
     resourceGroupName,
     profileName,
     originGroupName,
-    originGroup
+    originGroup,
   );
   console.log(result);
 }

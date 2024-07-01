@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Unregister configuration for resource.
  *
  * @summary Unregister configuration for resource.
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/stable/2023-04-01/examples/ConfigurationAssignmentsForResourceGroup_Delete.json
+ * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignmentsForResourceGroup_Delete.json
  */
 async function configurationAssignmentsForResourceGroupDelete() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function configurationAssignmentsForResourceGroupDelete() {
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const result = await client.configurationAssignmentsForResourceGroup.delete(
     resourceGroupName,
-    configurationAssignmentName
+    configurationAssignmentName,
   );
   console.log(result);
 }

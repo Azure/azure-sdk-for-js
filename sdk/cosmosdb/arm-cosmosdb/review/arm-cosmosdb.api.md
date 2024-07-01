@@ -83,6 +83,9 @@ export interface AutoUpgradePolicyResource {
 }
 
 // @public
+export type AzureConnectionType = string;
+
+// @public
 export interface BackupInformation {
     readonly continuousBackupInformation?: ContinuousBackupInformation;
 }
@@ -659,6 +662,7 @@ export interface ClusterResource extends ManagedCassandraARMResourceProperties {
 // @public
 export interface ClusterResourceProperties {
     authenticationMethod?: AuthenticationMethod;
+    azureConnectionMethod?: AzureConnectionType;
     cassandraAuditLoggingEnabled?: boolean;
     cassandraVersion?: string;
     clientCertificates?: Certificate[];
@@ -670,6 +674,7 @@ export interface ClusterResourceProperties {
     readonly gossipCertificates?: Certificate[];
     hoursBetweenBackups?: number;
     initialCassandraAdminPassword?: string;
+    readonly privateLinkResourceId?: string;
     prometheusEndpoint?: SeedNode;
     provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
@@ -1421,6 +1426,7 @@ export interface DataCenterResourceProperties {
     diskSku?: string;
     managedDiskCustomerKeyUri?: string;
     nodeCount?: number;
+    privateEndpointIpAddress?: string;
     provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
     readonly seedNodes?: SeedNode[];
@@ -1437,6 +1443,11 @@ export interface DataTransferServiceResource {
 }
 
 // @public
+export interface DataTransferServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
+    serviceType: "DataTransfer";
+}
+
+// @public
 export interface DataTransferServiceResourceProperties extends ServiceResourceProperties {
     readonly locations?: DataTransferRegionalServiceResource[];
     serviceType: "DataTransfer";
@@ -1444,6 +1455,9 @@ export interface DataTransferServiceResourceProperties extends ServiceResourcePr
 
 // @public
 export type DataType = string;
+
+// @public
+export type DedicatedGatewayType = string;
 
 // @public
 export type DefaultConsistencyLevel = "Eventual" | "Session" | "BoundedStaleness" | "Strong" | "ConsistentPrefix";
@@ -1489,6 +1503,11 @@ export interface GraphAPIComputeRegionalServiceResource extends RegionalServiceR
 // @public
 export interface GraphAPIComputeServiceResource {
     properties?: GraphAPIComputeServiceResourceProperties;
+}
+
+// @public
+export interface GraphAPIComputeServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
+    serviceType: "GraphAPICompute";
 }
 
 // @public
@@ -1883,6 +1902,12 @@ export enum KnownAuthenticationMethod {
 }
 
 // @public
+export enum KnownAzureConnectionType {
+    None = "None",
+    VPN = "VPN"
+}
+
+// @public
 export enum KnownBackupPolicyMigrationStatus {
     Completed = "Completed",
     Failed = "Failed",
@@ -1965,6 +1990,12 @@ export enum KnownDataType {
     Point = "Point",
     Polygon = "Polygon",
     String = "String"
+}
+
+// @public
+export enum KnownDedicatedGatewayType {
+    DistributedQuery = "DistributedQuery",
+    IntegratedCache = "IntegratedCache"
 }
 
 // @public
@@ -2080,8 +2111,10 @@ export enum KnownRestoreMode {
 
 // @public
 export enum KnownServerVersion {
+    Five0 = "5.0",
     Four0 = "4.0",
     Four2 = "4.2",
+    Six0 = "6.0",
     Three2 = "3.2",
     Three6 = "3.6"
 }
@@ -2282,6 +2315,11 @@ export interface MaterializedViewsBuilderRegionalServiceResource extends Regiona
 // @public
 export interface MaterializedViewsBuilderServiceResource {
     properties?: MaterializedViewsBuilderServiceResourceProperties;
+}
+
+// @public
+export interface MaterializedViewsBuilderServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
+    serviceType: "MaterializedViewsBuilder";
 }
 
 // @public
@@ -3740,10 +3778,18 @@ export interface ServiceResource extends ARMProxyResource {
 
 // @public
 export interface ServiceResourceCreateUpdateParameters {
+    properties?: ServiceResourceCreateUpdatePropertiesUnion;
+}
+
+// @public
+export interface ServiceResourceCreateUpdateProperties {
     instanceCount?: number;
     instanceSize?: ServiceSize;
-    serviceType?: ServiceType;
+    serviceType: "DataTransfer" | "SqlDedicatedGateway" | "GraphAPICompute" | "MaterializedViewsBuilder";
 }
+
+// @public (undocumented)
+export type ServiceResourceCreateUpdatePropertiesUnion = ServiceResourceCreateUpdateProperties | DataTransferServiceResourceCreateUpdateProperties | SqlDedicatedGatewayServiceResourceCreateUpdateProperties | GraphAPIComputeServiceResourceCreateUpdateProperties | MaterializedViewsBuilderServiceResourceCreateUpdateProperties;
 
 // @public
 export interface ServiceResourceListResult {
@@ -3870,7 +3916,14 @@ export interface SqlDedicatedGatewayServiceResource {
 }
 
 // @public
+export interface SqlDedicatedGatewayServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
+    dedicatedGatewayType?: DedicatedGatewayType;
+    serviceType: "SqlDedicatedGateway";
+}
+
+// @public
 export interface SqlDedicatedGatewayServiceResourceProperties extends ServiceResourceProperties {
+    dedicatedGatewayType?: DedicatedGatewayType;
     readonly locations?: SqlDedicatedGatewayRegionalServiceResource[];
     serviceType: "SqlDedicatedGateway";
     sqlDedicatedGatewayEndpoint?: string;

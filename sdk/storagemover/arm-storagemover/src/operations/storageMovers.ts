@@ -16,7 +16,7 @@ import { StorageMoverClient } from "../storageMoverClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   StorageMoversUpdateResponse,
   StorageMoversDeleteOptionalParams,
   StorageMoversListBySubscriptionNextResponse,
-  StorageMoversListNextResponse
+  StorageMoversListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class StorageMoversImpl implements StorageMovers {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: StorageMoversListBySubscriptionOptionalParams
+    options?: StorageMoversListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<StorageMover> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class StorageMoversImpl implements StorageMovers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: StorageMoversListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageMover[]> {
     let result: StorageMoversListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class StorageMoversImpl implements StorageMovers {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: StorageMoversListBySubscriptionOptionalParams
+    options?: StorageMoversListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<StorageMover> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class StorageMoversImpl implements StorageMovers {
    */
   public list(
     resourceGroupName: string,
-    options?: StorageMoversListOptionalParams
+    options?: StorageMoversListOptionalParams,
   ): PagedAsyncIterableIterator<StorageMover> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -128,14 +128,14 @@ export class StorageMoversImpl implements StorageMovers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: StorageMoversListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageMover[]> {
     let result: StorageMoversListResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class StorageMoversImpl implements StorageMovers {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,7 +161,7 @@ export class StorageMoversImpl implements StorageMovers {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: StorageMoversListOptionalParams
+    options?: StorageMoversListOptionalParams,
   ): AsyncIterableIterator<StorageMover> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -173,11 +173,11 @@ export class StorageMoversImpl implements StorageMovers {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: StorageMoversListBySubscriptionOptionalParams
+    options?: StorageMoversListBySubscriptionOptionalParams,
   ): Promise<StorageMoversListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -188,11 +188,11 @@ export class StorageMoversImpl implements StorageMovers {
    */
   private _list(
     resourceGroupName: string,
-    options?: StorageMoversListOptionalParams
+    options?: StorageMoversListOptionalParams,
   ): Promise<StorageMoversListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -205,11 +205,11 @@ export class StorageMoversImpl implements StorageMovers {
   get(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: StorageMoversGetOptionalParams
+    options?: StorageMoversGetOptionalParams,
   ): Promise<StorageMoversGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -225,11 +225,11 @@ export class StorageMoversImpl implements StorageMovers {
     resourceGroupName: string,
     storageMoverName: string,
     storageMover: StorageMover,
-    options?: StorageMoversCreateOrUpdateOptionalParams
+    options?: StorageMoversCreateOrUpdateOptionalParams,
   ): Promise<StorageMoversCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, storageMover, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -245,11 +245,11 @@ export class StorageMoversImpl implements StorageMovers {
     resourceGroupName: string,
     storageMoverName: string,
     storageMover: StorageMoverUpdateParameters,
-    options?: StorageMoversUpdateOptionalParams
+    options?: StorageMoversUpdateOptionalParams,
   ): Promise<StorageMoversUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageMoverName, storageMover, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -262,25 +262,24 @@ export class StorageMoversImpl implements StorageMovers {
   async beginDelete(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: StorageMoversDeleteOptionalParams
+    options?: StorageMoversDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -289,8 +288,8 @@ export class StorageMoversImpl implements StorageMovers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -298,20 +297,20 @@ export class StorageMoversImpl implements StorageMovers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, storageMoverName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -326,12 +325,12 @@ export class StorageMoversImpl implements StorageMovers {
   async beginDeleteAndWait(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: StorageMoversDeleteOptionalParams
+    options?: StorageMoversDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       storageMoverName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -343,11 +342,11 @@ export class StorageMoversImpl implements StorageMovers {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: StorageMoversListBySubscriptionNextOptionalParams
+    options?: StorageMoversListBySubscriptionNextOptionalParams,
   ): Promise<StorageMoversListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -360,11 +359,11 @@ export class StorageMoversImpl implements StorageMovers {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: StorageMoversListNextOptionalParams
+    options?: StorageMoversListNextOptionalParams,
   ): Promise<StorageMoversListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -372,76 +371,72 @@ export class StorageMoversImpl implements StorageMovers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageMover/storageMovers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageMover/storageMovers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageMoverList
+      bodyMapper: Mappers.StorageMoverList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageMoverList
+      bodyMapper: Mappers.StorageMoverList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageMover
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageMoverName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageMover,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageMoverName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageMover
+      bodyMapper: Mappers.StorageMover,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.storageMover,
   queryParameters: [Parameters.apiVersion],
@@ -449,23 +444,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageMoverName
+    Parameters.storageMoverName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageMover
+      bodyMapper: Mappers.StorageMover,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.storageMover1,
   queryParameters: [Parameters.apiVersion],
@@ -473,15 +467,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageMoverName
+    Parameters.storageMoverName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -489,55 +482,55 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageMoverName
+    Parameters.storageMoverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageMoverList
+      bodyMapper: Mappers.StorageMoverList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageMoverList
+      bodyMapper: Mappers.StorageMoverList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

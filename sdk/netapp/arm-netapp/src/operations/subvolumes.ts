@@ -16,7 +16,7 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -34,7 +34,7 @@ import {
   SubvolumesDeleteOptionalParams,
   SubvolumesGetMetadataOptionalParams,
   SubvolumesGetMetadataResponse,
-  SubvolumesListByVolumeNextResponse
+  SubvolumesListByVolumeNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,14 +63,14 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
+    options?: SubvolumesListByVolumeOptionalParams,
   ): PagedAsyncIterableIterator<SubvolumeInfo> {
     const iter = this.listByVolumePagingAll(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options
+      options,
     );
     return {
       next() {
@@ -89,9 +89,9 @@ export class SubvolumesImpl implements Subvolumes {
           poolName,
           volumeName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -101,7 +101,7 @@ export class SubvolumesImpl implements Subvolumes {
     poolName: string,
     volumeName: string,
     options?: SubvolumesListByVolumeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubvolumeInfo[]> {
     let result: SubvolumesListByVolumeResponse;
     let continuationToken = settings?.continuationToken;
@@ -111,7 +111,7 @@ export class SubvolumesImpl implements Subvolumes {
         accountName,
         poolName,
         volumeName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -125,7 +125,7 @@ export class SubvolumesImpl implements Subvolumes {
         poolName,
         volumeName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -139,14 +139,14 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
+    options?: SubvolumesListByVolumeOptionalParams,
   ): AsyncIterableIterator<SubvolumeInfo> {
     for await (const page of this.listByVolumePagingPage(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -165,11 +165,11 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
+    options?: SubvolumesListByVolumeOptionalParams,
   ): Promise<SubvolumesListByVolumeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
-      listByVolumeOperationSpec
+      listByVolumeOperationSpec,
     );
   }
 
@@ -188,7 +188,7 @@ export class SubvolumesImpl implements Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesGetOptionalParams
+    options?: SubvolumesGetOptionalParams,
   ): Promise<SubvolumesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -197,9 +197,9 @@ export class SubvolumesImpl implements Subvolumes {
         poolName,
         volumeName,
         subvolumeName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -220,7 +220,7 @@ export class SubvolumesImpl implements Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumeInfo,
-    options?: SubvolumesCreateOptionalParams
+    options?: SubvolumesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SubvolumesCreateResponse>,
@@ -229,21 +229,20 @@ export class SubvolumesImpl implements Subvolumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SubvolumesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -252,8 +251,8 @@ export class SubvolumesImpl implements Subvolumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -261,8 +260,8 @@ export class SubvolumesImpl implements Subvolumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -275,9 +274,9 @@ export class SubvolumesImpl implements Subvolumes {
         volumeName,
         subvolumeName,
         body,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       SubvolumesCreateResponse,
@@ -285,7 +284,7 @@ export class SubvolumesImpl implements Subvolumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -308,7 +307,7 @@ export class SubvolumesImpl implements Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumeInfo,
-    options?: SubvolumesCreateOptionalParams
+    options?: SubvolumesCreateOptionalParams,
   ): Promise<SubvolumesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -317,7 +316,7 @@ export class SubvolumesImpl implements Subvolumes {
       volumeName,
       subvolumeName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -339,7 +338,7 @@ export class SubvolumesImpl implements Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumePatchRequest,
-    options?: SubvolumesUpdateOptionalParams
+    options?: SubvolumesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SubvolumesUpdateResponse>,
@@ -348,21 +347,20 @@ export class SubvolumesImpl implements Subvolumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SubvolumesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -371,8 +369,8 @@ export class SubvolumesImpl implements Subvolumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -380,8 +378,8 @@ export class SubvolumesImpl implements Subvolumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -394,9 +392,9 @@ export class SubvolumesImpl implements Subvolumes {
         volumeName,
         subvolumeName,
         body,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SubvolumesUpdateResponse,
@@ -404,7 +402,7 @@ export class SubvolumesImpl implements Subvolumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -427,7 +425,7 @@ export class SubvolumesImpl implements Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumePatchRequest,
-    options?: SubvolumesUpdateOptionalParams
+    options?: SubvolumesUpdateOptionalParams,
   ): Promise<SubvolumesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -436,7 +434,7 @@ export class SubvolumesImpl implements Subvolumes {
       volumeName,
       subvolumeName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -456,25 +454,24 @@ export class SubvolumesImpl implements Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesDeleteOptionalParams
+    options?: SubvolumesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -483,8 +480,8 @@ export class SubvolumesImpl implements Subvolumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -492,8 +489,8 @@ export class SubvolumesImpl implements Subvolumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -505,14 +502,14 @@ export class SubvolumesImpl implements Subvolumes {
         poolName,
         volumeName,
         subvolumeName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -533,7 +530,7 @@ export class SubvolumesImpl implements Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesDeleteOptionalParams
+    options?: SubvolumesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -541,7 +538,7 @@ export class SubvolumesImpl implements Subvolumes {
       poolName,
       volumeName,
       subvolumeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -561,7 +558,7 @@ export class SubvolumesImpl implements Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesGetMetadataOptionalParams
+    options?: SubvolumesGetMetadataOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SubvolumesGetMetadataResponse>,
@@ -570,21 +567,20 @@ export class SubvolumesImpl implements Subvolumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SubvolumesGetMetadataResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -593,8 +589,8 @@ export class SubvolumesImpl implements Subvolumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -602,8 +598,8 @@ export class SubvolumesImpl implements Subvolumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -615,9 +611,9 @@ export class SubvolumesImpl implements Subvolumes {
         poolName,
         volumeName,
         subvolumeName,
-        options
+        options,
       },
-      spec: getMetadataOperationSpec
+      spec: getMetadataOperationSpec,
     });
     const poller = await createHttpPoller<
       SubvolumesGetMetadataResponse,
@@ -625,7 +621,7 @@ export class SubvolumesImpl implements Subvolumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -646,7 +642,7 @@ export class SubvolumesImpl implements Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesGetMetadataOptionalParams
+    options?: SubvolumesGetMetadataOptionalParams,
   ): Promise<SubvolumesGetMetadataResponse> {
     const poller = await this.beginGetMetadata(
       resourceGroupName,
@@ -654,7 +650,7 @@ export class SubvolumesImpl implements Subvolumes {
       poolName,
       volumeName,
       subvolumeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -674,7 +670,7 @@ export class SubvolumesImpl implements Subvolumes {
     poolName: string,
     volumeName: string,
     nextLink: string,
-    options?: SubvolumesListByVolumeNextOptionalParams
+    options?: SubvolumesListByVolumeNextOptionalParams,
   ): Promise<SubvolumesListByVolumeNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -683,9 +679,9 @@ export class SubvolumesImpl implements Subvolumes {
         poolName,
         volumeName,
         nextLink,
-        options
+        options,
       },
-      listByVolumeNextOperationSpec
+      listByVolumeNextOperationSpec,
     );
   }
 }
@@ -693,36 +689,15 @@ export class SubvolumesImpl implements Subvolumes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByVolumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumesList
+      bodyMapper: Mappers.SubvolumesList,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SubvolumeInfo
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -732,31 +707,55 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubvolumeInfo,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+    Parameters.subvolumeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
     201: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
     202: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
     204: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body32,
+  requestBody: Parameters.body29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -765,32 +764,33 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
+    Parameters.subvolumeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
     201: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
     202: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
     204: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.SubvolumeInfo,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body33,
+  requestBody: Parameters.body30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -799,47 +799,23 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
+    Parameters.subvolumeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-    Parameters.subvolumeName
-  ],
-  serializer
-};
-const getMetadataOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}/getMetadata",
-  httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.SubvolumeModel
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.SubvolumeModel
-    },
-    202: {
-      bodyMapper: Mappers.SubvolumeModel
-    },
-    204: {
-      bodyMapper: Mappers.SubvolumeModel
-    },
-    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -849,19 +825,54 @@ const getMetadataOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
+    Parameters.subvolumeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getMetadataOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}/getMetadata",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubvolumeModel,
+    },
+    201: {
+      bodyMapper: Mappers.SubvolumeModel,
+    },
+    202: {
+      bodyMapper: Mappers.SubvolumeModel,
+    },
+    204: {
+      bodyMapper: Mappers.SubvolumeModel,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+    Parameters.subvolumeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByVolumeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumesList
+      bodyMapper: Mappers.SubvolumesList,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -870,8 +881,8 @@ const listByVolumeNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName
+    Parameters.volumeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

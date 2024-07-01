@@ -1,10 +1,48 @@
 # Release History
 
-## 1.14.1 (Unreleased)
+## 1.16.2 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.16.1 (2024-06-24)
+
+### Bugs Fixed
+
+- Tracing spans will now correctly sanitize query parameters in the http.url span attribute. [#29606](https://github.com/Azure/azure-sdk-for-js/pull/29606)
+- Improve robustness of tokenCycler [PR #29638](https://github.com/Azure/azure-sdk-for-js/pull/29638)
+- Fix platform specific data [PR #30011](https://github.com/Azure/azure-sdk-for-js/pull/30011)
+- Fix react-native issue [#30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
+- Improve browser telemetry [PR# 30096](https://github.com/Azure/azure-sdk-for-js/pull/30096), [PR #30128](https://github.com/Azure/azure-sdk-for-js/pull/30128)
+
+## 1.16.0 (2024-05-02)
+
+### Features Added
+
+- The FormData global is now a supported request body type in Node in addition to the browser.
+
+## 1.15.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.15.1 (2024-03-20)
+
+### Bugs Fixed
+
+- Fixed an issue where `proxyPolicy` was ignoring a custom port setting. [PR #28974](https://github.com/Azure/azure-sdk-for-js/pull/28974)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.15.0 (2024-03-12)
 
 ### Bugs Fixed
 
@@ -13,6 +51,8 @@
 ### Other Changes
 
 - In the browser, `formDataPolicy` once again uses `multipartPolicy` when content type is `multipart/form-data`. This functionality was removed in 1.14.0, but has now been re-enabled.
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 1.14.0 (2024-02-01)
 

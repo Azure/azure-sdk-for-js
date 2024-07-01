@@ -28,11 +28,12 @@ async function createsAnNetworkExperimentProfileInAResourceGroup() {
   const parameters: Profile = { enabledState: "Enabled", location: "WestUs" };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.networkExperimentProfiles.beginCreateOrUpdateAndWait(
-    profileName,
-    resourceGroupName,
-    parameters
-  );
+  const result =
+    await client.networkExperimentProfiles.beginCreateOrUpdateAndWait(
+      profileName,
+      resourceGroupName,
+      parameters,
+    );
   console.log(result);
 }
 

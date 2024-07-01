@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a Project resource.
  *
  * @summary Deletes a Project resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Projects_Delete.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Projects_Delete.json
  */
 async function projectsDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function projectsDelete() {
   const result = await client.projects.beginDeleteAndWait(
     resourceGroupName,
     storageMoverName,
-    projectName
+    projectName,
   );
   console.log(result);
 }

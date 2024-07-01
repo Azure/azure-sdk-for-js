@@ -15,7 +15,7 @@ require("dotenv").config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
 
   const initialResponse = await client
@@ -49,7 +49,7 @@ async function main() {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
       console.log(
-        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`,
       );
 
       if (page.lines && page.lines.length > 0) {
@@ -68,7 +68,7 @@ async function main() {
     console.log("Languages:");
     for (const languageEntry of languages) {
       console.log(
-        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`
+        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`,
       );
     }
   }
@@ -79,7 +79,7 @@ async function main() {
     console.log("Styles:");
     for (const style of styles) {
       console.log(
-        `- Handwritten: ${style.isHandwritten ? "yes" : "no"} (confidence=${style.confidence})`
+        `- Handwritten: ${style.isHandwritten ? "yes" : "no"} (confidence=${style.confidence})`,
       );
     }
   }

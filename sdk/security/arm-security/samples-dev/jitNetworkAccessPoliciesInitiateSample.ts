@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   JitNetworkAccessPolicyInitiateRequest,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,11 +34,10 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
     justification: "testing a new version of the product",
     virtualMachines: [
       {
-        id:
-          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
-        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389, endTimeUtc: new Date() }]
-      }
-    ]
+        id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389, endTimeUtc: new Date() }],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -46,7 +45,7 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
     resourceGroupName,
     ascLocation,
     jitNetworkAccessPolicyName,
-    body
+    body,
   );
   console.log(result);
 }

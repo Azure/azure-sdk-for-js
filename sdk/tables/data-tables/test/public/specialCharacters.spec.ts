@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 describe("SpecialCharacters", function () {
   before(function (this: Context) {
@@ -17,7 +17,7 @@ describe("SpecialCharacters", function () {
     }
   });
   let client: TableClient;
-  const suffix = isNode ? "Node" : "Browser";
+  const suffix = isNodeLike ? "Node" : "Browser";
   const tableName = `SpecialCharacterTest${suffix}`;
   const specialCharacters = [
     { char: `'`, name: "single quote" },

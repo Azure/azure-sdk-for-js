@@ -107,7 +107,7 @@ async function createOrUpdateASpecificRulesEngineConfiguration() {
     resourceGroupName,
     frontDoorName,
     rulesEngineName,
-    rulesEngineParameters
+    rulesEngineParameters,
   );
   console.log(result);
 }

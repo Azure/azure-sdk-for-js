@@ -28,7 +28,7 @@ async function getSecurityAssessmentMetadataForSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.assessmentsMetadata.getInSubscription(
-    assessmentMetadataName
+    assessmentMetadataName,
   );
   console.log(result);
 }

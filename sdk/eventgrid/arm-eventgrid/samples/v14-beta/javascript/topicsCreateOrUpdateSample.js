@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Asynchronously creates a new topic with the specified parameters.
  *
  * @summary Asynchronously creates a new topic with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Topics_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Topics_CreateOrUpdate.json
  */
 async function topicsCreateOrUpdate() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function topicsCreateOrUpdate() {
  * This sample demonstrates how to Asynchronously creates a new topic with the specified parameters.
  *
  * @summary Asynchronously creates a new topic with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Topics_CreateOrUpdateForAzureArc.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Topics_CreateOrUpdateForAzureArc.json
  */
 async function topicsCreateOrUpdateForAzureArc() {
   const subscriptionId =

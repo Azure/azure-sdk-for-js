@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   GalleryImageUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a gallery image definition.
  *
  * @summary Update a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImage_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImage_Update.json
  */
 async function updateASimpleGalleryImage() {
   const subscriptionId =
@@ -35,10 +35,10 @@ async function updateASimpleGalleryImage() {
     identifier: {
       offer: "myOfferName",
       publisher: "myPublisherName",
-      sku: "mySkuName"
+      sku: "mySkuName",
     },
     osState: "Generalized",
-    osType: "Windows"
+    osType: "Windows",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function updateASimpleGalleryImage() {
     resourceGroupName,
     galleryName,
     galleryImageName,
-    galleryImage
+    galleryImage,
   );
   console.log(result);
 }

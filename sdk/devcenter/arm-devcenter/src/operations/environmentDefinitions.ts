@@ -15,14 +15,20 @@ import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
 import {
   EnvironmentDefinition,
+  EnvironmentDefinitionsListByProjectCatalogNextOptionalParams,
+  EnvironmentDefinitionsListByProjectCatalogOptionalParams,
+  EnvironmentDefinitionsListByProjectCatalogResponse,
   EnvironmentDefinitionsListByCatalogNextOptionalParams,
   EnvironmentDefinitionsListByCatalogOptionalParams,
   EnvironmentDefinitionsListByCatalogResponse,
+  EnvironmentDefinitionsGetByProjectCatalogOptionalParams,
+  EnvironmentDefinitionsGetByProjectCatalogResponse,
   EnvironmentDefinitionsGetOptionalParams,
   EnvironmentDefinitionsGetResponse,
   EnvironmentDefinitionsGetErrorDetailsOptionalParams,
   EnvironmentDefinitionsGetErrorDetailsResponse,
-  EnvironmentDefinitionsListByCatalogNextResponse
+  EnvironmentDefinitionsListByProjectCatalogNextResponse,
+  EnvironmentDefinitionsListByCatalogNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,6 +45,99 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
   }
 
   /**
+   * Lists the environment definitions in this project catalog.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  public listByProjectCatalog(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: EnvironmentDefinitionsListByProjectCatalogOptionalParams,
+  ): PagedAsyncIterableIterator<EnvironmentDefinition> {
+    const iter = this.listByProjectCatalogPagingAll(
+      resourceGroupName,
+      projectName,
+      catalogName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByProjectCatalogPagingPage(
+          resourceGroupName,
+          projectName,
+          catalogName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByProjectCatalogPagingPage(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: EnvironmentDefinitionsListByProjectCatalogOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<EnvironmentDefinition[]> {
+    let result: EnvironmentDefinitionsListByProjectCatalogResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProjectCatalog(
+        resourceGroupName,
+        projectName,
+        catalogName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByProjectCatalogNext(
+        resourceGroupName,
+        projectName,
+        catalogName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByProjectCatalogPagingAll(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: EnvironmentDefinitionsListByProjectCatalogOptionalParams,
+  ): AsyncIterableIterator<EnvironmentDefinition> {
+    for await (const page of this.listByProjectCatalogPagingPage(
+      resourceGroupName,
+      projectName,
+      catalogName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * List environment definitions in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -49,13 +148,13 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: EnvironmentDefinitionsListByCatalogOptionalParams
+    options?: EnvironmentDefinitionsListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentDefinition> {
     const iter = this.listByCatalogPagingAll(
       resourceGroupName,
       devCenterName,
       catalogName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +172,9 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
           devCenterName,
           catalogName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +183,7 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
     devCenterName: string,
     catalogName: string,
     options?: EnvironmentDefinitionsListByCatalogOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EnvironmentDefinition[]> {
     let result: EnvironmentDefinitionsListByCatalogResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +192,7 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
         resourceGroupName,
         devCenterName,
         catalogName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +205,7 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
         devCenterName,
         catalogName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,16 +218,62 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: EnvironmentDefinitionsListByCatalogOptionalParams
+    options?: EnvironmentDefinitionsListByCatalogOptionalParams,
   ): AsyncIterableIterator<EnvironmentDefinition> {
     for await (const page of this.listByCatalogPagingPage(
       resourceGroupName,
       devCenterName,
       catalogName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists the environment definitions in this project catalog.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  private _listByProjectCatalog(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: EnvironmentDefinitionsListByProjectCatalogOptionalParams,
+  ): Promise<EnvironmentDefinitionsListByProjectCatalogResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, catalogName, options },
+      listByProjectCatalogOperationSpec,
+    );
+  }
+
+  /**
+   * Gets an environment definition from the catalog.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param environmentDefinitionName The name of the Environment Definition.
+   * @param options The options parameters.
+   */
+  getByProjectCatalog(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    environmentDefinitionName: string,
+    options?: EnvironmentDefinitionsGetByProjectCatalogOptionalParams,
+  ): Promise<EnvironmentDefinitionsGetByProjectCatalogResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        projectName,
+        catalogName,
+        environmentDefinitionName,
+        options,
+      },
+      getByProjectCatalogOperationSpec,
+    );
   }
 
   /**
@@ -142,11 +287,11 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: EnvironmentDefinitionsListByCatalogOptionalParams
+    options?: EnvironmentDefinitionsListByCatalogOptionalParams,
   ): Promise<EnvironmentDefinitionsListByCatalogResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, catalogName, options },
-      listByCatalogOperationSpec
+      listByCatalogOperationSpec,
     );
   }
 
@@ -163,7 +308,7 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
     devCenterName: string,
     catalogName: string,
     environmentDefinitionName: string,
-    options?: EnvironmentDefinitionsGetOptionalParams
+    options?: EnvironmentDefinitionsGetOptionalParams,
   ): Promise<EnvironmentDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -171,9 +316,9 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
         devCenterName,
         catalogName,
         environmentDefinitionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -190,7 +335,7 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
     devCenterName: string,
     catalogName: string,
     environmentDefinitionName: string,
-    options?: EnvironmentDefinitionsGetErrorDetailsOptionalParams
+    options?: EnvironmentDefinitionsGetErrorDetailsOptionalParams,
   ): Promise<EnvironmentDefinitionsGetErrorDetailsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -198,9 +343,30 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
         devCenterName,
         catalogName,
         environmentDefinitionName,
-        options
+        options,
       },
-      getErrorDetailsOperationSpec
+      getErrorDetailsOperationSpec,
+    );
+  }
+
+  /**
+   * ListByProjectCatalogNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param nextLink The nextLink from the previous successful call to the ListByProjectCatalog method.
+   * @param options The options parameters.
+   */
+  private _listByProjectCatalogNext(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    nextLink: string,
+    options?: EnvironmentDefinitionsListByProjectCatalogNextOptionalParams,
+  ): Promise<EnvironmentDefinitionsListByProjectCatalogNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, catalogName, nextLink, options },
+      listByProjectCatalogNextOperationSpec,
     );
   }
 
@@ -217,28 +383,72 @@ export class EnvironmentDefinitionsImpl implements EnvironmentDefinitions {
     devCenterName: string,
     catalogName: string,
     nextLink: string,
-    options?: EnvironmentDefinitionsListByCatalogNextOptionalParams
+    options?: EnvironmentDefinitionsListByCatalogNextOptionalParams,
   ): Promise<EnvironmentDefinitionsListByCatalogNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, catalogName, nextLink, options },
-      listByCatalogNextOperationSpec
+      listByCatalogNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByCatalogOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/environmentDefinitions",
+const listByProjectCatalogOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentDefinitionListResult
+      bodyMapper: Mappers.EnvironmentDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getByProjectCatalogOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{environmentDefinitionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnvironmentDefinition,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.catalogName,
+    Parameters.environmentDefinitionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByCatalogOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/environmentDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnvironmentDefinitionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
@@ -246,22 +456,21 @@ const listByCatalogOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/environmentDefinitions/{environmentDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/environmentDefinitions/{environmentDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentDefinition
+      bodyMapper: Mappers.EnvironmentDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -270,22 +479,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.devCenterName,
     Parameters.catalogName,
-    Parameters.environmentDefinitionName
+    Parameters.environmentDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getErrorDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/environmentDefinitions/{environmentDefinitionName}/getErrorDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/environmentDefinitions/{environmentDefinitionName}/getErrorDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogResourceValidationErrorDetails
+      bodyMapper: Mappers.CatalogResourceValidationErrorDetails,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -294,21 +502,43 @@ const getErrorDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.devCenterName,
     Parameters.catalogName,
-    Parameters.environmentDefinitionName
+    Parameters.environmentDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByProjectCatalogNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnvironmentDefinitionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.projectName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByCatalogNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnvironmentDefinitionListResult
+      bodyMapper: Mappers.EnvironmentDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -316,8 +546,8 @@ const listByCatalogNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.devCenterName,
     Parameters.nextLink,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -19,14 +19,15 @@ import { Context } from "mocha";
 import { NotificationHubsManagementClient } from "../src/notificationHubsManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -60,7 +61,20 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces create test", async function () {
-    const res = await client.namespaces.createOrUpdate(resourceGroup, nameSpaceName, { location: location });
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup,
+      nameSpaceName,
+      {
+        networkAcls: {
+          ipRules: [
+            { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
+          ],
+          publicNetworkRule: { rights: ["Listen"] },
+        },
+        zoneRedundancy: "Enabled",
+        sku: { name: "Standard", tier: "Standard" },
+        tags: { tag1: "value1", tag2: "value2" },
+        location: location
+      }, testPollingOptions);
     assert.equal(res.name, nameSpaceName);
   });
 
@@ -71,6 +85,7 @@ describe("NotificationHubs test", () => {
 
   it("notificationHubs create test", async function () {
     const res = await client.notificationHubs.createOrUpdate(resourceGroup, nameSpaceName, notificationhubsName, { location: location });
+    await delay(isPlaybackMode() ? 1000 : 100000);
     assert.equal(res.name, notificationhubsName);
   });
 
@@ -97,6 +112,6 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, nameSpaceName, testPollingOptions);
+    const res = await client.namespaces.delete(resourceGroup, nameSpaceName);
   });
 });

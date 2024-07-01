@@ -20,7 +20,7 @@ import {
   SyncMembersDeleteOptionalParams,
   SyncMembersUpdateOptionalParams,
   SyncMembersUpdateResponse,
-  SyncMembersRefreshMemberSchemaOptionalParams
+  SyncMembersRefreshMemberSchemaOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface SyncMembers {
     serverName: string,
     databaseName: string,
     syncGroupName: string,
-    options?: SyncMembersListBySyncGroupOptionalParams
+    options?: SyncMembersListBySyncGroupOptionalParams,
   ): PagedAsyncIterableIterator<SyncMember>;
   /**
    * Gets a sync member database schema.
@@ -58,7 +58,7 @@ export interface SyncMembers {
     databaseName: string,
     syncGroupName: string,
     syncMemberName: string,
-    options?: SyncMembersListMemberSchemasOptionalParams
+    options?: SyncMembersListMemberSchemasOptionalParams,
   ): PagedAsyncIterableIterator<SyncFullSchemaProperties>;
   /**
    * Gets a sync member.
@@ -76,7 +76,7 @@ export interface SyncMembers {
     databaseName: string,
     syncGroupName: string,
     syncMemberName: string,
-    options?: SyncMembersGetOptionalParams
+    options?: SyncMembersGetOptionalParams,
   ): Promise<SyncMembersGetResponse>;
   /**
    * Creates or updates a sync member.
@@ -96,7 +96,7 @@ export interface SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     parameters: SyncMember,
-    options?: SyncMembersCreateOrUpdateOptionalParams
+    options?: SyncMembersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SyncMembersCreateOrUpdateResponse>,
@@ -121,7 +121,7 @@ export interface SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     parameters: SyncMember,
-    options?: SyncMembersCreateOrUpdateOptionalParams
+    options?: SyncMembersCreateOrUpdateOptionalParams,
   ): Promise<SyncMembersCreateOrUpdateResponse>;
   /**
    * Deletes a sync member.
@@ -139,7 +139,7 @@ export interface SyncMembers {
     databaseName: string,
     syncGroupName: string,
     syncMemberName: string,
-    options?: SyncMembersDeleteOptionalParams
+    options?: SyncMembersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a sync member.
@@ -157,7 +157,7 @@ export interface SyncMembers {
     databaseName: string,
     syncGroupName: string,
     syncMemberName: string,
-    options?: SyncMembersDeleteOptionalParams
+    options?: SyncMembersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates an existing sync member.
@@ -177,7 +177,7 @@ export interface SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     parameters: SyncMember,
-    options?: SyncMembersUpdateOptionalParams
+    options?: SyncMembersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SyncMembersUpdateResponse>,
@@ -202,7 +202,7 @@ export interface SyncMembers {
     syncGroupName: string,
     syncMemberName: string,
     parameters: SyncMember,
-    options?: SyncMembersUpdateOptionalParams
+    options?: SyncMembersUpdateOptionalParams,
   ): Promise<SyncMembersUpdateResponse>;
   /**
    * Refreshes a sync member database schema.
@@ -220,7 +220,7 @@ export interface SyncMembers {
     databaseName: string,
     syncGroupName: string,
     syncMemberName: string,
-    options?: SyncMembersRefreshMemberSchemaOptionalParams
+    options?: SyncMembersRefreshMemberSchemaOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes a sync member database schema.
@@ -238,6 +238,6 @@ export interface SyncMembers {
     databaseName: string,
     syncGroupName: string,
     syncMemberName: string,
-    options?: SyncMembersRefreshMemberSchemaOptionalParams
+    options?: SyncMembersRefreshMemberSchemaOptionalParams,
   ): Promise<void>;
 }

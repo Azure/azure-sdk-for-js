@@ -16,15 +16,15 @@ import {
 
 import {
   MonitorManagementClient as GeneratedMetricsClient,
-  KnownApiVersion201801 as MetricsApiVersion,
+  KnownApiVersion20240201 as MetricsApiVersion,
 } from "./generated/metrics/src";
 import {
   MonitorManagementClient as GeneratedMetricsDefinitionsClient,
-  KnownApiVersion201801 as MetricDefinitionsApiVersion,
+  KnownApiVersion20240201 as MetricDefinitionsApiVersion,
 } from "./generated/metricsdefinitions/src";
 import {
   MonitorManagementClient as GeneratedMetricsNamespacesClient,
-  KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
+  KnownApiVersion20240201 as MetricNamespacesApiVersion,
   MetricNamespacesListOptionalParams,
 } from "./generated/metricsnamespaces/src";
 import {
@@ -34,8 +34,7 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
 } from "./internal/modelConverters";
-import { SDK_VERSION } from "./constants";
-const defaultMetricsScope = "https://management.azure.com/.default";
+import { SDK_VERSION, KnownMonitorAudience } from "./constants";
 
 /**
  * Options for the MetricsQueryClient.
@@ -43,6 +42,13 @@ const defaultMetricsScope = "https://management.azure.com/.default";
 export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
+
+  /**
+   * The Audience to use for authentication with Microsoft Entra ID. The
+   * audience is not considered when using a shared key.
+   * {@link KnownMonitorAudience} can be used interchangeably with audience
+   */
+  audience?: string;
 }
 
 /**
@@ -59,13 +65,10 @@ export class MetricsQueryClient {
    * @param options - Options for the client like controlling request retries.
    */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
-    let scope;
-    if (options?.endpoint) {
-      scope = `${options?.endpoint}/.default`;
-    }
-    const credentialOptions = {
-      credentialScopes: scope,
-    };
+    const scope: string = options?.audience
+      ? `${options.audience}/.default`
+      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
       options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
@@ -75,7 +78,7 @@ export class MetricsQueryClient {
       ...options,
       $host: options?.endpoint,
       endpoint: options?.endpoint,
-      credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
+      credentialScopes: scope,
       credential: tokenCredential,
       userAgentOptions: {
         userAgentPrefix,
@@ -83,17 +86,17 @@ export class MetricsQueryClient {
     };
 
     this._metricsClient = new GeneratedMetricsClient(
-      MetricsApiVersion.TwoThousandEighteen0101,
+      MetricsApiVersion.TwoThousandTwentyFour0201,
       serviceClientOptions,
     );
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
-      MetricDefinitionsApiVersion.TwoThousandEighteen0101,
+      MetricDefinitionsApiVersion.TwoThousandTwentyFour0201,
       serviceClientOptions,
     );
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
-      MetricNamespacesApiVersion.TwoThousandSeventeen1201Preview,
+      MetricNamespacesApiVersion.TwoThousandTwentyFour0201,
       serviceClientOptions,
     );
   }

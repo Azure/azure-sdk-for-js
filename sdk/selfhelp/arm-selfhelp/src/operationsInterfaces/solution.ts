@@ -13,7 +13,8 @@ import {
   SolutionGetOptionalParams,
   SolutionGetResponse,
   SolutionUpdateOptionalParams,
-  SolutionUpdateResponse
+  SolutionUpdateResponse,
+  SolutionWarmUpOptionalParams,
 } from "../models";
 
 /** Interface representing a Solution. */
@@ -22,18 +23,11 @@ export interface Solution {
    * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
    * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
    * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
-   * resolving typical troubleshooting issues. These solutions encompass (1.) dynamic and context-aware
-   * diagnostics, guided troubleshooting wizards, and data visualizations, (2.) rich instructional video
-   * tutorials and illustrative diagrams and images, and (3.) thoughtfully assembled textual
-   * troubleshooting instructions. All these components are seamlessly converged into unified solutions
-   * tailored to address a specific support problem area. Each solution type may require one or more
-   * ‘requiredParameters’ that are required to execute the individual solution component. In the absence
-   * of the ‘requiredParameters’ it is likely that some of the solutions might fail execution, and you
-   * might see an empty response. <br/><br/> <b>Note:</b>  <br/>1. ‘requiredInputs’ from Discovery
-   * solutions response must be passed via ‘parameters’ in the request body of Solutions API. <br/>2.
-   * ‘requiredParameters’ from the Solutions response is the same as ‘ additionalParameters’ in the
-   * request for diagnostics <br/>3. ‘requiredParameters’ from the Solutions response is the same as
-   * ‘properties.parameters’ in the request for Troubleshooters
+   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
+   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
+   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
+   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
+   * into unified solutions tailored to address a specific support problem area.
    * @param scope scope = resourceUri of affected resource.<br/> For example:
    *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
    *
@@ -43,7 +37,7 @@ export interface Solution {
   beginCreate(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionCreateOptionalParams
+    options?: SolutionCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SolutionCreateResponse>,
@@ -54,18 +48,11 @@ export interface Solution {
    * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
    * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
    * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
-   * resolving typical troubleshooting issues. These solutions encompass (1.) dynamic and context-aware
-   * diagnostics, guided troubleshooting wizards, and data visualizations, (2.) rich instructional video
-   * tutorials and illustrative diagrams and images, and (3.) thoughtfully assembled textual
-   * troubleshooting instructions. All these components are seamlessly converged into unified solutions
-   * tailored to address a specific support problem area. Each solution type may require one or more
-   * ‘requiredParameters’ that are required to execute the individual solution component. In the absence
-   * of the ‘requiredParameters’ it is likely that some of the solutions might fail execution, and you
-   * might see an empty response. <br/><br/> <b>Note:</b>  <br/>1. ‘requiredInputs’ from Discovery
-   * solutions response must be passed via ‘parameters’ in the request body of Solutions API. <br/>2.
-   * ‘requiredParameters’ from the Solutions response is the same as ‘ additionalParameters’ in the
-   * request for diagnostics <br/>3. ‘requiredParameters’ from the Solutions response is the same as
-   * ‘properties.parameters’ in the request for Troubleshooters
+   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
+   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
+   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
+   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
+   * into unified solutions tailored to address a specific support problem area.
    * @param scope scope = resourceUri of affected resource.<br/> For example:
    *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
    *
@@ -75,7 +62,7 @@ export interface Solution {
   beginCreateAndWait(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionCreateOptionalParams
+    options?: SolutionCreateOptionalParams,
   ): Promise<SolutionCreateResponse>;
   /**
    * Get the solution using the applicable solutionResourceName while creating the solution.
@@ -88,7 +75,7 @@ export interface Solution {
   get(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionGetOptionalParams
+    options?: SolutionGetOptionalParams,
   ): Promise<SolutionGetResponse>;
   /**
    * Update the requiredInputs or additional information needed to execute the solution
@@ -101,7 +88,7 @@ export interface Solution {
   beginUpdate(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionUpdateOptionalParams
+    options?: SolutionUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SolutionUpdateResponse>,
@@ -119,6 +106,19 @@ export interface Solution {
   beginUpdateAndWait(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionUpdateOptionalParams
+    options?: SolutionUpdateOptionalParams,
   ): Promise<SolutionUpdateResponse>;
+  /**
+   * Warm up the solution resource by preloading asynchronous diagnostics results into cache
+   * @param scope scope = resourceUri of affected resource.<br/> For example:
+   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
+   *
+   * @param solutionResourceName Solution resource Name.
+   * @param options The options parameters.
+   */
+  warmUp(
+    scope: string,
+    solutionResourceName: string,
+    options?: SolutionWarmUpOptionalParams,
+  ): Promise<void>;
 }

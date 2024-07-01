@@ -3,9 +3,12 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
+  AIStudioModelCatalogName,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
+  AzureOpenAIModelName,
   BM25Similarity,
+  CharFilterName,
   CjkBigramTokenFilter,
   ClassicSimilarity,
   ClassicTokenizer,
@@ -13,7 +16,7 @@ import {
   CommonGramTokenFilter,
   ConditionalSkill,
   CorsOptions,
-  CustomEntityLookupSkill,
+  CustomEntity,
   CustomNormalizer,
   DefaultCognitiveServicesAccount,
   DictionaryDecompounderTokenFilter,
@@ -23,21 +26,19 @@ import {
   EdgeNGramTokenizer,
   ElisionTokenFilter,
   EntityLinkingSkill,
-  EntityRecognitionSkill,
   EntityRecognitionSkillV3,
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
-  ImageAnalysisSkill,
-  IndexingParameters,
   IndexingSchedule,
+  IndexProjectionMode,
   KeepTokenFilter,
-  KeyPhraseExtractionSkill,
   KeywordMarkerTokenFilter,
   LanguageDetectionSkill,
   LengthTokenFilter,
   LexicalAnalyzerName,
   LexicalNormalizerName,
+  LexicalTokenizerName,
   LimitTokenFilter,
   LuceneStandardAnalyzer,
   MagnitudeScoringFunction,
@@ -45,25 +46,23 @@ import {
   MergeSkill,
   MicrosoftLanguageStemmingTokenizer,
   MicrosoftLanguageTokenizer,
+  NativeBlobSoftDeleteDeletionDetectionPolicy,
   NGramTokenizer,
-  OcrSkill,
-  PIIDetectionSkill,
   PathHierarchyTokenizerV2 as PathHierarchyTokenizer,
   PatternCaptureTokenFilter,
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
   PhoneticTokenFilter,
-  RegexFlags,
+  ScalarQuantizationCompressionConfiguration,
   ScoringFunctionAggregation,
   SearchAlias,
   SearchIndexerDataContainer,
   SearchIndexerDataNoneIdentity,
-  SearchIndexerDataSourceType,
   SearchIndexerDataUserAssignedIdentity,
-  Suggester as SearchSuggester,
+  SearchIndexerIndexProjectionSelector,
+  SearchIndexerKnowledgeStoreProjection,
   SearchIndexerSkill as BaseSearchIndexerSkill,
-  SemanticSettings,
-  SentimentSkill,
+  SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
   ServiceLimits,
@@ -71,25 +70,48 @@ import {
   ShingleTokenFilter,
   SnowballTokenFilter,
   SoftDeleteColumnDeletionDetectionPolicy,
-  SplitSkill,
   SqlIntegratedChangeTrackingPolicy,
   StemmerOverrideTokenFilter,
   StemmerTokenFilter,
   StopAnalyzer,
   StopwordsTokenFilter,
+  Suggester as SearchSuggester,
   SynonymTokenFilter,
   TagScoringFunction,
-  TextTranslationSkill,
   TextWeights,
+  TokenFilterName,
   TruncateTokenFilter,
   UaxUrlEmailTokenizer,
   UniqueTokenFilter,
-  WordDelimiterTokenFilter,
-  SearchIndexerKnowledgeStoreProjection,
-  SearchIndexerIndexProjectionSelector,
-  NativeBlobSoftDeleteDeletionDetectionPolicy,
+  VectorEncodingFormat,
   VectorSearchProfile,
+  WordDelimiterTokenFilter,
 } from "./generated/service/models";
+import {
+  BlobIndexerDataToExtract,
+  BlobIndexerImageAction,
+  BlobIndexerParsingMode,
+  BlobIndexerPDFTextRotationAlgorithm,
+  CustomEntityLookupSkillLanguage,
+  EntityCategory,
+  EntityRecognitionSkillLanguage,
+  ImageAnalysisSkillLanguage,
+  ImageDetail,
+  IndexerExecutionEnvironment,
+  KeyPhraseExtractionSkillLanguage,
+  OcrSkillLanguage,
+  PIIDetectionSkillMaskingMode,
+  RegexFlags,
+  SearchIndexerDataSourceType,
+  SentimentSkillLanguage,
+  SplitSkillLanguage,
+  TextSplitMode,
+  TextTranslationSkillLanguage,
+  VectorSearchAlgorithmKind,
+  VectorSearchAlgorithmMetric,
+  VectorSearchVectorizerKind,
+  VisualFeature,
+} from "./generatedStringLiteralUnions";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -167,7 +189,7 @@ export interface SearchIndexStatistics {
    * The amount of memory in bytes consumed by vectors in the index.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly vectorIndexSize?: number;
+  readonly vectorIndexSize: number;
 }
 
 /**
@@ -424,31 +446,32 @@ export interface AnalyzeRequest {
   /**
    * The name of the analyzer to use to break the given text. If this parameter is not specified,
    * you must specify a tokenizer instead. The tokenizer and analyzer parameters are mutually
-   * exclusive. KnownAnalyzerNames is an enum containing known values.
+   * exclusive. {@link KnownAnalyzerNames} is an enum containing built-in analyzer names.
    * NOTE: Either analyzerName or tokenizerName is required in an AnalyzeRequest.
    */
-  analyzerName?: string;
+  analyzerName?: LexicalAnalyzerName;
   /**
    * The name of the tokenizer to use to break the given text. If this parameter is not specified,
    * you must specify an analyzer instead. The tokenizer and analyzer parameters are mutually
-   * exclusive. KnownTokenizerNames is an enum containing known values.
+   * exclusive. {@link KnownTokenizerNames} is an enum containing built-in tokenizer names.
    * NOTE: Either analyzerName or tokenizerName is required in an AnalyzeRequest.
    */
-  tokenizerName?: string;
+  tokenizerName?: LexicalTokenizerName;
   /**
-   * The name of the normalizer to use to normalize the given text.
+   * The name of the normalizer to use to normalize the given text. {@link KnownNormalizerNames} is
+   * an enum containing built-in analyzer names.
    */
   normalizerName?: LexicalNormalizerName;
   /**
    * An optional list of token filters to use when breaking the given text. This parameter can only
    * be set when using the tokenizer parameter.
    */
-  tokenFilters?: string[];
+  tokenFilters?: TokenFilterName[];
   /**
    * An optional list of character filters to use when breaking the given text. This parameter can
    * only be set when using the tokenizer parameter.
    */
-  charFilters?: string[];
+  charFilters?: CharFilterName[];
 }
 
 /**
@@ -515,21 +538,21 @@ export interface CustomAnalyzer {
   name: string;
   /**
    * The name of the tokenizer to use to divide continuous text into a sequence of tokens, such as
-   * breaking a sentence into words. KnownTokenizerNames is an enum containing known values.
+   * breaking a sentence into words. {@link KnownTokenizerNames} is an enum containing built-in tokenizer names.
    */
-  tokenizerName: string;
+  tokenizerName: LexicalTokenizerName;
   /**
    * A list of token filters used to filter out or modify the tokens generated by a tokenizer. For
    * example, you can specify a lowercase filter that converts all characters to lowercase. The
    * filters are run in the order in which they are listed.
    */
-  tokenFilters?: string[];
+  tokenFilters?: TokenFilterName[];
   /**
    * A list of character filters used to prepare input text before it is processed by the
    * tokenizer. For instance, they can replace certain characters or symbols. The filters are run
    * in the order in which they are listed.
    */
-  charFilters?: string[];
+  charFilters?: CharFilterName[];
 }
 
 /**
@@ -592,30 +615,39 @@ export interface WebApiSkill extends BaseSearchIndexerSkill {
   authIdentity?: SearchIndexerDataIdentity;
 }
 
+/** Allows you to generate a vector embedding for a given image or text input using the Azure AI Services Vision Vectorize API. */
+export interface VisionVectorizeSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
+  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
+  modelVersion?: string;
+}
+
 /**
  * Contains the possible cases for Skill.
  */
 export type SearchIndexerSkill =
-  | ConditionalSkill
-  | KeyPhraseExtractionSkill
-  | OcrSkill
-  | ImageAnalysisSkill
-  | LanguageDetectionSkill
-  | ShaperSkill
-  | MergeSkill
-  | EntityRecognitionSkill
-  | SentimentSkill
-  | SplitSkill
-  | PIIDetectionSkill
-  | EntityRecognitionSkillV3
-  | EntityLinkingSkill
-  | SentimentSkillV3
-  | CustomEntityLookupSkill
-  | TextTranslationSkill
-  | DocumentExtractionSkill
-  | WebApiSkill
   | AzureMachineLearningSkill
-  | AzureOpenAIEmbeddingSkill;
+  | AzureOpenAIEmbeddingSkill
+  | ConditionalSkill
+  | CustomEntityLookupSkill
+  | DocumentExtractionSkill
+  | EntityLinkingSkill
+  | EntityRecognitionSkill
+  | EntityRecognitionSkillV3
+  | ImageAnalysisSkill
+  | KeyPhraseExtractionSkill
+  | LanguageDetectionSkill
+  | MergeSkill
+  | OcrSkill
+  | PIIDetectionSkill
+  | SentimentSkill
+  | SentimentSkillV3
+  | ShaperSkill
+  | SplitSkill
+  | TextTranslationSkill
+  | VisionVectorizeSkill
+  | WebApiSkill;
 
 /**
  * Contains the possible cases for CognitiveServicesAccount.
@@ -856,7 +888,8 @@ export type ScoringFunction =
  * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
  * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Collection(Edm.String)', 'Collection(Edm.Int32)',
  * 'Collection(Edm.Int64)', 'Collection(Edm.Double)', 'Collection(Edm.Boolean)',
- * 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)'
+ * 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)',
+ * 'Collection(Edm.Half)', 'Collection(Edm.Int16)', 'Collection(Edm.SByte)'
  *
  * NB: `Edm.Single` alone is not a valid data type. It must be used as part of a collection type.
  * @readonly
@@ -876,7 +909,11 @@ export type SearchFieldDataType =
   | "Collection(Edm.Boolean)"
   | "Collection(Edm.DateTimeOffset)"
   | "Collection(Edm.GeographyPoint)"
-  | "Collection(Edm.Single)";
+  | "Collection(Edm.Single)"
+  | "Collection(Edm.Half)"
+  | "Collection(Edm.Int16)"
+  | "Collection(Edm.SByte)"
+  | "Collection(Edm.Byte)";
 
 /**
  * Defines values for ComplexDataType.
@@ -917,14 +954,25 @@ export interface SimpleField {
    */
   key?: boolean;
   /**
-   * A value indicating whether the field can be returned in a search result. You can enable this
+   * A value indicating whether the field can be returned in a search result. You can disable this
    * option if you want to use a field (for example, margin) as a filter, sorting, or scoring
-   * mechanism but do not want the field to be visible to the end user. This property must be false
-   * for key fields. This property can be changed on existing fields.
-   * Disabling this property does not cause any increase in index storage requirements.
-   * Default is false.
+   * mechanism but do not want the field to be visible to the end user. This property must be true
+   * for key fields. This property can be changed on existing fields. Enabling this property does
+   * not cause any increase in index storage requirements. Default is true for simple fields and
+   * false for vector fields.
    */
   hidden?: boolean;
+  /**
+   * An immutable value indicating whether the field will be persisted separately on disk to be
+   * returned in a search result. You can disable this option if you don't plan to return the field
+   * contents in a search response to save on storage overhead. This can only be set during index
+   * creation and only for vector fields. This property cannot be changed for existing fields or set
+   * as false for new fields. If this property is set as false, the property `hidden` must be set as
+   * true. This property must be true or unset for key fields, for new fields, and for non-vector
+   * fields, and it must be null for complex fields. Disabling this property will reduce index
+   * storage requirements. The default is true for vector fields.
+   */
+  stored?: boolean;
   /**
    * A value indicating whether the field is full-text searchable. This means it will undergo
    * analysis such as word-breaking during indexing. If you set a searchable field to a value like
@@ -1004,7 +1052,9 @@ export interface SimpleField {
    * The name of the vector search algorithm configuration that specifies the algorithm and
    * optional parameters for searching the vector field.
    */
-  vectorSearchProfile?: string;
+  vectorSearchProfileName?: string;
+  /** The encoding format to interpret the field contents. */
+  vectorSearchEncodingFormat?: VectorEncodingFormat;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -1156,7 +1206,7 @@ export interface SearchIndex {
   /**
    * Defines parameters for a search index that influence semantic capabilities.
    */
-  semanticSettings?: SemanticSettings;
+  semanticSearch?: SemanticSearch;
   /**
    * Contains configuration options related to vector search.
    */
@@ -2094,12 +2144,17 @@ export interface VectorSearch {
   algorithms?: VectorSearchAlgorithmConfiguration[];
   /** Contains configuration options on how to vectorize text vector queries. */
   vectorizers?: VectorSearchVectorizer[];
+  /**
+   * Contains configuration options specific to the compression method used during indexing or
+   * querying.
+   */
+  compressions?: VectorSearchCompressionConfiguration[];
 }
 
 /** Contains configuration options specific to the algorithm used during indexing and/or querying. */
 export type VectorSearchAlgorithmConfiguration =
-  | HnswVectorSearchAlgorithmConfiguration
-  | ExhaustiveKnnVectorSearchAlgorithmConfiguration;
+  | HnswAlgorithmConfiguration
+  | ExhaustiveKnnAlgorithmConfiguration;
 
 /** Contains configuration options specific to the algorithm used during indexing and/or querying. */
 export interface BaseVectorSearchAlgorithmConfiguration {
@@ -2113,7 +2168,7 @@ export interface BaseVectorSearchAlgorithmConfiguration {
  * Contains configuration options specific to the hnsw approximate nearest neighbors algorithm
  * used during indexing time.
  */
-export type HnswVectorSearchAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration & {
+export type HnswAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration & {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
@@ -2155,13 +2210,12 @@ export interface HnswParameters {
 }
 
 /** Contains configuration options specific to the exhaustive KNN algorithm used during querying, which will perform brute-force search across the entire vector index. */
-export type ExhaustiveKnnVectorSearchAlgorithmConfiguration =
-  BaseVectorSearchAlgorithmConfiguration & {
-    /** Polymorphic discriminator, which specifies the different types this object can be */
-    kind: "exhaustiveKnn";
-    /** Contains the parameters specific to exhaustive KNN algorithm. */
-    parameters?: ExhaustiveKnnParameters;
-  };
+export type ExhaustiveKnnAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "exhaustiveKnn";
+  /** Contains the parameters specific to exhaustive KNN algorithm. */
+  parameters?: ExhaustiveKnnParameters;
+};
 
 /** Contains the parameters specific to exhaustive KNN algorithm. */
 export interface ExhaustiveKnnParameters {
@@ -2194,20 +2248,99 @@ export interface BaseVectorSearchVectorizer {
 }
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
-export type AzureOpenAIVectorizer = BaseVectorSearchVectorizer & {
+export interface AzureOpenAIVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
   /** Contains the parameters specific to Azure Open AI embedding vectorization. */
   azureOpenAIParameters?: AzureOpenAIParameters;
-};
+}
 
 /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-export type CustomVectorizer = BaseVectorSearchVectorizer & {
+export interface CustomVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "customWebApi";
   /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
   customVectorizerParameters?: CustomVectorizerParameters;
-};
+}
+
+/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
+export interface AIServicesVisionVectorizer extends BaseVectorSearchVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "aiServicesVision";
+  /** Contains the parameters specific to AI Services Vision embedding vectorization. */
+  aIServicesVisionParameters?: AIServicesVisionParameters;
+}
+
+/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
+export interface AIServicesVisionParameters {
+  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
+  modelVersion?: string;
+  /** The resource URI of the AI Services resource. */
+  resourceUri: string;
+  /** API key of the designated AI Services resource. */
+  apiKey?: string;
+  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the index, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  authIdentity?: SearchIndexerDataIdentity;
+}
+
+/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog for generating the vector embedding of a query string. */
+export interface AzureMachineLearningVectorizer extends BaseVectorSearchVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "aml";
+  /** Specifies the properties of the AML vectorizer. */
+  amlParameters?: AzureMachineLearningVectorizerParameters;
+}
+
+/** Specifies the properties for connecting to an AML vectorizer. */
+export type AzureMachineLearningVectorizerParameters =
+  | NoAuthAzureMachineLearningVectorizerParameters
+  | KeyAuthAzureMachineLearningVectorizerParameters
+  | TokenAuthAzureMachineLearningVectorizerParameters;
+
+/** Specifies the properties common between all AML vectorizer auth types. */
+export interface BaseAzureMachineLearningVectorizerParameters {
+  /** When specified, indicates the timeout for the http client making the API call. */
+  timeout?: string;
+  /** The name of the embedding model from the Azure AI Studio Catalog that is deployed at the provided endpoint. */
+  modelName?: AIStudioModelCatalogName;
+}
+
+/**
+ * Specifies the properties for connecting to an AML vectorizer with no authentication.
+ */
+export interface NoAuthAzureMachineLearningVectorizerParameters
+  extends BaseAzureMachineLearningVectorizerParameters {
+  /** Indicates how the service should attempt to identify itself to the AML instance */
+  authKind: "none";
+  /** The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
+  scoringUri: string;
+}
+
+/**
+ * Specifies the properties for connecting to an AML vectorizer with an authentication key.
+ */
+export interface KeyAuthAzureMachineLearningVectorizerParameters
+  extends BaseAzureMachineLearningVectorizerParameters {
+  /** Indicates how the service should attempt to identify itself to the AML instance */
+  authKind: "key";
+  /** The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
+  scoringUri: string;
+  /** The key for the AML service. */
+  authenticationKey: string;
+}
+
+/**
+ * Specifies the properties for connecting to an AML vectorizer with a managed identity.
+ */
+export interface TokenAuthAzureMachineLearningVectorizerParameters
+  extends BaseAzureMachineLearningVectorizerParameters {
+  /** Indicates how the service should attempt to identify itself to the AML instance */
+  authKind: "token";
+  /** The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/\{guid\}/resourceGroups/\{resource-group-name\}/Microsoft.MachineLearningServices/workspaces/\{workspace-name\}/services/\{service_name\}. */
+  resourceId: string;
+  /** The region the AML service is deployed in. */
+  region?: string;
+}
 
 /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
 export interface CustomVectorizerParameters {
@@ -2226,7 +2359,11 @@ export interface CustomVectorizerParameters {
 }
 
 /** Contains configuration options on how to vectorize text vector queries. */
-export type VectorSearchVectorizer = AzureOpenAIVectorizer | CustomVectorizer;
+export type VectorSearchVectorizer =
+  | AzureOpenAIVectorizer
+  | CustomVectorizer
+  | AIServicesVisionVectorizer
+  | AzureMachineLearningVectorizer;
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
 export interface AzureOpenAIParameters {
@@ -2238,20 +2375,16 @@ export interface AzureOpenAIParameters {
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
   authIdentity?: SearchIndexerDataIdentity;
+  /** The name of the embedding model that is deployed at the provided deploymentId path. */
+  modelName?: AzureOpenAIModelName;
 }
 
-/** Allows you to generate a vector embedding for a given text input using the Azure Open AI service. */
-export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill {
+/** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
+export interface AzureOpenAIEmbeddingSkill extends BaseSearchIndexerSkill, AzureOpenAIParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
-  /** The resource uri for your Azure Open AI resource. */
-  resourceUri?: string;
-  /** ID of your Azure Open AI model deployment on the designated resource. */
-  deploymentId?: string;
-  /** API key for the designated Azure Open AI resource. */
-  apiKey?: string;
-  /** The user-assigned managed identity used for outbound connections. */
-  authIdentity?: SearchIndexerDataIdentity;
+  /** The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models. */
+  dimensions?: number;
 }
 
 /** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
@@ -2262,16 +2395,198 @@ export interface SearchIndexerKnowledgeStoreParameters {
   synthesizeGeneratedKeyName?: boolean;
 }
 
-/** The similarity metric to use for vector comparisons. */
-export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
+/** A dictionary of indexer-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
+export interface IndexingParametersConfiguration {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Represents the parsing mode for indexing from an Azure blob data source. */
+  parsingMode?: BlobIndexerParsingMode;
+  /** Comma-delimited list of filename extensions to ignore when processing from Azure blob storage.  For example, you could exclude ".png, .mp4" to skip over those files during indexing. */
+  excludedFileNameExtensions?: string;
+  /** Comma-delimited list of filename extensions to select when processing from Azure blob storage.  For example, you could focus indexing on specific application files ".docx, .pptx, .msg" to specifically include those file types. */
+  indexedFileNameExtensions?: string;
+  /** For Azure blobs, set to false if you want to continue indexing when an unsupported content type is encountered, and you don't know all the content types (file extensions) in advance. */
+  failOnUnsupportedContentType?: boolean;
+  /** For Azure blobs, set to false if you want to continue indexing if a document fails indexing. */
+  failOnUnprocessableDocument?: boolean;
+  /** For Azure blobs, set this property to true to still index storage metadata for blob content that is too large to process. Oversized blobs are treated as errors by default. For limits on blob size, see https://docs.microsoft.com/azure/search/search-limits-quotas-capacity. */
+  indexStorageMetadataOnlyForOversizedDocuments?: boolean;
+  /** For CSV blobs, specifies a comma-delimited list of column headers, useful for mapping source fields to destination fields in an index. */
+  delimitedTextHeaders?: string;
+  /** For CSV blobs, specifies the end-of-line single-character delimiter for CSV files where each line starts a new document (for example, "|"). */
+  delimitedTextDelimiter?: string;
+  /** For CSV blobs, indicates that the first (non-blank) line of each blob contains headers. */
+  firstLineContainsHeaders?: boolean;
+  /** For JSON arrays, given a structured or semi-structured document, you can specify a path to the array using this property. */
+  documentRoot?: string;
+  /** Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. */
+  dataToExtract?: BlobIndexerDataToExtract;
+  /** Determines how to process embedded images and image files in Azure blob storage.  Setting the "imageAction" configuration to any value other than "none" requires that a skillset also be attached to that indexer. */
+  imageAction?: BlobIndexerImageAction;
+  /** If true, will create a path //document//file_data that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a custom skill for processing within the enrichment pipeline, or to the Document Extraction skill. */
+  allowSkillsetToReadFileData?: boolean;
+  /** Determines algorithm for text extraction from PDF files in Azure blob storage. */
+  pdfTextRotationAlgorithm?: BlobIndexerPDFTextRotationAlgorithm;
+  /** Specifies the environment in which the indexer should execute. */
+  executionEnvironment?: IndexerExecutionEnvironment;
+  /** Increases the timeout beyond the 5-minute default for Azure SQL database data sources, specified in the format "hh:mm:ss". */
+  queryTimeout?: string;
+}
 
-export type VectorSearchAlgorithmKind = "hnsw" | "exhaustiveKnn";
+/** Represents parameters for indexer execution. */
+export interface IndexingParameters {
+  /** The number of items that are read from the data source and indexed as a single batch in order to improve performance. The default depends on the data source type. */
+  batchSize?: number;
+  /** The maximum number of items that can fail indexing for indexer execution to still be considered successful. -1 means no limit. Default is 0. */
+  maxFailedItems?: number;
+  /** The maximum number of items in a single batch that can fail indexing for the batch to still be considered successful. -1 means no limit. Default is 0. */
+  maxFailedItemsPerBatch?: number;
+  /** A dictionary of indexer-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
+  configuration?: IndexingParametersConfiguration;
+}
+
+/** A skill looks for text from a custom, user-defined list of words and phrases. */
+export interface CustomEntityLookupSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: CustomEntityLookupSkillLanguage;
+  /** Path to a JSON or CSV file containing all the target text to match against. This entity definition is read at the beginning of an indexer run. Any updates to this file during an indexer run will not take effect until subsequent runs. This config must be accessible over HTTPS. */
+  entitiesDefinitionUri?: string;
+  /** The inline CustomEntity definition. */
+  inlineEntitiesDefinition?: CustomEntity[];
+  /** A global flag for CaseSensitive. If CaseSensitive is not set in CustomEntity, this value will be the default value. */
+  globalDefaultCaseSensitive?: boolean;
+  /** A global flag for AccentSensitive. If AccentSensitive is not set in CustomEntity, this value will be the default value. */
+  globalDefaultAccentSensitive?: boolean;
+  /** A global flag for FuzzyEditDistance. If FuzzyEditDistance is not set in CustomEntity, this value will be the default value. */
+  globalDefaultFuzzyEditDistance?: number;
+}
 
 /**
- * Defines behavior of the index projections in relation to the rest of the indexer.
+ * Text analytics entity recognition.
+ *
+ * @deprecated This skill has been deprecated.
  */
-export type IndexProjectionMode = "skipIndexingParentDocuments" | "includeIndexingParentDocuments";
+export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
+  /** A list of entity categories that should be extracted. */
+  categories?: EntityCategory[];
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: EntityRecognitionSkillLanguage;
+  /** Determines whether or not to include entities which are well known but don't conform to a pre-defined type. If this configuration is not set (default), set to null or set to false, entities which don't conform to one of the pre-defined types will not be surfaced. */
+  includeTypelessEntities?: boolean;
+  /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
+  minimumPrecision?: number;
+}
 
-export type VectorSearchVectorizerKind = "azureOpenAI" | "customWebApi";
+/** A skill that analyzes image files. It extracts a rich set of visual features based on the image content. */
+export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: ImageAnalysisSkillLanguage;
+  /** A list of visual features. */
+  visualFeatures?: VisualFeature[];
+  /** A string indicating which domain-specific details to return. */
+  details?: ImageDetail[];
+}
+
+/** A skill that uses text analytics for key phrase extraction. */
+export interface KeyPhraseExtractionSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
+  /** A number indicating how many key phrases to return. If absent, all identified key phrases will be returned. */
+  maxKeyPhraseCount?: number;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string;
+}
+
+/** A skill that extracts text from image files. */
+export interface OcrSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Vision.OcrSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: OcrSkillLanguage;
+  /** A value indicating to turn orientation detection on or not. Default is false. */
+  shouldDetectOrientation?: boolean;
+}
+
+/** Using the Text Analytics API, extracts personal information from an input text and gives you the option of masking it. */
+export interface PIIDetectionSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: string;
+  /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
+  minimumPrecision?: number;
+  /** A parameter that provides various ways to mask the personal information detected in the input text. Default is 'none'. */
+  maskingMode?: PIIDetectionSkillMaskingMode;
+  /** The character used to mask the text if the maskingMode parameter is set to replace. Default is '*'. */
+  maskingCharacter?: string;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string;
+  /** A list of PII entity categories that should be extracted and masked. */
+  categories?: string[];
+  /** If specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'phi', 'none'. Default is 'none'. */
+  domain?: string;
+}
+
+/**
+ * Text analytics positive-negative sentiment analysis, scored as a floating point value in a range of zero to 1.
+ *
+ * @deprecated This skill has been deprecated.
+ */
+export interface SentimentSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.SentimentSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: SentimentSkillLanguage;
+}
+
+/** A skill to split a string into chunks of text. */
+export interface SplitSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.SplitSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: SplitSkillLanguage;
+  /** A value indicating which split mode to perform. */
+  textSplitMode?: TextSplitMode;
+  /** The desired maximum page length. Default is 10000. */
+  maxPageLength?: number;
+}
+
+/** A skill to translate text from one language to another. */
+export interface TextTranslationSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Text.TranslationSkill";
+  /** The language code to translate documents into for documents that don't specify the to language explicitly. */
+  defaultToLanguageCode: TextTranslationSkillLanguage;
+  /** The language code to translate documents from for documents that don't specify the from language explicitly. */
+  defaultFromLanguageCode?: TextTranslationSkillLanguage;
+  /** The language code to translate documents from when neither the fromLanguageCode input nor the defaultFromLanguageCode parameter are provided, and the automatic language detection is unsuccessful. Default is en. */
+  suggestedFrom?: TextTranslationSkillLanguage;
+}
+
+/** A skill that analyzes image files. It extracts a rich set of visual features based on the image content. */
+export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
+  /** A value indicating which language code to use. Default is en. */
+  defaultLanguageCode?: ImageAnalysisSkillLanguage;
+  /** A list of visual features. */
+  visualFeatures?: VisualFeature[];
+  /** A string indicating which domain-specific details to return. */
+  details?: ImageDetail[];
+}
+
+/**
+ * Contains configuration options specific to the compression method used during indexing or
+ * querying.
+ */
+export type VectorSearchCompressionConfiguration = ScalarQuantizationCompressionConfiguration;
 
 // END manually modified generated interfaces

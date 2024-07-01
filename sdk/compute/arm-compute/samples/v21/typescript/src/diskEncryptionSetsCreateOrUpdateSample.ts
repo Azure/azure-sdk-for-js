@@ -28,18 +28,18 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSet = {
     activeKey: {
-      keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}"
+      keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}",
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }
@@ -59,24 +59,25 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
   const diskEncryptionSet: DiskEncryptionSet = {
     activeKey: {
       keyUrl:
-        "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}"
+        "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     federatedClientId: "00000000-0000-0000-0000-000000000000",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/MicrosoftManagedIdentity/userAssignedIdentities/{identityName}": {}
-      }
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/MicrosoftManagedIdentity/userAssignedIdentities/{identityName}":
+          {},
+      },
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }
@@ -97,20 +98,19 @@ async function createADiskEncryptionSet() {
     activeKey: {
       keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/{key}",
       sourceVault: {
-        id:
-          "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
-      }
+        id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+      },
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }
