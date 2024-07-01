@@ -326,6 +326,20 @@ export const ConfigurationSettingsFilter: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      tagsFilter: {
+        constraints: {
+          UniqueItems: true,
+        },
+        serializedName: "tags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
     },
   },
 };

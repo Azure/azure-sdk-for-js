@@ -172,6 +172,25 @@ export const ifNoneMatch: OperationParameter = {
   },
 };
 
+export const tags: OperationQueryParameter = {
+  parameterPath: ["options", "tags"],
+  mapper: {
+    constraints: {
+      UniqueItems: true,
+    },
+    serializedName: "tags",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+  collectionFormat: "Multi",
+};
+
 export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
