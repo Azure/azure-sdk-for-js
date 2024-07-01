@@ -1471,8 +1471,8 @@ packages:
       tslib: 2.6.3
     dev: false
 
-  /@azure/core-lro@3.0.0-beta.1:
-    resolution: {integrity: sha512-KbkVHWhLnlDQRtIZGCPQFB6y2xgeL7p5iICRYTCDjHBpWX9W/I3HkkvbvK4SordNsKwWbLKfPLrOJKJdsJocEQ==}
+  /@azure/core-lro@3.0.0:
+    resolution: {integrity: sha512-t46lsD0jDJ1o71hIGzoUfT9jH+rIkNJAJLhhPqW8XLbPueHBnP4x5PNJ2szXlLoztH/00OcUUH3FbFnAntOSWA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -1481,8 +1481,8 @@ packages:
       tslib: 2.6.3
     dev: false
 
-  /@azure/core-lro@3.0.0-beta.2:
-    resolution: {integrity: sha512-8WwZaYHwgp04oA4bnJcjgoHg9Aty4k/fu1EUhaC+r7OhiPwLNKchaY7NH4Z6KqSS8MpFOjmdUjCPcgyAvtweJQ==}
+  /@azure/core-lro@3.0.0-beta.1:
+    resolution: {integrity: sha512-KbkVHWhLnlDQRtIZGCPQFB6y2xgeL7p5iICRYTCDjHBpWX9W/I3HkkvbvK4SordNsKwWbLKfPLrOJKJdsJocEQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -16043,11 +16043,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-VJleC60ppgS9axs4zfzjpIEqk00hyCGB8ncEaSnI80AMCkKDysH8MGNP+cIY6SvHV+/k6h/H6Dvr/wHLvoRgFw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-L8p3L1XXqyZdjf1wAFxkm0exRmusKT5K2YONRLTprcW3fGOIZDg+0oPvgRdQEPztctrSUunflmW7XY/T4EN3yw==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
-      '@azure/core-lro': 3.0.0-beta.2
+      '@azure/core-lro': 3.0.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/node': 18.19.39
       '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
