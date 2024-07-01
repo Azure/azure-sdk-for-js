@@ -49,8 +49,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 function extractUsernameFromToken(accessToken: AccessToken): string{
-  const base64Metadata = accessToken.token.split(".")[1]
-  const { _appid, _upn, _tid, oid } = JSON.parse(
+  const base64Metadata = accessToken.token.split(".")[1];
+  const { oid } = JSON.parse(
     Buffer.from(base64Metadata, "base64").toString("utf8"),
   );
   return oid;
@@ -125,8 +125,8 @@ async function returnPassword(credential: TokenCredential) {
 }
 
 function extractUsernameFromToken(accessToken: AccessToken): string{
-  const base64Metadata = accessToken.token.split(".")[1]
-  const { _appid, _upn, _tid, oid } = JSON.parse(
+  const base64Metadata = accessToken.token.split(".")[1];
+  const { oid } = JSON.parse(
     Buffer.from(base64Metadata, "base64").toString("utf8"),
   );
   return oid;
@@ -209,8 +209,8 @@ async function returnPassword(credential: TokenCredential) {
 }
 
 function extractUsernameFromToken(accessToken: AccessToken): string{
-  const base64Metadata = accessToken.token.split(".")[1]
-  const { _appid, _upn, _tid, oid } = JSON.parse(
+  const base64Metadata = accessToken.token.split(".")[1];
+  const { oid } = JSON.parse(
     Buffer.from(base64Metadata, "base64").toString("utf8"),
   );
   return oid;
