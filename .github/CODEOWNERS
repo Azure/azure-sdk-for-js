@@ -229,11 +229,6 @@
 # PRLabel: %OpenAI
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
-# PRLabel: %AI - Inference
-# ServiceLabel: %AI
-# AzureSdkOwners: @glharper @dargilco
-/sdk/ai/ai-inference-rest/ @glharper @deyaaeldeen @dargilco
-
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco 
