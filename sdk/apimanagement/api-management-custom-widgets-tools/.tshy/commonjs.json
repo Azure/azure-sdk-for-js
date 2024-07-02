@@ -3,10 +3,12 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.cts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
     "../src/**/*.mts",
+    "../src/package.json",
     "../src/node/deploy-browser.mts",
     "../src/node/readdir-browser.mts"
   ],

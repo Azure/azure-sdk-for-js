@@ -3,11 +3,13 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/node/deploy-browser.mts",
-    ".././src/node/readdir-browser.mts"
+    "../src/package.json",
+    "../src/node/deploy-browser.mts",
+    "../src/node/readdir-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
