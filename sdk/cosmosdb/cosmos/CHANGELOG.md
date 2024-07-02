@@ -2,8 +2,9 @@
 
 ## 4.0.1 (Unreleased)
 
-### Features Added
-- Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items. 
+### Features Added  
+- Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items.
+- Added support for Vector embedding and Vector Indexes.
 
 ### Breaking Changes
 

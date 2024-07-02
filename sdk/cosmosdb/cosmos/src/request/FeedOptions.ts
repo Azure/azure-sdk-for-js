@@ -113,4 +113,14 @@ export interface FeedOptions extends SharedOptions {
    * Enable returning index metrics in response headers. Default: false
    */
   populateIndexMetrics?: boolean;
+  /**
+   * Specifies a custom maximum buffer size for storing final results for nonStreamingOrderBy queries.
+   * This value is ignored if the query includes top/offset+limit clauses.
+   */
+  vectorSearchBufferSize?: number;
+  /**
+   * Disable the nonStreamingOrderBy query feature in supported query features.
+   * Default: false. Set to true to avoid error from an old gateway that doesn't support this feature.
+   */
+  disableNonStreamingOrderByQuery?: boolean;
 }
