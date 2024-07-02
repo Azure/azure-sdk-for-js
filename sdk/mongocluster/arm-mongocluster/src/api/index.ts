@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 export {
-  createDocumentDB,
-  DocumentDBClientOptions,
+  createMongoClusterManagement,
+  MongoClusterManagementClientOptions,
   DocumentDBContext,
-} from "./documentDBContext.js";
+} from "./mongoClusterManagementContext.js";
 export {
   firewallRulesGet,
   firewallRulesCreateOrUpdate,

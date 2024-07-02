@@ -5,10 +5,7 @@ import { getLongRunningPoller } from "../pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   privateEndpointConnectionPropertiesSerializer,
-  CreatedByType,
   PrivateEndpointConnectionResource,
-  PrivateEndpointServiceConnectionStatus,
-  PrivateEndpointConnectionProvisioningState,
   _PrivateEndpointConnectionResourceListResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
@@ -82,15 +79,13 @@ export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
         ? undefined
         : {
             createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"] as CreatedByType,
+            createdByType: p.systemData?.["createdByType"],
             createdAt:
               p.systemData?.["createdAt"] !== undefined
                 ? new Date(p.systemData?.["createdAt"])
                 : undefined,
             lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.[
-              "lastModifiedByType"
-            ] as CreatedByType,
+            lastModifiedByType: p.systemData?.["lastModifiedByType"],
             lastModifiedAt:
               p.systemData?.["lastModifiedAt"] !== undefined
                 ? new Date(p.systemData?.["lastModifiedAt"])
@@ -104,9 +99,7 @@ export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
               ? undefined
               : { id: p.properties?.privateEndpoint?.["id"] },
             privateLinkServiceConnectionState: {
-              status: p.properties?.privateLinkServiceConnectionState[
-                "status"
-              ] as PrivateEndpointServiceConnectionStatus,
+              status: p.properties?.privateLinkServiceConnectionState["status"],
               description:
                 p.properties?.privateLinkServiceConnectionState["description"],
               actionsRequired:
@@ -114,9 +107,7 @@ export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
                   "actionsRequired"
                 ],
             },
-            provisioningState: p.properties?.[
-              "provisioningState"
-            ] as PrivateEndpointConnectionProvisioningState,
+            provisioningState: p.properties?.["provisioningState"],
           },
     })),
     nextLink: result.body["nextLink"],
@@ -187,17 +178,13 @@ export async function _privateEndpointConnectionsGetDeserialize(
       ? undefined
       : {
           createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.[
-            "createdByType"
-          ] as CreatedByType,
+          createdByType: result.body.systemData?.["createdByType"],
           createdAt:
             result.body.systemData?.["createdAt"] !== undefined
               ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
           lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.[
-            "lastModifiedByType"
-          ] as CreatedByType,
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
             result.body.systemData?.["lastModifiedAt"] !== undefined
               ? new Date(result.body.systemData?.["lastModifiedAt"])
@@ -211,9 +198,10 @@ export async function _privateEndpointConnectionsGetDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status: result.body.properties?.privateLinkServiceConnectionState[
-              "status"
-            ] as PrivateEndpointServiceConnectionStatus,
+            status:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "status"
+              ],
             description:
               result.body.properties?.privateLinkServiceConnectionState[
                 "description"
@@ -223,9 +211,7 @@ export async function _privateEndpointConnectionsGetDeserialize(
                 "actionsRequired"
               ],
           },
-          provisioningState: result.body.properties?.[
-            "provisioningState"
-          ] as PrivateEndpointConnectionProvisioningState,
+          provisioningState: result.body.properties?.["provisioningState"],
         },
   };
 }
@@ -306,17 +292,13 @@ export async function _privateEndpointConnectionsCreateDeserialize(
       ? undefined
       : {
           createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.[
-            "createdByType"
-          ] as CreatedByType,
+          createdByType: result.body.systemData?.["createdByType"],
           createdAt:
             result.body.systemData?.["createdAt"] !== undefined
               ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
           lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.[
-            "lastModifiedByType"
-          ] as CreatedByType,
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
             result.body.systemData?.["lastModifiedAt"] !== undefined
               ? new Date(result.body.systemData?.["lastModifiedAt"])
@@ -330,9 +312,10 @@ export async function _privateEndpointConnectionsCreateDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status: result.body.properties?.privateLinkServiceConnectionState[
-              "status"
-            ] as PrivateEndpointServiceConnectionStatus,
+            status:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "status"
+              ],
             description:
               result.body.properties?.privateLinkServiceConnectionState[
                 "description"
@@ -342,9 +325,7 @@ export async function _privateEndpointConnectionsCreateDeserialize(
                 "actionsRequired"
               ],
           },
-          provisioningState: result.body.properties?.[
-            "provisioningState"
-          ] as PrivateEndpointConnectionProvisioningState,
+          provisioningState: result.body.properties?.["provisioningState"],
         },
   };
 }

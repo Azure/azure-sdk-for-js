@@ -58,8 +58,29 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The kind of entity that created the resource. */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
@@ -192,17 +213,50 @@ export function privateLinkServiceConnectionStateSerializer(
   };
 }
 
-/** The private endpoint connection status. */
-export type PrivateEndpointServiceConnectionStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected";
-/** The current provisioning state. */
-export type PrivateEndpointConnectionProvisioningState =
-  | "Succeeded"
-  | "Creating"
-  | "Deleting"
-  | "Failed";
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected",
+}
+
+/**
+ * The private endpoint connection status. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * The current provisioning state. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRule extends ProxyResource {
@@ -237,8 +291,26 @@ export function firewallRulePropertiesSerializer(
   };
 }
 
-/** The provisioning state of a resource type. */
-export type ResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
 
 /** The response of a FirewallRule list operation. */
 export interface _FirewallRuleListResult {
@@ -328,8 +400,23 @@ export function mongoClusterPropertiesSerializer(
   };
 }
 
-/** The mode that the Mongo Cluster is created with. */
-export type CreateMode = "Default" | "PointInTimeRestore";
+/** Known values of {@link CreateMode} that the service accepts. */
+export enum KnownCreateMode {
+  /** Default */
+  Default = "Default",
+  /** PointInTimeRestore */
+  PointInTimeRestore = "PointInTimeRestore",
+}
+
+/**
+ * The mode that the Mongo Cluster is created with. \
+ * {@link KnownCreateMode} can be used interchangeably with CreateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **PointInTimeRestore**
+ */
+export type CreateMode = string;
 
 /** Parameters used for restore operations */
 export interface MongoClusterRestoreParameters {
@@ -348,17 +435,56 @@ export function mongoClusterRestoreParametersSerializer(
   };
 }
 
-/** The status of the Mongo cluster resource. */
-export type MongoClusterStatus =
-  | "Ready"
-  | "Provisioning"
-  | "Updating"
-  | "Starting"
-  | "Stopping"
-  | "Stopped"
-  | "Dropping";
-/** Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' */
-export type PublicNetworkAccess = "Enabled" | "Disabled";
+/** Known values of {@link MongoClusterStatus} that the service accepts. */
+export enum KnownMongoClusterStatus {
+  /** Ready */
+  Ready = "Ready",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Updating */
+  Updating = "Updating",
+  /** Starting */
+  Starting = "Starting",
+  /** Stopping */
+  Stopping = "Stopping",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Dropping */
+  Dropping = "Dropping",
+}
+
+/**
+ * The status of the Mongo cluster resource. \
+ * {@link KnownMongoClusterStatus} can be used interchangeably with MongoClusterStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready** \
+ * **Provisioning** \
+ * **Updating** \
+ * **Starting** \
+ * **Stopping** \
+ * **Stopped** \
+ * **Dropping**
+ */
+export type MongoClusterStatus = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
 
 /** Specification for a node group. */
 export interface NodeGroupSpec {
@@ -386,8 +512,20 @@ export function nodeGroupSpecSerializer(
   };
 }
 
-/** The kind of the node on the cluster. */
-export type NodeKind = "Shard";
+/** Known values of {@link NodeKind} that the service accepts. */
+export enum KnownNodeKind {
+  /** Shard */
+  Shard = "Shard",
+}
+
+/**
+ * The kind of the node on the cluster. \
+ * {@link KnownNodeKind} can be used interchangeably with NodeKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Shard**
+ */
+export type NodeKind = string;
 
 /** The private endpoint connection resource */
 export interface PrivateEndpointConnection extends Resource {
@@ -491,8 +629,23 @@ export interface CheckNameAvailabilityResponse {
   message?: string;
 }
 
-/** Possible reasons for a name not being available. */
-export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** AlreadyExists */
+  AlreadyExists = "AlreadyExists",
+}
+
+/**
+ * Possible reasons for a name not being available. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
@@ -528,10 +681,41 @@ export interface OperationDisplay {
   description?: string;
 }
 
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export type Origin = "user" | "system" | "user,system";
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export type ActionType = "Internal";
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** user */
+  user = "user",
+  /** system */
+  system = "system",
+  /** user,system */
+  "user,system" = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 /** The available API versions. */
 export type Versions = "2024-03-01-preview";
 /** Alias for ProvisioningState */

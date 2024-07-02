@@ -85,7 +85,7 @@ describe("MongoCluster test", () => {
       },
       testPollingOptions);
     console.log(res)
-    // assert.equal(res.name, resourcename);
+    assert.equal(res.name, resourcename);
   });
 
   it("mongoClusters get test", async function () {

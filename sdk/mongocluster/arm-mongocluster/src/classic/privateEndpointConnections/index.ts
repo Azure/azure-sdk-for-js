@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentDBContext } from "../../api/documentDBContext.js";
+import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateEndpointConnectionResource } from "../../models/models.js";
 import {
   privateEndpointConnectionsListByMongoCluster,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentDBContext } from "../../api/documentDBContext.js";
+import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { Operation } from "../../models/models.js";
 import { operationsList } from "../../api/operations/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";

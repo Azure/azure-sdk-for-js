@@ -7,10 +7,10 @@
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export type ActionType = "Internal";
+export type ActionType = string;
 
 // @public
-export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
+export type CheckNameAvailabilityReason = string;
 
 // @public
 export interface CheckNameAvailabilityRequest {
@@ -37,10 +37,10 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 };
 
 // @public
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type CreatedByType = string;
 
 // @public
-export type CreateMode = "Default" | "PointInTimeRestore";
+export type CreateMode = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -90,6 +90,82 @@ export interface FirewallRulesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownCreateMode {
+    Default = "Default",
+    PointInTimeRestore = "PointInTimeRestore"
+}
+
+// @public
+export enum KnownMongoClusterStatus {
+    Dropping = "Dropping",
+    Provisioning = "Provisioning",
+    Ready = "Ready",
+    Starting = "Starting",
+    Stopped = "Stopped",
+    Stopping = "Stopping",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownNodeKind {
+    Shard = "Shard"
+}
+
+// @public
+export enum KnownOrigin {
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -155,7 +231,7 @@ export interface MongoClustersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MongoClusterStatus = "Ready" | "Provisioning" | "Updating" | "Starting" | "Stopping" | "Stopped" | "Dropping";
+export type MongoClusterStatus = string;
 
 // @public
 export interface MongoClustersUpdateOptionalParams extends OperationOptions {
@@ -188,7 +264,7 @@ export interface NodeGroupSpec {
 }
 
 // @public
-export type NodeKind = "Shard";
+export type NodeKind = string;
 
 // @public
 export interface Operation {
@@ -212,7 +288,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type Origin = "user" | "system" | "user,system";
+export type Origin = string;
 
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
@@ -245,7 +321,7 @@ export interface PrivateEndpointConnectionProperties {
 }
 
 // @public
-export type PrivateEndpointConnectionProvisioningState = "Succeeded" | "Creating" | "Deleting" | "Failed";
+export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnectionResource extends ProxyResource {
@@ -271,7 +347,7 @@ export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams exte
 }
 
 // @public
-export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
+export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends ProxyResource {
@@ -304,7 +380,7 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export type PublicNetworkAccess = "Enabled" | "Disabled";
+export type PublicNetworkAccess = string;
 
 // @public
 export interface Resource {
@@ -315,7 +391,7 @@ export interface Resource {
 }
 
 // @public
-export type ResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
+export type ResourceProvisioningState = string;
 
 // @public
 export interface SystemData {

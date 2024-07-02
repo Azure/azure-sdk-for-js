@@ -7,7 +7,7 @@ import {
   deserializeState,
   ResourceLocationConfig,
 } from "@azure/core-lro";
-import { DocumentDBClient } from "./documentDBClient.js";
+import { MongoClusterManagementClient } from "./mongoClusterManagementClient.js";
 import { getLongRunningPoller } from "./api/pollingHelpers.js";
 import {
   _mongoClustersCreateOrUpdateDeserialize,
@@ -48,7 +48,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: DocumentDBClient,
+  client: MongoClusterManagementClient,
   serializedState: string,
   sourceOperation: (
     ...args: any[]

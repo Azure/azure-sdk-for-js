@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  CreatedByType,
   PrivateLinkResource,
   _PrivateLinkResourceListResult,
 } from "../../models/models.js";
@@ -61,15 +60,13 @@ export async function _privateLinksListByMongoClusterDeserialize(
         ? undefined
         : {
             createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"] as CreatedByType,
+            createdByType: p.systemData?.["createdByType"],
             createdAt:
               p.systemData?.["createdAt"] !== undefined
                 ? new Date(p.systemData?.["createdAt"])
                 : undefined,
             lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.[
-              "lastModifiedByType"
-            ] as CreatedByType,
+            lastModifiedByType: p.systemData?.["lastModifiedByType"],
             lastModifiedAt:
               p.systemData?.["lastModifiedAt"] !== undefined
                 ? new Date(p.systemData?.["lastModifiedAt"])
