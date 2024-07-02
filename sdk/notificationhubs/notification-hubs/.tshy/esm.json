@@ -3,10 +3,12 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/auth/hmacSha256-browser.mts"
+    "../src/package.json",
+    "../src/auth/hmacSha256-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"

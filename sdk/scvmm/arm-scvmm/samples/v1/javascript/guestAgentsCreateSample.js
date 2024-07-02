@@ -23,7 +23,7 @@ async function guestAgentsCreateMaximumSet() {
   const resource = {
     properties: {
       credentials: {
-        password: "gkvbnmuahumuoibvscoxzfdqwvfuf",
+        password: "SecretPlaceholder",
         username: "jqxuwirrcpfv",
       },
       httpProxyConfig: { httpsProxy: "uoyzyticmohohomlkwct" },

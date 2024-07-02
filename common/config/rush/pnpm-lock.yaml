@@ -4903,6 +4903,11 @@ packages:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
     dev: false
 
+  /component-emitter@2.0.0:
+    resolution: {integrity: sha512-4m5s3Me2xxlVKG9PkZpQqHQR7bgpnN7joDMJ4yvVkVXngjoITG76IaZmzmywSeRTeTpc6N6r3H3+KyUurV8OYw==}
+    engines: {node: '>=18'}
+    dev: false
+
   /compress-commons@6.0.2:
     resolution: {integrity: sha512-6FqVXeETqWPoGcfzrXb37E50NP0LXT8kAMu5ooZayhWWdgEY4lBEEcbQNXtkuKQsGduxiIcI4gOTsxTmuq/bSg==}
     engines: {node: '>= 14'}
@@ -5474,10 +5479,6 @@ packages:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
-    dev: false
-
-  /emitter-component@1.1.2:
-    resolution: {integrity: sha512-QdXO3nXOzZB4pAjM0n6ZE+R9/+kPpECA/XSELIcc54NeYVnBqIk+4DFiBgK+8QbV3mdvTG6nedl7dTYgO+5wDw==}
     dev: false
 
   /emoji-regex@8.0.0:
@@ -9801,10 +9802,10 @@ packages:
       xtend: 4.0.2
     dev: false
 
-  /stream@0.0.2:
-    resolution: {integrity: sha512-gCq3NDI2P35B2n6t76YJuOp7d6cN/C7Rt0577l91wllh0sY9ZBuw9KaSGqH/b0hzn3CWWJbpbW0W0WvQ1H/Q7g==}
+  /stream@0.0.3:
+    resolution: {integrity: sha512-aMsbn7VKrl4A2T7QAQQbzgN7NVc70vgF5INQrBXqn4dCXN1zy3L9HGgLO5s7PExmdrzTJ8uR/27aviW8or8/+A==}
     dependencies:
-      emitter-component: 1.1.2
+      component-emitter: 2.0.0
     dev: false
 
   /streamroller@3.1.5:
@@ -20528,7 +20529,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-nsjCw12vNrUGBArD3lzwwafHEfoqtijuQm5XzmxZBJkt9lpsyZw7i1CKIeovu8PzRdRlNhIMMX5pr3WH8v4a3A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-zPIg0zLrkyA7jIPjccl4ybbZRo+4riRmY24kFD4KFFL2UUlm9IGQ0CB4mPCwYRHzRYYYYKKFV7oKhbLSP0bXHw==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -22760,7 +22761,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-47sulX28+AsbF89iTzymY6ryXV9RjiQuQ7knAlCO2Sc9nLu80z3JPw7szH6wypphwstQ0oFwdEQgA96BWX0fYw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-l/UMYLc4jbhmllBncdjaTNzoGD51m375nUf4te/VkqxRhgA8wrtKEsK3CshgcBdlf0/N9ksUJdmebaOL4JY5wg==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -22797,7 +22798,7 @@ packages:
       nyc: 17.0.0
       process: 0.11.10
       rimraf: 5.0.7
-      stream: 0.0.2
+      stream: 0.0.3
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
       typescript: 5.4.5

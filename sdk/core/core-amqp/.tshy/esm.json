@@ -3,13 +3,15 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/util/checkNetworkConnection-browser.mts",
-    ".././src/util/hmacSha256-browser.mts",
-    ".././src/util/runtimeInfo-browser.mts",
-    ".././src/util/runtimeInfo-react-native.mts"
+    "../src/package.json",
+    "../src/util/checkNetworkConnection-browser.mts",
+    "../src/util/hmacSha256-browser.mts",
+    "../src/util/runtimeInfo-browser.mts",
+    "../src/util/runtimeInfo-react-native.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
