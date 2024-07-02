@@ -52,7 +52,7 @@ import {
   isPipelineLike,
   Pipeline,
 } from "@azure/storage-blob";
-import { storageCorrectContentLengthPolicy } from "@azure/storage-blob/src/policies/StorageCorrectConentLengthPolicy";
+import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
