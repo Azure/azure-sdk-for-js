@@ -191,3 +191,5 @@ sdk/template/template-dpg/src/src
 # sshkey
 sdk/**/sshKey
 sdk/**/sshKey.pub
+
+typespec/
