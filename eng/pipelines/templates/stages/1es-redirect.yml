@@ -37,9 +37,8 @@ extends:
     settings:
       skipBuildTagsForGitHubPullRequests: true
     sdl:
-      sdl:
-        codeql:
-          language: javascript
+      codeql:
+        language: javascript
       sourceAnalysisPool:
         name: azsdk-pool-mms-win-2022-general
         image: azsdk-pool-mms-win-2022-1espt
