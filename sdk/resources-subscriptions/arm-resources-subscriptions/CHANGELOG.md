@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2023-05-24)
     
-**Features**
+### Features Added
 
   - Added operation group Operations
   - Added operation Subscriptions.checkZonePeers
@@ -44,17 +44,17 @@
     
 ## 2.0.2 (2022-11-22)
 
-**Features**
+### Features Added
 
  -  Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 2.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 

@@ -12,7 +12,7 @@
 
 ## 5.1.0 (2023-05-18)
     
-**Features**
+### Features Added
 
   - Interface DataPolicyManifestsListNextOptionalParams no longer has parameter filter
   - Interface PolicyAssignmentsListForManagementGroupNextOptionalParams no longer has parameter filter
@@ -42,23 +42,23 @@
     
 ## 5.0.3 (2022-11-28)
 
-**Features**
+### Features Added
 
  -  Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 5.0.2 (2022-07-04)
 
-**features**
+### Features Added
 
   - Bug fix
 
 ## 5.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 

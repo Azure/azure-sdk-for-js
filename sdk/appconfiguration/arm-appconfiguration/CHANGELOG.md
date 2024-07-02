@@ -12,7 +12,7 @@
 
 ## 4.0.0 (2023-04-06)
     
-**Features**
+### Features Added
 
   - Added operation group Replicas
   - Added Interface Replica
@@ -34,27 +34,27 @@
   - Interface ConfigurationStoresListNextOptionalParams no longer has parameter skipToken
   - Interface OperationsListNextOptionalParams no longer has parameter skipToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation KeyValues.listByConfigurationStore
     
     
 ## 3.1.0 (2022-11-15)
     
-**Features**
+### Features Added
 
   - Added Interface ConfigurationStore
   - Added Interface TrackedResource
     
 ## 3.0.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  revert credential scopes
 
 ## 3.0.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  fix better user experience of credential scopes in government cloud
 

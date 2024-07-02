@@ -12,14 +12,14 @@
 
 ## 4.1.0 (2022-11-21)
     
-**Features**
+### Features Added
 
   - Added Interface ADCCatalog
     
     
 ## 4.0.0 (2022-04-19)
     
-**Breaking Changes**
+### Breaking Changes
 
   - Operation ADCCatalogs.beginDelete has a new signature
   - Operation ADCCatalogs.beginDeleteAndWait has a new signature

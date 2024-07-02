@@ -12,7 +12,7 @@
 
 ## 3.0.0 (2024-01-10)
     
-**Features**
+### Features Added
 
   - Added operation group ApiPortalCustomDomains
   - Added operation group ApiPortals
@@ -481,7 +481,7 @@
         [propertyName: string]: Record<string, unknown>;
     }
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter bindingParameters of interface BindingResourceProperties is changed from {
         [propertyName: string]: Record<string, unknown>;
@@ -493,7 +493,7 @@
     
 ## 3.0.0-beta.1 (2023-03-28)
     
-**Features**
+### Features Added
 
   - Added operation group ApiPortalCustomDomains
   - Added operation group ApiPortals
@@ -870,7 +870,7 @@
   - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
   - Interface DeploymentsListNextOptionalParams no longer has parameter version
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter addonConfigs of interface AppResourceProperties is changed from {
         [propertyName: string]: {

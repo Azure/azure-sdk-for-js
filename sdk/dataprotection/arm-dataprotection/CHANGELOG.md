@@ -12,7 +12,7 @@
 
 ## 2.0.0 (2023-12-05)
     
-**Features**
+### Features Added
 
   - Added operation group FetchCrossRegionRestoreJob
   - Added operation group FetchCrossRegionRestoreJobs
@@ -58,7 +58,7 @@
   - Added Enum KnownRecoveryPointCompletionState
   - Added Enum KnownResourcePropertiesObjectType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter objectType of interface BaseResourceProperties is changed from "BaseResourceProperties" to "DefaultResourceProperties"
   - Type of parameter resourceProperties of interface Datasource is changed from BaseResourceProperties to BaseResourcePropertiesUnion
@@ -67,7 +67,7 @@
     
 ## 1.2.0 (2023-07-10)
     
-**Features**
+### Features Added
 
   - Added Interface BaseResourceProperties
   - Added Interface CrossRegionRestoreSettings
@@ -93,7 +93,7 @@
     
 ## 1.1.0 (2023-06-12)
     
-**Features**
+### Features Added
 
   - Added operation group DppResourceGuardProxy
   - Added Interface DppResourceGuardProxyCreateOrUpdateOptionalParams

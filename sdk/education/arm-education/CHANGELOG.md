@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.3 (2023-01-10)
     
-**Features**
+### Features Added
 
   - Interface GrantsListAllNextOptionalParams no longer has parameter includeAllocatedBudget
   - Interface GrantsListNextOptionalParams no longer has parameter includeAllocatedBudget
@@ -25,7 +25,7 @@
     
 ## 1.0.0-beta.2 (2022-07-04)
     
-**Features**
+### Features Added
 
   - Added Interface GrantDetails
   - Added Interface JoinRequestDetails

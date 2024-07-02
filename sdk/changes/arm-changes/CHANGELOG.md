@@ -12,7 +12,7 @@
 
 ## 1.1.0 (2022-11-17)
     
-**Features**
+### Features Added
 
   - Added Interface ChangeResourceResult
     

@@ -12,7 +12,7 @@
 
 ## 6.1.0 (2022-12-02)
     
-**Features**
+### Features Added
 
   - Added Interface Configuration
   - Added Interface Database
@@ -35,7 +35,7 @@
     
 ## 6.0.1 (2022-04-28)
 
-**Features**
+### Features Added
 
   - Bug fix
 

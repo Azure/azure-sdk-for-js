@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-16)
     
-**Features**
+### Features Added
 
   - Added Interface AppServicePlan
   - Added Interface AppServicePlanPatchResource

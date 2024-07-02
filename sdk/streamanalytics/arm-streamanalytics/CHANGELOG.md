@@ -12,7 +12,7 @@
 
 ## 5.0.0-beta.1 (2024-02-07)
     
-**Features**
+### Features Added
 
   - Added operation group SkuOperations
   - Added operation Subscriptions.beginSampleInput
@@ -167,7 +167,7 @@
   - Enum KnownEventSerializationType has a new value CustomClr
   - Enum KnownEventSerializationType has a new value Delta
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureSqlReferenceInputDataSource no longer has parameter table
   - Interface Cluster no longer has parameter capacityAllocated
@@ -184,7 +184,7 @@
     
 ## 4.1.0 (2022-12-13)
     
-**Features**
+### Features Added
 
   - Added Interface AvroSerialization
   - Added Interface AzureDataLakeStoreOutputDataSource
@@ -245,7 +245,7 @@
     
 ## 4.0.1 (2022-05-05)
 
-**Features**
+### Features Added
 
   - Bug fix
 

@@ -12,7 +12,7 @@
 
 ## 20.0.0 (2024-04-26)
     
-**Features**
+### Features Added
 
   - Added Interface AgentPoolWindowsProfile
   - Added Interface ManagedClusterCostAnalysis
@@ -22,14 +22,14 @@
   - Interface ManagedCluster has a new optional parameter metricsProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter windowsProfile
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface IstioEgressGateway no longer has parameter nodeSelector
     
 
 ## 20.0.0-beta.1 (2024-04-12)
     
-**Features**
+### Features Added
 
   - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
@@ -214,14 +214,14 @@
   - Enum KnownSnapshotType has a new value ManagedCluster
   - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface IstioEgressGateway no longer has parameter nodeSelector
     
     
 ## 19.8.0 (2024-03-22)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
@@ -230,7 +230,7 @@
     
 ## 19.8.0-beta.2 (2024-03-08)
     
-**Features**
+### Features Added
 
   - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
@@ -410,7 +410,7 @@
 
 ## 19.8.0-beta.1 (2024-02-05)
     
-**Features**
+### Features Added
 
   - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
@@ -582,14 +582,14 @@
    
 ## 19.7.0 (2024-01-18)
     
-**Features**
+### Features Added
 
   - Interface AgentPoolUpgradeSettings has a new optional parameter nodeSoakDurationInMinutes
     
     
 ## 19.6.0 (2023-12-21)
     
-**Features**
+### Features Added
 
   - Added Interface AgentPoolNetworkProfile
   - Added Interface IPTag
@@ -607,7 +607,7 @@
     
 ## 19.6.0-beta.1 (2023-11-30)
     
-**Features**
+### Features Added
 
   - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
@@ -779,7 +779,7 @@
     
 ## 19.5.0 (2023-11-22)
     
-**Features**
+### Features Added
 
   - Added operation group TrustedAccessRoleBindings
   - Added operation group TrustedAccessRoles
@@ -812,7 +812,7 @@
     
 ## 19.5.0-beta.1 (2023-11-03)
     
-**Features**
+### Features Added
 
   - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
@@ -985,7 +985,7 @@
    
 ## 19.4.0 (2023-10-20)
     
-**Features**
+### Features Added
 
   - Added operation ManagedClusters.getMeshRevisionProfile
   - Added operation ManagedClusters.getMeshUpgradeProfile
@@ -1029,7 +1029,7 @@
     
 ## 19.4.0-beta.2 (2023-10-10)
     
-**Features**
+### Features Added
 
   - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
@@ -1225,7 +1225,7 @@
 
 ## 19.4.0-beta.1 (2023-09-01)
     
-**Features**
+### Features Added
 
   - Added operation group Machines
   - Added operation group ManagedClusterSnapshots
@@ -1408,7 +1408,7 @@
    
 ## 19.3.0 (2023-08-21)
     
-**Features**
+### Features Added
 
   - Added Interface ClusterUpgradeSettings
   - Added Interface UpgradeOverrideSettings
@@ -1417,7 +1417,7 @@
     
 ## 19.2.0 (2023-08-14)
     
-**Features**
+### Features Added
 
   - Added Interface DelegatedResource
   - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
@@ -1431,7 +1431,7 @@
     
 ## 19.1.0 (2023-07-03)
     
-**Features**
+### Features Added
 
   - Added Interface AbsoluteMonthlySchedule
   - Added Interface DailySchedule
@@ -1447,18 +1447,18 @@
     
 ## 19.0.0 (2023-05-19)
     
-**Features**
+### Features Added
 
   - Enum KnownOssku has a new value AzureLinux
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface ContainerServiceNetworkProfile no longer has parameter dockerBridgeCidr
     
     
 ## 18.0.0 (2023-04-23)
     
-**Features**
+### Features Added
 
   - Added operation ManagedClusters.listKubernetesVersions
   - Added Interface KubernetesPatchVersion
@@ -1483,7 +1483,7 @@
   - Enum KnownManagedClusterSKUTier has a new value Premium
   - Enum KnownNetworkPolicy has a new value Cilium
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownContainerServiceStorageProfileTypes
   - Removed Enum KnownContainerServiceVMSizeTypes
@@ -1493,7 +1493,7 @@
     
 ## 17.4.0 (2023-03-09)
     
-**Features**
+### Features Added
 
   - Added operation AgentPools.beginAbortLatestOperation
   - Added operation AgentPools.beginAbortLatestOperationAndWait
@@ -1515,7 +1515,7 @@
     
 ## 17.3.0 (2023-01-06)
     
-**Features**
+### Features Added
 
   - Added Interface AgentPoolsDeleteHeaders
   - Added Interface ManagedClustersDeleteHeaders
@@ -1542,7 +1542,7 @@
     
 ## 17.2.0 (2022-11-02)
     
-**Features**
+### Features Added
 
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
@@ -1557,7 +1557,7 @@
     
 ## 17.1.0 (2022-08-25)
     
-**Features**
+### Features Added
 
   - Enum KnownOssku has a new value Windows2019
   - Enum KnownOssku has a new value Windows2022
@@ -1565,7 +1565,7 @@
     
 ## 17.0.0 (2022-07-22)
     
-**Features**
+### Features Added
 
   - Added Interface AgentPool
   - Added Interface AzureKeyVaultKms
@@ -1585,14 +1585,14 @@
   - Added Enum KnownKeyVaultNetworkAccessTypes
   - Enum KnownNetworkPlugin has a new value None
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface ManagedClusterSecurityProfile no longer has parameter azureDefender
     
     
 ## 16.1.0 (2022-05-23)
     
-**Features**
+### Features Added
 
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter currentOrchestratorVersion
   - Type Alias AgentPool has a new parameter currentOrchestratorVersion
@@ -1602,7 +1602,7 @@
     
 ## 16.0.0 (2022-04-20)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedClusterStorageProfile
   - Added Interface ManagedClusterStorageProfileDiskCSIDriver
@@ -1613,7 +1613,7 @@
   - Add parameters of TrackedResource to TypeAlias ManagedClusterAccessProfile
   - Add parameters of TrackedResource to TypeAlias Snapshot
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
@@ -1624,14 +1624,14 @@
     
 ## 15.2.0 (2022-03-23)
     
-**Features**
+### Features Added
 
   - Interface Resource has a new optional parameter systemData
     
     
 ## 15.1.0 (2022-02-24)
     
-**Features**
+### Features Added
 
   - Added Type Alias Format
   - Interface ManagedClustersListClusterUserCredentialsOptionalParams has a new optional parameter format

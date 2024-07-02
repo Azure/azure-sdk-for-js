@@ -12,7 +12,7 @@
 
 ## 11.0.0-beta.3 (2023-11-08)
     
-**Features**
+### Features Added
 
   - Added operation group Archives
   - Added operation group ArchiveVersions
@@ -217,14 +217,14 @@
   - Added Enum KnownPipelineSourceType
   - Added Enum KnownTlsStatus
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
     
 
 ## 11.0.0-beta.2 (2023-09-20)
 
-**Features**
+### Features Added
 
   - Added operation group Archives
   - Added operation group ArchiveVersions
@@ -425,13 +425,13 @@
   - Added Enum KnownPipelineSourceType
   - Added Enum KnownTlsStatus
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
 
 ## 11.0.0-beta.1 (2023-09-07)
 
-**Features**
+### Features Added
 
   - Added operation group CacheRules
   - Added operation group CredentialSets
@@ -481,14 +481,14 @@
   - Added Enum KnownCredentialHealthStatus
   - Added Enum KnownCredentialName
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
   
      
 ## 10.1.0 (2023-03-21)
     
-**Features**
+### Features Added
 
   - Added operation group ScopeMaps
   - Added operation group Tokens

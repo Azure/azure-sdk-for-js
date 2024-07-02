@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.2 (2024-04-03)
     
-**Features**
+### Features Added
 
   - Added operation group ClusterAvailableUpgrades
   - Added operation group ClusterPoolAvailableUpgrades
@@ -132,7 +132,7 @@
   - Enum KnownAction has a new value LastStateUpdate
   - Enum KnownAction has a new value RELaunch
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Cluster no longer has parameter clusterProfile
   - Interface Cluster no longer has parameter clusterType

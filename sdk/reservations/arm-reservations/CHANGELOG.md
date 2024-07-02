@@ -12,12 +12,12 @@
 
 ## 9.0.0 (2023-03-08)
     
-**Features**
+### Features Added
 
   - Interface CatalogMsrp has a new optional parameter p3Y
   - Interface CatalogMsrp has a new optional parameter p5Y
 
-**Breaking Changes**
+### Breaking Changes
 
   - Delete parameters of ReturnPostHeaders in TypeAlias ReturnPostResponse
   - Delete parameters of RefundResponse in TypeAlias ReturnPostResponse
@@ -25,7 +25,7 @@
     
 ## 8.0.0 (2023-02-01)
     
-**Features**
+### Features Added
 
   - Added operation Return.beginPost
   - Added operation Return.beginPostAndWait
@@ -89,7 +89,7 @@
   - Interface ReservationResponse no longer has parameter systemData
   - Interface ReservationResponse no longer has parameter type
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Return.post
   - Operation Reservation.listRevisions has a new signature
@@ -98,7 +98,7 @@
     
 ## 7.2.0 (2022-09-19)
     
-**Features**
+### Features Added
 
   - Added operation group CalculateRefund
   - Added operation group Return
@@ -130,7 +130,7 @@
     
 ## 7.1.0 (2022-04-20)
     
-**Features**
+### Features Added
 
   - Interface CurrentQuotaLimit has a new optional parameter id
   - Interface CurrentQuotaLimit has a new optional parameter name

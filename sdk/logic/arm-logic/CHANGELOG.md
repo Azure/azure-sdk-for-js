@@ -12,7 +12,7 @@
 
 ## 8.2.0 (2023-01-20)
     
-**Features**
+### Features Added
 
   - Interface IntegrationAccountAgreementsListNextOptionalParams no longer has parameter filter
   - Interface IntegrationAccountAgreementsListNextOptionalParams no longer has parameter top
@@ -46,7 +46,7 @@
     
 ## 8.1.0 (2022-09-21)
     
-**Features**
+### Features Added
 
   - Added Interface ApiOperation
   - Added Interface ApiReference

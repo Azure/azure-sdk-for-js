@@ -12,7 +12,7 @@
 
 ## 1.2.0 (2023-12-21)
     
-**Features**
+### Features Added
 
   - Added Interface AccountsDeleteHeaders
   - Added Interface Encryption
@@ -24,7 +24,7 @@
     
 ## 1.1.0 (2023-01-09)
     
-**Features**
+### Features Added
 
   - Added function getContinuationToken
 
