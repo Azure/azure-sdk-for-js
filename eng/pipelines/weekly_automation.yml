@@ -30,7 +30,6 @@ jobs:
       PRBody: "This is an automatic PR generated weekly with changes from running the command rush update --full"
       PushArgs: "-f"
 
-
 - job: 'CheckDependency'
   displayName: 'Check Package Dependency'
   variables:
@@ -60,6 +59,38 @@ jobs:
         -RepoOwner azure
         -AuthToken "$(azuresdk-github-pat)"
       pwsh: true
+
+  - script: |
+      git reset --hard
+    displayName: "Reset Changes"
+
+- job: 'FormatCode'
+  displayName: 'Rush format all'
+  variables:
+  - template: /eng/pipelines/templates/variables/globals.yml
+
+  pool:
+    name: azsdk-pool-mms-ubuntu-2004-general
+    vmImage: MMSUbuntu20.04
+
+  steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+
+  - script: |
+      node common/scripts/install-run-rush.js install
+      node common/scripts/install-run-rush.js format
+    displayName: "Run Rush Format"
+
+  - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+    parameters:
+      RepoName: azure-sdk-for-js
+      BaseBranchName: $(DefaultBranch)
+      PRBranchName: automated-rush-format
+      CommitMsg: "Automatic rush format"
+      PRTitle: "[EngSys] automatic rush format"
+      PRBody: "This is an automatic PR generated weekly with changes from running the command rush format"
+      PushArgs: "-f"
 
   - script: |
       git reset --hard
