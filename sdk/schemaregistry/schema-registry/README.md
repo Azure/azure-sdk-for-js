@@ -23,7 +23,7 @@ Key links:
 
 ### Install the `@azure/schema-registry` package
 
-Install the Azure Text Analytics client library for JavaScript with `npm`:
+Install the Azure Schema Registry client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/schema-registry

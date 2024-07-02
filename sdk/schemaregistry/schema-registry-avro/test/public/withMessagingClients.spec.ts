@@ -44,7 +44,7 @@ interface ScenariosTestInfo<T> {
 }
 
 describe("With messaging clients", function () {
-  const eventHubsConnectionString = env.EVENTHUB_AVRO_CONNECTION_STRING || "";
+  const eventHubAvroHostName = env.EVENTHUB_AVRO_HOST_NAME || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 
@@ -56,7 +56,7 @@ describe("With messaging clients", function () {
       createEventHubsClient({
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
-        eventHubsConnectionString,
+        eventHubAvroHostName,
       }),
     );
     client.initialize();

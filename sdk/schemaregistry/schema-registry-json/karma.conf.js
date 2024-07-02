@@ -50,7 +50,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "SCHEMAREGISTRY_JSON_FULLY_QUALIFIED_NAMESPACE",
-      "EVENTHUB_JSON_CONNECTION_STRING",
+      "EVENTHUB_JSON_HOST_NAME",
       "EVENTHUB_NAME",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
