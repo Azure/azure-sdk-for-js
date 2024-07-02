@@ -13,7 +13,8 @@ export async function startRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start({
     envSetupForPlayback: {
-      DOCUMENT_TRANSLATION_ENDPOINT: "https://fakeEndpoint-doctranslation.cognitiveservices.azure.com",
+      DOCUMENT_TRANSLATION_ENDPOINT:
+        "https://fakeEndpoint-doctranslation.cognitiveservices.azure.com",
       DOCUMENT_TRANSLATION_STORAGE_NAME: "fakestoragename",
     },
     removeCentralSanitizers: ["AZSDK2030", "AZSDK3430"],

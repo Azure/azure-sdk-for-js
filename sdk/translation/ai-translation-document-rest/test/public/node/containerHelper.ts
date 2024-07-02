@@ -75,7 +75,10 @@ async function createContainer(
 ): Promise<ContainerClient> {
   const storageName = env.DOCUMENT_TRANSLATION_STORAGE_NAME as string;
   const url = `https://${storageName}.blob.core.windows.net/`;
-  const blobServiceClient: BlobServiceClient = new BlobServiceClient(url, new DefaultAzureCredential());
+  const blobServiceClient: BlobServiceClient = new BlobServiceClient(
+    url,
+    new DefaultAzureCredential(),
+  );
   configureBlobStorageClient(recorder, blobServiceClient);
 
   const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -116,9 +119,12 @@ export async function downloadDocument(
 ): Promise<string> {
   const storageName = env.DOCUMENT_TRANSLATION_STORAGE_NAME as string;
   const url = `https://${storageName}.blob.core.windows.net/`;
-  const blobServiceClient: BlobServiceClient = new BlobServiceClient(url, new DefaultAzureCredential());
+  const blobServiceClient: BlobServiceClient = new BlobServiceClient(
+    url,
+    new DefaultAzureCredential(),
+  );
   configureBlobStorageClient(recorder, blobServiceClient);
-  
+
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blobClient = containerClient.getBlobClient(documentName);
   const blockBlobClient = blobClient.getBlockBlobClient();
