@@ -239,7 +239,7 @@ function fixSourceFiles(packageFolder: string): void {
         { pattern: /sinon\.stub/gi, replace: "vi.spyOn" },
         { pattern: /\(this: Context\)/g, replace: "(ctx)" },
         { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
-        { pattern: /\(!this\.currentTest\?\.\isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
+        { pattern: /\(!this\.currentTest\?\.isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
         { pattern: /this\.skip\(\);/g, replace: "ctx.task.skip();" },
       ];
 
