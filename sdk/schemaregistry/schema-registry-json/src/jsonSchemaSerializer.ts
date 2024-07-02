@@ -114,7 +114,7 @@ export class JsonSchemaSerializer<MessageT = MessageContent> {
    * @throws {@link Error}
    * Thrown if the deserialization failed, e.g. because reader and writer schemas are incompatible.
    */
-  async deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown> {
+  async deserialize<T>(message: MessageT, options?: DeserializeOptions): Promise<T> {
     const { data, contentType } = convertMessage(message, this.messageAdapter);
     const schemaId = getSchemaId(contentType);
     const schema = await this.getSchemaById(schemaId);
@@ -129,7 +129,7 @@ export class JsonSchemaSerializer<MessageT = MessageContent> {
         `Json validation failed. See 'cause' for more details. Schema ID: ${schemaId}`,
       );
     }
-    return returnedMessage;
+    return returnedMessage as T;
   }
 
   private async getSchemaById(schemaId: string): Promise<string> {

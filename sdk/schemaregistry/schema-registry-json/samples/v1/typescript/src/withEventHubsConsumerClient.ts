@@ -88,7 +88,8 @@ export async function main() {
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(
-            `Received event: '${JSON.stringify(event)}' from partition: '${context.partitionId
+            `Received event: '${JSON.stringify(event)}' from partition: '${
+              context.partitionId
             }' and consumer group: '${context.consumerGroup}'`,
           );
           if (event.contentType !== undefined && event.body) {

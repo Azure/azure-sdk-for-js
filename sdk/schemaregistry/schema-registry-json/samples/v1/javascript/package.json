@@ -26,7 +26,7 @@
     "@azure/schema-registry-json": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.0.1",
-    "@azure/schema-registry": "1.3.0-beta.2",
+    "@azure/schema-registry": "^1.3.0",
     "ajv": "^8.12.0",
     "@azure/event-hubs": "^5.8.0"
   }
