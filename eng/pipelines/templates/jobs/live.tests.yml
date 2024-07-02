@@ -69,13 +69,6 @@ jobs:
         image: $(OSVmImage)
       os: ${{ parameters.OSName }}
 
-    ${{ if eq(parameters.OSName, 'macOS') }}:
-      templateContext:
-        sdl:
-          codeql:
-            compiled: 
-              language: javascript
-
     timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
 
     ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
