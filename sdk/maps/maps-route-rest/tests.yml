@@ -12,15 +12,17 @@ jobs:
     steps:
       - checkout: self
 
-      - task: AzurePowershell@5
-        displayName: Test
+      - task: AzurePowerShell@5
+        displayName: Set Pipeline Subnet Info
         inputs:
           azureSubscription: azure-sdk-tests
           azurePowerShellVersion: LatestVersion
-          scriptType: pscore
-          scriptLocation: inlineScript
-          inlineScript: |
-            Write-Host "BEBRODER"
+          pwsh: true
+          ScriptType: InlineScript
+          Inline: |
+            Write-Host "STARTING"
+            Set-AzContext 'Azure SDK Engineering System'
+            Write-Host "SWITCHED"
 
       - bash: sudo chown -R runner ~/.Azure
         displayName: (MacOS) Grant access to ~/.Azure
