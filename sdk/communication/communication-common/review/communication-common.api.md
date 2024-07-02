@@ -8,13 +8,15 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/identity';
+import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
 
 // @public
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
-    constructor(resourceEndpoint: string, entraToken: string);
+    // Warning: (ae-forgotten-export) The symbol "EntraCommunicationTokenCredentialOptions" needs to be exported by the entry point index.d.ts
+    constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
     dispose(): void;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
@@ -57,7 +59,7 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
 export function createCommunicationAccessKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy;
 
 // @public
-export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential): PipelinePolicy;
+export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential_2): PipelinePolicy;
 
 // @public
 export const createIdentifierFromRawId: (rawId: string) => CommunicationIdentifierKind;
@@ -189,7 +191,7 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
 // @public
 export type UrlWithCredential = {
     url: string;
-    credential: TokenCredential | KeyCredential;
+    credential: TokenCredential_2 | KeyCredential;
 };
 
 // (No @packageDocumentation comment for this package)

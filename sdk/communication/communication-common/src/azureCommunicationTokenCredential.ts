@@ -8,12 +8,12 @@ import {
 import {
   CommunicationGetTokenOptions,
   CommunicationTokenCredential,
-  TokenCredential,
+  TokenCredential
 } from "./communicationTokenCredential";
 import { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import { parseToken } from "./tokenParser";
-import { exchangeEntraToken } from "./entraTokenExchange";
+import { EntraCommunicationTokenCredentialOptions, EntraTokenCredential } from "./entraTokenCredential";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.
@@ -35,19 +35,17 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    */
   constructor(refreshOptions: CommunicationTokenRefreshOptions);
   /**
-   * Creates an instance of CommunicationTokenCredential with an Entra ID token and no proactive refreshing.
-   * @param entraToken - The Azure Communication Service resource endpoint URL, e.g. https://myResource.communication.azure.com.
-   * @param entraToken - An Entra ID token for Azure Communication Service's chat or voip scope.
+   * Creates an instance of CommunicationTokenCredential with an Entra ID token credential. In most cases, you might want to use InteractiveBrowserCredential to sign in your user.
+   * @param entraOptions - Options to configure the Entra ID token credential.
    */
-  constructor(resourceEndpoint: string, entraToken: string);
-  constructor(tokenOrRefreshOptionsOrResourceEndpoint: string | CommunicationTokenRefreshOptions, entraToken?: string) {
-    if (!!entraToken) {
-      const resourceEndpoint = tokenOrRefreshOptionsOrResourceEndpoint as string;
-      this.tokenCredential = new StaticTokenCredential(exchangeEntraToken(resourceEndpoint, entraToken));
-    } else if (typeof tokenOrRefreshOptionsOrResourceEndpoint === "string") {
-      this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptionsOrResourceEndpoint));
+  constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
+  constructor(tokenOrRefreshOptionsOrEntraOptions: string | CommunicationTokenRefreshOptions | EntraCommunicationTokenCredentialOptions) {
+    if (typeof tokenOrRefreshOptionsOrEntraOptions === "string") {
+      this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptionsOrEntraOptions));
+    } else if ("tokenRefresher" in tokenOrRefreshOptionsOrEntraOptions) {
+      this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptionsOrEntraOptions);
     } else {
-      this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptionsOrResourceEndpoint);
+      this.tokenCredential = new EntraTokenCredential(tokenOrRefreshOptionsOrEntraOptions);
     }
   }
 
