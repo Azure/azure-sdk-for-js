@@ -249,3 +249,8 @@ ccmixpdevs is an invalid user. Ensure the user exists, is public member of Azure
 ccmbpxpcrew is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 TiagoCrewGitHubIssues is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 ccmshowbackdevs is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+robece is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+axisc is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+jimmyca15 is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+zhenlan is not a public member of Azure.
+
