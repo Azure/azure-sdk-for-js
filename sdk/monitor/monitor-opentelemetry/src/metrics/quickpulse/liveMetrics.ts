@@ -137,7 +137,8 @@ export class LiveMetrics {
       isWebApp: process.env["WEBSITE_SITE_NAME"] ? true : false,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
-      this.config.azureMonitorExporterOptions.connectionString,
+      this.config.azureMonitorExporterOptions.connectionString ||
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
