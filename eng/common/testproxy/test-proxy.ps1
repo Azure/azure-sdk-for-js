@@ -173,6 +173,11 @@ function Install-Standalone-TestProxy (
 ) {
     $ErrorActionPreference = "Stop"
     $systemDetails = Get-Proxy-Meta
+
+    if (!(Test-Path $Directory) -and $Directory -ne ".") {
+        New-Item -ItemType Directory -Path $Directory -Force
+    }
+
     $downloadFolder = Resolve-Path $Directory
     $downloadUrl = Get-Proxy-Url $Version
     $downloadFile = $downloadUrl.Split('/')[-1]
