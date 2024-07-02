@@ -489,6 +489,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

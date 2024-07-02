@@ -2198,6 +2198,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-edgezones",
+      "projectFolder": "sdk/edgezones/arm-edgezones",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-guestconfiguration",
       "projectFolder": "sdk/guestconfiguration/arm-guestconfiguration",
       "versionPolicyName": "management"
