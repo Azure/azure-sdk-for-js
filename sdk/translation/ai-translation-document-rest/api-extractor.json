@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/ai-translation-document-rest.d.ts"
+    "publicTrimmedFilePath": "./types/ai-translation-document.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
