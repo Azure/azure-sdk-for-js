@@ -37,9 +37,9 @@ parameters:
 
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/cache-ps-modules.yml
+  #  - template: /eng/common/pipelines/templates/steps/cache-ps-modules.yml
 
-  - template: /eng/common/TestResources/setup-environments.yml
+  # - template: /eng/common/TestResources/setup-environments.yml
 
   - ${{ if eq('true', parameters.UseFederatedAuth) }}:
     - task: AzurePowerShell@5

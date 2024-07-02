@@ -77,6 +77,10 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
+      - template: /eng/common/pipelines/templates/steps/cache-ps-modules.yml
+
+      - template: /eng/common/TestResources/setup-environments.yml
+
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/build-test-resource-config.yml
           parameters:
