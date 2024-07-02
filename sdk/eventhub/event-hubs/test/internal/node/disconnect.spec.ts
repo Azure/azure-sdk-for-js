@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
-import { EventHubConsumerClient, latestEventPosition } from "../../../src";
+import { createTestCredential, EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
+import { EventHubConsumerClient, latestEventPosition, TokenCredential } from "../../../src";
 import { createReceiver, WritableReceiver } from "../../../src/partitionReceiver";
 import { EventHubSender } from "../../../src/eventHubSender";
 import { MessagingError } from "@azure/core-amqp";
@@ -32,14 +32,15 @@ testWithServiceTypes((serviceVersion) => {
 
   describe("disconnected", function () {
     let partitionIds: string[] = [];
+    let credential: TokenCredential;
     const service = {
-      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      fqdn: env[EnvVarKeys.EVENTHUB_FQDN],
       path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     before("validate environment", function (): void {
       should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
+        env[EnvVarKeys.EVENTHUB_FQDN],
+        "define EVENTHUB_FQDN in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
@@ -48,10 +49,12 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     before("get partition ids", async function () {
+      credential = createTestCredential();
       const client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
-        service.connectionString,
+        service.fqdn,
         service.path,
+        credential,
       );
       partitionIds = await client.getPartitionIds();
       return client.close();
@@ -63,7 +66,7 @@ testWithServiceTypes((serviceVersion) => {
        * Prior to fixing this issue, a TypeError would be thrown when this test was ran.
        */
       it("send works after disconnect", async () => {
-        const context = createConnectionContext(service.connectionString, service.path);
+        const context = createConnectionContext(service.fqdn, service.path, credential);
         const sender = EventHubSender.create(context, "Sender1", {
           enableIdempotentProducer: false,
         });
@@ -97,7 +100,7 @@ testWithServiceTypes((serviceVersion) => {
     describe("ConnectionContext", function () {
       describe("onDisconnected", function () {
         it("does not fail when entities are closed concurrently", async () => {
-          const context = createConnectionContext(service.connectionString, service.path);
+          const context = createConnectionContext(service.fqdn, service.path, credential);
 
           // Add 2 receivers.
           const receiver1 = createReceiver(
@@ -163,7 +166,7 @@ testWithServiceTypes((serviceVersion) => {
 
       describe("close", function () {
         it("does not fail when entities are closed concurrently", async () => {
-          const context = createConnectionContext(service.connectionString, service.path);
+          const context = createConnectionContext(service.fqdn, service.path, credential);
 
           // Add 2 receivers.
           const receiver1 = createReceiver(

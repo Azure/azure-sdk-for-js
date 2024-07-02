@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure-tools/test-utils";
 import { hashPartitionKey } from "../../../src/impl/partitionKeyToIdMapper";
 
 /**

@@ -2,18 +2,34 @@
 // Licensed under the MIT license.
 
 import { assertEnvironmentVariable, setEnvironmentVariables } from "@azure-tools/test-recorder";
-import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
+import {
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  EventPosition,
+  TokenCredential,
+} from "../../../src";
 import { TestTracer, resetTracer, setTracer } from "@azure-tools/test-utils";
 import { delay } from "@azure/core-amqp";
 import { loggerForTest } from "./logHelpers";
+import {
+  CreateTestCredentialOptions,
+  NoOpCredential,
+  createBrowserRelayCredential,
+} from "@azure-tools/test-credential";
+import { isBrowser } from "@azure/core-util";
+import {
+  AzureCliCredential,
+  AzureDeveloperCliCredential,
+  AzurePowerShellCredential,
+  ChainedTokenCredential,
+} from "@azure/identity";
 
 export enum EnvVarKeys {
-  EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",
+  EVENTHUB_FQDN = "EVENTHUB_FQDN",
   EVENTHUB_NAME = "EVENTHUB_NAME",
-  AZURE_TENANT_ID = "AZURE_TENANT_ID",
-  AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
-  AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET",
   TEST_TARGET = "TEST_TARGET",
+
+  EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",
 }
 
 export function getEnvVarValue(name: string): string | undefined {
@@ -24,24 +40,43 @@ export function getEnvVarValue(name: string): string | undefined {
   }
 }
 
-export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST_TARGET> {
-  if (getEnvVarValue(EnvVarKeys.TEST_TARGET) === "mock") {
+export function isMock(): boolean {
+  return ["mock", undefined].includes(getEnvVarValue(EnvVarKeys.TEST_TARGET));
+}
+
+export function getEnvVars(): Omit<{ [key in EnvVarKeys]: string }, EnvVarKeys.TEST_TARGET> {
+  if (isMock()) {
     setEnvironmentVariables({
-      [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`,
+      [EnvVarKeys.EVENTHUB_FQDN]: "localhost",
       [EnvVarKeys.EVENTHUB_NAME]: "mock-hub",
-      [EnvVarKeys.AZURE_TENANT_ID]: "AzureTenantId",
-      [EnvVarKeys.AZURE_CLIENT_ID]: "AzureClientId",
-      [EnvVarKeys.AZURE_CLIENT_SECRET]: "AzureClientSecret",
+      [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`,
     });
   }
 
   return {
-    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
-    [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
-    [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
-    [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
-    [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET),
+    [EnvVarKeys.EVENTHUB_FQDN]: assertEnvironmentVariable(EnvVarKeys.EVENTHUB_FQDN),
+    [EnvVarKeys.EVENTHUB_NAME]: assertEnvironmentVariable(EnvVarKeys.EVENTHUB_NAME),
+    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: assertEnvironmentVariable(
+      EnvVarKeys.EVENTHUB_CONNECTION_STRING,
+    ),
   };
+}
+
+export function createTestCredential(
+  tokenCredentialOptions: CreateTestCredentialOptions = {},
+): TokenCredential {
+  if (isMock()) {
+    return new NoOpCredential();
+  } else if (isBrowser) {
+    return createBrowserRelayCredential(tokenCredentialOptions);
+  } else {
+    const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
+    return new ChainedTokenCredential(
+      new AzurePowerShellCredential(dacOptions),
+      new AzureCliCredential(dacOptions),
+      new AzureDeveloperCliCredential(dacOptions),
+    );
+  }
 }
 
 export async function loopUntil(args: {

@@ -11,6 +11,9 @@ import { DefaultAzureCredentialResourceIdOptions } from '@azure/identity';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export function createBrowserRelayCredential(options?: CreateTestCredentialOptions): TokenCredential;
+
+// @public
 export function createTestCredential(tokenCredentialOptions?: CreateTestCredentialOptions): TokenCredential;
 
 // @public

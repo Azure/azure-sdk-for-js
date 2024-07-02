@@ -3,10 +3,12 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/state-cjs.cts"
+    "../src/package.json",
+    "../src/state-cjs.cts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/browser"

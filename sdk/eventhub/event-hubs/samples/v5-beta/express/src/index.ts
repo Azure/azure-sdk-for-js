@@ -24,7 +24,7 @@ import "dotenv/config";
 
 const app = express();
 
-const fullyQualifiedNamespace = process.env["EVENTHUB_FQNS"] || "<your fully qualified namespace>";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
 const maxBatchSendSize = 20;
 const maxWaitTimeInSeconds = 10;

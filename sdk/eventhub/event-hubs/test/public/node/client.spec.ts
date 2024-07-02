@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
-import { EnvironmentCredential, TokenCredential } from "@azure/identity";
-import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
+import { createTestCredential, EnvVarKeys, getEnvVars } from "../utils/testUtils";
+import { EventHubConsumerClient, EventHubProducerClient, TokenCredential } from "../../../src";
 import { chai, should as shouldFn } from "@azure-tools/test-utils";
 import chaiString from "chai-string";
 import { createMockServer } from "../utils/mockService";
@@ -38,33 +37,12 @@ testWithServiceTypes((serviceVersion) => {
 
     before("validate environment", function () {
       should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests.",
-      );
-      should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       // This is of the form <your-namespace>.servicebus.windows.net
-      endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
-      if (serviceVersion === "mock") {
-        // Create a mock credential that implements the TokenCredential interface.
-        credential = {
-          getToken(_args) {
-            return Promise.resolve({ token: "token", expiresOnTimestamp: Date.now() + 360000 });
-          },
-        };
-      } else {
-        credential = new EnvironmentCredential();
-      }
+      endpoint = env.EVENTHUB_FQDN;
+      credential = createTestCredential();
     });
 
     it("creates an EventHubProducerClient from an Azure.Identity credential", async function (): Promise<void> {

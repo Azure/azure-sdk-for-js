@@ -11,7 +11,7 @@ export {
   isRecordMode,
   assertEnvironmentVariable,
   setEnvironmentVariables,
-  testPollingOptions,
+  createTestPollingOptions,
   FindReplaceSanitizer,
   RegexSanitizer,
   StringSanitizer,

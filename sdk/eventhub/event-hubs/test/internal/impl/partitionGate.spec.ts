@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { PartitionGate } from "../../../src/impl/partitionGate";
-import chai from "chai";
+import { should as shouldFn } from "@azure-tools/test-utils";
 import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
-const should = chai.should();
+const should = shouldFn();
 
 testWithServiceTypes(() => {
   describe("PartitionGate", () => {

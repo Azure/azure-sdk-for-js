@@ -3,11 +3,13 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/log-browser.mts",
-    ".././src/log-react-native.mts"
+    "../src/package.json",
+    "../src/log-browser.mts",
+    "../src/log-react-native.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"

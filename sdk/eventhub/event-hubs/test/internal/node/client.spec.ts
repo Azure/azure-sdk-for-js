@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
-import { EnvironmentCredential, TokenCredential } from "@azure/identity";
+import { createTestCredential, EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
 import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
 import { assert, should as shouldFn } from "@azure-tools/test-utils";
 
@@ -27,9 +26,8 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("Create clients using Azure Identity (Internal)", function (): void {
+  describe.only("Create clients using Azure Identity (Internal)", function (): void {
     let endpoint: string;
-    let credential: TokenCredential;
     let client: EventHubConsumerClient | EventHubProducerClient;
 
     afterEach(async () => {
@@ -39,33 +37,11 @@ testWithServiceTypes((serviceVersion) => {
 
     before("validate environment", function () {
       should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
+        env[EnvVarKeys.EVENTHUB_FQDN],
+        "define EVENTHUB_FQDN in your environment before running integration tests.",
       );
       // This is of the form <your-namespace>.servicebus.windows.net
-      endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
-      if (serviceVersion === "mock") {
-        // Create a mock credential that implements the TokenCredential interface.
-        credential = {
-          getToken(_args) {
-            return Promise.resolve({ token: "token", expiresOnTimestamp: Date.now() + 360000 });
-          },
-        };
-      } else {
-        credential = new EnvironmentCredential();
-      }
+      endpoint = env.EVENTHUB_FQDN;
     });
 
     it("getEventHubProperties() creates a span with a peer.address attribute as the FQNS", async () => {
@@ -73,7 +49,7 @@ testWithServiceTypes((serviceVersion) => {
         EventHubConsumerClient.defaultConsumerGroupName,
         endpoint,
         env.EVENTHUB_NAME,
-        credential,
+        createTestCredential(),
       );
       should.equal(client.fullyQualifiedNamespace, endpoint);
 

@@ -381,6 +381,6 @@ export function assertEnvironmentVariable(variable: string): string {
 /**
  * Polling options that don't wait in playback mode.
  */
-export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-};
+export function createTestPollingOptions() {
+  return { updateIntervalInMs: isPlaybackMode() ? 0 : undefined, };
+}

@@ -65,7 +65,9 @@ testWithServiceTypes((serviceVersion) => {
       debug("Creating the clients..");
       clientMap.set(
         "EventHubBufferedProducerClient",
-        new EventHubBufferedProducerClient(service.connectionString, service.path),
+        new EventHubBufferedProducerClient(service.connectionString, service.path, {
+          onSendEventsErrorHandler: () => {},
+        }),
       );
       clientMap.set(
         "EventHubConsumerClient",

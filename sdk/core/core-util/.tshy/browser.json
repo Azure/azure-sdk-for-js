@@ -3,12 +3,14 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/bytesEncoding-react-native.mts",
-    ".././src/sha256-react-native.mts",
-    ".././src/uuidUtils-react-native.mts"
+    "../src/package.json",
+    "../src/bytesEncoding-react-native.mts",
+    "../src/sha256-react-native.mts",
+    "../src/uuidUtils-react-native.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/browser"

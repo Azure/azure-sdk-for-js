@@ -69,4 +69,4 @@ export function createTestCredential(
   }
 }
 
-export { NoOpCredential };
+export { NoOpCredential, createBrowserRelayCredential };

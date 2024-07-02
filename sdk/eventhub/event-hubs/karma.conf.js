@@ -45,6 +45,7 @@ module.exports = function (config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "EVENTHUB_CONNECTION_STRING",
+      "EVENTHUB_FQDN",
       "EVENTHUB_NAME",
       "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING",
       "TEST_TARGET",

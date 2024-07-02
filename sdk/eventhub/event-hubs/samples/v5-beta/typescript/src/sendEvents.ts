@@ -11,7 +11,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 // Load the .env file if it exists
 import "dotenv/config";
 
-const fullyQualifiedNamespace = process.env["EVENTHUB_FQNS"] || "<your fully qualified namespace>";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
 
 export async function main(): Promise<void> {

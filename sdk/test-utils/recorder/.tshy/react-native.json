@@ -3,11 +3,13 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/utils/encoding-browser.mts",
-    ".././src/utils/relativePathCalculator-browser.mts"
+    "../src/package.json",
+    "../src/utils/encoding-browser.mts",
+    "../src/utils/relativePathCalculator-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/react-native"
