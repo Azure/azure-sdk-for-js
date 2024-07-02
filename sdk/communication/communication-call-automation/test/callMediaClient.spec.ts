@@ -1079,4 +1079,593 @@ describe("Call Media Client Live Tests", function () {
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
+
+  it("Play multiple sources with play media", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "play_multiple_sources_with_play_media";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = {
+      operationContext: "playMultipleSourcsCreateCall",
+      callIntelligenceOptions: { cognitiveServicesEndpoint: "" },
+    };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const answerCallOption: AnswerCallOptions = {
+        operationContext: "playMultipleSourcesAnswerCall",
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOption,
+      );
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const playMultipleTextSources: TextSource[] = [
+      { kind: "textSource", text: "this is test one", voiceName: "en-US-NancyNeural" },
+      { kind: "textSource", text: "this is test two", voiceName: "en-US-NancyNeural" },
+      { kind: "textSource", text: "this is test three", voiceName: "en-US-NancyNeural" },
+    ];
+
+    await callConnection
+      .getCallMedia()
+      .playToAll(playMultipleTextSources, { operationContext: "multipleTextSourceContext" });
+
+    const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
+    assert.isDefined(playCompletedEvent);
+
+    await callConnection.getCallMedia().play(playMultipleTextSources, [testUser2], {
+      operationContext: "multipleTextSourceToTargetContext",
+    });
+    const playCompletedEventToTargetTextSources = await waitForEvent(
+      "PlayCompleted",
+      callConnectionId,
+      20000,
+    );
+    assert.isDefined(playCompletedEventToTargetTextSources);
+
+    const playMultipleFileSources: FileSource[] = [
+      { kind: "fileSource", url: fileSourceUrl },
+      { kind: "fileSource", url: fileSourceUrl },
+      { kind: "fileSource", url: fileSourceUrl },
+    ];
+
+    await callConnection
+      .getCallMedia()
+      .playToAll(playMultipleFileSources, { operationContext: "multipleFileSourceContext" });
+
+    const playCompletedEventToFileSources = await waitForEvent(
+      "PlayCompleted",
+      callConnectionId,
+      20000,
+    );
+    assert.isDefined(playCompletedEventToFileSources);
+
+    await callConnection.getCallMedia().play(playMultipleFileSources, [testUser2], {
+      operationContext: "multipleFileSourceToTargetContext",
+    });
+    const playCompletedEventToTargetFileSources = await waitForEvent(
+      "PlayCompleted",
+      callConnectionId,
+      20000,
+    );
+    assert.isDefined(playCompletedEventToTargetFileSources);
+
+    const multiplePlaySources: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: fileSourceUrl },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    await callConnection
+      .getCallMedia()
+      .playToAll(multiplePlaySources, { operationContext: "multipleSourceContext" });
+
+    const playCompletedEventMultipleSource = await waitForEvent(
+      "PlayCompleted",
+      callConnectionId,
+      20000,
+    );
+    assert.isDefined(playCompletedEventMultipleSource);
+
+    await callConnection.getCallMedia().play(multiplePlaySources, [testUser2], {
+      operationContext: "multipleSourceToTargetContext",
+    });
+    const playCompletedEventToTargetMultipleSource = await waitForEvent(
+      "PlayCompleted",
+      callConnectionId,
+      20000,
+    );
+    assert.isDefined(playCompletedEventToTargetMultipleSource);
+
+    const filePrompt: FileSource = { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" };
+    await callConnection
+      .getCallMedia()
+      .play([filePrompt], [testUser2], { operationContext: "playFailContext" });
+    const playFailedEvent = await waitForEvent("PlayFailed", callConnectionId, 20000);
+    assert.isDefined(playFailedEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("DTMF recognize with multiple play sources test", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "dtmf_recognize_with_multiple_play_source";
+    await loadPersistedEvents(testName);
+
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = {
+      callIntelligenceOptions: { cognitiveServicesEndpoint: "" },
+    };
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const playMultipleTextSources: TextSource[] = [
+      { kind: "textSource", text: "this is test one", voiceName: "en-US-NancyNeural" },
+      { kind: "textSource", text: "this is test two", voiceName: "en-US-NancyNeural" },
+    ];
+    const recognizeDtmfOptionsToTextSource: CallMediaRecognizeDtmfOptions = {
+      maxTonesToCollect: 1,
+      initialSilenceTimeoutInSeconds: 10,
+      playPrompts: playMultipleTextSources,
+      interToneTimeoutInSeconds: 5,
+      interruptPrompt: true,
+      stopDtmfTones: [DtmfTone.Pound],
+      kind: "callMediaRecognizeDtmfOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeDtmfOptionsToTextSource);
+    const recognizeFailedEventToTextSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToTextSource);
+
+    const multiplePlaySources: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: fileSourceUrl },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeDtmfOptionsToMultipleSource: CallMediaRecognizeDtmfOptions = {
+      maxTonesToCollect: 1,
+      initialSilenceTimeoutInSeconds: 10,
+      playPrompts: multiplePlaySources,
+      interToneTimeoutInSeconds: 5,
+      interruptPrompt: true,
+      stopDtmfTones: [DtmfTone.Pound],
+      kind: "callMediaRecognizeDtmfOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeDtmfOptionsToMultipleSource);
+    const recognizeFailedEventToMultipleSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToMultipleSource);
+
+    const multiplePrompts: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeDtmfOptionsToMultiplePrompts: CallMediaRecognizeDtmfOptions = {
+      maxTonesToCollect: 1,
+      initialSilenceTimeoutInSeconds: 10,
+      playPrompts: multiplePrompts,
+      interToneTimeoutInSeconds: 5,
+      interruptPrompt: true,
+      stopDtmfTones: [DtmfTone.Pound],
+      kind: "callMediaRecognizeDtmfOptions",
+    };
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeDtmfOptionsToMultiplePrompts);
+    const recognizeFailedEvent = await waitForEvent("RecognizeFailed", callConnectionId, 8000);
+    assert.isDefined(recognizeFailedEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Speech recognize with multiple play sources test", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "speech_recognize_with_multiple_play_source";
+    await loadPersistedEvents(testName);
+
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = {
+      callIntelligenceOptions: { cognitiveServicesEndpoint: "" },
+    };
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const playMultipleTextSources: TextSource[] = [
+      { kind: "textSource", text: "this is test one", voiceName: "en-US-NancyNeural" },
+      { kind: "textSource", text: "this is test two", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeSpeechOptionsToTextSource: CallMediaRecognizeSpeechOptions = {
+      endSilenceTimeoutInSeconds: 1,
+      playPrompts: playMultipleTextSources,
+      kind: "callMediaRecognizeSpeechOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeSpeechOptionsToTextSource);
+    const recognizeFailedEventToTextSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToTextSource);
+
+    const multiplePlaySources: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: fileSourceUrl },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeSpeechOptionsMultipleSource: CallMediaRecognizeSpeechOptions = {
+      endSilenceTimeoutInSeconds: 1,
+      playPrompts: multiplePlaySources,
+      kind: "callMediaRecognizeSpeechOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeSpeechOptionsMultipleSource);
+    const recognizeFailedEventToMultipleSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToMultipleSource);
+
+    const multiplePrompts: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeSpeechOptionsMultiPrompts: CallMediaRecognizeSpeechOptions = {
+      endSilenceTimeoutInSeconds: 1,
+      playPrompts: multiplePrompts,
+      kind: "callMediaRecognizeSpeechOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeSpeechOptionsMultiPrompts);
+    const recognizeFailedEvent = await waitForEvent("RecognizeFailed", callConnectionId, 8000);
+    assert.isDefined(recognizeFailedEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Choice recognize with multiple play sources test", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "choice_recognize_with_multiple_play_source";
+    await loadPersistedEvents(testName);
+
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = {
+      callIntelligenceOptions: { cognitiveServicesEndpoint: "" },
+    };
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const choices = [
+      {
+        label: "Confirm",
+        phrases: ["Confirm", "First", "One"],
+        tone: DtmfTone.One,
+      },
+      {
+        label: "Cancel",
+        phrases: ["Cancel", "Second", "Two"],
+        tone: DtmfTone.Two,
+      },
+    ];
+
+    const playMultipleTextSources: TextSource[] = [
+      { kind: "textSource", text: "this is test one", voiceName: "en-US-NancyNeural" },
+      { kind: "textSource", text: "this is test two", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeChoiceOptionsToTextSource: CallMediaRecognizeChoiceOptions = {
+      choices: choices,
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      playPrompts: playMultipleTextSources,
+      kind: "callMediaRecognizeChoiceOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeChoiceOptionsToTextSource);
+    const recognizeFailedEventToTextSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToTextSource);
+
+    const multiplePlaySources: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: fileSourceUrl },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeChoiceOptionsToMultipleSource: CallMediaRecognizeChoiceOptions = {
+      choices: choices,
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      playPrompts: multiplePlaySources,
+      kind: "callMediaRecognizeChoiceOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeChoiceOptionsToMultipleSource);
+    const recognizeFailedEventToMultipleSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToMultipleSource);
+
+    const multiplePrompts: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeChoiceOptionsMultiplePrompts: CallMediaRecognizeChoiceOptions = {
+      choices: choices,
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      playPrompts: multiplePrompts,
+      kind: "callMediaRecognizeChoiceOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeChoiceOptionsMultiplePrompts);
+    const recognizeFailedEvent = await waitForEvent("RecognizeFailed", callConnectionId, 8000);
+    assert.isDefined(recognizeFailedEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("SpeechOrDtmf recognize with multiple play sources test", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "speechOrDtmf_recognize_with_multiple_play_source";
+    await loadPersistedEvents(testName);
+
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = {
+      callIntelligenceOptions: { cognitiveServicesEndpoint: "" },
+    };
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const playMultipleTextSources: TextSource[] = [
+      { kind: "textSource", text: "this is test one", voiceName: "en-US-NancyNeural" },
+      { kind: "textSource", text: "this is test two", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeSpeechOrDtmfOptionsTextSource: CallMediaRecognizeSpeechOrDtmfOptions = {
+      maxTonesToCollect: 1,
+      endSilenceTimeoutInSeconds: 1,
+      playPrompts: playMultipleTextSources,
+      initialSilenceTimeoutInSeconds: 10,
+      interruptPrompt: true,
+      kind: "callMediaRecognizeSpeechOrDtmfOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeSpeechOrDtmfOptionsTextSource);
+    const recognizeFailedEventToTextSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToTextSource);
+
+    const multiplePlaySources: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: fileSourceUrl },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeSpeechOrDtmfOptionsMultipleSource: CallMediaRecognizeSpeechOrDtmfOptions = {
+      maxTonesToCollect: 1,
+      endSilenceTimeoutInSeconds: 1,
+      playPrompts: multiplePlaySources,
+      initialSilenceTimeoutInSeconds: 10,
+      interruptPrompt: true,
+      kind: "callMediaRecognizeSpeechOrDtmfOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeSpeechOrDtmfOptionsMultipleSource);
+    const recognizeFailedEventToMultipleSource = await waitForEvent(
+      "RecognizeFailed",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(recognizeFailedEventToMultipleSource);
+
+    const multiplePrompts: (FileSource | TextSource)[] = [
+      { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" },
+      { kind: "textSource", text: "this is test", voiceName: "en-US-NancyNeural" },
+    ];
+
+    const recognizeSpeechOrDtmfOptionsMultiplePropmt: CallMediaRecognizeSpeechOrDtmfOptions = {
+      maxTonesToCollect: 1,
+      endSilenceTimeoutInSeconds: 1,
+      playPrompts: multiplePrompts,
+      initialSilenceTimeoutInSeconds: 10,
+      interruptPrompt: true,
+      kind: "callMediaRecognizeSpeechOrDtmfOptions",
+    };
+
+    await callConnection
+      .getCallMedia()
+      .startRecognizing(receiverPhoneUser, recognizeSpeechOrDtmfOptionsMultiplePropmt);
+    const recognizeFailedEvent = await waitForEvent("RecognizeFailed", callConnectionId, 8000);
+    assert.isDefined(recognizeFailedEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
 });
