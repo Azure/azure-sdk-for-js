@@ -32,7 +32,7 @@ steps:
   - template: ../steps/use-node-test-version.yml
 
   - ${{ if eq(parameters.TestProxy, true) }}:
-    - template: /eng/common/testproxy/test-proxy-tool.yml
+    - template: /eng/common/testproxy/test-proxy-standalone-tool.yml
   
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
