@@ -1,38 +1,41 @@
-jobs:
-  - job: test
-    timeoutInMinutes: 10
-    strategy:
-      matrix:
-        MacLatest:
-          pool.name: Azure Pipelines
-          pool.image: macos-latest
-    pool:
-      name: $(pool.name)
-      vmImage: $(pool.image)
-    steps:
-      - checkout: self
+extends:
+  template: /eng/pipelines/templates/stages/1es-redirect.yml
+  parameters:
+    stages:
+      - stage: Test
+        jobs:
+          - job: test
+            timeoutInMinutes: 10
+            strategy:
+              matrix:
+                MacLatest:
+                  pool.name: Azure Pipelines
+                  pool.image: macos-latest
+            pool:
+              name: $(pool.name)
+              vmImage: $(pool.image)
+            steps:
+              - checkout: self
 
-      - task: AzurePowerShell@5
-        displayName: Set Pipeline Subnet Info
-        inputs:
-          azureSubscription: azure-sdk-tests
-          azurePowerShellVersion: LatestVersion
-          pwsh: true
-          ScriptType: InlineScript
-          Inline: |
-            Write-Host "STARTING"
-            Set-AzContext 'Azure SDK Engineering System'
-            Write-Host "SWITCHED"
+              - task: AzurePowerShell@5
+                displayName: Set Pipeline Subnet Info
+                inputs:
+                  azureSubscription: azure-sdk-tests
+                  azurePowerShellVersion: LatestVersion
+                  pwsh: true
+                  ScriptType: InlineScript
+                  Inline: |
+                    Write-Host "STARTING"
+                    Set-AzContext 'Azure SDK Engineering System'
+                    Write-Host "SWITCHED"
 
-      - bash: sudo chown -R runner ~/.Azure
-        displayName: (MacOS) Grant access to ~/.Azure
+              - bash: sudo chown -R runner ~/.Azure
+                displayName: (MacOS) Grant access to ~/.Azure
 
-      - task: Powershell@2
-        displayName: Setup Az Modules and Dogfood Environment
-        inputs:
-          targetType: inline
-          pwsh: true
-          script: |
-            eng/common/scripts/Import-AzModules.ps1
-
-
+              - task: Powershell@2
+                displayName: Setup Az Modules and Dogfood Environment
+                inputs:
+                  targetType: inline
+                  pwsh: true
+                  script: |
+                    eng/common/scripts/Import-AzModules.ps1
