@@ -33,6 +33,11 @@ interface NavigatorEx extends Navigator {
   };
 }
 
+declare const globalThis: {
+  navigator?: NavigatorEx;
+  EdgeRuntime?: unknown;
+};
+
 function getBrowserInfo(userAgent: string): BrowserBrand | undefined {
   const browserRegexes = [
     { name: "Firefox", regex: /Firefox\/([\d.]+)/ },
@@ -66,7 +71,7 @@ function getBrandVersionString(brands: BrowserBrand[]): BrowserBrand | undefined
 export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
   const localNavigator = globalThis.navigator as NavigatorEx;
   let osPlatform = "unknown";
-  if (localNavigator.userAgentData) {
+  if (localNavigator?.userAgentData) {
     const entropyValues = await localNavigator.userAgentData.getHighEntropyValues([
       "architecture",
       "platformVersion",
@@ -84,6 +89,8 @@ export async function setPlatformSpecificData(map: Map<string, string>): Promise
     if (brand) {
       map.set(brand.brand, brand.version);
     }
+  } else if (typeof globalThis.EdgeRuntime === "string") {
+    map.set("EdgeRuntime", globalThis.EdgeRuntime);
   }
 
   map.set("OS", osPlatform);
