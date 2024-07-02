@@ -26,3 +26,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-standbypool?view=azure-node
 https://docs.microsoft.com/javascript/api/@azure/arm-devopsinfrastructure?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-informaticadatamanagement?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview
