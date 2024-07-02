@@ -41,7 +41,7 @@
     "LICENSE",
     "review/*"
   ],
-  "sdk-type": "client",
+  "sdk-type": "mgmt",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
