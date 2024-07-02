@@ -229,6 +229,12 @@
 # PRLabel: %OpenAI
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
+# PRLabel: %AI Model Inference
+sdk/ai/ai-inference-rest @glharper @dargilco
+
+# ServiceLabel: %AI Model Inference
+# ServiceOwners: @glharper @dargilco
+
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco 
