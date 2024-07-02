@@ -1,13 +1,36 @@
-trigger: none
+jobs:
+  - job: test
+    timeoutInMinutes: 10
+    strategy:
+      matrix:
+        MacLatest:
+          pool.name: Azure Pipelines
+          pool.image: macos-latest
+    pool:
+      name: $(pool.name)
+      vmImage: $(pool.image)
+    steps:
+      - checkout: self
 
-extends:
-    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
-    parameters:
-      PackageName: "@azure-rest/maps-route"
-      ServiceDirectory: maps
-      SupportedClouds: 'Public,Canary'
-      EnvVars:
-        AZURE_CLIENT_ID: $(MAPS_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(MAPS_CLIENT_SECRET)
-        AZURE_TENANT_ID: $(MAPS_TENANT_ID)
-        AZURE_SUBSCRIPTION_ID: $(MAPS_SUBSCRIPTION_ID)
+      - task: AzurePowershell@5
+        displayName: Test
+        inputs:
+          azureSubscription: azure-sdk-tests
+          azurePowerShellVersion: LatestVersion
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            Write-Host "BEBRODER"
+
+      - bash: sudo chown -R runner ~/.Azure
+        displayName: (MacOS) Grant access to ~/.Azure
+
+      - task: Powershell@2
+        displayName: Setup Az Modules and Dogfood Environment
+        inputs:
+          targetType: inline
+          pwsh: true
+          script: |
+            eng/common/scripts/Import-AzModules.ps1
+
+
