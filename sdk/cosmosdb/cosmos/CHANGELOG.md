@@ -5,6 +5,8 @@
 ### Features Added
 - Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items. 
 
+- Added support for passing a custom `HttpClient` when constructing a `CosmosClient`.
+
 ### Breaking Changes
 
 ####  Dropped Support for TypeScript 4.1
