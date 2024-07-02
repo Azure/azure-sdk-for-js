@@ -14,8 +14,8 @@ export const tlsPolicyName = "tlsPolicy";
  */
 export function tlsPolicy(tlsSettings?: TlsSettings): PipelinePolicy {
   return {
-    name: tlsPolicyName,
-    sendRequest: async (req, next) => {
+    name:      tlsPolicyName,
+    sendRequest:          async (req, next) => {
       // Users may define a request tlsSettings, honor those over the client level one
       if (!req.tlsSettings) {
         req.tlsSettings = tlsSettings;
