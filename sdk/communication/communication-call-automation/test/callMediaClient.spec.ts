@@ -60,6 +60,7 @@ import {
   persistEvents,
   fileSourceUrl,
   getPhoneNumbers,
+  transportUrl,
 } from "./utils/recordedClient";
 import sinon from "sinon";
 import { assert } from "chai";
@@ -971,21 +972,21 @@ describe("Call Media Client Live Tests", function () {
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
     const mediaStreamingOptions: MediaStreamingOptions = {
-      transportUrl: "wss://localhost",
+      transportUrl: transportUrl,
       transportType: "websocket",
       contentType: "audio",
       audioChannelType: "mixed",
       startMediaStreaming: false,
     };
 
-    const creatCallOptions: CreateCallOptions = {
+    const createCallOptions: CreateCallOptions = {
       mediaStreamingOptions: mediaStreamingOptions,
     };
 
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      creatCallOptions,
+      createCallOptions,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -1000,6 +1001,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
+    console.log(result.callConnectionProperties.mediaStreamingSubscription);
     await callConnection.getCallMedia().startMediaStreaming();
     const mediaStreamingStarted = await waitForEvent(
       "MediaStreamingStarted",
@@ -1040,7 +1042,7 @@ describe("Call Media Client Live Tests", function () {
 
     if (incomingCallContext) {
       const mediaStreamingOptions: MediaStreamingOptions = {
-        transportUrl: "wss://localhost",
+        transportUrl: transportUrl,
         transportType: "websocket",
         contentType: "audio",
         audioChannelType: "mixed",
