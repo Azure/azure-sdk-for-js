@@ -22,18 +22,18 @@
         "default": "./dist/commonjs/index.js"
       }
     },
-    "./models": {
+    "./types": {
       "browser": {
-        "types": "./dist/browser/models/index.d.ts",
-        "default": "./dist/browser/models/index.js"
+        "types": "./dist/browser/types/index.d.ts",
+        "default": "./dist/browser/types/index.js"
       },
       "import": {
-        "types": "./dist/esm/models/index.d.ts",
-        "default": "./dist/esm/models/index.js"
+        "types": "./dist/esm/types/index.d.ts",
+        "default": "./dist/esm/types/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/models/index.d.ts",
-        "default": "./dist/commonjs/models/index.js"
+        "types": "./dist/commonjs/types/index.d.ts",
+        "default": "./dist/commonjs/types/index.js"
       }
     }
   },
@@ -47,7 +47,7 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
-      "./models": "./src/models/index.ts"
+      "./types": "./src/types/index.ts"
     },
     "dialects": [
       "esm",
