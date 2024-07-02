@@ -74,7 +74,7 @@ jobs:
         sdl:
           codeql:
             compiled: 
-              enabled: false
+              language: javascript
 
     timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
 
