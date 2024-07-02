@@ -10,6 +10,7 @@ extends:
       # instances per region per subscription) so we're only running
       # live tests against a single instance.
       Location: eastus2
+      UseFederatedAuth: true
       MatrixConfigs:
         - Name: Keyvault_live_test_base
           Path: sdk/keyvault/keyvault-admin/platform-matrix.json
@@ -21,7 +22,3 @@ extends:
         # the live tests weekly.
         MatrixFilters:
           - ArmTemplateParameters=^(?!.*enableHsm.*true)
-      EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
