@@ -3,7 +3,7 @@
 
 export {
   createMongoClusterManagement,
-  MongoClusterManagementClientOptions,
+  MongoClusterManagementClientOptionalParams,
   DocumentDBContext,
 } from "./mongoClusterManagementContext.js";
 export {
