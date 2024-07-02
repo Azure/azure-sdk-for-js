@@ -47,7 +47,7 @@ import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBro
 import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2";
 import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
 import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory";
-import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectConentLengthPolicy";
+import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

@@ -68,7 +68,7 @@ describe("BlockBlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it.only("Upload special content should work", async () => {
+  it("Upload special content should work", async () => {
     const content = "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
     
     await blockBlobClient.upload(content, content.length);
@@ -77,7 +77,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result), content);
   });
 
-  it.only("Upload special content with OAuth should work", async () => {
+  it("Upload special content with OAuth should work", async () => {
     const content = "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
     
     const blockBlobClientWithOAuthToken = new BlockBlobClient(
@@ -91,7 +91,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result), content);
   });
 
-  it.only("Upload special content with SAS token should work", async () => {
+  it("Upload special content with SAS token should work", async () => {
     const content = "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
 
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
