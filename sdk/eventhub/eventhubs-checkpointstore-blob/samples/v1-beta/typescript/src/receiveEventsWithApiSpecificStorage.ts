@@ -20,7 +20,7 @@ import { createCustomPipeline } from "./createCustomPipeline";
 
 import "dotenv/config";
 
-const fullyQualifiedNamespace = process.env["EVENTHUB_FQNS"] || "<fully qualified namespace>";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
 const consumerGroup =
   process.env["EVENTHUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
