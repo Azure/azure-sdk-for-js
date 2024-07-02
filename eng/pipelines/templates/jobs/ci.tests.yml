@@ -53,6 +53,13 @@ jobs:
         # Add a default so the job doesn't fail when the matrix is empty
         container: $[ variables['Container'] ]
 
+    ${{ if eq(parameters.OSName, 'macOS') }}:
+      templateContext:
+        sdl:
+          codeql:
+            compiled: 
+              language: javascript
+
     variables:
       - template: ../variables/globals.yml
 
