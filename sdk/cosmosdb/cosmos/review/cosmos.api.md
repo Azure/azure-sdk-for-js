@@ -327,6 +327,12 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public
+export interface CompositePath {
+    order: "ascending" | "descending";
+    path: string;
+}
+
 // @public (undocumented)
 export interface ComputedProperty {
     // (undocumented)
@@ -1178,6 +1184,7 @@ export enum IndexingMode {
 export interface IndexingPolicy {
     // (undocumented)
     automatic?: boolean;
+    compositeIndexes?: CompositePath[][];
     excludedPaths?: IndexedPath[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
