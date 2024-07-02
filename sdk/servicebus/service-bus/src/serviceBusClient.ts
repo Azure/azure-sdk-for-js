@@ -81,7 +81,7 @@ export class ServiceBusClient {
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-       credentialOrOptions2?:
+    credentialOrOptions2?:
       | TokenCredential
       | NamedKeyCredential
       | SASCredential
