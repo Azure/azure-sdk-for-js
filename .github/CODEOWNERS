@@ -52,6 +52,7 @@
 
 # ServiceLabel: %App Configuration
 # AzureSdkOwners:  @HarshaNalluru @minhanh-phan
+# ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
@@ -267,6 +268,7 @@
 
 # ServiceLabel: %Notification Hub
 # AzureSdkOwners: @mpodwysocki
+# ServiceOwners: @lomagdal2
 
 # PRLabel: %Cognitive - Content Safety
 /sdk/contentsafety/ @xirzec
