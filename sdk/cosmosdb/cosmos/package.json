@@ -143,6 +143,9 @@
       "ChangeFeedIteratorEpkRange.ts",
       "ChangeFeedPartitionKey.ts",
       "ChangeFeedHierarchicalPartitionKey.ts",
+      "ChangeFeedFullFidelityEntireContainer.ts",
+      "ChangeFeedFullFidelityEpkRange.ts",
+      "ChangeFeedFullFidelityPartitionKey.ts",
       "Diagnostics.ts",
       "HierarchicalPartitioning.ts"
     ],
