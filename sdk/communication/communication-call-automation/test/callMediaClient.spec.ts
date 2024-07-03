@@ -1038,7 +1038,7 @@ describe("Call Media Client Live Tests", function () {
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
-    assert.isDefined(incomingCallContext);    
+    assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
       const mediaStreamingOptions: MediaStreamingOptions = {
         transportUrl: transportUrl,
@@ -1050,13 +1050,13 @@ describe("Call Media Client Live Tests", function () {
       const answerCallOptions: AnswerCallOptions = {
         mediaStreamingOptions: mediaStreamingOptions,
       };
-     
-     const answerCallResult = await receiverCallAutomationClient.answerCall(
+
+      const answerCallResult = await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
         answerCallOptions,
       );
-      
+
       const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
       assert.isDefined(callConnectedEvent);
       callConnection = answerCallResult.callConnection;

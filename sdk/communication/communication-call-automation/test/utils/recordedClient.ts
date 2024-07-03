@@ -68,8 +68,7 @@ const serviceBusConnectionString: string =
   env["SERVICEBUS_STRING"] ?? envSetupForPlayback["SERVICEBUS_STRING"];
 export const fileSourceUrl: string =
   env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"];
-export const transportUrl: string =
-  env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"];
+export const transportUrl: string = env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"];
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
