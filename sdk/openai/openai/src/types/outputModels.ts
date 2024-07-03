@@ -105,6 +105,7 @@ export interface AzureGroundingEnhancementCoordinatePointOutput {
 
 /** An abstract representation of structured information about why a chat completions response terminated. */
 export interface ChatFinishDetailsOutputParent {
+  /** The object type. */
   type: string;
 }
 
