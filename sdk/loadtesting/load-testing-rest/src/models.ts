@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { LoadTestAdministrationGetTestFile200Response, LoadTestAdministrationUploadTestFile201Response, LoadTestRunCreateOrUpdateTestRun200Response, LoadTestRunCreateOrUpdateTestRun201Response, LoadTestRunGetTestRun200Response } from "./responses";
+
 /** Load test model. */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -447,3 +450,35 @@ export type ResourceKind = string;
 export type TestProfileRunStatus = string;
 /** Alias for RecommendationCategory */
 export type RecommendationCategory = string;
+
+/** Added Poller Types **/
+
+/**
+ * Poller for File Upload and Validation
+ */
+export type FileUploadAndValidatePoller = SimplePollerLike<
+  OperationState<LoadTestAdministrationGetTestFile200Response>,
+  LoadTestAdministrationGetTestFile200Response
+>;
+
+/**
+ * Poller for Test Run Completion
+ */
+export type TestRunCompletionPoller = SimplePollerLike<
+  OperationState<LoadTestRunGetTestRun200Response>,
+  LoadTestRunGetTestRun200Response
+>;
+
+export interface PolledOperationOptions {
+  /**
+   * Time delay between poll requests, in milliseconds.
+   */
+  updateIntervalInMs?: number;
+}
+
+// NOTE/TODO(mitsha): Should we move this to output models instead?
+export type TestRunCreateOrUpdateSuccessResponse =
+  | LoadTestRunCreateOrUpdateTestRun200Response
+  | LoadTestRunCreateOrUpdateTestRun201Response;
+
+export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
