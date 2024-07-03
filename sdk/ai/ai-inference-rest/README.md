@@ -6,10 +6,10 @@ Inference API for Azure-supported AI models
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest)
 - [Package (NPM)](https://aka.ms/npm-azure-rest-ai-inference)
 - [API reference documentation](https://aka.ms/AAp1kxa)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/samples)
 
 ## Getting started
 
@@ -179,7 +179,7 @@ async function main(){
       return;
     }
     for (const choice of (JSON.parse(event.data)).choices) {
-      console.log(choice.delta?.content);
+      console.log(choice.delta?.content ?? "");
     }
   }
 }
@@ -419,7 +419,7 @@ setLogLevel("info");
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 <!-- LINKS -->
-[stream_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletions.js
+[stream_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/streamChatCompletions.ts
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
@@ -427,4 +427,3 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com
-[msdocs_quickstart_byod]: https://learn.microsoft.com/azure/ai-services/openai/use-your-data-quickstart

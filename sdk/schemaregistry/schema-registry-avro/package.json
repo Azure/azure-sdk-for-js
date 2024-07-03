@@ -111,10 +111,10 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "process": "^0.11.10",
     "rimraf": "^5.0.5",
-    "stream": "^0.0.2",
+    "stream": "^0.0.3",
     "typescript": "~5.4.5",
     "uuid": "^8.3.0",
     "ts-node": "^10.0.0"

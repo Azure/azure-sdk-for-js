@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   BatchRequest,
   DocumentFilter,
@@ -67,7 +68,7 @@ export function getTranslationOperationID(url: string): string {
 }
 
 export function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, isPlaybackMode() ? 1 : ms));
 }
 
 export function createDummyTestDocuments(count: number): TestDocument[] {

@@ -8,7 +8,7 @@
  */
 
 import ModelClient from "@azure-rest/ai-inference";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import { createSseStream } from "@azure/core-sse";
 
 // Load the .env file if it exists
@@ -17,12 +17,11 @@ dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
-const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
 export async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
-  const client = new ModelClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [

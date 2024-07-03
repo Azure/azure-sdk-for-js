@@ -113,7 +113,7 @@
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
     "@types/uuid": "^8.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
