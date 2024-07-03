@@ -39,6 +39,7 @@ import {
 } from "../utils/testHelper";
 import { createTestDocument } from "../utils/TestDocument";
 import { BatchRequest } from "../../../src/models";
+import { setLogLevel } from "@azure/logger";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -50,6 +51,7 @@ describe("DocumentTranslation tests", () => {
   let client: DocumentTranslationClient;
 
   beforeEach(async function (this: Context) {
+    setLogLevel("verbose")
     recorder = await startRecorder(this);
     client = await createDocumentTranslationClient({ recorder });
   });
@@ -72,7 +74,7 @@ describe("DocumentTranslation tests", () => {
     }
   });
 
-  it("Single Source Single Target", async () => {
+  it.only("Single Source Single Target", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
@@ -87,7 +89,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  it("Single Source Multiple Targets", async () => {
+  it.only("Single Source Multiple Targets", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
 
@@ -117,7 +119,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response as StartTranslationDefaultResponse, 3);
   });
 
-  it("Multiple Sources Single Target", async () => {
+  it.only("Multiple Sources Single Target", async () => {
     const srcContainerName1 = recorder.variable("sourceContainer1", `source-${getUniqueName()}`);
     const sourceUrl1 = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS, srcContainerName1);
     const sourceInput1 = createSourceInput(sourceUrl1);
@@ -145,7 +147,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response, 2);
   });
 
-  it("Single Source Single Target With Prefix", async () => {
+  it.only("Single Source Single Target With Prefix", async () => {
     const documentFilter = {
       prefix: "File",
     };
@@ -164,7 +166,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  it("Single Source Single Target With Suffix", async () => {
+  it.only("Single Source Single Target With Suffix", async () => {
     const documentFilter = {
       suffix: "txt",
     };
