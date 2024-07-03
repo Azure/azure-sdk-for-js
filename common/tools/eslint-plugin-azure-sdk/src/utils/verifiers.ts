@@ -6,7 +6,7 @@
  */
 
 import { TSESTree, TSESLint } from "@typescript-eslint/utils";
-import { statSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import * as path from "node:path";
 
 interface StructureData {
@@ -44,14 +44,18 @@ export type VerifierMessageIds = keyof typeof VerifierMessages;
 export const stripPath = (pathOrFileName: string): string =>
   pathOrFileName.replace(/^.*[\\\/]/, "");
 
-export function usesTshy(packageJsonPath: string): boolean {
-  const dotTshy = path.join(path.dirname(packageJsonPath), ".tshy");
-  try {
-    statSync(dotTshy);
-    return true;
-  } catch {
-    return false;
-  }
+/**
+ * Checks whether a package is ESM, given a file path that is at the root directory. For example,
+ *    - /path/to/repository/sdk/core/core-rest-pipeline/package.json
+ *    - /path/to/repository/sdk/core/core-rest-pipeline/api-extractor.json
+ * @param filePath the input path
+ * @return true if the package has "type": "module"; false otherwise.
+ */
+export function isEsmPackage(filePath: string): boolean {
+  const packageJsonPath = filePath.endsWith("package.json") ? filePath : path.join(path.dirname(filePath), "package.json");
+  const packageJsonContent = readFileSync(packageJsonPath, "utf-8");
+  const packageJson = JSON.parse(packageJsonContent);
+  return packageJson["type"] === "module";
 }
 /**
  * Get the directory of a filename
