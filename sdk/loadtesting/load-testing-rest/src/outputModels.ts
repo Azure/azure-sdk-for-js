@@ -3,6 +3,58 @@
 
 import { Paged } from "@azure/core-paging";
 
+/** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
+export interface TestProfileOutput {
+  /** Unique identifier for the test profile, must contain only lower-case alphabetic, numeric, underscore or hyphen characters. */
+  readonly testProfileId: string;
+  /** Display name of the test profile. */
+  displayName?: string;
+  /** Description for the test profile. */
+  description?: string;
+  /** Associated test ID for the test profile. This property is required for creating a Test Profile and it's not allowed to be updated. */
+  testId?: string;
+  /** Target resource ID on which the test profile is created. This property is required for creating a Test Profile and it's not allowed to be updated. */
+  targetResourceId?: string;
+  /** Configurations of the target resource on which testing would be done. */
+  targetResourceConfigurations?: TargetResourceConfigurationsOutput;
+  /** The creation datetime(RFC 3339 literal format). */
+  readonly createdDateTime?: string;
+  /** The user that created. */
+  readonly createdBy?: string;
+  /** The last Modified datetime(RFC 3339 literal format). */
+  readonly lastModifiedDateTime?: string;
+  /** The user that last modified. */
+  readonly lastModifiedBy?: string;
+}
+
+/** Configurations of a target resource. This varies with the kind of resource. */
+export interface TargetResourceConfigurationsOutputParent {
+  kind: ResourceKindOutput;
+}
+
+/** Configurations for a Function App using Flex Consumption Plan. */
+export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
+  extends TargetResourceConfigurationsOutputParent {
+  /**
+   * The kind value to use when providing configuration.
+   * This should typically be not changed from its value.
+   */
+  kind: "FunctionsFlexConsumption";
+  /** A map of configurations for a Function app using Flex Consumption Plan. */
+  configurations?: Record<
+    string,
+    FunctionFlexConsumptionResourceConfigurationOutput
+  >;
+}
+
+/** Resource configuration instance for a Flex Consumption based Azure Function App. */
+export interface FunctionFlexConsumptionResourceConfigurationOutput {
+  /** Memory size of the instance. Supported values are 2048, 4096. */
+  instanceMemoryMB: number;
+  /** HTTP Concurrency for the function app. */
+  httpConcurrency: number;
+}
+
 /** Load test model. */
 export interface TestOutput {
   /** Pass fail criteria for a test. */
@@ -279,6 +331,71 @@ export interface ResourceMetricOutput {
   resourceType: string;
 }
 
+/** The Test Profile Run Model. Test Profile Run resource enables you to instantiate an already created test profile and run load tests to get recommendations on the optimal configuration for the target resource. */
+export interface TestProfileRunOutput {
+  /** Unique identifier for the test profile run, must contain only lower-case alphabetic, numeric, underscore or hyphen characters. */
+  readonly testProfileRunId: string;
+  /** Display name for the test profile run. */
+  displayName?: string;
+  /** The test profile run description */
+  description?: string;
+  /** Associated test profile ID for the test profile run. This is required to create a test profile run and can't be updated. */
+  testProfileId?: string;
+  /** Target resource ID on which the test profile run is created */
+  readonly targetResourceId?: string;
+  /** Configurations of the target resource on which the test profile ran. */
+  readonly targetResourceConfigurations?: TargetResourceConfigurationsOutput;
+  /** The test profile run status. */
+  readonly status?: TestProfileRunStatusOutput;
+  /** Error details if there is any failure in test profile run. These errors are specific to the Test Profile Run. */
+  readonly errorDetails?: Array<ErrorDetailsOutput>;
+  /** The test profile run start DateTime(RFC 3339 literal format). */
+  readonly startDateTime?: string;
+  /** The test profile run end DateTime(RFC 3339 literal format). */
+  readonly endDateTime?: string;
+  /** Test profile run duration in seconds. */
+  readonly durationInSeconds?: number;
+  /**
+   * Details of the test runs ran as part of the test profile run.
+   * Key is the testRunId of the corresponding testRun.
+   */
+  readonly testRunDetails?: Record<string, TestRunDetailOutput>;
+  /** Recommendations provided based on a successful test profile run. */
+  readonly recommendations?: Array<TestProfileRunRecommendationOutput>;
+  /** The creation datetime(RFC 3339 literal format). */
+  readonly createdDateTime?: string;
+  /** The user that created. */
+  readonly createdBy?: string;
+  /** The last Modified datetime(RFC 3339 literal format). */
+  readonly lastModifiedDateTime?: string;
+  /** The user that last modified. */
+  readonly lastModifiedBy?: string;
+}
+
+/** Error details if there is any failure in load test run */
+export interface ErrorDetailsOutput {
+  /** Error details in case test run was not successfully run. */
+  readonly message?: string;
+}
+
+/** Details of a particular test run for a test profile run. */
+export interface TestRunDetailOutput {
+  /** Status of the test run. */
+  status: StatusOutput;
+  /** ID of the configuration on which the test ran. */
+  configurationId: string;
+  /** Key value pair of extra properties associated with the test run. */
+  properties: Record<string, string>;
+}
+
+/** A recommendation object that provides a list of configuration that optimizes its category. */
+export interface TestProfileRunRecommendationOutput {
+  /** Category of the recommendation. */
+  category: RecommendationCategoryOutput;
+  /** List of configurations IDs for which the recommendation is applicable. These are a subset of the provided target resource configurations. */
+  configurations?: string[];
+}
+
 /** Load test run model */
 export interface TestRunOutput {
   /** Unique test run identifier for the load test run, must contain only lower-case alphabetic, numeric, underscore or hyphen characters. */
@@ -357,12 +474,6 @@ export interface TestRunOutput {
   readonly lastModifiedDateTime?: string;
   /** The user that last modified. */
   readonly lastModifiedBy?: string;
-}
-
-/** Error details if there is any failure in load test run */
-export interface ErrorDetailsOutput {
-  /** Error details in case test run was not successfully run. */
-  readonly message?: string;
 }
 
 /** Test run statistics. */
@@ -603,121 +714,14 @@ export interface TestRunServerMetricConfigOutput {
   readonly lastModifiedBy?: string;
 }
 
-/** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
-export interface TestProfileOutput {
-  /** Unique identifier for the test profile, must contain only lower-case alphabetic, numeric, underscore or hyphen characters. */
-  readonly testProfileId: string;
-  /** Display name of the test profile. */
-  displayName?: string;
-  /** Description for the test profile. */
-  description?: string;
-  /** Associated test ID for the test profile. This property is required for creating a Test Profile and it's not allowed to be updated. */
-  testId?: string;
-  /** Target resource ID on which the test profile is created. This property is required for creating a Test Profile and it's not allowed to be updated. */
-  targetResourceId?: string;
-  /** Configurations of the target resource on which testing would be done. */
-  targetResourceConfigurations?: TargetResourceConfigurationsOutput;
-  /** The creation datetime(RFC 3339 literal format). */
-  readonly createdDateTime?: string;
-  /** The user that created. */
-  readonly createdBy?: string;
-  /** The last Modified datetime(RFC 3339 literal format). */
-  readonly lastModifiedDateTime?: string;
-  /** The user that last modified. */
-  readonly lastModifiedBy?: string;
-}
-
-/** Configurations of a target resource. This varies with the kind of resource. */
-export interface TargetResourceConfigurationsOutputParent {
-  kind: ResourceKindOutput;
-}
-
-/** Configurations for a Function App using Flex Consumption Plan. */
-export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
-  extends TargetResourceConfigurationsOutputParent {
-  /**
-   * The kind value to use when providing configuration.
-   * This should typically be not changed from its value.
-   */
-  kind: "FunctionsFlexConsumption";
-  /** A map of configurations for a Function app using Flex Consumption Plan. */
-  configurations?: Record<
-    string,
-    FunctionFlexConsumptionResourceConfigurationOutput
-  >;
-}
-
-/** Resource configuration instance for a Flex Consumption based Azure Function App. */
-export interface FunctionFlexConsumptionResourceConfigurationOutput {
-  /** Memory size of the instance. Supported values are 2048, 4096. */
-  instanceMemoryMB: number;
-  /** HTTP Concurrency for the function app. */
-  httpConcurrency: number;
-}
-
-/** The Test Profile Run Model. Test Profile Run resource enables you to instantiate an already created test profile and run load tests to get recommendations on the optimal configuration for the target resource. */
-export interface TestProfileRunOutput {
-  /** Unique identifier for the test profile run, must contain only lower-case alphabetic, numeric, underscore or hyphen characters. */
-  readonly testProfileRunId: string;
-  /** Display name for the test profile run. */
-  displayName?: string;
-  /** The test profile run description */
-  description?: string;
-  /** Associated test profile ID for the test profile run. This is required to create a test profile run and can't be updated. */
-  testProfileId?: string;
-  /** Target resource ID on which the test profile run is created */
-  readonly targetResourceId?: string;
-  /** Configurations of the target resource on which the test profile ran. */
-  readonly targetResourceConfigurations?: TargetResourceConfigurationsOutput;
-  /** The test profile run status. */
-  readonly status?: TestProfileRunStatusOutput;
-  /** Error details if there is any failure in test profile run. These errors are specific to the Test Profile Run. */
-  readonly errorDetails?: Array<ErrorDetailsOutput>;
-  /** The test profile run start DateTime(RFC 3339 literal format). */
-  readonly startDateTime?: string;
-  /** The test profile run end DateTime(RFC 3339 literal format). */
-  readonly endDateTime?: string;
-  /** Test profile run duration in seconds. */
-  readonly durationInSeconds?: number;
-  /**
-   * Details of the test runs ran as part of the test profile run.
-   * Key is the testRunId of the corresponding testRun.
-   */
-  readonly testRunDetails?: Record<string, TestRunDetailOutput>;
-  /** Recommendations provided based on a successful test profile run. */
-  readonly recommendations?: Array<TestProfileRunRecommendationOutput>;
-  /** The creation datetime(RFC 3339 literal format). */
-  readonly createdDateTime?: string;
-  /** The user that created. */
-  readonly createdBy?: string;
-  /** The last Modified datetime(RFC 3339 literal format). */
-  readonly lastModifiedDateTime?: string;
-  /** The user that last modified. */
-  readonly lastModifiedBy?: string;
-}
-
-/** Details of a particular test run for a test profile run. */
-export interface TestRunDetailOutput {
-  /** Status of the test run. */
-  status: StatusOutput;
-  /** ID of the configuration on which the test ran. */
-  configurationId: string;
-  /** Key value pair of extra properties associated with the test run. */
-  properties: Record<string, string>;
-}
-
-/** A recommendation object that provides a list of configuration that optimizes its category. */
-export interface TestProfileRunRecommendationOutput {
-  /** Category of the recommendation. */
-  category: RecommendationCategoryOutput;
-  /** List of configurations IDs for which the recommendation is applicable. These are a subset of the provided target resource configurations. */
-  configurations?: string[];
-}
-
 /** Configurations of a target resource. This varies with the kind of resource. */
 export type TargetResourceConfigurationsOutput =
   | TargetResourceConfigurationsOutputParent
   | FunctionFlexConsumptionTargetResourceConfigurationsOutput;
+/** Alias for ResourceKindOutput */
+export type ResourceKindOutput = string;
+/** Paged collection of TestProfile items */
+export type PagedTestProfileOutput = Paged<TestProfileOutput>;
 /** Alias for PFMetricsOutput */
 export type PFMetricsOutput = string;
 /** Alias for PFAgFuncOutput */
@@ -740,10 +744,16 @@ export type TestKindOutput = string;
 export type PagedTestOutput = Paged<TestOutput>;
 /** Paged collection of TestFileInfo items */
 export type PagedTestFileInfoOutput = Paged<TestFileInfoOutput>;
-/** Alias for PFTestResultOutput */
-export type PFTestResultOutput = string;
+/** Alias for TestProfileRunStatusOutput */
+export type TestProfileRunStatusOutput = string;
 /** Alias for StatusOutput */
 export type StatusOutput = string;
+/** Alias for RecommendationCategoryOutput */
+export type RecommendationCategoryOutput = string;
+/** Paged collection of TestProfileRun items */
+export type PagedTestProfileRunOutput = Paged<TestProfileRunOutput>;
+/** Alias for PFTestResultOutput */
+export type PFTestResultOutput = string;
 /** Alias for RequestDataLevelOutput */
 export type RequestDataLevelOutput = string;
 /** Paged collection of TestRun items */
@@ -756,13 +766,3 @@ export type MetricUnitOutput = string;
 export type TimeGrainOutput = string;
 /** The response to a metrics query. */
 export type MetricsOutput = Paged<TimeSeriesElementOutput>;
-/** Alias for ResourceKindOutput */
-export type ResourceKindOutput = string;
-/** Paged collection of TestProfile items */
-export type PagedTestProfileOutput = Paged<TestProfileOutput>;
-/** Alias for TestProfileRunStatusOutput */
-export type TestProfileRunStatusOutput = string;
-/** Alias for RecommendationCategoryOutput */
-export type RecommendationCategoryOutput = string;
-/** Paged collection of TestProfileRun items */
-export type PagedTestProfileRunOutput = Paged<TestProfileRunOutput>;

@@ -4,6 +4,8 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
+  TestProfileOutput,
+  PagedTestProfileOutput,
   TestOutput,
   PagedTestOutput,
   FileTypeOutput,
@@ -11,6 +13,8 @@ import {
   PagedTestFileInfoOutput,
   TestAppComponentsOutput,
   TestServerMetricConfigOutput,
+  TestProfileRunOutput,
+  PagedTestProfileRunOutput,
   TestRunOutput,
   PagedTestRunOutput,
   MetricNamespaceCollectionOutput,
@@ -19,11 +23,93 @@ import {
   DimensionValueListOutput,
   TestRunAppComponentsOutput,
   TestRunServerMetricConfigOutput,
-  TestProfileOutput,
-  PagedTestProfileOutput,
-  TestProfileRunOutput,
-  PagedTestProfileRunOutput,
 } from "./outputModels.js";
+
+/** The request has succeeded. */
+export interface TestProfileAdministrationCreateOrUpdateTestProfile200Response
+  extends HttpResponse {
+  status: "200";
+  body: TestProfileOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface TestProfileAdministrationCreateOrUpdateTestProfile201Response
+  extends HttpResponse {
+  status: "201";
+  body: TestProfileOutput;
+}
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface TestProfileAdministrationDeleteTestProfile204Response
+  extends HttpResponse {
+  status: "204";
+}
+
+export interface TestProfileAdministrationDeleteTestProfileDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationDeleteTestProfileDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileAdministrationDeleteTestProfileDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileAdministrationGetTestProfile200Response
+  extends HttpResponse {
+  status: "200";
+  body: TestProfileOutput;
+}
+
+export interface TestProfileAdministrationGetTestProfileDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationGetTestProfileDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileAdministrationGetTestProfileDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileAdministrationListTestProfiles200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedTestProfileOutput;
+}
+
+export interface TestProfileAdministrationListTestProfilesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationListTestProfilesDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileAdministrationListTestProfilesDefaultHeaders;
+}
 
 /** The request has succeeded. */
 export interface LoadTestAdministrationCreateOrUpdateTest200Response
@@ -286,6 +372,111 @@ export interface LoadTestAdministrationGetServerMetricsConfigDefaultResponse
   body: ErrorResponse;
   headers: RawHttpHeaders &
     LoadTestAdministrationGetServerMetricsConfigDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileRunAdministrationGetTestProfileRun200Response
+  extends HttpResponse {
+  status: "200";
+  body: TestProfileRunOutput;
+}
+
+export interface TestProfileRunAdministrationGetTestProfileRunDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileRunAdministrationGetTestProfileRunDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileRunAdministrationGetTestProfileRunDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
+  extends HttpResponse {
+  status: "200";
+  body: TestProfileRunOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response
+  extends HttpResponse {
+  status: "201";
+  body: TestProfileRunOutput;
+}
+
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultHeaders;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface TestProfileRunAdministrationDeleteTestProfileRun204Response
+  extends HttpResponse {
+  status: "204";
+}
+
+export interface TestProfileRunAdministrationDeleteTestProfileRunDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileRunAdministrationDeleteTestProfileRunDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileRunAdministrationStop200Response
+  extends HttpResponse {
+  status: "200";
+  body: TestProfileRunOutput;
+}
+
+export interface TestProfileRunAdministrationStopDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileRunAdministrationStopDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TestProfileRunAdministrationStopDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileRunAdministrationListTestProfileRuns200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedTestProfileRunOutput;
+}
+
+export interface TestProfileRunAdministrationListTestProfileRunsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileRunAdministrationListTestProfileRunsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    TestProfileRunAdministrationListTestProfileRunsDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -567,195 +758,4 @@ export interface LoadTestRunGetServerMetricsConfigDefaultResponse
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & LoadTestRunGetServerMetricsConfigDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileAdministrationCreateOrUpdateTestProfile200Response
-  extends HttpResponse {
-  status: "200";
-  body: TestProfileOutput;
-}
-
-/** The request has succeeded and a new resource has been created as a result. */
-export interface TestProfileAdministrationCreateOrUpdateTestProfile201Response
-  extends HttpResponse {
-  status: "201";
-  body: TestProfileOutput;
-}
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders;
-}
-
-/** There is no content to send for this request, but the headers may be useful. */
-export interface TestProfileAdministrationDeleteTestProfile204Response
-  extends HttpResponse {
-  status: "204";
-}
-
-export interface TestProfileAdministrationDeleteTestProfileDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationDeleteTestProfileDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileAdministrationDeleteTestProfileDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileAdministrationGetTestProfile200Response
-  extends HttpResponse {
-  status: "200";
-  body: TestProfileOutput;
-}
-
-export interface TestProfileAdministrationGetTestProfileDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationGetTestProfileDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileAdministrationGetTestProfileDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileAdministrationListTestProfiles200Response
-  extends HttpResponse {
-  status: "200";
-  body: PagedTestProfileOutput;
-}
-
-export interface TestProfileAdministrationListTestProfilesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationListTestProfilesDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileAdministrationListTestProfilesDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileRunAdministrationGetTestProfileRun200Response
-  extends HttpResponse {
-  status: "200";
-  body: TestProfileRunOutput;
-}
-
-export interface TestProfileRunAdministrationGetTestProfileRunDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileRunAdministrationGetTestProfileRunDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileRunAdministrationGetTestProfileRunDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
-  extends HttpResponse {
-  status: "200";
-  body: TestProfileRunOutput;
-}
-
-/** The request has succeeded and a new resource has been created as a result. */
-export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response
-  extends HttpResponse {
-  status: "201";
-  body: TestProfileRunOutput;
-}
-
-export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultHeaders;
-}
-
-/** There is no content to send for this request, but the headers may be useful. */
-export interface TestProfileRunAdministrationDeleteTestProfileRun204Response
-  extends HttpResponse {
-  status: "204";
-}
-
-export interface TestProfileRunAdministrationDeleteTestProfileRunDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileRunAdministrationDeleteTestProfileRunDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileRunAdministrationStop200Response
-  extends HttpResponse {
-  status: "200";
-  body: TestProfileRunOutput;
-}
-
-export interface TestProfileRunAdministrationStopDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileRunAdministrationStopDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TestProfileRunAdministrationStopDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileRunAdministrationListTestProfileRuns200Response
-  extends HttpResponse {
-  status: "200";
-  body: PagedTestProfileRunOutput;
-}
-
-export interface TestProfileRunAdministrationListTestProfileRunsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileRunAdministrationListTestProfileRunsDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders &
-    TestProfileRunAdministrationListTestProfileRunsDefaultHeaders;
 }

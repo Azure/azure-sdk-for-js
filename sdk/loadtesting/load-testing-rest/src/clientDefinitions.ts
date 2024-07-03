@@ -2,6 +2,10 @@
 // Licensed under the MIT license.
 
 import {
+  TestProfileAdministrationCreateOrUpdateTestProfileParameters,
+  TestProfileAdministrationDeleteTestProfileParameters,
+  TestProfileAdministrationGetTestProfileParameters,
+  TestProfileAdministrationListTestProfilesParameters,
   LoadTestAdministrationCreateOrUpdateTestParameters,
   LoadTestAdministrationDeleteTestParameters,
   LoadTestAdministrationGetTestParameters,
@@ -14,6 +18,11 @@ import {
   LoadTestAdministrationGetAppComponentsParameters,
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters,
   LoadTestAdministrationGetServerMetricsConfigParameters,
+  TestProfileRunAdministrationGetTestProfileRunParameters,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters,
+  TestProfileRunAdministrationDeleteTestProfileRunParameters,
+  TestProfileRunAdministrationStopParameters,
+  TestProfileRunAdministrationListTestProfileRunsParameters,
   LoadTestRunGetTestRunParameters,
   LoadTestRunCreateOrUpdateTestRunParameters,
   LoadTestRunDeleteTestRunParameters,
@@ -28,17 +37,17 @@ import {
   LoadTestRunGetAppComponentsParameters,
   LoadTestRunCreateOrUpdateServerMetricsConfigParameters,
   LoadTestRunGetServerMetricsConfigParameters,
-  TestProfileAdministrationCreateOrUpdateTestProfileParameters,
-  TestProfileAdministrationDeleteTestProfileParameters,
-  TestProfileAdministrationGetTestProfileParameters,
-  TestProfileAdministrationListTestProfilesParameters,
-  TestProfileRunAdministrationGetTestProfileRunParameters,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters,
-  TestProfileRunAdministrationDeleteTestProfileRunParameters,
-  TestProfileRunAdministrationStopParameters,
-  TestProfileRunAdministrationListTestProfileRunsParameters,
 } from "./parameters.js";
 import {
+  TestProfileAdministrationCreateOrUpdateTestProfile200Response,
+  TestProfileAdministrationCreateOrUpdateTestProfile201Response,
+  TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
+  TestProfileAdministrationDeleteTestProfile204Response,
+  TestProfileAdministrationDeleteTestProfileDefaultResponse,
+  TestProfileAdministrationGetTestProfile200Response,
+  TestProfileAdministrationGetTestProfileDefaultResponse,
+  TestProfileAdministrationListTestProfiles200Response,
+  TestProfileAdministrationListTestProfilesDefaultResponse,
   LoadTestAdministrationCreateOrUpdateTest200Response,
   LoadTestAdministrationCreateOrUpdateTest201Response,
   LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -66,6 +75,17 @@ import {
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse,
   LoadTestAdministrationGetServerMetricsConfig200Response,
   LoadTestAdministrationGetServerMetricsConfigDefaultResponse,
+  TestProfileRunAdministrationGetTestProfileRun200Response,
+  TestProfileRunAdministrationGetTestProfileRunDefaultResponse,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse,
+  TestProfileRunAdministrationDeleteTestProfileRun204Response,
+  TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse,
+  TestProfileRunAdministrationStop200Response,
+  TestProfileRunAdministrationStopDefaultResponse,
+  TestProfileRunAdministrationListTestProfileRuns200Response,
+  TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
   LoadTestRunGetTestRun200Response,
   LoadTestRunGetTestRunDefaultResponse,
   LoadTestRunCreateOrUpdateTestRun200Response,
@@ -97,28 +117,43 @@ import {
   LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
   LoadTestRunGetServerMetricsConfig200Response,
   LoadTestRunGetServerMetricsConfigDefaultResponse,
-  TestProfileAdministrationCreateOrUpdateTestProfile200Response,
-  TestProfileAdministrationCreateOrUpdateTestProfile201Response,
-  TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
-  TestProfileAdministrationDeleteTestProfile204Response,
-  TestProfileAdministrationDeleteTestProfileDefaultResponse,
-  TestProfileAdministrationGetTestProfile200Response,
-  TestProfileAdministrationGetTestProfileDefaultResponse,
-  TestProfileAdministrationListTestProfiles200Response,
-  TestProfileAdministrationListTestProfilesDefaultResponse,
-  TestProfileRunAdministrationGetTestProfileRun200Response,
-  TestProfileRunAdministrationGetTestProfileRunDefaultResponse,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse,
-  TestProfileRunAdministrationDeleteTestProfileRun204Response,
-  TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse,
-  TestProfileRunAdministrationStop200Response,
-  TestProfileRunAdministrationStopDefaultResponse,
-  TestProfileRunAdministrationListTestProfileRuns200Response,
-  TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfile {
+  /** Create a new test profile or update an existing test profile by providing the test profile Id. */
+  patch(
+    options: TestProfileAdministrationCreateOrUpdateTestProfileParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
+    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
+    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
+  >;
+  /** Delete a test profile by its test profile Id. */
+  delete(
+    options?: TestProfileAdministrationDeleteTestProfileParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationDeleteTestProfile204Response
+    | TestProfileAdministrationDeleteTestProfileDefaultResponse
+  >;
+  /** Get load test profile details by test profile Id. */
+  get(
+    options?: TestProfileAdministrationGetTestProfileParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationGetTestProfile200Response
+    | TestProfileAdministrationGetTestProfileDefaultResponse
+  >;
+}
+
+export interface TestProfileAdministrationListTestProfiles {
+  /** Get all test profiles for the given filters. */
+  get(
+    options?: TestProfileAdministrationListTestProfilesParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationListTestProfiles200Response
+    | TestProfileAdministrationListTestProfilesDefaultResponse
+  >;
+}
 
 export interface LoadTestAdministrationCreateOrUpdateTest {
   /** Create a new test or update an existing test by providing the test Id. */
@@ -229,6 +264,51 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig {
   ): StreamableMethod<
     | LoadTestAdministrationGetServerMetricsConfig200Response
     | LoadTestAdministrationGetServerMetricsConfigDefaultResponse
+  >;
+}
+
+export interface TestProfileRunAdministrationGetTestProfileRun {
+  /** Get test profile run details by test profile run Id. */
+  get(
+    options?: TestProfileRunAdministrationGetTestProfileRunParameters,
+  ): StreamableMethod<
+    | TestProfileRunAdministrationGetTestProfileRun200Response
+    | TestProfileRunAdministrationGetTestProfileRunDefaultResponse
+  >;
+  /** Create and start a new test profile run with the given test profile run Id. */
+  patch(
+    options: TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters,
+  ): StreamableMethod<
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
+  >;
+  /** Delete an existing load test profile run by providing the test profile run Id. */
+  delete(
+    options?: TestProfileRunAdministrationDeleteTestProfileRunParameters,
+  ): StreamableMethod<
+    | TestProfileRunAdministrationDeleteTestProfileRun204Response
+    | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse
+  >;
+}
+
+export interface TestProfileRunAdministrationStop {
+  /** Stop test profile run for the given test profile run Id. */
+  post(
+    options?: TestProfileRunAdministrationStopParameters,
+  ): StreamableMethod<
+    | TestProfileRunAdministrationStop200Response
+    | TestProfileRunAdministrationStopDefaultResponse
+  >;
+}
+
+export interface TestProfileRunAdministrationListTestProfileRuns {
+  /** Get all test profile runs for the given filters. */
+  get(
+    options?: TestProfileRunAdministrationListTestProfileRunsParameters,
+  ): StreamableMethod<
+    | TestProfileRunAdministrationListTestProfileRuns200Response
+    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse
   >;
 }
 
@@ -362,87 +442,14 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfig {
   >;
 }
 
-export interface TestProfileAdministrationCreateOrUpdateTestProfile {
-  /** Create a new test profile or update an existing test profile by providing the test profile Id. */
-  patch(
-    options: TestProfileAdministrationCreateOrUpdateTestProfileParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
-    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
-    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
-  >;
-  /** Delete a test profile by its test profile Id. */
-  delete(
-    options?: TestProfileAdministrationDeleteTestProfileParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationDeleteTestProfile204Response
-    | TestProfileAdministrationDeleteTestProfileDefaultResponse
-  >;
-  /** Get load test profile details by test profile Id. */
-  get(
-    options?: TestProfileAdministrationGetTestProfileParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationGetTestProfile200Response
-    | TestProfileAdministrationGetTestProfileDefaultResponse
-  >;
-}
-
-export interface TestProfileAdministrationListTestProfiles {
-  /** Get all test profiles for the given filters. */
-  get(
-    options?: TestProfileAdministrationListTestProfilesParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationListTestProfiles200Response
-    | TestProfileAdministrationListTestProfilesDefaultResponse
-  >;
-}
-
-export interface TestProfileRunAdministrationGetTestProfileRun {
-  /** Get test profile run details by test profile run Id. */
-  get(
-    options?: TestProfileRunAdministrationGetTestProfileRunParameters,
-  ): StreamableMethod<
-    | TestProfileRunAdministrationGetTestProfileRun200Response
-    | TestProfileRunAdministrationGetTestProfileRunDefaultResponse
-  >;
-  /** Create and start a new test profile run with the given test profile run Id. */
-  patch(
-    options: TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters,
-  ): StreamableMethod<
-    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
-    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response
-    | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
-  >;
-  /** Delete an existing load test profile run by providing the test profile run Id. */
-  delete(
-    options?: TestProfileRunAdministrationDeleteTestProfileRunParameters,
-  ): StreamableMethod<
-    | TestProfileRunAdministrationDeleteTestProfileRun204Response
-    | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse
-  >;
-}
-
-export interface TestProfileRunAdministrationStop {
-  /** Stop test profile run for the given test profile run Id. */
-  post(
-    options?: TestProfileRunAdministrationStopParameters,
-  ): StreamableMethod<
-    | TestProfileRunAdministrationStop200Response
-    | TestProfileRunAdministrationStopDefaultResponse
-  >;
-}
-
-export interface TestProfileRunAdministrationListTestProfileRuns {
-  /** Get all test profile runs for the given filters. */
-  get(
-    options?: TestProfileRunAdministrationListTestProfileRunsParameters,
-  ): StreamableMethod<
-    | TestProfileRunAdministrationListTestProfileRuns200Response
-    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse
-  >;
-}
-
 export interface Routes {
+  /** Resource for '/test-profiles/\{testProfileId\}' has methods for the following verbs: patch, delete, get */
+  (
+    path: "/test-profiles/{testProfileId}",
+    testProfileId: string,
+  ): TestProfileAdministrationCreateOrUpdateTestProfile;
+  /** Resource for '/test-profiles' has methods for the following verbs: get */
+  (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
   /** Resource for '/tests/\{testId\}' has methods for the following verbs: patch, delete, get */
   (
     path: "/tests/{testId}",
@@ -471,6 +478,18 @@ export interface Routes {
     path: "/tests/{testId}/server-metrics-config",
     testId: string,
   ): LoadTestAdministrationCreateOrUpdateServerMetricsConfig;
+  /** Resource for '/test-profile-runs/\{testProfileRunId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/test-profile-runs/{testProfileRunId}",
+    testProfileRunId: string,
+  ): TestProfileRunAdministrationGetTestProfileRun;
+  /** Resource for '/test-profile-runs/\{testProfileRunId\}:stop' has methods for the following verbs: post */
+  (
+    path: "/test-profile-runs/{testProfileRunId}:stop",
+    testProfileRunId: string,
+  ): TestProfileRunAdministrationStop;
+  /** Resource for '/test-profile-runs' has methods for the following verbs: get */
+  (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
   /** Resource for '/test-runs/\{testRunId\}' has methods for the following verbs: get, patch, delete */
   (path: "/test-runs/{testRunId}", testRunId: string): LoadTestRunGetTestRun;
   /** Resource for '/test-runs' has methods for the following verbs: get */
@@ -514,25 +533,6 @@ export interface Routes {
     path: "/test-runs/{testRunId}/server-metrics-config",
     testRunId: string,
   ): LoadTestRunCreateOrUpdateServerMetricsConfig;
-  /** Resource for '/test-profiles/\{testProfileId\}' has methods for the following verbs: patch, delete, get */
-  (
-    path: "/test-profiles/{testProfileId}",
-    testProfileId: string,
-  ): TestProfileAdministrationCreateOrUpdateTestProfile;
-  /** Resource for '/test-profiles' has methods for the following verbs: get */
-  (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
-  /** Resource for '/test-profile-runs/\{testProfileRunId\}' has methods for the following verbs: get, patch, delete */
-  (
-    path: "/test-profile-runs/{testProfileRunId}",
-    testProfileRunId: string,
-  ): TestProfileRunAdministrationGetTestProfileRun;
-  /** Resource for '/test-profile-runs/\{testProfileRunId\}:stop' has methods for the following verbs: post */
-  (
-    path: "/test-profile-runs/{testProfileRunId}:stop",
-    testProfileRunId: string,
-  ): TestProfileRunAdministrationStop;
-  /** Resource for '/test-profile-runs' has methods for the following verbs: get */
-  (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
 }
 
 export type AzureLoadTestingClient = Client & {

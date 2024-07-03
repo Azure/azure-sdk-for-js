@@ -4,6 +4,45 @@
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { LoadTestAdministrationGetTestFile200Response, LoadTestAdministrationUploadTestFile201Response, LoadTestRunCreateOrUpdateTestRun200Response, LoadTestRunCreateOrUpdateTestRun201Response, LoadTestRunGetTestRun200Response } from "./responses";
 
+/** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
+export interface TestProfile {
+  /** Display name of the test profile. */
+  displayName?: string;
+  /** Description for the test profile. */
+  description?: string;
+  /** Associated test ID for the test profile. This property is required for creating a Test Profile and it's not allowed to be updated. */
+  testId?: string;
+  /** Target resource ID on which the test profile is created. This property is required for creating a Test Profile and it's not allowed to be updated. */
+  targetResourceId?: string;
+  /** Configurations of the target resource on which testing would be done. */
+  targetResourceConfigurations?: TargetResourceConfigurations;
+}
+
+/** Configurations of a target resource. This varies with the kind of resource. */
+export interface TargetResourceConfigurationsParent {
+  kind: ResourceKind;
+}
+
+/** Configurations for a Function App using Flex Consumption Plan. */
+export interface FunctionFlexConsumptionTargetResourceConfigurations
+  extends TargetResourceConfigurationsParent {
+  /**
+   * The kind value to use when providing configuration.
+   * This should typically be not changed from its value.
+   */
+  kind: "FunctionsFlexConsumption";
+  /** A map of configurations for a Function app using Flex Consumption Plan. */
+  configurations?: Record<string, FunctionFlexConsumptionResourceConfiguration>;
+}
+
+/** Resource configuration instance for a Flex Consumption based Azure Function App. */
+export interface FunctionFlexConsumptionResourceConfiguration {
+  /** Memory size of the instance. Supported values are 2048, 4096. */
+  instanceMemoryMB: number;
+  /** HTTP Concurrency for the function app. */
+  httpConcurrency: number;
+}
+
 /** Load test model. */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -224,6 +263,37 @@ export interface ResourceMetric {
   resourceType: string;
 }
 
+/** The Test Profile Run Model. Test Profile Run resource enables you to instantiate an already created test profile and run load tests to get recommendations on the optimal configuration for the target resource. */
+export interface TestProfileRun {
+  /** Display name for the test profile run. */
+  displayName?: string;
+  /** The test profile run description */
+  description?: string;
+  /** Associated test profile ID for the test profile run. This is required to create a test profile run and can't be updated. */
+  testProfileId?: string;
+}
+
+/** Error details if there is any failure in load test run */
+export interface ErrorDetails {}
+
+/** Details of a particular test run for a test profile run. */
+export interface TestRunDetail {
+  /** Status of the test run. */
+  status: Status;
+  /** ID of the configuration on which the test ran. */
+  configurationId: string;
+  /** Key value pair of extra properties associated with the test run. */
+  properties: Record<string, string>;
+}
+
+/** A recommendation object that provides a list of configuration that optimizes its category. */
+export interface TestProfileRunRecommendation {
+  /** Category of the recommendation. */
+  category: RecommendationCategory;
+  /** List of configurations IDs for which the recommendation is applicable. These are a subset of the provided target resource configurations. */
+  configurations?: string[];
+}
+
 /** Load test run model */
 export interface TestRun {
   /** Pass fail criteria for a test. */
@@ -255,9 +325,6 @@ export interface TestRun {
   /** Enable or disable debug level logging. True if debug logs are enabled for the test run. False otherwise */
   debugLogsEnabled?: boolean;
 }
-
-/** Error details if there is any failure in load test run */
-export interface ErrorDetails {}
 
 /** Test run statistics. */
 export interface TestRunStatistics {}
@@ -347,77 +414,12 @@ export interface TestRunServerMetricConfig {
   metrics?: Record<string, ResourceMetric>;
 }
 
-/** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
-export interface TestProfile {
-  /** Display name of the test profile. */
-  displayName?: string;
-  /** Description for the test profile. */
-  description?: string;
-  /** Associated test ID for the test profile. This property is required for creating a Test Profile and it's not allowed to be updated. */
-  testId?: string;
-  /** Target resource ID on which the test profile is created. This property is required for creating a Test Profile and it's not allowed to be updated. */
-  targetResourceId?: string;
-  /** Configurations of the target resource on which testing would be done. */
-  targetResourceConfigurations?: TargetResourceConfigurations;
-}
-
-/** Configurations of a target resource. This varies with the kind of resource. */
-export interface TargetResourceConfigurationsParent {
-  kind: ResourceKind;
-}
-
-/** Configurations for a Function App using Flex Consumption Plan. */
-export interface FunctionFlexConsumptionTargetResourceConfigurations
-  extends TargetResourceConfigurationsParent {
-  /**
-   * The kind value to use when providing configuration.
-   * This should typically be not changed from its value.
-   */
-  kind: "FunctionsFlexConsumption";
-  /** A map of configurations for a Function app using Flex Consumption Plan. */
-  configurations?: Record<string, FunctionFlexConsumptionResourceConfiguration>;
-}
-
-/** Resource configuration instance for a Flex Consumption based Azure Function App. */
-export interface FunctionFlexConsumptionResourceConfiguration {
-  /** Memory size of the instance. Supported values are 2048, 4096. */
-  instanceMemoryMB: number;
-  /** HTTP Concurrency for the function app. */
-  httpConcurrency: number;
-}
-
-/** The Test Profile Run Model. Test Profile Run resource enables you to instantiate an already created test profile and run load tests to get recommendations on the optimal configuration for the target resource. */
-export interface TestProfileRun {
-  /** Display name for the test profile run. */
-  displayName?: string;
-  /** The test profile run description */
-  description?: string;
-  /** Associated test profile ID for the test profile run. This is required to create a test profile run and can't be updated. */
-  testProfileId?: string;
-}
-
-/** Details of a particular test run for a test profile run. */
-export interface TestRunDetail {
-  /** Status of the test run. */
-  status: Status;
-  /** ID of the configuration on which the test ran. */
-  configurationId: string;
-  /** Key value pair of extra properties associated with the test run. */
-  properties: Record<string, string>;
-}
-
-/** A recommendation object that provides a list of configuration that optimizes its category. */
-export interface TestProfileRunRecommendation {
-  /** Category of the recommendation. */
-  category: RecommendationCategory;
-  /** List of configurations IDs for which the recommendation is applicable. These are a subset of the provided target resource configurations. */
-  configurations?: string[];
-}
-
 /** Configurations of a target resource. This varies with the kind of resource. */
 export type TargetResourceConfigurations =
   | TargetResourceConfigurationsParent
   | FunctionFlexConsumptionTargetResourceConfigurations;
+/** Alias for ResourceKind */
+export type ResourceKind = string;
 /** Alias for PFMetrics */
 export type PFMetrics = string;
 /** Alias for PFAgFunc */
@@ -436,20 +438,18 @@ export type FileType = string;
 export type FileStatus = string;
 /** Alias for TestKind */
 export type TestKind = string;
-/** Alias for PFTestResult */
-export type PFTestResult = string;
+/** Alias for TestProfileRunStatus */
+export type TestProfileRunStatus = string;
 /** Alias for Status */
 export type Status = string;
+/** Alias for RecommendationCategory */
+export type RecommendationCategory = string;
+/** Alias for PFTestResult */
+export type PFTestResult = string;
 /** Alias for RequestDataLevel */
 export type RequestDataLevel = string;
 /** Alias for TimeGrain */
 export type TimeGrain = string;
-/** Alias for ResourceKind */
-export type ResourceKind = string;
-/** Alias for TestProfileRunStatus */
-export type TestProfileRunStatus = string;
-/** Alias for RecommendationCategory */
-export type RecommendationCategory = string;
 
 /** Added Poller Types **/
 

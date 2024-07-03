@@ -3,19 +3,60 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
+  TestProfile,
   Test,
   FileType,
   TestAppComponents,
   TestServerMetricConfig,
+  TestProfileRun,
   TestRun,
   TimeGrain,
   MetricRequestPayload,
   TestRunAppComponents,
   TestRunServerMetricConfig,
-  TestProfile,
-  TestProfileRun,
 } from "./models.js";
 
+/** The resource instance. */
+export type TestProfileResourceMergeAndPatch = Partial<TestProfile>;
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileBodyParam {
+  /** The resource instance. */
+  body: TestProfileResourceMergeAndPatch;
+}
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam {
+  /** This request has a JSON Merge Patch body. */
+  contentType: "application/merge-patch+json";
+}
+
+export type TestProfileAdministrationCreateOrUpdateTestProfileParameters =
+  TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam &
+    TestProfileAdministrationCreateOrUpdateTestProfileBodyParam &
+    RequestParameters;
+export type TestProfileAdministrationDeleteTestProfileParameters =
+  RequestParameters;
+export type TestProfileAdministrationGetTestProfileParameters =
+  RequestParameters;
+
+export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
+  /** Maximum number of results to include in a single response. */
+  maxpagesize?: number;
+  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
+  lastModifiedStartTime?: Date | string;
+  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
+  lastModifiedEndTime?: Date | string;
+  /** Comma separated list of IDs of the test profiles to filter. */
+  testProfileIds?: string;
+  /** Comma separated list IDs of the tests which should be associated with the test profiles to fetch. */
+  testIds?: string;
+}
+
+export interface TestProfileAdministrationListTestProfilesQueryParam {
+  queryParameters?: TestProfileAdministrationListTestProfilesQueryParamProperties;
+}
+
+export type TestProfileAdministrationListTestProfilesParameters =
+  TestProfileAdministrationListTestProfilesQueryParam & RequestParameters;
 /** The resource instance. */
 export type TestResourceMergeAndPatch = Partial<Test>;
 
@@ -137,6 +178,58 @@ export type LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters =
     RequestParameters;
 export type LoadTestAdministrationGetServerMetricsConfigParameters =
   RequestParameters;
+export type TestProfileRunAdministrationGetTestProfileRunParameters =
+  RequestParameters;
+/** The resource instance. */
+export type TestProfileRunResourceMergeAndPatch = Partial<TestProfileRun>;
+
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam {
+  /** The resource instance. */
+  body: TestProfileRunResourceMergeAndPatch;
+}
+
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam {
+  /** This request has a JSON Merge Patch body. */
+  contentType: "application/merge-patch+json";
+}
+
+export type TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters =
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam &
+    TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam &
+    RequestParameters;
+export type TestProfileRunAdministrationDeleteTestProfileRunParameters =
+  RequestParameters;
+export type TestProfileRunAdministrationStopParameters = RequestParameters;
+
+export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProperties {
+  /** Maximum number of results to include in a single response. */
+  maxpagesize?: number;
+  /** Minimum Start DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
+  minStartDateTime?: Date | string;
+  /** Maximum Start DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
+  maxStartDateTime?: Date | string;
+  /** Minimum End DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
+  minEndDateTime?: Date | string;
+  /** Maximum End DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
+  maxEndDateTime?: Date | string;
+  /** Start DateTime(RFC 3339 literal format) of the created time range to filter test profile runs. */
+  createdDateStartTime?: Date | string;
+  /** End DateTime(RFC 3339 literal format) of the created time range to filter test profile runs. */
+  createdDateEndTime?: Date | string;
+  /** Comma separated list of IDs of the test profile runs to filter. */
+  testProfileRunIds?: string;
+  /** Comma separated IDs of the test profiles which should be associated with the test profile runs to fetch. */
+  testProfileIds?: string;
+  /** Comma separated list of Statuses of the test profile runs to filter. */
+  statuses?: string;
+}
+
+export interface TestProfileRunAdministrationListTestProfileRunsQueryParam {
+  queryParameters?: TestProfileRunAdministrationListTestProfileRunsQueryParamProperties;
+}
+
+export type TestProfileRunAdministrationListTestProfileRunsParameters =
+  TestProfileRunAdministrationListTestProfileRunsQueryParam & RequestParameters;
 export type LoadTestRunGetTestRunParameters = RequestParameters;
 /** The resource instance. */
 export type TestRunResourceMergeAndPatch = Partial<TestRun>;
@@ -300,96 +393,3 @@ export type LoadTestRunCreateOrUpdateServerMetricsConfigParameters =
     LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
 export type LoadTestRunGetServerMetricsConfigParameters = RequestParameters;
-/** The resource instance. */
-export type TestProfileResourceMergeAndPatch = Partial<TestProfile>;
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileBodyParam {
-  /** The resource instance. */
-  body: TestProfileResourceMergeAndPatch;
-}
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam {
-  /** This request has a JSON Merge Patch body. */
-  contentType: "application/merge-patch+json";
-}
-
-export type TestProfileAdministrationCreateOrUpdateTestProfileParameters =
-  TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam &
-    TestProfileAdministrationCreateOrUpdateTestProfileBodyParam &
-    RequestParameters;
-export type TestProfileAdministrationDeleteTestProfileParameters =
-  RequestParameters;
-export type TestProfileAdministrationGetTestProfileParameters =
-  RequestParameters;
-
-export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
-  /** Maximum number of results to include in a single response. */
-  maxpagesize?: number;
-  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
-  lastModifiedStartTime?: Date | string;
-  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
-  lastModifiedEndTime?: Date | string;
-  /** Comma separated list of IDs of the test profiles to filter. */
-  testProfileIds?: string;
-  /** Comma separated list IDs of the tests which should be associated with the test profiles to fetch. */
-  testIds?: string;
-}
-
-export interface TestProfileAdministrationListTestProfilesQueryParam {
-  queryParameters?: TestProfileAdministrationListTestProfilesQueryParamProperties;
-}
-
-export type TestProfileAdministrationListTestProfilesParameters =
-  TestProfileAdministrationListTestProfilesQueryParam & RequestParameters;
-export type TestProfileRunAdministrationGetTestProfileRunParameters =
-  RequestParameters;
-/** The resource instance. */
-export type TestProfileRunResourceMergeAndPatch = Partial<TestProfileRun>;
-
-export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam {
-  /** The resource instance. */
-  body: TestProfileRunResourceMergeAndPatch;
-}
-
-export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam {
-  /** This request has a JSON Merge Patch body. */
-  contentType: "application/merge-patch+json";
-}
-
-export type TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters =
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam &
-    TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam &
-    RequestParameters;
-export type TestProfileRunAdministrationDeleteTestProfileRunParameters =
-  RequestParameters;
-export type TestProfileRunAdministrationStopParameters = RequestParameters;
-
-export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProperties {
-  /** Maximum number of results to include in a single response. */
-  maxpagesize?: number;
-  /** Minimum Start DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
-  minStartDateTime?: Date | string;
-  /** Maximum Start DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
-  maxStartDateTime?: Date | string;
-  /** Minimum End DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
-  minEndDateTime?: Date | string;
-  /** Maximum End DateTime(RFC 3339 literal format) of the test profile runs to filter on. */
-  maxEndDateTime?: Date | string;
-  /** Start DateTime(RFC 3339 literal format) of the created time range to filter test profile runs. */
-  createdDateStartTime?: Date | string;
-  /** End DateTime(RFC 3339 literal format) of the created time range to filter test profile runs. */
-  createdDateEndTime?: Date | string;
-  /** Comma separated list of IDs of the test profile runs to filter. */
-  testProfileRunIds?: string;
-  /** Comma separated IDs of the test profiles which should be associated with the test profile runs to fetch. */
-  testProfileIds?: string;
-  /** Comma separated list of Statuses of the test profile runs to filter. */
-  statuses?: string;
-}
-
-export interface TestProfileRunAdministrationListTestProfileRunsQueryParam {
-  queryParameters?: TestProfileRunAdministrationListTestProfileRunsQueryParamProperties;
-}
-
-export type TestProfileRunAdministrationListTestProfileRunsParameters =
-  TestProfileRunAdministrationListTestProfileRunsQueryParam & RequestParameters;
