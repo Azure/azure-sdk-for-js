@@ -51,7 +51,7 @@ describe("DocumentTranslation tests", () => {
   let client: DocumentTranslationClient;
 
   beforeEach(async function (this: Context) {
-    setLogLevel("verbose")
+    setLogLevel("verbose");
     recorder = await startRecorder(this);
     client = await createDocumentTranslationClient({ recorder });
   });
