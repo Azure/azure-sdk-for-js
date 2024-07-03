@@ -135,10 +135,6 @@
       "type": "string",
       "value": "[variables('regionValue')]"
     },
-    "DOCUMENT_TRANSLATION_API_KEY": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('dtUniqueSubDomainName')), '2017-04-18').key1]"
-    },
     "DOCUMENT_TRANSLATION_ENDPOINT": {
       "type": "string",
       "value": "[variables('dtEndpointValue')]"
@@ -146,10 +142,6 @@
     "DOCUMENT_TRANSLATION_STORAGE_NAME": {
       "type": "string",
       "value": "[variables('storageAccountName')]"
-    },
-    "DOCUMENT_TRANSLATION_CONNECTION_STRING": {
-      "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-04-01').keys[0].value,';EndpointSuffix=core.windows.net')]"
     },
   }
 }
