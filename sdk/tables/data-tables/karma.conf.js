@@ -55,15 +55,10 @@ module.exports = function (config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "ACCOUNT_NAME",
-      "ACCOUNT_KEY",
       "TABLES_URL",
-      "SAS_TOKEN",
       "TEST_MODE",
-      "SAS_CONNECTION_STRING",
-      "ACCOUNT_CONNECTION_STRING",
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
       "RECORDINGS_RELATIVE_PATH",
     ],
 

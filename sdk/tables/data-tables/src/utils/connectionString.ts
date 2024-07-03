@@ -71,7 +71,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 /**
  * Checks whether a connection string is an Account Connection string or not
  */
-function isAccountConnectionString(connectionString: string) {
+function isAccountConnectionString(connectionString: string): boolean {
   const lowercaseConnectionString = connectionString.toLowerCase();
   return (
     lowercaseConnectionString.search("defaultendpointsprotocol=") !== -1 &&

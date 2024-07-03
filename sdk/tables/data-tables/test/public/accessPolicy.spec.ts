@@ -17,7 +17,7 @@ describe(`Access Policy operations`, function () {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "AccountKey", recorder);
+    client = await createTableClient(tableName, recorder);
   });
 
   afterEach(async function () {
@@ -30,7 +30,7 @@ describe(`Access Policy operations`, function () {
     }
 
     if (!isPlaybackMode()) {
-      unrecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unrecordedClient = await createTableClient(tableName);
       await unrecordedClient.createTable();
     }
   });

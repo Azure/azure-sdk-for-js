@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { Context } from "mocha";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
@@ -15,7 +15,7 @@ describe("special characters", function () {
   let client: TableClient;
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+    client = await createTableClient(tableName, recorder);
   });
 
   afterEach(async function () {
@@ -56,12 +56,12 @@ describe(`TableClient`, function () {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+    client = await createTableClient(tableName, recorder);
   });
 
   before(async function () {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName);
       await unRecordedClient.createTable();
     }
   });
@@ -72,7 +72,7 @@ describe(`TableClient`, function () {
 
   after(async function () {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName);
       await unRecordedClient.deleteTable();
     }
   });
@@ -80,7 +80,7 @@ describe(`TableClient`, function () {
   describe("listEntities", function () {
     // Create required entities for testing list operations
     before(async function (this: Context) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName);
       if (!isPlaybackMode()) {
         this.timeout(10000);
         await unRecordedClient.createEntity({

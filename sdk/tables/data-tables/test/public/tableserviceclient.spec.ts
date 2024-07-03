@@ -16,7 +16,7 @@ describe(`TableServiceClient`, function () {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    client = await createTableServiceClient("SASConnectionString", recorder);
+    client = await createTableServiceClient(recorder);
   });
 
   afterEach(async function () {
@@ -53,7 +53,7 @@ describe(`TableServiceClient`, function () {
     before(async function (this: Context) {
       // Create tables to be listed
       if (!isPlaybackMode()) {
-        unRecordedClient = await createTableServiceClient("SASConnectionString");
+        unRecordedClient = await createTableServiceClient();
         this.timeout(10000);
         for (let i = 0; i < 20; i++) {
           const tableName = `ListTableTest${suffix}${i}`;
