@@ -266,6 +266,61 @@ describe("Queries", function (this: Suite) {
         assert.equal(sum[0], 66);
       });
     });
+
+    describe("MakeList query iterator", function (this: Suite) {
+      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+
+      it("returns all documents for query iterator with makeList", async function () {
+        const queryIterator = resources.container.items.query(
+          "SELECT VALUE MAKELIST (c.prop1) FROM c",
+        );
+        const { resources: ages } = await queryIterator.fetchAll();
+        assert.equal(ages.length, 1);
+        assert.deepEqual(ages[0], ["value1", "value2", "value3"]);
+      });
+
+      it("returns all documents for query iterator with makeList with multipartitioned container", async function () {
+        const container = await getTestContainer("multipartitioned makelist", client, {
+          throughput: 12100,
+        });
+        await container.items.create({ id: "doc1", prop1: "value1" });
+        await container.items.create({ id: "doc2", prop1: "value2" });
+        await container.items.create({ id: "doc3", prop1: "value3" });
+        await container.items.create({ id: "doc4", prop1: "value1" });
+        const queryIterator = container.items.query("SELECT VALUE MAKELIST (c.prop1) FROM c");
+        const { resources: ages } = await queryIterator.fetchAll();
+        assert.equal(ages.length, 1);
+        assert.deepEqual(ages[0], ["value1", "value2", "value3", "value1"]);
+      });
+    });
+
+    describe("MakeSet query iterator", function (this: Suite) {
+      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+
+      it("returns all documents for query iterator with makeSet", async function () {
+        await resources.container.items.create({ id: "doc4", prop1: "value1" });
+        const queryIterator = resources.container.items.query(
+          "SELECT VALUE MAKESET (c.prop1) FROM c",
+        );
+        const { resources: ages } = await queryIterator.fetchAll();
+        assert.equal(ages.length, 1);
+        assert.deepEqual(ages[0], new Set(["value1", "value2", "value3"]));
+      });
+
+      it("returns all documents for query iterator with makeSet with multipartitioned container", async function () {
+        const container = await getTestContainer("multipartitioned makeset", client, {
+          throughput: 12100,
+        });
+        await container.items.create({ id: "doc1", prop1: "value1" });
+        await container.items.create({ id: "doc2", prop1: "value2" });
+        await container.items.create({ id: "doc3", prop1: "value3" });
+        await container.items.create({ id: "doc4", prop1: "value1" });
+        const queryIterator = container.items.query("SELECT VALUE MAKESET (c.prop1) FROM c");
+        const { resources: ages } = await queryIterator.fetchAll();
+        assert.equal(ages.length, 1);
+        assert.deepEqual(ages[0], new Set(["value1", "value2", "value3"]));
+      });
+    });
   });
 
   describe("QueryIterator: Hierarchical partitions", function (this: Suite) {

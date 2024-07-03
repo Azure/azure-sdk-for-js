@@ -49,7 +49,7 @@ export interface QueryInfo {
 
 export type GroupByExpressions = string[];
 
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 export interface GroupByAliasToAggregateType {
   [key: string]: AggregateType;
