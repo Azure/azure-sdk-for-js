@@ -107,7 +107,7 @@
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "tshy": "^1.14.0",
+    "tshy": "^1.17.0",
     "typescript": "~5.4.5",
     "vitest": "^1.5.3"
   },
@@ -151,5 +151,6 @@
       }
     }
   },
-  "type": "module"
+  "type": "module",
+  "module": "./dist/esm/index.js"
 }

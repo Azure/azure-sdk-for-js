@@ -66,7 +66,7 @@
     "eslint": "^8.0.0",
     "express": "^4.16.3",
     "rimraf": "^5.0.5",
-    "tshy": "^1.14.0",
+    "tshy": "^1.17.0",
     "typescript": "~5.4.5",
     "vitest": "^1.6.0"
   },
@@ -104,5 +104,6 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "type": "module"
+  "type": "module",
+  "module": "./dist/esm/index.js"
 }

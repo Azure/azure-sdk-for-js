@@ -79,7 +79,7 @@
     "express": "^4.19.2",
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
-    "tshy": "^1.13.0",
+    "tshy": "^1.17.0",
     "tslib": "^2.6.2",
     "typescript": "~5.4.5",
     "vitest": "^1.4.0"
@@ -124,5 +124,6 @@
       }
     }
   },
-  "type": "module"
+  "type": "module",
+  "module": "./dist/esm/index.js"
 }
