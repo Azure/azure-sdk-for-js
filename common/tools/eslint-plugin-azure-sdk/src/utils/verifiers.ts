@@ -6,7 +6,7 @@
  */
 
 import { TSESTree, TSESLint } from "@typescript-eslint/utils";
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 import * as path from "node:path";
 
 interface StructureData {
@@ -53,9 +53,14 @@ export const stripPath = (pathOrFileName: string): string =>
  */
 export function isEsmPackage(filePath: string): boolean {
   const packageJsonPath = filePath.endsWith("package.json") ? filePath : path.join(path.dirname(filePath), "package.json");
-  const packageJsonContent = readFileSync(packageJsonPath, "utf-8");
-  const packageJson = JSON.parse(packageJsonContent);
-  return packageJson["type"] === "module";
+  try {
+    statSync(filePath);
+    const packageJsonContent = readFileSync(packageJsonPath, "utf-8");
+    const packageJson = JSON.parse(packageJsonContent);
+    return packageJson["type"] === "module";
+  } catch {
+    return false;
+  }
 }
 /**
  * Get the directory of a filename
