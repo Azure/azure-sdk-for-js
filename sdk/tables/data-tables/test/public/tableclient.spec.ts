@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { Context } from "mocha";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
