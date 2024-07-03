@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import {
+import type {
   Completion,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
@@ -15,14 +15,17 @@ import {
   ChatCompletionChunk,
   ChatCompletionMessage,
 } from "openai/resources/index";
-import {
+import type {
   ContentFilterResultsForPromptOutput,
   ChatFinishDetailsOutput,
   ContentFilterResultsForChoiceOutput,
   AzureChatEnhancementsOutput,
   AzureChatExtensionsMessageContextOutput,
 } from "./outputModels.js";
-import { AzureChatExtensionConfiguration, AzureChatEnhancementConfiguration } from "./models.js";
+import type {
+  AzureChatExtensionConfiguration,
+  AzureChatEnhancementConfiguration,
+} from "./models.js";
 
 declare module "openai/resources/index" {
   interface Completion {
