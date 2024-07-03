@@ -6,6 +6,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import {
+  Completion,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
   ChatCompletionCreateParamsNonStreaming,
@@ -24,6 +25,14 @@ import {
 import { AzureChatExtensionConfiguration, AzureChatEnhancementConfiguration } from "./models.js";
 
 declare module "openai/resources/index" {
+  interface Completion {
+    /**
+     * Content filtering results for zero or more prompts in the request. In a streaming request,
+     * results for different prompts may arrive at different times or in different orders.
+     */
+    prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
+  }
+
   interface CompletionCreateParamsNonStreaming {
     /**
      *   The configuration entries for Azure OpenAI chat extensions that use them.
@@ -101,6 +110,7 @@ declare module "openai/resources/index" {
       enhancements?: AzureChatEnhancementsOutput;
     }
   }
+
   interface ChatCompletionChunk {
     /**
      * Content filtering results for zero or more prompts in the request. In a streaming request,
@@ -146,6 +156,7 @@ declare module "openai/resources/index" {
 }
 
 export {
+  Completion,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
   ChatCompletionCreateParamsNonStreaming,

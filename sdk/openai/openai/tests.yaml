@@ -1,0 +1,16 @@
+trigger: none
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/openai-test"
+    ServiceDirectory: openai
+    UseFederatedAuth: true
+    EnvVars:
+      AZURE_CLIENT_ID: $(python-openai-client-id)
+      AZURE_TENANT_ID: $(python-openai-tenant-id)
+      AZURE_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
+      AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT: $(AOAI-ENDPOINT-NORTHCENTRALUS)
+      AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT: $(AOAI-ENDPOINT-SWEDENCENTRAL)
+      AZURE_OPENAI_SEARCH_ENDPOINT: $(COGNITIVE-SEARCH-API-ENDPOINT)
+      AZURE_OPENAI_SEARCH_INDEX: $(COGNITIVE-SEARCH-API-INDEX)

@@ -9,6 +9,7 @@ import { ChatCompletionChunk } from 'openai/resources/index';
 import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index';
 import { ChatCompletionCreateParamsStreaming } from 'openai/resources/index';
 import { ChatCompletionMessage } from 'openai/resources/index';
+import { Completion } from 'openai/resources/index';
 import { CompletionCreateParamsNonStreaming } from 'openai/resources/index';
 import { CompletionCreateParamsStreaming } from 'openai/resources/index';
 import { ErrorModel } from '@azure-rest/core-client';
@@ -29,7 +30,6 @@ export type AzureChatExtensionConfiguration = AzureChatExtensionConfigurationPar
 
 // @public
 export interface AzureChatExtensionConfigurationParent {
-    // (undocumented)
     type: string;
 }
 
@@ -211,9 +211,10 @@ export type ChatFinishDetailsOutput = ChatFinishDetailsOutputParent | StopFinish
 
 // @public
 export interface ChatFinishDetailsOutputParent {
-    // (undocumented)
     type: string;
 }
+
+export { Completion }
 
 export { CompletionCreateParamsNonStreaming }
 
@@ -328,7 +329,6 @@ export type OnYourDataAuthenticationOptions = OnYourDataAuthenticationOptionsPar
 
 // @public
 export interface OnYourDataAuthenticationOptionsParent {
-    // (undocumented)
     type: string;
 }
 
@@ -386,7 +386,6 @@ export type OnYourDataVectorizationSource = OnYourDataVectorizationSourceParent 
 
 // @public
 export interface OnYourDataVectorizationSourceParent {
-    // (undocumented)
     type: string;
 }
 

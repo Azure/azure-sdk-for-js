@@ -88,8 +88,7 @@ function assertCompletionsNoUsage(
   assert.isString(completions.id);
   assert.isString(completions.model);
   ifDefined(completions.system_fingerprint, assert.isString);
-  // TODO: add content filter results assertion
-  // assertContentFilterResultsForPrompt(completions.prompt_filter_results ?? []);
+  assertContentFilterResultsForPrompt(completions.prompt_filter_results ?? []);
 }
 
 function assertCompletionsChoice(choice: CompletionChoice): void {

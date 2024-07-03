@@ -221,6 +221,7 @@ export interface OnYourDataApiKeyAuthenticationOptions
 
 /** The authentication options for Azure OpenAI On Your Data. */
 export interface OnYourDataAuthenticationOptionsParent {
+  /** The authentication type. */
   type: string;
 }
 
@@ -307,6 +308,7 @@ export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions
 
 /** An abstract representation of a vectorization source for Azure OpenAI On Your Data with vector search. */
 export interface OnYourDataVectorizationSourceParent {
+  /** The authentication type. */
   type: string;
 }
 
@@ -316,6 +318,7 @@ export interface OnYourDataVectorizationSourceParent {
  *   The use of this configuration is compatible only with Azure OpenAI.
  */
 export interface AzureChatExtensionConfigurationParent {
+  /** The type label. */
   type: string;
 }
 
