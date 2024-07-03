@@ -12,7 +12,9 @@ import {
   ChatCompletionToolMessageParam,
   ChatCompletionUserMessageParam,
 } from "openai/resources/index.mjs";
-import { APIMatrix, APIVersion, AuthMethod, authTypes } from "./utils/utils.js";
+import { APIMatrix, APIVersion, AuthMethod, authTypes, latestAPIPreview } from "./utils/utils.js";
+import { assertAssistantEquality } from "./utils/asserts.js";
+import { AssistantTool } from "openai/resources/beta/assistants.mjs";
 
 describe("README samples", () => {
   let recorder: Recorder;
@@ -23,9 +25,251 @@ describe("README samples", () => {
   });
 
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
+  describe(`[${authMethod}] Client`, () => {
+      describe(`Assistants`, function () {
+        const codeAssistant = {
+          tools: [{ type: "code_interpreter" }] as AssistantTool[],
+          model: "gpt-4-1106-preview",
+          name: "JS CI Math Tutor",
+          description: "Math Tutor for Math Problems",
+          instructions:
+            "You are a personal math tutor. Write and run code to answer math questions.",
+          metadata: { foo: "bar" },
+        };
+        
+        beforeEach(async function (this: Context) {
+          recorder = new Recorder(this.currentTest);
+          recorder = await startRecorder(this.currentTest);
+          client = createClient(authMethod, latestAPIPreview , "dalle");
+        });
+        
+        it("create and run code interpreter scenario", async function () {
+          const assistant = await client.beta.assistants.create(codeAssistant);
+          assertAssistantEquality(codeAssistant, assistant);
+          const thread = await client.beta.threads.create();
+          assert.isNotNull(thread.id);
+          const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
+          const role = "user";
+          const message = await client.beta.threads.messages.create(thread.id, {
+            role,
+            content: question,
+          });
+          const messageContent = message.content[0];
+          assert.isNotNull(message.id);
+          assert.equal(message.role, role);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, question);
+          }
+          const instructions =
+            "Please address the user as Jane Doe. The user has a premium account.";
+          let run = await client.beta.threads.runs.create(thread.id, {
+            assistant_id: assistant.id,
+            instructions,
+          });
+          assert.isNotNull(run.id);
+          assert.equal(run.thread_id, thread.id);
+          assert.equal(run.assistant_id, assistant.id);
+          assert.equal(run.instructions, instructions);
+
+          do {
+            await new Promise((resolve) => setTimeout(resolve, 20000));
+            run = await client.beta.threads.runs.retrieve(thread.id, run.id);
+            const listLength = 1;
+            const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id, {
+              limit: listLength,
+            });
+            if (runSteps.data.length > 0) {
+              const runStep = runSteps.data[0];
+              assert.isNotNull(runStep.id);
+              assert.equal(runSteps.data.length, listLength);
+
+              const runMessage = await client.beta.threads.runs.steps.retrieve(
+                thread.id,
+                run.id,
+                runStep.id,
+              );
+              assert.equal(runStep.id, runMessage.id);
+              assert.equal(runMessage.run_id, run.id);
+              assert.equal(runMessage.thread_id, thread.id);
+              assert.equal(runMessage.assistant_id, assistant.id);
+            }
+          } while (run.status === "queued" || run.status === "in_progress");
+          assert.equal(run.status, "completed");
+
+          const runMessages = await client.beta.threads.messages.list(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+            for (const item of runMessageDatum.content) {
+              assert.equal(item.type, "text");
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text.value);
+              }
+            }
+          }
+          const deleteThreadResponse = await client.beta.threads.del(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
+
+        it("create and run function scenario for assistant", async function () {
+          const favoriteCityFunctionName = "getUserFavoriteCity";
+          const favoriteCityFunctionDescription = "Gets the user's favorite city.";
+          const getFavoriteCity = (): string => "Atlanta, GA";
+          const getUserFavoriteCityTool = {
+            type: "function",
+            function: {
+              name: favoriteCityFunctionName,
+              description: favoriteCityFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {},
+              },
+            },
+          };
+
+          const getCityNickname = (city: string): string => {
+            switch (city) {
+              case "Atlanta, GA":
+                return "The ATL";
+              case "Seattle, WA":
+                return "The Emerald City";
+              case "Los Angeles, CA":
+                return "LA";
+              default:
+                return "Unknown";
+            }
+          };
+
+          const getCityNicknameFunctionName = "getCityNickname";
+          const getCityNicknameFunctionDescription =
+            "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.";
+          const getCityNicknameTool = {
+            type: "function",
+            function: {
+              name: getCityNicknameFunctionName,
+              description: getCityNicknameFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {
+                  city: {
+                    type: "string",
+                    description: "The city and state, e.g. San Francisco, CA",
+                  },
+                },
+              },
+            },
+          };
+
+          let favoriteCityCalled = false;
+          let nicknameCalled = false;
+          const getResolvedToolOutput = (toolCall: {
+            id: string;
+            function?: any;
+          }): { output: string } => {
+            const toolOutput = { tool_call_id: toolCall.id, output: "" };
+            if (toolCall["function"]) {
+              const functionCall = toolCall["function"];
+              const functionName = functionCall.name;
+              const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
+              switch (functionName) {
+                case favoriteCityFunctionName:
+                  toolOutput.output = getFavoriteCity();
+                  favoriteCityCalled = true;
+                  break;
+                case getCityNicknameFunctionName:
+                  toolOutput.output = getCityNickname(functionArgs["city"]);
+                  nicknameCalled = true;
+                  break;
+                default:
+                  toolOutput.output = `Unknown function: ${functionName}`;
+                  break;
+              }
+            }
+
+            return toolOutput;
+          };
+
+          const instructions = `You are a helpful assistant. Use the provided functions to help answer questions.
+            Customize your responses to the user's preferences as much as possible and use friendly
+            nicknames for cities whenever possible.
+        `;
+          const functionAssistant = {
+            model: "gpt-4-1106-preview",
+            name: "JS SDK Test Assistant - Nickname",
+            instructions,
+            tools: [getUserFavoriteCityTool, getCityNicknameTool] as AssistantTool[],
+          };
+          const assistant = await client.beta.assistants.create(functionAssistant);
+          assert.isNotNull(assistant.id);
+          const thread = await client.beta.threads.create();
+          assert.isNotNull(thread.id);
+          const content = "What's the nickname of my favorite city?";
+          const role = "user";
+          const message = await client.beta.threads.messages.create(thread.id, { role, content });
+          assert.isNotNull(message.id);
+          assert.equal(message.thread_id, thread.id);
+          let run = await client.beta.threads.runs.create(
+            thread.id,
+            {
+              assistant_id: assistant.id,
+              tools: [getUserFavoriteCityTool, getCityNicknameTool] as AssistantTool[],
+            },
+            {
+              timeout: 10000,
+            },
+          );
+
+          const runId = run.id;
+          assert.isNotNull(runId);
+
+          do {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            run = await client.beta.threads.runs.retrieve(thread.id, run.id);
+            assert.equal(run.id, runId);
+            assert.equal(run.thread_id, thread.id);
+            assert.equal(run.assistant_id, assistant.id);
+            assert.equal(run.instructions, instructions);
+
+            if (
+              run.status === "requires_action" &&
+              run.required_action?.type === "submit_tool_outputs"
+            ) {
+              const toolOutputs = [];
+
+              assert.notEqual(run.required_action?.submit_tool_outputs?.tool_calls, undefined);
+              if (run.required_action?.submit_tool_outputs?.tool_calls !== undefined) {
+                for (const toolCall of run.required_action.submit_tool_outputs.tool_calls) {
+                  toolOutputs.push(getResolvedToolOutput(toolCall));
+                }
+              }
+              run = await client.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
+                tool_outputs: toolOutputs,
+              });
+            }
+          } while (run.status === "queued" || run.status === "in_progress");
+          assert.equal(favoriteCityCalled, true);
+          assert.equal(nicknameCalled, true);
+
+          const runMessages = await client.beta.threads.messages.list(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+            for (const item of runMessageDatum.content) {
+              assert.equal(item.type, "text");
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text?.value);
+              }
+            }
+          }
+
+          const deleteThreadResponse = await client.beta.threads.del(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
+      });
       matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-        describe("Completions", function () {
+        describe(`[${apiVersion}] Completions`, function () {
           beforeEach(async function (this: Context) {
             recorder = new Recorder(this.currentTest);
             recorder = await startRecorder(this.currentTest);
@@ -70,7 +314,7 @@ describe("README samples", () => {
               "Describe in single words only the good things that come into your mind about your mother.",
             ];
 
-            const deploymentName = "text-davinci-003";
+            const deploymentName = "gpt-35-turbo";
 
             const { choices } = await client.completions.create({
               model: deploymentName,
@@ -103,7 +347,7 @@ describe("README samples", () => {
     `,
             ];
 
-            const deploymentName = "text-davinci-003";
+            const deploymentName = "gpt-35-turbo";
 
             const { choices } = await client.completions.create({
               model: deploymentName,
@@ -186,7 +430,7 @@ describe("README samples", () => {
           });
         });
 
-        describe("Dall-E", function () {
+        describe(`[${apiVersion}] Dall-E`, function () {
           beforeEach(async function (this: Context) {
             recorder = new Recorder(this.currentTest);
             recorder = await startRecorder(this.currentTest);
@@ -211,11 +455,10 @@ describe("README samples", () => {
             }
           });
 
-          // TODO: The model currently responds with: Invalid content type. image_url is only supported by certain models
-          it.skip("Chat with images", async function () {
+          it("Chat with images", async function () {
             const url =
               "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
-            const deploymentName = "gpt-4-1106-preview";
+            const deploymentName = "gpt-4-vision-preview";
             const messages: ChatCompletionUserMessageParam[] = [
               {
                 role: "user",
@@ -238,6 +481,7 @@ describe("README samples", () => {
             assert.isString(result.choices[0].message?.content);
           });
         });
+
       });
     });
   });

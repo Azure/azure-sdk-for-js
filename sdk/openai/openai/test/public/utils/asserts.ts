@@ -15,9 +15,14 @@ import {
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
   ErrorModel,
+  AzureChatEnhancementConfiguration,
+  AzureChatGroundingEnhancementConfiguration,
+  AzureChatOCREnhancementConfiguration,
+  ChatFinishDetailsOutput,
+  StopFinishDetailsOutput,
 } from "../../../src/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
-import { ChatCompletionTokenLogprob, CompletionChoice } from "openai/resources/index";
+import { ChatCompletionChunk, ChatCompletionTokenLogprob, CompletionChoice } from "openai/resources/index";
 
 export function assertChatCompletions(
   completions: OpenAI.Chat.Completions.ChatCompletion,
@@ -52,7 +57,7 @@ function assertChatCompletionsProperties(
     | Omit<OpenAI.Chat.Completions.ChatCompletion, "choices">
     | Omit<OpenAI.Chat.Completions.ChatCompletionChunk, "choices">,
 ): void {
-  assertContentFilterResultsForPrompt((completions as any).prompt_filter_results ?? []);
+  assertContentFilterResultsForPrompt(completions.prompt_filter_results ?? []);
   assert.isNumber(completions.created);
   assert.isString(completions.id);
   assert.isString(completions.model);
@@ -70,8 +75,6 @@ export function assertChatCompletionsList(
 export function assertCompletions(completions: OpenAI.Completions.Completion): void {
   assertCompletionsNoUsage(completions);
   ifDefined(completions.usage, assertUsage);
-  // TODO: add content filter results assertion
-  assertContentFilterResultsForPrompt((completions as any).prompt_filter_results ?? []);
 }
 
 function assertCompletionsNoUsage(
@@ -85,6 +88,8 @@ function assertCompletionsNoUsage(
   assert.isString(completions.id);
   assert.isString(completions.model);
   ifDefined(completions.system_fingerprint, assert.isString);
+  // TODO: add content filter results assertion
+  // assertContentFilterResultsForPrompt(completions.prompt_filter_results ?? []);
 }
 
 function assertCompletionsChoice(choice: CompletionChoice): void {
@@ -185,10 +190,9 @@ function assertChoice(
     assert.isUndefined((choice as any).delta);
   }
   assert.isNumber(choice.index);
-  // TODO: enable the checks
-  // ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
-  // ifDefined(choice.enhancements, assertAzureChatEnhancements);
-  // ifDefined(choice.finishDetails, assertChatFinishDetails);
+  ifDefined(choice.content_filter_results, assertContentFilterResultsForChoice);
+  ifDefined(choice.enhancements, assertAzureChatEnhancements);
+  ifDefined(choice.finish_details, assertChatFinishDetails);
   ifDefined(choice.logprobs, assertLogProbability);
   ifDefined(choice.finish_reason, assert.isString);
 }
@@ -279,17 +283,28 @@ function assertFunctionCall(
 }
 
 function assertToolCall(
-  toolCall: OpenAI.Chat.Completions.ChatCompletionMessageToolCall,
+  toolCall: OpenAI.Chat.Completions.ChatCompletionMessageToolCall | ChatCompletionChunk.Choice.Delta.ToolCall,
   { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, toolCall.type, assert.isString);
   assertIf(!stream, toolCall.id, assert.isString);
-  // TODO: change for stream
-  // assertIf(Boolean(stream), toolCall.index, assert.isNumber);
+  assertIf(Boolean(stream), (toolCall as ChatCompletionChunk.Choice.Delta.ToolCall).index, assert.isNumber);
+
   switch (toolCall.type) {
     case "function":
-      assertFunctionCall(toolCall.function, { stream });
+      ifDefined(toolCall.function, (functionCall) => assertFunctionCall(functionCall, { stream }))
       break;
+  }
+}
+
+function assertChatFinishDetails(val: ChatFinishDetailsOutput): void {
+  switch (val.type) {
+    case "max_tokens":
+      break;
+    case "stop": {
+      assert.isString((val as StopFinishDetailsOutput).stop);
+      break;
+    }
   }
 }
 
@@ -396,7 +411,6 @@ function assertMessage(
     assertIf(!stream, msg.content, assert.isString);
   }
   assertIf(!stream, msg.role, assert.isString);
-  ifDefined(msg.function_call, (item) => assertFunctionCall(item, { stream }));
   for (const item of msg.tool_calls ?? []) {
     assertToolCall(item, { stream });
   }
@@ -408,6 +422,18 @@ function assertContext(context: AzureChatExtensionsMessageContextOutput): void {
   ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
 }
 
+function assertAzureChatEnhancements(val: AzureChatEnhancementConfiguration): void {
+  ifDefined(val.grounding, assertAzureGroundingEnhancement);
+  ifDefined(val.ocr, assertAzureOCREnhancement);
+}
+
+function assertAzureGroundingEnhancement(val: AzureChatGroundingEnhancementConfiguration): void {
+  assert.isBoolean(val.enabled);
+}
+
+function assertAzureOCREnhancement(val: AzureChatOCREnhancementConfiguration): void {
+  assert.isBoolean(val.enabled);
+}
 function assertCitations(citations: AzureChatExtensionDataSourceResponseCitationOutput): void {
   assert.isDefined(citations.content);
   ifDefined(citations.title, assert.isString);

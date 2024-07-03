@@ -31,11 +31,10 @@ describe("OpenAI", function () {
           let client: AzureOpenAI | OpenAI;
 
           beforeEach(async function (this: Context) {
-            client = createClient(authMethod, apiVersion, "completions");
+            client = createClient(authMethod, apiVersion, "dalle");
           });
 
           describe("getChatCompletions", function () {
-            // TODO: Unskip the test when it works for Azure client
             it("Describes an image", async function () {
               const url =
                 "https://www.nasa.gov/wp-content/uploads/2023/11/53296469002-a92ea42cb9-o.jpg";
