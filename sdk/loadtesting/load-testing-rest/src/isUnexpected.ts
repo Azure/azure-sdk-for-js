@@ -153,9 +153,7 @@ export function isUnexpected(
     | LoadTestAdministrationDeleteTestDefaultResponse,
 ): response is LoadTestAdministrationDeleteTestDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestAdministrationGetTest200Response
-    | LoadTestAdministrationGetTestDefaultResponse,
+  response: LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse,
 ): response is LoadTestAdministrationGetTestDefaultResponse;
 export function isUnexpected(
   response:
@@ -231,9 +229,7 @@ export function isUnexpected(
     | TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
 ): response is TestProfileRunAdministrationListTestProfileRunsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestRunGetTestRun200Response
-    | LoadTestRunGetTestRunDefaultResponse,
+  response: LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse,
 ): response is LoadTestRunGetTestRunDefaultResponse;
 export function isUnexpected(
   response:
@@ -242,19 +238,13 @@ export function isUnexpected(
     | LoadTestRunCreateOrUpdateTestRunDefaultResponse,
 ): response is LoadTestRunCreateOrUpdateTestRunDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestRunDeleteTestRun204Response
-    | LoadTestRunDeleteTestRunDefaultResponse,
+  response: LoadTestRunDeleteTestRun204Response | LoadTestRunDeleteTestRunDefaultResponse,
 ): response is LoadTestRunDeleteTestRunDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestRunListTestRuns200Response
-    | LoadTestRunListTestRunsDefaultResponse,
+  response: LoadTestRunListTestRuns200Response | LoadTestRunListTestRunsDefaultResponse,
 ): response is LoadTestRunListTestRunsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestRunGetTestRunFile200Response
-    | LoadTestRunGetTestRunFileDefaultResponse,
+  response: LoadTestRunGetTestRunFile200Response | LoadTestRunGetTestRunFileDefaultResponse,
 ): response is LoadTestRunGetTestRunFileDefaultResponse;
 export function isUnexpected(
   response: LoadTestRunStop200Response | LoadTestRunStopDefaultResponse,
@@ -270,9 +260,7 @@ export function isUnexpected(
     | LoadTestRunListMetricDefinitionsDefaultResponse,
 ): response is LoadTestRunListMetricDefinitionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestRunListMetrics200Response
-    | LoadTestRunListMetricsDefaultResponse,
+  response: LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse,
 ): response is LoadTestRunListMetricsDefaultResponse;
 export function isUnexpected(
   response:
@@ -286,9 +274,7 @@ export function isUnexpected(
     | LoadTestRunCreateOrUpdateAppComponentsDefaultResponse,
 ): response is LoadTestRunCreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestRunGetAppComponents200Response
-    | LoadTestRunGetAppComponentsDefaultResponse,
+  response: LoadTestRunGetAppComponents200Response | LoadTestRunGetAppComponentsDefaultResponse,
 ): response is LoadTestRunGetAppComponentsDefaultResponse;
 export function isUnexpected(
   response:
@@ -449,24 +435,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

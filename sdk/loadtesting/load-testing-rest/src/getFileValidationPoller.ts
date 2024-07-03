@@ -5,7 +5,10 @@ import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-contr
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
 import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./clientDefinitions";
-import { LoadTestAdministrationGetTestFile200Response, LoadTestAdministrationUploadTestFile201Response } from "./responses";
+import {
+  LoadTestAdministrationGetTestFile200Response,
+  LoadTestAdministrationUploadTestFile201Response,
+} from "./responses";
 import { isUnexpected } from "./isUnexpected";
 import { sleep } from "./util/LROUtil";
 
@@ -41,7 +44,10 @@ export async function getFileValidationPoller(
   const abortController = new AbortController();
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
 
-  const poller: SimplePollerLike<OperationState<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response> = {
+  const poller: SimplePollerLike<
+    OperationState<LoadTestAdministrationGetTestFile200Response>,
+    LoadTestAdministrationGetTestFile200Response
+  > = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");

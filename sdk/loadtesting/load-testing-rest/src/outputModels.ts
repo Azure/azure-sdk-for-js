@@ -41,10 +41,7 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
    */
   kind: "FunctionsFlexConsumption";
   /** A map of configurations for a Function app using Flex Consumption Plan. */
-  configurations?: Record<
-    string,
-    FunctionFlexConsumptionResourceConfigurationOutput
-  >;
+  configurations?: Record<string, FunctionFlexConsumptionResourceConfigurationOutput>;
 }
 
 /** Resource configuration instance for a Flex Consumption based Azure Function App. */

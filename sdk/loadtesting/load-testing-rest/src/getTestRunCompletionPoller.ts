@@ -21,7 +21,9 @@ import { sleep, isTestRunInProgress } from "./util/LROUtil";
  */
 export async function getTestRunCompletionPoller(
   client: AzureLoadTestingClient,
-  createTestRunResponse: LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response,
+  createTestRunResponse:
+    | LoadTestRunCreateOrUpdateTestRun200Response
+    | LoadTestRunCreateOrUpdateTestRun201Response,
   polledOperationOptions: PolledOperationOptions = {},
 ): Promise<TestRunCompletionPoller> {
   type Handler = (state: OperationState<LoadTestRunGetTestRun200Response>) => void;
@@ -39,7 +41,10 @@ export async function getTestRunCompletionPoller(
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
   const testRunId = createTestRunResponse.body.testRunId;
 
-  const poller: SimplePollerLike<OperationState<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response> = {
+  const poller: SimplePollerLike<
+    OperationState<LoadTestRunGetTestRun200Response>,
+    LoadTestRunGetTestRun200Response
+  > = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");
@@ -74,7 +79,9 @@ export async function getTestRunCompletionPoller(
       }
     },
 
-    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<LoadTestRunGetTestRun200Response> {
+    pollUntilDone(pollOptions?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<LoadTestRunGetTestRun200Response> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         const { signal: abortSignal } = inputAbortSignal
@@ -106,7 +113,9 @@ export async function getTestRunCompletionPoller(
       }));
     },
 
-    onProgress(callback: (state: OperationState<LoadTestRunGetTestRun200Response>) => void): CancelOnProgress {
+    onProgress(
+      callback: (state: OperationState<LoadTestRunGetTestRun200Response>) => void,
+    ): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
 
