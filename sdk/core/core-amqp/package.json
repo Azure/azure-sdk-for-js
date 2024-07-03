@@ -101,7 +101,7 @@
     "eslint": "^8.57.0",
     "playwright": "^1.43.1",
     "rimraf": "^5.0.7",
-    "tshy": "^1.14.0",
+    "tshy": "^1.17.0",
     "typescript": "~5.4.5",
     "vite": "^5.2.11",
     "vite-plugin-node-polyfills": "^0.22.0",
@@ -125,5 +125,6 @@
       "react-native"
     ],
     "selfLink": false
-  }
+  },
+  "module": "./dist/esm/index.js"
 }
