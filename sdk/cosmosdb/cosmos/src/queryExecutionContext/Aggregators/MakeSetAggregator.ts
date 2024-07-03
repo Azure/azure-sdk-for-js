@@ -27,7 +27,7 @@ export class MakeSetAggregator implements Aggregator {
    * Gets the result of the MakeSetAggregator.
    * @returns A Set containing the unique values collected by the aggregator.
    */
-  public getResult(): Set<any> {
-    return new Set(this.value);
+  public getResult(): any {
+    return Array.from(this.value);
   }
 }

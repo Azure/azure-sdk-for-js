@@ -292,6 +292,36 @@ describe("Queries", function (this: Suite) {
         assert.equal(ages.length, 1);
         assert.deepEqual(ages[0], ["value1", "value2", "value3", "value1"]);
       });
+
+      it("field of type array", async function () {
+        const container = await getTestContainer("array field", client, {
+          throughput: 12100,
+        });
+        await container.items.create({ id: "doc1", prop1: ["value1", "value2"] });
+        await container.items.create({ id: "doc2", prop1: [] });
+        await container.items.create({ id: "doc3" });
+        const queryIterator = container.items.query(
+          "SELECT VALUE MAKELIST (c.prop1) FROM c where IS_ARRAY(c.prop1)",
+        );
+        const { resources: ages } = await queryIterator.fetchAll();
+        assert.equal(ages.length, 1);
+        assert.deepEqual(ages[0], [["value1", "value2"], []]);
+      });
+
+      it("field of type string", async function () {
+        const container = await getTestContainer("array field", client, {
+          throughput: 12100,
+        });
+        await container.items.create({ id: "doc1", prop1: ["value1", "value2"] });
+        await container.items.create({ id: "doc2", prop1: [] });
+        await container.items.create({ id: "doc3", prop1: "value1" });
+        const queryIterator = container.items.query(
+          "SELECT VALUE MAKELIST (c.prop1) FROM c where IS_STRING(c.prop1)",
+        );
+        const { resources: ages } = await queryIterator.fetchAll();
+        assert.equal(ages.length, 1);
+        assert.deepEqual(ages[0], [["value1"]]);
+      });
     });
 
     describe("MakeSet query iterator", function (this: Suite) {
