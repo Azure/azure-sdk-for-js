@@ -5,7 +5,7 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobServiceClient } from "@azure/storage-blob";
 import { TestDocument, createTestDocument } from "../utils/TestDocument";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { DefaultAzureCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export const ONE_TEST_DOCUMENTS = [
   createTestDocument("Document1.txt", "First english test document"),
@@ -77,7 +77,7 @@ async function createContainer(
   const url = `https://${storageName}.blob.core.windows.net/`;
   const blobServiceClient: BlobServiceClient = new BlobServiceClient(
     url,
-    new DefaultAzureCredential(),
+    createTestCredential(),
   );
   configureBlobStorageClient(recorder, blobServiceClient);
 
@@ -121,7 +121,7 @@ export async function downloadDocument(
   const url = `https://${storageName}.blob.core.windows.net/`;
   const blobServiceClient: BlobServiceClient = new BlobServiceClient(
     url,
-    new DefaultAzureCredential(),
+    createTestCredential(),
   );
   configureBlobStorageClient(recorder, blobServiceClient);
 
