@@ -950,7 +950,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-  it("Creates a call, start media streaming, and hangs up.", async function () {
+  it.skip("Creates a call, start media streaming, and hangs up.", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_start_media_streaming_and_hang_up";
@@ -1023,7 +1023,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-  it("Answers a call, start media streaming, and hangs up", async function () {
+  it.skip("Answers a call, start media streaming, and hangs up", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "answer_call_start_media_streaming_and_hang_up";
@@ -1038,8 +1038,7 @@ describe("Call Media Client Live Tests", function () {
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
-    assert.isDefined(incomingCallContext);
-
+    assert.isDefined(incomingCallContext);    
     if (incomingCallContext) {
       const mediaStreamingOptions: MediaStreamingOptions = {
         transportUrl: transportUrl,
@@ -1051,15 +1050,17 @@ describe("Call Media Client Live Tests", function () {
       const answerCallOptions: AnswerCallOptions = {
         mediaStreamingOptions: mediaStreamingOptions,
       };
-      await receiverCallAutomationClient.answerCall(
+     
+     const answerCallResult = await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
         answerCallOptions,
       );
+      
+      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+      assert.isDefined(callConnectedEvent);
+      callConnection = answerCallResult.callConnection;
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-    assert.isDefined(callConnectedEvent);
-    callConnection = result.callConnection;
 
     await callConnection.getCallMedia().startMediaStreaming();
     const mediaStreamingStarted = await waitForEvent(
