@@ -74,7 +74,7 @@ describe("DocumentTranslation tests", () => {
     }
   });
 
-  it.only("Single Source Single Target", async () => {
+  it("Single Source Single Target", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
@@ -89,7 +89,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  it.only("Single Source Multiple Targets", async () => {
+  it("Single Source Multiple Targets", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
 
@@ -119,7 +119,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response as StartTranslationDefaultResponse, 3);
   });
 
-  it.only("Multiple Sources Single Target", async () => {
+  it("Multiple Sources Single Target", async () => {
     const srcContainerName1 = recorder.variable("sourceContainer1", `source-${getUniqueName()}`);
     const sourceUrl1 = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS, srcContainerName1);
     const sourceInput1 = createSourceInput(sourceUrl1);
@@ -147,7 +147,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response, 2);
   });
 
-  it.only("Single Source Single Target With Prefix", async () => {
+  it("Single Source Single Target With Prefix", async () => {
     const documentFilter = {
       prefix: "File",
     };
@@ -166,7 +166,7 @@ describe("DocumentTranslation tests", () => {
     validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  it.only("Single Source Single Target With Suffix", async () => {
+  it("Single Source Single Target With Suffix", async () => {
     const documentFilter = {
       suffix: "txt",
     };
