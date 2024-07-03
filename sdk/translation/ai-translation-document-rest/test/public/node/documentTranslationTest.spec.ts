@@ -39,7 +39,6 @@ import {
 } from "../utils/testHelper";
 import { createTestDocument } from "../utils/TestDocument";
 import { BatchRequest } from "../../../src/models";
-import { setLogLevel } from "@azure/logger";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -51,7 +50,6 @@ describe("DocumentTranslation tests", () => {
   let client: DocumentTranslationClient;
 
   beforeEach(async function (this: Context) {
-    setLogLevel("verbose");
     recorder = await startRecorder(this);
     client = await createDocumentTranslationClient({ recorder });
   });

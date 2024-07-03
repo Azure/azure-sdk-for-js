@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobServiceClient } from "@azure/storage-blob";
 import { TestDocument, createTestDocument } from "../utils/TestDocument";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -73,7 +73,7 @@ async function createContainer(
   containerName: string,
   documents?: TestDocument[],
 ): Promise<ContainerClient> {
-  const storageName = env.DOCUMENT_TRANSLATION_STORAGE_NAME as string;
+  const storageName = getEnvVar("DOCUMENT_TRANSLATION_STORAGE_NAME");
   const url = `https://${storageName}.blob.core.windows.net/`;
   const blobServiceClient: BlobServiceClient = new BlobServiceClient(url, createTestCredential());
   configureBlobStorageClient(recorder, blobServiceClient);
@@ -114,7 +114,7 @@ export async function downloadDocument(
   containerName: string,
   documentName: string,
 ): Promise<string> {
-  const storageName = env.DOCUMENT_TRANSLATION_STORAGE_NAME as string;
+  const storageName = getEnvVar("DOCUMENT_TRANSLATION_STORAGE_NAME");
   const url = `https://${storageName}.blob.core.windows.net/`;
   const blobServiceClient: BlobServiceClient = new BlobServiceClient(url, createTestCredential());
   configureBlobStorageClient(recorder, blobServiceClient);
@@ -148,4 +148,12 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream | undefined)
     });
     readableStream?.on("error", reject);
   });
+}
+
+export function getEnvVar(name: string): string {
+  const val = process.env[name];
+  if (!val) {
+    throw `Environment variable ${name} is not defined.`;
+  }
+  return val;
 }
