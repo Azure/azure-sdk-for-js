@@ -4,6 +4,7 @@
 
 ### Features Added
 - Added a `clientEndpointType` option to `GenerateClientTokenOptions` to specify the type of client endpoint when generating token. This option can be used to generate token and client connection URL for a specific client endpoint type, such as `Default` or `MQTT`.
+- Update API version to `2024-01-01`
 
 ## 1.1.3 (Unreleased)
 
