@@ -57,7 +57,7 @@ describe("MongoCluster test", () => {
     }
   });
 
-  it("mongoClusters create test", async function () {
+  it.only("mongoClusters create test", async function () {
     const res = await client.mongoClusters.createOrUpdate(
       resourceGroup,
       resourcename,
