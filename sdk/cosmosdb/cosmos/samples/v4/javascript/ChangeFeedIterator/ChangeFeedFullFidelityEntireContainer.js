@@ -23,6 +23,69 @@ const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Change Feed For Entire Container With AllVersionsAndDeletes Mode");
 
+// Establish a new instance of the CosmosClient to be used throughout this demo
+const client = new CosmosClient({ endpoint, key });
+
+async function run() {
+  try {
+    const { database } = await client.databases.createIfNotExists({ id: databaseId });
+    const containerDef = {
+      id: containerId,
+      partitionKey: {
+        paths: ["/name"],
+        version: PartitionKeyDefinitionVersion.V1,
+      },
+      throughput: 11000,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDef);
+    // set change feed iterator options to fetch changes from now in all versions and deletes mode
+    let changeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+
+    let iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    logStep("Start fetching changes from now");
+    let continuationToken = "";
+    let res = await iterator.readNext();
+    console.log("Result should be empty as no changes are made yet", res.result);
+    // insert, upsert, and delete data from container
+    await insertAndModifyData(container, 1, 3);
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === StatusCodes.NotModified) {
+        // if no new results are found, break the loop and return continuation token
+        continuationToken = res.continuationToken;
+        break;
+      }
+      console.log("Results Found: ", res.result);
+    }
+    // insert, upsert, and delete more data after fetching continuation token
+    await insertAndModifyData(container, 3, 5);
+    // set change feed iterator options to fetch changes from continuation token in all versions and deletes mode
+    changeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    console.log("Start fetching changes from continuation token");
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      // break the loop if no new results are found
+      if (res.statusCode === StatusCodes.NotModified) {
+        break;
+      }
+      console.log("Results Found: ", res.result);
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await finish();
+  }
+}
+
 async function ingestData(container, initialize, end) {
   console.log(`beginning data ingestion from id - item${initialize} to id - item${end - 1}`);
   for (let i = initialize; i < end; i++) {
@@ -42,62 +105,4 @@ async function insertAndModifyData(container, initialize, end) {
   console.log(`deleted item with id - item${initialize} and partition key - sample1`);
 }
 
-// Establish a new instance of the CosmosClient to be used throughout this demo
-const client = new CosmosClient({ endpoint, key });
-
-async function run() {
-  try {
-    const { database } = await client.databases.createIfNotExists({ id: databaseId });
-    const containerDef = {
-      id: containerId,
-      partitionKey: {
-        paths: ["/name"],
-        version: PartitionKeyDefinitionVersion.V1,
-      },
-      throughput: 11000,
-    };
-    const { container } = await database.containers.createIfNotExists(containerDef);
-    let changeFeedIteratorOptions;
-    changeFeedIteratorOptions = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
-      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
-    };
-
-    let iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-    logStep("Start fetching changes from now");
-    let continuationToken = "";
-    let res = await iterator.readNext();
-    console.log("Result should be empty as no changes are made yet", res.result);
-    await insertAndModifyData(container, 1, 3);
-    while (iterator.hasMoreResults) {
-      const res = await iterator.readNext();
-      if (res.statusCode === StatusCodes.NotModified) {
-        continuationToken = res.continuationToken;
-        break;
-      }
-      console.log("Results Found: ", res.result);
-    }
-
-    await insertAndModifyData(container, 3, 5);
-    changeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
-      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
-    };
-    iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-    console.log("Start fetching changes from continuation token");
-    while (iterator.hasMoreResults) {
-      const res = await iterator.readNext();
-      if (res.statusCode === StatusCodes.NotModified) {
-        continuationToken = res.continuationToken;
-        break;
-      }
-      console.log("Results Found: ", res.result);
-    }
-  } catch (err) {
-    console.error(err);
-  } finally {
-    await finish();
-  }
-}
 run().catch(handleError);
