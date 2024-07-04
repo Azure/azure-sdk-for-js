@@ -17,7 +17,6 @@ async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: st
     excludeInternal: true,
     excludePrivate: true,
     skipErrorChecking: true,
-    gaID: "UA-62780441-43",
     theme: "azureSdk",
   }, [
     new TSConfigReader(),
