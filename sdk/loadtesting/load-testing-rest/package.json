@@ -20,6 +20,14 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    }
+  },
   "files": [
     "dist/",
     "dist-esm/src/",

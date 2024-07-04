@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { TestRunOutput } from "../outputModels";
+import { TestRunOutput } from "../outputModels.js";
 
 const REJECTED_ERR = new AbortError("The polling was aborted.");
 

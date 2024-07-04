@@ -8,7 +8,7 @@ import {
   LoadTestRunCreateOrUpdateTestRun200Response,
   LoadTestRunCreateOrUpdateTestRun201Response,
   LoadTestRunGetTestRun200Response,
-} from "./responses";
+} from "./responses.js";
 
 /** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
 export interface TestProfile {

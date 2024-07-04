@@ -11,5 +11,5 @@ export * from "./isUnexpected.js";
 export * from "./models.js";
 export * from "./outputModels.js";
 export * from "./paginateHelper.js";
-export { getLongRunningPoller } from "./pollingHelper";
+export { getLongRunningPoller } from "./pollingHelper.js";
 export default AzureLoadTesting;

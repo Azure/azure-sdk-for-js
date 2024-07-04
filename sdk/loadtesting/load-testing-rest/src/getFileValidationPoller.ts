@@ -3,14 +3,14 @@
 
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
-import { AzureLoadTestingClient } from "./clientDefinitions";
+import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models.js";
+import { AzureLoadTestingClient } from "./clientDefinitions.js";
 import {
   LoadTestAdministrationGetTestFile200Response,
   LoadTestAdministrationUploadTestFile201Response,
-} from "./responses";
-import { isUnexpected } from "./isUnexpected";
-import { sleep } from "./util/LROUtil";
+} from "./responses.js";
+import { isUnexpected } from "./isUnexpected.js";
+import { sleep } from "./util/LROUtil.js";
 
 /**
  * Uploads a file and creates a poller to poll for validation.

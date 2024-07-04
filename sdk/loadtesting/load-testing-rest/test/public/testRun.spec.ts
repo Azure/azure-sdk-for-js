@@ -3,13 +3,13 @@
 
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder, createClient } from "./utils/recordedClient";
+import { createRecorder, createClient } from "./utils/recordedClient.js";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import * as fs from "fs";
-import { AppComponent, AzureLoadTestingClient, isUnexpected } from "../../src";
+import { AppComponent, AzureLoadTestingClient, isUnexpected } from "../../src/index.js";
 import { isNode } from "@azure/core-util";
-import { getLongRunningPoller } from "../../src/pollingHelper";
+import { getLongRunningPoller } from "../../src/pollingHelper.js";
 
 describe("Test Run Creation", () => {
   let recorder: Recorder;

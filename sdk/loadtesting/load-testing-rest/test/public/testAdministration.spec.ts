@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
-import { AppComponent, AzureLoadTestingClient, isUnexpected } from "../../src";
+import { AppComponent, AzureLoadTestingClient, isUnexpected } from "../../src/index.js";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as fs from "fs";
 import { isNode } from "@azure/core-util";
-import { getLongRunningPoller } from "../../src/pollingHelper";
+import { getLongRunningPoller } from "../../src/pollingHelper.js";
 
 describe("Test Creation", () => {
   let recorder: Recorder;
