@@ -27,7 +27,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/eventgrid-sysem-events.d.ts",
+    "types/eventgrid-system-events.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -96,12 +96,12 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.5.3"
   }
 }

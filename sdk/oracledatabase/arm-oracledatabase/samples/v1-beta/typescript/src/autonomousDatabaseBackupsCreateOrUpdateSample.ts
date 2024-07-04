@@ -23,6 +23,39 @@ dotenv.config();
  * @summary Create a AutonomousDatabaseBackup
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabaseBackup_create.json
  */
+async function autonomousDatabaseBackupsCreateOrUpdate() {
+  const subscriptionId =
+    process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
+  const autonomousdatabasename = "databasedb1";
+  const adbbackupid = "1711644130";
+  const resource: AutonomousDatabaseBackup = {
+    properties: {
+      autonomousDatabaseOcid: "ocid1.autonomousdatabase.oc1..aaaaa3klq",
+      displayName: "Nightly Backup",
+      retentionPeriodInDays: 365,
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new OracleDatabaseManagementClient(credential, subscriptionId);
+  const result =
+    await client.autonomousDatabaseBackups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      autonomousdatabasename,
+      adbbackupid,
+      resource,
+    );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create a AutonomousDatabaseBackup
+ *
+ * @summary Create a AutonomousDatabaseBackup
+ * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/preview/2023-09-01-preview/examples/autonomousDatabaseBackup_create.json
+ */
 async function createAutonomousDatabaseBackup() {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
@@ -33,8 +66,7 @@ async function createAutonomousDatabaseBackup() {
   const adbbackupid = "1711644130";
   const resource: AutonomousDatabaseBackup = {
     properties: {
-      autonomousDatabaseId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg000/providers/Oracle.Database/autonomousDatabases/databasedb1",
+      autonomousDatabaseOcid: "ocid1.autonomousdatabase.oc1..aaaaa3klq",
       displayName: "Nightly Backup",
       retentionPeriodInDays: 365,
     },
@@ -52,6 +84,7 @@ async function createAutonomousDatabaseBackup() {
 }
 
 async function main() {
+  autonomousDatabaseBackupsCreateOrUpdate();
   createAutonomousDatabaseBackup();
 }
 

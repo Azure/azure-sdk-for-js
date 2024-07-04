@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the private endpoint connections associated with the storage account.
  *
  * @summary List all the private endpoint connections associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountListPrivateEndpointConnections.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListPrivateEndpointConnections.json
  */
 async function storageAccountListPrivateEndpointConnections() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function storageAccountListPrivateEndpointConnections() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.list(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

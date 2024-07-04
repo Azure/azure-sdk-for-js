@@ -26,6 +26,7 @@ import {
   DnsPrivateViewsImpl,
   DnsPrivateZonesImpl,
   GiVersionsImpl,
+  SystemVersionsImpl,
   OracleSubscriptionsImpl,
   AutonomousDatabaseBackupsImpl,
   DbServersImpl,
@@ -44,6 +45,7 @@ import {
   DnsPrivateViews,
   DnsPrivateZones,
   GiVersions,
+  SystemVersions,
   OracleSubscriptions,
   AutonomousDatabaseBackups,
   DbServers,
@@ -84,7 +86,7 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-oracledatabase/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-oracledatabase/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -154,6 +156,7 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
     this.dnsPrivateViews = new DnsPrivateViewsImpl(this);
     this.dnsPrivateZones = new DnsPrivateZonesImpl(this);
     this.giVersions = new GiVersionsImpl(this);
+    this.systemVersions = new SystemVersionsImpl(this);
     this.oracleSubscriptions = new OracleSubscriptionsImpl(this);
     this.autonomousDatabaseBackups = new AutonomousDatabaseBackupsImpl(this);
     this.dbServers = new DbServersImpl(this);
@@ -201,6 +204,7 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
   dnsPrivateViews: DnsPrivateViews;
   dnsPrivateZones: DnsPrivateZones;
   giVersions: GiVersions;
+  systemVersions: SystemVersions;
   oracleSubscriptions: OracleSubscriptions;
   autonomousDatabaseBackups: AutonomousDatabaseBackups;
   dbServers: DbServers;

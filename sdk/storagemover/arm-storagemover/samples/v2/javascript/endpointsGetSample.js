@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets an Endpoint resource.
  *
  * @summary Gets an Endpoint resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Get_AzureStorageBlobContainer.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Get_AzureStorageBlobContainer.json
  */
 async function endpointsGetAzureStorageBlobContainer() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function endpointsGetAzureStorageBlobContainer() {
  * This sample demonstrates how to Gets an Endpoint resource.
  *
  * @summary Gets an Endpoint resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Get_AzureStorageSmbFileShare.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Get_AzureStorageSmbFileShare.json
  */
 async function endpointsGetAzureStorageSmbFileShare() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function endpointsGetAzureStorageSmbFileShare() {
  * This sample demonstrates how to Gets an Endpoint resource.
  *
  * @summary Gets an Endpoint resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Get_NfsMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Get_NfsMount.json
  */
 async function endpointsGetNfsMount() {
   const subscriptionId =
@@ -70,7 +70,7 @@ async function endpointsGetNfsMount() {
  * This sample demonstrates how to Gets an Endpoint resource.
  *
  * @summary Gets an Endpoint resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Get_SmbMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Get_SmbMount.json
  */
 async function endpointsGetSmbMount() {
   const subscriptionId =

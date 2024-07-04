@@ -23,10 +23,10 @@ export function getUserAgentHeaderName(): string {
 /**
  * @internal
  */
-export function getUserAgentValue(prefix?: string): string {
+export async function getUserAgentValue(prefix?: string): Promise<string> {
   const runtimeInfo = new Map<string, string>();
   runtimeInfo.set("core-rest-pipeline", SDK_VERSION);
-  setPlatformSpecificData(runtimeInfo);
+  await setPlatformSpecificData(runtimeInfo);
   const defaultAgent = getUserAgentString(runtimeInfo);
   const userAgentValue = prefix ? `${prefix} ${defaultAgent}` : defaultAgent;
   return userAgentValue;

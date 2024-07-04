@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the details of all VirtualHubIpConfigurations.
  *
  * @summary Retrieves the details of all VirtualHubIpConfigurations.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualHubIpConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualHubIpConfigurationList.json
  */
 async function virtualHubRouteTableV2List() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -6,11 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./vmmServers";
+export * from "./virtualMachineInstances";
+export * from "./guestAgents";
+export * from "./vmInstanceHybridIdentityMetadatas";
 export * from "./operations";
-export * from "./clouds";
-export * from "./virtualNetworks";
-export * from "./virtualMachines";
-export * from "./virtualMachineTemplates";
 export * from "./availabilitySets";
+export * from "./clouds";
+export * from "./virtualMachineTemplates";
+export * from "./virtualNetworks";
+export * from "./vmmServers";
 export * from "./inventoryItems";

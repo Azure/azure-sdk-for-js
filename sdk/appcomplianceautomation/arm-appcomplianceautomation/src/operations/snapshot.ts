@@ -6,21 +6,33 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Snapshot } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  SnapshotResource,
+  SnapshotListNextOptionalParams,
+  SnapshotListOptionalParams,
+  SnapshotListResponse,
   SnapshotGetOptionalParams,
   SnapshotGetResponse,
   SnapshotDownloadRequest,
   SnapshotDownloadOptionalParams,
-  SnapshotDownloadResponse
+  SnapshotDownloadResponse,
+  SnapshotListNextResponse,
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing Snapshot operations. */
 export class SnapshotImpl implements Snapshot {
   private readonly client: AppComplianceAutomationToolForMicrosoft365;
@@ -34,6 +46,79 @@ export class SnapshotImpl implements Snapshot {
   }
 
   /**
+   * Get the AppComplianceAutomation snapshot list.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  public list(
+    reportName: string,
+    options?: SnapshotListOptionalParams,
+  ): PagedAsyncIterableIterator<SnapshotResource> {
+    const iter = this.listPagingAll(reportName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(reportName, options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    reportName: string,
+    options?: SnapshotListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SnapshotResource[]> {
+    let result: SnapshotListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(reportName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(reportName, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    reportName: string,
+    options?: SnapshotListOptionalParams,
+  ): AsyncIterableIterator<SnapshotResource> {
+    for await (const page of this.listPagingPage(reportName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get the AppComplianceAutomation snapshot list.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  private _list(
+    reportName: string,
+    options?: SnapshotListOptionalParams,
+  ): Promise<SnapshotListResponse> {
+    return this.client.sendOperationRequest(
+      { reportName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Get the AppComplianceAutomation snapshot and its properties.
    * @param reportName Report Name.
    * @param snapshotName Snapshot Name.
@@ -42,11 +127,11 @@ export class SnapshotImpl implements Snapshot {
   get(
     reportName: string,
     snapshotName: string,
-    options?: SnapshotGetOptionalParams
+    options?: SnapshotGetOptionalParams,
   ): Promise<SnapshotGetResponse> {
     return this.client.sendOperationRequest(
       { reportName, snapshotName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -54,37 +139,36 @@ export class SnapshotImpl implements Snapshot {
    * Download compliance needs from snapshot, like: Compliance Report, Resource List.
    * @param reportName Report Name.
    * @param snapshotName Snapshot Name.
-   * @param parameters Parameters for the query operation
+   * @param body Parameters for the query operation
    * @param options The options parameters.
    */
   async beginDownload(
     reportName: string,
     snapshotName: string,
-    parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    body: SnapshotDownloadRequest,
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotDownloadResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotDownloadResponse>,
       SnapshotDownloadResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SnapshotDownloadResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -93,8 +177,8 @@ export class SnapshotImpl implements Snapshot {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -102,20 +186,23 @@ export class SnapshotImpl implements Snapshot {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, snapshotName, parameters, options },
-      downloadOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, snapshotName, body, options },
+      spec: downloadOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SnapshotDownloadResponse,
+      OperationState<SnapshotDownloadResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -125,77 +212,132 @@ export class SnapshotImpl implements Snapshot {
    * Download compliance needs from snapshot, like: Compliance Report, Resource List.
    * @param reportName Report Name.
    * @param snapshotName Snapshot Name.
-   * @param parameters Parameters for the query operation
+   * @param body Parameters for the query operation
    * @param options The options parameters.
    */
   async beginDownloadAndWait(
     reportName: string,
     snapshotName: string,
-    parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    body: SnapshotDownloadRequest,
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<SnapshotDownloadResponse> {
     const poller = await this.beginDownload(
       reportName,
       snapshotName,
-      parameters,
-      options
+      body,
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * ListNext
+   * @param reportName Report Name.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    reportName: string,
+    nextLink: string,
+    options?: SnapshotListNextOptionalParams,
+  ): Promise<SnapshotListNextResponse> {
+    return this.client.sendOperationRequest(
+      { reportName, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotResource
+      bodyMapper: Mappers.SnapshotResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skipToken,
+    Parameters.top,
+    Parameters.select,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.offerGuid,
+    Parameters.reportCreatorTenantId,
+  ],
+  urlParameters: [Parameters.$host, Parameters.reportName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reportName,
-    Parameters.snapshotName
+    Parameters.snapshotName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const downloadOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}/download",
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}/download",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     201: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     202: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     204: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reportName,
-    Parameters.snapshotName
+    Parameters.snapshotName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotResourceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.reportName],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
