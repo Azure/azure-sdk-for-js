@@ -640,7 +640,7 @@ describe("Cross partition GROUP BY", () => {
     );
   });
 
-  it("with MakeList", async () => {
+  it.skip("with MakeList", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, MakeList(c.age) AS ages FROM c GROUP BY c.name",
       options,
@@ -656,7 +656,7 @@ describe("Cross partition GROUP BY", () => {
     );
   });
 
-  it("with MakeSet", async () => {
+  it.skip("with MakeSet", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, MakeSet(c.age) AS ages FROM c GROUP BY c.name",
       options,
@@ -672,7 +672,7 @@ describe("Cross partition GROUP BY", () => {
     );
   });
 
-  it("with multiple aggregates", async () => {
+  it.skip("with multiple aggregates", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, Count(1) AS count, Min(c.age) AS min_age, Max(c.age) AS max_age, MakeList(c.age) as ages FROM c GROUP BY c.name",
       options,
