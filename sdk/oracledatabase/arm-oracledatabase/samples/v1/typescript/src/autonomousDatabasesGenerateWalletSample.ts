@@ -33,7 +33,11 @@ async function generateWalletActionOnAutonomousDatabase() {
   const body: GenerateAutonomousDatabaseWalletDetails = {
     generateType: "Single",
     isRegional: false,
+<<<<<<< HEAD:sdk/oracledatabase/arm-oracledatabase/samples/v1/typescript/src/autonomousDatabasesGenerateWalletSample.ts
     password: "********",
+=======
+    password: "SecretPlaceholder",
+>>>>>>> main:sdk/oracledatabase/arm-oracledatabase/samples/v1-beta/typescript/src/autonomousDatabasesGenerateWalletSample.ts
   };
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);

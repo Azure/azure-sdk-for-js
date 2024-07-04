@@ -12,8 +12,8 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HelpRP } from "../helpRP";
 import {
-  CheckNameAvailabilityPostOptionalParams,
-  CheckNameAvailabilityPostResponse,
+  CheckNameAvailabilityCheckAvailabilityOptionalParams,
+  CheckNameAvailabilityCheckAvailabilityResponse,
 } from "../models";
 
 /** Class containing CheckNameAvailability operations. */
@@ -36,20 +36,20 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
    *
    * @param options The options parameters.
    */
-  post(
+  checkAvailability(
     scope: string,
-    options?: CheckNameAvailabilityPostOptionalParams,
-  ): Promise<CheckNameAvailabilityPostResponse> {
+    options?: CheckNameAvailabilityCheckAvailabilityOptionalParams,
+  ): Promise<CheckNameAvailabilityCheckAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      postOperationSpec,
+      checkAvailabilityOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const postOperationSpec: coreClient.OperationSpec = {
+const checkAvailabilityOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/checkNameAvailability",
   httpMethod: "POST",
   responses: {

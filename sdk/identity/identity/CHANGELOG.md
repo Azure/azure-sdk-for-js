@@ -4,9 +4,13 @@
 
 ### Features Added
 
+- `OnBehalfOfCredential` now supports taking clientAssertion callback `getAssertion`. [#29711](https://github.com/Azure/azure-sdk-for-js/pull/29711)
+
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed an issue where cross-tenant federation did not honor the request's tenant ID. [#30266](https://github.com/Azure/azure-sdk-for-js/pull/30266)
 
 ### Other Changes
 

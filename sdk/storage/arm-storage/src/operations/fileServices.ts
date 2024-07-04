@@ -18,7 +18,7 @@ import {
   FileServicesSetServicePropertiesOptionalParams,
   FileServicesSetServicePropertiesResponse,
   FileServicesGetServicePropertiesOptionalParams,
-  FileServicesGetServicePropertiesResponse
+  FileServicesGetServicePropertiesResponse,
 } from "../models";
 
 /** Class containing FileServices operations. */
@@ -45,11 +45,11 @@ export class FileServicesImpl implements FileServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: FileServicesListOptionalParams
+    options?: FileServicesListOptionalParams,
   ): Promise<FileServicesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -69,11 +69,11 @@ export class FileServicesImpl implements FileServices {
     resourceGroupName: string,
     accountName: string,
     parameters: FileServiceProperties,
-    options?: FileServicesSetServicePropertiesOptionalParams
+    options?: FileServicesSetServicePropertiesOptionalParams,
   ): Promise<FileServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      setServicePropertiesOperationSpec
+      setServicePropertiesOperationSpec,
     );
   }
 
@@ -90,11 +90,11 @@ export class FileServicesImpl implements FileServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: FileServicesGetServicePropertiesOptionalParams
+    options?: FileServicesGetServicePropertiesOptionalParams,
   ): Promise<FileServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getServicePropertiesOperationSpec
+      getServicePropertiesOperationSpec,
     );
   }
 }
@@ -102,72 +102,69 @@ export class FileServicesImpl implements FileServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileServiceItems
+      bodyMapper: Mappers.FileServiceItems,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FileServiceProperties
+      bodyMapper: Mappers.FileServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.fileServicesName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.fileServicesName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileServiceProperties
+      bodyMapper: Mappers.FileServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.fileServicesName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.fileServicesName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

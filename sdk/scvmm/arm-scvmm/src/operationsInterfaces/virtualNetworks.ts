@@ -7,133 +7,139 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetwork,
-  VirtualNetworksListByResourceGroupOptionalParams,
   VirtualNetworksListBySubscriptionOptionalParams,
+  VirtualNetworksListByResourceGroupOptionalParams,
   VirtualNetworksGetOptionalParams,
   VirtualNetworksGetResponse,
   VirtualNetworksCreateOrUpdateOptionalParams,
   VirtualNetworksCreateOrUpdateResponse,
-  VirtualNetworksDeleteOptionalParams,
-  ResourcePatch,
+  VirtualNetworkTagsUpdate,
   VirtualNetworksUpdateOptionalParams,
-  VirtualNetworksUpdateResponse
+  VirtualNetworksUpdateResponse,
+  VirtualNetworksDeleteOptionalParams,
+  VirtualNetworksDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualNetworks. */
 export interface VirtualNetworks {
   /**
-   * List of VirtualNetworks in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: VirtualNetworksListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetwork>;
-  /**
    * List of VirtualNetworks in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VirtualNetworksListBySubscriptionOptionalParams
+    options?: VirtualNetworksListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<VirtualNetwork>;
+  /**
+   * List of VirtualNetworks in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: VirtualNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
    * Implements VirtualNetwork GET method.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksGetOptionalParams
+    options?: VirtualNetworksGetOptionalParams,
   ): Promise<VirtualNetworksGetResponse>;
   /**
    * Onboards the ScVmm virtual network as an Azure virtual network resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
-   * @param body Request payload.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     virtualNetworkName: string,
-    body: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
+    resource: VirtualNetwork,
+    options?: VirtualNetworksCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   >;
   /**
    * Onboards the ScVmm virtual network as an Azure virtual network resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
-   * @param body Request payload.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     virtualNetworkName: string,
-    body: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
+    resource: VirtualNetwork,
+    options?: VirtualNetworksCreateOrUpdateOptionalParams,
   ): Promise<VirtualNetworksCreateOrUpdateResponse>;
   /**
+   * Updates the VirtualNetworks resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualNetworkName Name of the VirtualNetwork.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    properties: VirtualNetworkTagsUpdate,
+    options?: VirtualNetworksUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworksUpdateResponse>,
+      VirtualNetworksUpdateResponse
+    >
+  >;
+  /**
+   * Updates the VirtualNetworks resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualNetworkName Name of the VirtualNetwork.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    properties: VirtualNetworkTagsUpdate,
+    options?: VirtualNetworksUpdateOptionalParams,
+  ): Promise<VirtualNetworksUpdateResponse>;
+  /**
    * Deregisters the ScVmm virtual network from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: VirtualNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworksDeleteResponse>,
+      VirtualNetworksDeleteResponse
+    >
+  >;
   /**
    * Deregisters the ScVmm virtual network from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Updates the VirtualNetworks resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualNetworkName Name of the VirtualNetwork.
-   * @param body VirtualNetworks patch payload.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    body: ResourcePatch,
-    options?: VirtualNetworksUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksUpdateResponse>,
-      VirtualNetworksUpdateResponse
-    >
-  >;
-  /**
-   * Updates the VirtualNetworks resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualNetworkName Name of the VirtualNetwork.
-   * @param body VirtualNetworks patch payload.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    body: ResourcePatch,
-    options?: VirtualNetworksUpdateOptionalParams
-  ): Promise<VirtualNetworksUpdateResponse>;
+    options?: VirtualNetworksDeleteOptionalParams,
+  ): Promise<VirtualNetworksDeleteResponse>;
 }

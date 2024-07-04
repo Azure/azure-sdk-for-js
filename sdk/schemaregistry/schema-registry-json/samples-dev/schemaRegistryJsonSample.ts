@@ -79,9 +79,9 @@ export async function main() {
   console.log(JSON.stringify(message));
 
   // deserialize the message back to an object
-  const deserializedObject = await serializer.deserialize(message);
+  const deserializedObject = await serializer.deserialize<User>(message);
   console.log("Deserialized object:");
-  console.log(JSON.stringify(deserializedObject as User));
+  console.log(JSON.stringify(deserializedObject));
 }
 
 main().catch((err) => {

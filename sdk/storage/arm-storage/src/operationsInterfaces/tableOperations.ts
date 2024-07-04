@@ -16,7 +16,7 @@ import {
   TableUpdateResponse,
   TableGetOptionalParams,
   TableGetResponse,
-  TableDeleteOptionalParams
+  TableDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface TableOperations {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: TableListOptionalParams
+    options?: TableListOptionalParams,
   ): PagedAsyncIterableIterator<Table>;
   /**
    * Creates a new table with the specified table name, under the specified account.
@@ -52,7 +52,7 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableCreateOptionalParams
+    options?: TableCreateOptionalParams,
   ): Promise<TableCreateResponse>;
   /**
    * Creates a new table with the specified table name, under the specified account.
@@ -70,7 +70,7 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableUpdateOptionalParams
+    options?: TableUpdateOptionalParams,
   ): Promise<TableUpdateResponse>;
   /**
    * Gets the table with the specified table name, under the specified account if it exists.
@@ -88,7 +88,7 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableGetOptionalParams
+    options?: TableGetOptionalParams,
   ): Promise<TableGetResponse>;
   /**
    * Deletes the table with the specified table name, under the specified account if it exists.
@@ -106,6 +106,6 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableDeleteOptionalParams
+    options?: TableDeleteOptionalParams,
   ): Promise<void>;
 }
