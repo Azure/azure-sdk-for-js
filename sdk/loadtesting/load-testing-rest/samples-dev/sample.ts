@@ -78,16 +78,13 @@ async function main() {
     .path("/tests/{testId}/app-components", testId)
     .patch({
       contentType: "application/merge-patch+json",
+      pathParameters: { testId: testCreationResult.body.testId },
       body: {
-        testId: testCreationResult.body.testId,
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
             {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
               resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
+              resourceType: "Microsoft.Web/sites"
             },
         },
       },
@@ -103,7 +100,6 @@ async function main() {
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 

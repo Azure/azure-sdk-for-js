@@ -24,12 +24,15 @@ export async function getFileValidationPoller(
   polledOperationOptions: PolledOperationOptions = {},
 ): Promise<FileUploadAndValidatePoller> {
   // get filename and testId from initial response
-  const fileName = fileUploadResult.body.fileName; // TODO(mitsha): Mostly the issue with visibility for this field, fix it later
   const requestUrl = fileUploadResult.request.url;
   const testId = requestUrl.substring(
     requestUrl.indexOf("tests/") + 6,
     requestUrl.lastIndexOf("/files"),
   );
+  const fileName = requestUrl.substring(
+    requestUrl.indexOf("files/") + 6,
+    requestUrl.indexOf("?")
+  ); // NOTE/TODO(mitsha): Hack until the response body is fixed via typespec
   type Handler = (state: OperationState<LoadTestAdministrationGetTestFile200Response>) => void;
 
   const state: OperationState<LoadTestAdministrationGetTestFile200Response> = {
