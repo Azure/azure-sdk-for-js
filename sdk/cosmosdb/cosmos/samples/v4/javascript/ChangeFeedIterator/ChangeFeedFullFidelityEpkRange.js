@@ -55,7 +55,7 @@ async function run() {
     logStep("Fetch change feed without any changes made to container");
     let res = await iterator.readNext();
     console.log("Result should be empty: ", res.result);
-    logStep("Insert, upsert, and delete data from container");
+    logStep("Apply changes to the container by inserting, upserting, and deleting data.");
     await insertAndModifyData(container, 1, 5);
     let continuationToken = "";
     logStep("Start fetching changes and save continuation token");
