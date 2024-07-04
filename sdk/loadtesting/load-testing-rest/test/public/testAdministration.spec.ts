@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
-import { AzureLoadTestingClient, isUnexpected } from "../../src";
+import { AppComponent, AzureLoadTestingClient, isUnexpected } from "../../src";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as fs from "fs";
 import { isNode } from "@azure/core-util";
@@ -108,18 +108,21 @@ describe("Test Creation", () => {
 
   it("should create the app components", async () => {
     const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
+    let appCompResourceId: string = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
+    let appComponent: AppComponent = {
+      resourceName: "App-Service-Sample-Demo",
+      resourceType: "Microsoft.Web/sites"
+    };
+    let components: Record<string, AppComponent> = {};
+    components[appCompResourceId] = appComponent;
     const result = await client.path("/tests/{testId}/app-components", "abc").patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: "abc",
         components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
+          appCompResourceId:
             {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
               resourceName: "App-Service-Sample-Demo",
               resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
             },
         },
       },

@@ -8,8 +8,10 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
+import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
@@ -19,25 +21,51 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AggregationTypeOutput = string;
+
+// @public
 export interface AppComponent {
     displayName?: string;
     kind?: string;
-    resourceGroup?: string;
-    resourceId?: string;
-    resourceName?: string;
-    resourceType?: string;
-    subscriptionId?: string;
+    resourceName: string;
+    resourceType: string;
 }
 
 // @public
 export interface AppComponentOutput {
     displayName?: string;
     kind?: string;
-    resourceGroup?: string;
-    resourceId?: string;
-    resourceName?: string;
-    resourceType?: string;
-    subscriptionId?: string;
+    readonly resourceGroup?: string;
+    readonly resourceId: string;
+    resourceName: string;
+    resourceType: string;
+    readonly subscriptionId?: string;
+}
+
+// @public
+export interface ArtifactsContainerInfo {
+    expireDateTime?: Date | string;
+    url?: string;
+}
+
+// @public
+export interface ArtifactsContainerInfoOutput {
+    expireDateTime?: string;
+    url?: string;
+}
+
+// @public
+export interface AutoStopCriteria {
+    autoStopDisabled?: boolean;
+    errorRate?: number;
+    errorRateTimeWindowInSeconds?: number;
+}
+
+// @public
+export interface AutoStopCriteriaOutput {
+    autoStopDisabled?: boolean;
+    errorRate?: number;
+    errorRateTimeWindowInSeconds?: number;
 }
 
 // @public (undocumented)
@@ -46,33 +74,45 @@ export type AzureLoadTestingClient = Client & {
 };
 
 // @public
+export interface AzureLoadTestingClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface CertificateMetadata {
     name?: string;
-    type?: "AKV_CERT_URI";
+    type?: CertificateType;
     value?: string;
 }
 
 // @public
 export interface CertificateMetadataOutput {
     name?: string;
-    type?: "AKV_CERT_URI";
+    type?: CertificateTypeOutput;
     value?: string;
 }
 
 // @public
-function createClient(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): AzureLoadTestingClient;
+export type CertificateType = string;
+
+// @public
+export type CertificateTypeOutput = string;
+
+// @public
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureLoadTestingClientOptions): AzureLoadTestingClient;
 export default createClient;
 
 // @public
 export interface DimensionFilter {
     name?: string;
-    values?: Array<string>;
+    values?: string[];
 }
 
 // @public
 export interface DimensionValueListOutput {
+    readonly name?: string;
     nextLink?: string;
-    value?: Array<string>;
+    value?: string[];
 }
 
 // @public
@@ -83,55 +123,51 @@ export interface DimensionValueOutput {
 
 // @public
 export interface ErrorDetails {
-    message?: string;
 }
 
 // @public
 export interface ErrorDetailsOutput {
-    message?: string;
+    readonly message?: string;
 }
 
 // @public
-export interface ErrorModelOutput {
-    code: string;
-    details?: Array<ErrorModelOutput>;
-    message: string;
-    target?: string;
+export type FileStatus = string;
+
+// @public
+export type FileStatusOutput = string;
+
+// @public
+export type FileType = string;
+
+// @public
+export type FileTypeOutput = string;
+
+// @public
+export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response>;
+
+// @public
+export interface FunctionFlexConsumptionResourceConfiguration {
+    httpConcurrency: number;
+    instanceMemoryMB: number;
 }
 
 // @public
-export interface ErrorResponseBodyOutput {
-    error: ErrorModelOutput;
+export interface FunctionFlexConsumptionResourceConfigurationOutput {
+    httpConcurrency: number;
+    instanceMemoryMB: number;
 }
 
 // @public
-export interface FileInfo {
-    expireDateTime?: Date | string;
-    fileName?: string;
-    fileType?: "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
-    url?: string;
-    validationFailureDetails?: string;
-    validationStatus?: "NOT_VALIDATED" | "VALIDATION_SUCCESS" | "VALIDATION_FAILURE" | "VALIDATION_INITIATED" | "VALIDATION_NOT_REQUIRED";
+export interface FunctionFlexConsumptionTargetResourceConfigurations extends TargetResourceConfigurationsParent {
+    configurations?: Record<string, FunctionFlexConsumptionResourceConfiguration>;
+    kind: "FunctionsFlexConsumption";
 }
 
 // @public
-export interface FileInfoListOutput {
-    nextLink?: string;
-    value: Array<FileInfoOutput>;
+export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput extends TargetResourceConfigurationsOutputParent {
+    configurations?: Record<string, FunctionFlexConsumptionResourceConfigurationOutput>;
+    kind: "FunctionsFlexConsumption";
 }
-
-// @public
-export interface FileInfoOutput {
-    expireDateTime?: string;
-    fileName?: string;
-    fileType?: "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
-    url?: string;
-    validationFailureDetails?: string;
-    validationStatus?: "NOT_VALIDATED" | "VALIDATION_SUCCESS" | "VALIDATION_FAILURE" | "VALIDATION_INITIATED" | "VALIDATION_NOT_REQUIRED";
-}
-
-// @public
-export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response>;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -149,88 +185,562 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
 }>;
 
 // @public (undocumented)
-export function isUnexpected(response: TestCreateOrUpdate200Response | TestCreateOrUpdate201Response | TestCreateOrUpdateDefaultResponse): response is TestCreateOrUpdateDefaultResponse;
+export function isUnexpected(response: TestProfileAdministrationCreateOrUpdateTestProfile200Response | TestProfileAdministrationCreateOrUpdateTestProfile201Response | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse): response is TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestDelete204Response | TestDeleteDefaultResponse): response is TestDeleteDefaultResponse;
+export function isUnexpected(response: TestProfileAdministrationDeleteTestProfile204Response | TestProfileAdministrationDeleteTestProfileDefaultResponse): response is TestProfileAdministrationDeleteTestProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestGet200Response | TestGetDefaultResponse): response is TestGetDefaultResponse;
+export function isUnexpected(response: TestProfileAdministrationGetTestProfile200Response | TestProfileAdministrationGetTestProfileDefaultResponse): response is TestProfileAdministrationGetTestProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestList200Response | TestListDefaultResponse): response is TestListDefaultResponse;
+export function isUnexpected(response: TestProfileAdministrationListTestProfiles200Response | TestProfileAdministrationListTestProfilesDefaultResponse): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestUploadFile201Response | TestUploadFileDefaultResponse): response is TestUploadFileDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationCreateOrUpdateTest200Response | LoadTestAdministrationCreateOrUpdateTest201Response | LoadTestAdministrationCreateOrUpdateTestDefaultResponse): response is LoadTestAdministrationCreateOrUpdateTestDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestGetFile200Response | TestGetFileDefaultResponse): response is TestGetFileDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationDeleteTest204Response | LoadTestAdministrationDeleteTestDefaultResponse): response is LoadTestAdministrationDeleteTestDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestDeleteFile204Response | TestDeleteFileDefaultResponse): response is TestDeleteFileDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse): response is LoadTestAdministrationGetTestDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestListFiles200Response | TestListFilesDefaultResponse): response is TestListFilesDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsDefaultResponse): response is LoadTestAdministrationListTestsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestCreateOrUpdateAppComponents200Response | TestCreateOrUpdateAppComponents201Response | TestCreateOrUpdateAppComponentsDefaultResponse): response is TestCreateOrUpdateAppComponentsDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationUploadTestFile201Response | LoadTestAdministrationUploadTestFileDefaultResponse): response is LoadTestAdministrationUploadTestFileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestListAppComponents200Response | TestListAppComponentsDefaultResponse): response is TestListAppComponentsDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationGetTestFile200Response | LoadTestAdministrationGetTestFileDefaultResponse): response is LoadTestAdministrationGetTestFileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestCreateOrUpdateServerMetricsConfig200Response | TestCreateOrUpdateServerMetricsConfig201Response | TestCreateOrUpdateServerMetricsConfigDefaultResponse): response is TestCreateOrUpdateServerMetricsConfigDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationDeleteTestFile204Response | LoadTestAdministrationDeleteTestFileDefaultResponse): response is LoadTestAdministrationDeleteTestFileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestListServerMetricsConfig200Response | TestListServerMetricsConfigDefaultResponse): response is TestListServerMetricsConfigDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationListTestFiles200Response | LoadTestAdministrationListTestFilesDefaultResponse): response is LoadTestAdministrationListTestFilesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunDelete204Response | TestRunDeleteDefaultResponse): response is TestRunDeleteDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationCreateOrUpdateAppComponents200Response | LoadTestAdministrationCreateOrUpdateAppComponents201Response | LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse): response is LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response | TestRunCreateOrUpdateDefaultResponse): response is TestRunCreateOrUpdateDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationGetAppComponents200Response | LoadTestAdministrationGetAppComponentsDefaultResponse): response is LoadTestAdministrationGetAppComponentsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunGet200Response | TestRunGetDefaultResponse): response is TestRunGetDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response | LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response | LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse): response is LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunGetFile200Response | TestRunGetFileDefaultResponse): response is TestRunGetFileDefaultResponse;
+export function isUnexpected(response: LoadTestAdministrationGetServerMetricsConfig200Response | LoadTestAdministrationGetServerMetricsConfigDefaultResponse): response is LoadTestAdministrationGetServerMetricsConfigDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunList200Response | TestRunListDefaultResponse): response is TestRunListDefaultResponse;
+export function isUnexpected(response: TestProfileRunAdministrationGetTestProfileRun200Response | TestProfileRunAdministrationGetTestProfileRunDefaultResponse): response is TestProfileRunAdministrationGetTestProfileRunDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunStop200Response | TestRunStopDefaultResponse): response is TestRunStopDefaultResponse;
+export function isUnexpected(response: TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse): response is TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunListMetricNamespaces200Response | TestRunListMetricNamespacesDefaultResponse): response is TestRunListMetricNamespacesDefaultResponse;
+export function isUnexpected(response: TestProfileRunAdministrationDeleteTestProfileRun204Response | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse): response is TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunListMetricDefinitions200Response | TestRunListMetricDefinitionsDefaultResponse): response is TestRunListMetricDefinitionsDefaultResponse;
+export function isUnexpected(response: TestProfileRunAdministrationStop200Response | TestProfileRunAdministrationStopDefaultResponse): response is TestProfileRunAdministrationStopDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunListMetrics200Response | TestRunListMetricsDefaultResponse): response is TestRunListMetricsDefaultResponse;
+export function isUnexpected(response: TestProfileRunAdministrationListTestProfileRuns200Response | TestProfileRunAdministrationListTestProfileRunsDefaultResponse): response is TestProfileRunAdministrationListTestProfileRunsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunListMetricDimensionValues200Response | TestRunListMetricDimensionValuesDefaultResponse): response is TestRunListMetricDimensionValuesDefaultResponse;
+export function isUnexpected(response: LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse): response is LoadTestRunGetTestRunDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunCreateOrUpdateAppComponents200Response | TestRunCreateOrUpdateAppComponents201Response | TestRunCreateOrUpdateAppComponentsDefaultResponse): response is TestRunCreateOrUpdateAppComponentsDefaultResponse;
+export function isUnexpected(response: LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response | LoadTestRunCreateOrUpdateTestRunDefaultResponse): response is LoadTestRunCreateOrUpdateTestRunDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunListAppComponents200Response | TestRunListAppComponentsDefaultResponse): response is TestRunListAppComponentsDefaultResponse;
+export function isUnexpected(response: LoadTestRunDeleteTestRun204Response | LoadTestRunDeleteTestRunDefaultResponse): response is LoadTestRunDeleteTestRunDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunCreateOrUpdateServerMetricsConfig200Response | TestRunCreateOrUpdateServerMetricsConfig201Response | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse): response is TestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
+export function isUnexpected(response: LoadTestRunListTestRuns200Response | LoadTestRunListTestRunsDefaultResponse): response is LoadTestRunListTestRunsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TestRunListServerMetricsConfig200Response | TestRunListServerMetricsConfigDefaultResponse): response is TestRunListServerMetricsConfigDefaultResponse;
+export function isUnexpected(response: LoadTestRunGetTestRunFile200Response | LoadTestRunGetTestRunFileDefaultResponse): response is LoadTestRunGetTestRunFileDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunStop200Response | LoadTestRunStopDefaultResponse): response is LoadTestRunStopDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunListMetricNamespaces200Response | LoadTestRunListMetricNamespacesDefaultResponse): response is LoadTestRunListMetricNamespacesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunListMetricDefinitions200Response | LoadTestRunListMetricDefinitionsDefaultResponse): response is LoadTestRunListMetricDefinitionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse): response is LoadTestRunListMetricsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunListMetricDimensionValues200Response | LoadTestRunListMetricDimensionValuesDefaultResponse): response is LoadTestRunListMetricDimensionValuesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunCreateOrUpdateAppComponents200Response | LoadTestRunCreateOrUpdateAppComponents201Response | LoadTestRunCreateOrUpdateAppComponentsDefaultResponse): response is LoadTestRunCreateOrUpdateAppComponentsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunGetAppComponents200Response | LoadTestRunGetAppComponentsDefaultResponse): response is LoadTestRunGetAppComponentsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunCreateOrUpdateServerMetricsConfig200Response | LoadTestRunCreateOrUpdateServerMetricsConfig201Response | LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse): response is LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LoadTestRunGetServerMetricsConfig200Response | LoadTestRunGetServerMetricsConfigDefaultResponse): response is LoadTestRunGetServerMetricsConfigDefaultResponse;
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateAppComponents {
+    get(options?: LoadTestAdministrationGetAppComponentsParameters): StreamableMethod<LoadTestAdministrationGetAppComponents200Response | LoadTestAdministrationGetAppComponentsDefaultResponse>;
+    patch(options: LoadTestAdministrationCreateOrUpdateAppComponentsParameters): StreamableMethod<LoadTestAdministrationCreateOrUpdateAppComponents200Response | LoadTestAdministrationCreateOrUpdateAppComponents201Response | LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse>;
+}
+
+// @public
+export interface LoadTestAdministrationCreateOrUpdateAppComponents200Response extends HttpResponse {
+    // (undocumented)
+    body: TestAppComponentsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface LoadTestAdministrationCreateOrUpdateAppComponents201Response extends HttpResponse {
+    // (undocumented)
+    body: TestAppComponentsOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateAppComponentsBodyParam {
+    body: TestAppComponentsResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateAppComponentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationCreateOrUpdateAppComponentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateAppComponentsMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationCreateOrUpdateAppComponentsParameters = LoadTestAdministrationCreateOrUpdateAppComponentsMediaTypesParam & LoadTestAdministrationCreateOrUpdateAppComponentsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig {
+    get(options?: LoadTestAdministrationGetServerMetricsConfigParameters): StreamableMethod<LoadTestAdministrationGetServerMetricsConfig200Response | LoadTestAdministrationGetServerMetricsConfigDefaultResponse>;
+    patch(options: LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters): StreamableMethod<LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response | LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response | LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse>;
+}
+
+// @public
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
+    // (undocumented)
+    body: TestServerMetricConfigOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
+    // (undocumented)
+    body: TestServerMetricConfigOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam {
+    body: TestServerMetricConfigResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters = LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTypesParam & LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateTest {
+    delete(options?: LoadTestAdministrationDeleteTestParameters): StreamableMethod<LoadTestAdministrationDeleteTest204Response | LoadTestAdministrationDeleteTestDefaultResponse>;
+    get(options?: LoadTestAdministrationGetTestParameters): StreamableMethod<LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse>;
+    patch(options: LoadTestAdministrationCreateOrUpdateTestParameters): StreamableMethod<LoadTestAdministrationCreateOrUpdateTest200Response | LoadTestAdministrationCreateOrUpdateTest201Response | LoadTestAdministrationCreateOrUpdateTestDefaultResponse>;
+}
+
+// @public
+export interface LoadTestAdministrationCreateOrUpdateTest200Response extends HttpResponse {
+    // (undocumented)
+    body: TestOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface LoadTestAdministrationCreateOrUpdateTest201Response extends HttpResponse {
+    // (undocumented)
+    body: TestOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateTestBodyParam {
+    body: TestResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateTestDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateTestDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationCreateOrUpdateTestDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationCreateOrUpdateTestMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationCreateOrUpdateTestParameters = LoadTestAdministrationCreateOrUpdateTestMediaTypesParam & LoadTestAdministrationCreateOrUpdateTestBodyParam & RequestParameters;
+
+// @public
+export interface LoadTestAdministrationDeleteTest204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationDeleteTestDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationDeleteTestDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationDeleteTestDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface LoadTestAdministrationDeleteTestFile204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationDeleteTestFileDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationDeleteTestFileDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationDeleteTestFileDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationDeleteTestFileParameters = RequestParameters;
+
+// @public (undocumented)
+export type LoadTestAdministrationDeleteTestParameters = RequestParameters;
+
+// @public
+export interface LoadTestAdministrationGetAppComponents200Response extends HttpResponse {
+    // (undocumented)
+    body: TestAppComponentsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetAppComponentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetAppComponentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationGetAppComponentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationGetAppComponentsParameters = RequestParameters;
+
+// @public
+export interface LoadTestAdministrationGetServerMetricsConfig200Response extends HttpResponse {
+    // (undocumented)
+    body: TestServerMetricConfigOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetServerMetricsConfigDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetServerMetricsConfigDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationGetServerMetricsConfigDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationGetServerMetricsConfigParameters = RequestParameters;
+
+// @public
+export interface LoadTestAdministrationGetTest200Response extends HttpResponse {
+    // (undocumented)
+    body: TestOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetTestDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetTestDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationGetTestDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface LoadTestAdministrationGetTestFile200Response extends HttpResponse {
+    // (undocumented)
+    body: {
+        url?: string;
+        fileType?: FileTypeOutput;
+        expireDateTime?: string;
+        validationStatus?: FileStatusOutput;
+        validationFailureDetails?: string;
+    };
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetTestFileDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationGetTestFileDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationGetTestFileDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationGetTestFileParameters = RequestParameters;
+
+// @public (undocumented)
+export type LoadTestAdministrationGetTestParameters = RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTestFiles {
+    get(options?: LoadTestAdministrationListTestFilesParameters): StreamableMethod<LoadTestAdministrationListTestFiles200Response | LoadTestAdministrationListTestFilesDefaultResponse>;
+}
+
+// @public
+export interface LoadTestAdministrationListTestFiles200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTestFileInfoOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTestFilesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTestFilesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationListTestFilesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationListTestFilesParameters = RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTests {
+    get(options?: LoadTestAdministrationListTestsParameters): StreamableMethod<LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsDefaultResponse>;
+}
+
+// @public
+export interface LoadTestAdministrationListTests200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTestOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTestsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTestsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationListTestsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationListTestsParameters = LoadTestAdministrationListTestsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTestsQueryParam {
+    // (undocumented)
+    queryParameters?: LoadTestAdministrationListTestsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationListTestsQueryParamProperties {
+    lastModifiedEndTime?: Date | string;
+    lastModifiedStartTime?: Date | string;
+    maxpagesize?: number;
+    orderby?: string;
+    search?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationUploadTestFile {
+    delete(options?: LoadTestAdministrationDeleteTestFileParameters): StreamableMethod<LoadTestAdministrationDeleteTestFile204Response | LoadTestAdministrationDeleteTestFileDefaultResponse>;
+    get(options?: LoadTestAdministrationGetTestFileParameters): StreamableMethod<LoadTestAdministrationGetTestFile200Response | LoadTestAdministrationGetTestFileDefaultResponse>;
+    put(options: LoadTestAdministrationUploadTestFileParameters): StreamableMethod<LoadTestAdministrationUploadTestFile201Response | LoadTestAdministrationUploadTestFileDefaultResponse>;
+}
+
+// @public
+export interface LoadTestAdministrationUploadTestFile201Response extends HttpResponse {
+    // (undocumented)
+    body: {
+        url?: string;
+        fileType?: FileTypeOutput;
+        expireDateTime?: string;
+        validationStatus?: FileStatusOutput;
+        validationFailureDetails?: string;
+    };
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationUploadTestFileBodyParam {
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationUploadTestFileDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationUploadTestFileDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestAdministrationUploadTestFileDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationUploadTestFileMediaTypesParam {
+    contentType: "application/octet-stream";
+}
+
+// @public (undocumented)
+export type LoadTestAdministrationUploadTestFileParameters = LoadTestAdministrationUploadTestFileQueryParam & LoadTestAdministrationUploadTestFileMediaTypesParam & LoadTestAdministrationUploadTestFileBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestAdministrationUploadTestFileQueryParam {
+    // (undocumented)
+    queryParameters?: LoadTestAdministrationUploadTestFileQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LoadTestAdministrationUploadTestFileQueryParamProperties {
+    fileType?: FileType;
+}
 
 // @public
 export interface LoadTestConfiguration {
     engineInstances?: number;
     optionalLoadTestConfig?: OptionalLoadTestConfig;
     quickStartTest?: boolean;
+    regionalLoadTestConfig?: Array<RegionalConfiguration>;
     splitAllCSVs?: boolean;
 }
 
@@ -239,12 +749,562 @@ export interface LoadTestConfigurationOutput {
     engineInstances?: number;
     optionalLoadTestConfig?: OptionalLoadTestConfigOutput;
     quickStartTest?: boolean;
+    regionalLoadTestConfig?: Array<RegionalConfigurationOutput>;
     splitAllCSVs?: boolean;
 }
 
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateAppComponents {
+    get(options?: LoadTestRunGetAppComponentsParameters): StreamableMethod<LoadTestRunGetAppComponents200Response | LoadTestRunGetAppComponentsDefaultResponse>;
+    patch(options: LoadTestRunCreateOrUpdateAppComponentsParameters): StreamableMethod<LoadTestRunCreateOrUpdateAppComponents200Response | LoadTestRunCreateOrUpdateAppComponents201Response | LoadTestRunCreateOrUpdateAppComponentsDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunCreateOrUpdateAppComponents200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunAppComponentsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface LoadTestRunCreateOrUpdateAppComponents201Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunAppComponentsOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateAppComponentsBodyParam {
+    body: TestRunAppComponentsResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateAppComponentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateAppComponentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunCreateOrUpdateAppComponentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateAppComponentsMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type LoadTestRunCreateOrUpdateAppComponentsParameters = LoadTestRunCreateOrUpdateAppComponentsMediaTypesParam & LoadTestRunCreateOrUpdateAppComponentsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateServerMetricsConfig {
+    get(options?: LoadTestRunGetServerMetricsConfigParameters): StreamableMethod<LoadTestRunGetServerMetricsConfig200Response | LoadTestRunGetServerMetricsConfigDefaultResponse>;
+    patch(options: LoadTestRunCreateOrUpdateServerMetricsConfigParameters): StreamableMethod<LoadTestRunCreateOrUpdateServerMetricsConfig200Response | LoadTestRunCreateOrUpdateServerMetricsConfig201Response | LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunServerMetricConfigOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface LoadTestRunCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunServerMetricConfigOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam {
+    body: TestRunServerMetricConfigResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateServerMetricsConfigDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunCreateOrUpdateServerMetricsConfigDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateServerMetricsConfigMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type LoadTestRunCreateOrUpdateServerMetricsConfigParameters = LoadTestRunCreateOrUpdateServerMetricsConfigMediaTypesParam & LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam & RequestParameters;
+
+// @public
+export interface LoadTestRunCreateOrUpdateTestRun200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface LoadTestRunCreateOrUpdateTestRun201Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateTestRunBodyParam {
+    body: TestRunResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateTestRunDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateTestRunDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunCreateOrUpdateTestRunDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateTestRunMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type LoadTestRunCreateOrUpdateTestRunParameters = LoadTestRunCreateOrUpdateTestRunQueryParam & LoadTestRunCreateOrUpdateTestRunMediaTypesParam & LoadTestRunCreateOrUpdateTestRunBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateTestRunQueryParam {
+    // (undocumented)
+    queryParameters?: LoadTestRunCreateOrUpdateTestRunQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LoadTestRunCreateOrUpdateTestRunQueryParamProperties {
+    oldTestRunId?: string;
+}
+
+// @public
+export interface LoadTestRunDeleteTestRun204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface LoadTestRunDeleteTestRunDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunDeleteTestRunDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunDeleteTestRunDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunDeleteTestRunParameters = RequestParameters;
+
+// @public
+export interface LoadTestRunGetAppComponents200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunAppComponentsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetAppComponentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetAppComponentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunGetAppComponentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunGetAppComponentsParameters = RequestParameters;
+
+// @public
+export interface LoadTestRunGetServerMetricsConfig200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunServerMetricConfigOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetServerMetricsConfigDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetServerMetricsConfigDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunGetServerMetricsConfigDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunGetServerMetricsConfigParameters = RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunGetTestRun {
+    delete(options?: LoadTestRunDeleteTestRunParameters): StreamableMethod<LoadTestRunDeleteTestRun204Response | LoadTestRunDeleteTestRunDefaultResponse>;
+    get(options?: LoadTestRunGetTestRunParameters): StreamableMethod<LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse>;
+    patch(options: LoadTestRunCreateOrUpdateTestRunParameters): StreamableMethod<LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response | LoadTestRunCreateOrUpdateTestRunDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunGetTestRun200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetTestRunDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetTestRunDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunGetTestRunDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetTestRunFile {
+    get(options?: LoadTestRunGetTestRunFileParameters): StreamableMethod<LoadTestRunGetTestRunFile200Response | LoadTestRunGetTestRunFileDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunGetTestRunFile200Response extends HttpResponse {
+    // (undocumented)
+    body: {
+        url?: string;
+        fileType?: FileTypeOutput;
+        expireDateTime?: string;
+        validationStatus?: FileStatusOutput;
+        validationFailureDetails?: string;
+    };
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetTestRunFileDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunGetTestRunFileDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunGetTestRunFileDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunGetTestRunFileParameters = RequestParameters;
+
+// @public (undocumented)
+export type LoadTestRunGetTestRunParameters = RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDefinitions {
+    get(options: LoadTestRunListMetricDefinitionsParameters): StreamableMethod<LoadTestRunListMetricDefinitions200Response | LoadTestRunListMetricDefinitionsDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunListMetricDefinitions200Response extends HttpResponse {
+    // (undocumented)
+    body: MetricDefinitionCollectionOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDefinitionsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDefinitionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunListMetricDefinitionsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunListMetricDefinitionsParameters = LoadTestRunListMetricDefinitionsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDefinitionsQueryParam {
+    // (undocumented)
+    queryParameters: LoadTestRunListMetricDefinitionsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDefinitionsQueryParamProperties {
+    metricNamespace: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDimensionValues {
+    get(options: LoadTestRunListMetricDimensionValuesParameters): StreamableMethod<LoadTestRunListMetricDimensionValues200Response | LoadTestRunListMetricDimensionValuesDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunListMetricDimensionValues200Response extends HttpResponse {
+    // (undocumented)
+    body: DimensionValueListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDimensionValuesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDimensionValuesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunListMetricDimensionValuesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunListMetricDimensionValuesParameters = LoadTestRunListMetricDimensionValuesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDimensionValuesQueryParam {
+    // (undocumented)
+    queryParameters: LoadTestRunListMetricDimensionValuesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricDimensionValuesQueryParamProperties {
+    interval?: TimeGrain;
+    metricname: string;
+    metricNamespace: string;
+    timespan: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricNamespaces {
+    get(options?: LoadTestRunListMetricNamespacesParameters): StreamableMethod<LoadTestRunListMetricNamespaces200Response | LoadTestRunListMetricNamespacesDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunListMetricNamespaces200Response extends HttpResponse {
+    // (undocumented)
+    body: MetricNamespaceCollectionOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricNamespacesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricNamespacesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunListMetricNamespacesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunListMetricNamespacesParameters = RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunListMetrics {
+    post(options: LoadTestRunListMetricsParameters): StreamableMethod<LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunListMetrics200Response extends HttpResponse {
+    // (undocumented)
+    body: MetricsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricsBodyParam {
+    body?: MetricRequestPayload;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunListMetricsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunListMetricsParameters = LoadTestRunListMetricsQueryParam & LoadTestRunListMetricsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunListMetricsQueryParam {
+    // (undocumented)
+    queryParameters: LoadTestRunListMetricsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListMetricsQueryParamProperties {
+    aggregation?: string;
+    interval?: TimeGrain;
+    metricname: string;
+    metricNamespace: string;
+    timespan: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListTestRuns {
+    get(options?: LoadTestRunListTestRunsParameters): StreamableMethod<LoadTestRunListTestRuns200Response | LoadTestRunListTestRunsDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunListTestRuns200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTestRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunListTestRunsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListTestRunsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunListTestRunsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunListTestRunsParameters = LoadTestRunListTestRunsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface LoadTestRunListTestRunsQueryParam {
+    // (undocumented)
+    queryParameters?: LoadTestRunListTestRunsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface LoadTestRunListTestRunsQueryParamProperties {
+    executionFrom?: Date | string;
+    executionTo?: Date | string;
+    maxpagesize?: number;
+    orderby?: string;
+    search?: string;
+    status?: string;
+    testId?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunStop {
+    post(options?: LoadTestRunStopParameters): StreamableMethod<LoadTestRunStop200Response | LoadTestRunStopDefaultResponse>;
+}
+
+// @public
+export interface LoadTestRunStop200Response extends HttpResponse {
+    // (undocumented)
+    body: TestRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface LoadTestRunStopDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface LoadTestRunStopDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & LoadTestRunStopDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type LoadTestRunStopParameters = RequestParameters;
+
 // @public
 export interface MetricAvailabilityOutput {
-    timeGrain?: "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H";
+    timeGrain?: TimeGrainOutput;
 }
 
 // @public
@@ -259,9 +1319,9 @@ export interface MetricDefinitionOutput {
     metricAvailabilities?: Array<MetricAvailabilityOutput>;
     name?: string;
     namespace?: string;
-    primaryAggregationType?: "Average" | "Count" | "None" | "Total" | "Percentile90" | "Percentile95" | "Percentile99";
-    supportedAggregationTypes?: Array<string>;
-    unit?: "NotSpecified" | "Percent" | "Count" | "Seconds" | "Milliseconds" | "Bytes" | "BytesPerSecond" | "CountPerSecond";
+    primaryAggregationType?: AggregationTypeOutput;
+    supportedAggregationTypes?: string[];
+    unit?: MetricUnitOutput;
 }
 
 // @public
@@ -281,10 +1341,10 @@ export interface MetricRequestPayload {
 }
 
 // @public
-export interface MetricsOutput {
-    nextLink?: string;
-    timeseries?: Array<TimeSeriesElementOutput>;
-}
+export type MetricsOutput = Paged<TimeSeriesElementOutput>;
+
+// @public
+export type MetricUnitOutput = string;
 
 // @public
 export interface MetricValueOutput {
@@ -302,7 +1362,9 @@ export interface NameAndDescOutput {
 export interface OptionalLoadTestConfig {
     duration?: number;
     endpointUrl?: string;
+    maxResponseTimeInMs?: number;
     rampUpTime?: number;
+    requestsPerSecond?: number;
     virtualUsers?: number;
 }
 
@@ -310,9 +1372,26 @@ export interface OptionalLoadTestConfig {
 export interface OptionalLoadTestConfigOutput {
     duration?: number;
     endpointUrl?: string;
+    maxResponseTimeInMs?: number;
     rampUpTime?: number;
+    requestsPerSecond?: number;
     virtualUsers?: number;
 }
+
+// @public
+export type PagedTestFileInfoOutput = Paged<TestFileInfoOutput>;
+
+// @public
+export type PagedTestOutput = Paged<TestOutput>;
+
+// @public
+export type PagedTestProfileOutput = Paged<TestProfileOutput>;
+
+// @public
+export type PagedTestProfileRunOutput = Paged<TestProfileRunOutput>;
+
+// @public
+export type PagedTestRunOutput = Paged<TestRunOutput>;
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -341,27 +1420,55 @@ export interface PassFailCriteriaOutput {
 
 // @public
 export interface PassFailMetric {
-    action?: "stop" | "continue";
-    actualValue?: number;
-    aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
-    clientMetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
+    action?: PFAction;
+    aggregate?: PFAgFunc;
+    clientMetric?: PFMetrics;
     condition?: string;
     requestName?: string;
-    result?: "passed" | "undetermined" | "failed";
     value?: number;
 }
 
 // @public
 export interface PassFailMetricOutput {
-    action?: "stop" | "continue";
-    actualValue?: number;
-    aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
-    clientMetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
+    action?: PFActionOutput;
+    readonly actualValue?: number;
+    aggregate?: PFAgFuncOutput;
+    clientMetric?: PFMetricsOutput;
     condition?: string;
     requestName?: string;
-    result?: "passed" | "undetermined" | "failed";
+    readonly result?: PFResultOutput;
     value?: number;
 }
+
+// @public
+export type PFAction = string;
+
+// @public
+export type PFActionOutput = string;
+
+// @public
+export type PFAgFunc = string;
+
+// @public
+export type PFAgFuncOutput = string;
+
+// @public
+export type PFMetrics = string;
+
+// @public
+export type PFMetricsOutput = string;
+
+// @public
+export type PFResult = string;
+
+// @public
+export type PFResultOutput = string;
+
+// @public
+export type PFTestResult = string;
+
+// @public
+export type PFTestResultOutput = string;
 
 // @public (undocumented)
 export interface PolledOperationOptions {
@@ -369,10 +1476,39 @@ export interface PolledOperationOptions {
 }
 
 // @public
+export type RecommendationCategory = string;
+
+// @public
+export type RecommendationCategoryOutput = string;
+
+// @public
+export interface RegionalConfiguration {
+    engineInstances: number;
+    region: string;
+}
+
+// @public
+export interface RegionalConfigurationOutput {
+    engineInstances: number;
+    region: string;
+}
+
+// @public
+export type RequestDataLevel = string;
+
+// @public
+export type RequestDataLevelOutput = string;
+
+// @public
+export type ResourceKind = string;
+
+// @public
+export type ResourceKindOutput = string;
+
+// @public
 export interface ResourceMetric {
     aggregation: string;
     displayDescription?: string;
-    id?: string;
     metricNamespace: string;
     name: string;
     resourceId: string;
@@ -384,7 +1520,7 @@ export interface ResourceMetric {
 export interface ResourceMetricOutput {
     aggregation: string;
     displayDescription?: string;
-    id?: string;
+    readonly id?: string;
     metricNamespace: string;
     name: string;
     resourceId: string;
@@ -394,1331 +1530,803 @@ export interface ResourceMetricOutput {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/tests/{testId}", testId: string): TestCreateOrUpdate;
-    (path: "/tests"): TestList;
-    (path: "/tests/{testId}/files/{fileName}", testId: string, fileName: string): TestUploadFile;
-    (path: "/tests/{testId}/files", testId: string): TestListFiles;
-    (path: "/tests/{testId}/app-components", testId: string): TestCreateOrUpdateAppComponents;
-    (path: "/tests/{testId}/server-metrics-config", testId: string): TestCreateOrUpdateServerMetricsConfig;
-    (path: "/test-runs/{testRunId}", testRunId: string): TestRunDelete;
-    (path: "/test-runs/{testRunId}/files/{fileName}", testRunId: string, fileName: string): TestRunGetFile;
-    (path: "/test-runs"): TestRunList;
-    (path: "/test-runs/{testRunId}:stop", testRunId: string): TestRunStop;
-    (path: "/test-runs/{testRunId}/metric-namespaces", testRunId: string): TestRunListMetricNamespaces;
-    (path: "/test-runs/{testRunId}/metric-definitions", testRunId: string): TestRunListMetricDefinitions;
-    (path: "/test-runs/{testRunId}/metrics", testRunId: string): TestRunListMetrics;
-    (path: "/test-runs/{testRunId}/metric-dimensions/{name}/values", testRunId: string, name: string): TestRunListMetricDimensionValues;
-    (path: "/test-runs/{testRunId}/app-components", testRunId: string): TestRunCreateOrUpdateAppComponents;
-    (path: "/test-runs/{testRunId}/server-metrics-config", testRunId: string): TestRunCreateOrUpdateServerMetricsConfig;
+    (path: "/test-profiles/{testProfileId}", testProfileId: string): TestProfileAdministrationCreateOrUpdateTestProfile;
+    (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
+    (path: "/tests/{testId}", testId: string): LoadTestAdministrationCreateOrUpdateTest;
+    (path: "/tests"): LoadTestAdministrationListTests;
+    (path: "/tests/{testId}/files/{fileName}", testId: string, fileName: string): LoadTestAdministrationUploadTestFile;
+    (path: "/tests/{testId}/files", testId: string): LoadTestAdministrationListTestFiles;
+    (path: "/tests/{testId}/app-components", testId: string): LoadTestAdministrationCreateOrUpdateAppComponents;
+    (path: "/tests/{testId}/server-metrics-config", testId: string): LoadTestAdministrationCreateOrUpdateServerMetricsConfig;
+    (path: "/test-profile-runs/{testProfileRunId}", testProfileRunId: string): TestProfileRunAdministrationGetTestProfileRun;
+    (path: "/test-profile-runs/{testProfileRunId}:stop", testProfileRunId: string): TestProfileRunAdministrationStop;
+    (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
+    (path: "/test-runs/{testRunId}", testRunId: string): LoadTestRunGetTestRun;
+    (path: "/test-runs"): LoadTestRunListTestRuns;
+    (path: "/test-runs/{testRunId}/files/{fileName}", testRunId: string, fileName: string): LoadTestRunGetTestRunFile;
+    (path: "/test-runs/{testRunId}:stop", testRunId: string): LoadTestRunStop;
+    (path: "/test-runs/{testRunId}/metric-namespaces", testRunId: string): LoadTestRunListMetricNamespaces;
+    (path: "/test-runs/{testRunId}/metric-definitions", testRunId: string): LoadTestRunListMetricDefinitions;
+    (path: "/test-runs/{testRunId}/metrics", testRunId: string): LoadTestRunListMetrics;
+    (path: "/test-runs/{testRunId}/metric-dimensions/{name}/values", testRunId: string, name: string): LoadTestRunListMetricDimensionValues;
+    (path: "/test-runs/{testRunId}/app-components", testRunId: string): LoadTestRunCreateOrUpdateAppComponents;
+    (path: "/test-runs/{testRunId}/server-metrics-config", testRunId: string): LoadTestRunCreateOrUpdateServerMetricsConfig;
 }
 
 // @public
 export interface Secret {
-    type?: "AKV_SECRET_URI" | "SECRET_VALUE";
+    type?: SecretType;
     value?: string;
 }
 
 // @public
 export interface SecretOutput {
-    type?: "AKV_SECRET_URI" | "SECRET_VALUE";
+    type?: SecretTypeOutput;
     value?: string;
 }
 
 // @public
+export type SecretType = string;
+
+// @public
+export type SecretTypeOutput = string;
+
+// @public
+export type Status = string;
+
+// @public
+export type StatusOutput = string;
+
+// @public
+export type TargetResourceConfigurations = TargetResourceConfigurationsParent | FunctionFlexConsumptionTargetResourceConfigurations;
+
+// @public
+export type TargetResourceConfigurationsOutput = TargetResourceConfigurationsOutputParent | FunctionFlexConsumptionTargetResourceConfigurationsOutput;
+
+// @public
+export interface TargetResourceConfigurationsOutputParent {
+    // (undocumented)
+    kind: ResourceKindOutput;
+}
+
+// @public
+export interface TargetResourceConfigurationsParent {
+    // (undocumented)
+    kind: ResourceKind;
+}
+
+// @public
 export interface Test {
+    autoStopCriteria?: AutoStopCriteria;
+    baselineTestRunId?: string;
     certificate?: CertificateMetadata;
-    createdBy?: string;
-    createdDateTime?: Date | string;
     description?: string;
     displayName?: string;
     environmentVariables?: Record<string, string>;
-    inputArtifacts?: TestInputArtifacts;
     keyvaultReferenceIdentityId?: string;
     keyvaultReferenceIdentityType?: string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: Date | string;
+    kind?: TestKind;
     loadTestConfiguration?: LoadTestConfiguration;
     passFailCriteria?: PassFailCriteria;
+    publicIPDisabled?: boolean;
     secrets?: Record<string, Secret>;
     subnetId?: string;
-    testId?: string;
 }
 
 // @public
 export interface TestAppComponents {
     components: Record<string, AppComponent>;
-    createdBy?: string;
-    createdDateTime?: Date | string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: Date | string;
-    testId?: string;
 }
 
 // @public
 export interface TestAppComponentsOutput {
     components: Record<string, AppComponentOutput>;
-    createdBy?: string;
-    createdDateTime?: string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: string;
-    testId?: string;
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdate {
-    delete(options?: TestDeleteParameters): StreamableMethod<TestDelete204Response | TestDeleteDefaultResponse>;
-    get(options?: TestGetParameters): StreamableMethod<TestGet200Response | TestGetDefaultResponse>;
-    patch(options: TestCreateOrUpdateParameters): StreamableMethod<TestCreateOrUpdate200Response | TestCreateOrUpdate201Response | TestCreateOrUpdateDefaultResponse>;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
+    readonly testId?: string;
 }
 
 // @public
-export interface TestCreateOrUpdate200Response extends HttpResponse {
-    // (undocumented)
-    body: TestOutput;
-    // (undocumented)
-    status: "200";
+export type TestAppComponentsResourceMergeAndPatch = Partial<TestAppComponents>;
+
+// @public
+export interface TestFileInfo {
+    fileName: string;
 }
 
 // @public
-export interface TestCreateOrUpdate201Response extends HttpResponse {
-    // (undocumented)
-    body: TestOutput;
-    // (undocumented)
-    status: "201";
+export interface TestFileInfoOutput {
+    readonly expireDateTime?: string;
+    fileName: string;
+    readonly fileType?: FileTypeOutput;
+    readonly url?: string;
+    readonly validationFailureDetails?: string;
+    readonly validationStatus?: FileStatusOutput;
 }
-
-// @public (undocumented)
-export interface TestCreateOrUpdateAppComponents {
-    get(options?: TestListAppComponentsParameters): StreamableMethod<TestListAppComponents200Response | TestListAppComponentsDefaultResponse>;
-    patch(options: TestCreateOrUpdateAppComponentsParameters): StreamableMethod<TestCreateOrUpdateAppComponents200Response | TestCreateOrUpdateAppComponents201Response | TestCreateOrUpdateAppComponentsDefaultResponse>;
-}
-
-// @public
-export interface TestCreateOrUpdateAppComponents200Response extends HttpResponse {
-    // (undocumented)
-    body: TestAppComponentsOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface TestCreateOrUpdateAppComponents201Response extends HttpResponse {
-    // (undocumented)
-    body: TestAppComponentsOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateAppComponentsBodyParam {
-    body: TestAppComponents;
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateAppComponentsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestCreateOrUpdateAppComponentsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestCreateOrUpdateAppComponentsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateAppComponentsMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type TestCreateOrUpdateAppComponentsParameters = TestCreateOrUpdateAppComponentsMediaTypesParam & TestCreateOrUpdateAppComponentsBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestCreateOrUpdateBodyParam {
-    body: Test;
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestCreateOrUpdateDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestCreateOrUpdateDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type TestCreateOrUpdateParameters = TestCreateOrUpdateMediaTypesParam & TestCreateOrUpdateBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestCreateOrUpdateServerMetricsConfig {
-    get(options?: TestListServerMetricsConfigParameters): StreamableMethod<TestListServerMetricsConfig200Response | TestListServerMetricsConfigDefaultResponse>;
-    patch(options: TestCreateOrUpdateServerMetricsConfigParameters): StreamableMethod<TestCreateOrUpdateServerMetricsConfig200Response | TestCreateOrUpdateServerMetricsConfig201Response | TestCreateOrUpdateServerMetricsConfigDefaultResponse>;
-}
-
-// @public
-export interface TestCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
-    // (undocumented)
-    body: TestServerMetricConfigOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface TestCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
-    // (undocumented)
-    body: TestServerMetricConfigOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateServerMetricsConfigBodyParam {
-    body: TestServerMetricConfig;
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateServerMetricsConfigDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestCreateOrUpdateServerMetricsConfigDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestCreateOrUpdateServerMetricsConfigDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestCreateOrUpdateServerMetricsConfigMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type TestCreateOrUpdateServerMetricsConfigParameters = TestCreateOrUpdateServerMetricsConfigMediaTypesParam & TestCreateOrUpdateServerMetricsConfigBodyParam & RequestParameters;
-
-// @public
-export interface TestDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface TestDeleteDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestDeleteDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestDeleteDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public
-export interface TestDeleteFile204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface TestDeleteFileDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestDeleteFileDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestDeleteFileDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestDeleteFileParameters = RequestParameters;
-
-// @public (undocumented)
-export type TestDeleteParameters = RequestParameters;
-
-// @public
-export interface TestGet200Response extends HttpResponse {
-    // (undocumented)
-    body: TestOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestGetDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestGetDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestGetDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public
-export interface TestGetFile200Response extends HttpResponse {
-    // (undocumented)
-    body: FileInfoOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestGetFileDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestGetFileDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestGetFileDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestGetFileParameters = RequestParameters;
-
-// @public (undocumented)
-export type TestGetParameters = RequestParameters;
 
 // @public
 export interface TestInputArtifacts {
-    additionalFileInfo?: Array<FileInfo>;
-    configFileInfo?: FileInfo;
-    inputArtifactsZipFileInfo?: FileInfo;
-    testScriptFileInfo?: FileInfo;
-    userPropFileInfo?: FileInfo;
+    configFileInfo?: TestFileInfo;
+    inputArtifactsZipFileInfo?: TestFileInfo;
+    testScriptFileInfo?: TestFileInfo;
+    urlTestConfigFileInfo?: TestFileInfo;
+    userPropFileInfo?: TestFileInfo;
 }
 
 // @public
 export interface TestInputArtifactsOutput {
-    additionalFileInfo?: Array<FileInfoOutput>;
-    configFileInfo?: FileInfoOutput;
-    inputArtifactsZipFileInfo?: FileInfoOutput;
-    testScriptFileInfo?: FileInfoOutput;
-    userPropFileInfo?: FileInfoOutput;
-}
-
-// @public (undocumented)
-export interface TestList {
-    get(options?: TestListParameters): StreamableMethod<TestList200Response | TestListDefaultResponse>;
+    readonly additionalFileInfo?: Array<TestFileInfoOutput>;
+    configFileInfo?: TestFileInfoOutput;
+    inputArtifactsZipFileInfo?: TestFileInfoOutput;
+    testScriptFileInfo?: TestFileInfoOutput;
+    urlTestConfigFileInfo?: TestFileInfoOutput;
+    userPropFileInfo?: TestFileInfoOutput;
 }
 
 // @public
-export interface TestList200Response extends HttpResponse {
-    // (undocumented)
-    body: TestsListOutput;
-    // (undocumented)
-    status: "200";
-}
+export type TestKind = string;
 
 // @public
-export interface TestListAppComponents200Response extends HttpResponse {
-    // (undocumented)
-    body: TestAppComponentsOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestListAppComponentsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestListAppComponentsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestListAppComponentsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestListAppComponentsParameters = RequestParameters;
-
-// @public (undocumented)
-export interface TestListDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestListDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestListDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestListFiles {
-    get(options?: TestListFilesParameters): StreamableMethod<TestListFiles200Response | TestListFilesDefaultResponse>;
-}
-
-// @public
-export interface TestListFiles200Response extends HttpResponse {
-    // (undocumented)
-    body: FileInfoListOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestListFilesDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestListFilesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestListFilesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestListFilesParameters = TestListFilesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestListFilesQueryParam {
-    // (undocumented)
-    queryParameters?: TestListFilesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestListFilesQueryParamProperties {
-    continuationToken?: string;
-}
-
-// @public (undocumented)
-export type TestListParameters = TestListQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestListQueryParam {
-    // (undocumented)
-    queryParameters?: TestListQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestListQueryParamProperties {
-    continuationToken?: string;
-    lastModifiedEndTime?: Date | string;
-    lastModifiedStartTime?: Date | string;
-    maxpagesize?: number;
-    orderby?: string;
-    search?: string;
-}
-
-// @public
-export interface TestListServerMetricsConfig200Response extends HttpResponse {
-    // (undocumented)
-    body: TestServerMetricConfigOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestListServerMetricsConfigDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestListServerMetricsConfigDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestListServerMetricsConfigDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestListServerMetricsConfigParameters = RequestParameters;
+export type TestKindOutput = string;
 
 // @public
 export interface TestOutput {
+    autoStopCriteria?: AutoStopCriteriaOutput;
+    baselineTestRunId?: string;
     certificate?: CertificateMetadataOutput;
-    createdBy?: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
     description?: string;
     displayName?: string;
     environmentVariables?: Record<string, string>;
-    inputArtifacts?: TestInputArtifactsOutput;
+    readonly inputArtifacts?: TestInputArtifactsOutput;
     keyvaultReferenceIdentityId?: string;
     keyvaultReferenceIdentityType?: string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: string;
+    kind?: TestKindOutput;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
     loadTestConfiguration?: LoadTestConfigurationOutput;
     passFailCriteria?: PassFailCriteriaOutput;
+    publicIPDisabled?: boolean;
     secrets?: Record<string, SecretOutput>;
     subnetId?: string;
-    testId?: string;
+    readonly testId: string;
 }
 
 // @public
-export interface TestRun {
-    certificate?: CertificateMetadata;
-    createdBy?: string;
-    createdDateTime?: Date | string;
+export interface TestProfile {
     description?: string;
     displayName?: string;
-    duration?: number;
-    endDateTime?: Date | string;
+    targetResourceConfigurations?: TargetResourceConfigurations;
+    targetResourceId?: string;
+    testId?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationCreateOrUpdateTestProfile {
+    delete(options?: TestProfileAdministrationDeleteTestProfileParameters): StreamableMethod<TestProfileAdministrationDeleteTestProfile204Response | TestProfileAdministrationDeleteTestProfileDefaultResponse>;
+    get(options?: TestProfileAdministrationGetTestProfileParameters): StreamableMethod<TestProfileAdministrationGetTestProfile200Response | TestProfileAdministrationGetTestProfileDefaultResponse>;
+    patch(options: TestProfileAdministrationCreateOrUpdateTestProfileParameters): StreamableMethod<TestProfileAdministrationCreateOrUpdateTestProfile200Response | TestProfileAdministrationCreateOrUpdateTestProfile201Response | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse>;
+}
+
+// @public
+export interface TestProfileAdministrationCreateOrUpdateTestProfile200Response extends HttpResponse {
+    // (undocumented)
+    body: TestProfileOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface TestProfileAdministrationCreateOrUpdateTestProfile201Response extends HttpResponse {
+    // (undocumented)
+    body: TestProfileOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationCreateOrUpdateTestProfileBodyParam {
+    body: TestProfileResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type TestProfileAdministrationCreateOrUpdateTestProfileParameters = TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam & TestProfileAdministrationCreateOrUpdateTestProfileBodyParam & RequestParameters;
+
+// @public
+export interface TestProfileAdministrationDeleteTestProfile204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationDeleteTestProfileDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationDeleteTestProfileDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileAdministrationDeleteTestProfileDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TestProfileAdministrationDeleteTestProfileParameters = RequestParameters;
+
+// @public
+export interface TestProfileAdministrationGetTestProfile200Response extends HttpResponse {
+    // (undocumented)
+    body: TestProfileOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationGetTestProfileDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationGetTestProfileDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileAdministrationGetTestProfileDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TestProfileAdministrationGetTestProfileParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TestProfileAdministrationListTestProfiles {
+    get(options?: TestProfileAdministrationListTestProfilesParameters): StreamableMethod<TestProfileAdministrationListTestProfiles200Response | TestProfileAdministrationListTestProfilesDefaultResponse>;
+}
+
+// @public
+export interface TestProfileAdministrationListTestProfiles200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTestProfileOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationListTestProfilesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationListTestProfilesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileAdministrationListTestProfilesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TestProfileAdministrationListTestProfilesParameters = TestProfileAdministrationListTestProfilesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface TestProfileAdministrationListTestProfilesQueryParam {
+    // (undocumented)
+    queryParameters?: TestProfileAdministrationListTestProfilesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
+    lastModifiedEndTime?: Date | string;
+    lastModifiedStartTime?: Date | string;
+    maxpagesize?: number;
+    testIds?: string;
+    testProfileIds?: string;
+}
+
+// @public
+export interface TestProfileOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    description?: string;
+    displayName?: string;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
+    targetResourceConfigurations?: TargetResourceConfigurationsOutput;
+    targetResourceId?: string;
+    testId?: string;
+    readonly testProfileId: string;
+}
+
+// @public
+export type TestProfileResourceMergeAndPatch = Partial<TestProfile>;
+
+// @public
+export interface TestProfileRun {
+    description?: string;
+    displayName?: string;
+    testProfileId?: string;
+}
+
+// @public
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response extends HttpResponse {
+    // (undocumented)
+    body: TestProfileRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response extends HttpResponse {
+    // (undocumented)
+    body: TestProfileRunOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam {
+    body: TestProfileRunResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters = TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam & TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam & RequestParameters;
+
+// @public
+export interface TestProfileRunAdministrationDeleteTestProfileRun204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationDeleteTestProfileRunDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileRunAdministrationDeleteTestProfileRunDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TestProfileRunAdministrationDeleteTestProfileRunParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationGetTestProfileRun {
+    delete(options?: TestProfileRunAdministrationDeleteTestProfileRunParameters): StreamableMethod<TestProfileRunAdministrationDeleteTestProfileRun204Response | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse>;
+    get(options?: TestProfileRunAdministrationGetTestProfileRunParameters): StreamableMethod<TestProfileRunAdministrationGetTestProfileRun200Response | TestProfileRunAdministrationGetTestProfileRunDefaultResponse>;
+    patch(options: TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters): StreamableMethod<TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse>;
+}
+
+// @public
+export interface TestProfileRunAdministrationGetTestProfileRun200Response extends HttpResponse {
+    // (undocumented)
+    body: TestProfileRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationGetTestProfileRunDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationGetTestProfileRunDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileRunAdministrationGetTestProfileRunDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TestProfileRunAdministrationGetTestProfileRunParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationListTestProfileRuns {
+    get(options?: TestProfileRunAdministrationListTestProfileRunsParameters): StreamableMethod<TestProfileRunAdministrationListTestProfileRuns200Response | TestProfileRunAdministrationListTestProfileRunsDefaultResponse>;
+}
+
+// @public
+export interface TestProfileRunAdministrationListTestProfileRuns200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTestProfileRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationListTestProfileRunsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationListTestProfileRunsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileRunAdministrationListTestProfileRunsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TestProfileRunAdministrationListTestProfileRunsParameters = TestProfileRunAdministrationListTestProfileRunsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationListTestProfileRunsQueryParam {
+    // (undocumented)
+    queryParameters?: TestProfileRunAdministrationListTestProfileRunsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProperties {
+    createdDateEndTime?: Date | string;
+    createdDateStartTime?: Date | string;
+    maxEndDateTime?: Date | string;
+    maxpagesize?: number;
+    maxStartDateTime?: Date | string;
+    minEndDateTime?: Date | string;
+    minStartDateTime?: Date | string;
+    statuses?: string;
+    testProfileIds?: string;
+    testProfileRunIds?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationStop {
+    post(options?: TestProfileRunAdministrationStopParameters): StreamableMethod<TestProfileRunAdministrationStop200Response | TestProfileRunAdministrationStopDefaultResponse>;
+}
+
+// @public
+export interface TestProfileRunAdministrationStop200Response extends HttpResponse {
+    // (undocumented)
+    body: TestProfileRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationStopDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TestProfileRunAdministrationStopDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TestProfileRunAdministrationStopDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TestProfileRunAdministrationStopParameters = RequestParameters;
+
+// @public
+export interface TestProfileRunOutput {
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    description?: string;
+    displayName?: string;
+    readonly durationInSeconds?: number;
+    readonly endDateTime?: string;
+    readonly errorDetails?: Array<ErrorDetailsOutput>;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
+    readonly recommendations?: Array<TestProfileRunRecommendationOutput>;
+    readonly startDateTime?: string;
+    readonly status?: TestProfileRunStatusOutput;
+    readonly targetResourceConfigurations?: TargetResourceConfigurationsOutput;
+    readonly targetResourceId?: string;
+    testProfileId?: string;
+    readonly testProfileRunId: string;
+    readonly testRunDetails?: Record<string, TestRunDetailOutput>;
+}
+
+// @public
+export interface TestProfileRunRecommendation {
+    category: RecommendationCategory;
+    configurations?: string[];
+}
+
+// @public
+export interface TestProfileRunRecommendationOutput {
+    category: RecommendationCategoryOutput;
+    configurations?: string[];
+}
+
+// @public
+export type TestProfileRunResourceMergeAndPatch = Partial<TestProfileRun>;
+
+// @public
+export type TestProfileRunStatus = string;
+
+// @public
+export type TestProfileRunStatusOutput = string;
+
+// @public
+export type TestResourceMergeAndPatch = Partial<Test>;
+
+// @public
+export interface TestRun {
+    autoStopCriteria?: AutoStopCriteria;
+    certificate?: CertificateMetadata;
+    debugLogsEnabled?: boolean;
+    description?: string;
+    displayName?: string;
     environmentVariables?: Record<string, string>;
-    errorDetails?: Array<ErrorDetails>;
-    executedDateTime?: Date | string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: Date | string;
     loadTestConfiguration?: LoadTestConfiguration;
     passFailCriteria?: PassFailCriteria;
-    portalUrl?: string;
+    requestDataLevel?: RequestDataLevel;
     secrets?: Record<string, Secret>;
-    startDateTime?: Date | string;
-    status?: "ACCEPTED" | "NOTSTARTED" | "PROVISIONING" | "PROVISIONED" | "CONFIGURING" | "CONFIGURED" | "EXECUTING" | "EXECUTED" | "DEPROVISIONING" | "DEPROVISIONED" | "DONE" | "CANCELLING" | "CANCELLED" | "FAILED" | "VALIDATION_SUCCESS" | "VALIDATION_FAILURE";
-    subnetId?: string;
-    testArtifacts?: TestRunArtifacts;
     testId?: string;
-    testResult?: "PASSED" | "NOT_APPLICABLE" | "FAILED";
-    testRunId?: string;
-    testRunStatistics?: Record<string, TestRunStatistics>;
-    virtualUsers?: number;
 }
 
 // @public
 export interface TestRunAppComponents {
     components: Record<string, AppComponent>;
-    createdBy?: string;
-    createdDateTime?: Date | string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: Date | string;
-    testRunId?: string;
 }
 
 // @public
 export interface TestRunAppComponentsOutput {
     components: Record<string, AppComponentOutput>;
-    createdBy?: string;
-    createdDateTime?: string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: string;
-    testRunId?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
+    readonly testRunId?: string;
 }
 
 // @public
+export type TestRunAppComponentsResourceMergeAndPatch = Partial<TestRunAppComponents>;
+
+// @public
 export interface TestRunArtifacts {
-    inputArtifacts?: TestRunInputArtifacts;
     outputArtifacts?: TestRunOutputArtifacts;
 }
 
 // @public
 export interface TestRunArtifactsOutput {
-    inputArtifacts?: TestRunInputArtifactsOutput;
+    readonly inputArtifacts?: TestRunInputArtifactsOutput;
     outputArtifacts?: TestRunOutputArtifactsOutput;
 }
 
-// @public (undocumented)
-export type TestRunCompletionPoller = SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response>;
-
 // @public
-export interface TestRunCreateOrUpdate200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface TestRunCreateOrUpdate201Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunOutput;
-    // (undocumented)
-    status: "201";
-}
+export type TestRunCompletionPoller = SimplePollerLike<OperationState<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response>;
 
 // @public (undocumented)
-export interface TestRunCreateOrUpdateAppComponents {
-    get(options?: TestRunListAppComponentsParameters): StreamableMethod<TestRunListAppComponents200Response | TestRunListAppComponentsDefaultResponse>;
-    patch(options: TestRunCreateOrUpdateAppComponentsParameters): StreamableMethod<TestRunCreateOrUpdateAppComponents200Response | TestRunCreateOrUpdateAppComponents201Response | TestRunCreateOrUpdateAppComponentsDefaultResponse>;
+export type TestRunCreateOrUpdateSuccessResponse = LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response;
+
+// @public
+export interface TestRunDetail {
+    configurationId: string;
+    properties: Record<string, string>;
+    status: Status;
 }
 
 // @public
-export interface TestRunCreateOrUpdateAppComponents200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunAppComponentsOutput;
-    // (undocumented)
-    status: "200";
+export interface TestRunDetailOutput {
+    configurationId: string;
+    properties: Record<string, string>;
+    status: StatusOutput;
 }
 
 // @public
-export interface TestRunCreateOrUpdateAppComponents201Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunAppComponentsOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateAppComponentsBodyParam {
-    body: TestRunAppComponents;
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateAppComponentsDefaultHeaders {
-    "x-ms-error-code"?: string;
+export interface TestRunFileInfo {
+    fileName: string;
 }
 
 // @public
-export interface TestRunCreateOrUpdateAppComponentsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunCreateOrUpdateAppComponentsDefaultHeaders;
-    // (undocumented)
-    status: string;
+export interface TestRunFileInfoOutput {
+    readonly expireDateTime?: string;
+    fileName: string;
+    readonly fileType?: FileTypeOutput;
+    readonly url?: string;
+    readonly validationFailureDetails?: string;
+    readonly validationStatus?: FileStatusOutput;
 }
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateAppComponentsMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type TestRunCreateOrUpdateAppComponentsParameters = TestRunCreateOrUpdateAppComponentsMediaTypesParam & TestRunCreateOrUpdateAppComponentsBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateBodyParam {
-    body: TestRun;
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunCreateOrUpdateDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunCreateOrUpdateDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type TestRunCreateOrUpdateParameters = TestRunCreateOrUpdateQueryParam & TestRunCreateOrUpdateMediaTypesParam & TestRunCreateOrUpdateBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateQueryParam {
-    // (undocumented)
-    queryParameters?: TestRunCreateOrUpdateQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateQueryParamProperties {
-    oldTestRunId?: string;
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateServerMetricsConfig {
-    get(options?: TestRunListServerMetricsConfigParameters): StreamableMethod<TestRunListServerMetricsConfig200Response | TestRunListServerMetricsConfigDefaultResponse>;
-    patch(options: TestRunCreateOrUpdateServerMetricsConfigParameters): StreamableMethod<TestRunCreateOrUpdateServerMetricsConfig200Response | TestRunCreateOrUpdateServerMetricsConfig201Response | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse>;
-}
-
-// @public
-export interface TestRunCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunServerMetricConfigOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface TestRunCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunServerMetricConfigOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateServerMetricsConfigBodyParam {
-    body: TestRunServerMetricConfig;
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateServerMetricsConfigDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunCreateOrUpdateServerMetricsConfigDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunCreateOrUpdateServerMetricsConfigDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam {
-    contentType?: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type TestRunCreateOrUpdateServerMetricsConfigParameters = TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam & TestRunCreateOrUpdateServerMetricsConfigBodyParam & RequestParameters;
-
-// @public (undocumented)
-export type TestRunCreateOrUpdateSuccessResponse = TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response;
-
-// @public (undocumented)
-export interface TestRunDelete {
-    delete(options?: TestRunDeleteParameters): StreamableMethod<TestRunDelete204Response | TestRunDeleteDefaultResponse>;
-    get(options?: TestRunGetParameters): StreamableMethod<TestRunGet200Response | TestRunGetDefaultResponse>;
-    patch(options: TestRunCreateOrUpdateParameters): StreamableMethod<TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response | TestRunCreateOrUpdateDefaultResponse>;
-}
-
-// @public
-export interface TestRunDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface TestRunDeleteDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunDeleteDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunDeleteDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunDeleteParameters = RequestParameters;
-
-// @public
-export interface TestRunGet200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunGetDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunGetDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunGetDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestRunGetFile {
-    get(options?: TestRunGetFileParameters): StreamableMethod<TestRunGetFile200Response | TestRunGetFileDefaultResponse>;
-}
-
-// @public
-export interface TestRunGetFile200Response extends HttpResponse {
-    // (undocumented)
-    body: FileInfoOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunGetFileDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunGetFileDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunGetFileDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunGetFileParameters = RequestParameters;
-
-// @public (undocumented)
-export type TestRunGetParameters = RequestParameters;
 
 // @public
 export interface TestRunInputArtifacts {
-    additionalFileInfo?: Array<FileInfo>;
-    configFileInfo?: FileInfo;
-    inputArtifactsZipFileInfo?: FileInfo;
-    testScriptFileInfo?: FileInfo;
-    userPropFileInfo?: FileInfo;
+    configFileInfo?: TestRunFileInfo;
+    inputArtifactsZipFileInfo?: TestRunFileInfo;
+    testScriptFileInfo?: TestRunFileInfo;
+    urlTestConfigFileInfo?: TestRunFileInfo;
+    userPropFileInfo?: TestRunFileInfo;
 }
 
 // @public
 export interface TestRunInputArtifactsOutput {
-    additionalFileInfo?: Array<FileInfoOutput>;
-    configFileInfo?: FileInfoOutput;
-    inputArtifactsZipFileInfo?: FileInfoOutput;
-    testScriptFileInfo?: FileInfoOutput;
-    userPropFileInfo?: FileInfoOutput;
+    readonly additionalFileInfo?: Array<TestRunFileInfoOutput>;
+    configFileInfo?: TestRunFileInfoOutput;
+    inputArtifactsZipFileInfo?: TestRunFileInfoOutput;
+    testScriptFileInfo?: TestRunFileInfoOutput;
+    urlTestConfigFileInfo?: TestRunFileInfoOutput;
+    userPropFileInfo?: TestRunFileInfoOutput;
 }
-
-// @public (undocumented)
-export interface TestRunList {
-    get(options?: TestRunListParameters): StreamableMethod<TestRunList200Response | TestRunListDefaultResponse>;
-}
-
-// @public
-export interface TestRunList200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunsListOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface TestRunListAppComponents200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunAppComponentsOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunListAppComponentsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunListAppComponentsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunListAppComponentsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunListAppComponentsParameters = RequestParameters;
-
-// @public (undocumented)
-export interface TestRunListDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunListDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunListDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricDefinitions {
-    get(options: TestRunListMetricDefinitionsParameters): StreamableMethod<TestRunListMetricDefinitions200Response | TestRunListMetricDefinitionsDefaultResponse>;
-}
-
-// @public
-export interface TestRunListMetricDefinitions200Response extends HttpResponse {
-    // (undocumented)
-    body: MetricDefinitionCollectionOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunListMetricDefinitionsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunListMetricDefinitionsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunListMetricDefinitionsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunListMetricDefinitionsParameters = TestRunListMetricDefinitionsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestRunListMetricDefinitionsQueryParam {
-    // (undocumented)
-    queryParameters: TestRunListMetricDefinitionsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricDefinitionsQueryParamProperties {
-    metricNamespace: string;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricDimensionValues {
-    get(options: TestRunListMetricDimensionValuesParameters): StreamableMethod<TestRunListMetricDimensionValues200Response | TestRunListMetricDimensionValuesDefaultResponse>;
-}
-
-// @public
-export interface TestRunListMetricDimensionValues200Response extends HttpResponse {
-    // (undocumented)
-    body: DimensionValueListOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunListMetricDimensionValuesDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunListMetricDimensionValuesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunListMetricDimensionValuesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunListMetricDimensionValuesParameters = TestRunListMetricDimensionValuesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestRunListMetricDimensionValuesQueryParam {
-    // (undocumented)
-    queryParameters: TestRunListMetricDimensionValuesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricDimensionValuesQueryParamProperties {
-    interval?: "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H";
-    metricname: string;
-    metricNamespace: string;
-    timespan: string;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricNamespaces {
-    get(options?: TestRunListMetricNamespacesParameters): StreamableMethod<TestRunListMetricNamespaces200Response | TestRunListMetricNamespacesDefaultResponse>;
-}
-
-// @public
-export interface TestRunListMetricNamespaces200Response extends HttpResponse {
-    // (undocumented)
-    body: MetricNamespaceCollectionOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunListMetricNamespacesDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunListMetricNamespacesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunListMetricNamespacesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunListMetricNamespacesParameters = RequestParameters;
-
-// @public (undocumented)
-export interface TestRunListMetrics {
-    post(options: TestRunListMetricsParameters): StreamableMethod<TestRunListMetrics200Response | TestRunListMetricsDefaultResponse>;
-}
-
-// @public
-export interface TestRunListMetrics200Response extends HttpResponse {
-    // (undocumented)
-    body: MetricsOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunListMetricsBodyParam {
-    body?: MetricRequestPayload;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunListMetricsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunListMetricsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type TestRunListMetricsParameters = TestRunListMetricsQueryParam & TestRunListMetricsMediaTypesParam & TestRunListMetricsBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestRunListMetricsQueryParam {
-    // (undocumented)
-    queryParameters: TestRunListMetricsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestRunListMetricsQueryParamProperties {
-    aggregation?: string;
-    interval?: "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H";
-    metricname: string;
-    metricNamespace: string;
-    timespan: string;
-}
-
-// @public (undocumented)
-export type TestRunListParameters = TestRunListQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestRunListQueryParam {
-    // (undocumented)
-    queryParameters?: TestRunListQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestRunListQueryParamProperties {
-    continuationToken?: string;
-    executionFrom?: Date | string;
-    executionTo?: Date | string;
-    maxpagesize?: number;
-    orderby?: string;
-    search?: string;
-    status?: string;
-    testId?: string;
-}
-
-// @public
-export interface TestRunListServerMetricsConfig200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunServerMetricConfigOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunListServerMetricsConfigDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunListServerMetricsConfigDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunListServerMetricsConfigDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunListServerMetricsConfigParameters = RequestParameters;
 
 // @public
 export interface TestRunOutput {
+    autoStopCriteria?: AutoStopCriteriaOutput;
     certificate?: CertificateMetadataOutput;
-    createdBy?: string;
-    createdDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    debugLogsEnabled?: boolean;
     description?: string;
     displayName?: string;
-    duration?: number;
-    endDateTime?: string;
+    readonly duration?: number;
+    readonly endDateTime?: string;
     environmentVariables?: Record<string, string>;
-    errorDetails?: Array<ErrorDetailsOutput>;
-    executedDateTime?: string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: string;
+    readonly errorDetails?: Array<ErrorDetailsOutput>;
+    readonly executedDateTime?: string;
+    readonly kind?: TestKindOutput;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
     loadTestConfiguration?: LoadTestConfigurationOutput;
     passFailCriteria?: PassFailCriteriaOutput;
-    portalUrl?: string;
+    readonly portalUrl?: string;
+    readonly publicIPDisabled?: boolean;
+    readonly regionalStatistics?: Record<string, TestRunStatisticsOutput>;
+    requestDataLevel?: RequestDataLevelOutput;
     secrets?: Record<string, SecretOutput>;
-    startDateTime?: string;
-    status?: "ACCEPTED" | "NOTSTARTED" | "PROVISIONING" | "PROVISIONED" | "CONFIGURING" | "CONFIGURED" | "EXECUTING" | "EXECUTED" | "DEPROVISIONING" | "DEPROVISIONED" | "DONE" | "CANCELLING" | "CANCELLED" | "FAILED" | "VALIDATION_SUCCESS" | "VALIDATION_FAILURE";
-    subnetId?: string;
-    testArtifacts?: TestRunArtifactsOutput;
+    readonly startDateTime?: string;
+    readonly status?: StatusOutput;
+    readonly subnetId?: string;
+    readonly testArtifacts?: TestRunArtifactsOutput;
     testId?: string;
-    testResult?: "PASSED" | "NOT_APPLICABLE" | "FAILED";
-    testRunId?: string;
-    testRunStatistics?: Record<string, TestRunStatisticsOutput>;
-    virtualUsers?: number;
+    readonly testResult?: PFTestResultOutput;
+    readonly testRunId: string;
+    readonly testRunStatistics?: Record<string, TestRunStatisticsOutput>;
+    readonly virtualUsers?: number;
 }
 
 // @public
 export interface TestRunOutputArtifacts {
-    logsFileInfo?: FileInfo;
-    resultFileInfo?: FileInfo;
+    artifactsContainerInfo?: ArtifactsContainerInfo;
+    logsFileInfo?: TestRunFileInfo;
+    reportFileInfo?: TestRunFileInfo;
+    resultFileInfo?: TestRunFileInfo;
 }
 
 // @public
 export interface TestRunOutputArtifactsOutput {
-    logsFileInfo?: FileInfoOutput;
-    resultFileInfo?: FileInfoOutput;
+    artifactsContainerInfo?: ArtifactsContainerInfoOutput;
+    logsFileInfo?: TestRunFileInfoOutput;
+    reportFileInfo?: TestRunFileInfoOutput;
+    resultFileInfo?: TestRunFileInfoOutput;
 }
 
 // @public
+export type TestRunResourceMergeAndPatch = Partial<TestRun>;
+
+// @public
 export interface TestRunServerMetricConfig {
-    createdBy?: string;
-    createdDateTime?: Date | string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: Date | string;
     metrics?: Record<string, ResourceMetric>;
-    testRunId?: string;
 }
 
 // @public
 export interface TestRunServerMetricConfigOutput {
-    createdBy?: string;
-    createdDateTime?: string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
     metrics?: Record<string, ResourceMetricOutput>;
-    testRunId?: string;
+    readonly testRunId?: string;
 }
 
 // @public
-export interface TestRunsListOutput {
-    nextLink?: string;
-    value: Array<TestRunOutput>;
-}
+export type TestRunServerMetricConfigResourceMergeAndPatch = Partial<TestRunServerMetricConfig>;
 
 // @public
 export interface TestRunStatistics {
-    errorCount?: number;
-    errorPct?: number;
-    maxResTime?: number;
-    meanResTime?: number;
-    medianResTime?: number;
-    minResTime?: number;
-    pct1ResTime?: number;
-    pct2ResTime?: number;
-    pct3ResTime?: number;
-    receivedKBytesPerSec?: number;
-    sampleCount?: number;
-    sentKBytesPerSec?: number;
-    throughput?: number;
-    transaction?: string;
 }
 
 // @public
 export interface TestRunStatisticsOutput {
-    errorCount?: number;
-    errorPct?: number;
-    maxResTime?: number;
-    meanResTime?: number;
-    medianResTime?: number;
-    minResTime?: number;
-    pct1ResTime?: number;
-    pct2ResTime?: number;
-    pct3ResTime?: number;
-    receivedKBytesPerSec?: number;
-    sampleCount?: number;
-    sentKBytesPerSec?: number;
-    throughput?: number;
-    transaction?: string;
+    readonly errorCount?: number;
+    readonly errorPct?: number;
+    readonly maxResTime?: number;
+    readonly meanResTime?: number;
+    readonly medianResTime?: number;
+    readonly minResTime?: number;
+    readonly pct1ResTime?: number;
+    readonly pct2ResTime?: number;
+    readonly pct3ResTime?: number;
+    readonly pct75ResTime?: number;
+    readonly pct96ResTime?: number;
+    readonly pct97ResTime?: number;
+    readonly pct98ResTime?: number;
+    readonly pct9999ResTime?: number;
+    readonly pct999ResTime?: number;
+    readonly receivedKBytesPerSec?: number;
+    readonly sampleCount?: number;
+    readonly sentKBytesPerSec?: number;
+    readonly throughput?: number;
+    readonly transaction?: string;
 }
-
-// @public (undocumented)
-export interface TestRunStop {
-    post(options?: TestRunStopParameters): StreamableMethod<TestRunStop200Response | TestRunStopDefaultResponse>;
-}
-
-// @public
-export interface TestRunStop200Response extends HttpResponse {
-    // (undocumented)
-    body: TestRunOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface TestRunStopDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public
-export interface TestRunStopDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestRunStopDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type TestRunStopParameters = RequestParameters;
 
 // @public
 export interface TestServerMetricConfig {
-    createdBy?: string;
-    createdDateTime?: Date | string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: Date | string;
-    metrics?: Record<string, ResourceMetric>;
-    testId?: string;
+    metrics: Record<string, ResourceMetric>;
 }
 
 // @public
 export interface TestServerMetricConfigOutput {
-    createdBy?: string;
-    createdDateTime?: string;
-    lastModifiedBy?: string;
-    lastModifiedDateTime?: string;
-    metrics?: Record<string, ResourceMetricOutput>;
-    testId?: string;
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
+    metrics: Record<string, ResourceMetricOutput>;
+    readonly testId?: string;
 }
 
 // @public
-export interface TestsListOutput {
-    nextLink?: string;
-    value: Array<TestOutput>;
-}
+export type TestServerMetricConfigResourceMergeAndPatch = Partial<TestServerMetricConfig>;
 
 // @public (undocumented)
-export interface TestUploadFile {
-    delete(options?: TestDeleteFileParameters): StreamableMethod<TestDeleteFile204Response | TestDeleteFileDefaultResponse>;
-    get(options?: TestGetFileParameters): StreamableMethod<TestGetFile200Response | TestGetFileDefaultResponse>;
-    put(options: TestUploadFileParameters): StreamableMethod<TestUploadFile201Response | TestUploadFileDefaultResponse>;
-}
+export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
 
 // @public
-export interface TestUploadFile201Response extends HttpResponse {
-    // (undocumented)
-    body: FileInfoOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface TestUploadFileBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
-}
-
-// @public (undocumented)
-export interface TestUploadFileDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
+export type TimeGrain = string;
 
 // @public
-export interface TestUploadFileDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseBodyOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & TestUploadFileDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface TestUploadFileMediaTypesParam {
-    contentType?: "application/octet-stream";
-}
-
-// @public (undocumented)
-export type TestUploadFileParameters = TestUploadFileQueryParam & TestUploadFileMediaTypesParam & TestUploadFileBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface TestUploadFileQueryParam {
-    // (undocumented)
-    queryParameters?: TestUploadFileQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface TestUploadFileQueryParamProperties {
-    fileType?: "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
-}
-
-// @public (undocumented)
-export type TestUploadFileSuccessResponse = TestUploadFile201Response;
+export type TimeGrainOutput = string;
 
 // @public
 export interface TimeSeriesElementOutput {

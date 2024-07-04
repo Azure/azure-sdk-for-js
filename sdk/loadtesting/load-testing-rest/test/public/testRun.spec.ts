@@ -7,7 +7,7 @@ import { createRecorder, createClient } from "./utils/recordedClient";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import * as fs from "fs";
-import { AzureLoadTestingClient, isUnexpected } from "../../src";
+import { AppComponent, AzureLoadTestingClient, isUnexpected } from "../../src";
 import { isNode } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper";
 
@@ -71,7 +71,6 @@ describe("Test Run Creation", () => {
       body: {
         testId: "abc",
         displayName: "sample123",
-        virtualUsers: 10,
       },
     });
 
@@ -79,7 +78,6 @@ describe("Test Run Creation", () => {
       throw testRunCreationResult.body.error;
     }
 
-    testRunCreationResult.body.testRunId = "adjwfjsdmf";
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
     await testRunPoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
@@ -95,8 +93,7 @@ describe("Test Run Creation", () => {
         contentType: "application/merge-patch+json",
         body: {
           testId: "abc",
-          displayName: "sample123",
-          virtualUsers: 10,
+          displayName: "sample123"
         },
       });
 
@@ -122,8 +119,7 @@ describe("Test Run Creation", () => {
       contentType: "application/merge-patch+json",
       body: {
         testId: "abc",
-        displayName: "sample123",
-        virtualUsers: 10,
+        displayName: "sample123"
       },
     });
 
@@ -146,19 +142,17 @@ describe("Test Run Creation", () => {
   });
 
   it("should create a app component for test run", async () => {
+    let appCompResourceId: string = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
+    let appComponent: AppComponent = {
+      resourceName: "App-Service-Sample-Demo",
+      resourceType: "Microsoft.Web/sites"
+    };
+    let components: Record<string, AppComponent> = {};
+    components[appCompResourceId] = appComponent;
     const result = await client.path("/test-runs/{testRunId}/app-components", "abcde").patch({
       contentType: "application/merge-patch+json",
       body: {
-        components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-            {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-              resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
-            },
-        },
+        components: components,
       },
     });
 

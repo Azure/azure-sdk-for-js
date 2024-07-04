@@ -42,8 +42,7 @@ async function main() {
     contentType: "application/merge-patch+json",
     body: {
       testId: testId,
-      displayName: displayName,
-      virtualUsers: 10,
+      displayName: displayName
     },
   });
 
