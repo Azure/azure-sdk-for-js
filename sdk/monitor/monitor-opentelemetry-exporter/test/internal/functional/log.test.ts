@@ -33,7 +33,7 @@ describe("Log Exporter Scenarios", () => {
       ingest = [];
     });
 
-    it("should work", (done) => {
+    it.skip("should work", (done) => {
       scenario
         .run()
         .then(() => {

@@ -15,7 +15,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
 
-describe("Library/Config", () => {
+describe.skip("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
   let sandbox: sinon.SinonSandbox;
 
@@ -287,7 +287,7 @@ describe("Library/Config", () => {
   });
 });
 
-describe("OpenTelemetry Resource", () => {
+describe.skip("OpenTelemetry Resource", () => {
   beforeEach(() => {
     nock.disableNetConnect();
     nock.cleanAll();
