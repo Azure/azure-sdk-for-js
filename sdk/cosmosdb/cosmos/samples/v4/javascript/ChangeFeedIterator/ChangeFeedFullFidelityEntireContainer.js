@@ -38,20 +38,24 @@ async function run() {
       throughput: 11000,
     };
     const { container } = await database.containers.createIfNotExists(containerDef);
+    logStep(`Created database: ${database.id} and container: ${container.id}`);
     // set change feed iterator options to fetch changes from now in all versions and deletes mode
     let changeFeedIteratorOptions = {
       maxItemCount: 5,
       changeFeedStartFrom: ChangeFeedStartFrom.Now(),
       changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
-
     let iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-    logStep("Start fetching changes from now");
-    let continuationToken = "";
+    logStep(
+      "Created change feed iterator to fetch changes from now for entire container with all versions and deletes mode",
+    );
+    logStep("Fetch change feed without any changes made to container");
     let res = await iterator.readNext();
-    console.log("Result should be empty as no changes are made yet", res.result);
-    // insert, upsert, and delete data from container
+    console.log("Result should be empty: ", res.result);
+    logStep("Insert, upsert, and delete data from container");
     await insertAndModifyData(container, 1, 3);
+    let continuationToken = "";
+    logStep("Start fetching changes and save continuation token");
     while (iterator.hasMoreResults) {
       const res = await iterator.readNext();
       if (res.statusCode === StatusCodes.NotModified) {
@@ -61,7 +65,7 @@ async function run() {
       }
       console.log("Results Found: ", res.result);
     }
-    // insert, upsert, and delete more data after fetching continuation token
+    logStep("Insert, upsert, and delete more data to fetch changes from continuation token");
     await insertAndModifyData(container, 3, 5);
     // set change feed iterator options to fetch changes from continuation token in all versions and deletes mode
     changeFeedIteratorOptions = {
@@ -70,6 +74,9 @@ async function run() {
       changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
     iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    logStep(
+      "Created change feed iterator to fetch changes from continuation with all versions and deletes mode",
+    );
     console.log("Start fetching changes from continuation token");
     while (iterator.hasMoreResults) {
       const res = await iterator.readNext();
