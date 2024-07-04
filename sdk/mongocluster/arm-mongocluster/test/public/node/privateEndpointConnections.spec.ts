@@ -10,12 +10,11 @@ import {
   env,
   Recorder,
   isPlaybackMode,
-  delay,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { MongoClusterManagementClient } from "../../src/mongoClusterManagementClient.js"
-import { createRecorder } from "./utils/recordedClient.js";
+import { MongoClusterManagementClient } from "../../../src/mongoClusterManagementClient.js"
+import { createRecorder } from "../utils/recordedClient.js";
 import { NetworkManagementClient } from "@azure/arm-network"
 
 export const testPollingOptions = {
@@ -30,7 +29,6 @@ describe("MongoCluster test", () => {
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
-  let fireWallName: string;
   let connectionName: string;
   let virtualNetworkName: string;
   let privateEndpointName: string;
@@ -46,7 +44,6 @@ describe("MongoCluster test", () => {
     location = "eastus";
     resourceGroup = "czwjstest";
     resourcename = "resourcetest";
-    fireWallName = "testfilerule";
     virtualNetworkName = "testvn";
     privateEndpointName = "testPEC";
   });
@@ -57,30 +54,6 @@ describe("MongoCluster test", () => {
     }
   });
 
-  it("mongoClusters create test", async function () {
-    const res = await client.mongoClusters.createOrUpdate(
-      resourceGroup,
-      resourcename,
-      {
-        location,
-        properties: {
-          administratorLogin: "mongoAdmin",
-          administratorLoginPassword: "Password01!",
-          nodeGroupSpecs: [
-            {
-              diskSizeGB: 128,
-              enableHa: true,
-              kind: "Shard",
-              nodeCount: 1,
-              sku: "M30",
-            },
-          ],
-          serverVersion: "5.0",
-        },
-      },
-      testPollingOptions);
-    assert.equal(res.name, resourcename);
-  });
 
   it("virtual network create test", async function () {
     const res = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(
@@ -129,24 +102,8 @@ describe("MongoCluster test", () => {
     assert.equal(res.name, privateEndpointName);
   });
 
-  it("firerules create test", async function () {
-    const res = await client.firewallRules.createOrUpdate(
-      resourceGroup,
-      resourcename,
-      fireWallName,
-      {
-        properties: {
-          startIpAddress: "0.0.0.0",
-          endIpAddress: "255.255.255.255"
-        },
-      },
-      testPollingOptions);
-    console.log(res)
-    assert.equal(res.name, fireWallName);
-  });
-
-  //need create a mongocluster first then create a private endpoint named testPEC with the mongocluster.
-  it("privateEndpointConnections create test", async function () {
+  // need create a mongocluster first then create a private endpoint named testPEC with the mongocluster.
+  it("private endpoint connection create test", async function () {
     for await (let item of client.privateEndpointConnections.listByMongoCluster(resourceGroup, resourcename)) {
       connectionName = String(item.name);
     }
@@ -166,24 +123,7 @@ describe("MongoCluster test", () => {
     assert.equal(res.name, connectionName);
   });
 
-  it("mongoClusters get test", async function () {
-    const res = await client.mongoClusters.get(
-      resourceGroup,
-      resourcename
-    );
-    assert.equal(res.name, resourcename);
-  });
-
-  it("firerules get test", async function () {
-    const res = await client.firewallRules.get(
-      resourceGroup,
-      resourcename,
-      fireWallName);
-    console.log(res)
-    assert.equal(res.name, fireWallName);
-  });
-
-  it("privateEndpointConnections get test", async function () {
+  it("private endpoint connection get test", async function () {
     const res = await client.privateEndpointConnections.get(
       resourceGroup,
       resourcename,
@@ -191,16 +131,7 @@ describe("MongoCluster test", () => {
     console.log(res)
     assert.equal(res.name, connectionName);
   });
-
-  it("mongoClusters list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("privateEndpointConnections list test", async function () {
+  it("private endpoint connection list test", async function () {
     const resArray = new Array();
     for await (let item of client.privateEndpointConnections.listByMongoCluster(resourceGroup, resourcename)) {
       resArray.push(item);
@@ -208,27 +139,7 @@ describe("MongoCluster test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("firewallRules list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-
-  it("mongoClusters update test", async function () {
-    const res = await client.mongoClusters.update(
-      resourceGroup,
-      resourcename,
-      {
-        tags: {}
-      }
-    )
-    assert.equal(res.name, resourcename);
-  });
-
-  it("privateEndpointConnections delete test", async function () {
+  it("private endpoint connection delete test", async function () {
     for await (let item of client.privateEndpointConnections.listByMongoCluster(resourceGroup, resourcename)) {
       connectionName = String(item.name);
     }
@@ -259,27 +170,5 @@ describe("MongoCluster test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  });
-
-  it("firewallRules delete test", async function () {
-    const resArray = new Array();
-    const res = await client.firewallRules.delete(resourceGroup, resourcename, fireWallName
-    )
-    for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  });
-
-  it("mongoClusters delete test", async function () {
-    const resArray = new Array();
-    const res = await client.mongoClusters.delete(resourceGroup, resourcename
-    )
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-
-    await delay(isPlaybackMode() ? 1000 : 60000)
   });
 })
