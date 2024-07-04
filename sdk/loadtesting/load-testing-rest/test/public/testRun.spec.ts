@@ -93,7 +93,7 @@ describe("Test Run Creation", () => {
         contentType: "application/merge-patch+json",
         body: {
           testId: "abc",
-          displayName: "sample123"
+          displayName: "sample123",
         },
       });
 
@@ -119,7 +119,7 @@ describe("Test Run Creation", () => {
       contentType: "application/merge-patch+json",
       body: {
         testId: "abc",
-        displayName: "sample123"
+        displayName: "sample123",
       },
     });
 
@@ -142,12 +142,12 @@ describe("Test Run Creation", () => {
   });
 
   it("should create a app component for test run", async () => {
-    let appCompResourceId: string = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
-    let appComponent: AppComponent = {
+    const appCompResourceId: string = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
+    const appComponent: AppComponent = {
       resourceName: "App-Service-Sample-Demo",
-      resourceType: "Microsoft.Web/sites"
+      resourceType: "Microsoft.Web/sites",
     };
-    let components: Record<string, AppComponent> = {};
+    const components: Record<string, AppComponent> = {};
     components[appCompResourceId] = appComponent;
     const result = await client.path("/test-runs/{testRunId}/app-components", "abcde").patch({
       contentType: "application/merge-patch+json",

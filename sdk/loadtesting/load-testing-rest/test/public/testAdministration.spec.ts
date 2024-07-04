@@ -108,23 +108,17 @@ describe("Test Creation", () => {
 
   it("should create the app components", async () => {
     const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
-    let appCompResourceId: string = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
-    let appComponent: AppComponent = {
+    const appCompResourceId: string = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
+    const appComponent: AppComponent = {
       resourceName: "App-Service-Sample-Demo",
-      resourceType: "Microsoft.Web/sites"
+      resourceType: "Microsoft.Web/sites",
     };
-    let components: Record<string, AppComponent> = {};
+    const components: Record<string, AppComponent> = {};
     components[appCompResourceId] = appComponent;
     const result = await client.path("/tests/{testId}/app-components", "abc").patch({
       contentType: "application/merge-patch+json",
       body: {
-        components: {
-          appCompResourceId:
-            {
-              resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-            },
-        },
+        components: components,
       },
     });
 

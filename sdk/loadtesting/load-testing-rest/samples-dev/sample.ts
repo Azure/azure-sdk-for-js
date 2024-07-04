@@ -8,7 +8,11 @@
  * @azsdk-weight 10
  */
 
-import AzureLoadTesting, { isUnexpected, getLongRunningPoller, AppComponent } from "@azure-rest/load-testing";
+import AzureLoadTesting, {
+  isUnexpected,
+  getLongRunningPoller,
+  AppComponent,
+} from "@azure-rest/load-testing";
 import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
@@ -77,7 +81,7 @@ async function main() {
   let appCompResourceId = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
   let appComponent: AppComponent = {
     resourceName: "App-Service-Sample-Demo",
-    resourceType: "Microsoft.Web/sites"
+    resourceType: "Microsoft.Web/sites",
   };
   let components: Record<string, AppComponent> = {};
   components[appCompResourceId] = appComponent;

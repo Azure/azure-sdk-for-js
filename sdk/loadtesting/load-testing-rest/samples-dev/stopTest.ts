@@ -42,7 +42,7 @@ async function main() {
     contentType: "application/merge-patch+json",
     body: {
       testId: testId,
-      displayName: displayName
+      displayName: displayName,
     },
   });
 

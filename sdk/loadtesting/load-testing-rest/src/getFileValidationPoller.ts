@@ -29,10 +29,7 @@ export async function getFileValidationPoller(
     requestUrl.indexOf("tests/") + 6,
     requestUrl.lastIndexOf("/files"),
   );
-  const fileName = requestUrl.substring(
-    requestUrl.indexOf("files/") + 6,
-    requestUrl.indexOf("?")
-  ); // NOTE/TODO(mitsha): Hack until the response body is fixed via typespec
+  const fileName = requestUrl.substring(requestUrl.indexOf("files/") + 6, requestUrl.indexOf("?")); // NOTE/TODO(mitsha): Hack until the response body is fixed via typespec
   type Handler = (state: OperationState<LoadTestAdministrationGetTestFile200Response>) => void;
 
   const state: OperationState<LoadTestAdministrationGetTestFile200Response> = {
