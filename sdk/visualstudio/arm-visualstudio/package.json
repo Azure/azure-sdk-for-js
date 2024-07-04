@@ -29,7 +29,7 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.5",
     "@azure/identity": "^4.0.1",
