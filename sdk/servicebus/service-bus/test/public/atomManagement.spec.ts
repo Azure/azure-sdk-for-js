@@ -21,6 +21,7 @@ import { TestConstants } from "./fakeTestSecrets";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 import { versionsToTest } from "@azure-tools/test-utils";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -63,7 +64,8 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
-        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
+        env[EnvVarNames.SERVICEBUS_FQDN],
+        createTestCredential(),
         { serviceVersion: serviceVersion as "2021-05" | "2017-04" },
       );
     });
@@ -349,11 +351,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     describe("Atom management - Authentication", function (): void {
       if (isNode) {
         it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-          const connectionStringProperties = parseServiceBusConnectionString(
-            env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-          );
-          const host = connectionStringProperties.fullyQualifiedNamespace;
-          const endpoint = connectionStringProperties.endpoint;
+          const host = EnvVarNames.SERVICEBUS_FQDN;
           const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
             host,
             new DefaultAzureCredential(),
@@ -2976,7 +2974,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         if (!premiumNamespace) {
           this.skip();
         }
-        atomClient = new ServiceBusAdministrationClient(premiumNamespace);
+        atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
       });
 
       function setEntityNameWithMaxSize(
