@@ -65,7 +65,7 @@
     "eslint": "^8.55.0",
     "mkdirp": "^3.0.1",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",

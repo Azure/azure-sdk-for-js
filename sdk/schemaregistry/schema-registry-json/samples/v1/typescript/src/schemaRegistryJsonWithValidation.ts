@@ -97,9 +97,9 @@ export async function main() {
   };
 
   // deserialize the message back to an object with validation
-  const deserializedObject = await serializer.deserialize(message, validateOptions);
+  const deserializedObject = await serializer.deserialize<User>(message, validateOptions);
   console.log("Deserialized object:");
-  console.log(JSON.stringify(deserializedObject as User));
+  console.log(JSON.stringify(deserializedObject));
 }
 
 main().catch((err) => {

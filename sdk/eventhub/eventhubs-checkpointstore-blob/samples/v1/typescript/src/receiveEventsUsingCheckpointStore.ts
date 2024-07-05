@@ -16,7 +16,7 @@ import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 import { ContainerClient } from "@azure/storage-blob";
 import "dotenv/config";
 
-const fqns = process.env["EVENTHUB_FQDN"] || "<fully qualified namespace>";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
 const consumerGroup =
   process.env["EVENTHUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
@@ -38,7 +38,7 @@ export async function main() {
 
   const consumerClient = new EventHubConsumerClient(
     consumerGroup,
-    fqns,
+    fullyQualifiedNamespace,
     eventHubName,
     credential,
     checkpointStore,
