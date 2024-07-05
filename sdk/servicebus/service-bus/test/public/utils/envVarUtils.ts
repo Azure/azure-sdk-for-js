@@ -44,9 +44,7 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
     [EnvVarNames.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
       EnvVarNames.SERVICEBUS_CONNECTION_STRING,
     ),
-    [EnvVarNames.SERVICEBUS_FQDN]: getEnvVarValue(
-      EnvVarNames.SERVICEBUS_FQDN,
-    ),
+    [EnvVarNames.SERVICEBUS_FQDN]: getEnvVarValue(EnvVarNames.SERVICEBUS_FQDN),
   };
 
   return envVars;

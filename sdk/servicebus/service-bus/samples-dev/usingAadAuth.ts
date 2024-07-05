@@ -30,8 +30,7 @@ dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
-  process.env.SERVICEBUS_FQDN ||
-  "<your-servicebus-namespace>.servicebus.windows.net";
+  process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
@@ -51,7 +50,7 @@ export async function main() {
     process.exit(1);
   }
 
-  const tokenCreds = new  DefaultAzureCredential();
+  const tokenCreds = new DefaultAzureCredential();
 
   const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
 

@@ -23,8 +23,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const fqdn =
-  process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 
 // NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
