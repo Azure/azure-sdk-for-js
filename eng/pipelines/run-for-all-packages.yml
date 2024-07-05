@@ -17,6 +17,10 @@ stages:
             parameters:
               NodeVersion: 20.x
 
+          - template: ./templates/steps/generate-doc.yml
+            parameters:
+              ServiceDirectory: core
+
           - script: |
               node common/scripts/install-run-rush.js install
             displayName: "Install library dependencies"
@@ -31,13 +35,13 @@ stages:
             displayName: "Build All Packages"
 
           - script: |
-              node eng/tools/rush-runner.js build:test -t @azure/app-configuration -t @azure/event-hubs
+              node eng/tools/rush-runner.js build:test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -t @azure-rest/synapse-access-control -t @azure/storage-blob
             displayName: "Build Tests for Selected Packages"
 
           - script: |
-              node eng/tools/rush-runner.js unit-test -t @azure/app-configuration -t @azure/event-hubs -p 1
+              node eng/tools/rush-runner.js unit-test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -p 1
             displayName: "Run Unit Tests for Selected Packages"
 
           - script: |
-              node eng/tools/rush-runner.js integration-test --only @azure/app-configuration --only @azure-rest/synapse-access-control  -p 1
+              node eng/tools/rush-runner.js integration-test --only @azure/app-configuration --only @azure/storage-blob --only @azure-rest/synapse-access-control -p 1
             displayName: "Run Integration Tests for Selected Packages"
