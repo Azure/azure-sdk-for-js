@@ -25,10 +25,13 @@ export async function getLongRunningPoller(
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
   initialResponse: TestProfileRunCreateOrUpdateSuccessResponse,
-) : Promise<TestProfileRunCompletionPoller>;
+): Promise<TestProfileRunCompletionPoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
-  initialResponse: TestRunCreateOrUpdateSuccessResponse | TestUploadFileSuccessResponse | TestProfileRunCreateOrUpdateSuccessResponse,
+  initialResponse:
+    | TestRunCreateOrUpdateSuccessResponse
+    | TestUploadFileSuccessResponse
+    | TestProfileRunCreateOrUpdateSuccessResponse,
 ): Promise<TestRunCompletionPoller | FileUploadAndValidatePoller | TestProfileRunCompletionPoller> {
   if (isFileUpload(initialResponse)) {
     return getFileValidationPoller(client, initialResponse);
@@ -48,6 +51,8 @@ function isTestRunCreation(response: any): response is TestRunCreateOrUpdateSucc
   return response.request.url.includes("/test-runs/");
 }
 
-function isTestProfileRunCreation(response: any): response is TestProfileRunCreateOrUpdateSuccessResponse {
+function isTestProfileRunCreation(
+  response: any,
+): response is TestProfileRunCreateOrUpdateSuccessResponse {
   return response.request.url.includes("/test-profile-runs/");
 }

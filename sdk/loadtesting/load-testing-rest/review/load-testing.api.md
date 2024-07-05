@@ -178,6 +178,9 @@ export function getLongRunningPoller(client: AzureLoadTestingClient, initialResp
 // @public (undocumented)
 export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse): Promise<TestRunCompletionPoller>;
 
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse): Promise<TestProfileRunCompletionPoller>;
+
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
     page: TPage;
@@ -2057,6 +2060,12 @@ export interface TestProfileRunAdministrationStopDefaultResponse extends HttpRes
 
 // @public (undocumented)
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
+
+// @public
+export type TestProfileRunCompletionPoller = SimplePollerLike<OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>, TestProfileRunAdministrationGetTestProfileRun200Response>;
+
+// @public (undocumented)
+export type TestProfileRunCreateOrUpdateSuccessResponse = TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
 
 // @public
 export interface TestProfileRunOutput {

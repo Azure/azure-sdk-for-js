@@ -26,7 +26,9 @@ export async function getTestProfileRunCompletionPoller(
     | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
   polledOperationOptions: PolledOperationOptions = {},
 ): Promise<TestProfileRunCompletionPoller> {
-  type Handler = (state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>) => void;
+  type Handler = (
+    state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+  ) => void;
 
   const state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response> = {
     status: "notStarted",
@@ -51,7 +53,9 @@ export async function getTestProfileRunCompletionPoller(
       }
 
       if (testProfileRunId) {
-        const getTestProfileRunStatus = await client.path("/test-profile-runs/{testProfileRunId}", testProfileRunId).get();
+        const getTestProfileRunStatus = await client
+          .path("/test-profile-runs/{testProfileRunId}", testProfileRunId)
+          .get();
         if (isUnexpected(getTestProfileRunStatus)) {
           state.status = "failed";
           state.error = new Error(getTestProfileRunStatus.body.error.message);
@@ -115,7 +119,9 @@ export async function getTestProfileRunCompletionPoller(
     },
 
     onProgress(
-      callback: (state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>) => void,
+      callback: (
+        state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+      ) => void,
     ): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
