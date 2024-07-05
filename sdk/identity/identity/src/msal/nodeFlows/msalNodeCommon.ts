@@ -70,7 +70,12 @@ export interface MsalNodeOptions extends MsalFlowOptions {
     enableUnsafeSupportLogging?: boolean;
   };
 }
+export type ClientAssertionCallback = (config: ClientAssertionConfig) => Promise<string>;
 
+export type ClientAssertionConfig = {
+  clientId: string;
+  tokenEndpoint?: string;
+};
 /**
  * MSAL partial base client for Node.js.
  *
@@ -113,7 +118,7 @@ export abstract class MsalNode implements MsalFlow {
    */
   private cachedClaims: string | undefined;
 
-  protected getAssertion: (() => Promise<string>) | undefined;
+  protected getAssertion?: () => Promise<string>;
   constructor(options: MsalNodeOptions) {
     this.logger = options.logger;
     this.msalConfig = this.defaultNodeMsalConfig(options);
@@ -283,8 +288,10 @@ export abstract class MsalNode implements MsalFlow {
       this.app.public = new msalNode.PublicClientApplication(this.msalConfig);
     }
 
-    if (this.getAssertion) {
-      this.msalConfig.auth.clientAssertion = await this.getAssertion();
+    // write a test so that user callback is invoked just once and the second time the token is cached and user callback not called
+    //
+    if (this.getAssertion !== undefined) {
+      this.msalConfig.auth.clientAssertion = this.getAssertion;
     }
     // The confidential client requires either a secret, assertion or certificate.
     if (

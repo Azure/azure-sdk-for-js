@@ -7,133 +7,139 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineTemplate,
-  VirtualMachineTemplatesListByResourceGroupOptionalParams,
   VirtualMachineTemplatesListBySubscriptionOptionalParams,
+  VirtualMachineTemplatesListByResourceGroupOptionalParams,
   VirtualMachineTemplatesGetOptionalParams,
   VirtualMachineTemplatesGetResponse,
   VirtualMachineTemplatesCreateOrUpdateOptionalParams,
   VirtualMachineTemplatesCreateOrUpdateResponse,
-  VirtualMachineTemplatesDeleteOptionalParams,
-  ResourcePatch,
+  VirtualMachineTemplateTagsUpdate,
   VirtualMachineTemplatesUpdateOptionalParams,
-  VirtualMachineTemplatesUpdateResponse
+  VirtualMachineTemplatesUpdateResponse,
+  VirtualMachineTemplatesDeleteOptionalParams,
+  VirtualMachineTemplatesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineTemplates. */
 export interface VirtualMachineTemplates {
   /**
-   * List of VirtualMachineTemplates in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<VirtualMachineTemplate>;
-  /**
    * List of VirtualMachineTemplates in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams
+    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<VirtualMachineTemplate>;
+  /**
+   * List of VirtualMachineTemplates in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineTemplate>;
   /**
    * Implements VirtualMachineTemplate GET method.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesGetOptionalParams
+    options?: VirtualMachineTemplatesGetOptionalParams,
   ): Promise<VirtualMachineTemplatesGetResponse>;
   /**
    * Onboards the ScVmm VM Template as an Azure VM Template resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
-   * @param body Request payload.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    body: VirtualMachineTemplate,
-    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams
+    resource: VirtualMachineTemplate,
+    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
       VirtualMachineTemplatesCreateOrUpdateResponse
     >
   >;
   /**
    * Onboards the ScVmm VM Template as an Azure VM Template resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
-   * @param body Request payload.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    body: VirtualMachineTemplate,
-    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams
+    resource: VirtualMachineTemplate,
+    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineTemplatesCreateOrUpdateResponse>;
   /**
+   * Updates the VirtualMachineTemplate resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    virtualMachineTemplateName: string,
+    properties: VirtualMachineTemplateTagsUpdate,
+    options?: VirtualMachineTemplatesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesUpdateResponse>,
+      VirtualMachineTemplatesUpdateResponse
+    >
+  >;
+  /**
+   * Updates the VirtualMachineTemplate resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    virtualMachineTemplateName: string,
+    properties: VirtualMachineTemplateTagsUpdate,
+    options?: VirtualMachineTemplatesUpdateOptionalParams,
+  ): Promise<VirtualMachineTemplatesUpdateResponse>;
+  /**
    * Deregisters the ScVmm VM Template from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: VirtualMachineTemplatesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesDeleteResponse>,
+      VirtualMachineTemplatesDeleteResponse
+    >
+  >;
   /**
    * Deregisters the ScVmm VM Template from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Updates the VirtualMachineTemplate resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
-   * @param body VirtualMachineTemplates patch details.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    virtualMachineTemplateName: string,
-    body: ResourcePatch,
-    options?: VirtualMachineTemplatesUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesUpdateResponse>,
-      VirtualMachineTemplatesUpdateResponse
-    >
-  >;
-  /**
-   * Updates the VirtualMachineTemplate resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
-   * @param body VirtualMachineTemplates patch details.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    virtualMachineTemplateName: string,
-    body: ResourcePatch,
-    options?: VirtualMachineTemplatesUpdateOptionalParams
-  ): Promise<VirtualMachineTemplatesUpdateResponse>;
+    options?: VirtualMachineTemplatesDeleteOptionalParams,
+  ): Promise<VirtualMachineTemplatesDeleteResponse>;
 }

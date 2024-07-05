@@ -11,22 +11,26 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ProviderActionsImpl,
   OperationsImpl,
-  ReportsImpl,
   ReportImpl,
-  SnapshotsImpl,
-  SnapshotImpl
+  EvidenceImpl,
+  ScopingConfigurationImpl,
+  SnapshotImpl,
+  WebhookImpl,
 } from "./operations";
 import {
+  ProviderActions,
   Operations,
-  Reports,
   Report,
-  Snapshots,
-  Snapshot
+  Evidence,
+  ScopingConfiguration,
+  Snapshot,
+  Webhook,
 } from "./operationsInterfaces";
 import { AppComplianceAutomationToolForMicrosoft365OptionalParams } from "./models";
 
@@ -41,7 +45,7 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: AppComplianceAutomationToolForMicrosoft365OptionalParams
+    options?: AppComplianceAutomationToolForMicrosoft365OptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -53,10 +57,10 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
     }
     const defaults: AppComplianceAutomationToolForMicrosoft365OptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appcomplianceautomation/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-appcomplianceautomation/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -66,20 +70,21 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -89,7 +94,7 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -99,20 +104,22 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-16-preview";
+    this.apiVersion = options.apiVersion || "2024-06-27";
+    this.providerActions = new ProviderActionsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.reports = new ReportsImpl(this);
     this.report = new ReportImpl(this);
-    this.snapshots = new SnapshotsImpl(this);
+    this.evidence = new EvidenceImpl(this);
+    this.scopingConfiguration = new ScopingConfigurationImpl(this);
     this.snapshot = new SnapshotImpl(this);
+    this.webhook = new WebhookImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -125,7 +132,7 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -139,14 +146,16 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  providerActions: ProviderActions;
   operations: Operations;
-  reports: Reports;
   report: Report;
-  snapshots: Snapshots;
+  evidence: Evidence;
+  scopingConfiguration: ScopingConfiguration;
   snapshot: Snapshot;
+  webhook: Webhook;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BlobContainersListOptionalParams,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersList.json
  */
 async function listContainers() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listContainers() {
   const resArray = new Array();
   for await (let item of client.blobContainers.list(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }
@@ -44,7 +44,7 @@ async function listContainers() {
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/DeletedBlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedBlobContainersList.json
  */
 async function listDeletedContainers() {
   const subscriptionId =
@@ -59,7 +59,7 @@ async function listDeletedContainers() {
   for await (let item of client.blobContainers.list(
     resourceGroupName,
     accountName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
