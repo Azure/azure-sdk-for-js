@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2024-07-05)
+## 1.0.0 (2024-07-08)
 
 This release targets Azure Dev Center 2023-04-01 General Available API, which is the same version as the previous 1.0.0-beta.3 release.
 
