@@ -15,7 +15,7 @@ dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
-  process.env.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE ||
+  process.env.SERVICEBUS_FQDN ||
   "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 

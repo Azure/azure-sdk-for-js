@@ -22,7 +22,7 @@ function getManagementClient(): ServiceBusAdministrationClient {
   if (client === undefined) {
     const env = getEnvVars();
     client = new ServiceBusAdministrationClient(
-      env[EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE],
+      env[EnvVarNames.SERVICEBUS_FQDN],
       createTestCredential(),
     );
   }

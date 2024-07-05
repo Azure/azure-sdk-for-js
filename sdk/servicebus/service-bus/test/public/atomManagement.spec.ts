@@ -2969,7 +2969,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     }
 
     describe("Premium Namespaces", () => {
-      const premiumNamespace = getEnvVarValue("SERVICEBUS_FULLY_QUALIFIED_NAMESPACE_PREMIUM");
+      const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
       before(function (this: Mocha.Context) {

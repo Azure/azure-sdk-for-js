@@ -523,7 +523,7 @@ describe("Send Batch", () => {
 });
 
 describe("Premium namespaces - Sending", () => {
-  const premiumNamespace = getEnvVarValue("SERVICEBUS_FULLY_QUALIFIED_NAMESPACE_PREMIUM");
+  const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
   let atomClient: ServiceBusAdministrationClient;
 
   before(function (this: Mocha.Context) {

@@ -6,7 +6,7 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
  * Enum to abstract away string values used for referencing the Environment Variable names.
  */
 export enum EnvVarNames {
-  SERVICEBUS_FULLY_QUALIFIED_NAMESPACE = "SERVICEBUS_FULLY_QUALIFIED_NAMESPACE",
+  SERVICEBUS_FQDN = "SERVICEBUS_FQDN",
   SERVICEBUS_CONNECTION_STRING = "SERVICEBUS_CONNECTION_STRING",
 }
 
@@ -34,7 +34,7 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
   }
 
   // Throw error if required environment variables are missing.
-  [EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE].forEach(function (name: string) {
+  [EnvVarNames.SERVICEBUS_FQDN].forEach(function (name: string) {
     if (!getEnvVarValue(name)) {
       throw new Error(`Define ${name} in your environment before running integration tests.`);
     }
@@ -44,8 +44,8 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
     [EnvVarNames.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
       EnvVarNames.SERVICEBUS_CONNECTION_STRING,
     ),
-    [EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE]: getEnvVarValue(
-      EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE,
+    [EnvVarNames.SERVICEBUS_FQDN]: getEnvVarValue(
+      EnvVarNames.SERVICEBUS_FQDN,
     ),
   };
 

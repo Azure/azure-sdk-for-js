@@ -588,15 +588,15 @@ describe("ServiceBusClient live tests", () => {
     let errorWasThrown: boolean = false;
 
     const env = getEnvVars();
-    const sbFullQualifiedNamespace = env.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE;
+    const sbFullQualifiedNamespace = env.SERVICEBUS_FQDN;
 
     /**
      * Utility to create TokenCredential using `@azure/identity`
      */
     function getDefaultTokenCredential(): TokenCredential {
       should.exist(
-        env[EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE],
-        "define SERVICEBUS_FULLY_QUALIFIED_NAMESPACE in your environment before running integration tests.",
+        env[EnvVarNames.SERVICEBUS_FQDN],
+        "define SERVICEBUS_FQDN in your environment before running integration tests.",
       );
       return createTestCredential();
     }

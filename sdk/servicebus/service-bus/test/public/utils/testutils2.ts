@@ -552,13 +552,13 @@ export async function drainReceiveAndDeleteReceiver(receiver: ServiceBusReceiver
 }
 
 export function getFullyQualifiedNamespace(): string {
-  if (!env[EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE]) {
+  if (!env[EnvVarNames.SERVICEBUS_FQDN]) {
     throw new Error(`No service bus fully qualified namespace string defined in
-${EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE}. If you're in a unit test you should not be depending on the deployed environment!
+${EnvVarNames.SERVICEBUS_FQDN}. If you're in a unit test you should not be depending on the deployed environment!
 `);
   }
 
-  return env[EnvVarNames.SERVICEBUS_FULLY_QUALIFIED_NAMESPACE];
+  return env[EnvVarNames.SERVICEBUS_FQDN];
 }
 export function getConnectionString(): string {
   if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
