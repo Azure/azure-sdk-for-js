@@ -2,20 +2,21 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
-import { tracingClient } from "../../util/tracing";
-import { IdentityClient } from "../../client/identityClient";
-import { ManagedIdentityApplication } from "@azure/msal-node";
-import { defaultLoggerCallback, getMSALLogLevel } from "../../msal/utils";
-import { getLogLevel } from "@azure/logger";
-import { mapScopesToResource } from "./utils";
-import { MsalToken, ValidMsalToken } from "../../msal/types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
+import { MsalToken, ValidMsalToken } from "../../msal/types";
+import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
+import { defaultLoggerCallback, getMSALLogLevel } from "../../msal/utils";
+
+import { IdentityClient } from "../../client/identityClient";
 import { MSIConfiguration } from "./models";
-import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { ManagedIdentityApplication } from "@azure/msal-node";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { getLogLevel } from "@azure/logger";
 import { imdsMsi } from "./imdsMsi";
 import { imdsRetryPolicy } from "./imdsRetryPolicy";
+import { mapScopesToResource } from "./utils";
+import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { tracingClient } from "../../util/tracing";
 
 const logger = credentialLogger("ManagedIdentityCredential(MSAL)");
 
@@ -55,9 +56,15 @@ export class MsalMsiProvider {
     clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
     options: ManagedIdentityCredentialOptions = {},
   ) {
-    const { resolvedOptions, resolvedClientId } = disambiguateOverload(clientIdOrOptions, options);
-    this.clientId = resolvedClientId;
-    this.resourceId = resolvedOptions.resourceId;
+    let _options: ManagedIdentityCredentialOptions = {};
+    if (typeof clientIdOrOptions === "string") {
+      this.clientId = clientIdOrOptions;
+      _options = options;
+    } else {
+      this.clientId = clientIdOrOptions?.clientId;
+      _options = clientIdOrOptions ?? {};
+    }
+    this.resourceId = _options?.resourceId;
 
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
@@ -67,14 +74,14 @@ export class MsalMsiProvider {
     }
 
     // ManagedIdentity uses http for local requests
-    resolvedOptions.allowInsecureConnection = true;
+    _options.allowInsecureConnection = true;
 
-    if (resolvedOptions?.retryOptions?.maxRetries !== undefined) {
-      this.msiRetryConfig.maxRetries = resolvedOptions.retryOptions.maxRetries;
+    if (_options?.retryOptions?.maxRetries !== undefined) {
+      this.msiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
     }
 
     this.identityClient = new IdentityClient({
-      ...resolvedOptions,
+      ..._options,
       additionalPolicies: [{ policy: imdsRetryPolicy(this.msiRetryConfig), position: "perCall" }],
     });
 
@@ -96,7 +103,7 @@ export class MsalMsiProvider {
     });
 
     this.isAvailableIdentityClient = new IdentityClient({
-      ...resolvedOptions,
+      ..._options,
       retryOptions: {
         maxRetries: 0,
       },
@@ -261,31 +268,4 @@ function isNetworkError(err: any): boolean {
   }
 
   return false;
-}
-/**
- * Disambiguate the two overloads for the constructor of ManagedIdentityCredential.
- *
- * The first overload is `new ManagedIdentityCredential(clientId: string, options?: ManagedIdentityCredentialOptions)`.
- * The second overload is `new ManagedIdentityCredential(options?: ManagedIdentityCredentialOptions)`.
- *
- * This function takes the arguments passed to the constructor and returns a clientId and options object that are guaranteed to be correct.
- *
- * @param clientIdOrOptions - clientId in one overload, options in the other
- * @param options - options in one overload, empty object in the other
- * @returns
- */
-function disambiguateOverload(
-  clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
-  options: ManagedIdentityCredentialOptions = {},
-): { resolvedClientId?: string; resolvedOptions: ManagedIdentityCredentialOptions } {
-  if (typeof clientIdOrOptions === "string") {
-    // new ManagedIdentityCredential(clientId: string, options?: ManagedIdentityCredentialOptions) format
-    return { resolvedClientId: clientIdOrOptions, resolvedOptions: options };
-  } else {
-    // new ManagedIdentityCredential(options?: ManagedIdentityCredentialOptions) format
-    return {
-      resolvedClientId: clientIdOrOptions?.clientId,
-      resolvedOptions: clientIdOrOptions ?? {},
-    };
-  }
 }
