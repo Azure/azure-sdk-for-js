@@ -8,6 +8,9 @@ import {
   LoadTestRunCreateOrUpdateTestRun200Response,
   LoadTestRunCreateOrUpdateTestRun201Response,
   LoadTestRunGetTestRun200Response,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
+  TestProfileRunAdministrationGetTestProfileRun200Response,
 } from "./responses.js";
 
 /** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
@@ -475,6 +478,14 @@ export type TestRunCompletionPoller = SimplePollerLike<
   LoadTestRunGetTestRun200Response
 >;
 
+/**
+ * Poller for Test Profile Run Completion
+ */
+export type TestProfileRunCompletionPoller = SimplePollerLike<
+  OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+  TestProfileRunAdministrationGetTestProfileRun200Response
+>;
+
 export interface PolledOperationOptions {
   /**
    * Time delay between poll requests, in milliseconds.
@@ -488,3 +499,7 @@ export type TestRunCreateOrUpdateSuccessResponse =
   | LoadTestRunCreateOrUpdateTestRun201Response;
 
 export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
+
+export type TestProfileRunCreateOrUpdateSuccessResponse =
+  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
+  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
