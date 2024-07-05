@@ -37,6 +37,11 @@ const suffixlessEndpointSanitizer = (endpointEnv: string): FindReplaceSanitizer 
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK4001",
+  ],
 };
 
 export async function createRecordedClient<T extends InputSchema>(
