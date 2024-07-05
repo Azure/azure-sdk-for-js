@@ -99,25 +99,13 @@
       "type": "string",
       "value": "[reference(variables('eventGridTopicName')).endpoint]"
     },
-    "EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY": {
-      "type": "string",
-      "value": "[listKeys(variables('eventGridTopicName'), '2020-06-01').key1]"
-    },
     "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT": {
       "type": "string",
       "value": "[reference(variables('cloudEventTopicName')).endpoint]"
     },
-    "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY": {
-      "type": "string",
-      "value": "[listKeys(variables('cloudEventTopicName'), '2020-06-01').key1]"
-    },
     "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT": {
       "type": "string",
       "value": "[reference(variables('customEventTopicName')).endpoint]"
-    },
-    "EVENT_GRID_CUSTOM_SCHEMA_API_KEY": {
-      "type": "string",
-      "value": "[listKeys(variables('customEventTopicName'), '2020-06-01').key1]"
     },
     "SERVICE_BUS_CONNECTION_STRING": {
       "type": "string",

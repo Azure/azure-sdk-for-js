@@ -10,7 +10,7 @@ import {
 } from "@azure-tools/test-recorder";
 
 import { EventGridPublisherClient, InputSchema } from "../../../src";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
@@ -20,11 +20,8 @@ export interface RecordedClient<T extends InputSchema> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT: "https://endpoint/api/events",
-  EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT: "https://endpoint/api/events",
-  EVENT_GRID_CUSTOM_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT: "https://endpoint/api/events",
 };
 
@@ -46,7 +43,6 @@ export async function createRecordedClient<T extends InputSchema>(
   currentTest: Test | undefined,
   endpointEnv: string,
   eventSchema: T,
-  apiKeyEnv: string,
   options: {
     removeApiEventsSuffixBool?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
@@ -68,7 +64,7 @@ export async function createRecordedClient<T extends InputSchema>(
         ? removeApiEventsSuffix(assertEnvironmentVariable(endpointEnv))
         : assertEnvironmentVariable(endpointEnv),
       eventSchema,
-      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      createTestCredential(),
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,
       }),
