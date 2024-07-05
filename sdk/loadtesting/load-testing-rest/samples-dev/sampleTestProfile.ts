@@ -18,6 +18,7 @@ async function main() {
     const testDisplayName = "Sample Load Test using JS SDK";
     const targetResourceId = process.env["LOADTESTSERVICE_TARGETRESOURCEID"] || "";
     const testProfileDisplayName = "Sample Test Profile using JS SDK";
+    const testProfileRunDisplayName = "Sample Test Profile Run using JS SDK";
     const testId = uuidv4(); // ID Assigned to the test
     const testProfileId = uuidv4(); // ID Assigned to the test profile
     const testProfileRunId = uuidv4(); // ID Assigned to the test profile run
@@ -34,12 +35,17 @@ async function main() {
                 loadTestConfiguration: {
                     engineInstances: 1,
                 },
+                autoStopCriteria: {
+                    autoStopDisabled: true
+                }
             },
         });
 
     if (isUnexpected(testCreationResult)) {
         throw testCreationResult.body.error;
     }
+
+    console.log("Test Created with ID: " + testCreationResult.body.testId); // Remove
 
     // Step 2 : Upload test plan for the test
     const fileUploadResult = await client
@@ -52,6 +58,8 @@ async function main() {
     if (isUnexpected(fileUploadResult)) {
         throw fileUploadResult.body.error;
     }
+
+    console.log("File uploaded successfully."); // Remove
 
     let fileValidationResult;
     const fileValidationPoller = await getLongRunningPoller(client, fileUploadResult);
@@ -69,6 +77,8 @@ async function main() {
             fileValidationResult.body.validationFailureDetails,
         );
     }
+
+    console.log("File uploaded and validated successfully."); // Remove
 
     // Step 3 : Create a test profile
     const testProfileCreationResult = await client
@@ -99,6 +109,48 @@ async function main() {
     if (isUnexpected(testProfileCreationResult)) {
         throw testProfileCreationResult.body.error;
     }
+
+    console.log("TestProfile created successfully with ID: " + testProfileCreationResult.body.testProfileId); // Remove
+
+    // Step 4 : Create Test Profile Run
+    const testProfileRunCreationResult = await client
+        .path("/test-profile-runs/{testProfileRunId}", testProfileRunId)
+        .patch({
+            contentType: "application/merge-patch+json",
+            body: {
+                displayName: testProfileRunDisplayName,
+                testProfileId: testProfileId,
+                description: "",
+            }
+        });
+
+    if (isUnexpected(testProfileRunCreationResult)) {
+        throw testProfileRunCreationResult.body.error;
+    }
+
+    console.log("TestProfileRun created successfully with ID: " + testProfileRunId);
+
+    let testProfileRunCompletionResult;
+    const testProfileRunPoller = await getLongRunningPoller(client, testProfileRunCreationResult);
+    try {
+        testProfileRunCompletionResult = await testProfileRunPoller.pollUntilDone({
+            abortSignal: AbortController.timeout(1800 * 1000), // timeout of 30 minutes
+        })
+    } catch (ex: any) {
+        new Error("Error in polling test profile run completion: " + ex.message);
+    }
+
+    if (testProfileRunPoller.getOperationState().status != "succeeded" && testProfileRunCompletionResult) {
+        var testProfileRunErrors = testProfileRunCompletionResult.body.errorDetails
+            ?.reduce((v, e) => v + e.message , "");
+        throw new Error(
+            "Test Profile Run failed to complete with error: " +
+            testProfileRunErrors,
+        );
+    }
+
+    console.log("TestProfileRun completed successfully."); // Remove
+
 }
 
 main().catch(console.error);
