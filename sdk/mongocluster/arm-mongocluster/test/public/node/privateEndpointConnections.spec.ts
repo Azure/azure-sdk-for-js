@@ -10,6 +10,7 @@ import {
   env,
   Recorder,
   isPlaybackMode,
+  delay
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -42,8 +43,8 @@ describe("MongoCluster test", () => {
     client = new MongoClusterManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     networkClient = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
-    resourcename = "resourcetest";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest1";
     virtualNetworkName = "testvn";
     privateEndpointName = "testPEC";
   });
@@ -52,6 +53,31 @@ describe("MongoCluster test", () => {
     if (recorder?.recordingId) {
       await recorder.stop();
     }
+  });
+
+  it("mongoClusters for private endpoint create test", async function () {
+    const res = await client.mongoClusters.createOrUpdate(
+      resourceGroup,
+      resourcename,
+      {
+        location,
+        properties: {
+          administratorLogin: "mongoAdmin",
+          administratorLoginPassword: "Password01!",
+          nodeGroupSpecs: [
+            {
+              diskSizeGB: 128,
+              enableHa: true,
+              kind: "Shard",
+              nodeCount: 1,
+              sku: "M30",
+            },
+          ],
+          serverVersion: "5.0",
+        },
+      },
+      testPollingOptions);
+    assert.equal(res.name, resourcename);
   });
 
 
@@ -95,7 +121,7 @@ describe("MongoCluster test", () => {
           },
         ],
         subnet: {
-          id: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/" + virtualNetworkName + "/subnets/testsubnet",
+          id: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/virtualNetworks/" + virtualNetworkName + "/subnets/testsubnet",
         },
       },
       testPollingOptions);
@@ -170,5 +196,17 @@ describe("MongoCluster test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
+  });
+
+  it("mongoClusters for private endpoint delete test", async function () {
+    const resArray = new Array();
+    const res = await client.mongoClusters.delete(resourceGroup, resourcename
+    )
+    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+
+    await delay(isPlaybackMode() ? 1000 : 60000)
   });
 })
