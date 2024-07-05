@@ -81,7 +81,7 @@
     "rimraf": "^5.0.5",
     "tshy": "^1.17.0",
     "tslib": "^2.6.2",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "vitest": "^1.4.0"
   },
   "tshy": {

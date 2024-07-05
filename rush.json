@@ -2233,6 +2233,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-mongocluster",
+      "projectFolder": "sdk/mongocluster/arm-mongocluster",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure-rest/ai-inference",
       "projectFolder": "sdk/ai/ai-inference-rest",
       "versionPolicyName": "client"

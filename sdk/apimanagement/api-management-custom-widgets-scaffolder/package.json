@@ -69,7 +69,7 @@
     "rimraf": "^5.0.5",
     "rollup": "^4.14.0",
     "tshy": "^1.17.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.5.3",
     "vitest": "^1.4.0"
   },
   "dependencies": {
