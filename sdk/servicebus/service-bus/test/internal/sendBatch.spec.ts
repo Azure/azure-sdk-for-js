@@ -547,7 +547,7 @@ describe("Premium namespaces - Sending", () => {
       : TestClientType.UnpartitionedTopicWithSessions;
 
   before(() => {
-    serviceBusClient = new ServiceBusClient(premiumNamespace || "");
+    serviceBusClient = new ServiceBusClient(premiumNamespace || "", createTestCredential());
   });
 
   after(async () => {
@@ -555,8 +555,8 @@ describe("Premium namespaces - Sending", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    atomClient = new ServiceBusAdministrationClient(premiumNamespace || "");
-    withSessions = !entityType.includes("WithSessions");
+    atomClient = new ServiceBusAdministrationClient(premiumNamespace || "", createTestCredential());
+    withSessions = entityType.includes("WithSessions");
     const randomSeed = Math.ceil(Math.random() * 10000 + 1000);
     const isQueue = entityType.includes("Queue");
     if (isQueue) {
