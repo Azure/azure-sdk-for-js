@@ -1506,8 +1506,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 ###########
 # Eng Sys
 ###########
-/eng/           @ckairen @mikeharder @weshaggard @benbp
-/eng/common/    @Azure/azure-sdk-eng
+/eng/                  @ckairen @mikeharder @weshaggard @benbp
+/eng/common/           @Azure/azure-sdk-eng
+/.github/workflows/    @Azure/azure-sdk-eng
 
 ###########
 # Config
