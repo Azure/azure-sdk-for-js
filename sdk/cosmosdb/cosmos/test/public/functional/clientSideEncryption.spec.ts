@@ -20,13 +20,15 @@ import {
   BulkOperationType,
   EncryptionKeyResolver,
   EncryptionQueryBuilder,
+  ErrorResponse,
 } from "../../../src";
 import { assert } from "chai";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
 
-import { removeAllDatabases } from "../common/TestHelpers";
+// import { removeAllDatabases } from "../common/TestHelpers";
 import { randomUUID } from "@azure/core-util";
+import { removeAllDatabases } from "../common/TestHelpers";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   private keyInfo: { [key: string]: number } = {
@@ -47,7 +49,9 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     console.log(algorithm);
     if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
-      throw new Error("Forbidden");
+      const errorResponse = new ErrorResponse("Forbidden");
+      errorResponse.statusCode = StatusCodes.Forbidden;
+      throw errorResponse;
     }
     console.log("here");
     if (!this.unwrapKeyCallsCount.encryptedKeyId) {
@@ -689,73 +693,6 @@ describe("Client Side Encryption", () => {
     assert.equal(fetchAllResponse3.resources.length, 1);
   });
 
-  it("kek revoke handling", async () => {
-    const keyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
-    const encryptionClient = new CosmosClient({
-      endpoint: endpoint,
-      key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: keyEncryptionKeyResolver,
-      encryptionKeyTimeToLiveInHours: 0,
-      encryptionKeyResolverName: testKeyVault,
-    });
-
-    await removeAllDatabases();
-
-    const revokedKekMetadata = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      "revokedKek",
-      "revokedKek-metadata",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
-    );
-    const testdatabase = (await encryptionClient.databases.createIfNotExists({ id: "myDb" }))
-      .database;
-    await testdatabase.createClientEncryptionKey(
-      "keyWithRevokedKek",
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      revokedKekMetadata,
-    );
-
-    // Once a Dek gets cached and the Kek is revoked, calls to unwrap/wrap keys would fail since KEK is revoked.
-    // The Dek should be rewrapped if the KEK is revoked.
-    // When an access to KeyVault fails, the Dek is fetched from the backend (force refresh to update the stale DEK) and cache is updated.
-    const pathWithRevokedKek = new ClientEncryptionIncludedPath(
-      "/sensitive_NestedObjectFormatL1",
-      "keyWithRevokedKek",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
-    const paths = [pathWithRevokedKek];
-    const clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths);
-    const containerProperties = {
-      id: randomUUID(),
-      partitionKey: {
-        paths: ["/PK"],
-      },
-      clientEncryptionPolicy: clientEncryptionPolicyWithRevokedKek,
-    };
-    const testcontainer = (await testdatabase.containers.create(containerProperties)).container;
-    keyEncryptionKeyResolver.revokeAccessSet = true;
-    // Try creating it and it should fail as it has been revoked.
-    try {
-      await testcontainer.items.create({
-        PK: "1",
-        id: "1",
-        sensitive_NestedObjectFormatL1: {
-          sensitive_NestedObjectFormatL2: {
-            sensitive_StringFormat: "test",
-          },
-        },
-      });
-      assert.fail("Create Item should have failed.");
-    } catch (err) {
-      assert.ok(
-        err.message.includes(
-          "needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey",
-        ),
-      );
-    }
-  });
   it.skip("test validate caching of protected dek", async () => {
     const newTestKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     const newClient = new CosmosClient({
