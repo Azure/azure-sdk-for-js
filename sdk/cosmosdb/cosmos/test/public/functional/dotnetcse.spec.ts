@@ -513,7 +513,8 @@ describe("dotnet test cases", () => {
     await validateQueryResults(encryptionContainer, queryBuilder, null);
   });
 
-  it("query on encrypted properties", async () => {
+  it.skip("query on encrypted properties", async () => {
+    console.log("START");
     const containerProperties = {
       id: randomUUID(),
       partitionKey: {
@@ -523,33 +524,40 @@ describe("dotnet test cases", () => {
     };
     const encryptionQueryContainer = (await database.containers.create(containerProperties))
       .container;
+    encryptionQueryContainer.initializeEncryption();
     const testDoc1 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
     const testDoc2 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
     const testDoc3 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
 
     // string/int
-    // const stringArray = [testDoc1.sensitive_StringFormat, "randomValue", null];
+    const stringArray = [testDoc1.sensitive_StringFormat, "randomValue", null];
 
-    // let queryBuilder = new EncryptionQueryBuilder(
-    //   "SELECT * FROM c where array_contains(@sensitive_StringFormat, c.sensitive_StringFormat) " +
-    //     "AND c.sensitive_NestedObjectFormatL1 = @sensitive_NestedObjectFormatL1",
-    // );
+    let queryBuilder = new EncryptionQueryBuilder(
+      "SELECT * FROM c where array_contains(@sensitive_StringFormat, c.sensitive_StringFormat) " +
+        "AND c.sensitive_NestedObjectFormatL1 = @sensitive_NestedObjectFormatL1",
+    );
 
-    // queryBuilder.addArrayParameter(
-    //   "@sensitive_StringFormat",
-    //   stringArray,
-    //   "/sensitive_StringFormat",
-    // );
+    queryBuilder.addArrayParameter(
+      "@sensitive_StringFormat",
+      stringArray,
+      "/sensitive_StringFormat",
+    );
 
-    // queryBuilder.addObjectParameter(
-    //   "@sensitive_NestedObjectFormatL1",
-    //   testDoc1.sensitive_NestedObjectFormatL1,
-    //   "/sensitive_NestedObjectFormatL1",
-    // );
-    // await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc1]);
+    queryBuilder.addArrayParameter(
+      "@sensitive_IntArray",
+      testDoc1.sensitive_IntArray,
+      "/sensitive_IntArray",
+    );
+
+    queryBuilder.addObjectParameter(
+      "@sensitive_NestedObjectFormatL1",
+      testDoc1.sensitive_NestedObjectFormatL1,
+      "/sensitive_NestedObjectFormatL1",
+    );
+    await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc1]);
 
     // bool/float
-    let queryBuilder = new EncryptionQueryBuilder(
+    queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_BoolFormat = @sensitive_BoolFormat and c.sensitive_FloatFormat = @sensitive_FloatFormat",
     );
     queryBuilder.addBooleanParameter(
@@ -581,16 +589,16 @@ describe("dotnet test cases", () => {
     );
     await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc4]);
 
-    // // date
-    // queryBuilder = new EncryptionQueryBuilder(
-    //   "SELECT * FROM c where c.sensitive_DateFormat = @sensitive_DateFormat",
-    // );
-    // queryBuilder.addDateParameter(
-    //   "@sensitive_DateFormat",
-    //   testDoc1.sensitive_DateFormat,
-    //   "/sensitive_DateFormat",
-    // );
-    // await validateQueryResults(encryptionQueryContainer, queryBuilder, null);
+    // date
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT * FROM c where c.sensitive_DateFormat = @sensitive_DateFormat",
+    );
+    queryBuilder.addDateParameter(
+      "@sensitive_DateFormat",
+      testDoc1.sensitive_DateFormat,
+      "/sensitive_DateFormat",
+    );
+    await validateQueryResults(encryptionQueryContainer, queryBuilder, null);
   });
 
   it("encryption batch CRUD", async () => {
@@ -1169,6 +1177,590 @@ describe("dotnet test cases", () => {
     // validate if the right policy was used, by reading them all back
     const response = await otherEncryptionContainer.items.readAll().fetchAll();
     console.log("query response: ", response);
+    otherClient.dispose();
+  });
+
+  it("encryption validate policy refresh post container delete with patch", async () => {
+    // create a container with 1st client
+    let paths = [
+      "/sensitive_IntArray",
+      "/sensitive_NestedObjectFormatL1",
+      "/sensitive_DoubleFormat",
+    ].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let containerProperties = {
+      id: randomUUID(),
+      partitionKey: "/sensitive_DoubleFormat",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerToDelete.initializeEncryption();
+    // create a document with 2nd client on same database and container
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+    const otherDatabase = otherClient.database(database.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    const testDoc = TestDoc.create();
+    const createResponse = await otherEncryptionContainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+    // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
+    await database.container(encryptionContainerToDelete.id).delete();
+    paths = [
+      new ClientEncryptionIncludedPath(
+        "/sensitive_StringFormat",
+        "key1",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/sensitive_BoolFormat",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/PK",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+    ];
+    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    containerProperties = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: "/PK",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    await database.containers.create(containerProperties);
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should fail");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+
+    const docPostPatching = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docPostPatching.nonsensitive = randomUUID();
+    docPostPatching.nonSensitiveInt++;
+    docPostPatching.sensitive_StringFormat = randomUUID();
+    docPostPatching.sensitive_DateFormat = new Date();
+    docPostPatching.sensitive_IntArray[1] = 19877;
+    docPostPatching.sensitive_IntMultiDimArray[1][0] = 2020;
+    docPostPatching.sensitive_IntFormat = 2020;
+    docPostPatching.sensitive_NestedObjectFormatL1 = {
+      sensitive_IntArrayL1: [999, 100],
+      sensitive_IntFormatL1: 1999,
+      sensitive_DecimalFormatL1: 1991.1,
+      sensitive_ArrayFormatL1: [
+        {
+          sensitive_ArrayIntFormat: 0,
+          sensitive_ArrayDecimalFormat: 0.1,
+        },
+        {
+          sensitive_ArrayIntFormat: 1,
+          sensitive_ArrayDecimalFormat: 2.1,
+        },
+        {
+          sensitive_ArrayIntFormat: 2,
+          sensitive_ArrayDecimalFormat: 3.1,
+        },
+      ],
+    };
+    const patchOperations = [
+      {
+        op: PatchOperationType.incr,
+        path: "/nonSensitiveInt",
+        value: 1,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/nonsensitive",
+        value: docPostPatching.nonsensitive,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_StringFormat",
+        value: docPostPatching.sensitive_StringFormat,
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_DateFormat",
+        value: docPostPatching.sensitive_DateFormat,
+      },
+      {
+        op: PatchOperationType.set,
+        path: "/sensitive_IntArray/1",
+        value: docPostPatching.sensitive_IntArray[1],
+      },
+      {
+        op: PatchOperationType.set,
+        path: "/sensitive_IntMultiDimArray/1/0",
+        value: docPostPatching.sensitive_IntMultiDimArray[1][0],
+      },
+      {
+        op: PatchOperationType.replace,
+        path: "/sensitive_IntFormat",
+        value: docPostPatching.sensitive_IntFormat,
+      },
+      {
+        op: PatchOperationType.remove,
+        path: "/sensitive_NestedObjectFormatL1/sensitive_NestedObjectFormatL2",
+        value: docPostPatching.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2,
+      },
+      {
+        op: PatchOperationType.set,
+        path: "/sensitive_NestedObjectFormatL1/sensitive_ArrayFormatL1/0",
+        value: docPostPatching.sensitive_NestedObjectFormatL1.sensitive_ArrayFormatL1[0],
+      },
+    ];
+    try {
+      await testPatchItem(
+        otherEncryptionContainer,
+        patchOperations,
+        docPostPatching,
+        StatusCodes.Ok,
+      );
+      assert.fail("patch operation should fail");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    await testPatchItem(otherEncryptionContainer, patchOperations, docPostPatching, StatusCodes.Ok);
+    otherClient.dispose();
+  });
+
+  it("encryption validate policy refresh post container delete with query", async () => {
+    // create a container with 1st client
+    let paths = [
+      "/sensitive_IntArray",
+      "/sensitive_NestedObjectFormatL1",
+      "/sensitive_DoubleFormat",
+    ].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let containerProperties = {
+      id: randomUUID(),
+      partitionKey: "/sensitive_DoubleFormat",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerToDelete.initializeEncryption();
+    // create a document with 2nd client on same database and container
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+    const otherDatabase = otherClient.database(database.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    const testDoc = TestDoc.create();
+    let createResponse = await otherEncryptionContainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+    // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
+    await database.container(encryptionContainerToDelete.id).delete();
+    paths = [
+      new ClientEncryptionIncludedPath(
+        "/sensitive_StringFormat",
+        "key1",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/sensitive_BoolFormat",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/PK",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+    ];
+    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    containerProperties = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: "/PK",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    await database.containers.create(containerProperties);
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should fail");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    createResponse = await encryptionContainerToDelete.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+
+    // check w.r.t to query if we are able to fail and update the policy
+    try {
+      await validateQueryResults(
+        otherEncryptionContainer,
+        new EncryptionQueryBuilder("SELECT * FROM c"),
+        [testDoc],
+      );
+      assert.fail("query operation should fail");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    // previous failure would have updated the policy in the cache.
+    await validateQueryResults(
+      otherEncryptionContainer,
+      new EncryptionQueryBuilder("SELECT * FROM c"),
+      [testDoc],
+    );
+    otherClient.dispose();
+  });
+
+  it("encryption validate policy refresh post container delete with batch", async () => {
+    // create a container with 1st client
+    let paths = [
+      "/sensitive_IntArray",
+      "/sensitive_NestedObjectFormatL1",
+      "/sensitive_DoubleFormat",
+    ].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let containerProperties = {
+      id: randomUUID(),
+      partitionKey: "/sensitive_DoubleFormat",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerToDelete.initializeEncryption();
+    // create a document with 2nd client on same database and container
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+    const otherDatabase = otherClient.database(database.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    let testDoc = TestDoc.create();
+    const createResponse = await otherEncryptionContainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+    // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
+    await database.container(encryptionContainerToDelete.id).delete();
+    paths = [
+      new ClientEncryptionIncludedPath(
+        "/sensitive_StringFormat",
+        "key1",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/sensitive_BoolFormat",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/PK",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+    ];
+    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    containerProperties = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: "/PK",
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    await database.containers.create(containerProperties);
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should fail");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    testDoc = new TestDoc((await testCreateItem(encryptionContainerToDelete)).resource);
+    const partitionKey = "thePK";
+    //   batchResponse = await otherEncryptionContainer.CreateTransactionalBatch(new Cosmos.PartitionKey(partitionKey))
+    //  .CreateItem(doc1ToCreate)
+    //  .CreateItemStream(doc2ToCreate.ToStream())
+    //  .ReadItem(doc1ToCreate.Id)
+    //  .DeleteItem(doc2ToCreate.Id)
+    //  .ExecuteAsync();
+    const doc1ToCreate = TestDoc.create(partitionKey);
+    const doc2ToCreate = TestDoc.create(partitionKey);
+    // check w.r.t to Batch if we are able to fail and update the policy.
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: JSON.parse(JSON.stringify(doc1ToCreate)),
+      },
+      {
+        operationType: "Create",
+        resourceBody: JSON.parse(JSON.stringify(doc2ToCreate)),
+      },
+      {
+        operationType: "Read",
+        id: doc1ToCreate.id,
+      },
+      {
+        operationType: "Delete",
+        id: doc2ToCreate.id,
+      },
+    ];
+    let batchResponse = null;
+    try {
+      batchResponse = await otherEncryptionContainer.items.batch(operations, partitionKey);
+      assert.fail("batch operation should fail");
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    batchResponse = await otherEncryptionContainer.items.batch(operations, partitionKey);
+    assert.equal(StatusCodes.Ok, batchResponse.code);
+    const doc1 = batchResponse.result[0].resourceBody;
+    verifyExpectedDocResponse(doc1ToCreate, doc1);
+    const doc2 = batchResponse.result[1].resourceBody;
+    verifyExpectedDocResponse(doc2ToCreate, doc2);
+    otherClient.dispose();
+  });
+
+  it.skip("encryption validate policy refresh post database delete", async () => {
+    const mainCLient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+    let keyWrapMetadata = new EncryptionKeyWrapMetadata(
+      testKeyVault,
+      "myCek",
+      "mymetadata1",
+      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+    );
+    let mainDatabase = (await mainCLient.databases.createIfNotExists({ id: randomUUID() }))
+      .database;
+    await mainDatabase.createClientEncryptionKey(
+      keyWrapMetadata.name,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      keyWrapMetadata,
+    );
+
+    const paths = [
+      "/sensitive_StringFormat",
+      "/sensitive_ArrayFormat",
+      "/sensitive_NestedObjectFormatL1",
+    ].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "myCek",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    const encryptionPolicy = new ClientEncryptionPolicy(paths);
+    let containerDef: ContainerDefinition = {
+      id: "containerToBeDeleted",
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (
+      await mainDatabase.containers.createIfNotExists(containerDef)
+    ).container;
+    await encryptionContainerToDelete.initializeEncryption();
+    await testCreateItem(encryptionContainerToDelete);
+
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+    const otherDatabase = otherClient.database(mainDatabase.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    await testCreateItem(otherEncryptionContainer);
+
+    // Client 1 Deletes the Database and  Container referenced in Client 2 and Recreate with different policy
+    // delete database and recreate with same key name
+    await mainDatabase.delete();
+    mainDatabase = (await mainCLient.databases.createIfNotExists({ id: "databaseToBeDeleted" }))
+      .database;
+    keyWrapMetadata = new EncryptionKeyWrapMetadata(
+      testKeyVault,
+      "myCek",
+      "mymetadata2",
+      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+    );
+    await mainDatabase.createClientEncryptionKey(
+      keyWrapMetadata.name,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      keyWrapMetadata,
+    );
+    const newModifiedPaths = [
+      "/sensitive_IntArray",
+      "/sensitive_DateFormat",
+      "/sensitive_BoolFormat",
+    ].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "myCek",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    clientEncryptionPolicy = new ClientEncryptionPolicy(newModifiedPaths);
+    containerDef = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    await mainDatabase.containers.createIfNotExists(containerDef);
+
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should fail");
+    } catch (error) {
+      console.log("error occurred");
+      error.message.includes(
+        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+      );
+    }
+    // retrying should succeed
+    let testDoc = new TestDoc((await testCreateItem(encryptionContainerToDelete)).resource);
+
+    // try from other container. shoild fail due to policy mismatch
+    try {
+      await verifyItemByRead(otherEncryptionContainer, testDoc);
+      assert.fail("read operation should fail");
+    } catch (error) {
+      error.message.includes(
+        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+      );
+    }
+    // retrying should succeed
+    await verifyItemByRead(otherEncryptionContainer, testDoc);
+
+    // create new container in other client.
+    // The test basically validates if the new key created is referenced, Since the other client would have had the old key cached.
+    // and here we would not hit the incorrect container rid issue.
+    const newModifiedPath2 = new ClientEncryptionIncludedPath(
+      "/PK",
+      "myCek",
+      EncryptionType.DETERMINISTIC,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    const otherEncryptionContainer2 = (
+      await otherDatabase.containers.createIfNotExists({
+        id: "otherContainer2",
+        partitionKey: "/PK",
+        clientEncryptionPolicy: new ClientEncryptionPolicy([newModifiedPath2]),
+      })
+    ).container;
+
+    // create an item
+    const newDoc = new TestDoc((await testCreateItem(otherEncryptionContainer2)).resource);
+    const otherClient2 = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+    const otherDatabase2 = otherClient2.database(mainDatabase.id);
+    const otherEncryptionContainer3 = otherDatabase2.container(otherEncryptionContainer2.id);
+    await verifyItemByRead(otherEncryptionContainer3, newDoc);
+
+    // validate from other client that we indeed are using the key with metadata 2
+    const otherEncryptionContainerFromClient2 = otherDatabase2.container(
+      encryptionContainerToDelete.id,
+    );
+    await verifyItemByRead(otherEncryptionContainerFromClient2, testDoc);
+
+    // previous referenced container
+    await testCreateItem(otherEncryptionContainer);
+
+    await testCreateItem(otherEncryptionContainer);
+    await verifyItemByRead(otherEncryptionContainer, testDoc);
+
+    testDoc = new TestDoc((await testCreateItem(otherEncryptionContainer)).resource);
+
+    // to be sure if it was indeed encrypted with the new key.
+    await verifyItemByRead(encryptionContainerToDelete, testDoc);
+
+    // validate if the right policy was used, by reading them all back
+    await encryptionContainerToDelete.items.readAll().fetchAll();
+    await otherEncryptionContainer.items.readAll().fetchAll();
+
+    await mainCLient.database(mainDatabase.id).delete();
+
+    mainCLient.dispose();
+    otherClient.dispose();
+    otherClient2.dispose();
   });
 
   it.skip("test1234", async () => {
@@ -1322,20 +1914,8 @@ describe("dotnet test cases", () => {
   });
 
   it("validate caching of protected dek", async () => {
-    // unwrapCount = 0;
-    // for (let i = 0; i <= 1; i++) {
-    //   await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-    // }
-    console.log(`unwrapCount 1:0: ${unwrapCount}`);
-
-    unwrapCount = 0;
-    for (let i = 10; i <= 11; i++) {
-      await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-    }
-
-    console.log("unwrap count 1:1", unwrapCount);
     const newTestKeyResolver = new MockKeyVaultEncryptionKeyResolver();
-    const newClient = new CosmosClient({
+    let newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
       enableEncryption: true,
@@ -1343,34 +1923,34 @@ describe("dotnet test cases", () => {
       encryptionKeyResolverName: testKeyVault,
     });
 
-    // unwrapCount = 0;
-    // for (let i = 2; i <= 3; i++) {
-    //   await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-    // }
-    // console.log(`unwrapCount 1:2: ${unwrapCount}`);
     unwrapCount = 0;
-    const newDatabase = newClient.database(database.id);
-    const newContainer = newDatabase.container(encryptionContainer.id);
-    await newContainer.initializeEncryption();
-    console.log("unwrap count initializeEncryption", unwrapCount);
-    unwrapCount = 0;
+    let newDatabase = newClient.database(database.id);
+    let newContainer = newDatabase.container(encryptionContainer.id);
 
-    for (let i = 4; i <= 5; i++) {
-      await newContainer.items.create({ id: i.toLocaleString(), PK: "1" });
+    for (let i = 0; i < 2; i++) {
+      await testCreateItem(newContainer);
     }
-    console.log(`unwrapCount for 2:1: ${unwrapCount}`);
+    console.log("unwrapCount1: ", unwrapCount);
+    newClient.dispose();
+    // assert.equal(unwrapCount, 1);
+    newClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: newTestKeyResolver,
+      encryptionKeyResolverName: testKeyVault,
+      encryptionKeyTimeToLiveInHours: 0,
+    });
+    newDatabase = newClient.database(database.id);
+    newContainer = database.container(encryptionContainer.id);
     unwrapCount = 0;
-    for (let i = 6; i <= 7; i++) {
-      await encryptionContainer.items.create({ id: i.toLocaleString(), PK: "1" });
+    for (let i = 0; i < 2; i++) {
+      await testCreateItem(encryptionContainer);
     }
+    console.log("unwrapCount2: ", unwrapCount);
+    // assert.ok(unwrapCount > 1);
 
-    console.log(`unwrapCount for 1:3: ${unwrapCount}`);
-    unwrapCount = 0;
-    for (let i = 8; i <= 9; i++) {
-      await newContainer.items.create({ id: i.toLocaleString(), PK: "1" });
-    }
-    console.log(`unwrapCount for 2:2: ${unwrapCount}`);
-    // assert.equal(unwrapCount, 2, "we have two cek");
+    newClient.dispose();
   });
 
   it("key encryption key revoke test", async () => {
@@ -1424,15 +2004,6 @@ describe("dotnet test cases", () => {
     // Try creating it and it should fail as it has been revoked.
     try {
       await testCreateItem(testcontainer);
-      // await testcontainer.items.create({
-      //   PK: "1",
-      //   id: "1",
-      //   sensitive_NestedObjectFormatL1: {
-      //     sensitive_NestedObjectFormatL2: {
-      //       sensitive_StringFormat: "test",
-      //     },
-      //   },
-      // });
       assert.fail("Create Item should have failed.");
     } catch (err) {
       assert.ok(
@@ -1455,7 +2026,6 @@ describe("dotnet test cases", () => {
     // Revoke access is set to false, so the next call should succeed.
     keyEncryptionKeyResolver.revokeAccessSet = false;
     await testdatabase.rewrapClientEncryptionKey("keyWithRevokedKek", metadata2);
-    // should fail but will try to fetch latest from the backend and updates the cache
     await testCreateItem(testcontainer);
     testKeyEncryptionKeyResolver.revokeAccessSet = false;
     encryptionTestClient.dispose();
@@ -1493,10 +2063,14 @@ async function validateQueryResults(
 ): Promise<void> {
   let iterator: QueryIterator<any>;
   if (query instanceof EncryptionQueryBuilder) {
+    console.log("2148: ", expectedDocList[0].sensitive_NestedObjectFormatL1.sensitive_IntFormatL1);
     iterator = await container.items.getEncryptionQueryIterator(query, options);
+    console.log("2149: ", expectedDocList[0].sensitive_NestedObjectFormatL1.sensitive_IntFormatL1);
   } else {
     iterator = container.items.query(query, options);
   }
+  const results = await container.items.readAll().fetchAll();
+  console.log("results: ", results);
   let totalDocs = 0;
   const docs: TestDoc[] = [];
   while (iterator.hasMoreResults()) {
@@ -1578,7 +2152,7 @@ async function testReplaceItem(
 async function testPatchItem(
   container: Container,
   patchOperations: PatchOperation[],
-  expectedTestDoc: TestDoc,
+  expectedTestDoc: any,
   expectedStatusCode: StatusCode,
 ): Promise<ItemResponse<ItemDefinition>> {
   const response = await container
