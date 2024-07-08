@@ -7,7 +7,6 @@ stages:
 
     pool:
       name: azsdk-pool-mms-ubuntu-2204-general
-      vmImage: ubuntu-22.04
 
     jobs:
       - job: BuildAllPackages
