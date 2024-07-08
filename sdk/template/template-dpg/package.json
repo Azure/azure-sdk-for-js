@@ -107,7 +107,7 @@
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "util": "^0.12.4"
   },
   "dependencies": {

@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
 import * as coreClient from '@azure/core-client';
