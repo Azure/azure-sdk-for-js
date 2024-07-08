@@ -21,7 +21,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://quickpulsespecs.blob.core.windows.net/specs/swagger-v2-for%20sdk%20only.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/applicationinsights/data-plane/LiveMetrics/preview/2024-04-01-preview/livemetrics.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "latest"

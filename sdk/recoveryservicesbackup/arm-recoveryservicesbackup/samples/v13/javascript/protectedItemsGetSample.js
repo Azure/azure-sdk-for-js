@@ -18,7 +18,7 @@ call the GetItemOperationResult API.
  *
  * @summary Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
 call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/ClassicCompute_ProtectedItem_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ClassicCompute_ProtectedItem_Get.json
  */
 async function getProtectedClassicVirtualMachineDetails() {
   const subscriptionId =
@@ -47,7 +47,7 @@ call the GetItemOperationResult API.
  *
  * @summary Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
 call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/AzureIaasVm/Compute_ProtectedItem_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/Compute_ProtectedItem_Get.json
  */
 async function getProtectedVirtualMachineDetails() {
   const subscriptionId =

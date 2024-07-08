@@ -23,14 +23,15 @@ import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -75,7 +76,7 @@ describe("Monitor test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     workflowName = "myworkflowxxx";
-    storageAccountName = "mystorageaccountyyy";
+    storageAccountName = "mystorageaccountyyy1";
     namespaceName = "mynamespacexxx";
     eventhubName = "myeventhubxxx";
     workspaceName = "myworkspacexxx";
@@ -145,7 +146,24 @@ describe("Monitor test", () => {
     }, testPollingOptions)
     //namespaces.createOrUpdateAuthorizationRule
     const authorization = await eventhub_client.namespaces.createOrUpdateAuthorizationRule(resourceGroup, namespaceName, authorizationRuleName, { rights: ["Listen", "Send", "Manage"] });
-    //eventHubs.createOrUpdate
+    authorizationId = authorization.id || "";
+
+    //workspaces.beginCreateOrUpdateAndWait
+    const workspace = await op_client.workspaces.beginCreateOrUpdateAndWait(resourceGroup, workspaceName, {
+      sku: {
+        name: "PerNode"
+      },
+      retentionInDays: 30,
+      location: location,
+      tags: {
+        tag1: "value1"
+      }
+    }, testPollingOptions)
+    workspaceId = workspace.id || "";
+  });
+  // skip this case as no data plane write permissions
+  it.skip("eventhub create test", async function () {
+    // eventHubs.createOrUpdate
     const eventhub = await eventhub_client.eventHubs.createOrUpdate(resourceGroup, namespaceName, eventhubName, {
       messageRetentionInDays: 4,
       partitionCount: 4,
@@ -163,23 +181,13 @@ describe("Monitor test", () => {
         }
       }
     });
-    authorizationId = authorization.id || "";
-
-    //workspaces.beginCreateOrUpdateAndWait
-    const workspace = await op_client.workspaces.beginCreateOrUpdateAndWait(resourceGroup, workspaceName, {
-      sku: {
-        name: "PerNode"
-      },
-      retentionInDays: 30,
-      location: location,
-      tags: {
-        tag1: "value1"
-      }
-    }, testPollingOptions)
-    workspaceId = workspace.id || "";
-  });
+  })
 
   it("diagnosticSettings create test", async function () {
+    workflowsId = ((await logic_client.workflows.get(resourceGroup, workflowName)).id || "/").substring(1)
+    storageId = (await storage_client.storageAccounts.getProperties(resourceGroup, storageAccountName)).id || "";
+    authorizationId = (await eventhub_client.namespaces.getAuthorizationRule(resourceGroup, namespaceName, authorizationRuleName)).id || "";
+    workspaceId = (await op_client.workspaces.get(resourceGroup, workspaceName)).id || "";
     const res = await client.diagnosticSettings.createOrUpdate(workflowsId, diagnosticName, {
       storageAccountId: storageId,
       workspaceId: workspaceId,
@@ -279,11 +287,29 @@ describe("Monitor test", () => {
 
   it("workspace delete test", async function () {
     const resArray = new Array();
-    const res = await client.azureMonitorWorkspaces.delete(resourceGroup, azureMonitorWorkspaceName)
+    const res = await client.azureMonitorWorkspaces.beginDeleteAndWait(resourceGroup, azureMonitorWorkspaceName)
     for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
+  });
+
+  it("metric listAtSubscriptionScope test", async function () {
+    const res = await client.metricsOperations.listAtSubscriptionScope(
+      location,
+      {
+        metricnamespace: "microsoft.compute/virtualmachines"
+      }
+    );
+  });
+
+  it("metric list test", async function () {
+    const res = await client.metricsOperations.list(
+      "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/" + storageAccountName + "/blobServices/default",
+      {
+        metricnamespace: "Microsoft.Storage/storageAccounts/blobServices"
+      }
+    );
   });
 
   it("delete parameters for diagnosticSettings", async function () {

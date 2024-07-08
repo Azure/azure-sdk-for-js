@@ -27,7 +27,7 @@ import {
   ExperimentsGetExecutionOptionalParams,
   ExperimentsGetExecutionResponse,
   ExperimentsExecutionDetailsOptionalParams,
-  ExperimentsExecutionDetailsResponse
+  ExperimentsExecutionDetailsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface Experiments {
    * @param options The options parameters.
    */
   listAll(
-    options?: ExperimentsListAllOptionalParams
+    options?: ExperimentsListAllOptionalParams,
   ): PagedAsyncIterableIterator<Experiment>;
   /**
    * Get a list of Experiment resources in a resource group.
@@ -47,7 +47,7 @@ export interface Experiments {
    */
   list(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams
+    options?: ExperimentsListOptionalParams,
   ): PagedAsyncIterableIterator<Experiment>;
   /**
    * Get a list of executions of an Experiment resource.
@@ -58,7 +58,7 @@ export interface Experiments {
   listAllExecutions(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllExecutionsOptionalParams
+    options?: ExperimentsListAllExecutionsOptionalParams,
   ): PagedAsyncIterableIterator<ExperimentExecution>;
   /**
    * Delete a Experiment resource.
@@ -69,7 +69,7 @@ export interface Experiments {
   beginDelete(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Experiment resource.
@@ -80,7 +80,7 @@ export interface Experiments {
   beginDeleteAndWait(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get a Experiment resource.
@@ -91,7 +91,7 @@ export interface Experiments {
   get(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsGetOptionalParams
+    options?: ExperimentsGetOptionalParams,
   ): Promise<ExperimentsGetResponse>;
   /**
    * Create or update a Experiment resource.
@@ -104,7 +104,7 @@ export interface Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsCreateOrUpdateResponse>,
@@ -122,7 +122,7 @@ export interface Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<ExperimentsCreateOrUpdateResponse>;
   /**
    * The operation to update an experiment.
@@ -135,7 +135,7 @@ export interface Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: ExperimentUpdate,
-    options?: ExperimentsUpdateOptionalParams
+    options?: ExperimentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsUpdateResponse>,
@@ -153,7 +153,7 @@ export interface Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: ExperimentUpdate,
-    options?: ExperimentsUpdateOptionalParams
+    options?: ExperimentsUpdateOptionalParams,
   ): Promise<ExperimentsUpdateResponse>;
   /**
    * Cancel a running Experiment resource.
@@ -164,7 +164,7 @@ export interface Experiments {
   beginCancel(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsCancelOptionalParams
+    options?: ExperimentsCancelOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancel a running Experiment resource.
@@ -175,7 +175,7 @@ export interface Experiments {
   beginCancelAndWait(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsCancelOptionalParams
+    options?: ExperimentsCancelOptionalParams,
   ): Promise<void>;
   /**
    * Start a Experiment resource.
@@ -186,7 +186,7 @@ export interface Experiments {
   beginStart(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsStartOptionalParams
+    options?: ExperimentsStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start a Experiment resource.
@@ -197,7 +197,7 @@ export interface Experiments {
   beginStartAndWait(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsStartOptionalParams
+    options?: ExperimentsStartOptionalParams,
   ): Promise<void>;
   /**
    * Get an execution of an Experiment resource.
@@ -210,7 +210,7 @@ export interface Experiments {
     resourceGroupName: string,
     experimentName: string,
     executionId: string,
-    options?: ExperimentsGetExecutionOptionalParams
+    options?: ExperimentsGetExecutionOptionalParams,
   ): Promise<ExperimentsGetExecutionResponse>;
   /**
    * Execution details of an experiment resource.
@@ -223,6 +223,6 @@ export interface Experiments {
     resourceGroupName: string,
     experimentName: string,
     executionId: string,
-    options?: ExperimentsExecutionDetailsOptionalParams
+    options?: ExperimentsExecutionDetailsOptionalParams,
   ): Promise<ExperimentsExecutionDetailsResponse>;
 }

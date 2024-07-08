@@ -12,7 +12,7 @@ import {
   RestorableDatabaseAccountsListByLocationOptionalParams,
   RestorableDatabaseAccountsListOptionalParams,
   RestorableDatabaseAccountsGetByLocationOptionalParams,
-  RestorableDatabaseAccountsGetByLocationResponse
+  RestorableDatabaseAccountsGetByLocationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface RestorableDatabaseAccounts {
    */
   listByLocation(
     location: string,
-    options?: RestorableDatabaseAccountsListByLocationOptionalParams
+    options?: RestorableDatabaseAccountsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDatabaseAccountGetResult>;
   /**
    * Lists all the restorable Azure Cosmos DB database accounts available under the subscription. This
@@ -35,7 +35,7 @@ export interface RestorableDatabaseAccounts {
    * @param options The options parameters.
    */
   list(
-    options?: RestorableDatabaseAccountsListOptionalParams
+    options?: RestorableDatabaseAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDatabaseAccountGetResult>;
   /**
    * Retrieves the properties of an existing Azure Cosmos DB restorable database account.  This call
@@ -47,6 +47,6 @@ export interface RestorableDatabaseAccounts {
   getByLocation(
     location: string,
     instanceId: string,
-    options?: RestorableDatabaseAccountsGetByLocationOptionalParams
+    options?: RestorableDatabaseAccountsGetByLocationOptionalParams,
   ): Promise<RestorableDatabaseAccountsGetByLocationResponse>;
 }

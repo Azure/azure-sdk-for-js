@@ -29,7 +29,7 @@ async function deleteAccount() {
   const result = await client.deletedAccounts.beginPurgeAndWait(
     location,
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   LogAnalyticsGetWafLogAnalyticsMetricsOptionalParams,
-  CdnManagementClient
+  CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get Waf related log analytics report for AFD profile.
  *
  * @summary Get Waf related log analytics report for AFD profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/LogAnalytics_GetWafLogAnalyticsMetrics.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/LogAnalytics_GetWafLogAnalyticsMetrics.json
  */
 async function logAnalyticsGetWafLogAnalyticsMetrics() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function logAnalyticsGetWafLogAnalyticsMetrics() {
   const granularity = "PT5M";
   const actions = ["block", "log"];
   const options: LogAnalyticsGetWafLogAnalyticsMetricsOptionalParams = {
-    actions
+    actions,
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function logAnalyticsGetWafLogAnalyticsMetrics() {
     dateTimeBegin,
     dateTimeEnd,
     granularity,
-    options
+    options,
   );
   console.log(result);
 }

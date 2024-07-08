@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImageListPublishersMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -31,7 +31,7 @@ async function virtualMachineImageListPublishersMaximumSetGen() {
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImageListPublishersMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

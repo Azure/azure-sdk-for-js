@@ -1,8 +1,9 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
+      UseFederatedAuth: true
       PackageName: "@azure/storage-file-share"
       ServiceDirectory: storage
       TimeoutInMinutes: 90
@@ -10,7 +11,9 @@ stages:
       Clouds: 'Preview'
       MatrixFilters:
         - DependencyVersion=^$
-      EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+      CloudConfig:
+        Preview:
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+          ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFilePaths: 
+            - eng/common/TestResources/sub-config/AzurePublicMsft.json

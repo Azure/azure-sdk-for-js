@@ -31,7 +31,7 @@ async function placementPoliciesGet() {
     resourceGroupName,
     privateCloudName,
     clusterName,
-    placementPolicyName
+    placementPolicyName,
   );
   console.log(result);
 }

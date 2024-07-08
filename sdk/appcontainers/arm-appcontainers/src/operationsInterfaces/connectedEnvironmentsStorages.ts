@@ -14,7 +14,7 @@ import {
   ConnectedEnvironmentStorage,
   ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsStoragesCreateOrUpdateResponse,
-  ConnectedEnvironmentsStoragesDeleteOptionalParams
+  ConnectedEnvironmentsStoragesDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a ConnectedEnvironmentsStorages. */
@@ -28,7 +28,7 @@ export interface ConnectedEnvironmentsStorages {
   list(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsStoragesListOptionalParams
+    options?: ConnectedEnvironmentsStoragesListOptionalParams,
   ): Promise<ConnectedEnvironmentsStoragesListResponse>;
   /**
    * Get storage for a connectedEnvironment.
@@ -41,7 +41,7 @@ export interface ConnectedEnvironmentsStorages {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     storageName: string,
-    options?: ConnectedEnvironmentsStoragesGetOptionalParams
+    options?: ConnectedEnvironmentsStoragesGetOptionalParams,
   ): Promise<ConnectedEnvironmentsStoragesGetResponse>;
   /**
    * Create or update storage for a connectedEnvironment.
@@ -56,7 +56,7 @@ export interface ConnectedEnvironmentsStorages {
     connectedEnvironmentName: string,
     storageName: string,
     storageEnvelope: ConnectedEnvironmentStorage,
-    options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams
+    options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsStoragesCreateOrUpdateResponse>;
   /**
    * Delete storage for a connectedEnvironment.
@@ -69,6 +69,6 @@ export interface ConnectedEnvironmentsStorages {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     storageName: string,
-    options?: ConnectedEnvironmentsStoragesDeleteOptionalParams
+    options?: ConnectedEnvironmentsStoragesDeleteOptionalParams,
   ): Promise<void>;
 }

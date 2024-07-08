@@ -11,6 +11,7 @@ import {
   FeatureFlagValue,
   parseFeatureFlag,
 } from "@azure/app-configuration";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -60,8 +61,9 @@ export async function main() {
   };
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const appConfigClient = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const credential = new DefaultAzureCredential();
+  const appConfigClient = new AppConfigurationClient(endpoint, credential);
 
   await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
 
@@ -82,8 +84,8 @@ export async function main() {
       `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(
         clientFilter.parameters,
         null,
-        1
-      )}\n`
+        1,
+      )}\n`,
     );
     switch (clientFilter.name) {
       // Tweak the client filters of the feature flag
@@ -129,8 +131,8 @@ export async function main() {
       `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(
         clientFilter.parameters,
         null,
-        1
-      )}\n`
+        1,
+      )}\n`,
     );
   }
   await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
@@ -172,7 +174,7 @@ function isTargetingClientFilter(clientFilter: any): clientFilter is {
  * typeguard - for timewindow client filter
  */
 export function isTimeWindowClientFilter(
-  clientFilter: any
+  clientFilter: any,
 ): clientFilter is { parameters: { Start: string; End: string } } {
   return (
     clientFilter.name === "Microsoft.TimeWindow" &&

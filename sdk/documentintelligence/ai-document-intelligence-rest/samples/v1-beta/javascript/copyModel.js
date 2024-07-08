@@ -22,7 +22,7 @@ async function main() {
   // const destinationClient = new DocumentModelAdministrationClient(endpoint, credential);
   const destinationClient = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
   // const authorization = await destinationClient.getCopyAuthorization(destinationModelId);
   const targetAuth = await destinationClient.path("/documentModels:authorizeCopy").post({

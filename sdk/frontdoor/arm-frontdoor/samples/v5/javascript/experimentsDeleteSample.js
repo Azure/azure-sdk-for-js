@@ -28,7 +28,7 @@ async function deletesAnExperiment() {
   const result = await client.experiments.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    experimentName
+    experimentName,
   );
   console.log(result);
 }

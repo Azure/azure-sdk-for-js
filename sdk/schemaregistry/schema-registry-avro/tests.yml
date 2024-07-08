@@ -1,7 +1,8 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/schema-registry-avro"
       ServiceDirectory: schemaregistry
+      UseFederatedAuth: true

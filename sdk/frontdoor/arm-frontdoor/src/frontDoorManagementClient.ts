@@ -21,7 +21,7 @@ import {
   NetworkExperimentProfilesImpl,
   PreconfiguredEndpointsImpl,
   ExperimentsImpl,
-  ReportsImpl
+  ReportsImpl,
 } from "./operations";
 import {
   Policies,
@@ -35,13 +35,13 @@ import {
   NetworkExperimentProfiles,
   PreconfiguredEndpoints,
   Experiments,
-  Reports
+  Reports,
 } from "./operationsInterfaces";
 import { FrontDoorManagementClientOptionalParams } from "./models";
 
 export class FrontDoorManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the FrontDoorManagementClient class.
@@ -53,13 +53,27 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: FrontDoorManagementClientOptionalParams
+    options?: FrontDoorManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: FrontDoorManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: FrontDoorManagementClientOptionalParams | string,
+    options?: FrontDoorManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -68,10 +82,10 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
     }
     const defaults: FrontDoorManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-frontdoor/5.2.1`;
+    const packageDetails = `azsdk-js-arm-frontdoor/5.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -81,20 +95,21 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -104,7 +119,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -114,9 +129,9 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -127,9 +142,8 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
     this.policies = new PoliciesImpl(this);
     this.managedRuleSets = new ManagedRuleSetsImpl(this);
     this.frontDoorNameAvailability = new FrontDoorNameAvailabilityImpl(this);
-    this.frontDoorNameAvailabilityWithSubscription = new FrontDoorNameAvailabilityWithSubscriptionImpl(
-      this
-    );
+    this.frontDoorNameAvailabilityWithSubscription =
+      new FrontDoorNameAvailabilityWithSubscriptionImpl(this);
     this.frontDoors = new FrontDoorsImpl(this);
     this.frontendEndpoints = new FrontendEndpointsImpl(this);
     this.endpoints = new EndpointsImpl(this);

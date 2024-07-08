@@ -7,12 +7,25 @@
  */
 
 import {
+  MetricDefinitionsListAtSubscriptionScopeOptionalParams,
+  MetricDefinitionsListAtSubscriptionScopeResponse,
   MetricDefinitionsListOptionalParams,
   MetricDefinitionsListResponse
 } from "../models";
 
 /** Interface representing a MetricDefinitions. */
 export interface MetricDefinitions {
+  /**
+   * Lists the metric definitions for the subscription.
+   * @param subscriptionId The ID of the target subscription.
+   * @param region The region where the metrics you want reside.
+   * @param options The options parameters.
+   */
+  listAtSubscriptionScope(
+    subscriptionId: string,
+    region: string,
+    options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams
+  ): Promise<MetricDefinitionsListAtSubscriptionScopeResponse>;
   /**
    * Lists the metric definitions for the resource.
    * @param resourceUri The identifier of the resource.

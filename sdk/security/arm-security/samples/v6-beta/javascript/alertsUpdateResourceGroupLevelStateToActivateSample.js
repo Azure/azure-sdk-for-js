@@ -29,7 +29,7 @@ async function updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation
   const result = await client.alerts.updateResourceGroupLevelStateToActivate(
     resourceGroupName,
     ascLocation,
-    alertName
+    alertName,
   );
   console.log(result);
 }

@@ -8,19 +8,20 @@
  */
 
 import { CreateBatchOptions, EventHubProducerClient, RetryMode } from "@azure/event-hubs";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-// Define connection string and related Event Hubs entity name here
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
+const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
 
 export async function main(): Promise<void> {
   console.log(`Running sendEvents sample`);
 
-  const producer = new EventHubProducerClient(connectionString, eventHubName, {
+  const credential = new DefaultAzureCredential();
+
+  const producer = new EventHubProducerClient(fullyQualifiedNamespace, eventHubName, credential, {
     retryOptions: {
       maxRetries: 5,
       mode: RetryMode.Exponential,

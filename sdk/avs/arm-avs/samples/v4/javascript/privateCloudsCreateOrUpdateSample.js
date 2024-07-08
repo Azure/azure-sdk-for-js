@@ -36,7 +36,7 @@ async function privateCloudsCreateOrUpdate() {
   const result = await client.privateClouds.beginCreateOrUpdateAndWait(
     resourceGroupName,
     privateCloudName,
-    privateCloud
+    privateCloud,
   );
   console.log(result);
 }
@@ -65,7 +65,7 @@ async function privateCloudsCreateOrUpdateStretched() {
   const result = await client.privateClouds.beginCreateOrUpdateAndWait(
     resourceGroupName,
     privateCloudName,
-    privateCloud
+    privateCloud,
   );
   console.log(result);
 }

@@ -7,8 +7,8 @@
  */
 
 import {
-  CheckNameAvailabilityPostOptionalParams,
-  CheckNameAvailabilityPostResponse
+  CheckNameAvailabilityCheckAvailabilityOptionalParams,
+  CheckNameAvailabilityCheckAvailabilityResponse,
 } from "../models";
 
 /** Interface representing a CheckNameAvailability. */
@@ -21,8 +21,8 @@ export interface CheckNameAvailability {
    *
    * @param options The options parameters.
    */
-  post(
+  checkAvailability(
     scope: string,
-    options?: CheckNameAvailabilityPostOptionalParams
-  ): Promise<CheckNameAvailabilityPostResponse>;
+    options?: CheckNameAvailabilityCheckAvailabilityOptionalParams,
+  ): Promise<CheckNameAvailabilityCheckAvailabilityResponse>;
 }

@@ -17,7 +17,7 @@ import {
   DataCollectionEndpointsCreateResponse,
   DataCollectionEndpointsUpdateOptionalParams,
   DataCollectionEndpointsUpdateResponse,
-  DataCollectionEndpointsDeleteOptionalParams
+  DataCollectionEndpointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,14 +30,14 @@ export interface DataCollectionEndpoints {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams
+    options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionEndpointResource>;
   /**
    * Lists all data collection endpoints in the specified subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams
+    options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionEndpointResource>;
   /**
    * Returns the specified data collection endpoint.
@@ -49,7 +49,7 @@ export interface DataCollectionEndpoints {
   get(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsGetOptionalParams
+    options?: DataCollectionEndpointsGetOptionalParams,
   ): Promise<DataCollectionEndpointsGetResponse>;
   /**
    * Creates or updates a data collection endpoint.
@@ -61,7 +61,7 @@ export interface DataCollectionEndpoints {
   create(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsCreateOptionalParams
+    options?: DataCollectionEndpointsCreateOptionalParams,
   ): Promise<DataCollectionEndpointsCreateResponse>;
   /**
    * Updates part of a data collection endpoint.
@@ -73,7 +73,7 @@ export interface DataCollectionEndpoints {
   update(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsUpdateOptionalParams
+    options?: DataCollectionEndpointsUpdateOptionalParams,
   ): Promise<DataCollectionEndpointsUpdateResponse>;
   /**
    * Deletes a data collection endpoint.
@@ -85,6 +85,6 @@ export interface DataCollectionEndpoints {
   delete(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsDeleteOptionalParams
+    options?: DataCollectionEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

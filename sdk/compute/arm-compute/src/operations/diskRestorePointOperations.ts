@@ -16,7 +16,7 @@ import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,13 +30,14 @@ import {
   DiskRestorePointGrantAccessOptionalParams,
   DiskRestorePointGrantAccessResponse,
   DiskRestorePointRevokeAccessOptionalParams,
-  DiskRestorePointListByRestorePointNextResponse
+  DiskRestorePointListByRestorePointNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DiskRestorePointOperations operations. */
 export class DiskRestorePointOperationsImpl
-  implements DiskRestorePointOperations {
+  implements DiskRestorePointOperations
+{
   private readonly client: ComputeManagementClient;
 
   /**
@@ -59,13 +60,13 @@ export class DiskRestorePointOperationsImpl
     resourceGroupName: string,
     restorePointCollectionName: string,
     vmRestorePointName: string,
-    options?: DiskRestorePointListByRestorePointOptionalParams
+    options?: DiskRestorePointListByRestorePointOptionalParams,
   ): PagedAsyncIterableIterator<DiskRestorePoint> {
     const iter = this.listByRestorePointPagingAll(
       resourceGroupName,
       restorePointCollectionName,
       vmRestorePointName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +84,9 @@ export class DiskRestorePointOperationsImpl
           restorePointCollectionName,
           vmRestorePointName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +95,7 @@ export class DiskRestorePointOperationsImpl
     restorePointCollectionName: string,
     vmRestorePointName: string,
     options?: DiskRestorePointListByRestorePointOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DiskRestorePoint[]> {
     let result: DiskRestorePointListByRestorePointResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class DiskRestorePointOperationsImpl
         resourceGroupName,
         restorePointCollectionName,
         vmRestorePointName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +117,7 @@ export class DiskRestorePointOperationsImpl
         restorePointCollectionName,
         vmRestorePointName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +130,13 @@ export class DiskRestorePointOperationsImpl
     resourceGroupName: string,
     restorePointCollectionName: string,
     vmRestorePointName: string,
-    options?: DiskRestorePointListByRestorePointOptionalParams
+    options?: DiskRestorePointListByRestorePointOptionalParams,
   ): AsyncIterableIterator<DiskRestorePoint> {
     for await (const page of this.listByRestorePointPagingPage(
       resourceGroupName,
       restorePointCollectionName,
       vmRestorePointName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -155,7 +156,7 @@ export class DiskRestorePointOperationsImpl
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointGetOptionalParams
+    options?: DiskRestorePointGetOptionalParams,
   ): Promise<DiskRestorePointGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -163,9 +164,9 @@ export class DiskRestorePointOperationsImpl
         restorePointCollectionName,
         vmRestorePointName,
         diskRestorePointName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -181,16 +182,16 @@ export class DiskRestorePointOperationsImpl
     resourceGroupName: string,
     restorePointCollectionName: string,
     vmRestorePointName: string,
-    options?: DiskRestorePointListByRestorePointOptionalParams
+    options?: DiskRestorePointListByRestorePointOptionalParams,
   ): Promise<DiskRestorePointListByRestorePointResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         restorePointCollectionName,
         vmRestorePointName,
-        options
+        options,
       },
-      listByRestorePointOperationSpec
+      listByRestorePointOperationSpec,
     );
   }
 
@@ -210,7 +211,7 @@ export class DiskRestorePointOperationsImpl
     vmRestorePointName: string,
     diskRestorePointName: string,
     grantAccessData: GrantAccessData,
-    options?: DiskRestorePointGrantAccessOptionalParams
+    options?: DiskRestorePointGrantAccessOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DiskRestorePointGrantAccessResponse>,
@@ -219,21 +220,20 @@ export class DiskRestorePointOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DiskRestorePointGrantAccessResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -242,8 +242,8 @@ export class DiskRestorePointOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -251,8 +251,8 @@ export class DiskRestorePointOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -264,9 +264,9 @@ export class DiskRestorePointOperationsImpl
         vmRestorePointName,
         diskRestorePointName,
         grantAccessData,
-        options
+        options,
       },
-      spec: grantAccessOperationSpec
+      spec: grantAccessOperationSpec,
     });
     const poller = await createHttpPoller<
       DiskRestorePointGrantAccessResponse,
@@ -274,7 +274,7 @@ export class DiskRestorePointOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -296,7 +296,7 @@ export class DiskRestorePointOperationsImpl
     vmRestorePointName: string,
     diskRestorePointName: string,
     grantAccessData: GrantAccessData,
-    options?: DiskRestorePointGrantAccessOptionalParams
+    options?: DiskRestorePointGrantAccessOptionalParams,
   ): Promise<DiskRestorePointGrantAccessResponse> {
     const poller = await this.beginGrantAccess(
       resourceGroupName,
@@ -304,7 +304,7 @@ export class DiskRestorePointOperationsImpl
       vmRestorePointName,
       diskRestorePointName,
       grantAccessData,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -323,25 +323,24 @@ export class DiskRestorePointOperationsImpl
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointRevokeAccessOptionalParams
+    options?: DiskRestorePointRevokeAccessOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -350,8 +349,8 @@ export class DiskRestorePointOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -359,8 +358,8 @@ export class DiskRestorePointOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -371,14 +370,14 @@ export class DiskRestorePointOperationsImpl
         restorePointCollectionName,
         vmRestorePointName,
         diskRestorePointName,
-        options
+        options,
       },
-      spec: revokeAccessOperationSpec
+      spec: revokeAccessOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -398,14 +397,14 @@ export class DiskRestorePointOperationsImpl
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointRevokeAccessOptionalParams
+    options?: DiskRestorePointRevokeAccessOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRevokeAccess(
       resourceGroupName,
       restorePointCollectionName,
       vmRestorePointName,
       diskRestorePointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -424,7 +423,7 @@ export class DiskRestorePointOperationsImpl
     restorePointCollectionName: string,
     vmRestorePointName: string,
     nextLink: string,
-    options?: DiskRestorePointListByRestorePointNextOptionalParams
+    options?: DiskRestorePointListByRestorePointNextOptionalParams,
   ): Promise<DiskRestorePointListByRestorePointNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -432,9 +431,9 @@ export class DiskRestorePointOperationsImpl
         restorePointCollectionName,
         vmRestorePointName,
         nextLink,
-        options
+        options,
       },
-      listByRestorePointNextOperationSpec
+      listByRestorePointNextOperationSpec,
     );
   }
 }
@@ -442,16 +441,15 @@ export class DiskRestorePointOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiskRestorePoint
+      bodyMapper: Mappers.DiskRestorePoint,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -460,22 +458,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName,
     Parameters.vmRestorePointName,
-    Parameters.diskRestorePointName
+    Parameters.diskRestorePointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByRestorePointOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiskRestorePointList
+      bodyMapper: Mappers.DiskRestorePointList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -483,31 +480,30 @@ const listByRestorePointOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName,
-    Parameters.vmRestorePointName
+    Parameters.vmRestorePointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const grantAccessOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessUri
+      bodyMapper: Mappers.AccessUri,
     },
     201: {
-      bodyMapper: Mappers.AccessUri
+      bodyMapper: Mappers.AccessUri,
     },
     202: {
-      bodyMapper: Mappers.AccessUri
+      bodyMapper: Mappers.AccessUri,
     },
     204: {
-      bodyMapper: Mappers.AccessUri
+      bodyMapper: Mappers.AccessUri,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.grantAccessData,
   queryParameters: [Parameters.apiVersion1],
@@ -517,15 +513,14 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName,
     Parameters.vmRestorePointName,
-    Parameters.diskRestorePointName
+    Parameters.diskRestorePointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const revokeAccessOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -533,8 +528,8 @@ const revokeAccessOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -543,21 +538,21 @@ const revokeAccessOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName,
     Parameters.vmRestorePointName,
-    Parameters.diskRestorePointName
+    Parameters.diskRestorePointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByRestorePointNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiskRestorePointList
+      bodyMapper: Mappers.DiskRestorePointList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -565,8 +560,8 @@ const listByRestorePointNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName,
-    Parameters.vmRestorePointName
+    Parameters.vmRestorePointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes Policy
  *
  * @summary Deletes Policy
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafPolicyDelete.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyDelete.json
  */
 async function deleteProtectionPolicy() {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteProtectionPolicy() {
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.policies.beginDeleteAndWait(
     resourceGroupName,
-    policyName
+    policyName,
   );
   console.log(result);
 }

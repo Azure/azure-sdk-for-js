@@ -9,7 +9,7 @@
   "dependencies": {
     "@azure/service-bus": "^1.1.10",
     "@azure/service-bus-v7": "npm:@azure/service-bus@^7.0.0",
-    "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
+    "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
     "dotenv": "^16.0.0",
     "uuid": "^8.3.0"
   },
@@ -19,7 +19,7 @@
     "@types/uuid": "^8.0.0",
     "ts-node": "^8.3.0",
     "tslib": "^2.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.5.3"
   },
   "private": true,
   "scripts": {
@@ -28,7 +28,7 @@
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "clean": "rimraf --glob dist dist-esm test-dist typings *.tgz *.log",
     "format": "dev-tool run vendored prettier --write --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",

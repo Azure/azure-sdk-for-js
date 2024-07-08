@@ -29,18 +29,16 @@ export interface BreakSentenceItemOutput {
 }
 
 // @public (undocumented)
-export function buildMultiCollection(queryParameters: string[], parameterName: string): string;
+export function buildMultiCollection(items: string[], parameterName: string): string;
 
 // @public
-export interface CommonScriptModelOutput {
-    code: string;
-    dir: string;
-    name: string;
-    nativeName: string;
-}
+function createClient(credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
 
 // @public
-function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: string, options?: ClientOptions): TextTranslationClient;
+
+// @public
+function createClient(endpoint: string, credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -166,70 +164,70 @@ export interface FindSentenceBoundariesQueryParamProperties {
 }
 
 // @public (undocumented)
-export interface GetLanguages {
-    get(options?: GetLanguagesParameters): StreamableMethod<GetLanguages200Response | GetLanguagesDefaultResponse>;
+export interface GetSupportedLanguages {
+    get(options?: GetSupportedLanguagesParameters): StreamableMethod<GetSupportedLanguages200Response | GetSupportedLanguagesDefaultResponse>;
 }
 
 // @public (undocumented)
-export interface GetLanguages200Headers {
+export interface GetSupportedLanguages200Headers {
     "x-requestid": string;
     etag: string;
 }
 
 // @public
-export interface GetLanguages200Response extends HttpResponse {
+export interface GetSupportedLanguages200Response extends HttpResponse {
     // (undocumented)
-    body: GetLanguagesResultOutput;
+    body: GetSupportedLanguagesResultOutput;
     // (undocumented)
-    headers: RawHttpHeaders & GetLanguages200Headers;
+    headers: RawHttpHeaders & GetSupportedLanguages200Headers;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface GetLanguagesDefaultHeaders {
+export interface GetSupportedLanguagesDefaultHeaders {
     "x-requestid": string;
 }
 
 // @public (undocumented)
-export interface GetLanguagesDefaultResponse extends HttpResponse {
+export interface GetSupportedLanguagesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & GetLanguagesDefaultHeaders;
+    headers: RawHttpHeaders & GetSupportedLanguagesDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export interface GetLanguagesHeaderParam {
+export interface GetSupportedLanguagesHeaderParam {
     // (undocumented)
-    headers?: RawHttpHeadersInput & GetLanguagesHeaders;
+    headers?: RawHttpHeadersInput & GetSupportedLanguagesHeaders;
 }
 
 // @public (undocumented)
-export interface GetLanguagesHeaders {
+export interface GetSupportedLanguagesHeaders {
     "Accept-Language"?: string;
     "If-None-Match"?: string;
     "X-ClientTraceId"?: string;
 }
 
 // @public (undocumented)
-export type GetLanguagesParameters = GetLanguagesQueryParam & GetLanguagesHeaderParam & RequestParameters;
+export type GetSupportedLanguagesParameters = GetSupportedLanguagesQueryParam & GetSupportedLanguagesHeaderParam & RequestParameters;
 
 // @public (undocumented)
-export interface GetLanguagesQueryParam {
+export interface GetSupportedLanguagesQueryParam {
     // (undocumented)
-    queryParameters?: GetLanguagesQueryParamProperties;
+    queryParameters?: GetSupportedLanguagesQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GetLanguagesQueryParamProperties {
+export interface GetSupportedLanguagesQueryParamProperties {
     scope?: string;
 }
 
 // @public
-export interface GetLanguagesResultOutput {
+export interface GetSupportedLanguagesResultOutput {
     dictionary?: Record<string, SourceDictionaryLanguageOutput>;
     translation?: Record<string, TranslationLanguageOutput>;
     transliteration?: Record<string, TransliterationLanguageOutput>;
@@ -241,7 +239,7 @@ export interface InputTextItem {
 }
 
 // @public (undocumented)
-export function isUnexpected(response: GetLanguages200Response | GetLanguagesDefaultResponse): response is GetLanguagesDefaultResponse;
+export function isUnexpected(response: GetSupportedLanguages200Response | GetSupportedLanguagesDefaultResponse): response is GetSupportedLanguagesDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: Translate200Response | TranslateDefaultResponse): response is TranslateDefaultResponse;
@@ -257,6 +255,17 @@ export function isUnexpected(response: LookupDictionaryEntries200Response | Look
 
 // @public (undocumented)
 export function isUnexpected(response: LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse): response is LookupDictionaryExamplesDefaultResponse;
+
+// @public
+export type LanguageDirectionalityOutput = "ltr" | "rtl";
+
+// @public
+export interface LanguageScriptOutput {
+    code: string;
+    dir: LanguageDirectionalityOutput;
+    name: string;
+    nativeName: string;
+}
 
 // @public (undocumented)
 export interface LookupDictionaryEntries {
@@ -390,9 +399,15 @@ export interface LookupDictionaryExamplesQueryParamProperties {
     to: string;
 }
 
+// @public
+export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
+
+// @public
+export type ProfanityMarker = "Asterisk" | "Tag";
+
 // @public (undocumented)
 export interface Routes {
-    (path: "/languages"): GetLanguages;
+    (path: "/languages"): GetSupportedLanguages;
     (path: "/translate"): Translate;
     (path: "/transliterate"): Transliterate;
     (path: "/breaksentence"): FindSentenceBoundaries;
@@ -401,14 +416,14 @@ export interface Routes {
 }
 
 // @public
-export interface SentenceLengthOutput {
+export interface SentenceBoundariesOutput {
     srcSentLen: number[];
     transSentLen: number[];
 }
 
 // @public
 export interface SourceDictionaryLanguageOutput {
-    dir: string;
+    dir: LanguageDirectionalityOutput;
     name: string;
     nativeName: string;
     translations: Array<TargetDictionaryLanguageOutput>;
@@ -422,7 +437,7 @@ export interface SourceTextOutput {
 // @public
 export interface TargetDictionaryLanguageOutput {
     code: string;
-    dir: string;
+    dir: LanguageDirectionalityOutput;
     name: string;
     nativeName: string;
 }
@@ -431,6 +446,9 @@ export interface TargetDictionaryLanguageOutput {
 export type TextTranslationClient = Client & {
     path: Routes;
 };
+
+// @public
+export type TextType = string | "Plain" | "Html";
 
 // @public (undocumented)
 export interface Translate {
@@ -483,7 +501,7 @@ export interface TranslatedTextAlignmentOutput {
 export interface TranslatedTextItemOutput {
     detectedLanguage?: DetectedLanguageOutput;
     sourceText?: SourceTextOutput;
-    translations: Array<TranslationOutput>;
+    translations: Array<TranslationTextOutput>;
 }
 
 // @public (undocumented)
@@ -514,28 +532,28 @@ export interface TranslateQueryParamProperties {
     fromScript?: string;
     includeAlignment?: boolean;
     includeSentenceLength?: boolean;
-    profanityAction?: "NoAction" | "Marked" | "Deleted";
-    profanityMarker?: "Asterisk" | "Tag";
+    profanityAction?: ProfanityAction;
+    profanityMarker?: ProfanityMarker;
     suggestedFrom?: string;
-    textType?: "plain" | "html";
+    textType?: TextType;
     to: string;
     toScript?: string;
 }
 
 // @public
 export interface TranslationLanguageOutput {
-    dir: string;
+    dir: LanguageDirectionalityOutput;
     name: string;
     nativeName: string;
 }
 
 // @public
-export interface TranslationOutput {
+export interface TranslationTextOutput {
     alignment?: TranslatedTextAlignmentOutput;
-    sentLen?: SentenceLengthOutput;
+    sentLen?: SentenceBoundariesOutput;
     text: string;
     to: string;
-    transliteration?: TransliterationOutput;
+    transliteration?: TransliteratedTextOutput;
 }
 
 // @public (undocumented)
@@ -546,9 +564,19 @@ export interface TranslatorCredential {
     region: string;
 }
 
+// @public (undocumented)
+export interface TranslatorTokenCredential {
+    // (undocumented)
+    azureResourceId: string;
+    // (undocumented)
+    region: string;
+    // (undocumented)
+    tokenCredential: TokenCredential;
+}
+
 // @public
-export interface TransliterableScriptOutput extends CommonScriptModelOutput {
-    toScripts: Array<CommonScriptModelOutput>;
+export interface TransliterableScriptOutput extends LanguageScriptOutput {
+    toScripts: Array<LanguageScriptOutput>;
 }
 
 // @public (undocumented)
@@ -629,12 +657,6 @@ export interface TransliterationLanguageOutput {
     name: string;
     nativeName: string;
     scripts: Array<TransliterableScriptOutput>;
-}
-
-// @public
-export interface TransliterationOutput {
-    script: string;
-    text: string;
 }
 
 // (No @packageDocumentation comment for this package)

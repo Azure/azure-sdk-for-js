@@ -19,7 +19,8 @@ import {
   DevCenterUpdate,
   DevCentersUpdateOptionalParams,
   DevCentersUpdateResponse,
-  DevCentersDeleteOptionalParams
+  DevCentersDeleteOptionalParams,
+  DevCentersDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +31,7 @@ export interface DevCenters {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DevCentersListBySubscriptionOptionalParams
+    options?: DevCentersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DevCenter>;
   /**
    * Lists all devcenters in a resource group.
@@ -39,7 +40,7 @@ export interface DevCenters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DevCentersListByResourceGroupOptionalParams
+    options?: DevCentersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DevCenter>;
   /**
    * Gets a devcenter.
@@ -50,7 +51,7 @@ export interface DevCenters {
   get(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevCentersGetOptionalParams
+    options?: DevCentersGetOptionalParams,
   ): Promise<DevCentersGetResponse>;
   /**
    * Creates or updates a devcenter resource
@@ -63,7 +64,7 @@ export interface DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenter,
-    options?: DevCentersCreateOrUpdateOptionalParams
+    options?: DevCentersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevCentersCreateOrUpdateResponse>,
@@ -81,7 +82,7 @@ export interface DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenter,
-    options?: DevCentersCreateOrUpdateOptionalParams
+    options?: DevCentersCreateOrUpdateOptionalParams,
   ): Promise<DevCentersCreateOrUpdateResponse>;
   /**
    * Partially updates a devcenter.
@@ -94,7 +95,7 @@ export interface DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenterUpdate,
-    options?: DevCentersUpdateOptionalParams
+    options?: DevCentersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevCentersUpdateResponse>,
@@ -112,7 +113,7 @@ export interface DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     body: DevCenterUpdate,
-    options?: DevCentersUpdateOptionalParams
+    options?: DevCentersUpdateOptionalParams,
   ): Promise<DevCentersUpdateResponse>;
   /**
    * Deletes a devcenter
@@ -123,8 +124,13 @@ export interface DevCenters {
   beginDelete(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevCentersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: DevCentersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevCentersDeleteResponse>,
+      DevCentersDeleteResponse
+    >
+  >;
   /**
    * Deletes a devcenter
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -134,6 +140,6 @@ export interface DevCenters {
   beginDeleteAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevCentersDeleteOptionalParams
-  ): Promise<void>;
+    options?: DevCentersDeleteOptionalParams,
+  ): Promise<DevCentersDeleteResponse>;
 }

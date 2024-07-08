@@ -1,11 +1,11 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
     "declarationDir": "./types",
+    "outDir": "./dist-esm",
     "paths": {
       "@azure/search-documents": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["samples-dev/**/*.ts", "src/**/*.ts", "test/**/*.ts"]
 }

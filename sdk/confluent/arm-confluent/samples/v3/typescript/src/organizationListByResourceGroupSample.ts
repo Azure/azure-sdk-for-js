@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all Organizations under the specified resource group.
  *
  * @summary List all Organizations under the specified resource group.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Organization_ListByResourceGroup.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ListByResourceGroup.json
  */
 async function organizationListByResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function organizationListByResourceGroup() {
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.organization.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

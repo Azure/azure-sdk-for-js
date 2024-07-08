@@ -11,10 +11,16 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  BlobServicesImpl,
+  BlobContainersImpl,
+  FileServicesImpl,
+  FileSharesImpl,
+  QueueServicesImpl,
+  QueueImpl,
   OperationsImpl,
   SkusImpl,
   StorageAccountsImpl,
@@ -27,16 +33,20 @@ import {
   ObjectReplicationPoliciesOperationsImpl,
   LocalUsersOperationsImpl,
   EncryptionScopesImpl,
-  BlobServicesImpl,
-  BlobContainersImpl,
-  FileServicesImpl,
-  FileSharesImpl,
-  QueueServicesImpl,
-  QueueImpl,
   TableServicesImpl,
-  TableOperationsImpl
+  TableOperationsImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
+  StorageTaskAssignmentsImpl,
+  StorageTaskAssignmentsInstancesReportImpl,
+  StorageTaskAssignmentInstancesReportImpl,
 } from "./operations";
 import {
+  BlobServices,
+  BlobContainers,
+  FileServices,
+  FileShares,
+  QueueServices,
+  Queue,
   Operations,
   Skus,
   StorageAccounts,
@@ -49,14 +59,12 @@ import {
   ObjectReplicationPoliciesOperations,
   LocalUsersOperations,
   EncryptionScopes,
-  BlobServices,
-  BlobContainers,
-  FileServices,
-  FileShares,
-  QueueServices,
-  Queue,
   TableServices,
-  TableOperations
+  TableOperations,
+  NetworkSecurityPerimeterConfigurations,
+  StorageTaskAssignments,
+  StorageTaskAssignmentsInstancesReport,
+  StorageTaskAssignmentInstancesReport,
 } from "./operationsInterfaces";
 import { StorageManagementClientOptionalParams } from "./models";
 
@@ -74,7 +82,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: StorageManagementClientOptionalParams
+    options?: StorageManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -89,10 +97,10 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     }
     const defaults: StorageManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storage/18.2.1`;
+    const packageDetails = `azsdk-js-arm-storage/18.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -102,20 +110,21 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -125,7 +134,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -135,9 +144,9 @@ export class StorageManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -145,7 +154,13 @@ export class StorageManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
+    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.blobServices = new BlobServicesImpl(this);
+    this.blobContainers = new BlobContainersImpl(this);
+    this.fileServices = new FileServicesImpl(this);
+    this.fileShares = new FileSharesImpl(this);
+    this.queueServices = new QueueServicesImpl(this);
+    this.queue = new QueueImpl(this);
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.storageAccounts = new StorageAccountsImpl(this);
@@ -155,19 +170,19 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     this.blobInventoryPolicies = new BlobInventoryPoliciesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.objectReplicationPoliciesOperations = new ObjectReplicationPoliciesOperationsImpl(
-      this
-    );
+    this.objectReplicationPoliciesOperations =
+      new ObjectReplicationPoliciesOperationsImpl(this);
     this.localUsersOperations = new LocalUsersOperationsImpl(this);
     this.encryptionScopes = new EncryptionScopesImpl(this);
-    this.blobServices = new BlobServicesImpl(this);
-    this.blobContainers = new BlobContainersImpl(this);
-    this.fileServices = new FileServicesImpl(this);
-    this.fileShares = new FileSharesImpl(this);
-    this.queueServices = new QueueServicesImpl(this);
-    this.queue = new QueueImpl(this);
     this.tableServices = new TableServicesImpl(this);
     this.tableOperations = new TableOperationsImpl(this);
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
+    this.storageTaskAssignments = new StorageTaskAssignmentsImpl(this);
+    this.storageTaskAssignmentsInstancesReport =
+      new StorageTaskAssignmentsInstancesReportImpl(this);
+    this.storageTaskAssignmentInstancesReport =
+      new StorageTaskAssignmentInstancesReportImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -180,7 +195,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -194,11 +209,17 @@ export class StorageManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  blobServices: BlobServices;
+  blobContainers: BlobContainers;
+  fileServices: FileServices;
+  fileShares: FileShares;
+  queueServices: QueueServices;
+  queue: Queue;
   operations: Operations;
   skus: Skus;
   storageAccounts: StorageAccounts;
@@ -211,12 +232,10 @@ export class StorageManagementClient extends coreClient.ServiceClient {
   objectReplicationPoliciesOperations: ObjectReplicationPoliciesOperations;
   localUsersOperations: LocalUsersOperations;
   encryptionScopes: EncryptionScopes;
-  blobServices: BlobServices;
-  blobContainers: BlobContainers;
-  fileServices: FileServices;
-  fileShares: FileShares;
-  queueServices: QueueServices;
-  queue: Queue;
   tableServices: TableServices;
   tableOperations: TableOperations;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+  storageTaskAssignments: StorageTaskAssignments;
+  storageTaskAssignmentsInstancesReport: StorageTaskAssignmentsInstancesReport;
+  storageTaskAssignmentInstancesReport: StorageTaskAssignmentInstancesReport;
 }

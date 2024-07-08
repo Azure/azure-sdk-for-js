@@ -12,7 +12,7 @@ import {
   ClusterJob,
   ClusterJobsListOptionalParams,
   ClusterJobsRunJobOptionalParams,
-  ClusterJobsRunJobResponse
+  ClusterJobsRunJobResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ClusterJobs {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClusterJobsListOptionalParams
+    options?: ClusterJobsListOptionalParams,
   ): PagedAsyncIterableIterator<ClusterJob>;
   /**
    * Operations on jobs of HDInsight on AKS cluster.
@@ -44,7 +44,7 @@ export interface ClusterJobs {
     clusterPoolName: string,
     clusterName: string,
     clusterJob: ClusterJob,
-    options?: ClusterJobsRunJobOptionalParams
+    options?: ClusterJobsRunJobOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClusterJobsRunJobResponse>,
@@ -64,6 +64,6 @@ export interface ClusterJobs {
     clusterPoolName: string,
     clusterName: string,
     clusterJob: ClusterJob,
-    options?: ClusterJobsRunJobOptionalParams
+    options?: ClusterJobsRunJobOptionalParams,
   ): Promise<ClusterJobsRunJobResponse>;
 }

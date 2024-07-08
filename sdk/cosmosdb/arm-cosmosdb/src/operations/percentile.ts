@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   PercentileMetric,
   PercentileListMetricsOptionalParams,
-  PercentileListMetricsResponse
+  PercentileListMetricsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,13 +45,13 @@ export class PercentileImpl implements Percentile {
     resourceGroupName: string,
     accountName: string,
     filter: string,
-    options?: PercentileListMetricsOptionalParams
+    options?: PercentileListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<PercentileMetric> {
     const iter = this.listMetricsPagingAll(
       resourceGroupName,
       accountName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class PercentileImpl implements Percentile {
           accountName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,14 +80,14 @@ export class PercentileImpl implements Percentile {
     accountName: string,
     filter: string,
     options?: PercentileListMetricsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PercentileMetric[]> {
     let result: PercentileListMetricsResponse;
     result = await this._listMetrics(
       resourceGroupName,
       accountName,
       filter,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -96,13 +96,13 @@ export class PercentileImpl implements Percentile {
     resourceGroupName: string,
     accountName: string,
     filter: string,
-    options?: PercentileListMetricsOptionalParams
+    options?: PercentileListMetricsOptionalParams,
   ): AsyncIterableIterator<PercentileMetric> {
     for await (const page of this.listMetricsPagingPage(
       resourceGroupName,
       accountName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,11 +122,11 @@ export class PercentileImpl implements Percentile {
     resourceGroupName: string,
     accountName: string,
     filter: string,
-    options?: PercentileListMetricsOptionalParams
+    options?: PercentileListMetricsOptionalParams,
   ): Promise<PercentileListMetricsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, filter, options },
-      listMetricsOperationSpec
+      listMetricsOperationSpec,
     );
   }
 }
@@ -134,21 +134,20 @@ export class PercentileImpl implements Percentile {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/percentile/metrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/percentile/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PercentileMetricListResult
-    }
+      bodyMapper: Mappers.PercentileMetricListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

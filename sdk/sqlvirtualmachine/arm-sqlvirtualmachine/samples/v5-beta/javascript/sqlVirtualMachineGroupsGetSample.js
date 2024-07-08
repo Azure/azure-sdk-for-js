@@ -27,7 +27,7 @@ async function getsASqlVirtualMachineGroup() {
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachineGroups.get(
     resourceGroupName,
-    sqlVirtualMachineGroupName
+    sqlVirtualMachineGroupName,
   );
   console.log(result);
 }

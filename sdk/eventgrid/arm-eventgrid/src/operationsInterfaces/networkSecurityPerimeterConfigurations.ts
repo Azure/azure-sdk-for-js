@@ -15,7 +15,7 @@ import {
   NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetResponse,
   NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
-  NetworkSecurityPerimeterConfigurationsReconcileResponse
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface NetworkSecurityPerimeterConfigurations {
     resourceGroupName: string,
     resourceType: NetworkSecurityPerimeterResourceType,
     resourceName: string,
-    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
   /**
    * Get a specific network security perimeter configuration with a topic or domain.
@@ -50,7 +50,7 @@ export interface NetworkSecurityPerimeterConfigurations {
     resourceName: string,
     perimeterGuid: string,
     associationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
   /**
    * Reconcile a specific network security perimeter configuration for a given network security perimeter
@@ -69,7 +69,7 @@ export interface NetworkSecurityPerimeterConfigurations {
     resourceName: string,
     perimeterGuid: string,
     associationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
@@ -93,6 +93,6 @@ export interface NetworkSecurityPerimeterConfigurations {
     resourceName: string,
     perimeterGuid: string,
     associationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
 }

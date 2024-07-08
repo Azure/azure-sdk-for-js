@@ -1,4 +1,4 @@
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure-tools/test-perf";
 import { GetKeyTest } from "./keys/get.spec";
 import { DecryptTest } from "./cryptography/decrypt.spec";
 import { SignTest } from "./cryptography/sign.spec";

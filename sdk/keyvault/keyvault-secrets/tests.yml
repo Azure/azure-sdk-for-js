@@ -1,19 +1,15 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/keyvault-secrets"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 59
       SupportedClouds: 'Public,UsGov,China'
+      UseFederatedAuth: true
       AdditionalMatrixConfigs:
         - Name: Keyvault_live_test_base
           Path: sdk/keyvault/keyvault-secrets/platform-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-      EnvVars:
-        AZURE_CLIENT_ID: $(KEYVAULT_CLIENT_ID)
-        AZURE_TENANT_ID: $(KEYVAULT_TENANT_ID)
-        AZURE_CLIENT_SECRET: $(KEYVAULT_CLIENT_SECRET)
-        AZURE_SUBSCRIPTION_ID: $(KEYVAULT_SUBSCRIPTION_ID)

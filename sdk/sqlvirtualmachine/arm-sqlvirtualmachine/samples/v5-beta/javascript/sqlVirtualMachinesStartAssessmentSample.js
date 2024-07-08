@@ -27,7 +27,7 @@ async function startsSqlBestPracticesAssessmentOnSqlVirtualMachine() {
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachines.beginStartAssessmentAndWait(
     resourceGroupName,
-    sqlVirtualMachineName
+    sqlVirtualMachineName,
   );
   console.log(result);
 }

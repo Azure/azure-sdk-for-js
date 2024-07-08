@@ -20,6 +20,7 @@ import { extractOverlappingRanges } from "./changeFeedUtils";
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
  * @hidden
  * Provides iterator for change feed for entire container or an epk range.
@@ -32,6 +33,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   private startTime: string;
   private isInstantiated: boolean;
   private rId: string;
+  private startFromNow: boolean;
   /**
    * @internal
    */
@@ -49,10 +51,13 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     this.continuationToken = changeFeedOptions.continuationToken
       ? JSON.parse(changeFeedOptions.continuationToken)
       : undefined;
-    this.startTime = changeFeedOptions.startTime
-      ? changeFeedOptions.startTime.toUTCString()
-      : undefined;
     this.isInstantiated = false;
+    // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
+    if (changeFeedOptions.startFromNow) {
+      this.startFromNow = true;
+    } else if (changeFeedOptions.startTime) {
+      this.startTime = changeFeedOptions.startTime.toUTCString();
+    }
   }
 
   private async setIteratorRid(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
@@ -347,7 +352,6 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         oldFeedRange,
         resolvedRanges[i],
       );
-
       const newFeedRange = new ChangeFeedRange(
         resolvedRanges[i].minInclusive,
         resolvedRanges[i].maxExclusive,
@@ -391,7 +395,11 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     feedRange: ChangeFeedRange,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
+    const feedOptions: FeedOptions = {
+      initialHeaders: {},
+      useLatestVersionFeed: true,
+      useAllVersionsAndDeletesFeed: false,
+    };
 
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
       feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
@@ -406,11 +414,23 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         type: Constants.HttpHeaders.IfNoneMatch,
         condition: feedRange.continuationToken,
       };
+    } else if (this.startFromNow) {
+      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
+        Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
     }
 
     if (this.startTime) {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
     }
+
+    if (
+      this.changeFeedOptions.changeFeedMode &&
+      this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
+    ) {
+      feedOptions.useAllVersionsAndDeletesFeed = true;
+      feedOptions.useLatestVersionFeed = false;
+    }
+
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
     if (this.clientContext.enableEncryption) {
       addContainerRid(this.container);
@@ -440,7 +460,15 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      // If any errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
+      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
+        const errorResponse = new ErrorResponse(err.message);
+        errorResponse.code = err.code;
+        errorResponse.headers = err.headers;
+
+        throw errorResponse;
+      }
+
+      // If any other errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
       return new ChangeFeedIteratorResponse(
         [],
         0,

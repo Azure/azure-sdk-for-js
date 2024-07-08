@@ -33,6 +33,7 @@ const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
+
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
 if (isBrowser()) {
   sasParams.push("_");
@@ -55,13 +56,13 @@ export const recorderEnvSetup: RecorderStartOptions = {
     DFS_SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
     DFS_SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     DFS_SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
-    AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockAccountKey}`,
-    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
   },
   sanitizerOptions: {
     uriSanitizers,
   },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 /**

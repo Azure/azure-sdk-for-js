@@ -59,6 +59,7 @@ import {
   SendConfigurationSettingsOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
   formatConfigurationSettingsFiltersAndSelect,
@@ -331,22 +332,53 @@ export class AppConfigurationClient {
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const etag = pageEtags?.shift();
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
         firstPageLink: undefined,
         getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
-          const currentResponse = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
+          try {
+            const response = await this.sendConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              items: response.items != null ? response.items?.map(transformKeyValue) : [],
+              continuationToken: response.nextLink
+                ? extractAfterTokenFromNextLink(response.nextLink)
+                : undefined,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
+
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
         },
         toElements: (page) => page.items,
       };
@@ -404,6 +436,7 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
         });
 

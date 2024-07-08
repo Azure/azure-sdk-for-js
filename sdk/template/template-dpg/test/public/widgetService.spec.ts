@@ -52,7 +52,12 @@ describe("WidgetServiceClient", function () {
     recorder = new Recorder(this.currentTest);
 
     // Start the recorder before each test.
-    await recorder.start({ envSetupForPlayback: replaceableVariables });
+    await recorder.start({
+      envSetupForPlayback: replaceableVariables,
+      removeCentralSanitizers: [
+        "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+      ],
+    });
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.6.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,17 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.6.0 (2024-04-09)
+
+### Features Added
+
+- The `etag` for each page of configuration settings feature is generally available
+## 1.6.0-beta.1 (2024-03-05)
+
+### Features Added
+
+- Support `etag` property for each page of configuration settings. You can give a list of etags through the `etagList` property in the options bag for the `listConfigurationSettings` method to see if the page has been changed. This enables more efficient caching and avoid mid-air collision.
 
 ## 1.5.0 (2023-11-07)
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the status of a VM scale set instance.
  *
  * @summary Gets the status of a VM scale set instance.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetGetInstanceViewMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function virtualMachineScaleSetGetInstanceViewMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.getInstanceView(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function virtualMachineScaleSetGetInstanceViewMaximumSetGen() {
  * This sample demonstrates how to Gets the status of a VM scale set instance.
  *
  * @summary Gets the status of a VM scale set instance.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetGetInstanceViewMinimumSetGen() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function virtualMachineScaleSetGetInstanceViewMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.getInstanceView(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }

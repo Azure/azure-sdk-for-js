@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.23.0-beta.2",
+  "version": "12.24.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-file-share/src/index.js",
@@ -30,12 +30,12 @@
     "build:nodebrowser": "dev-tool run bundle",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf --glob dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/v12/javascript/node_modules samples/v12/typescript/node_modules samples/v12/typescript/dist samples/v12/typescript/package-lock.json samples/v12/javascript/package-lock.json",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
     "execute:samples": "dev-tool samples run samples-dev",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
@@ -81,7 +81,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/storageClientContext.ts",
+        "path": "src/generated/src/storageClient.ts",
         "prefix": "packageVersion"
       },
       {
@@ -128,14 +128,14 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/storage-blob": "^12.23.0-beta.2",
+    "@azure/storage-blob": "^12.23.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure-tools/test-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
@@ -146,7 +146,6 @@
     "dotenv": "^16.0.0",
     "es6-promise": "^4.2.5",
     "eslint": "^8.0.0",
-    "esm": "^3.2.18",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -158,13 +157,13 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "c8": "^8.0.0",
+    "nyc": "^17.0.0",
     "puppeteer": "^22.2.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.5.3",
     "util": "^0.12.1"
   }
 }

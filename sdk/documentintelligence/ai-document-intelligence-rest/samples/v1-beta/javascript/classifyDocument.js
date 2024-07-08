@@ -15,7 +15,7 @@ require("dotenv").config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
   const documentUrl =
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/Invoice_1.pdf";
@@ -43,7 +43,7 @@ async function main() {
 
   for (const document of analyzeResult.documents) {
     console.log(
-      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`
+      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`,
     );
   }
 }

@@ -5,24 +5,20 @@
  * @summary Demonstrates the DataSource Connection Operations.
  */
 
-import {
-  SearchIndexerClient,
-  AzureKeyCredential,
-  SearchIndexerDataSourceConnection,
-} from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SearchIndexerClient, SearchIndexerDataSourceConnection } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const connectionString = process.env.CONNECTION_STRING || "";
-const dataSourceConnectionName = "example-ds-connection-sample-1";
+const TEST_DATA_SOURCE_CONNECTION_NAME = "example-ds-connection-sample-1";
 
 async function createDataSourceConnection(
   dataSourceConnectionName: string,
   client: SearchIndexerClient,
-) {
+): Promise<void> {
   console.log(`Creating DS Connection Operation`);
   const dataSourceConnection: SearchIndexerDataSourceConnection = {
     name: dataSourceConnectionName,
@@ -39,7 +35,7 @@ async function createDataSourceConnection(
 async function getAndUpdateDataSourceConnection(
   dataSourceConnectionName: string,
   client: SearchIndexerClient,
-) {
+): Promise<void> {
   console.log(`Get And Update DS Connection Operation`);
   const ds: SearchIndexerDataSourceConnection =
     await client.getDataSourceConnection(dataSourceConnectionName);
@@ -48,14 +44,14 @@ async function getAndUpdateDataSourceConnection(
   await client.createOrUpdateDataSourceConnection(ds);
 }
 
-async function listDataSourceConnections(client: SearchIndexerClient) {
+async function listDataSourceConnections(client: SearchIndexerClient): Promise<void> {
   console.log(`List DS Connection Operation`);
   const listOfDataSourceConnections: Array<SearchIndexerDataSourceConnection> =
     await client.listDataSourceConnections();
 
   console.log(`List of Data Source Connections`);
   console.log(`*******************************`);
-  for (let ds of listOfDataSourceConnections) {
+  for (const ds of listOfDataSourceConnections) {
     console.log(`Name: ${ds.name}`);
     console.log(`Description: ${ds.description}`);
     console.log(`Connection String: ${ds.connectionString}`);
@@ -72,24 +68,24 @@ async function listDataSourceConnections(client: SearchIndexerClient) {
 async function deleteDataSourceConnection(
   dataSourceConnectionName: string,
   client: SearchIndexerClient,
-) {
+): Promise<void> {
   console.log(`Deleting DS Connection Operation`);
   await client.deleteDataSourceConnection(dataSourceConnectionName);
 }
 
-async function main() {
+async function main(): Promise<void> {
   console.log(`Running DS Connection Operations Sample....`);
-  if (!endpoint || !apiKey || !connectionString) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint || !connectionString) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
   try {
-    await createDataSourceConnection(dataSourceConnectionName, client);
-    await getAndUpdateDataSourceConnection(dataSourceConnectionName, client);
+    await createDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
+    await getAndUpdateDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
     await listDataSourceConnections(client);
   } finally {
-    await deleteDataSourceConnection(dataSourceConnectionName, client);
+    await deleteDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
   }
 }
 

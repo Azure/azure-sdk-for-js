@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the status of a virtual machine from a VM scale set.
  *
  * @summary Gets the status of a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
  */
 async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicated
   const result = await client.virtualMachineScaleSetVMs.getInstanceView(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }

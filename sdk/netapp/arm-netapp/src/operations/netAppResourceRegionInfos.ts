@@ -20,13 +20,14 @@ import {
   NetAppResourceRegionInfosListResponse,
   NetAppResourceRegionInfosGetOptionalParams,
   NetAppResourceRegionInfosGetResponse,
-  NetAppResourceRegionInfosListNextResponse
+  NetAppResourceRegionInfosListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetAppResourceRegionInfos operations. */
 export class NetAppResourceRegionInfosImpl
-  implements NetAppResourceRegionInfos {
+  implements NetAppResourceRegionInfos
+{
   private readonly client: NetAppManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class NetAppResourceRegionInfosImpl
    */
   public list(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams
+    options?: NetAppResourceRegionInfosListOptionalParams,
   ): PagedAsyncIterableIterator<RegionInfoResource> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -59,14 +60,14 @@ export class NetAppResourceRegionInfosImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: NetAppResourceRegionInfosListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RegionInfoResource[]> {
     let result: NetAppResourceRegionInfosListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class NetAppResourceRegionInfosImpl
 
   private async *listPagingAll(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams
+    options?: NetAppResourceRegionInfosListOptionalParams,
   ): AsyncIterableIterator<RegionInfoResource> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -102,11 +103,11 @@ export class NetAppResourceRegionInfosImpl
    */
   private _list(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams
+    options?: NetAppResourceRegionInfosListOptionalParams,
   ): Promise<NetAppResourceRegionInfosListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -117,11 +118,11 @@ export class NetAppResourceRegionInfosImpl
    */
   get(
     location: string,
-    options?: NetAppResourceRegionInfosGetOptionalParams
+    options?: NetAppResourceRegionInfosGetOptionalParams,
   ): Promise<NetAppResourceRegionInfosGetResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -134,11 +135,11 @@ export class NetAppResourceRegionInfosImpl
   private _listNext(
     location: string,
     nextLink: string,
-    options?: NetAppResourceRegionInfosListNextOptionalParams
+    options?: NetAppResourceRegionInfosListNextOptionalParams,
   ): Promise<NetAppResourceRegionInfosListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -146,64 +147,62 @@ export class NetAppResourceRegionInfosImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionInfosList
+      bodyMapper: Mappers.RegionInfosList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionInfoResource
+      bodyMapper: Mappers.RegionInfoResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionInfosList
+      bodyMapper: Mappers.RegionInfosList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

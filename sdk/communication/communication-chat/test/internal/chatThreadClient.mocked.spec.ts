@@ -22,6 +22,7 @@ import {
   generateHttpClient,
   mockChatMessageReadReceipt,
   mockMessage,
+  mockMessageWithFileAttachment,
   mockMessageWithImageAttachment,
   mockParticipant,
   mockSdkModelParticipant,
@@ -186,6 +187,41 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.deepEqual(responseAttachments, expectedAttachments);
     assert.deepEqual(repsonseContents, expectedContents);
     assert.equal(responseAttachments![0].attachmentType, "image");
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful get message with file attachments request", async function () {
+    const mockHttpClient = generateHttpClient(200, mockMessageWithFileAttachment);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const {
+      sender: responseUser,
+      content: responseContent,
+      ...responseMessage
+    } = await chatThreadClient.getMessage(mockMessageWithFileAttachment.id!);
+    const {
+      senderCommunicationIdentifier: expectedIdentifier,
+      content: expectedContent,
+      ...expectedMessage
+    } = mockMessageWithFileAttachment;
+    const {
+      participants: expectedParticipants,
+      attachments: expectedAttachments,
+      ...expectedContents
+    } = expectedContent!;
+    const {
+      participants: responseParticipants,
+      attachments: responseAttachments,
+      ...repsonseContents
+    } = responseContent!;
+    sinon.assert.calledOnce(spy);
+    assert.deepEqual(responseMessage, expectedMessage);
+    assert.deepEqual(responseAttachments, expectedAttachments);
+    assert.deepEqual(repsonseContents, expectedContents);
+    assert.equal(responseAttachments![0].attachmentType, "file");
     const request = spy.getCall(0).args[0];
 
     assert.equal(request.method, "GET");

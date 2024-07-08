@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 } from "uuid";
-const uuid = v4;
+
 import {
   Pipeline,
   bearerTokenAuthenticationPolicy,
@@ -46,6 +45,8 @@ import {
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
+import { randomUUID } from "@azure/core-util";
+
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -203,7 +204,7 @@ export class ClientContext {
       operationType: OperationType.Query,
       resourceType,
     });
-    const requestId = uuid();
+    const requestId = randomUUID();
     if (query !== undefined) {
       request.method = HTTPMethod.post;
     }

@@ -32,7 +32,7 @@ async function eventsListByBillingProfile() {
     billingAccountId,
     billingProfileId,
     startDate,
-    endDate
+    endDate,
   )) {
     resArray.push(item);
   }

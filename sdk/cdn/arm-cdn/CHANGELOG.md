@@ -1,4 +1,32 @@
 # Release History
+
+## 9.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 9.1.0 (2024-04-08)
+    
+**Features**
+
+  - Added Interface ProfileLogScrubbing
+  - Added Interface ProfileScrubbingRules
+  - Added Type Alias ProfileScrubbingState
+  - Added Type Alias ScrubbingRuleEntryMatchOperator
+  - Added Type Alias ScrubbingRuleEntryMatchVariable
+  - Added Type Alias ScrubbingRuleEntryState
+  - Interface Profile has a new optional parameter logScrubbing
+  - Interface ProfileUpdateParameters has a new optional parameter logScrubbing
+  - Added Enum KnownProfileScrubbingState
+  - Added Enum KnownScrubbingRuleEntryMatchOperator
+  - Added Enum KnownScrubbingRuleEntryMatchVariable
+  - Added Enum KnownScrubbingRuleEntryState
+    
     
 ## 9.0.0 (2023-10-10)
     

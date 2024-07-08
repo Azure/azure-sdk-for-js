@@ -51,7 +51,7 @@ async function scriptExecutionsCreateOrUpdate() {
     resourceGroupName,
     privateCloudName,
     scriptExecutionName,
-    scriptExecution
+    scriptExecution,
   );
   console.log(result);
 }

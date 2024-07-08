@@ -62,7 +62,7 @@ import {
   MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
   ContinuousBackupRestoreLocation,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
-  MongoDBResourcesRetrieveContinuousBackupInformationResponse
+  MongoDBResourcesRetrieveContinuousBackupInformationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -77,7 +77,7 @@ export interface MongoDBResources {
   listMongoDBDatabases(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams
+    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
   ): PagedAsyncIterableIterator<MongoDBDatabaseGetResults>;
   /**
    * Lists the MongoDB collection under an existing Azure Cosmos DB database account.
@@ -90,7 +90,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams
+    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
   ): PagedAsyncIterableIterator<MongoDBCollectionGetResults>;
   /**
    * Retrieves the list of all Azure Cosmos DB Mongo Role Definitions.
@@ -101,7 +101,7 @@ export interface MongoDBResources {
   listMongoRoleDefinitions(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MongoRoleDefinitionGetResults>;
   /**
    * Retrieves the list of all Azure Cosmos DB Mongo User Definition.
@@ -112,7 +112,7 @@ export interface MongoDBResources {
   listMongoUserDefinitions(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MongoUserDefinitionGetResults>;
   /**
    * Gets the MongoDB databases under an existing Azure Cosmos DB database account with the provided
@@ -126,7 +126,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesGetMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBDatabaseResponse>;
   /**
    * Create or updates Azure Cosmos DB MongoDB database
@@ -142,7 +142,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
@@ -163,7 +163,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>;
   /**
    * Deletes an existing Azure Cosmos DB MongoDB database.
@@ -176,7 +176,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>,
@@ -194,7 +194,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
   ): Promise<MongoDBResourcesDeleteMongoDBDatabaseResponse>;
   /**
    * Gets the RUs per second of the MongoDB database under an existing Azure Cosmos DB database account
@@ -208,7 +208,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams
+    options?: MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBDatabaseThroughputResponse>;
   /**
    * Update RUs per second of the an Azure Cosmos DB MongoDB database
@@ -224,7 +224,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>,
@@ -245,7 +245,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams,
   ): Promise<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>;
   /**
    * Migrate an Azure Cosmos DB MongoDB database from manual throughput to autoscale
@@ -258,7 +258,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>,
@@ -276,7 +276,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams,
   ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>;
   /**
    * Migrate an Azure Cosmos DB MongoDB database from autoscale to manual throughput
@@ -289,12 +289,10 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
-      >,
+      OperationState<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>,
       MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
     >
   >;
@@ -309,7 +307,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>;
   /**
    * Gets the MongoDB collection under an existing Azure Cosmos DB database account.
@@ -324,7 +322,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesGetMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesGetMongoDBCollectionOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBCollectionResponse>;
   /**
    * Create or update an Azure Cosmos DB MongoDB Collection
@@ -342,7 +340,7 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
@@ -365,7 +363,7 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>;
   /**
    * Deletes an existing Azure Cosmos DB MongoDB Collection.
@@ -380,7 +378,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>,
@@ -400,7 +398,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   ): Promise<MongoDBResourcesDeleteMongoDBCollectionResponse>;
   /**
    * Gets the RUs per second of the MongoDB collection under an existing Azure Cosmos DB database account
@@ -416,7 +414,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams
+    options?: MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBCollectionThroughputResponse>;
   /**
    * Update the RUs per second of an Azure Cosmos DB MongoDB collection
@@ -434,7 +432,7 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>,
@@ -457,7 +455,7 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
   ): Promise<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>;
   /**
    * Migrate an Azure Cosmos DB MongoDB collection from manual throughput to autoscale
@@ -472,12 +470,10 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
-      >,
+      OperationState<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>,
       MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
     >
   >;
@@ -494,7 +490,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
   ): Promise<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>;
   /**
    * Migrate an Azure Cosmos DB MongoDB collection from autoscale to manual throughput
@@ -509,12 +505,10 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
-      >,
+      OperationState<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>,
       MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
     >
   >;
@@ -531,10 +525,8 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
-  ): Promise<
-    MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
-  >;
+    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
+  ): Promise<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>;
   /**
    * Retrieves the properties of an existing Azure Cosmos DB Mongo Role Definition with the given Id.
    * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
@@ -546,7 +538,7 @@ export interface MongoDBResources {
     mongoRoleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesGetMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesGetMongoRoleDefinitionOptionalParams,
   ): Promise<MongoDBResourcesGetMongoRoleDefinitionResponse>;
   /**
    * Creates or updates an Azure Cosmos DB Mongo Role Definition.
@@ -562,7 +554,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>,
@@ -583,7 +575,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo Role Definition.
@@ -596,7 +588,7 @@ export interface MongoDBResources {
     mongoRoleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo Role Definition.
@@ -609,7 +601,7 @@ export interface MongoDBResources {
     mongoRoleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves the properties of an existing Azure Cosmos DB Mongo User Definition with the given Id.
@@ -622,7 +614,7 @@ export interface MongoDBResources {
     mongoUserDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesGetMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesGetMongoUserDefinitionOptionalParams,
   ): Promise<MongoDBResourcesGetMongoUserDefinitionResponse>;
   /**
    * Creates or updates an Azure Cosmos DB Mongo User Definition.
@@ -638,7 +630,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>,
@@ -659,7 +651,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo User Definition.
@@ -672,7 +664,7 @@ export interface MongoDBResources {
     mongoUserDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo User Definition.
@@ -685,7 +677,7 @@ export interface MongoDBResources {
     mongoUserDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves continuous backup information for a Mongodb collection.
@@ -702,12 +694,10 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesRetrieveContinuousBackupInformationResponse
-      >,
+      OperationState<MongoDBResourcesRetrieveContinuousBackupInformationResponse>,
       MongoDBResourcesRetrieveContinuousBackupInformationResponse
     >
   >;
@@ -726,6 +716,6 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse>;
 }

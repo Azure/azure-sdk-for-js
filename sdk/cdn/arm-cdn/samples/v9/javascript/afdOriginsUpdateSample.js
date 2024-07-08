@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an existing origin within an origin group.
  *
  * @summary Updates an existing origin within an origin group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDOrigins_Update.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOrigins_Update.json
  */
 async function afdOriginsUpdate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

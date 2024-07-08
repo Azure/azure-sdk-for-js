@@ -29,7 +29,7 @@ async function listAllSnapshotsInAResourceGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.snapshots.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

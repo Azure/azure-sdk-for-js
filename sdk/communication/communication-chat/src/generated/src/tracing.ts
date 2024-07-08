@@ -11,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Azure.Communication",
   packageName: "@azure/communication-chat",
-  packageVersion: "1.4.1"
+  packageVersion: "1.5.0",
 });

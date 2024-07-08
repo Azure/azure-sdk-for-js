@@ -12,7 +12,7 @@ import {
   ExternalSecuritySolutionsListOptionalParams,
   ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ExternalSecuritySolutionsGetOptionalParams,
-  ExternalSecuritySolutionsGetResponse
+  ExternalSecuritySolutionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,7 +23,7 @@ export interface ExternalSecuritySolutions {
    * @param options The options parameters.
    */
   list(
-    options?: ExternalSecuritySolutionsListOptionalParams
+    options?: ExternalSecuritySolutionsListOptionalParams,
   ): PagedAsyncIterableIterator<ExternalSecuritySolution>;
   /**
    * Gets a list of external Security Solutions for the subscription and location.
@@ -33,7 +33,7 @@ export interface ExternalSecuritySolutions {
    */
   listByHomeRegion(
     ascLocation: string,
-    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
+    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<ExternalSecuritySolution>;
   /**
    * Gets a specific external Security Solution.
@@ -48,6 +48,6 @@ export interface ExternalSecuritySolutions {
     resourceGroupName: string,
     ascLocation: string,
     externalSecuritySolutionsName: string,
-    options?: ExternalSecuritySolutionsGetOptionalParams
+    options?: ExternalSecuritySolutionsGetOptionalParams,
   ): Promise<ExternalSecuritySolutionsGetResponse>;
 }

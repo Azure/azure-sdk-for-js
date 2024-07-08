@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all data collection rules in the specified subscription.
  *
  * @summary Lists all data collection rules in the specified subscription.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesListBySubscription.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesListBySubscription.json
  */
 async function listDataCollectionRulesBySubscription() {
   const subscriptionId =

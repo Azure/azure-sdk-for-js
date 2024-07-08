@@ -25,7 +25,7 @@ import {
   RecommendationsResetAllFiltersForWebAppOptionalParams,
   RecommendationsGetRuleDetailsByWebAppOptionalParams,
   RecommendationsGetRuleDetailsByWebAppResponse,
-  RecommendationsDisableRecommendationForSiteOptionalParams
+  RecommendationsDisableRecommendationForSiteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface Recommendations {
    * @param options The options parameters.
    */
   list(
-    options?: RecommendationsListOptionalParams
+    options?: RecommendationsListOptionalParams,
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
    * Description for Get past recommendations for an app, optionally specified by the time range.
@@ -47,7 +47,7 @@ export interface Recommendations {
   listHistoryForHostingEnvironment(
     resourceGroupName: string,
     hostingEnvironmentName: string,
-    options?: RecommendationsListHistoryForHostingEnvironmentOptionalParams
+    options?: RecommendationsListHistoryForHostingEnvironmentOptionalParams,
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
    * Description for Get all recommendations for a hosting environment.
@@ -58,7 +58,7 @@ export interface Recommendations {
   listRecommendedRulesForHostingEnvironment(
     resourceGroupName: string,
     hostingEnvironmentName: string,
-    options?: RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams
+    options?: RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams,
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
    * Description for Get past recommendations for an app, optionally specified by the time range.
@@ -69,7 +69,7 @@ export interface Recommendations {
   listHistoryForWebApp(
     resourceGroupName: string,
     siteName: string,
-    options?: RecommendationsListHistoryForWebAppOptionalParams
+    options?: RecommendationsListHistoryForWebAppOptionalParams,
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
    * Description for Get all recommendations for an app.
@@ -80,14 +80,14 @@ export interface Recommendations {
   listRecommendedRulesForWebApp(
     resourceGroupName: string,
     siteName: string,
-    options?: RecommendationsListRecommendedRulesForWebAppOptionalParams
+    options?: RecommendationsListRecommendedRulesForWebAppOptionalParams,
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
    * Description for Reset all recommendation opt-out settings for a subscription.
    * @param options The options parameters.
    */
   resetAllFilters(
-    options?: RecommendationsResetAllFiltersOptionalParams
+    options?: RecommendationsResetAllFiltersOptionalParams,
   ): Promise<void>;
   /**
    * Description for Disables the specified rule so it will not apply to a subscription in the future.
@@ -96,7 +96,7 @@ export interface Recommendations {
    */
   disableRecommendationForSubscription(
     name: string,
-    options?: RecommendationsDisableRecommendationForSubscriptionOptionalParams
+    options?: RecommendationsDisableRecommendationForSubscriptionOptionalParams,
   ): Promise<void>;
   /**
    * Description for Disable all recommendations for an app.
@@ -109,7 +109,7 @@ export interface Recommendations {
     resourceGroupName: string,
     environmentName: string,
     hostingEnvironmentName: string,
-    options?: RecommendationsDisableAllForHostingEnvironmentOptionalParams
+    options?: RecommendationsDisableAllForHostingEnvironmentOptionalParams,
   ): Promise<void>;
   /**
    * Description for Reset all recommendation opt-out settings for an app.
@@ -122,7 +122,7 @@ export interface Recommendations {
     resourceGroupName: string,
     environmentName: string,
     hostingEnvironmentName: string,
-    options?: RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams
+    options?: RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams,
   ): Promise<void>;
   /**
    * Description for Get a recommendation rule for an app.
@@ -135,7 +135,7 @@ export interface Recommendations {
     resourceGroupName: string,
     hostingEnvironmentName: string,
     name: string,
-    options?: RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams
+    options?: RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams,
   ): Promise<RecommendationsGetRuleDetailsByHostingEnvironmentResponse>;
   /**
    * Description for Disables the specific rule for a web site permanently.
@@ -150,7 +150,7 @@ export interface Recommendations {
     environmentName: string,
     name: string,
     hostingEnvironmentName: string,
-    options?: RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams
+    options?: RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams,
   ): Promise<void>;
   /**
    * Description for Disable all recommendations for an app.
@@ -161,7 +161,7 @@ export interface Recommendations {
   disableAllForWebApp(
     resourceGroupName: string,
     siteName: string,
-    options?: RecommendationsDisableAllForWebAppOptionalParams
+    options?: RecommendationsDisableAllForWebAppOptionalParams,
   ): Promise<void>;
   /**
    * Description for Reset all recommendation opt-out settings for an app.
@@ -172,7 +172,7 @@ export interface Recommendations {
   resetAllFiltersForWebApp(
     resourceGroupName: string,
     siteName: string,
-    options?: RecommendationsResetAllFiltersForWebAppOptionalParams
+    options?: RecommendationsResetAllFiltersForWebAppOptionalParams,
   ): Promise<void>;
   /**
    * Description for Get a recommendation rule for an app.
@@ -185,7 +185,7 @@ export interface Recommendations {
     resourceGroupName: string,
     siteName: string,
     name: string,
-    options?: RecommendationsGetRuleDetailsByWebAppOptionalParams
+    options?: RecommendationsGetRuleDetailsByWebAppOptionalParams,
   ): Promise<RecommendationsGetRuleDetailsByWebAppResponse>;
   /**
    * Description for Disables the specific rule for a web site permanently.
@@ -198,6 +198,6 @@ export interface Recommendations {
     resourceGroupName: string,
     siteName: string,
     name: string,
-    options?: RecommendationsDisableRecommendationForSiteOptionalParams
+    options?: RecommendationsDisableRecommendationForSiteOptionalParams,
   ): Promise<void>;
 }

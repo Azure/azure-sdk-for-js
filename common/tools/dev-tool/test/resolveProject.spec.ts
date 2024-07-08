@@ -1,22 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-
-import path from "path";
-
+import { describe, it, assert, expect } from "vitest";
+import path from "node:path";
 import { resolveProject } from "../src/util/resolveProject";
 
 describe("Project Resolution", () => {
   it("resolution halts at monorepo root", async () => {
-    await assert.isRejected(resolveProject(path.join(__dirname, "..", "..")), /monorepo root/);
+    await expect(resolveProject(path.join(__dirname, "..", ".."))).rejects.toThrow(/monorepo root/);
   });
 
   it("resolution halts at filesystem root", async () => {
     const p = path.join(__dirname, "..", "..", "..", "..", "..");
-    await assert.isRejected(resolveProject(p), /filesystem root/);
+    await expect(resolveProject(p)).rejects.toThrow(/filesystem root/);
   });
 
   it("resolution finds dev-tool package", async () => {

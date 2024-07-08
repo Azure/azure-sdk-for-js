@@ -4,12 +4,14 @@
 
 ```ts
 
+<<<<<<< HEAD
 /// <reference types="node" />
 /// <reference lib="dom" />
 /// <reference lib="esnext.asynciterable" />
 
+=======
+>>>>>>> upstream/main
 import { AbortError } from '@azure/abort-controller';
-import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -78,6 +80,7 @@ export class ChangeFeedIterator<T> {
 
 // @public
 export interface ChangeFeedIteratorOptions {
+    changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
     maxItemCount?: number;
     sessionToken?: string;
@@ -97,6 +100,14 @@ export class ChangeFeedIteratorResponse<T> {
     readonly subStatusCode?: number;
 }
 
+// @public (undocumented)
+export enum ChangeFeedMode {
+    // (undocumented)
+    AllVersionsAndDeletes = "Full-Fidelity Feed",
+    // (undocumented)
+    LatestVersion = "Incremental Feed"
+}
+
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
@@ -104,6 +115,13 @@ export interface ChangeFeedOptions {
     sessionToken?: string;
     startFromBeginning?: boolean;
     startTime?: Date;
+}
+
+// @public
+export class ChangeFeedPolicy {
+    constructor(retentionDuration: ChangeFeedRetentionTimeSpan);
+    // (undocumented)
+    retentionDuration: number;
 }
 
 // @public
@@ -126,6 +144,11 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public (undocumented)
+export class ChangeFeedRetentionTimeSpan {
+    static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
 }
 
 // @public
@@ -380,6 +403,15 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
+
 // @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
@@ -520,6 +552,7 @@ export const Constants: {
         ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
+        ChangeFeedWireFormatVersion: string;
         ActivityId: string;
         CorrelatedActivityId: string;
         PreTriggerInclude: string;
@@ -579,6 +612,7 @@ export const Constants: {
         IsBatchAtomic: string;
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
+        DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
         IsClientEncryptedHeader: string;
@@ -635,7 +669,12 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+<<<<<<< HEAD
     DefaultEncryptionCacheTimeToLive: number;
+=======
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
+>>>>>>> upstream/main
 };
 
 // @public
@@ -674,7 +713,12 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+<<<<<<< HEAD
     clientEncryptionPolicy?: ClientEncryptionPolicy;
+=======
+    changeFeedPolicy?: ChangeFeedPolicy;
+    computedProperties?: ComputedProperty[];
+>>>>>>> upstream/main
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -865,8 +909,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location_2[];
-    readonly writableLocations: Location_2[];
+    readonly readableLocations: Location[];
+    readonly writableLocations: Location[];
 }
 
 // @public (undocumented)
@@ -1416,7 +1460,7 @@ export enum KeyEncryptionKeyAlgorithm {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -1426,7 +1470,6 @@ interface Location_2 {
     // (undocumented)
     unavailable?: boolean;
 }
-export { Location_2 as Location }
 
 // @public
 export interface MetadataLookUpDiagnostic {
@@ -1745,7 +1788,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-class Permissions_2 {
+export class Permissions {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1755,16 +1798,14 @@ class Permissions_2 {
     // (undocumented)
     readonly user: User;
 }
-export { Permissions_2 as Permissions }
 
 // @public
-type Plugin_2<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
-export { Plugin_2 as Plugin }
+export type Plugin<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin_2<any>;
+    plugin: Plugin<any>;
 }
 
 // @public
@@ -2021,7 +2062,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-interface RequestInfo_2 {
+export interface RequestInfo {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -2033,7 +2074,6 @@ interface RequestInfo_2 {
     // (undocumented)
     verb: HTTPMethod;
 }
-export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -2307,7 +2347,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 
 // @public
 export interface SharedOptions {
-    abortSignal?: AbortSignal_2;
+    abortSignal?: AbortSignal;
+    bypassIntegratedCache?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
@@ -2517,7 +2558,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -2612,7 +2653,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions_2;
+    readonly permissions: Permissions;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;

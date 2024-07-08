@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the state of the specified private endpoint connection associated with the workspace.
  *
  * @summary Update the state of the specified private endpoint connection associated with the workspace.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/privatelink/WorkspaceCreatePrivateEndpointConnection.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/privatelink/WorkspaceCreatePrivateEndpointConnection.json
  */
 async function workspacePrivateEndpointConnectionCreateOrUpdate() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

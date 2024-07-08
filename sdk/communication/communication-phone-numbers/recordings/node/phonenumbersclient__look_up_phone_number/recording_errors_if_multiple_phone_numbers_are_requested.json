@@ -1,0 +1,49 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/operatorInformation/:search?api-version=2024-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "101",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.14.1 Node/18.18.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "C0wdqHni5iu3jCpgQMmXW\u002B/F4BI/blLXomiVg6pcPkg=",
+        "x-ms-date": "Tue, 27 Feb 2024 18:50:07 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": {
+        "phoneNumbers": [
+          "\u002B14155550100",
+          "\u002B14155550100"
+        ],
+        "options": {
+          "includeAdditionalOperatorDetails": false
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01-preview, 2024-08-31-preview",
+        "Content-Type": "application/json",
+        "Date": "Tue, 27 Feb 2024 18:50:06 GMT",
+        "MS-CV": "/m9pNdFS00OtiNop51x7GA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "03i7eZQAAAAD1kafzSyfcRJRZMw5Wg\u002BgmV1NURURHRTAxMTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "11ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadRequest",
+          "message": "Can only accept one phoneNumber"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

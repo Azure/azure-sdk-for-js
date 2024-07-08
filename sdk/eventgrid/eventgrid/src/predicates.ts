@@ -204,6 +204,14 @@ import {
   StorageTaskAssignmentCompletedEventData,
   AvsClusterUpdatedEventData,
   AvsClusterFailedEventData,
+  ApiCenterApiDefinitionAddedEventData,
+  ApiCenterApiDefinitionUpdatedEventData,
+  AcsMessageDeliveryStatusUpdatedEventData,
+  AcsMessageReceivedEventData,
+  AcsRouterWorkerUpdatedEventData,
+  AcsChatThreadDeletedEventData,
+  AcsChatThreadCreatedEventData,
+  AcsChatThreadPropertiesUpdatedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -622,6 +630,22 @@ export interface SystemEventNameToEventData {
   "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
   /** An interface for the event data of a "Microsoft.AVS.ClusterFailed" event. */
   "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
+  /** An interface for the event data of a "Microsoft.ApiCenter.ApiDefinitionAdded" event. */
+  "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
+  /** An interface for the event data of a "Microsoft.ApiCenter.ApiDefinitionUpdated" event. */
+  "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated" event. */
+  "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageReceived" event. */
+  "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.RouterWorkerUpdated" event. */
+  "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadCreated" event. */
+  "Microsoft.Communication.ChatThreadCreated": AcsChatThreadCreatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadDeleted" event. */
+  "Microsoft.Communication.ChatThreadDeleted": AcsChatThreadDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdated" event. */
+  "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
 }
 
 /**

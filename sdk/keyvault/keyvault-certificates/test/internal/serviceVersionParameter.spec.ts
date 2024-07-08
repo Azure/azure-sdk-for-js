@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { CertificateClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/certificatesModels";

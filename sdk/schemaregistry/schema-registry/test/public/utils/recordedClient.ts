@@ -25,6 +25,9 @@ export const recorderOptions: RecorderStartOptions = {
     [getFQNSVarName(KnownSchemaFormats.Custom)]: "https://endpoint",
     SCHEMA_REGISTRY_GROUP: "group-1",
   },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export function createRecordedClient(inputs: {

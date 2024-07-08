@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an availability set.
  *
  * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
  */
 async function createAnAvailabilitySet() {
   const subscriptionId =
@@ -29,14 +29,14 @@ async function createAnAvailabilitySet() {
   const parameters: AvailabilitySet = {
     location: "westus",
     platformFaultDomainCount: 2,
-    platformUpdateDomainCount: 20
+    platformUpdateDomainCount: 20,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.createOrUpdate(
     resourceGroupName,
     availabilitySetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

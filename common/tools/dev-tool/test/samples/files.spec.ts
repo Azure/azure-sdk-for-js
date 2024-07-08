@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import fs from "fs-extra";
-import os from "os";
-import path from "path";
+import os from "node:os";
+import path from "node:path";
 import { makeSamplesFactory } from "../../src/util/samples/generation";
-
 import * as git from "../../src/util/git";
-
-import { assert } from "chai";
 import { findMatchingFiles } from "../../src/util/findMatchingFiles";
 import { METADATA_KEY } from "../../src/util/resolveProject";
 
@@ -17,7 +15,7 @@ import { METADATA_KEY } from "../../src/util/resolveProject";
 const INPUT_PATH = path.join(__dirname, "files", "inputs");
 const EXPECT_PATH = path.join(__dirname, "files", "expectations");
 
-describe("File content tests", async function () {
+describe("File content tests", { timeout: 50000 }, async function () {
   const shouldWriteExpectations = process.env.TEST_MODE === "record";
 
   if (shouldWriteExpectations) {
@@ -44,7 +42,7 @@ describe("File content tests", async function () {
   for (const dir of inputDirectories) {
     const name = path.basename(dir);
 
-    it(name, async function () {
+    it(name, { timeout: 50000 }, async function () {
       const tempOutputDir = await fs.mkdtemp(path.join(os.tmpdir(), "devToolTest"));
 
       const version = name.includes("@") ? name.split("@")[1] : "1.0.0";
@@ -115,6 +113,6 @@ describe("File content tests", async function () {
         await fs.emptyDir(tempOutputDir);
         await fs.rmdir(tempOutputDir);
       }
-    }).timeout(50000);
+    });
   }
-}).timeout(50000);
+});

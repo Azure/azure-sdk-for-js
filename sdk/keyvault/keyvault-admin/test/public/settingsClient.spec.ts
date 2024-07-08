@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { KeyVaultSettingsClient } from "../../src/settingsClient";
 import { authenticate } from "./utils/authentication";
 import { getServiceVersion, onVersions } from "./utils/common";

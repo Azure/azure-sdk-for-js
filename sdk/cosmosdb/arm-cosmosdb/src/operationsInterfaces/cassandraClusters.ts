@@ -25,7 +25,7 @@ import {
   CassandraClustersDeallocateOptionalParams,
   CassandraClustersStartOptionalParams,
   CassandraClustersStatusOptionalParams,
-  CassandraClustersStatusResponse
+  CassandraClustersStatusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface CassandraClusters {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CassandraClustersListBySubscriptionOptionalParams
+    options?: CassandraClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ClusterResource>;
   /**
    * List all managed Cassandra clusters in this resource group.
@@ -45,7 +45,7 @@ export interface CassandraClusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CassandraClustersListByResourceGroupOptionalParams
+    options?: CassandraClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ClusterResource>;
   /**
    * Get the properties of a managed Cassandra cluster.
@@ -56,7 +56,7 @@ export interface CassandraClusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersGetOptionalParams
+    options?: CassandraClustersGetOptionalParams,
   ): Promise<CassandraClustersGetResponse>;
   /**
    * Deletes a managed Cassandra cluster.
@@ -67,7 +67,7 @@ export interface CassandraClusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersDeleteOptionalParams
+    options?: CassandraClustersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a managed Cassandra cluster.
@@ -78,7 +78,7 @@ export interface CassandraClusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersDeleteOptionalParams
+    options?: CassandraClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create or update a managed Cassandra cluster. When updating, you must specify all writable
@@ -92,7 +92,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     body: ClusterResource,
-    options?: CassandraClustersCreateUpdateOptionalParams
+    options?: CassandraClustersCreateUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraClustersCreateUpdateResponse>,
@@ -111,7 +111,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     body: ClusterResource,
-    options?: CassandraClustersCreateUpdateOptionalParams
+    options?: CassandraClustersCreateUpdateOptionalParams,
   ): Promise<CassandraClustersCreateUpdateResponse>;
   /**
    * Updates some of the properties of a managed Cassandra cluster.
@@ -124,7 +124,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     body: ClusterResource,
-    options?: CassandraClustersUpdateOptionalParams
+    options?: CassandraClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraClustersUpdateResponse>,
@@ -142,7 +142,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     body: ClusterResource,
-    options?: CassandraClustersUpdateOptionalParams
+    options?: CassandraClustersUpdateOptionalParams,
   ): Promise<CassandraClustersUpdateResponse>;
   /**
    * Invoke a command like nodetool for cassandra maintenance
@@ -155,7 +155,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     body: CommandPostBody,
-    options?: CassandraClustersInvokeCommandOptionalParams
+    options?: CassandraClustersInvokeCommandOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraClustersInvokeCommandResponse>,
@@ -173,7 +173,7 @@ export interface CassandraClusters {
     resourceGroupName: string,
     clusterName: string,
     body: CommandPostBody,
-    options?: CassandraClustersInvokeCommandOptionalParams
+    options?: CassandraClustersInvokeCommandOptionalParams,
   ): Promise<CassandraClustersInvokeCommandResponse>;
   /**
    * Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate
@@ -186,7 +186,7 @@ export interface CassandraClusters {
   beginDeallocate(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersDeallocateOptionalParams
+    options?: CassandraClustersDeallocateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate
@@ -199,7 +199,7 @@ export interface CassandraClusters {
   beginDeallocateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersDeallocateOptionalParams
+    options?: CassandraClustersDeallocateOptionalParams,
   ): Promise<void>;
   /**
    * Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual
@@ -212,7 +212,7 @@ export interface CassandraClusters {
   beginStart(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersStartOptionalParams
+    options?: CassandraClustersStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual
@@ -225,7 +225,7 @@ export interface CassandraClusters {
   beginStartAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersStartOptionalParams
+    options?: CassandraClustersStartOptionalParams,
   ): Promise<void>;
   /**
    * Gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
@@ -236,6 +236,6 @@ export interface CassandraClusters {
   status(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersStatusOptionalParams
+    options?: CassandraClustersStatusOptionalParams,
   ): Promise<CassandraClustersStatusResponse>;
 }

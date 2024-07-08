@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
   VMInsightsGetOnboardingStatusOptionalParams,
-  VMInsightsGetOnboardingStatusResponse
+  VMInsightsGetOnboardingStatusResponse,
 } from "../models";
 
 /** Class containing VMInsights operations. */
@@ -36,11 +36,11 @@ export class VMInsightsImpl implements VMInsights {
    */
   getOnboardingStatus(
     resourceUri: string,
-    options?: VMInsightsGetOnboardingStatusOptionalParams
+    options?: VMInsightsGetOnboardingStatusOptionalParams,
   ): Promise<VMInsightsGetOnboardingStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOnboardingStatusOperationSpec
+      getOnboardingStatusOperationSpec,
     );
   }
 }
@@ -48,19 +48,18 @@ export class VMInsightsImpl implements VMInsights {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOnboardingStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Insights/vmInsightsOnboardingStatuses/default",
+  path: "/{resourceUri}/providers/Microsoft.Insights/vmInsightsOnboardingStatuses/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMInsightsOnboardingStatus
+      bodyMapper: Mappers.VMInsightsOnboardingStatus,
     },
     default: {
-      bodyMapper: Mappers.ResponseWithError
-    }
+      bodyMapper: Mappers.ResponseWithError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

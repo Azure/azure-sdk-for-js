@@ -50,7 +50,7 @@ async function createsOrUpdatesAnAvailabilityGroupListenerUsingLoadBalancerThisI
     resourceGroupName,
     sqlVirtualMachineGroupName,
     availabilityGroupListenerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -97,7 +97,7 @@ async function createsOrUpdatesAnAvailabilityGroupListenerThisIsUsedForVMSPresen
     resourceGroupName,
     sqlVirtualMachineGroupName,
     availabilityGroupListenerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

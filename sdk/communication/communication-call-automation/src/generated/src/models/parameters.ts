@@ -29,8 +29,12 @@ import {
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
   UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
+  HoldRequest as HoldRequestMapper,
+  UnholdRequest as UnholdRequestMapper,
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
+  StartMediaStreamingRequest as StartMediaStreamingRequestMapper,
+  StopMediaStreamingRequest as StopMediaStreamingRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
   UpdateDialogRequest as UpdateDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
@@ -223,6 +227,16 @@ export const updateTranscriptionRequest: OperationParameter = {
   mapper: UpdateTranscriptionRequestMapper,
 };
 
+export const holdRequest: OperationParameter = {
+  parameterPath: "holdRequest",
+  mapper: HoldRequestMapper,
+};
+
+export const unholdRequest: OperationParameter = {
+  parameterPath: "unholdRequest",
+  mapper: UnholdRequestMapper,
+};
+
 export const startHoldMusicRequest: OperationParameter = {
   parameterPath: "startHoldMusicRequest",
   mapper: StartHoldMusicRequestMapper,
@@ -231,6 +245,16 @@ export const startHoldMusicRequest: OperationParameter = {
 export const stopHoldMusicRequest: OperationParameter = {
   parameterPath: "stopHoldMusicRequest",
   mapper: StopHoldMusicRequestMapper,
+};
+
+export const startMediaStreamingRequest: OperationParameter = {
+  parameterPath: "startMediaStreamingRequest",
+  mapper: StartMediaStreamingRequestMapper,
+};
+
+export const stopMediaStreamingRequest: OperationParameter = {
+  parameterPath: "stopMediaStreamingRequest",
+  mapper: StopMediaStreamingRequestMapper,
 };
 
 export const startDialogRequest: OperationParameter = {

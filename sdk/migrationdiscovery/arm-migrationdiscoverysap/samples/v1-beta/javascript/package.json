@@ -1,0 +1,32 @@
+{
+  "name": "@azure-samples/arm-migrationdiscoverysap-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/migrationdiscovery/arm-migrationdiscoverysap"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/migrationdiscovery/arm-migrationdiscoverysap",
+  "dependencies": {
+    "@azure/arm-migrationdiscoverysap": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.2.1"
+  }
+}

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedInstanceEncryptionProtector,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,16 +34,17 @@ async function updateTheEncryptionProtectorToKeyVault() {
   const parameters: ManagedInstanceEncryptionProtector = {
     autoRotationEnabled: false,
     serverKeyName: "someVault_someKey_01234567890123456789012345678901",
-    serverKeyType: "AzureKeyVault"
+    serverKeyType: "AzureKeyVault",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    encryptionProtectorName,
-    parameters
-  );
+  const result =
+    await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      encryptionProtectorName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -63,16 +64,17 @@ async function updateTheEncryptionProtectorToServiceManaged() {
   const encryptionProtectorName = "current";
   const parameters: ManagedInstanceEncryptionProtector = {
     serverKeyName: "ServiceManaged",
-    serverKeyType: "ServiceManaged"
+    serverKeyType: "ServiceManaged",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    encryptionProtectorName,
-    parameters
-  );
+  const result =
+    await client.managedInstanceEncryptionProtectors.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      encryptionProtectorName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -1,22 +1,28 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/keyvault-keys"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
+      UseFederatedAuth: true
       CloudConfig:
         Public:
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           Location: 'eastus2'
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzurePublicMsft.json
         UsGov:
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           MatrixFilters:
             - ArmTemplateParameters=^(?!.*enableHsm.*true)
+          ServiceConnection: usgov_azure-sdk-tests
         China:
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
+          ServiceConnection: china_azure-sdk-tests
           MatrixFilters:
             - ArmTemplateParameters=^(?!.*enableHsm.*true)
       # KV HSM limitation prevents us from running live tests
@@ -33,8 +39,3 @@ stages:
       ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly')) }}:
         MatrixFilters:
           - ArmTemplateParameters=^(?!.*enableHsm.*true)
-      EnvVars:
-        AZURE_CLIENT_ID: $(KEYVAULT_CLIENT_ID)
-        AZURE_TENANT_ID: $(KEYVAULT_TENANT_ID)
-        AZURE_CLIENT_SECRET: $(KEYVAULT_CLIENT_SECRET)
-        AZURE_SUBSCRIPTION_ID: $(KEYVAULT_SUBSCRIPTION_ID) 

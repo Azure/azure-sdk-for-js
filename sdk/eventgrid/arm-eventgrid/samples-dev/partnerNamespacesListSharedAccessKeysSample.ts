@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the two keys used to publish to a partner namespace.
  *
  * @summary List the two keys used to publish to a partner namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerNamespaces_ListSharedAccessKeys.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerNamespaces_ListSharedAccessKeys.json
  */
 async function partnerNamespacesListSharedAccessKeys() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function partnerNamespacesListSharedAccessKeys() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerNamespaces.listSharedAccessKeys(
     resourceGroupName,
-    partnerNamespaceName
+    partnerNamespaceName,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists associations for the specified data collection endpoint.
  *
  * @summary Lists associations for the specified data collection endpoint.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsListByDataCollectionEndpoint.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsListByDataCollectionEndpoint.json
  */
 async function listAssociationsForSpecifiedDataCollectionEndpoint() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listAssociationsForSpecifiedDataCollectionEndpoint() {
   const resArray = new Array();
   for await (let item of client.dataCollectionRuleAssociations.listByDataCollectionEndpoint(
     resourceGroupName,
-    dataCollectionEndpointName
+    dataCollectionEndpointName,
   )) {
     resArray.push(item);
   }

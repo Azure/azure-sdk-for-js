@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the availability of name for server
  *
  * @summary Check the availability of name for server
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/preview/2021-12-01-preview/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CheckNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =

@@ -34,7 +34,7 @@ async function reservationTransactionsByBillingProfileId() {
   for await (let item of client.reservationTransactions.listByBillingProfile(
     billingAccountId,
     billingProfileId,
-    options
+    options,
   )) {
     resArray.push(item);
   }

@@ -24,10 +24,18 @@ import {
   CallMediaSendDtmfTonesResponse,
   UpdateTranscriptionRequest,
   CallMediaUpdateTranscriptionOptionalParams,
+  HoldRequest,
+  CallMediaHoldOptionalParams,
+  UnholdRequest,
+  CallMediaUnholdOptionalParams,
   StartHoldMusicRequest,
   CallMediaStartHoldMusicOptionalParams,
   StopHoldMusicRequest,
   CallMediaStopHoldMusicOptionalParams,
+  StartMediaStreamingRequest,
+  CallMediaStartMediaStreamingOptionalParams,
+  StopMediaStreamingRequest,
+  CallMediaStopMediaStreamingOptionalParams,
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -132,6 +140,28 @@ export interface CallMedia {
   /**
    * Hold participant from the call using identifier.
    * @param callConnectionId The call connection id.
+   * @param holdRequest The participants to be hold from the call.
+   * @param options The options parameters.
+   */
+  hold(
+    callConnectionId: string,
+    holdRequest: HoldRequest,
+    options?: CallMediaHoldOptionalParams,
+  ): Promise<void>;
+  /**
+   * Unhold participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param unholdRequest The participants to be hold from the call.
+   * @param options The options parameters.
+   */
+  unhold(
+    callConnectionId: string,
+    unholdRequest: UnholdRequest,
+    options?: CallMediaUnholdOptionalParams,
+  ): Promise<void>;
+  /**
+   * Hold participant from the call using identifier.
+   * @param callConnectionId The call connection id.
    * @param startHoldMusicRequest The participants to be hold from the call.
    * @param options The options parameters.
    */
@@ -150,5 +180,27 @@ export interface CallMedia {
     callConnectionId: string,
     stopHoldMusicRequest: StopHoldMusicRequest,
     options?: CallMediaStopHoldMusicOptionalParams,
+  ): Promise<void>;
+  /**
+   * Starts media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param startMediaStreamingRequest
+   * @param options The options parameters.
+   */
+  startMediaStreaming(
+    callConnectionId: string,
+    startMediaStreamingRequest: StartMediaStreamingRequest,
+    options?: CallMediaStartMediaStreamingOptionalParams,
+  ): Promise<void>;
+  /**
+   * Stops media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param stopMediaStreamingRequest stop media streaming request payload.
+   * @param options The options parameters.
+   */
+  stopMediaStreaming(
+    callConnectionId: string,
+    stopMediaStreamingRequest: StopMediaStreamingRequest,
+    options?: CallMediaStopMediaStreamingOptionalParams,
   ): Promise<void>;
 }

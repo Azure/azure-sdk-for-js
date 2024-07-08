@@ -29,16 +29,17 @@ async function createAServerCommunicationLink() {
   const serverName = "sqlcrudtest-4645";
   const communicationLinkName = "link1";
   const parameters: ServerCommunicationLink = {
-    partnerServer: "sqldcrudtest-test"
+    partnerServer: "sqldcrudtest-test",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverCommunicationLinks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    communicationLinkName,
-    parameters
-  );
+  const result =
+    await client.serverCommunicationLinks.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      communicationLinkName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -15,7 +15,7 @@ import {
   FilesNoSubscriptionCreateOptionalParams,
   FilesNoSubscriptionCreateResponse,
   UploadFile,
-  FilesNoSubscriptionUploadOptionalParams
+  FilesNoSubscriptionUploadOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface FilesNoSubscription {
    */
   list(
     fileWorkspaceName: string,
-    options?: FilesNoSubscriptionListOptionalParams
+    options?: FilesNoSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<FileDetails>;
   /**
    * Returns details of a specific file in a work space.
@@ -39,7 +39,7 @@ export interface FilesNoSubscription {
   get(
     fileWorkspaceName: string,
     fileName: string,
-    options?: FilesNoSubscriptionGetOptionalParams
+    options?: FilesNoSubscriptionGetOptionalParams,
   ): Promise<FilesNoSubscriptionGetResponse>;
   /**
    * Creates a new file under a workspace.
@@ -52,7 +52,7 @@ export interface FilesNoSubscription {
     fileWorkspaceName: string,
     fileName: string,
     createFileParameters: FileDetails,
-    options?: FilesNoSubscriptionCreateOptionalParams
+    options?: FilesNoSubscriptionCreateOptionalParams,
   ): Promise<FilesNoSubscriptionCreateResponse>;
   /**
    * This API allows you to upload content to a file
@@ -65,6 +65,6 @@ export interface FilesNoSubscription {
     fileWorkspaceName: string,
     fileName: string,
     uploadFile: UploadFile,
-    options?: FilesNoSubscriptionUploadOptionalParams
+    options?: FilesNoSubscriptionUploadOptionalParams,
   ): Promise<void>;
 }

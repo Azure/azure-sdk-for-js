@@ -51,7 +51,7 @@ async function patchFluxConfiguration() {
     clusterResourceName,
     clusterName,
     fluxConfigurationName,
-    fluxConfigurationPatch
+    fluxConfigurationPatch,
   );
   console.log(result);
 }

@@ -8,7 +8,7 @@
 
 import {
   GetTieringCostOperationResultGetOptionalParams,
-  GetTieringCostOperationResultGetResponse
+  GetTieringCostOperationResultGetResponse,
 } from "../models";
 
 /** Interface representing a GetTieringCostOperationResult. */
@@ -25,6 +25,6 @@ export interface GetTieringCostOperationResult {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: GetTieringCostOperationResultGetOptionalParams
+    options?: GetTieringCostOperationResultGetOptionalParams,
   ): Promise<GetTieringCostOperationResultGetResponse>;
 }

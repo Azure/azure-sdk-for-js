@@ -6,18 +6,18 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export type AccessRights = "Manage" | "Send" | "Listen";
+export type AccessRights = string;
 
 // @public
 export interface AdmCredential {
-    authTokenUrl?: string;
-    clientId?: string;
-    clientSecret?: string;
+    authTokenUrl: string;
+    clientId: string;
+    clientSecret: string;
 }
 
 // @public
@@ -26,17 +26,30 @@ export interface ApnsCredential {
     appId?: string;
     appName?: string;
     certificateKey?: string;
-    endpoint?: string;
+    endpoint: string;
     keyId?: string;
     thumbprint?: string;
     token?: string;
 }
 
 // @public
+export interface Availability {
+    readonly blobDuration?: string;
+    readonly timeGrain?: string;
+}
+
+// @public
 export interface BaiduCredential {
-    baiduApiKey?: string;
-    baiduEndPoint?: string;
-    baiduSecretKey?: string;
+    baiduApiKey: string;
+    baiduEndPoint: string;
+    baiduSecretKey: string;
+}
+
+// @public
+export interface BrowserCredential {
+    subject: string;
+    vapidPrivateKey: string;
+    vapidPublicKey: string;
 }
 
 // @public
@@ -53,31 +66,173 @@ export interface CheckAvailabilityParameters {
 }
 
 // @public
-export interface CheckAvailabilityResult extends Resource {
+export interface CheckAvailabilityResult extends ProxyResource {
     isAvailiable?: boolean;
+    location?: string;
+    sku?: Sku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
-export interface DebugSendResponse extends Resource {
-    failure?: number;
-    results?: Record<string, unknown>;
-    success?: number;
+export interface ConnectionDetails {
+    readonly groupId?: string;
+    readonly id?: string;
+    readonly linkIdentifier?: string;
+    readonly memberName?: string;
+    readonly privateIpAddress?: string;
+}
+
+// @public
+export type CreatedByType = string;
+
+// @public
+export interface DebugSendResponse extends ProxyResource {
+    readonly failure?: number;
+    location?: string;
+    readonly results?: RegistrationResult[];
+    readonly success?: number;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    code?: string;
-    message?: string;
+    error?: ErrorDetail;
+}
+
+// @public
+export interface FcmV1Credential {
+    clientEmail: string;
+    privateKey: string;
+    projectId: string;
 }
 
 // @public
 export interface GcmCredential {
     gcmEndpoint?: string;
-    googleApiKey?: string;
+    googleApiKey: string;
 }
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GroupConnectivityInformation {
+    readonly customerVisibleFqdns?: string[];
+    readonly groupId?: string;
+    readonly internalFqdn?: string;
+    readonly memberName?: string;
+    readonly privateLinkServiceArmRegion?: string;
+    readonly redirectMapId?: string;
+}
+
+// @public
+export interface IpRule {
+    ipMask: string;
+    rights: AccessRights[];
+}
+
+// @public
+export enum KnownAccessRights {
+    Listen = "Listen",
+    Manage = "Manage",
+    Send = "Send"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownNamespaceStatus {
+    Created = "Created",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Suspended = "Suspended"
+}
+
+// @public
+export enum KnownNamespaceType {
+    Messaging = "Messaging",
+    NotificationHub = "NotificationHub"
+}
+
+// @public
+export enum KnownOperationProvisioningState {
+    Canceled = "Canceled",
+    Disabled = "Disabled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownPolicyKeyType {
+    PrimaryKey = "PrimaryKey",
+    SecondaryKey = "SecondaryKey"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    DeletingByProxy = "DeletingByProxy",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown",
+    Updating = "Updating",
+    UpdatingByProxy = "UpdatingByProxy"
+}
+
+// @public
+export enum KnownPrivateLinkConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownReplicationRegion {
+    AustraliaEast = "AustraliaEast",
+    BrazilSouth = "BrazilSouth",
+    Default = "Default",
+    None = "None",
+    NorthEurope = "NorthEurope",
+    SouthAfricaNorth = "SouthAfricaNorth",
+    SouthEastAsia = "SouthEastAsia",
+    WestUs2 = "WestUs2"
+}
 
 // @public
 export enum KnownSkuName {
@@ -87,38 +242,48 @@ export enum KnownSkuName {
 }
 
 // @public
-export interface MpnsCredential {
-    certificateKey?: string;
-    mpnsCertificate?: string;
-    thumbprint?: string;
+export enum KnownZoneRedundancyPreference {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
-export interface NamespaceCreateOrUpdateParameters extends Resource {
-    createdAt?: Date;
-    critical?: boolean;
-    dataCenter?: string;
-    enabled?: boolean;
-    readonly metricId?: string;
-    namePropertiesName?: string;
-    namespaceType?: NamespaceType;
-    provisioningState?: string;
-    region?: string;
-    scaleUnit?: string;
-    serviceBusEndpoint?: string;
-    status?: string;
-    subscriptionId?: string;
-    updatedAt?: Date;
+export interface LogSpecification {
+    readonly blobDuration?: string;
+    categoryGroups?: string[];
+    readonly displayName?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface MetricSpecification {
+    readonly aggregationType?: string;
+    readonly availabilities?: Availability[];
+    readonly displayDescription?: string;
+    readonly displayName?: string;
+    readonly fillGapWithZero?: boolean;
+    readonly metricFilterPattern?: string;
+    readonly name?: string;
+    readonly supportedTimeGrainTypes?: string[];
+    readonly unit?: string;
+}
+
+// @public
+export interface MpnsCredential {
+    certificateKey: string;
+    mpnsCertificate: string;
+    thumbprint: string;
 }
 
 // @public
 export interface NamespaceListResult {
-    nextLink?: string;
-    value?: NamespaceResource[];
+    readonly nextLink?: string;
+    readonly value?: NamespaceResource[];
 }
 
 // @public
 export interface NamespacePatchParameters {
+    properties?: NamespaceProperties;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
@@ -126,39 +291,71 @@ export interface NamespacePatchParameters {
 }
 
 // @public
-export interface NamespaceResource extends Resource {
-    createdAt?: Date;
-    critical?: boolean;
+export interface NamespaceProperties {
+    readonly createdAt?: Date;
+    readonly critical?: boolean;
     dataCenter?: string;
-    enabled?: boolean;
+    readonly enabled?: boolean;
     readonly metricId?: string;
-    namePropertiesName?: string;
+    readonly name?: string;
     namespaceType?: NamespaceType;
-    provisioningState?: string;
-    region?: string;
+    networkAcls?: NetworkAcls;
+    pnsCredentials?: PnsCredentials;
+    readonly privateEndpointConnections?: PrivateEndpointConnectionResource[];
+    provisioningState?: OperationProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly region?: string;
+    replicationRegion?: ReplicationRegion;
     scaleUnit?: string;
-    serviceBusEndpoint?: string;
-    status?: string;
-    subscriptionId?: string;
-    updatedAt?: Date;
+    readonly serviceBusEndpoint?: string;
+    status?: NamespaceStatus;
+    readonly subscriptionId?: string;
+    readonly updatedAt?: Date;
+    zoneRedundancy?: ZoneRedundancyPreference;
+}
+
+// @public
+export interface NamespaceResource extends TrackedResource {
+    readonly createdAt?: Date;
+    readonly critical?: boolean;
+    dataCenter?: string;
+    readonly enabled?: boolean;
+    readonly metricId?: string;
+    readonly namePropertiesName?: string;
+    namespaceType?: NamespaceType;
+    networkAcls?: NetworkAcls;
+    pnsCredentials?: PnsCredentials;
+    readonly privateEndpointConnections?: PrivateEndpointConnectionResource[];
+    provisioningState?: OperationProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly region?: string;
+    replicationRegion?: ReplicationRegion;
+    scaleUnit?: string;
+    readonly serviceBusEndpoint?: string;
+    sku: Sku;
+    status?: NamespaceStatus;
+    readonly subscriptionId?: string;
+    readonly updatedAt?: Date;
+    zoneRedundancy?: ZoneRedundancyPreference;
 }
 
 // @public
 export interface Namespaces {
-    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: NamespaceResource, options?: NamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: NamespaceResource, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
     checkAvailability(parameters: CheckAvailabilityParameters, options?: NamespacesCheckAvailabilityOptionalParams): Promise<NamespacesCheckAvailabilityResponse>;
-    createOrUpdate(resourceGroupName: string, namespaceName: string, parameters: NamespaceCreateOrUpdateParameters, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: SharedAccessAuthorizationRuleCreateOrUpdateParameters, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
+    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: SharedAccessAuthorizationRuleResource, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
+    delete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
     deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams): Promise<void>;
     get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
     getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams): Promise<NamespacesGetAuthorizationRuleResponse>;
+    getPnsCredentials(resourceGroupName: string, namespaceName: string, options?: NamespacesGetPnsCredentialsOptionalParams): Promise<NamespacesGetPnsCredentialsResponse>;
     list(resourceGroupName: string, options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<NamespaceResource>;
     listAll(options?: NamespacesListAllOptionalParams): PagedAsyncIterableIterator<NamespaceResource>;
     listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<SharedAccessAuthorizationRuleResource>;
     listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams): Promise<NamespacesListKeysResponse>;
-    patch(resourceGroupName: string, namespaceName: string, parameters: NamespacePatchParameters, options?: NamespacesPatchOptionalParams): Promise<NamespacesPatchResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: PolicykeyResource, options?: NamespacesRegenerateKeysOptionalParams): Promise<NamespacesRegenerateKeysResponse>;
+    regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: PolicyKeyResource, options?: NamespacesRegenerateKeysOptionalParams): Promise<NamespacesRegenerateKeysResponse>;
+    update(resourceGroupName: string, namespaceName: string, parameters: NamespacePatchParameters, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
 }
 
 // @public
@@ -177,6 +374,8 @@ export type NamespacesCreateOrUpdateAuthorizationRuleResponse = SharedAccessAuth
 
 // @public
 export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -188,8 +387,6 @@ export interface NamespacesDeleteAuthorizationRuleOptionalParams extends coreCli
 
 // @public
 export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -204,6 +401,13 @@ export interface NamespacesGetOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
+export interface NamespacesGetPnsCredentialsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesGetPnsCredentialsResponse = PnsCredentialsResource;
+
+// @public
 export type NamespacesGetResponse = NamespaceResource;
 
 // @public
@@ -215,6 +419,8 @@ export type NamespacesListAllNextResponse = NamespaceListResult;
 
 // @public
 export interface NamespacesListAllOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -250,17 +456,12 @@ export type NamespacesListNextResponse = NamespaceListResult;
 
 // @public
 export interface NamespacesListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
 export type NamespacesListResponse = NamespaceListResult;
-
-// @public
-export interface NamespacesPatchOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesPatchResponse = NamespaceResource;
 
 // @public
 export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {
@@ -270,58 +471,74 @@ export interface NamespacesRegenerateKeysOptionalParams extends coreClient.Opera
 export type NamespacesRegenerateKeysResponse = ResourceListKeys;
 
 // @public
-export type NamespaceType = "Messaging" | "NotificationHub";
+export type NamespaceStatus = string;
 
 // @public
-export interface NotificationHubCreateOrUpdateParameters extends Resource {
-    admCredential?: AdmCredential;
-    apnsCredential?: ApnsCredential;
-    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
-    baiduCredential?: BaiduCredential;
-    gcmCredential?: GcmCredential;
-    mpnsCredential?: MpnsCredential;
-    namePropertiesName?: string;
-    registrationTtl?: string;
-    wnsCredential?: WnsCredential;
+export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesUpdateResponse = NamespaceResource;
+
+// @public
+export type NamespaceType = string;
+
+// @public
+export interface NetworkAcls {
+    ipRules?: IpRule[];
+    publicNetworkRule?: PublicInternetAuthorizationRule;
 }
 
 // @public
 export interface NotificationHubListResult {
-    nextLink?: string;
-    value?: NotificationHubResource[];
+    readonly nextLink?: string;
+    readonly value?: NotificationHubResource[];
 }
 
 // @public
-export interface NotificationHubPatchParameters extends Resource {
+export interface NotificationHubPatchParameters {
     admCredential?: AdmCredential;
     apnsCredential?: ApnsCredential;
-    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+    readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
     baiduCredential?: BaiduCredential;
+    browserCredential?: BrowserCredential;
+    readonly dailyMaxActiveDevices?: number;
+    fcmV1Credential?: FcmV1Credential;
+    gcmCredential?: GcmCredential;
+    mpnsCredential?: MpnsCredential;
+    name?: string;
+    registrationTtl?: string;
+    sku?: Sku;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    wnsCredential?: WnsCredential;
+    xiaomiCredential?: XiaomiCredential;
+}
+
+// @public
+export interface NotificationHubResource extends TrackedResource {
+    admCredential?: AdmCredential;
+    apnsCredential?: ApnsCredential;
+    readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+    baiduCredential?: BaiduCredential;
+    browserCredential?: BrowserCredential;
+    readonly dailyMaxActiveDevices?: number;
+    fcmV1Credential?: FcmV1Credential;
     gcmCredential?: GcmCredential;
     mpnsCredential?: MpnsCredential;
     namePropertiesName?: string;
     registrationTtl?: string;
+    sku?: Sku;
     wnsCredential?: WnsCredential;
-}
-
-// @public
-export interface NotificationHubResource extends Resource {
-    admCredential?: AdmCredential;
-    apnsCredential?: ApnsCredential;
-    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
-    baiduCredential?: BaiduCredential;
-    gcmCredential?: GcmCredential;
-    mpnsCredential?: MpnsCredential;
-    namePropertiesName?: string;
-    registrationTtl?: string;
-    wnsCredential?: WnsCredential;
+    xiaomiCredential?: XiaomiCredential;
 }
 
 // @public
 export interface NotificationHubs {
     checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: CheckAvailabilityParameters, options?: NotificationHubsCheckNotificationHubAvailabilityOptionalParams): Promise<NotificationHubsCheckNotificationHubAvailabilityResponse>;
-    createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: NotificationHubCreateOrUpdateParameters, options?: NotificationHubsCreateOrUpdateOptionalParams): Promise<NotificationHubsCreateOrUpdateResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: SharedAccessAuthorizationRuleCreateOrUpdateParameters, options?: NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NotificationHubsCreateOrUpdateAuthorizationRuleResponse>;
+    createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: NotificationHubResource, options?: NotificationHubsCreateOrUpdateOptionalParams): Promise<NotificationHubsCreateOrUpdateResponse>;
+    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: SharedAccessAuthorizationRuleResource, options?: NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NotificationHubsCreateOrUpdateAuthorizationRuleResponse>;
     debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: NotificationHubsDebugSendOptionalParams): Promise<NotificationHubsDebugSendResponse>;
     delete(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: NotificationHubsDeleteOptionalParams): Promise<void>;
     deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: NotificationHubsDeleteAuthorizationRuleOptionalParams): Promise<void>;
@@ -331,8 +548,8 @@ export interface NotificationHubs {
     list(resourceGroupName: string, namespaceName: string, options?: NotificationHubsListOptionalParams): PagedAsyncIterableIterator<NotificationHubResource>;
     listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: NotificationHubsListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<SharedAccessAuthorizationRuleResource>;
     listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: NotificationHubsListKeysOptionalParams): Promise<NotificationHubsListKeysResponse>;
-    patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: NotificationHubsPatchOptionalParams): Promise<NotificationHubsPatchResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: PolicykeyResource, options?: NotificationHubsRegenerateKeysOptionalParams): Promise<NotificationHubsRegenerateKeysResponse>;
+    regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: PolicyKeyResource, options?: NotificationHubsRegenerateKeysOptionalParams): Promise<NotificationHubsRegenerateKeysResponse>;
+    update(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: NotificationHubPatchParameters, options?: NotificationHubsUpdateOptionalParams): Promise<NotificationHubsUpdateResponse>;
 }
 
 // @public
@@ -358,7 +575,6 @@ export type NotificationHubsCreateOrUpdateResponse = NotificationHubResource;
 
 // @public
 export interface NotificationHubsDebugSendOptionalParams extends coreClient.OperationOptions {
-    parameters?: Record<string, unknown>;
 }
 
 // @public
@@ -423,6 +639,8 @@ export type NotificationHubsListNextResponse = NotificationHubListResult;
 
 // @public
 export interface NotificationHubsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -442,6 +660,8 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -453,14 +673,6 @@ export interface NotificationHubsManagementClientOptionalParams extends coreClie
 }
 
 // @public
-export interface NotificationHubsPatchOptionalParams extends coreClient.OperationOptions {
-    parameters?: NotificationHubPatchParameters;
-}
-
-// @public
-export type NotificationHubsPatchResponse = NotificationHubResource;
-
-// @public
 export interface NotificationHubsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -468,13 +680,23 @@ export interface NotificationHubsRegenerateKeysOptionalParams extends coreClient
 export type NotificationHubsRegenerateKeysResponse = ResourceListKeys;
 
 // @public
+export interface NotificationHubsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NotificationHubsUpdateResponse = NotificationHubResource;
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    properties?: OperationProperties;
 }
 
 // @public
 export interface OperationDisplay {
+    readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -485,6 +707,14 @@ export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
 }
+
+// @public
+export interface OperationProperties {
+    serviceSpecification?: ServiceSpecification;
+}
+
+// @public
+export type OperationProvisioningState = string;
 
 // @public
 export interface Operations {
@@ -506,76 +736,249 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export interface PnsCredentialsResource extends Resource {
+export interface PnsCredentials {
     admCredential?: AdmCredential;
     apnsCredential?: ApnsCredential;
     baiduCredential?: BaiduCredential;
+    browserCredential?: BrowserCredential;
+    fcmV1Credential?: FcmV1Credential;
     gcmCredential?: GcmCredential;
     mpnsCredential?: MpnsCredential;
     wnsCredential?: WnsCredential;
+    xiaomiCredential?: XiaomiCredential;
 }
 
 // @public
-export interface PolicykeyResource {
-    policyKey?: string;
-}
-
-// @public (undocumented)
-export interface Resource {
-    readonly id?: string;
+export interface PnsCredentialsResource extends ProxyResource {
+    admCredential?: AdmCredential;
+    apnsCredential?: ApnsCredential;
+    baiduCredential?: BaiduCredential;
+    browserCredential?: BrowserCredential;
+    fcmV1Credential?: FcmV1Credential;
+    gcmCredential?: GcmCredential;
     location?: string;
-    readonly name?: string;
-    sku?: Sku;
+    mpnsCredential?: MpnsCredential;
     tags?: {
         [propertyName: string]: string;
     };
+    wnsCredential?: WnsCredential;
+    xiaomiCredential?: XiaomiCredential;
+}
+
+// @public
+export interface PolicyKeyResource {
+    policyKey: PolicyKeyType;
+}
+
+// @public
+export type PolicyKeyType = string;
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: RemotePrivateEndpointConnection;
+    privateLinkServiceConnectionState?: RemotePrivateLinkServiceConnectionState;
+    provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnectionResource extends ProxyResource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionResourceListResult {
+    readonly nextLink?: string;
+    readonly value?: PrivateEndpointConnectionResource[];
+}
+
+// @public
+export interface PrivateEndpointConnections {
+    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
+    get(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    getGroupId(resourceGroupName: string, namespaceName: string, subResourceName: string, options?: PrivateEndpointConnectionsGetGroupIdOptionalParams): Promise<PrivateEndpointConnectionsGetGroupIdResponse>;
+    list(resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+    listGroupIds(resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListGroupIdsOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+
+// @public
+export interface PrivateEndpointConnectionsGetGroupIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetGroupIdResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionResource;
+
+// @public
+export interface PrivateEndpointConnectionsListGroupIdsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListGroupIdsResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionResourceListResult;
+
+// @public
+export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnectionResource;
+
+// @public
+export type PrivateLinkConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    readonly nextLink?: string;
+    readonly value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    readonly requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkServiceConnection {
+    groupIds?: string[];
+    name?: string;
+    requestMessage?: string;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface PublicInternetAuthorizationRule {
+    rights: AccessRights[];
+}
+
+// @public
+export type PublicNetworkAccess = string;
+
+// @public
+export interface RegistrationResult {
+    readonly applicationPlatform?: string;
+    readonly outcome?: string;
+    readonly pnsHandle?: string;
+    readonly registrationId?: string;
+}
+
+// @public
+export interface RemotePrivateEndpointConnection {
+    readonly id?: string;
+}
+
+// @public
+export interface RemotePrivateLinkServiceConnectionState {
+    readonly actionsRequired?: string;
+    readonly description?: string;
+    status?: PrivateLinkConnectionStatus;
+}
+
+// @public
+export type ReplicationRegion = string;
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceListKeys {
-    keyName?: string;
-    primaryConnectionString?: string;
-    primaryKey?: string;
-    secondaryConnectionString?: string;
-    secondaryKey?: string;
+    readonly keyName?: string;
+    readonly primaryConnectionString?: string;
+    readonly primaryKey?: string;
+    readonly secondaryConnectionString?: string;
+    readonly secondaryKey?: string;
 }
 
 // @public
-export interface SharedAccessAuthorizationRuleCreateOrUpdateParameters {
-    properties: SharedAccessAuthorizationRuleProperties;
+export interface ServiceSpecification {
+    readonly logSpecifications?: LogSpecification[];
+    readonly metricSpecifications?: MetricSpecification[];
 }
 
 // @public
 export interface SharedAccessAuthorizationRuleListResult {
-    nextLink?: string;
-    value?: SharedAccessAuthorizationRuleResource[];
+    readonly nextLink?: string;
+    readonly value?: SharedAccessAuthorizationRuleResource[];
 }
 
 // @public
 export interface SharedAccessAuthorizationRuleProperties {
     readonly claimType?: string;
     readonly claimValue?: string;
-    readonly createdTime?: string;
+    readonly createdTime?: Date;
     readonly keyName?: string;
-    readonly modifiedTime?: string;
-    readonly primaryKey?: string;
+    readonly modifiedTime?: Date;
+    primaryKey?: string;
     readonly revision?: number;
-    rights?: AccessRights[];
-    readonly secondaryKey?: string;
+    rights: AccessRights[];
+    secondaryKey?: string;
 }
 
 // @public
-export interface SharedAccessAuthorizationRuleResource extends Resource {
+export interface SharedAccessAuthorizationRuleResource extends ProxyResource {
     readonly claimType?: string;
     readonly claimValue?: string;
-    readonly createdTime?: string;
+    readonly createdTime?: Date;
     readonly keyName?: string;
-    readonly modifiedTime?: string;
-    readonly primaryKey?: string;
+    location?: string;
+    readonly modifiedTime?: Date;
+    primaryKey?: string;
     readonly revision?: number;
     rights?: AccessRights[];
-    readonly secondaryKey?: string;
+    secondaryKey?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -590,17 +993,41 @@ export interface Sku {
 // @public
 export type SkuName = string;
 
-// @public (undocumented)
-export interface SubResource {
-    id?: string;
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface WnsCredential {
+    certificateKey?: string;
     packageSid?: string;
     secretKey?: string;
     windowsLiveEndpoint?: string;
+    wnsCertificate?: string;
 }
+
+// @public
+export interface XiaomiCredential {
+    appSecret?: string;
+    endpoint?: string;
+}
+
+// @public
+export type ZoneRedundancyPreference = string;
 
 // (No @packageDocumentation comment for this package)
 

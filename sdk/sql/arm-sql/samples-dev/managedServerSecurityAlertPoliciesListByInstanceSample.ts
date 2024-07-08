@@ -32,7 +32,7 @@ async function getTheManagedServerThreatDetectionPolicies() {
   const resArray = new Array();
   for await (let item of client.managedServerSecurityAlertPolicies.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

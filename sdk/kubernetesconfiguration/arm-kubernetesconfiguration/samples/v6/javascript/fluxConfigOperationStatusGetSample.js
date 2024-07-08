@@ -34,7 +34,7 @@ async function fluxConfigurationAsyncOperationStatusGet() {
     clusterResourceName,
     clusterName,
     fluxConfigurationName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

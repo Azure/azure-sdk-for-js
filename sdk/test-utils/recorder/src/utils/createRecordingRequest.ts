@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
+import { createPipelineRequest, HttpMethods, PipelineRequest } from "@azure/core-rest-pipeline";
 
 /**
  * Adds the recording id headers to the requests that are sent to the proxy tool.
@@ -13,7 +13,7 @@ export function createRecordingRequest(
   recordingId?: string,
   method: HttpMethods = "POST",
   assetsJson?: string,
-) {
+): PipelineRequest {
   const req = createPipelineRequest({ url: url, method });
 
   if (sessionFile !== undefined) {

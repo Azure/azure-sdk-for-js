@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Secret within profile.
  *
  * @summary Deletes an existing Secret within profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Secrets_Delete.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Secrets_Delete.json
  */
 async function secretsDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function secretsDelete() {
   const result = await client.secrets.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    secretName
+    secretName,
   );
   console.log(result);
 }

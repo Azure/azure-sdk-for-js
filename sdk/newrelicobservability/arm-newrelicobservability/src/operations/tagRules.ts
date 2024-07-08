@@ -16,7 +16,7 @@ import { NewRelicObservability } from "../newRelicObservability";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   TagRuleUpdate,
   TagRulesUpdateOptionalParams,
   TagRulesUpdateResponse,
-  TagRulesListByNewRelicMonitorResourceNextResponse
+  TagRulesListByNewRelicMonitorResourceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class TagRulesImpl implements TagRules {
   public listByNewRelicMonitorResource(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListByNewRelicMonitorResourceOptionalParams
+    options?: TagRulesListByNewRelicMonitorResourceOptionalParams,
   ): PagedAsyncIterableIterator<TagRule> {
     const iter = this.listByNewRelicMonitorResourcePagingAll(
       resourceGroupName,
       monitorName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class TagRulesImpl implements TagRules {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     options?: TagRulesListByNewRelicMonitorResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TagRule[]> {
     let result: TagRulesListByNewRelicMonitorResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class TagRulesImpl implements TagRules {
       result = await this._listByNewRelicMonitorResource(
         resourceGroupName,
         monitorName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class TagRulesImpl implements TagRules {
         resourceGroupName,
         monitorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +121,12 @@ export class TagRulesImpl implements TagRules {
   private async *listByNewRelicMonitorResourcePagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListByNewRelicMonitorResourceOptionalParams
+    options?: TagRulesListByNewRelicMonitorResourceOptionalParams,
   ): AsyncIterableIterator<TagRule> {
     for await (const page of this.listByNewRelicMonitorResourcePagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +141,11 @@ export class TagRulesImpl implements TagRules {
   private _listByNewRelicMonitorResource(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListByNewRelicMonitorResourceOptionalParams
+    options?: TagRulesListByNewRelicMonitorResourceOptionalParams,
   ): Promise<TagRulesListByNewRelicMonitorResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listByNewRelicMonitorResourceOperationSpec
+      listByNewRelicMonitorResourceOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesGetOptionalParams
+    options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, ruleSetName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -181,7 +181,7 @@ export class TagRulesImpl implements TagRules {
     monitorName: string,
     ruleSetName: string,
     resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TagRulesCreateOrUpdateResponse>,
@@ -190,21 +190,20 @@ export class TagRulesImpl implements TagRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TagRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +212,8 @@ export class TagRulesImpl implements TagRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,15 +221,15 @@ export class TagRulesImpl implements TagRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, ruleSetName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       TagRulesCreateOrUpdateResponse,
@@ -238,7 +237,7 @@ export class TagRulesImpl implements TagRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -257,14 +256,14 @@ export class TagRulesImpl implements TagRules {
     monitorName: string,
     ruleSetName: string,
     resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<TagRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       monitorName,
       ruleSetName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,25 +279,24 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -307,8 +305,8 @@ export class TagRulesImpl implements TagRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -316,20 +314,20 @@ export class TagRulesImpl implements TagRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, ruleSetName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -346,13 +344,13 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       monitorName,
       ruleSetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -370,11 +368,11 @@ export class TagRulesImpl implements TagRules {
     monitorName: string,
     ruleSetName: string,
     properties: TagRuleUpdate,
-    options?: TagRulesUpdateOptionalParams
+    options?: TagRulesUpdateOptionalParams,
   ): Promise<TagRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, ruleSetName, properties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -390,11 +388,11 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: TagRulesListByNewRelicMonitorResourceNextOptionalParams
+    options?: TagRulesListByNewRelicMonitorResourceNextOptionalParams,
   ): Promise<TagRulesListByNewRelicMonitorResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listByNewRelicMonitorResourceNextOperationSpec
+      listByNewRelicMonitorResourceNextOperationSpec,
     );
   }
 }
@@ -402,38 +400,15 @@ export class TagRulesImpl implements TagRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNewRelicMonitorResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagRuleListResult
+      bodyMapper: Mappers.TagRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagRule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -441,31 +416,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.ruleSetName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+    Parameters.ruleSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TagRule
+      bodyMapper: Mappers.TagRule,
     },
     201: {
-      bodyMapper: Mappers.TagRule
+      bodyMapper: Mappers.TagRule,
     },
     202: {
-      bodyMapper: Mappers.TagRule
+      bodyMapper: Mappers.TagRule,
     },
     204: {
-      bodyMapper: Mappers.TagRule
+      bodyMapper: Mappers.TagRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
@@ -474,15 +469,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -490,8 +484,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -499,22 +493,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.TagRule
+      bodyMapper: Mappers.TagRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
@@ -523,30 +516,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listByNewRelicMonitorResourceNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagRuleListResult
+const listByNewRelicMonitorResourceNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.TagRuleListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.monitorName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

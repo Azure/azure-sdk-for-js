@@ -20,7 +20,7 @@ import {
   SshPublicKeysGetOptionalParams,
   SshPublicKeysGetResponse,
   SshPublicKeysGenerateKeyPairOptionalParams,
-  SshPublicKeysGenerateKeyPairResponse
+  SshPublicKeysGenerateKeyPairResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface SshPublicKeys {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SshPublicKeysListBySubscriptionOptionalParams
+    options?: SshPublicKeysListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SshPublicKeyResource>;
   /**
    * Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the
@@ -42,7 +42,7 @@ export interface SshPublicKeys {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SshPublicKeysListByResourceGroupOptionalParams
+    options?: SshPublicKeysListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SshPublicKeyResource>;
   /**
    * Creates a new SSH public key resource.
@@ -55,7 +55,7 @@ export interface SshPublicKeys {
     resourceGroupName: string,
     sshPublicKeyName: string,
     parameters: SshPublicKeyResource,
-    options?: SshPublicKeysCreateOptionalParams
+    options?: SshPublicKeysCreateOptionalParams,
   ): Promise<SshPublicKeysCreateResponse>;
   /**
    * Updates a new SSH public key resource.
@@ -68,7 +68,7 @@ export interface SshPublicKeys {
     resourceGroupName: string,
     sshPublicKeyName: string,
     parameters: SshPublicKeyUpdateResource,
-    options?: SshPublicKeysUpdateOptionalParams
+    options?: SshPublicKeysUpdateOptionalParams,
   ): Promise<SshPublicKeysUpdateResponse>;
   /**
    * Delete an SSH public key.
@@ -79,7 +79,7 @@ export interface SshPublicKeys {
   delete(
     resourceGroupName: string,
     sshPublicKeyName: string,
-    options?: SshPublicKeysDeleteOptionalParams
+    options?: SshPublicKeysDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves information about an SSH public key.
@@ -90,7 +90,7 @@ export interface SshPublicKeys {
   get(
     resourceGroupName: string,
     sshPublicKeyName: string,
-    options?: SshPublicKeysGetOptionalParams
+    options?: SshPublicKeysGetOptionalParams,
   ): Promise<SshPublicKeysGetResponse>;
   /**
    * Generates and returns a public/private key pair and populates the SSH public key resource with the
@@ -103,6 +103,6 @@ export interface SshPublicKeys {
   generateKeyPair(
     resourceGroupName: string,
     sshPublicKeyName: string,
-    options?: SshPublicKeysGenerateKeyPairOptionalParams
+    options?: SshPublicKeysGenerateKeyPairOptionalParams,
   ): Promise<SshPublicKeysGenerateKeyPairResponse>;
 }

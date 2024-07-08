@@ -14,21 +14,20 @@
  *    to read from corresponding event hubs
  */
 
-import { JsonSerializer } from "../../src";
+import { JsonSchemaSerializer } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
-import { assert } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
-  const eventHubsConnectionString = env.EVENTHUB_JSON_CONNECTION_STRING || "";
+  const eventHubHostName = env.EVENTHUB_JSON_HOST_NAME || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
   let registry: SchemaRegistry;
@@ -42,7 +41,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
       createEventHubsClient({
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
-        eventHubsConnectionString,
+        eventHubHostName,
       }),
     );
     client.initialize({
@@ -53,7 +52,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
 
   describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingJson}`, async function () {
     let recorder: Recorder;
-    let serializer: JsonSerializer<any>;
+    let serializer: JsonSchemaSerializer<any>;
 
     async function roundtrip(settings: {
       client: MessagingTestClient<any>;

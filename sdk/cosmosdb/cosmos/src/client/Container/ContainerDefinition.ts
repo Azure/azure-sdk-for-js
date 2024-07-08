@@ -5,6 +5,8 @@ import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
 import { ClientEncryptionPolicy } from "../../encryption";
+import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
+import { ComputedProperty } from "../../documents/ComputedProperty";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -25,4 +27,8 @@ export interface ContainerDefinition {
   };
   /** Encryption policy for the container, contains path that needs to be encrypted */
   clientEncryptionPolicy?: ClientEncryptionPolicy;
+  /** Change feed policy related to the container */
+  changeFeedPolicy?: ChangeFeedPolicy;
+  /** The computed properties of the container */
+  computedProperties?: ComputedProperty[];
 }

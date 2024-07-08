@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the specified data collection rule.
  *
  * @summary Returns the specified data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesGet.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesGet.json
  */
 async function getDataCollectionRule() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getDataCollectionRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.dataCollectionRules.get(
     resourceGroupName,
-    dataCollectionRuleName
+    dataCollectionRuleName,
   );
   console.log(result);
 }

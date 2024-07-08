@@ -15,7 +15,7 @@ import {
   PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
   PrivateLinkResourcesListByPrivateLinkScopeResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models";
 
 /** Class containing PrivateLinkResources operations. */
@@ -39,11 +39,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   listByPrivateLinkScope(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
+    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
   ): Promise<PrivateLinkResourcesListByPrivateLinkScopeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scopeName, options },
-      listByPrivateLinkScopeOperationSpec
+      listByPrivateLinkScopeOperationSpec,
     );
   }
 
@@ -58,11 +58,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     scopeName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scopeName, groupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -70,47 +70,45 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopes/{scopeName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopes/{scopeName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.scopeName
+    Parameters.resourceGroupName,
+    Parameters.scopeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopes/{scopeName}/privateLinkResources/{groupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopes/{scopeName}/privateLinkResources/{groupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResource
+      bodyMapper: Mappers.PrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.scopeName,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

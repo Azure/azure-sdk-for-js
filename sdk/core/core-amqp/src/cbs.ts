@@ -12,14 +12,14 @@ import {
   SenderOptions,
   generate_uuid,
 } from "rhea-promise";
-import { logErrorStackTrace, logger } from "./log";
-import { Constants } from "./util/constants";
-import { RequestResponseLink } from "./requestResponseLink";
-import { StandardAbortMessage } from "./util/constants";
-import { TokenType } from "./auth/token";
-import { defaultCancellableLock } from "./util/utils";
+import { logErrorStackTrace, logger } from "./log.js";
+import { Constants } from "./util/constants.js";
+import { RequestResponseLink } from "./requestResponseLink.js";
+import { StandardAbortMessage } from "./util/constants.js";
+import { TokenType } from "./auth/token.js";
+import { defaultCancellableLock } from "./util/utils.js";
 import { isError } from "@azure/core-util";
-import { translate } from "./errors";
+import { translate } from "./errors.js";
 
 /**
  * Describes the CBS Response.

@@ -14,18 +14,6 @@ import { TokenCredential } from '@azure/core-auth';
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 // @public
-export interface BatchQueryMetric {
-    displayDescription: string;
-    errorCode?: string;
-    errorMessage?: string;
-    id: string;
-    name: LocalizableString;
-    timeseries: TimeSeriesElement[];
-    type: string;
-    unit: MetricUnit;
-}
-
-// @public
 export const Durations: {
     readonly sevenDays: "P7D";
     readonly threeDays: "P3D";
@@ -41,6 +29,13 @@ export const Durations: {
 };
 
 // @public
+export enum KnownMonitorAudience {
+    AzureChina = "https://monitor.azure.cn",
+    AzureGovernment = "https://monitor.azure.us",
+    AzurePublicCloud = "https://monitor.azure.com"
+}
+
+// @public
 export interface ListMetricDefinitionsOptions extends OperationOptions {
     metricNamespace?: string;
 }
@@ -48,12 +43,6 @@ export interface ListMetricDefinitionsOptions extends OperationOptions {
 // @public
 export interface ListMetricNamespacesOptions extends OperationOptions {
     startTime?: string;
-}
-
-// @public
-export interface LocalizableString {
-    localizedValue?: string;
-    value: string;
 }
 
 // @public
@@ -87,6 +76,7 @@ export class LogsQueryClient {
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
+    audience?: string;
     endpoint?: string;
 }
 
@@ -192,40 +182,14 @@ export interface MetricNamespace {
 }
 
 // @public
-export interface MetricResultsResponseValuesItem {
-    endTime: string;
-    interval?: string;
-    namespace?: string;
-    resourceId?: string;
-    resourceRegion?: string;
-    startTime: string;
-    value: BatchQueryMetric[];
-}
-
-// @public
-export interface MetricsBatchOptionalParams extends coreClient.OperationOptions {
-    aggregation?: string;
-    endTime?: Date;
-    filter?: string;
-    interval?: string;
-    orderBy?: string;
-    startTime?: Date;
-    top?: number;
-}
-
-// @public
-export class MetricsBatchQueryClient {
-    constructor(batchEndPoint: string, tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions);
-    queryBatch(resourceIds: string[], metricNamespace: string, metricNames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
-}
-
-// @public
-export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
-    batchMetricsAuthScope?: string;
+export class MetricsClient {
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsClientOptions);
+    queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
 }
 
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
+    audience?: string;
     endpoint?: string;
 }
 
@@ -240,12 +204,27 @@ export class MetricsQueryClient {
 // @public
 export interface MetricsQueryOptions extends OperationOptions {
     aggregations?: AggregationType[];
+    autoAdjustTimegrain?: boolean;
     filter?: string;
     granularity?: string;
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
+    rollUpBy?: string;
     timespan?: QueryTimeInterval;
+    top?: number;
+    validateDimensions?: boolean;
+}
+
+// @public
+export interface MetricsQueryResourcesOptions extends coreClient.OperationOptions {
+    aggregation?: string;
+    endTime?: Date;
+    filter?: string;
+    interval?: string;
+    orderBy?: string;
+    rollUpBy?: string;
+    startTime?: Date;
     top?: number;
 }
 
@@ -256,6 +235,7 @@ export interface MetricsQueryResult {
     granularity?: string;
     metrics: Metric[];
     namespace?: string;
+    resourceId?: string;
     resourceRegion?: string;
     timespan: QueryTimeInterval;
 }

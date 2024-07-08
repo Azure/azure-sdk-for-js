@@ -33,7 +33,7 @@ async function getsTheManagedInstanceManagementOperation() {
   const result = await client.managedInstanceOperations.get(
     resourceGroupName,
     managedInstanceName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

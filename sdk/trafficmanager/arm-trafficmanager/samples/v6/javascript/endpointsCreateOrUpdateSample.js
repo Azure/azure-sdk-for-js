@@ -40,7 +40,7 @@ async function endpointPutExternalWithAlwaysServe() {
     profileName,
     endpointType,
     endpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -76,7 +76,7 @@ async function endpointPutExternalWithCustomHeaders() {
     profileName,
     endpointType,
     endpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -108,7 +108,7 @@ async function endpointPutExternalWithGeoMapping() {
     profileName,
     endpointType,
     endpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -140,7 +140,7 @@ async function endpointPutExternalWithLocation() {
     profileName,
     endpointType,
     endpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -175,7 +175,7 @@ async function endpointPutExternalWithSubnetMapping() {
     profileName,
     endpointType,
     endpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
@@ -160,7 +158,7 @@ export const formDataPolicyName = "formDataPolicy";
 // @public
 export type FormDataValue = string | Blob | File;
 
-// @public
+// @public @deprecated
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
 // @public
@@ -323,7 +321,7 @@ export interface PipelineRetryOptions {
 }
 
 // @public
-export function proxyPolicy(proxySettings?: ProxySettings | undefined, options?: {
+export function proxyPolicy(proxySettings?: ProxySettings, options?: {
     customNoProxyList?: string[];
 }): PipelinePolicy;
 
@@ -478,6 +476,7 @@ export const tracingPolicyName = "tracingPolicy";
 
 // @public
 export interface TracingPolicyOptions {
+    additionalAllowedQueryParameters?: string[];
     userAgentPrefix?: string;
 }
 

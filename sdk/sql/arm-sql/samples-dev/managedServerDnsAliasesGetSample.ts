@@ -32,7 +32,7 @@ async function getManagedServerDnsAlias() {
   const result = await client.managedServerDnsAliases.get(
     resourceGroupName,
     managedInstanceName,
-    dnsAliasName
+    dnsAliasName,
   );
   console.log(result);
 }

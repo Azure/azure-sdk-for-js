@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Fetches the result of any operation.
  *
  * @summary Fetches the result of any operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/CancelJobOperationResult.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/CancelJobOperationResult.json
  */
 async function cancelJobOperationResult() {
   const subscriptionId =

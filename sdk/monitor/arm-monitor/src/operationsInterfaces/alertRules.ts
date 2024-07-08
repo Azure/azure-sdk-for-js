@@ -18,7 +18,7 @@ import {
   AlertRulesGetResponse,
   AlertRuleResourcePatch,
   AlertRulesUpdateOptionalParams,
-  AlertRulesUpdateResponse
+  AlertRulesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,14 +31,14 @@ export interface AlertRules {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AlertRulesListByResourceGroupOptionalParams
+    options?: AlertRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AlertRuleResource>;
   /**
    * List the classic metric alert rules within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AlertRulesListBySubscriptionOptionalParams
+    options?: AlertRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AlertRuleResource>;
   /**
    * Creates or updates a classic metric alert rule.
@@ -51,7 +51,7 @@ export interface AlertRules {
     resourceGroupName: string,
     ruleName: string,
     parameters: AlertRuleResource,
-    options?: AlertRulesCreateOrUpdateOptionalParams
+    options?: AlertRulesCreateOrUpdateOptionalParams,
   ): Promise<AlertRulesCreateOrUpdateResponse>;
   /**
    * Deletes a classic metric alert rule
@@ -62,7 +62,7 @@ export interface AlertRules {
   delete(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRulesDeleteOptionalParams
+    options?: AlertRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a classic metric alert rule
@@ -73,7 +73,7 @@ export interface AlertRules {
   get(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRulesGetOptionalParams
+    options?: AlertRulesGetOptionalParams,
   ): Promise<AlertRulesGetResponse>;
   /**
    * Updates an existing classic metric AlertRuleResource. To update other fields use the CreateOrUpdate
@@ -87,6 +87,6 @@ export interface AlertRules {
     resourceGroupName: string,
     ruleName: string,
     alertRulesResource: AlertRuleResourcePatch,
-    options?: AlertRulesUpdateOptionalParams
+    options?: AlertRulesUpdateOptionalParams,
   ): Promise<AlertRulesUpdateResponse>;
 }

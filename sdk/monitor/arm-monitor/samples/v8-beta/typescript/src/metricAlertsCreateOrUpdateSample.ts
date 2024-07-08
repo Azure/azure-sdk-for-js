@@ -32,8 +32,8 @@ async function createOrUpdateADynamicAlertRuleForMultipleResources() {
       {
         actionGroupId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
-        webHookProperties: { key11: "value11", key12: "value12" }
-      }
+        webHookProperties: { key11: "value11", key12: "value12" },
+      },
     ],
     autoMitigate: true,
     criteria: {
@@ -45,36 +45,36 @@ async function createOrUpdateADynamicAlertRuleForMultipleResources() {
           dimensions: [],
           failingPeriods: {
             minFailingPeriodsToAlert: 4,
-            numberOfEvaluationPeriods: 4
+            numberOfEvaluationPeriods: 4,
           },
           metricName: "Percentage CPU",
           metricNamespace: "microsoft.compute/virtualmachines",
           operator: "GreaterOrLessThan",
-          timeAggregation: "Average"
-        }
+          timeAggregation: "Average",
+        },
       ],
       odataType:
-        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
     },
     enabled: true,
     evaluationFrequency: "PT1M",
     location: "global",
     scopes: [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme1",
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2"
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2",
     ],
     severity: 3,
     tags: {},
     targetResourceRegion: "southcentralus",
     targetResourceType: "Microsoft.Compute/virtualMachines",
-    windowSize: "PT15M"
+    windowSize: "PT15M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -97,8 +97,8 @@ async function createOrUpdateADynamicAlertRuleForSingleResource() {
       {
         actionGroupId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
-        webHookProperties: { key11: "value11", key12: "value12" }
-      }
+        webHookProperties: { key11: "value11", key12: "value12" },
+      },
     ],
     autoMitigate: true,
     criteria: {
@@ -110,34 +110,34 @@ async function createOrUpdateADynamicAlertRuleForSingleResource() {
           dimensions: [],
           failingPeriods: {
             minFailingPeriodsToAlert: 4,
-            numberOfEvaluationPeriods: 4
+            numberOfEvaluationPeriods: 4,
           },
           ignoreDataBefore: new Date("2019-04-04T21:00:00.000Z"),
           metricName: "Percentage CPU",
           metricNamespace: "microsoft.compute/virtualmachines",
           operator: "GreaterOrLessThan",
-          timeAggregation: "Average"
-        }
+          timeAggregation: "Average",
+        },
       ],
       odataType:
-        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
     },
     enabled: true,
     evaluationFrequency: "PT1M",
     location: "global",
     scopes: [
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme"
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme",
     ],
     severity: 3,
     tags: {},
-    windowSize: "PT15M"
+    windowSize: "PT15M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -165,30 +165,30 @@ async function createOrUpdateAWebTestAlertRule() {
       failedLocationCount: 2,
       odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria",
       webTestId:
-        "/subscriptions/12345678-1234-1234-1234-123456789101/resourcegroups/rg-example/providers/microsoft.insights/webtests/component-example"
+        "/subscriptions/12345678-1234-1234-1234-123456789101/resourcegroups/rg-example/providers/microsoft.insights/webtests/component-example",
     },
     enabled: true,
     evaluationFrequency: "PT1M",
     location: "global",
     scopes: [
       "/subscriptions/12345678-1234-1234-1234-123456789101/resourcegroups/rg-example/providers/microsoft.insights/webtests/component-example",
-      "/subscriptions/12345678-1234-1234-1234-123456789101/resourcegroups/rg-example/providers/microsoft.insights/components/webtest-name-example"
+      "/subscriptions/12345678-1234-1234-1234-123456789101/resourcegroups/rg-example/providers/microsoft.insights/components/webtest-name-example",
     ],
     severity: 4,
     tags: {
       "hiddenLink:/subscriptions/12345678123412341234123456789101/resourcegroups/rgExample/providers/microsoftInsights/components/webtestNameExample":
         "Resource",
       "hiddenLink:/subscriptions/12345678123412341234123456789101/resourcegroups/rgExample/providers/microsoftInsights/webtests/componentExample":
-        "Resource"
+        "Resource",
     },
-    windowSize: "PT15M"
+    windowSize: "PT15M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -211,8 +211,8 @@ async function createOrUpdateAnAlertRuleForMultipleResource() {
       {
         actionGroupId:
           "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
-        webHookProperties: { key11: "value11", key12: "value12" }
-      }
+        webHookProperties: { key11: "value11", key12: "value12" },
+      },
     ],
     autoMitigate: true,
     criteria: {
@@ -225,31 +225,31 @@ async function createOrUpdateAnAlertRuleForMultipleResource() {
           metricNamespace: "microsoft.compute/virtualmachines",
           operator: "GreaterThan",
           threshold: 80.5,
-          timeAggregation: "Average"
-        }
+          timeAggregation: "Average",
+        },
       ],
       odataType:
-        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
     },
     enabled: true,
     evaluationFrequency: "PT1M",
     location: "global",
     scopes: [
       "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme1",
-      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2"
+      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2",
     ],
     severity: 3,
     tags: {},
     targetResourceRegion: "southcentralus",
     targetResourceType: "Microsoft.Compute/virtualMachines",
-    windowSize: "PT15M"
+    windowSize: "PT15M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -272,8 +272,8 @@ async function createOrUpdateAnAlertRuleForSingleResource() {
       {
         actionGroupId:
           "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
-        webHookProperties: { key11: "value11", key12: "value12" }
-      }
+        webHookProperties: { key11: "value11", key12: "value12" },
+      },
     ],
     autoMitigate: true,
     criteria: {
@@ -285,27 +285,27 @@ async function createOrUpdateAnAlertRuleForSingleResource() {
           metricName: "\\Processor(_Total)\\% Processor Time",
           operator: "GreaterThan",
           threshold: 80.5,
-          timeAggregation: "Average"
-        }
+          timeAggregation: "Average",
+        },
       ],
-      odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+      odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
     },
     enabled: true,
     evaluationFrequency: "Pt1m",
     location: "global",
     scopes: [
-      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme"
+      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme",
     ],
     severity: 3,
     tags: {},
-    windowSize: "Pt15m"
+    windowSize: "Pt15m",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -328,8 +328,8 @@ async function createOrUpdateAnAlertRuleOnResourceGroupS() {
       {
         actionGroupId:
           "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
-        webHookProperties: { key11: "value11", key12: "value12" }
-      }
+        webHookProperties: { key11: "value11", key12: "value12" },
+      },
     ],
     autoMitigate: true,
     criteria: {
@@ -342,31 +342,31 @@ async function createOrUpdateAnAlertRuleOnResourceGroupS() {
           metricNamespace: "microsoft.compute/virtualmachines",
           operator: "GreaterThan",
           threshold: 80.5,
-          timeAggregation: "Average"
-        }
+          timeAggregation: "Average",
+        },
       ],
       odataType:
-        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
     },
     enabled: true,
     evaluationFrequency: "PT1M",
     location: "global",
     scopes: [
       "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest1",
-      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest2"
+      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest2",
     ],
     severity: 3,
     tags: {},
     targetResourceRegion: "southcentralus",
     targetResourceType: "Microsoft.Compute/virtualMachines",
-    windowSize: "PT15M"
+    windowSize: "PT15M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -389,8 +389,8 @@ async function createOrUpdateAnAlertRuleOnSubscription() {
       {
         actionGroupId:
           "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
-        webHookProperties: { key11: "value11", key12: "value12" }
-      }
+        webHookProperties: { key11: "value11", key12: "value12" },
+      },
     ],
     autoMitigate: true,
     criteria: {
@@ -403,11 +403,11 @@ async function createOrUpdateAnAlertRuleOnSubscription() {
           metricNamespace: "microsoft.compute/virtualmachines",
           operator: "GreaterThan",
           threshold: 80.5,
-          timeAggregation: "Average"
-        }
+          timeAggregation: "Average",
+        },
       ],
       odataType:
-        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
     },
     enabled: true,
     evaluationFrequency: "PT1M",
@@ -417,14 +417,14 @@ async function createOrUpdateAnAlertRuleOnSubscription() {
     tags: {},
     targetResourceRegion: "southcentralus",
     targetResourceType: "Microsoft.Compute/virtualMachines",
-    windowSize: "PT15M"
+    windowSize: "PT15M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -447,8 +447,8 @@ async function createOrUpdateAnAlertRulesWithDimensions() {
       {
         actionGroupId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
-        webHookProperties: { key11: "value11", key12: "value12" }
-      }
+        webHookProperties: { key11: "value11", key12: "value12" },
+      },
     ],
     autoMitigate: true,
     criteria: {
@@ -458,34 +458,34 @@ async function createOrUpdateAnAlertRulesWithDimensions() {
           criterionType: "StaticThresholdCriterion",
           dimensions: [
             { name: "ActivityName", operator: "Include", values: ["*"] },
-            { name: "StatusCode", operator: "Include", values: ["200"] }
+            { name: "StatusCode", operator: "Include", values: ["200"] },
           ],
           metricName: "Availability",
           metricNamespace: "Microsoft.KeyVault/vaults",
           operator: "GreaterThan",
           threshold: 55,
-          timeAggregation: "Average"
-        }
+          timeAggregation: "Average",
+        },
       ],
       odataType:
-        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+        "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
     },
     enabled: true,
     evaluationFrequency: "PT1H",
     location: "global",
     scopes: [
-      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.KeyVault/vaults/keyVaultResource"
+      "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.KeyVault/vaults/keyVaultResource",
     ],
     severity: 3,
     tags: {},
-    windowSize: "P1D"
+    windowSize: "P1D",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

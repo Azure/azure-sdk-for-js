@@ -10,6 +10,7 @@ import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
 import { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+import type { TracingContext } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -105,6 +106,16 @@ export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCred
 }
 
 // @public
+export class AzurePipelinesCredential implements TokenCredential {
+    constructor(tenantId: string, clientId: string, serviceConnectionId: string, systemAccessToken: string, options?: AzurePipelinesCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
+}
+
+// @public
 export class AzurePowerShellCredential implements TokenCredential {
     constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
@@ -133,6 +144,7 @@ export interface BrokerEnabledOptions {
     enabled: true;
     legacyEnableMsaPassthrough?: boolean;
     parentWindowHandle: Uint8Array;
+    useDefaultBrokerAccount?: boolean;
 }
 
 // @public
@@ -288,6 +300,17 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getBearerTokenProvider(credential: TokenCredential, scopes: string | string[], options?: GetBearerTokenProviderOptions): () => Promise<string>;
+
+// @public
+export interface GetBearerTokenProviderOptions {
+    abortSignal?: AbortSignal;
+    tracingOptions?: {
+        tracingContext?: TracingContext;
+    };
+}
+
+// @public
 export function getDefaultAzureCredential(): TokenCredential;
 
 export { GetTokenOptions }
@@ -355,7 +378,16 @@ export interface MultiTenantTokenCredentialOptions extends TokenCredentialOption
 export class OnBehalfOfCredential implements TokenCredential {
     constructor(options: OnBehalfOfCredentialCertificateOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
     constructor(options: OnBehalfOfCredentialSecretOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
+    constructor(options: OnBehalfOfCredentialAssertionOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface OnBehalfOfCredentialAssertionOptions {
+    clientId: string;
+    getAssertion: () => Promise<string>;
+    tenantId: string;
+    userAssertionToken: string;
 }
 
 // @public
@@ -368,7 +400,7 @@ export interface OnBehalfOfCredentialCertificateOptions {
 }
 
 // @public
-export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
+export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
 // @public
 export interface OnBehalfOfCredentialSecretOptions {

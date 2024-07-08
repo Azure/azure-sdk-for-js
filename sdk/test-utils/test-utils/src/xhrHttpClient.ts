@@ -12,6 +12,7 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
 }
@@ -111,6 +112,7 @@ function handleBlobResponse(
   xhr: XMLHttpRequest,
   request: PipelineRequest,
   res: (value: PipelineResponse | PromiseLike<PipelineResponse>) => void,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rej: (reason?: any) => void,
 ): void {
   xhr.addEventListener("readystatechange", () => {
@@ -150,7 +152,7 @@ function handleBlobResponse(
                 });
                 return;
               })
-              .catch((e: any) => {
+              .catch((e: unknown) => {
                 rej(e);
               });
           } else {
@@ -197,7 +199,7 @@ function parseHeaders(xhr: XMLHttpRequest): HttpHeaders {
 function rejectOnTerminalEvent(
   request: PipelineRequest,
   xhr: XMLHttpRequest,
-  reject: (err: any) => void,
+  reject: (err: unknown) => void,
 ): void {
   xhr.addEventListener("error", () =>
     reject(

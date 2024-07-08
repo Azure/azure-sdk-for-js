@@ -112,3 +112,34 @@ export enum RegionalAuthority {
   /** Uses the {@link RegionalAuthority} for the Azure 'usdodcentral' region. */
   GovernmentUSDodCentral = "usdodcentral",
 }
+
+/**
+ * Calculates the correct regional authority based on the supplied value
+ * and the AZURE_REGIONAL_AUTHORITY_NAME environment variable.
+ *
+ * Values will be returned verbatim, except for {@link RegionalAuthority.AutoDiscoverRegion}
+ * which is mapped to a value MSAL can understand.
+ *
+ * @internal
+ */
+export function calculateRegionalAuthority(regionalAuthority?: string): string | undefined {
+  // Note: as of today only 3 credentials support regional authority, and the parameter
+  // is not exposed via the public API. Regional Authority is _only_ supported
+  // via the AZURE_REGIONAL_AUTHORITY_NAME env var and _only_ for: ClientSecretCredential, ClientCertificateCredential, and ClientAssertionCredential.
+
+  // Accepting the regionalAuthority parameter will allow us to support it in the future.
+  let azureRegion = regionalAuthority;
+
+  if (
+    azureRegion === undefined &&
+    globalThis.process?.env?.AZURE_REGIONAL_AUTHORITY_NAME !== undefined
+  ) {
+    azureRegion = process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+  }
+
+  if (azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+    return "AUTO_DISCOVER";
+  }
+
+  return azureRegion;
+}

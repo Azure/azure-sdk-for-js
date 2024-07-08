@@ -23,7 +23,7 @@ import {
   DomainsInitiateVerificationOptionalParams,
   DomainsInitiateVerificationResponse,
   DomainsCancelVerificationOptionalParams,
-  DomainsCancelVerificationResponse
+  DomainsCancelVerificationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface Domains {
   listByEmailServiceResource(
     resourceGroupName: string,
     emailServiceName: string,
-    options?: DomainsListByEmailServiceResourceOptionalParams
+    options?: DomainsListByEmailServiceResourceOptionalParams,
   ): PagedAsyncIterableIterator<DomainResource>;
   /**
    * Get the Domains resource and its properties.
@@ -51,7 +51,7 @@ export interface Domains {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: DomainsGetOptionalParams
+    options?: DomainsGetOptionalParams,
   ): Promise<DomainsGetResponse>;
   /**
    * Add a new Domains resource under the parent EmailService resource or update an existing Domains
@@ -67,7 +67,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: DomainResource,
-    options?: DomainsCreateOrUpdateOptionalParams
+    options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainsCreateOrUpdateResponse>,
@@ -88,7 +88,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: DomainResource,
-    options?: DomainsCreateOrUpdateOptionalParams
+    options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<DomainsCreateOrUpdateResponse>;
   /**
    * Operation to delete a Domains resource.
@@ -101,7 +101,7 @@ export interface Domains {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: DomainsDeleteOptionalParams
+    options?: DomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Domains resource.
@@ -114,7 +114,7 @@ export interface Domains {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: DomainsDeleteOptionalParams
+    options?: DomainsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an existing Domains resource.
@@ -129,7 +129,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: UpdateDomainRequestParameters,
-    options?: DomainsUpdateOptionalParams
+    options?: DomainsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainsUpdateResponse>,
@@ -149,7 +149,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: UpdateDomainRequestParameters,
-    options?: DomainsUpdateOptionalParams
+    options?: DomainsUpdateOptionalParams,
   ): Promise<DomainsUpdateResponse>;
   /**
    * Initiate verification of DNS record.
@@ -164,7 +164,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: VerificationParameter,
-    options?: DomainsInitiateVerificationOptionalParams
+    options?: DomainsInitiateVerificationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainsInitiateVerificationResponse>,
@@ -184,7 +184,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: VerificationParameter,
-    options?: DomainsInitiateVerificationOptionalParams
+    options?: DomainsInitiateVerificationOptionalParams,
   ): Promise<DomainsInitiateVerificationResponse>;
   /**
    * Cancel verification of DNS record.
@@ -199,7 +199,7 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: VerificationParameter,
-    options?: DomainsCancelVerificationOptionalParams
+    options?: DomainsCancelVerificationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainsCancelVerificationResponse>,
@@ -219,6 +219,6 @@ export interface Domains {
     emailServiceName: string,
     domainName: string,
     parameters: VerificationParameter,
-    options?: DomainsCancelVerificationOptionalParams
+    options?: DomainsCancelVerificationOptionalParams,
   ): Promise<DomainsCancelVerificationResponse>;
 }

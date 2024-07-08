@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the properties of all Managed CCF.
  *
  * @summary Retrieves the properties of all Managed CCF.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_ListBySub.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_ListBySub.json
  */
 async function managedCcfListBySub() {
   const subscriptionId =

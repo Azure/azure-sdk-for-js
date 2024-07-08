@@ -38,7 +38,7 @@ export class IdentityRestClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-identity/1.3.1`;
+    const packageDetails = `azsdk-js-communication-identity/1.3.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

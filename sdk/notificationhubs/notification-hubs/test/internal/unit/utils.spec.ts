@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import {
   getDate,
   getDateOrUndefined,
@@ -12,8 +13,8 @@ import {
   getStringOrUndefined,
   getTagsOrUndefined,
   isDefined,
+  isString,
 } from "../../../src/utils/utils.js";
-import { assert } from "@azure/test-utils";
 
 describe("utils", () => {
   describe("isDefined", () => {
@@ -27,6 +28,20 @@ describe("utils", () => {
       const value = "42";
       const actual = isDefined(value);
       assert.isTrue(actual);
+    });
+  });
+
+  describe("isString", () => {
+    it("should return true when input is a string", () => {
+      assert.isTrue(isString("string"));
+    });
+
+    it("should return true when input is an instance of String", () => {
+      assert.isTrue(isString(new String("string")));
+    });
+
+    it("should return false when input is not a string", () => {
+      assert.isFalse(isString(123));
     });
   });
 

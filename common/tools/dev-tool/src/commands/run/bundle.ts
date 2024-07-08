@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import path from "path";
-
+import path from "node:path";
 import * as rollup from "rollup";
 import nodeBuiltins from "builtin-modules";
-
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
 import inject from "@rollup/plugin-inject";
-
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
@@ -78,6 +75,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   let moduleField = info.packageJson.module;
   if (!moduleField) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const defaultExport = info.packageJson.exports?.["."]?.import as any;
     if (defaultExport) {
       moduleField = defaultExport?.default;
@@ -120,7 +118,7 @@ export default leafCommand(commandInfo, async (options) => {
         exports: "named",
         esModule: true,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       log.error(error);
       return false;
     }
@@ -183,7 +181,7 @@ export default leafCommand(commandInfo, async (options) => {
     };
 
     try {
-      const browserBundle = await rollup.rollup(browserTestConfig as any);
+      const browserBundle = await rollup.rollup(browserTestConfig);
 
       await browserBundle.write({
         file: `dist-test/index.browser.js`,
@@ -198,7 +196,7 @@ export default leafCommand(commandInfo, async (options) => {
         // inlined.
         inlineDynamicImports: true,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       log.error(error);
       return false;
     }

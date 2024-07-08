@@ -32,16 +32,16 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
       sourceUri:
         "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
       storageAccountId:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -62,16 +62,16 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
     creationData: {
       createOption: "Import",
       sourceUri:
-        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -92,16 +92,16 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot() {
     creationData: {
       createOption: "CopyFromSanSnapshot",
       elasticSanResourceId:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot"
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -123,16 +123,16 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
       createOption: "CopyStart",
       provisionedBandwidthCopySpeed: "Enhanced",
       sourceResourceId:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -153,16 +153,16 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
     creationData: {
       createOption: "CopyStart",
       sourceResourceId:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -183,16 +183,16 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
     creationData: {
       createOption: "Copy",
       sourceResourceId:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }

@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
@@ -47,7 +45,7 @@ export interface ChatAttachment {
 }
 
 // @public
-export type ChatAttachmentType = "image" | "unknown";
+export type ChatAttachmentType = "image" | "file" | "unknown";
 
 // @public
 export class ChatClient {

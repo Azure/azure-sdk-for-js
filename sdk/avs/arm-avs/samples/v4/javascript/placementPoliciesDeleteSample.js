@@ -31,7 +31,7 @@ async function placementPoliciesDelete() {
     resourceGroupName,
     privateCloudName,
     clusterName,
-    placementPolicyName
+    placementPolicyName,
   );
   console.log(result);
 }

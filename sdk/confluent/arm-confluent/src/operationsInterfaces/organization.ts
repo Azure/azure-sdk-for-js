@@ -12,13 +12,34 @@ import {
   OrganizationResource,
   OrganizationListBySubscriptionOptionalParams,
   OrganizationListByResourceGroupOptionalParams,
+  SCEnvironmentRecord,
+  OrganizationListEnvironmentsOptionalParams,
+  SCClusterRecord,
+  OrganizationListClustersOptionalParams,
+  SchemaRegistryClusterRecord,
+  OrganizationListSchemaRegistryClustersOptionalParams,
   OrganizationGetOptionalParams,
   OrganizationGetResponse,
   OrganizationCreateOptionalParams,
   OrganizationCreateResponse,
   OrganizationUpdateOptionalParams,
   OrganizationUpdateResponse,
-  OrganizationDeleteOptionalParams
+  OrganizationDeleteOptionalParams,
+  OrganizationGetEnvironmentByIdOptionalParams,
+  OrganizationGetEnvironmentByIdResponse,
+  ListAccessRequestModel,
+  OrganizationListRegionsOptionalParams,
+  OrganizationListRegionsResponse,
+  CreateAPIKeyModel,
+  OrganizationCreateAPIKeyOptionalParams,
+  OrganizationCreateAPIKeyResponse,
+  OrganizationDeleteClusterAPIKeyOptionalParams,
+  OrganizationGetClusterAPIKeyOptionalParams,
+  OrganizationGetClusterAPIKeyResponse,
+  OrganizationGetSchemaRegistryClusterByIdOptionalParams,
+  OrganizationGetSchemaRegistryClusterByIdResponse,
+  OrganizationGetClusterByIdOptionalParams,
+  OrganizationGetClusterByIdResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,38 +50,75 @@ export interface Organization {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource>;
   /**
    * List all Organizations under the specified resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource>;
   /**
-   * Get the properties of a specific Organization resource.
+   * Lists of all the environments in a organization
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param options The options parameters.
+   */
+  listEnvironments(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationListEnvironmentsOptionalParams,
+  ): PagedAsyncIterableIterator<SCEnvironmentRecord>;
+  /**
+   * Lists of all the clusters in a environment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  listClusters(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListClustersOptionalParams,
+  ): PagedAsyncIterableIterator<SCClusterRecord>;
+  /**
+   * Get schema registry clusters
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  listSchemaRegistryClusters(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationListSchemaRegistryClustersOptionalParams,
+  ): PagedAsyncIterableIterator<SchemaRegistryClusterRecord>;
+  /**
+   * Get the properties of a specific Organization resource.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationGetOptionalParams
+    options?: OrganizationGetOptionalParams,
   ): Promise<OrganizationGetResponse>;
   /**
    * Create Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OrganizationCreateResponse>,
@@ -69,46 +127,146 @@ export interface Organization {
   >;
   /**
    * Create Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<OrganizationCreateResponse>;
   /**
    * Update Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationUpdateOptionalParams
+    options?: OrganizationUpdateOptionalParams,
   ): Promise<OrganizationUpdateResponse>;
   /**
    * Delete Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Organization resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Get Environment details by environment Id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param options The options parameters.
+   */
+  getEnvironmentById(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: OrganizationGetEnvironmentByIdOptionalParams,
+  ): Promise<OrganizationGetEnvironmentByIdResponse>;
+  /**
+   * cloud provider regions available for creating Schema Registry clusters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param body List Access Request Model
+   * @param options The options parameters.
+   */
+  listRegions(
+    resourceGroupName: string,
+    organizationName: string,
+    body: ListAccessRequestModel,
+    options?: OrganizationListRegionsOptionalParams,
+  ): Promise<OrganizationListRegionsResponse>;
+  /**
+   * Creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param clusterId Confluent kafka or schema registry cluster id
+   * @param body Request payload for get creating API Key for schema registry Cluster ID or Kafka Cluster
+   *             ID under a environment
+   * @param options The options parameters.
+   */
+  createAPIKey(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    body: CreateAPIKeyModel,
+    options?: OrganizationCreateAPIKeyOptionalParams,
+  ): Promise<OrganizationCreateAPIKeyResponse>;
+  /**
+   * Deletes API key of a kafka or schema registry cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param apiKeyId Confluent API Key id
+   * @param options The options parameters.
+   */
+  deleteClusterAPIKey(
+    resourceGroupName: string,
+    organizationName: string,
+    apiKeyId: string,
+    options?: OrganizationDeleteClusterAPIKeyOptionalParams,
+  ): Promise<void>;
+  /**
+   * Get API key details of a kafka or schema registry cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param apiKeyId Confluent API Key id
+   * @param options The options parameters.
+   */
+  getClusterAPIKey(
+    resourceGroupName: string,
+    organizationName: string,
+    apiKeyId: string,
+    options?: OrganizationGetClusterAPIKeyOptionalParams,
+  ): Promise<OrganizationGetClusterAPIKeyResponse>;
+  /**
+   * Get schema registry cluster by Id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param clusterId Confluent kafka or schema registry cluster id
+   * @param options The options parameters.
+   */
+  getSchemaRegistryClusterById(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    options?: OrganizationGetSchemaRegistryClusterByIdOptionalParams,
+  ): Promise<OrganizationGetSchemaRegistryClusterByIdResponse>;
+  /**
+   * Get cluster by Id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param environmentId Confluent environment id
+   * @param clusterId Confluent kafka or schema registry cluster id
+   * @param options The options parameters.
+   */
+  getClusterById(
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    options?: OrganizationGetClusterByIdOptionalParams,
+  ): Promise<OrganizationGetClusterByIdResponse>;
 }

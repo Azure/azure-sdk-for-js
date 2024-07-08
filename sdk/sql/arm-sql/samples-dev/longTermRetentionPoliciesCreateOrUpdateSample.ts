@@ -35,17 +35,18 @@ async function createOrUpdateTheLongTermRetentionPolicyForTheDatabase() {
     monthlyRetention: "P1Y",
     weekOfYear: 5,
     weeklyRetention: "P1M",
-    yearlyRetention: "P5Y"
+    yearlyRetention: "P5Y",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.longTermRetentionPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    policyName,
-    parameters
-  );
+  const result =
+    await client.longTermRetentionPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      policyName,
+      parameters,
+    );
   console.log(result);
 }
 
