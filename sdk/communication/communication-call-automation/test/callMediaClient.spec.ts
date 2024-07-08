@@ -761,7 +761,7 @@ describe("Call Media Client Live Tests", function () {
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
-    
+
     const playSource: FileSource[] = [
       {
         url: fileSourceUrl,
@@ -1088,11 +1088,11 @@ describe("Call Media Client Live Tests", function () {
 
   it("Play multiple file sources with play and playall", async function () {
     testName = this.test?.fullTitle()
-    ? this.test?.fullTitle().replace(/ /g, "_")
-    : "play_multiple_file_sources_with_play_and_playall";
-  await loadPersistedEvents(testName);
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "play_multiple_file_sources_with_play_and_playall";
+    await loadPersistedEvents(testName);
 
-  const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     console.log("cognitiveServicesEndpoint: " + cognitiveServiceEndpoint);
@@ -1157,11 +1157,11 @@ describe("Call Media Client Live Tests", function () {
 
   it.skip("Play multiple text sources with play and playall", async function () {
     testName = this.test?.fullTitle()
-    ? this.test?.fullTitle().replace(/ /g, "_")
-    : "play_multiple_text_sources_with_play_and_playall";
-  await loadPersistedEvents(testName);
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "play_multiple_text_sources_with_play_and_playall";
+    await loadPersistedEvents(testName);
 
-  const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     console.log("cognitiveServicesEndpoint: " + cognitiveServiceEndpoint);
@@ -1221,11 +1221,11 @@ describe("Call Media Client Live Tests", function () {
 
   it.skip("Play combined text and file sources with play and playall", async function () {
     testName = this.test?.fullTitle()
-    ? this.test?.fullTitle().replace(/ /g, "_")
-    : "play_combined_text_and_file_sources_with_play_and_playall";
-  await loadPersistedEvents(testName);
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "play_combined_text_and_file_sources_with_play_and_playall";
+    await loadPersistedEvents(testName);
 
-  const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     console.log("cognitiveServicesEndpoint: " + cognitiveServiceEndpoint);
@@ -1336,7 +1336,11 @@ describe("Call Media Client Live Tests", function () {
     await callConnection
       .getCallMedia()
       .play([filePrompt], [testUser2], { operationContext: "playFailContext" });
-    const playFailedEventWithTargetParticipant = await waitForEvent("PlayFailed", callConnectionId, 20000);
+    const playFailedEventWithTargetParticipant = await waitForEvent(
+      "PlayFailed",
+      callConnectionId,
+      20000,
+    );
     assert.isDefined(playFailedEventWithTargetParticipant);
 
     await callConnection.hangUp(true);

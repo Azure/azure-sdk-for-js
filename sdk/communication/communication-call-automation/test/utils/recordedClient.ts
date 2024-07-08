@@ -59,7 +59,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   FILE_SOURCE_URL:
     "https://github.com/Azure-Samples/communication-services-dotnet-quickstarts/raw/callautomation/playground/CallAutomation_Playground/MediaFiles/PROMPT_GOODBYE.wav",
   TRANSPORT_URL: "https://REDACTED",
-  COGNITIVE_SERVICE_ENDPOINT: "https://REDACTED.cognitiveservices.azure.com/"
+  COGNITIVE_SERVICE_ENDPOINT: "https://REDACTED.cognitiveservices.azure.com/",
 };
 
 const fakeToken = generateToken();
@@ -70,7 +70,8 @@ const serviceBusConnectionString: string =
 export const fileSourceUrl: string =
   env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"];
 export const transportUrl: string = env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"];
-export const cognitiveServiceEndpoint: string = env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
+export const cognitiveServiceEndpoint: string =
+  env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
