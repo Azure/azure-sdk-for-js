@@ -17,36 +17,36 @@ export const BackupVault: coreClient.CompositeMapper = {
         serializedName: "monitoringSettings",
         type: {
           name: "Composite",
-          className: "MonitoringSettings"
-        }
+          className: "MonitoringSettings",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceMoveState: {
         serializedName: "resourceMoveState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceMoveDetails: {
         serializedName: "resourceMoveDetails",
         type: {
           name: "Composite",
-          className: "ResourceMoveDetails"
-        }
+          className: "ResourceMoveDetails",
+        },
       },
       securitySettings: {
         serializedName: "securitySettings",
         type: {
           name: "Composite",
-          className: "SecuritySettings"
-        }
+          className: "SecuritySettings",
+        },
       },
       storageSettings: {
         serializedName: "storageSettings",
@@ -56,31 +56,49 @@ export const BackupVault: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "StorageSetting"
-            }
-          }
-        }
+              className: "StorageSetting",
+            },
+          },
+        },
       },
       isVaultProtectedByResourceGuard: {
         serializedName: "isVaultProtectedByResourceGuard",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       featureSettings: {
         serializedName: "featureSettings",
         type: {
           name: "Composite",
-          className: "FeatureSettings"
-        }
+          className: "FeatureSettings",
+        },
       },
       secureScore: {
         serializedName: "secureScore",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      bcdrSecurityLevel: {
+        serializedName: "bcdrSecurityLevel",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
       },
       replicatedRegions: {
         serializedName: "replicatedRegions",
@@ -88,13 +106,13 @@ export const BackupVault: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MonitoringSettings: coreClient.CompositeMapper = {
@@ -106,11 +124,11 @@ export const MonitoringSettings: coreClient.CompositeMapper = {
         serializedName: "azureMonitorAlertSettings",
         type: {
           name: "Composite",
-          className: "AzureMonitorAlertSettings"
-        }
-      }
-    }
-  }
+          className: "AzureMonitorAlertSettings",
+        },
+      },
+    },
+  },
 };
 
 export const AzureMonitorAlertSettings: coreClient.CompositeMapper = {
@@ -121,11 +139,11 @@ export const AzureMonitorAlertSettings: coreClient.CompositeMapper = {
       alertsForAllJobFailures: {
         serializedName: "alertsForAllJobFailures",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceMoveDetails: coreClient.CompositeMapper = {
@@ -136,35 +154,35 @@ export const ResourceMoveDetails: coreClient.CompositeMapper = {
       operationId: {
         serializedName: "operationId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startTimeUtc: {
         serializedName: "startTimeUtc",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       completionTimeUtc: {
         serializedName: "completionTimeUtc",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceResourcePath: {
         serializedName: "sourceResourcePath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetResourcePath: {
         serializedName: "targetResourcePath",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SecuritySettings: coreClient.CompositeMapper = {
@@ -176,18 +194,25 @@ export const SecuritySettings: coreClient.CompositeMapper = {
         serializedName: "softDeleteSettings",
         type: {
           name: "Composite",
-          className: "SoftDeleteSettings"
-        }
+          className: "SoftDeleteSettings",
+        },
       },
       immutabilitySettings: {
         serializedName: "immutabilitySettings",
         type: {
           name: "Composite",
-          className: "ImmutabilitySettings"
-        }
-      }
-    }
-  }
+          className: "ImmutabilitySettings",
+        },
+      },
+      encryptionSettings: {
+        serializedName: "encryptionSettings",
+        type: {
+          name: "Composite",
+          className: "EncryptionSettings",
+        },
+      },
+    },
+  },
 };
 
 export const SoftDeleteSettings: coreClient.CompositeMapper = {
@@ -198,17 +223,17 @@ export const SoftDeleteSettings: coreClient.CompositeMapper = {
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retentionDurationInDays: {
         serializedName: "retentionDurationInDays",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ImmutabilitySettings: coreClient.CompositeMapper = {
@@ -219,11 +244,82 @@ export const ImmutabilitySettings: coreClient.CompositeMapper = {
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EncryptionSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionSettings",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String",
+        },
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "CmkKeyVaultProperties",
+        },
+      },
+      kekIdentity: {
+        serializedName: "kekIdentity",
+        type: {
+          name: "Composite",
+          className: "CmkKekIdentity",
+        },
+      },
+      infrastructureEncryption: {
+        serializedName: "infrastructureEncryption",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CmkKeyVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CmkKeyVaultProperties",
+    modelProperties: {
+      keyUri: {
+        serializedName: "keyUri",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CmkKekIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CmkKekIdentity",
+    modelProperties: {
+      identityType: {
+        serializedName: "identityType",
+        type: {
+          name: "String",
+        },
+      },
+      identityId: {
+        serializedName: "identityId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const StorageSetting: coreClient.CompositeMapper = {
@@ -234,17 +330,17 @@ export const StorageSetting: coreClient.CompositeMapper = {
       datastoreType: {
         serializedName: "datastoreType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const FeatureSettings: coreClient.CompositeMapper = {
@@ -256,18 +352,18 @@ export const FeatureSettings: coreClient.CompositeMapper = {
         serializedName: "crossSubscriptionRestoreSettings",
         type: {
           name: "Composite",
-          className: "CrossSubscriptionRestoreSettings"
-        }
+          className: "CrossSubscriptionRestoreSettings",
+        },
       },
       crossRegionRestoreSettings: {
         serializedName: "crossRegionRestoreSettings",
         type: {
           name: "Composite",
-          className: "CrossRegionRestoreSettings"
-        }
-      }
-    }
-  }
+          className: "CrossRegionRestoreSettings",
+        },
+      },
+    },
+  },
 };
 
 export const CrossSubscriptionRestoreSettings: coreClient.CompositeMapper = {
@@ -278,11 +374,11 @@ export const CrossSubscriptionRestoreSettings: coreClient.CompositeMapper = {
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CrossRegionRestoreSettings: coreClient.CompositeMapper = {
@@ -293,11 +389,11 @@ export const CrossRegionRestoreSettings: coreClient.CompositeMapper = {
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DppIdentityDetails: coreClient.CompositeMapper = {
@@ -309,33 +405,33 @@ export const DppIdentityDetails: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UserAssignedIdentity: coreClient.CompositeMapper = {
@@ -347,18 +443,18 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       clientId: {
         serializedName: "clientId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
+          name: "Uuid",
+        },
+      },
+    },
+  },
 };
 
 export const DppBaseTrackedResource: coreClient.CompositeMapper = {
@@ -369,52 +465,52 @@ export const DppBaseTrackedResource: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "eTag",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -425,41 +521,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const DppResourceList: coreClient.CompositeMapper = {
@@ -470,11 +566,11 @@ export const DppResourceList: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CloudError: coreClient.CompositeMapper = {
@@ -486,11 +582,11 @@ export const CloudError: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
+          className: "ErrorModel",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorModel: coreClient.CompositeMapper = {
@@ -506,17 +602,17 @@ export const ErrorModel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
       },
       code: {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -526,27 +622,27 @@ export const ErrorModel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorModel"
-            }
-          }
-        }
+              className: "ErrorModel",
+            },
+          },
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -559,18 +655,18 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationExtendedInfo: coreClient.CompositeMapper = {
@@ -580,18 +676,18 @@ export const OperationExtendedInfo: coreClient.CompositeMapper = {
     uberParent: "OperationExtendedInfo",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationResource: coreClient.CompositeMapper = {
@@ -602,49 +698,49 @@ export const OperationResource: coreClient.CompositeMapper = {
       endTime: {
         serializedName: "endTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
-        }
+          className: "ErrorModel",
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "OperationExtendedInfo"
-        }
+          className: "OperationExtendedInfo",
+        },
       },
       startTime: {
         serializedName: "startTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PatchResourceRequestInput: coreClient.CompositeMapper = {
@@ -656,25 +752,25 @@ export const PatchResourceRequestInput: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "DppIdentityDetails"
-        }
+          className: "DppIdentityDetails",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "PatchBackupVaultInput"
-        }
+          className: "PatchBackupVaultInput",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const PatchBackupVaultInput: coreClient.CompositeMapper = {
@@ -686,25 +782,36 @@ export const PatchBackupVaultInput: coreClient.CompositeMapper = {
         serializedName: "monitoringSettings",
         type: {
           name: "Composite",
-          className: "MonitoringSettings"
-        }
+          className: "MonitoringSettings",
+        },
       },
       securitySettings: {
         serializedName: "securitySettings",
         type: {
           name: "Composite",
-          className: "SecuritySettings"
-        }
+          className: "SecuritySettings",
+        },
       },
       featureSettings: {
         serializedName: "featureSettings",
         type: {
           name: "Composite",
-          className: "FeatureSettings"
-        }
-      }
-    }
-  }
+          className: "FeatureSettings",
+        },
+      },
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
@@ -715,17 +822,17 @@ export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
@@ -736,23 +843,23 @@ export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       nameAvailable: {
         serializedName: "nameAvailable",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       reason: {
         serializedName: "reason",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const FeatureValidationRequestBase: coreClient.CompositeMapper = {
@@ -762,18 +869,18 @@ export const FeatureValidationRequestBase: coreClient.CompositeMapper = {
     uberParent: "FeatureValidationRequestBase",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const FeatureValidationResponseBase: coreClient.CompositeMapper = {
@@ -783,18 +890,18 @@ export const FeatureValidationResponseBase: coreClient.CompositeMapper = {
     uberParent: "FeatureValidationResponseBase",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ClientDiscoveryResponse: coreClient.CompositeMapper = {
@@ -805,8 +912,8 @@ export const ClientDiscoveryResponse: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
@@ -815,13 +922,13 @@ export const ClientDiscoveryResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ClientDiscoveryValueForSingleApi"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ClientDiscoveryValueForSingleApi",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ClientDiscoveryValueForSingleApi: coreClient.CompositeMapper = {
@@ -833,36 +940,36 @@ export const ClientDiscoveryValueForSingleApi: coreClient.CompositeMapper = {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "ClientDiscoveryDisplay"
-        }
+          className: "ClientDiscoveryDisplay",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       origin: {
         serializedName: "origin",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ClientDiscoveryForProperties"
-        }
-      }
-    }
-  }
+          className: "ClientDiscoveryForProperties",
+        },
+      },
+    },
+  },
 };
 
 export const ClientDiscoveryDisplay: coreClient.CompositeMapper = {
@@ -873,29 +980,29 @@ export const ClientDiscoveryDisplay: coreClient.CompositeMapper = {
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ClientDiscoveryForProperties: coreClient.CompositeMapper = {
@@ -907,33 +1014,34 @@ export const ClientDiscoveryForProperties: coreClient.CompositeMapper = {
         serializedName: "serviceSpecification",
         type: {
           name: "Composite",
-          className: "ClientDiscoveryForServiceSpecification"
-        }
-      }
-    }
-  }
+          className: "ClientDiscoveryForServiceSpecification",
+        },
+      },
+    },
+  },
 };
 
-export const ClientDiscoveryForServiceSpecification: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ClientDiscoveryForServiceSpecification",
-    modelProperties: {
-      logSpecifications: {
-        serializedName: "logSpecifications",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ClientDiscoveryForLogSpecification"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+export const ClientDiscoveryForServiceSpecification: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ClientDiscoveryForServiceSpecification",
+      modelProperties: {
+        logSpecifications: {
+          serializedName: "logSpecifications",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ClientDiscoveryForLogSpecification",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const ClientDiscoveryForLogSpecification: coreClient.CompositeMapper = {
   type: {
@@ -943,23 +1051,23 @@ export const ClientDiscoveryForLogSpecification: coreClient.CompositeMapper = {
       blobDuration: {
         serializedName: "blobDuration",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BaseBackupPolicy: coreClient.CompositeMapper = {
@@ -969,7 +1077,7 @@ export const BaseBackupPolicy: coreClient.CompositeMapper = {
     uberParent: "BaseBackupPolicy",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       datasourceTypes: {
@@ -979,20 +1087,20 @@ export const BaseBackupPolicy: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DppResource: coreClient.CompositeMapper = {
@@ -1004,32 +1112,32 @@ export const DppResource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const BackupInstance: coreClient.CompositeMapper = {
@@ -1040,87 +1148,98 @@ export const BackupInstance: coreClient.CompositeMapper = {
       friendlyName: {
         serializedName: "friendlyName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSourceInfo: {
         serializedName: "dataSourceInfo",
         type: {
           name: "Composite",
-          className: "Datasource"
-        }
+          className: "Datasource",
+        },
       },
       dataSourceSetInfo: {
         serializedName: "dataSourceSetInfo",
         type: {
           name: "Composite",
-          className: "DatasourceSet"
-        }
+          className: "DatasourceSet",
+        },
       },
       policyInfo: {
         serializedName: "policyInfo",
         type: {
           name: "Composite",
-          className: "PolicyInfo"
-        }
+          className: "PolicyInfo",
+        },
+      },
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
       },
       protectionStatus: {
         serializedName: "protectionStatus",
         type: {
           name: "Composite",
-          className: "ProtectionStatusDetails"
-        }
+          className: "ProtectionStatusDetails",
+        },
       },
       currentProtectionState: {
         serializedName: "currentProtectionState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       protectionErrorDetails: {
         serializedName: "protectionErrorDetails",
         type: {
           name: "Composite",
-          className: "UserFacingError"
-        }
+          className: "UserFacingError",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       datasourceAuthCredentials: {
         serializedName: "datasourceAuthCredentials",
         type: {
           name: "Composite",
-          className: "AuthCredentials"
-        }
+          className: "AuthCredentials",
+        },
       },
       validationType: {
         serializedName: "validationType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       identityDetails: {
         serializedName: "identityDetails",
         type: {
           name: "Composite",
-          className: "IdentityDetails"
-        }
+          className: "IdentityDetails",
+        },
       },
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Datasource: coreClient.CompositeMapper = {
@@ -1131,55 +1250,55 @@ export const Datasource: coreClient.CompositeMapper = {
       datasourceType: {
         serializedName: "datasourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectType: {
         serializedName: "objectType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceID: {
         serializedName: "resourceID",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceLocation: {
         serializedName: "resourceLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceName: {
         serializedName: "resourceName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceUri: {
         serializedName: "resourceUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceProperties: {
         serializedName: "resourceProperties",
         type: {
           name: "Composite",
-          className: "BaseResourceProperties"
-        }
-      }
-    }
-  }
+          className: "BaseResourceProperties",
+        },
+      },
+    },
+  },
 };
 
 export const BaseResourceProperties: coreClient.CompositeMapper = {
@@ -1189,18 +1308,18 @@ export const BaseResourceProperties: coreClient.CompositeMapper = {
     uberParent: "BaseResourceProperties",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatasourceSet: coreClient.CompositeMapper = {
@@ -1211,55 +1330,55 @@ export const DatasourceSet: coreClient.CompositeMapper = {
       datasourceType: {
         serializedName: "datasourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectType: {
         serializedName: "objectType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceID: {
         serializedName: "resourceID",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceLocation: {
         serializedName: "resourceLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceName: {
         serializedName: "resourceName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceUri: {
         serializedName: "resourceUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceProperties: {
         serializedName: "resourceProperties",
         type: {
           name: "Composite",
-          className: "BaseResourceProperties"
-        }
-      }
-    }
-  }
+          className: "BaseResourceProperties",
+        },
+      },
+    },
+  },
 };
 
 export const PolicyInfo: coreClient.CompositeMapper = {
@@ -1271,25 +1390,25 @@ export const PolicyInfo: coreClient.CompositeMapper = {
         serializedName: "policyId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyVersion: {
         serializedName: "policyVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyParameters: {
         serializedName: "policyParameters",
         type: {
           name: "Composite",
-          className: "PolicyParameters"
-        }
-      }
-    }
-  }
+          className: "PolicyParameters",
+        },
+      },
+    },
+  },
 };
 
 export const PolicyParameters: coreClient.CompositeMapper = {
@@ -1304,10 +1423,10 @@ export const PolicyParameters: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DataStoreParameters"
-            }
-          }
-        }
+              className: "DataStoreParameters",
+            },
+          },
+        },
       },
       backupDatasourceParametersList: {
         serializedName: "backupDatasourceParametersList",
@@ -1316,13 +1435,13 @@ export const PolicyParameters: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BackupDatasourceParameters"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "BackupDatasourceParameters",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const DataStoreParameters: coreClient.CompositeMapper = {
@@ -1332,25 +1451,25 @@ export const DataStoreParameters: coreClient.CompositeMapper = {
     uberParent: "DataStoreParameters",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataStoreType: {
         serializedName: "dataStoreType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BackupDatasourceParameters: coreClient.CompositeMapper = {
@@ -1360,18 +1479,18 @@ export const BackupDatasourceParameters: coreClient.CompositeMapper = {
     uberParent: "BackupDatasourceParameters",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProtectionStatusDetails: coreClient.CompositeMapper = {
@@ -1383,17 +1502,17 @@ export const ProtectionStatusDetails: coreClient.CompositeMapper = {
         serializedName: "errorDetails",
         type: {
           name: "Composite",
-          className: "UserFacingError"
-        }
+          className: "UserFacingError",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UserFacingError: coreClient.CompositeMapper = {
@@ -1404,8 +1523,8 @@ export const UserFacingError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -1414,42 +1533,42 @@ export const UserFacingError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "UserFacingError"
-            }
-          }
-        }
+              className: "UserFacingError",
+            },
+          },
+        },
       },
       innerError: {
         serializedName: "innerError",
         type: {
           name: "Composite",
-          className: "InnerError"
-        }
+          className: "InnerError",
+        },
       },
       isRetryable: {
         serializedName: "isRetryable",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isUserError: {
         serializedName: "isUserError",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       recommendedAction: {
         serializedName: "recommendedAction",
@@ -1457,19 +1576,19 @@ export const UserFacingError: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       target: {
         serializedName: "target",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const InnerError: coreClient.CompositeMapper = {
@@ -1481,24 +1600,24 @@ export const InnerError: coreClient.CompositeMapper = {
         serializedName: "additionalInfo",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       embeddedInnerError: {
         serializedName: "embeddedInnerError",
         type: {
           name: "Composite",
-          className: "InnerError"
-        }
-      }
-    }
-  }
+          className: "InnerError",
+        },
+      },
+    },
+  },
 };
 
 export const AuthCredentials: coreClient.CompositeMapper = {
@@ -1508,18 +1627,18 @@ export const AuthCredentials: coreClient.CompositeMapper = {
     uberParent: "AuthCredentials",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const IdentityDetails: coreClient.CompositeMapper = {
@@ -1530,17 +1649,17 @@ export const IdentityDetails: coreClient.CompositeMapper = {
       useSystemAssignedIdentity: {
         serializedName: "useSystemAssignedIdentity",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       userAssignedIdentityArmUrl: {
         serializedName: "userAssignedIdentityArmUrl",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DppProxyResource: coreClient.CompositeMapper = {
@@ -1552,39 +1671,39 @@ export const DppProxyResource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const TriggerBackupRequest: coreClient.CompositeMapper = {
@@ -1596,11 +1715,11 @@ export const TriggerBackupRequest: coreClient.CompositeMapper = {
         serializedName: "backupRuleOptions",
         type: {
           name: "Composite",
-          className: "AdHocBackupRuleOptions"
-        }
-      }
-    }
-  }
+          className: "AdHocBackupRuleOptions",
+        },
+      },
+    },
+  },
 };
 
 export const AdHocBackupRuleOptions: coreClient.CompositeMapper = {
@@ -1612,18 +1731,18 @@ export const AdHocBackupRuleOptions: coreClient.CompositeMapper = {
         serializedName: "ruleName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       triggerOption: {
         serializedName: "triggerOption",
         type: {
           name: "Composite",
-          className: "AdhocBackupTriggerOption"
-        }
-      }
-    }
-  }
+          className: "AdhocBackupTriggerOption",
+        },
+      },
+    },
+  },
 };
 
 export const AdhocBackupTriggerOption: coreClient.CompositeMapper = {
@@ -1634,11 +1753,11 @@ export const AdhocBackupTriggerOption: coreClient.CompositeMapper = {
       retentionTagOverride: {
         serializedName: "retentionTagOverride",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ValidateForBackupRequest: coreClient.CompositeMapper = {
@@ -1650,11 +1769,11 @@ export const ValidateForBackupRequest: coreClient.CompositeMapper = {
         serializedName: "backupInstance",
         type: {
           name: "Composite",
-          className: "BackupInstance"
-        }
-      }
-    }
-  }
+          className: "BackupInstance",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupRecoveryPoint: coreClient.CompositeMapper = {
@@ -1664,18 +1783,18 @@ export const AzureBackupRecoveryPoint: coreClient.CompositeMapper = {
     uberParent: "AzureBackupRecoveryPoint",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const FetchSecondaryRPsRequestParameters: coreClient.CompositeMapper = {
@@ -1686,17 +1805,17 @@ export const FetchSecondaryRPsRequestParameters: coreClient.CompositeMapper = {
       sourceRegion: {
         serializedName: "sourceRegion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceBackupInstanceId: {
         serializedName: "sourceBackupInstanceId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CrossRegionRestoreRequestObject: coreClient.CompositeMapper = {
@@ -1708,18 +1827,18 @@ export const CrossRegionRestoreRequestObject: coreClient.CompositeMapper = {
         serializedName: "restoreRequestObject",
         type: {
           name: "Composite",
-          className: "AzureBackupRestoreRequest"
-        }
+          className: "AzureBackupRestoreRequest",
+        },
       },
       crossRegionRestoreDetails: {
         serializedName: "crossRegionRestoreDetails",
         type: {
           name: "Composite",
-          className: "CrossRegionRestoreDetails"
-        }
-      }
-    }
-  }
+          className: "CrossRegionRestoreDetails",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupRestoreRequest: coreClient.CompositeMapper = {
@@ -1729,45 +1848,56 @@ export const AzureBackupRestoreRequest: coreClient.CompositeMapper = {
     uberParent: "AzureBackupRestoreRequest",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreTargetInfo: {
         serializedName: "restoreTargetInfo",
         type: {
           name: "Composite",
-          className: "RestoreTargetInfoBase"
-        }
+          className: "RestoreTargetInfoBase",
+        },
       },
       sourceDataStoreType: {
         serializedName: "sourceDataStoreType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceResourceId: {
         serializedName: "sourceResourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
       },
       identityDetails: {
         serializedName: "identityDetails",
         type: {
           name: "Composite",
-          className: "IdentityDetails"
-        }
-      }
-    }
-  }
+          className: "IdentityDetails",
+        },
+      },
+    },
+  },
 };
 
 export const RestoreTargetInfoBase: coreClient.CompositeMapper = {
@@ -1777,31 +1907,31 @@ export const RestoreTargetInfoBase: coreClient.CompositeMapper = {
     uberParent: "RestoreTargetInfoBase",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       recoveryOption: {
         serializedName: "recoveryOption",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreLocation: {
         serializedName: "restoreLocation",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CrossRegionRestoreDetails: coreClient.CompositeMapper = {
@@ -1813,18 +1943,18 @@ export const CrossRegionRestoreDetails: coreClient.CompositeMapper = {
         serializedName: "sourceRegion",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceBackupInstanceId: {
         serializedName: "sourceBackupInstanceId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -1836,11 +1966,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -1852,22 +1982,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -1877,10 +2007,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -1890,37 +2020,38 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const ValidateCrossRegionRestoreRequestObject: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateCrossRegionRestoreRequestObject",
-    modelProperties: {
-      restoreRequestObject: {
-        serializedName: "restoreRequestObject",
-        type: {
-          name: "Composite",
-          className: "AzureBackupRestoreRequest"
-        }
+export const ValidateCrossRegionRestoreRequestObject: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateCrossRegionRestoreRequestObject",
+      modelProperties: {
+        restoreRequestObject: {
+          serializedName: "restoreRequestObject",
+          type: {
+            name: "Composite",
+            className: "AzureBackupRestoreRequest",
+          },
+        },
+        crossRegionRestoreDetails: {
+          serializedName: "crossRegionRestoreDetails",
+          type: {
+            name: "Composite",
+            className: "CrossRegionRestoreDetails",
+          },
+        },
       },
-      crossRegionRestoreDetails: {
-        serializedName: "crossRegionRestoreDetails",
-        type: {
-          name: "Composite",
-          className: "CrossRegionRestoreDetails"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const CrossRegionRestoreJobRequest: coreClient.CompositeMapper = {
   type: {
@@ -1931,25 +2062,25 @@ export const CrossRegionRestoreJobRequest: coreClient.CompositeMapper = {
         serializedName: "sourceRegion",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceBackupVaultId: {
         serializedName: "sourceBackupVaultId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       jobId: {
         serializedName: "jobId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupJob: coreClient.CompositeMapper = {
@@ -1961,69 +2092,69 @@ export const AzureBackupJob: coreClient.CompositeMapper = {
         serializedName: "activityID",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       backupInstanceFriendlyName: {
         serializedName: "backupInstanceFriendlyName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       backupInstanceId: {
         serializedName: "backupInstanceId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSourceId: {
         serializedName: "dataSourceId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSourceLocation: {
         serializedName: "dataSourceLocation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSourceName: {
         serializedName: "dataSourceName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSourceSetName: {
         serializedName: "dataSourceSetName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSourceType: {
         serializedName: "dataSourceType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       duration: {
         serializedName: "duration",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       endTime: {
         serializedName: "endTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       errorDetails: {
         serializedName: "errorDetails",
@@ -2033,115 +2164,115 @@ export const AzureBackupJob: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "UserFacingError"
-            }
-          }
-        }
+              className: "UserFacingError",
+            },
+          },
+        },
       },
       extendedInfo: {
         serializedName: "extendedInfo",
         type: {
           name: "Composite",
-          className: "JobExtendedInfo"
-        }
+          className: "JobExtendedInfo",
+        },
       },
       isUserTriggered: {
         serializedName: "isUserTriggered",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       operation: {
         serializedName: "operation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operationCategory: {
         serializedName: "operationCategory",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyId: {
         serializedName: "policyId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyName: {
         serializedName: "policyName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       progressEnabled: {
         serializedName: "progressEnabled",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       progressUrl: {
         serializedName: "progressUrl",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       rehydrationPriority: {
         serializedName: "rehydrationPriority",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreType: {
         serializedName: "restoreType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceResourceGroup: {
         serializedName: "sourceResourceGroup",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceSubscriptionID: {
         serializedName: "sourceSubscriptionID",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startTime: {
         serializedName: "startTime",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       status: {
         serializedName: "status",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subscriptionId: {
         serializedName: "subscriptionId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       supportedActions: {
         serializedName: "supportedActions",
@@ -2150,38 +2281,38 @@ export const AzureBackupJob: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       vaultName: {
         serializedName: "vaultName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceDataStoreName: {
         serializedName: "sourceDataStoreName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       destinationDataStoreName: {
         serializedName: "destinationDataStoreName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const JobExtendedInfo: coreClient.CompositeMapper = {
@@ -2193,36 +2324,36 @@ export const JobExtendedInfo: coreClient.CompositeMapper = {
         serializedName: "additionalDetails",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       backupInstanceState: {
         serializedName: "backupInstanceState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataTransferredInBytes: {
         serializedName: "dataTransferredInBytes",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       recoveryDestination: {
         serializedName: "recoveryDestination",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceRecoverPoint: {
         serializedName: "sourceRecoverPoint",
         type: {
           name: "Composite",
-          className: "RestoreJobRecoveryPointDetails"
-        }
+          className: "RestoreJobRecoveryPointDetails",
+        },
       },
       subTasks: {
         serializedName: "subTasks",
@@ -2232,17 +2363,17 @@ export const JobExtendedInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "JobSubTask"
-            }
-          }
-        }
+              className: "JobSubTask",
+            },
+          },
+        },
       },
       targetRecoverPoint: {
         serializedName: "targetRecoverPoint",
         type: {
           name: "Composite",
-          className: "RestoreJobRecoveryPointDetails"
-        }
+          className: "RestoreJobRecoveryPointDetails",
+        },
       },
       warningDetails: {
         serializedName: "warningDetails",
@@ -2252,13 +2383,13 @@ export const JobExtendedInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "UserFacingWarningDetail"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "UserFacingWarningDetail",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const RestoreJobRecoveryPointDetails: coreClient.CompositeMapper = {
@@ -2269,17 +2400,17 @@ export const RestoreJobRecoveryPointDetails: coreClient.CompositeMapper = {
       recoveryPointID: {
         serializedName: "recoveryPointID",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       recoveryPointTime: {
         serializedName: "recoveryPointTime",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const JobSubTask: coreClient.CompositeMapper = {
@@ -2291,39 +2422,39 @@ export const JobSubTask: coreClient.CompositeMapper = {
         serializedName: "additionalDetails",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       taskId: {
         serializedName: "taskId",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       taskName: {
         serializedName: "taskName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       taskProgress: {
         serializedName: "taskProgress",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       taskStatus: {
         serializedName: "taskStatus",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UserFacingWarningDetail: coreClient.CompositeMapper = {
@@ -2334,18 +2465,18 @@ export const UserFacingWarningDetail: coreClient.CompositeMapper = {
       resourceName: {
         serializedName: "resourceName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       warning: {
         serializedName: "warning",
         type: {
           name: "Composite",
-          className: "UserFacingError"
-        }
-      }
-    }
-  }
+          className: "UserFacingError",
+        },
+      },
+    },
+  },
 };
 
 export const CrossRegionRestoreJobsRequest: coreClient.CompositeMapper = {
@@ -2357,18 +2488,18 @@ export const CrossRegionRestoreJobsRequest: coreClient.CompositeMapper = {
         serializedName: "sourceRegion",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceBackupVaultId: {
         serializedName: "sourceBackupVaultId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupRehydrationRequest: coreClient.CompositeMapper = {
@@ -2380,24 +2511,64 @@ export const AzureBackupRehydrationRequest: coreClient.CompositeMapper = {
         serializedName: "recoveryPointId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       rehydrationPriority: {
         serializedName: "rehydrationPriority",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       rehydrationRetentionDuration: {
         serializedName: "rehydrationRetentionDuration",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StopProtectionRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StopProtectionRequest",
+    modelProperties: {
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SuspendBackupRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuspendBackupRequest",
+    modelProperties: {
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SyncBackupInstanceRequest: coreClient.CompositeMapper = {
@@ -2408,11 +2579,11 @@ export const SyncBackupInstanceRequest: coreClient.CompositeMapper = {
       syncType: {
         serializedName: "syncType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ValidateRestoreRequestObject: coreClient.CompositeMapper = {
@@ -2424,67 +2595,69 @@ export const ValidateRestoreRequestObject: coreClient.CompositeMapper = {
         serializedName: "restoreRequestObject",
         type: {
           name: "Composite",
-          className: "AzureBackupRestoreRequest"
-        }
-      }
-    }
-  }
+          className: "AzureBackupRestoreRequest",
+        },
+      },
+    },
+  },
 };
 
-export const AzureBackupFindRestorableTimeRangesRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBackupFindRestorableTimeRangesRequest",
-    modelProperties: {
-      sourceDataStoreType: {
-        serializedName: "sourceDataStoreType",
-        required: true,
-        type: {
-          name: "String"
-        }
+export const AzureBackupFindRestorableTimeRangesRequest: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBackupFindRestorableTimeRangesRequest",
+      modelProperties: {
+        sourceDataStoreType: {
+          serializedName: "sourceDataStoreType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        startTime: {
+          serializedName: "startTime",
+          type: {
+            name: "String",
+          },
+        },
+        endTime: {
+          serializedName: "endTime",
+          type: {
+            name: "String",
+          },
+        },
       },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "String"
-        }
-      },
-      endTime: {
-        serializedName: "endTime",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const AzureBackupFindRestorableTimeRangesResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBackupFindRestorableTimeRangesResponse",
-    modelProperties: {
-      restorableTimeRanges: {
-        serializedName: "restorableTimeRanges",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RestorableTimeRange"
-            }
-          }
-        }
+export const AzureBackupFindRestorableTimeRangesResponse: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBackupFindRestorableTimeRangesResponse",
+      modelProperties: {
+        restorableTimeRanges: {
+          serializedName: "restorableTimeRanges",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "RestorableTimeRange",
+              },
+            },
+          },
+        },
+        objectType: {
+          serializedName: "objectType",
+          type: {
+            name: "String",
+          },
+        },
       },
-      objectType: {
-        serializedName: "objectType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const RestorableTimeRange: coreClient.CompositeMapper = {
   type: {
@@ -2495,24 +2668,24 @@ export const RestorableTimeRange: coreClient.CompositeMapper = {
         serializedName: "startTime",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       endTime: {
         serializedName: "endTime",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectType: {
         serializedName: "objectType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ExportJobsResult: coreClient.CompositeMapper = {
@@ -2524,32 +2697,32 @@ export const ExportJobsResult: coreClient.CompositeMapper = {
         serializedName: "blobUrl",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       blobSasKey: {
         serializedName: "blobSasKey",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       excelFileBlobUrl: {
         serializedName: "excelFileBlobUrl",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       excelFileBlobSasKey: {
         serializedName: "excelFileBlobSasKey",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeletionInfo: coreClient.CompositeMapper = {
@@ -2561,32 +2734,32 @@ export const DeletionInfo: coreClient.CompositeMapper = {
         serializedName: "deletionTime",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingEndDate: {
         serializedName: "billingEndDate",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       scheduledPurgeTime: {
         serializedName: "scheduledPurgeTime",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deleteActivityID: {
         serializedName: "deleteActivityID",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceGuard: coreClient.CompositeMapper = {
@@ -2598,15 +2771,15 @@ export const ResourceGuard: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       allowAutoApprovals: {
         serializedName: "allowAutoApprovals",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       resourceGuardOperations: {
         serializedName: "resourceGuardOperations",
@@ -2616,10 +2789,10 @@ export const ResourceGuard: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceGuardOperation"
-            }
-          }
-        }
+              className: "ResourceGuardOperation",
+            },
+          },
+        },
       },
       vaultCriticalOperationExclusionList: {
         serializedName: "vaultCriticalOperationExclusionList",
@@ -2627,20 +2800,20 @@ export const ResourceGuard: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceGuardOperation: coreClient.CompositeMapper = {
@@ -2652,18 +2825,18 @@ export const ResourceGuardOperation: coreClient.CompositeMapper = {
         serializedName: "vaultCriticalOperation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requestResourceType: {
         serializedName: "requestResourceType",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DppTrackedResourceList: coreClient.CompositeMapper = {
@@ -2674,11 +2847,11 @@ export const DppTrackedResourceList: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PatchResourceGuardInput: coreClient.CompositeMapper = {
@@ -2690,11 +2863,11 @@ export const PatchResourceGuardInput: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const DppBaseResourceList: coreClient.CompositeMapper = {
@@ -2709,19 +2882,19 @@ export const DppBaseResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DppBaseResource"
-            }
-          }
-        }
+              className: "DppBaseResource",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DppBaseResource: coreClient.CompositeMapper = {
@@ -2733,25 +2906,25 @@ export const DppBaseResource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceGuardProxyBase: coreClient.CompositeMapper = {
@@ -2762,8 +2935,8 @@ export const ResourceGuardProxyBase: coreClient.CompositeMapper = {
       resourceGuardResourceId: {
         serializedName: "resourceGuardResourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceGuardOperationDetails: {
         serializedName: "resourceGuardOperationDetails",
@@ -2772,25 +2945,25 @@ export const ResourceGuardProxyBase: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceGuardOperationDetail"
-            }
-          }
-        }
+              className: "ResourceGuardOperationDetail",
+            },
+          },
+        },
       },
       lastUpdatedTime: {
         serializedName: "lastUpdatedTime",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceGuardOperationDetail: coreClient.CompositeMapper = {
@@ -2801,17 +2974,17 @@ export const ResourceGuardOperationDetail: coreClient.CompositeMapper = {
       vaultCriticalOperation: {
         serializedName: "vaultCriticalOperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       defaultResourceRequest: {
         serializedName: "defaultResourceRequest",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UnlockDeleteRequest: coreClient.CompositeMapper = {
@@ -2825,19 +2998,19 @@ export const UnlockDeleteRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       resourceToBeDeleted: {
         serializedName: "resourceToBeDeleted",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UnlockDeleteResponse: coreClient.CompositeMapper = {
@@ -2848,11 +3021,11 @@ export const UnlockDeleteResponse: coreClient.CompositeMapper = {
       unlockDeleteExpiryTime: {
         serializedName: "unlockDeleteExpiryTime",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeleteOption: coreClient.CompositeMapper = {
@@ -2862,25 +3035,25 @@ export const DeleteOption: coreClient.CompositeMapper = {
     uberParent: "DeleteOption",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       duration: {
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RecoveryPointsFilters: coreClient.CompositeMapper = {
@@ -2891,41 +3064,41 @@ export const RecoveryPointsFilters: coreClient.CompositeMapper = {
       restorePointDataStoreId: {
         serializedName: "restorePointDataStoreId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isVisible: {
         serializedName: "isVisible",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       startDate: {
         serializedName: "startDate",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       endDate: {
         serializedName: "endDate",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       extendedInfo: {
         serializedName: "extendedInfo",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       restorePointState: {
         serializedName: "restorePointState",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AdhocBasedTaggingCriteria: coreClient.CompositeMapper = {
@@ -2937,11 +3110,11 @@ export const AdhocBasedTaggingCriteria: coreClient.CompositeMapper = {
         serializedName: "tagInfo",
         type: {
           name: "Composite",
-          className: "RetentionTag"
-        }
-      }
-    }
-  }
+          className: "RetentionTag",
+        },
+      },
+    },
+  },
 };
 
 export const RetentionTag: coreClient.CompositeMapper = {
@@ -2953,25 +3126,25 @@ export const RetentionTag: coreClient.CompositeMapper = {
         serializedName: "eTag",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tagName: {
         serializedName: "tagName",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TriggerContext: coreClient.CompositeMapper = {
@@ -2981,18 +3154,18 @@ export const TriggerContext: coreClient.CompositeMapper = {
     uberParent: "TriggerContext",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RecoveryPointDataStoreDetails: coreClient.CompositeMapper = {
@@ -3003,61 +3176,61 @@ export const RecoveryPointDataStoreDetails: coreClient.CompositeMapper = {
       creationTime: {
         serializedName: "creationTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       expiryTime: {
         serializedName: "expiryTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       metaData: {
         serializedName: "metaData",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       visible: {
         serializedName: "visible",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       rehydrationExpiryTime: {
         serializedName: "rehydrationExpiryTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       rehydrationStatus: {
         serializedName: "rehydrationStatus",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DppWorkerRequest: coreClient.CompositeMapper = {
@@ -3068,23 +3241,23 @@ export const DppWorkerRequest: coreClient.CompositeMapper = {
       subscriptionId: {
         serializedName: "subscriptionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       uri: {
         serializedName: "uri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       headers: {
         serializedName: "headers",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Sequence", element: { type: { name: "String" } } }
-          }
-        }
+            type: { name: "Sequence", element: { type: { name: "String" } } },
+          },
+        },
       },
       supportedGroupVersions: {
         serializedName: "supportedGroupVersions",
@@ -3092,32 +3265,32 @@ export const DppWorkerRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       cultureInfo: {
         serializedName: "cultureInfo",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       httpMethod: {
         serializedName: "httpMethod",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BackupParameters: coreClient.CompositeMapper = {
@@ -3127,18 +3300,18 @@ export const BackupParameters: coreClient.CompositeMapper = {
     uberParent: "BackupParameters",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DataStoreInfoBase: coreClient.CompositeMapper = {
@@ -3150,18 +3323,18 @@ export const DataStoreInfoBase: coreClient.CompositeMapper = {
         serializedName: "dataStoreType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BasePolicyRule: coreClient.CompositeMapper = {
@@ -3171,25 +3344,25 @@ export const BasePolicyRule: coreClient.CompositeMapper = {
     uberParent: "BasePolicyRule",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NamespacedNameResource: coreClient.CompositeMapper = {
@@ -3200,17 +3373,17 @@ export const NamespacedNameResource: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       namespace: {
         serializedName: "namespace",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SourceLifeCycle: coreClient.CompositeMapper = {
@@ -3222,15 +3395,15 @@ export const SourceLifeCycle: coreClient.CompositeMapper = {
         serializedName: "deleteAfter",
         type: {
           name: "Composite",
-          className: "DeleteOption"
-        }
+          className: "DeleteOption",
+        },
       },
       sourceDataStore: {
         serializedName: "sourceDataStore",
         type: {
           name: "Composite",
-          className: "DataStoreInfoBase"
-        }
+          className: "DataStoreInfoBase",
+        },
       },
       targetDataStoreCopySettings: {
         serializedName: "targetDataStoreCopySettings",
@@ -3239,13 +3412,13 @@ export const SourceLifeCycle: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TargetCopySetting"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "TargetCopySetting",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const TargetCopySetting: coreClient.CompositeMapper = {
@@ -3257,18 +3430,18 @@ export const TargetCopySetting: coreClient.CompositeMapper = {
         serializedName: "copyAfter",
         type: {
           name: "Composite",
-          className: "CopyOption"
-        }
+          className: "CopyOption",
+        },
       },
       dataStore: {
         serializedName: "dataStore",
         type: {
           name: "Composite",
-          className: "DataStoreInfoBase"
-        }
-      }
-    }
-  }
+          className: "DataStoreInfoBase",
+        },
+      },
+    },
+  },
 };
 
 export const CopyOption: coreClient.CompositeMapper = {
@@ -3278,18 +3451,18 @@ export const CopyOption: coreClient.CompositeMapper = {
     uberParent: "CopyOption",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BackupCriteria: coreClient.CompositeMapper = {
@@ -3299,18 +3472,18 @@ export const BackupCriteria: coreClient.CompositeMapper = {
     uberParent: "BackupCriteria",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BackupSchedule: coreClient.CompositeMapper = {
@@ -3325,19 +3498,19 @@ export const BackupSchedule: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       timeZone: {
         serializedName: "timeZone",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Day: coreClient.CompositeMapper = {
@@ -3348,17 +3521,17 @@ export const Day: coreClient.CompositeMapper = {
       date: {
         serializedName: "date",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       isLast: {
         serializedName: "isLast",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const SupportedFeature: coreClient.CompositeMapper = {
@@ -3369,14 +3542,14 @@ export const SupportedFeature: coreClient.CompositeMapper = {
       featureName: {
         serializedName: "featureName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       supportStatus: {
         serializedName: "supportStatus",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       exposureControlledFeatures: {
         serializedName: "exposureControlledFeatures",
@@ -3384,13 +3557,13 @@ export const SupportedFeature: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ItemLevelRestoreCriteria: coreClient.CompositeMapper = {
@@ -3400,18 +3573,18 @@ export const ItemLevelRestoreCriteria: coreClient.CompositeMapper = {
     uberParent: "ItemLevelRestoreCriteria",
     polymorphicDiscriminator: {
       serializedName: "objectType",
-      clientName: "objectType"
+      clientName: "objectType",
     },
     modelProperties: {
       objectType: {
         serializedName: "objectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TargetDetails: coreClient.CompositeMapper = {
@@ -3423,31 +3596,31 @@ export const TargetDetails: coreClient.CompositeMapper = {
         serializedName: "filePrefix",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreTargetLocationType: {
         serializedName: "restoreTargetLocationType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       url: {
         serializedName: "url",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetResourceArmId: {
         serializedName: "targetResourceArmId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TaggingCriteria: coreClient.CompositeMapper = {
@@ -3462,34 +3635,34 @@ export const TaggingCriteria: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BackupCriteria"
-            }
-          }
-        }
+              className: "BackupCriteria",
+            },
+          },
+        },
       },
       isDefault: {
         serializedName: "isDefault",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       taggingPriority: {
         serializedName: "taggingPriority",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       tagInfo: {
         serializedName: "tagInfo",
         type: {
           name: "Composite",
-          className: "RetentionTag"
-        }
-      }
-    }
-  }
+          className: "RetentionTag",
+        },
+      },
+    },
+  },
 };
 
 export const SecretStoreResource: coreClient.CompositeMapper = {
@@ -3500,24 +3673,24 @@ export const SecretStoreResource: coreClient.CompositeMapper = {
       uri: {
         serializedName: "uri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       secretStoreType: {
         serializedName: "secretStoreType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DppTrackedResource: coreClient.CompositeMapper = {
@@ -3530,11 +3703,11 @@ export const DppTrackedResource: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "DppIdentityDetails"
-        }
-      }
-    }
-  }
+          className: "DppIdentityDetails",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceGuardResource: coreClient.CompositeMapper = {
@@ -3547,11 +3720,11 @@ export const ResourceGuardResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ResourceGuard"
-        }
-      }
-    }
-  }
+          className: "ResourceGuard",
+        },
+      },
+    },
+  },
 };
 
 export const BackupVaultResourceList: coreClient.CompositeMapper = {
@@ -3567,13 +3740,13 @@ export const BackupVaultResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BackupVaultResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "BackupVaultResource",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const BaseBackupPolicyResourceList: coreClient.CompositeMapper = {
@@ -3589,13 +3762,13 @@ export const BaseBackupPolicyResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BaseBackupPolicyResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "BaseBackupPolicyResource",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const BackupInstanceResourceList: coreClient.CompositeMapper = {
@@ -3611,36 +3784,37 @@ export const BackupInstanceResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BackupInstanceResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "BackupInstanceResource",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const AzureBackupRecoveryPointResourceList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBackupRecoveryPointResourceList",
-    modelProperties: {
-      ...DppResourceList.type.modelProperties,
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureBackupRecoveryPointResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+export const AzureBackupRecoveryPointResourceList: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBackupRecoveryPointResourceList",
+      modelProperties: {
+        ...DppResourceList.type.modelProperties,
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "AzureBackupRecoveryPointResource",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const AzureBackupJobResourceList: coreClient.CompositeMapper = {
   type: {
@@ -3655,13 +3829,13 @@ export const AzureBackupJobResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AzureBackupJobResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "AzureBackupJobResource",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const DeletedBackupInstanceResourceList: coreClient.CompositeMapper = {
@@ -3677,13 +3851,13 @@ export const DeletedBackupInstanceResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeletedBackupInstanceResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "DeletedBackupInstanceResource",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
@@ -3699,13 +3873,13 @@ export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceGuardProxyBaseResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ResourceGuardProxyBaseResource",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const OperationJobExtendedInfo: coreClient.CompositeMapper = {
@@ -3721,11 +3895,11 @@ export const OperationJobExtendedInfo: coreClient.CompositeMapper = {
       jobId: {
         serializedName: "jobId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const FeatureValidationRequest: coreClient.CompositeMapper = {
@@ -3739,17 +3913,17 @@ export const FeatureValidationRequest: coreClient.CompositeMapper = {
       featureType: {
         serializedName: "featureType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       featureName: {
         serializedName: "featureName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 FeatureValidationRequestBase.type.polymorphicDiscriminator =
   FeatureValidationRequestBase.type.polymorphicDiscriminator;
@@ -3765,8 +3939,8 @@ export const FeatureValidationResponse: coreClient.CompositeMapper = {
       featureType: {
         serializedName: "featureType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       features: {
         serializedName: "features",
@@ -3775,13 +3949,13 @@ export const FeatureValidationResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SupportedFeature"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SupportedFeature",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 FeatureValidationResponseBase.type.polymorphicDiscriminator =
   FeatureValidationResponseBase.type.polymorphicDiscriminator;
@@ -3803,13 +3977,13 @@ export const BackupPolicy: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BasePolicyRule"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "BasePolicyRule",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const BaseBackupPolicyResource: coreClient.CompositeMapper = {
@@ -3822,11 +3996,11 @@ export const BaseBackupPolicyResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "BaseBackupPolicy"
-        }
-      }
-    }
-  }
+          className: "BaseBackupPolicy",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupRecoveryPointResource: coreClient.CompositeMapper = {
@@ -3839,11 +4013,11 @@ export const AzureBackupRecoveryPointResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "AzureBackupRecoveryPoint"
-        }
-      }
-    }
-  }
+          className: "AzureBackupRecoveryPoint",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupJobResource: coreClient.CompositeMapper = {
@@ -3856,29 +4030,30 @@ export const AzureBackupJobResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "AzureBackupJob"
-        }
-      }
-    }
-  }
+          className: "AzureBackupJob",
+        },
+      },
+    },
+  },
 };
 
-export const AzureBackupFindRestorableTimeRangesResponseResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBackupFindRestorableTimeRangesResponseResource",
-    modelProperties: {
-      ...DppResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "AzureBackupFindRestorableTimeRangesResponse"
-        }
-      }
-    }
-  }
-};
+export const AzureBackupFindRestorableTimeRangesResponseResource: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBackupFindRestorableTimeRangesResponseResource",
+      modelProperties: {
+        ...DppResource.type.modelProperties,
+        properties: {
+          serializedName: "properties",
+          type: {
+            name: "Composite",
+            className: "AzureBackupFindRestorableTimeRangesResponse",
+          },
+        },
+      },
+    },
+  };
 
 export const DeletedBackupInstanceResource: coreClient.CompositeMapper = {
   type: {
@@ -3890,11 +4065,11 @@ export const DeletedBackupInstanceResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "DeletedBackupInstance"
-        }
-      }
-    }
-  }
+          className: "DeletedBackupInstance",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceGuardProxyBaseResource: coreClient.CompositeMapper = {
@@ -3907,11 +4082,11 @@ export const ResourceGuardProxyBaseResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ResourceGuardProxyBase"
-        }
-      }
-    }
-  }
+          className: "ResourceGuardProxyBase",
+        },
+      },
+    },
+  },
 };
 
 export const DeletedBackupInstance: coreClient.CompositeMapper = {
@@ -3924,11 +4099,11 @@ export const DeletedBackupInstance: coreClient.CompositeMapper = {
         serializedName: "deletionInfo",
         type: {
           name: "Composite",
-          className: "DeletionInfo"
-        }
-      }
-    }
-  }
+          className: "DeletionInfo",
+        },
+      },
+    },
+  },
 };
 
 export const DefaultResourceProperties: coreClient.CompositeMapper = {
@@ -3940,9 +4115,9 @@ export const DefaultResourceProperties: coreClient.CompositeMapper = {
     polymorphicDiscriminator:
       BaseResourceProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...BaseResourceProperties.type.modelProperties
-    }
-  }
+      ...BaseResourceProperties.type.modelProperties,
+    },
+  },
 };
 
 export const AzureOperationalStoreParameters: coreClient.CompositeMapper = {
@@ -3957,107 +4132,108 @@ export const AzureOperationalStoreParameters: coreClient.CompositeMapper = {
       resourceGroupId: {
         serializedName: "resourceGroupId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const KubernetesClusterBackupDatasourceParameters: coreClient.CompositeMapper = {
-  serializedName: "KubernetesClusterBackupDatasourceParameters",
-  type: {
-    name: "Composite",
-    className: "KubernetesClusterBackupDatasourceParameters",
-    uberParent: "BackupDatasourceParameters",
-    polymorphicDiscriminator:
-      BackupDatasourceParameters.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BackupDatasourceParameters.type.modelProperties,
-      snapshotVolumes: {
-        serializedName: "snapshotVolumes",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
+export const KubernetesClusterBackupDatasourceParameters: coreClient.CompositeMapper =
+  {
+    serializedName: "KubernetesClusterBackupDatasourceParameters",
+    type: {
+      name: "Composite",
+      className: "KubernetesClusterBackupDatasourceParameters",
+      uberParent: "BackupDatasourceParameters",
+      polymorphicDiscriminator:
+        BackupDatasourceParameters.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...BackupDatasourceParameters.type.modelProperties,
+        snapshotVolumes: {
+          serializedName: "snapshotVolumes",
+          required: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        includeClusterScopeResources: {
+          serializedName: "includeClusterScopeResources",
+          required: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        includedNamespaces: {
+          serializedName: "includedNamespaces",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        excludedNamespaces: {
+          serializedName: "excludedNamespaces",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        includedResourceTypes: {
+          serializedName: "includedResourceTypes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        excludedResourceTypes: {
+          serializedName: "excludedResourceTypes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        labelSelectors: {
+          serializedName: "labelSelectors",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        backupHookReferences: {
+          serializedName: "backupHookReferences",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "NamespacedNameResource",
+              },
+            },
+          },
+        },
       },
-      includeClusterScopeResources: {
-        serializedName: "includeClusterScopeResources",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      includedNamespaces: {
-        serializedName: "includedNamespaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      excludedNamespaces: {
-        serializedName: "excludedNamespaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      includedResourceTypes: {
-        serializedName: "includedResourceTypes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      excludedResourceTypes: {
-        serializedName: "excludedResourceTypes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      labelSelectors: {
-        serializedName: "labelSelectors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      backupHookReferences: {
-        serializedName: "backupHookReferences",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NamespacedNameResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const BlobBackupDatasourceParameters: coreClient.CompositeMapper = {
   serializedName: "BlobBackupDatasourceParameters",
@@ -4076,13 +4252,13 @@ export const BlobBackupDatasourceParameters: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SecretStoreBasedAuthCredentials: coreClient.CompositeMapper = {
@@ -4098,11 +4274,11 @@ export const SecretStoreBasedAuthCredentials: coreClient.CompositeMapper = {
         serializedName: "secretStoreResource",
         type: {
           name: "Composite",
-          className: "SecretStoreResource"
-        }
-      }
-    }
-  }
+          className: "SecretStoreResource",
+        },
+      },
+    },
+  },
 };
 
 export const BackupInstanceResource: coreClient.CompositeMapper = {
@@ -4115,11 +4291,11 @@ export const BackupInstanceResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "BackupInstance"
-        }
-      }
-    }
-  }
+          className: "BackupInstance",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupDiscreteRecoveryPoint: coreClient.CompositeMapper = {
@@ -4135,8 +4311,8 @@ export const AzureBackupDiscreteRecoveryPoint: coreClient.CompositeMapper = {
       friendlyName: {
         serializedName: "friendlyName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       recoveryPointDataStoresDetails: {
         serializedName: "recoveryPointDataStoresDetails",
@@ -4145,114 +4321,116 @@ export const AzureBackupDiscreteRecoveryPoint: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "RecoveryPointDataStoreDetails"
-            }
-          }
-        }
+              className: "RecoveryPointDataStoreDetails",
+            },
+          },
+        },
       },
       recoveryPointTime: {
         serializedName: "recoveryPointTime",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       policyName: {
         serializedName: "policyName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyVersion: {
         serializedName: "policyVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       recoveryPointId: {
         serializedName: "recoveryPointId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       recoveryPointType: {
         serializedName: "recoveryPointType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retentionTagName: {
         serializedName: "retentionTagName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retentionTagVersion: {
         serializedName: "retentionTagVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       expiryTime: {
         serializedName: "expiryTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       recoveryPointState: {
         serializedName: "recoveryPointState",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureBackupRecoveryPointBasedRestoreRequest: coreClient.CompositeMapper = {
-  serializedName: "AzureBackupRecoveryPointBasedRestoreRequest",
-  type: {
-    name: "Composite",
-    className: "AzureBackupRecoveryPointBasedRestoreRequest",
-    uberParent: "AzureBackupRestoreRequest",
-    polymorphicDiscriminator: {
-      serializedName: "objectType",
-      clientName: "objectType"
+          name: "String",
+        },
+      },
     },
-    modelProperties: {
-      ...AzureBackupRestoreRequest.type.modelProperties,
-      recoveryPointId: {
-        serializedName: "recoveryPointId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+  },
 };
 
-export const AzureBackupRecoveryTimeBasedRestoreRequest: coreClient.CompositeMapper = {
-  serializedName: "AzureBackupRecoveryTimeBasedRestoreRequest",
-  type: {
-    name: "Composite",
-    className: "AzureBackupRecoveryTimeBasedRestoreRequest",
-    uberParent: "AzureBackupRestoreRequest",
-    polymorphicDiscriminator:
-      AzureBackupRestoreRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AzureBackupRestoreRequest.type.modelProperties,
-      recoveryPointTime: {
-        serializedName: "recoveryPointTime",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const AzureBackupRecoveryPointBasedRestoreRequest: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureBackupRecoveryPointBasedRestoreRequest",
+    type: {
+      name: "Composite",
+      className: "AzureBackupRecoveryPointBasedRestoreRequest",
+      uberParent: "AzureBackupRestoreRequest",
+      polymorphicDiscriminator: {
+        serializedName: "objectType",
+        clientName: "objectType",
+      },
+      modelProperties: {
+        ...AzureBackupRestoreRequest.type.modelProperties,
+        recoveryPointId: {
+          serializedName: "recoveryPointId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureBackupRecoveryTimeBasedRestoreRequest: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureBackupRecoveryTimeBasedRestoreRequest",
+    type: {
+      name: "Composite",
+      className: "AzureBackupRecoveryTimeBasedRestoreRequest",
+      uberParent: "AzureBackupRestoreRequest",
+      polymorphicDiscriminator:
+        AzureBackupRestoreRequest.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...AzureBackupRestoreRequest.type.modelProperties,
+        recoveryPointTime: {
+          serializedName: "recoveryPointTime",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const ItemLevelRestoreTargetInfo: coreClient.CompositeMapper = {
   serializedName: "ItemLevelRestoreTargetInfo",
@@ -4272,34 +4450,34 @@ export const ItemLevelRestoreTargetInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ItemLevelRestoreCriteria"
-            }
-          }
-        }
+              className: "ItemLevelRestoreCriteria",
+            },
+          },
+        },
       },
       datasourceInfo: {
         serializedName: "datasourceInfo",
         type: {
           name: "Composite",
-          className: "Datasource"
-        }
+          className: "Datasource",
+        },
       },
       datasourceSetInfo: {
         serializedName: "datasourceSetInfo",
         type: {
           name: "Composite",
-          className: "DatasourceSet"
-        }
+          className: "DatasourceSet",
+        },
       },
       datasourceAuthCredentials: {
         serializedName: "datasourceAuthCredentials",
         type: {
           name: "Composite",
-          className: "AuthCredentials"
-        }
-      }
-    }
-  }
+          className: "AuthCredentials",
+        },
+      },
+    },
+  },
 };
 
 export const RestoreFilesTargetInfo: coreClient.CompositeMapper = {
@@ -4316,11 +4494,11 @@ export const RestoreFilesTargetInfo: coreClient.CompositeMapper = {
         serializedName: "targetDetails",
         type: {
           name: "Composite",
-          className: "TargetDetails"
-        }
-      }
-    }
-  }
+          className: "TargetDetails",
+        },
+      },
+    },
+  },
 };
 
 export const RestoreTargetInfo: coreClient.CompositeMapper = {
@@ -4335,25 +4513,25 @@ export const RestoreTargetInfo: coreClient.CompositeMapper = {
         serializedName: "datasourceInfo",
         type: {
           name: "Composite",
-          className: "Datasource"
-        }
+          className: "Datasource",
+        },
       },
       datasourceSetInfo: {
         serializedName: "datasourceSetInfo",
         type: {
           name: "Composite",
-          className: "DatasourceSet"
-        }
+          className: "DatasourceSet",
+        },
       },
       datasourceAuthCredentials: {
         serializedName: "datasourceAuthCredentials",
         type: {
           name: "Composite",
-          className: "AuthCredentials"
-        }
-      }
-    }
-  }
+          className: "AuthCredentials",
+        },
+      },
+    },
+  },
 };
 RestoreTargetInfoBase.type.polymorphicDiscriminator =
   RestoreTargetInfoBase.type.polymorphicDiscriminator;
@@ -4371,13 +4549,13 @@ export const ResourceGuardResourceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceGuardResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ResourceGuardResource",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const AbsoluteDeleteOption: coreClient.CompositeMapper = {
@@ -4388,9 +4566,9 @@ export const AbsoluteDeleteOption: coreClient.CompositeMapper = {
     uberParent: "DeleteOption",
     polymorphicDiscriminator: DeleteOption.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeleteOption.type.modelProperties
-    }
-  }
+      ...DeleteOption.type.modelProperties,
+    },
+  },
 };
 
 export const AdhocBasedTriggerContext: coreClient.CompositeMapper = {
@@ -4406,11 +4584,11 @@ export const AdhocBasedTriggerContext: coreClient.CompositeMapper = {
         serializedName: "taggingCriteria",
         type: {
           name: "Composite",
-          className: "AdhocBasedTaggingCriteria"
-        }
-      }
-    }
-  }
+          className: "AdhocBasedTaggingCriteria",
+        },
+      },
+    },
+  },
 };
 
 export const ScheduleBasedTriggerContext: coreClient.CompositeMapper = {
@@ -4426,8 +4604,8 @@ export const ScheduleBasedTriggerContext: coreClient.CompositeMapper = {
         serializedName: "schedule",
         type: {
           name: "Composite",
-          className: "BackupSchedule"
-        }
+          className: "BackupSchedule",
+        },
       },
       taggingCriteria: {
         serializedName: "taggingCriteria",
@@ -4437,31 +4615,32 @@ export const ScheduleBasedTriggerContext: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TaggingCriteria"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "TaggingCriteria",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const AzureBackupFindRestorableTimeRangesRequestResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBackupFindRestorableTimeRangesRequestResource",
-    modelProperties: {
-      ...DppWorkerRequest.type.modelProperties,
-      content: {
-        serializedName: "content",
-        type: {
-          name: "Composite",
-          className: "AzureBackupFindRestorableTimeRangesRequest"
-        }
-      }
-    }
-  }
-};
+export const AzureBackupFindRestorableTimeRangesRequestResource: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBackupFindRestorableTimeRangesRequestResource",
+      modelProperties: {
+        ...DppWorkerRequest.type.modelProperties,
+        content: {
+          serializedName: "content",
+          type: {
+            name: "Composite",
+            className: "AzureBackupFindRestorableTimeRangesRequest",
+          },
+        },
+      },
+    },
+  };
 
 export const AzureBackupParams: coreClient.CompositeMapper = {
   serializedName: "AzureBackupParams",
@@ -4476,11 +4655,11 @@ export const AzureBackupParams: coreClient.CompositeMapper = {
         serializedName: "backupType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBackupRule: coreClient.CompositeMapper = {
@@ -4496,25 +4675,25 @@ export const AzureBackupRule: coreClient.CompositeMapper = {
         serializedName: "backupParameters",
         type: {
           name: "Composite",
-          className: "BackupParameters"
-        }
+          className: "BackupParameters",
+        },
       },
       dataStore: {
         serializedName: "dataStore",
         type: {
           name: "Composite",
-          className: "DataStoreInfoBase"
-        }
+          className: "DataStoreInfoBase",
+        },
       },
       trigger: {
         serializedName: "trigger",
         type: {
           name: "Composite",
-          className: "TriggerContext"
-        }
-      }
-    }
-  }
+          className: "TriggerContext",
+        },
+      },
+    },
+  },
 };
 
 export const AzureRetentionRule: coreClient.CompositeMapper = {
@@ -4529,8 +4708,8 @@ export const AzureRetentionRule: coreClient.CompositeMapper = {
       isDefault: {
         serializedName: "isDefault",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       lifecycles: {
         serializedName: "lifecycles",
@@ -4540,13 +4719,13 @@ export const AzureRetentionRule: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SourceLifeCycle"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SourceLifeCycle",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const CopyOnExpiryOption: coreClient.CompositeMapper = {
@@ -4557,9 +4736,9 @@ export const CopyOnExpiryOption: coreClient.CompositeMapper = {
     uberParent: "CopyOption",
     polymorphicDiscriminator: CopyOption.type.polymorphicDiscriminator,
     modelProperties: {
-      ...CopyOption.type.modelProperties
-    }
-  }
+      ...CopyOption.type.modelProperties,
+    },
+  },
 };
 
 export const CustomCopyOption: coreClient.CompositeMapper = {
@@ -4574,11 +4753,11 @@ export const CustomCopyOption: coreClient.CompositeMapper = {
       duration: {
         serializedName: "duration",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImmediateCopyOption: coreClient.CompositeMapper = {
@@ -4589,9 +4768,9 @@ export const ImmediateCopyOption: coreClient.CompositeMapper = {
     uberParent: "CopyOption",
     polymorphicDiscriminator: CopyOption.type.polymorphicDiscriminator,
     modelProperties: {
-      ...CopyOption.type.modelProperties
-    }
-  }
+      ...CopyOption.type.modelProperties,
+    },
+  },
 };
 
 export const ScheduleBasedBackupCriteria: coreClient.CompositeMapper = {
@@ -4609,10 +4788,10 @@ export const ScheduleBasedBackupCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       daysOfMonth: {
         serializedName: "daysOfMonth",
@@ -4621,10 +4800,10 @@ export const ScheduleBasedBackupCriteria: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Day"
-            }
-          }
-        }
+              className: "Day",
+            },
+          },
+        },
       },
       daysOfTheWeek: {
         serializedName: "daysOfTheWeek",
@@ -4632,10 +4811,10 @@ export const ScheduleBasedBackupCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       monthsOfYear: {
         serializedName: "monthsOfYear",
@@ -4643,10 +4822,10 @@ export const ScheduleBasedBackupCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       scheduleTimes: {
         serializedName: "scheduleTimes",
@@ -4654,10 +4833,10 @@ export const ScheduleBasedBackupCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "DateTime"
-            }
-          }
-        }
+              name: "DateTime",
+            },
+          },
+        },
       },
       weeksOfTheMonth: {
         serializedName: "weeksOfTheMonth",
@@ -4665,13 +4844,13 @@ export const ScheduleBasedBackupCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ItemPathBasedRestoreCriteria: coreClient.CompositeMapper = {
@@ -4688,15 +4867,15 @@ export const ItemPathBasedRestoreCriteria: coreClient.CompositeMapper = {
         serializedName: "itemPath",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isPathRelativeToBackupItem: {
         serializedName: "isPathRelativeToBackupItem",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       subItemPathPrefix: {
         serializedName: "subItemPathPrefix",
@@ -4704,13 +4883,13 @@ export const ItemPathBasedRestoreCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const RangeBasedItemLevelRestoreCriteria: coreClient.CompositeMapper = {
@@ -4726,44 +4905,45 @@ export const RangeBasedItemLevelRestoreCriteria: coreClient.CompositeMapper = {
       minMatchingValue: {
         serializedName: "minMatchingValue",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       maxMatchingValue: {
         serializedName: "maxMatchingValue",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const KubernetesStorageClassRestoreCriteria: coreClient.CompositeMapper = {
-  serializedName: "KubernetesStorageClassRestoreCriteria",
-  type: {
-    name: "Composite",
-    className: "KubernetesStorageClassRestoreCriteria",
-    uberParent: "ItemLevelRestoreCriteria",
-    polymorphicDiscriminator:
-      ItemLevelRestoreCriteria.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ItemLevelRestoreCriteria.type.modelProperties,
-      selectedStorageClassName: {
-        serializedName: "selectedStorageClassName",
-        type: {
-          name: "String"
-        }
+export const KubernetesStorageClassRestoreCriteria: coreClient.CompositeMapper =
+  {
+    serializedName: "KubernetesStorageClassRestoreCriteria",
+    type: {
+      name: "Composite",
+      className: "KubernetesStorageClassRestoreCriteria",
+      uberParent: "ItemLevelRestoreCriteria",
+      polymorphicDiscriminator:
+        ItemLevelRestoreCriteria.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ItemLevelRestoreCriteria.type.modelProperties,
+        selectedStorageClassName: {
+          serializedName: "selectedStorageClassName",
+          type: {
+            name: "String",
+          },
+        },
+        provisioner: {
+          serializedName: "provisioner",
+          type: {
+            name: "String",
+          },
+        },
       },
-      provisioner: {
-        serializedName: "provisioner",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const KubernetesPVRestoreCriteria: coreClient.CompositeMapper = {
   serializedName: "KubernetesPVRestoreCriteria",
@@ -4778,17 +4958,17 @@ export const KubernetesPVRestoreCriteria: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageClassName: {
         serializedName: "storageClassName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
@@ -4805,8 +4985,8 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
         serializedName: "includeClusterScopeResources",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       includedNamespaces: {
         serializedName: "includedNamespaces",
@@ -4814,10 +4994,10 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       excludedNamespaces: {
         serializedName: "excludedNamespaces",
@@ -4825,10 +5005,10 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       includedResourceTypes: {
         serializedName: "includedResourceTypes",
@@ -4836,10 +5016,10 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       excludedResourceTypes: {
         serializedName: "excludedResourceTypes",
@@ -4847,10 +5027,10 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       labelSelectors: {
         serializedName: "labelSelectors",
@@ -4858,29 +5038,29 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       persistentVolumeRestoreMode: {
         serializedName: "persistentVolumeRestoreMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       conflictPolicy: {
         serializedName: "conflictPolicy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       namespaceMappings: {
         serializedName: "namespaceMappings",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       restoreHookReferences: {
         serializedName: "restoreHookReferences",
@@ -4889,133 +5069,148 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NamespacedNameResource"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "NamespacedNameResource",
+            },
+          },
+        },
+      },
+      resourceModifierReference: {
+        serializedName: "resourceModifierReference",
+        type: {
+          name: "Composite",
+          className: "NamespacedNameResource",
+        },
+      },
+    },
+  },
 };
 
-export const KubernetesClusterVaultTierRestoreCriteria: coreClient.CompositeMapper = {
-  serializedName: "KubernetesClusterVaultTierRestoreCriteria",
-  type: {
-    name: "Composite",
-    className: "KubernetesClusterVaultTierRestoreCriteria",
-    uberParent: "ItemLevelRestoreCriteria",
-    polymorphicDiscriminator:
-      ItemLevelRestoreCriteria.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ItemLevelRestoreCriteria.type.modelProperties,
-      includeClusterScopeResources: {
-        serializedName: "includeClusterScopeResources",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
+export const KubernetesClusterVaultTierRestoreCriteria: coreClient.CompositeMapper =
+  {
+    serializedName: "KubernetesClusterVaultTierRestoreCriteria",
+    type: {
+      name: "Composite",
+      className: "KubernetesClusterVaultTierRestoreCriteria",
+      uberParent: "ItemLevelRestoreCriteria",
+      polymorphicDiscriminator:
+        ItemLevelRestoreCriteria.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ItemLevelRestoreCriteria.type.modelProperties,
+        includeClusterScopeResources: {
+          serializedName: "includeClusterScopeResources",
+          required: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        includedNamespaces: {
+          serializedName: "includedNamespaces",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        excludedNamespaces: {
+          serializedName: "excludedNamespaces",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        includedResourceTypes: {
+          serializedName: "includedResourceTypes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        excludedResourceTypes: {
+          serializedName: "excludedResourceTypes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        labelSelectors: {
+          serializedName: "labelSelectors",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        persistentVolumeRestoreMode: {
+          serializedName: "persistentVolumeRestoreMode",
+          type: {
+            name: "String",
+          },
+        },
+        conflictPolicy: {
+          serializedName: "conflictPolicy",
+          type: {
+            name: "String",
+          },
+        },
+        namespaceMappings: {
+          serializedName: "namespaceMappings",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        restoreHookReferences: {
+          serializedName: "restoreHookReferences",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "NamespacedNameResource",
+              },
+            },
+          },
+        },
+        stagingResourceGroupId: {
+          serializedName: "stagingResourceGroupId",
+          type: {
+            name: "String",
+          },
+        },
+        stagingStorageAccountId: {
+          serializedName: "stagingStorageAccountId",
+          type: {
+            name: "String",
+          },
+        },
+        resourceModifierReference: {
+          serializedName: "resourceModifierReference",
+          type: {
+            name: "Composite",
+            className: "NamespacedNameResource",
+          },
+        },
       },
-      includedNamespaces: {
-        serializedName: "includedNamespaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      excludedNamespaces: {
-        serializedName: "excludedNamespaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      includedResourceTypes: {
-        serializedName: "includedResourceTypes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      excludedResourceTypes: {
-        serializedName: "excludedResourceTypes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      labelSelectors: {
-        serializedName: "labelSelectors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      persistentVolumeRestoreMode: {
-        serializedName: "persistentVolumeRestoreMode",
-        type: {
-          name: "String"
-        }
-      },
-      conflictPolicy: {
-        serializedName: "conflictPolicy",
-        type: {
-          name: "String"
-        }
-      },
-      namespaceMappings: {
-        serializedName: "namespaceMappings",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      restoreHookReferences: {
-        serializedName: "restoreHookReferences",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NamespacedNameResource"
-            }
-          }
-        }
-      },
-      stagingResourceGroupId: {
-        serializedName: "stagingResourceGroupId",
-        type: {
-          name: "String"
-        }
-      },
-      stagingStorageAccountId: {
-        serializedName: "stagingStorageAccountId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const BackupVaultResource: coreClient.CompositeMapper = {
   type: {
@@ -5027,40 +5222,42 @@ export const BackupVaultResource: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "BackupVault"
-        }
-      }
-    }
-  }
+          className: "BackupVault",
+        },
+      },
+    },
+  },
 };
 
-export const AzureBackupRestoreWithRehydrationRequest: coreClient.CompositeMapper = {
-  serializedName: "AzureBackupRestoreWithRehydrationRequest",
-  type: {
-    name: "Composite",
-    className: "AzureBackupRestoreWithRehydrationRequest",
-    uberParent: "AzureBackupRecoveryPointBasedRestoreRequest",
-    polymorphicDiscriminator:
-      AzureBackupRecoveryPointBasedRestoreRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AzureBackupRecoveryPointBasedRestoreRequest.type.modelProperties,
-      rehydrationPriority: {
-        serializedName: "rehydrationPriority",
-        required: true,
-        type: {
-          name: "String"
-        }
+export const AzureBackupRestoreWithRehydrationRequest: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureBackupRestoreWithRehydrationRequest",
+    type: {
+      name: "Composite",
+      className: "AzureBackupRestoreWithRehydrationRequest",
+      uberParent: "AzureBackupRecoveryPointBasedRestoreRequest",
+      polymorphicDiscriminator:
+        AzureBackupRecoveryPointBasedRestoreRequest.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...AzureBackupRecoveryPointBasedRestoreRequest.type.modelProperties,
+        rehydrationPriority: {
+          serializedName: "rehydrationPriority",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        rehydrationRetentionDuration: {
+          serializedName: "rehydrationRetentionDuration",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      rehydrationRetentionDuration: {
-        serializedName: "rehydrationRetentionDuration",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const OperationResultGetHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5070,72 +5267,74 @@ export const OperationResultGetHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
-export const BackupVaultOperationResultsGetHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupVaultOperationResultsGetHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupVaultOperationResultsGetHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupVaultOperationResultsGetHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesCreateOrUpdateHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesCreateOrUpdateHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const BackupInstancesDeleteHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5145,23 +5344,23 @@ export const BackupInstancesDeleteHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const BackupInstancesAdhocBackupHeaders: coreClient.CompositeMapper = {
@@ -5172,159 +5371,164 @@ export const BackupInstancesAdhocBackupHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
-export const BackupInstancesValidateForBackupHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesValidateForBackupHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesValidateForBackupHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesValidateForBackupHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesTriggerCrossRegionRestoreHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesTriggerCrossRegionRestoreHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesTriggerCrossRegionRestoreHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesTriggerCrossRegionRestoreHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesValidateCrossRegionRestoreHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesValidateCrossRegionRestoreHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesValidateCrossRegionRestoreHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesValidateCrossRegionRestoreHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesTriggerRehydrateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesTriggerRehydrateHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesTriggerRehydrateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesTriggerRehydrateHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesTriggerRestoreHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesTriggerRestoreHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesTriggerRestoreHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesTriggerRestoreHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const BackupInstancesResumeBackupsHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5334,159 +5538,164 @@ export const BackupInstancesResumeBackupsHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
-export const BackupInstancesResumeProtectionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesResumeProtectionHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesResumeProtectionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesResumeProtectionHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesStopProtectionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesStopProtectionHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesStopProtectionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesStopProtectionHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesSuspendBackupsHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesSuspendBackupsHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesSuspendBackupsHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesSuspendBackupsHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesSyncBackupInstanceHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesSyncBackupInstanceHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesSyncBackupInstanceHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesSyncBackupInstanceHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const BackupInstancesValidateForRestoreHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupInstancesValidateForRestoreHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
+export const BackupInstancesValidateForRestoreHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesValidateForRestoreHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const ExportJobsTriggerHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5496,17 +5705,17 @@ export const ExportJobsTriggerHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export let discriminators = {
@@ -5529,18 +5738,28 @@ export let discriminators = {
   BackupCriteria: BackupCriteria,
   ItemLevelRestoreCriteria: ItemLevelRestoreCriteria,
   "OperationExtendedInfo.OperationJobExtendedInfo": OperationJobExtendedInfo,
-  "FeatureValidationRequestBase.FeatureValidationRequest": FeatureValidationRequest,
-  "FeatureValidationResponseBase.FeatureValidationResponse": FeatureValidationResponse,
+  "FeatureValidationRequestBase.FeatureValidationRequest":
+    FeatureValidationRequest,
+  "FeatureValidationResponseBase.FeatureValidationResponse":
+    FeatureValidationResponse,
   "BaseBackupPolicy.BackupPolicy": BackupPolicy,
   "BaseResourceProperties.DefaultResourceProperties": DefaultResourceProperties,
-  "DataStoreParameters.AzureOperationalStoreParameters": AzureOperationalStoreParameters,
-  "BackupDatasourceParameters.KubernetesClusterBackupDatasourceParameters": KubernetesClusterBackupDatasourceParameters,
-  "BackupDatasourceParameters.BlobBackupDatasourceParameters": BlobBackupDatasourceParameters,
-  "AuthCredentials.SecretStoreBasedAuthCredentials": SecretStoreBasedAuthCredentials,
-  "AzureBackupRecoveryPoint.AzureBackupDiscreteRecoveryPoint": AzureBackupDiscreteRecoveryPoint,
-  "AzureBackupRestoreRequest.AzureBackupRecoveryPointBasedRestoreRequest": AzureBackupRecoveryPointBasedRestoreRequest,
-  "AzureBackupRestoreRequest.AzureBackupRecoveryTimeBasedRestoreRequest": AzureBackupRecoveryTimeBasedRestoreRequest,
-  "RestoreTargetInfoBase.ItemLevelRestoreTargetInfo": ItemLevelRestoreTargetInfo,
+  "DataStoreParameters.AzureOperationalStoreParameters":
+    AzureOperationalStoreParameters,
+  "BackupDatasourceParameters.KubernetesClusterBackupDatasourceParameters":
+    KubernetesClusterBackupDatasourceParameters,
+  "BackupDatasourceParameters.BlobBackupDatasourceParameters":
+    BlobBackupDatasourceParameters,
+  "AuthCredentials.SecretStoreBasedAuthCredentials":
+    SecretStoreBasedAuthCredentials,
+  "AzureBackupRecoveryPoint.AzureBackupDiscreteRecoveryPoint":
+    AzureBackupDiscreteRecoveryPoint,
+  "AzureBackupRestoreRequest.AzureBackupRecoveryPointBasedRestoreRequest":
+    AzureBackupRecoveryPointBasedRestoreRequest,
+  "AzureBackupRestoreRequest.AzureBackupRecoveryTimeBasedRestoreRequest":
+    AzureBackupRecoveryTimeBasedRestoreRequest,
+  "RestoreTargetInfoBase.ItemLevelRestoreTargetInfo":
+    ItemLevelRestoreTargetInfo,
   "RestoreTargetInfoBase.RestoreFilesTargetInfo": RestoreFilesTargetInfo,
   "RestoreTargetInfoBase.RestoreTargetInfo": RestoreTargetInfo,
   "DeleteOption.AbsoluteDeleteOption": AbsoluteDeleteOption,
@@ -5553,11 +5772,18 @@ export let discriminators = {
   "CopyOption.CustomCopyOption": CustomCopyOption,
   "CopyOption.ImmediateCopyOption": ImmediateCopyOption,
   "BackupCriteria.ScheduleBasedBackupCriteria": ScheduleBasedBackupCriteria,
-  "ItemLevelRestoreCriteria.ItemPathBasedRestoreCriteria": ItemPathBasedRestoreCriteria,
-  "ItemLevelRestoreCriteria.RangeBasedItemLevelRestoreCriteria": RangeBasedItemLevelRestoreCriteria,
-  "ItemLevelRestoreCriteria.KubernetesStorageClassRestoreCriteria": KubernetesStorageClassRestoreCriteria,
-  "ItemLevelRestoreCriteria.KubernetesPVRestoreCriteria": KubernetesPVRestoreCriteria,
-  "ItemLevelRestoreCriteria.KubernetesClusterRestoreCriteria": KubernetesClusterRestoreCriteria,
-  "ItemLevelRestoreCriteria.KubernetesClusterVaultTierRestoreCriteria": KubernetesClusterVaultTierRestoreCriteria,
-  "AzureBackupRecoveryPointBasedRestoreRequest.AzureBackupRestoreWithRehydrationRequest": AzureBackupRestoreWithRehydrationRequest
+  "ItemLevelRestoreCriteria.ItemPathBasedRestoreCriteria":
+    ItemPathBasedRestoreCriteria,
+  "ItemLevelRestoreCriteria.RangeBasedItemLevelRestoreCriteria":
+    RangeBasedItemLevelRestoreCriteria,
+  "ItemLevelRestoreCriteria.KubernetesStorageClassRestoreCriteria":
+    KubernetesStorageClassRestoreCriteria,
+  "ItemLevelRestoreCriteria.KubernetesPVRestoreCriteria":
+    KubernetesPVRestoreCriteria,
+  "ItemLevelRestoreCriteria.KubernetesClusterRestoreCriteria":
+    KubernetesClusterRestoreCriteria,
+  "ItemLevelRestoreCriteria.KubernetesClusterVaultTierRestoreCriteria":
+    KubernetesClusterVaultTierRestoreCriteria,
+  "AzureBackupRecoveryPointBasedRestoreRequest.AzureBackupRestoreWithRehydrationRequest":
+    AzureBackupRestoreWithRehydrationRequest,
 };

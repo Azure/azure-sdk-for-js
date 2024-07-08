@@ -8,26 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DataProtectionOperations } from "../operationsInterfaces";
+import { BackupInstancesExtensionRouting } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
 import {
-  ClientDiscoveryValueForSingleApi,
-  DataProtectionOperationsListNextOptionalParams,
-  DataProtectionOperationsListOptionalParams,
-  DataProtectionOperationsListResponse,
-  DataProtectionOperationsListNextResponse,
+  BackupInstanceResource,
+  BackupInstancesExtensionRoutingListNextOptionalParams,
+  BackupInstancesExtensionRoutingListOptionalParams,
+  BackupInstancesExtensionRoutingListResponse,
+  BackupInstancesExtensionRoutingListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DataProtectionOperations operations. */
-export class DataProtectionOperationsImpl implements DataProtectionOperations {
+/** Class containing BackupInstancesExtensionRouting operations. */
+export class BackupInstancesExtensionRoutingImpl
+  implements BackupInstancesExtensionRouting
+{
   private readonly client: DataProtectionClient;
 
   /**
-   * Initialize a new instance of the class DataProtectionOperations class.
+   * Initialize a new instance of the class BackupInstancesExtensionRouting class.
    * @param client Reference to the service client
    */
   constructor(client: DataProtectionClient) {
@@ -35,13 +37,15 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
   }
 
   /**
-   * Returns the list of available operations.
+   * Gets a list of backup instances associated with a tracked resource
+   * @param resourceId ARM path of the resource to be protected using Microsoft.DataProtection
    * @param options The options parameters.
    */
   public list(
-    options?: DataProtectionOperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<ClientDiscoveryValueForSingleApi> {
-    const iter = this.listPagingAll(options);
+    resourceId: string,
+    options?: BackupInstancesExtensionRoutingListOptionalParams,
+  ): PagedAsyncIterableIterator<BackupInstanceResource> {
+    const iter = this.listPagingAll(resourceId, options);
     return {
       next() {
         return iter.next();
@@ -53,26 +57,27 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(resourceId, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
-    options?: DataProtectionOperationsListOptionalParams,
+    resourceId: string,
+    options?: BackupInstancesExtensionRoutingListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ClientDiscoveryValueForSingleApi[]> {
-    let result: DataProtectionOperationsListResponse;
+  ): AsyncIterableIterator<BackupInstanceResource[]> {
+    let result: BackupInstancesExtensionRoutingListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(resourceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(resourceId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -81,34 +86,42 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
   }
 
   private async *listPagingAll(
-    options?: DataProtectionOperationsListOptionalParams,
-  ): AsyncIterableIterator<ClientDiscoveryValueForSingleApi> {
-    for await (const page of this.listPagingPage(options)) {
+    resourceId: string,
+    options?: BackupInstancesExtensionRoutingListOptionalParams,
+  ): AsyncIterableIterator<BackupInstanceResource> {
+    for await (const page of this.listPagingPage(resourceId, options)) {
       yield* page;
     }
   }
 
   /**
-   * Returns the list of available operations.
+   * Gets a list of backup instances associated with a tracked resource
+   * @param resourceId ARM path of the resource to be protected using Microsoft.DataProtection
    * @param options The options parameters.
    */
   private _list(
-    options?: DataProtectionOperationsListOptionalParams,
-  ): Promise<DataProtectionOperationsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    resourceId: string,
+    options?: BackupInstancesExtensionRoutingListOptionalParams,
+  ): Promise<BackupInstancesExtensionRoutingListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceId, options },
+      listOperationSpec,
+    );
   }
 
   /**
    * ListNext
+   * @param resourceId ARM path of the resource to be protected using Microsoft.DataProtection
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceId: string,
     nextLink: string,
-    options?: DataProtectionOperationsListNextOptionalParams,
-  ): Promise<DataProtectionOperationsListNextResponse> {
+    options?: BackupInstancesExtensionRoutingListNextOptionalParams,
+  ): Promise<BackupInstancesExtensionRoutingListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceId, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -117,18 +130,18 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.DataProtection/operations",
+  path: "/{resourceId}/providers/Microsoft.DataProtection/backupInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClientDiscoveryResponse,
+      bodyMapper: Mappers.BackupInstanceResourceList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -137,13 +150,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClientDiscoveryResponse,
+      bodyMapper: Mappers.BackupInstanceResourceList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer,
 };

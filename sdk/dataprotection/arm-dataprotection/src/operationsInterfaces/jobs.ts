@@ -11,7 +11,7 @@ import {
   AzureBackupJobResource,
   JobsListOptionalParams,
   JobsGetOptionalParams,
-  JobsGetResponse
+  JobsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Jobs {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupJobResource>;
   /**
    * Gets a job with id in a backup vault
@@ -40,6 +40,6 @@ export interface Jobs {
     resourceGroupName: string,
     vaultName: string,
     jobId: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse>;
 }

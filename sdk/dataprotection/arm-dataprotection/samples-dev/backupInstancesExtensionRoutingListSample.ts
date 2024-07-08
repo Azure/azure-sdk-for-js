@@ -15,23 +15,27 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns the list of available operations.
+ * This sample demonstrates how to Gets a list of backup instances associated with a tracked resource
  *
- * @summary Returns the list of available operations.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/Operations/List.json
+ * @summary Gets a list of backup instances associated with a tracked resource
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ListBackupInstancesExtensionRouting.json
  */
-async function returnsTheListOfSupportedRestOperations() {
+async function listBackupInstancesAssociatedWithAnAzureResource() {
+  const resourceId =
+    "subscriptions/36d32b25-3dc7-41b0-bde1-397500644591/resourceGroups/testRG/providers/Microsoft.Compute/disks/testDisk";
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential);
   const resArray = new Array();
-  for await (let item of client.dataProtectionOperations.list()) {
+  for await (let item of client.backupInstancesExtensionRouting.list(
+    resourceId,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  returnsTheListOfSupportedRestOperations();
+  listBackupInstancesAssociatedWithAnAzureResource();
 }
 
 main().catch(console.error);
