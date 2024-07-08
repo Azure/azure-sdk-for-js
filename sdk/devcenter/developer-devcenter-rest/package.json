@@ -60,8 +60,8 @@
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.6.2",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-lro": "3.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-paging": "^1.5.0"
   },
   "devDependencies": {
@@ -72,8 +72,8 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
-    "tshy": "^1.11.1",
+    "typescript": "~5.5.3",
+    "tshy": "^1.17.0",
     "@azure/core-util": "^1.0.0",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure/identity": "^4.0.1",
@@ -143,5 +143,6 @@
       "azure"
     ],
     "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/developer-devcenter"
-  }
+  },
+  "module": "./dist/esm/index.js"
 }
