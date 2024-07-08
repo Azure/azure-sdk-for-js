@@ -19,7 +19,4 @@ export interface SchemaVersionsOutput {
 
 /** Alias for SchemaContentTypeValuesOutput */
 export type SchemaContentTypeValuesOutput =
-  | "application/json; serialization=Avro"
-  | "application/json; serialization=Json"
-  | "text/plain; charset=utf-8"
-  | "text/vnd.ms.protobuf";
+  "application/json; serialization=Avro";

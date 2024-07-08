@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { isUnexpected } from "./isUnexpected";
+import { isUnexpected } from "./generated/isUnexpected";
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
@@ -12,7 +12,7 @@ import {
   SchemaProperties,
 } from "./models";
 import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-import { SchemaRegistryClient } from "./clientDefinitions";
+import { SchemaRegistryClient } from "./generated/clientDefinitions";
 
 export async function registerSchema(
   context: SchemaRegistryClient,

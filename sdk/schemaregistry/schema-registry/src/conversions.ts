@@ -6,7 +6,7 @@ import {
   GetSchemaByVersion200Response,
   GetSchemaPropertiesByContent204Response,
   RegisterSchema204Response,
-} from "./responses";
+} from "./generated/responses";
 import { SchemaProperties, Schema } from "./models";
 
 const textPlain = "text/plain";

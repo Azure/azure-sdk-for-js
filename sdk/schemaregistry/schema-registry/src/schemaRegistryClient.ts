@@ -11,7 +11,7 @@ import {
   SchemaRegistry,
   SchemaRegistryClientOptions,
 } from "./models";
-import { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
+import { SchemaRegistryClient as SchemaRegistryContext } from "./generated/clientDefinitions";
 import {
   registerSchema,
   getSchemaProperties,
@@ -19,7 +19,7 @@ import {
   getSchemaByVersion,
 } from "./operations";
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./generated/logger";
 import { TokenCredential } from "@azure/core-auth";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";

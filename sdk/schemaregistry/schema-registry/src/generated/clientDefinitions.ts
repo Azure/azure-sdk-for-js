@@ -8,7 +8,7 @@ import {
   GetSchemaByVersionParameters,
   GetSchemaPropertiesByContentParameters,
   RegisterSchemaParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   ListSchemaGroups200Response,
   ListSchemaGroupsDefaultResponse,
@@ -22,21 +22,25 @@ import {
   GetSchemaPropertiesByContentDefaultResponse,
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListSchemaGroups {
   /** Gets the list of schema groups user is authorized to access. */
   get(
     options?: ListSchemaGroupsParameters,
-  ): StreamableMethod<ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse>;
+  ): StreamableMethod<
+    ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse
+  >;
 }
 
 export interface ListSchemaVersions {
   /** Gets the list of all versions of one schema. */
   get(
     options?: ListSchemaVersionsParameters,
-  ): StreamableMethod<ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse>;
+  ): StreamableMethod<
+    ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse
+  >;
 }
 
 export interface GetSchemaById {
@@ -50,7 +54,9 @@ export interface GetSchemaByVersion {
   /** Gets one specific version of one schema. */
   get(
     options?: GetSchemaByVersionParameters,
-  ): StreamableMethod<GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse>;
+  ): StreamableMethod<
+    GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse
+  >;
 }
 
 export interface GetSchemaPropertiesByContent {
@@ -58,7 +64,8 @@ export interface GetSchemaPropertiesByContent {
   post(
     options: GetSchemaPropertiesByContentParameters,
   ): StreamableMethod<
-    GetSchemaPropertiesByContent204Response | GetSchemaPropertiesByContentDefaultResponse
+    | GetSchemaPropertiesByContent204Response
+    | GetSchemaPropertiesByContentDefaultResponse
   >;
 }
 
@@ -66,7 +73,9 @@ export interface RegisterSchema {
   /** Register new schema. If schema of specified name does not exist in specified group, schema is created at version 1. If schema of specified name exists already in specified group, schema is created at latest version + 1. */
   put(
     options: RegisterSchemaParameters,
-  ): StreamableMethod<RegisterSchema204Response | RegisterSchemaDefaultResponse>;
+  ): StreamableMethod<
+    RegisterSchema204Response | RegisterSchemaDefaultResponse
+  >;
 }
 
 export interface Routes {
