@@ -32,7 +32,7 @@ describe("Log Exporter Scenarios", () => {
       nock.cleanAll();
     });
 
-    it.skip("should work", (done) => {
+    it("should work", (done) => {
       scenario
         .run()
         .then(() => {
