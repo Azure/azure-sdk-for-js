@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/developer-devcenter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure Developer DevCenter Client",
   "engines": {
     "node": ">=18.0.0"
