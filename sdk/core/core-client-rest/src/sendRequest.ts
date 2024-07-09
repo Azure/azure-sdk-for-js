@@ -106,9 +106,6 @@ function getContentType(body: any): string | undefined {
 
 export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
-
-  /** Skip serialization option for string body request */
-  skipSerialization?: boolean;
 }
 
 function buildPipelineRequest(
@@ -117,7 +114,7 @@ function buildPipelineRequest(
   options: InternalRequestParameters = {},
 ): PipelineRequest {
   const requestContentType = getRequestContentType(options);
-  const { body, multipartBody } = getRequestBody(options.body, requestContentType, options);
+  const { body, multipartBody } = getRequestBody(options.body, requestContentType);
   const hasContent = body !== undefined || multipartBody !== undefined;
 
   const headers = createHttpHeaders({
@@ -156,17 +153,9 @@ interface RequestBody {
 /**
  * Prepares the body before sending the request
  */
-function getRequestBody(
-  body?: unknown,
-  contentType: string = "",
-  options: InternalRequestParameters = {},
-): RequestBody {
+function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (body === undefined) {
     return { body: undefined };
-  }
-
-  if (options.skipSerialization) {
-    return { body: body as RequestBodyType };
   }
 
   if (typeof FormData !== "undefined" && body instanceof FormData) {
@@ -177,17 +166,15 @@ function getRequestBody(
     return { body };
   }
 
-  const firstType = contentType.split(";")[0];
-
-  if (firstType === "application/json") {
-    return { body: JSON.stringify(body) };
-  }
-
   if (ArrayBuffer.isView(body)) {
     return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
+  const firstType = contentType.split(";")[0];
+
   switch (firstType) {
+    case "application/json":
+      return { body: JSON.stringify(body) };
     case "multipart/form-data":
       if (Array.isArray(body)) {
         return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };

@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Add an option to skip serialization for the request body when sending request.
+- Update the serialization order before sending the request. 
 
 ### Other Changes
 
