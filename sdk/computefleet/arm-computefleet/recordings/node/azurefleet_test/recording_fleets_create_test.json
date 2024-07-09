@@ -1,0 +1,96 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureFleet/fleets/resourcetest?api-version=2024-05-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "776",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-arm-computefleet-rest/1.0.0-beta.1 core-rest-pipeline/1.16.2 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {
+          "regularPriorityProfile": {
+            "capacity": 1,
+            "minCapacity": 0,
+            "allocationStrategy": "LowestPrice"
+          },
+          "vmSizesProfile": [
+            {
+              "name": "Standard_DS1_v2"
+            }
+          ],
+          "computeProfile": {
+            "baseVirtualMachineProfile": {
+              "osProfile": {
+                "computerNamePrefix": "fleet",
+                "adminUsername": "azureuser",
+                "adminPassword": "Sanitized"
+              },
+              "storageProfile": {
+                "osDisk": {
+                  "createOption": "FromImage",
+                  "osType": "Windows",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS"
+                  }
+                }
+              },
+              "networkProfile": {
+                "networkInterfaceConfigurations": [
+                  {
+                    "name": "testvnProfile",
+                    "properties": {
+                      "ipConfigurations": [
+                        {
+                          "name": "testip",
+                          "properties": {
+                            "subnet": {
+                              "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/testvn/subnets/default"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "networkApiVersion": "2020-11-01"
+              }
+            }
+          }
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "171",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 09 Jul 2024 07:38:00 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "93d7f543-7a84-457c-973a-7075fa3246e8",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240709T073801Z:93d7f543-7a84-457c-973a-7075fa3246e8",
+        "x-ms-served-by": "53af382d-c5c8-47f1-8fa8-3833df73b7a3_133625003082591571",
+        "X-MSEdge-Ref": "Ref A: 2791FBD5CA684B00AB1DD17535B7B713 Ref B: MAA201060513009 Ref C: 2024-07-09T07:37:53Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidParameter",
+          "message": "Cannot specify user image overrides for a disk already defined in the specified image reference."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

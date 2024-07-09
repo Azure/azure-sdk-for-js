@@ -59,8 +59,43 @@ describe("AzureFleet test", () => {
           }],
           computeProfile: {
             baseVirtualMachineProfile: {
+              storageProfile: {
+                osDisk: {
+                  osType: "Windows",
+                  createOption: "FromImage",
+                  managedDisk: {
+                    storageAccountType: "Standard_LRS"
+                  }
+                }
+              },
+              osProfile: {
+                computerNamePrefix: "fleet",
+                adminUsername: "azureuser",
+                adminPassword: "SecretPlaceholder"
+              },
+              networkProfile: {
+                networkApiVersion: "2020-11-01",
+                networkInterfaceConfigurations: [{
+                  name: "testvnProfile",
+                  properties: {
+                    ipConfigurations: [{
+                      name: "testip",
+                      properties: {
+                        subnet: {
+                          id: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/testvn/subnets/default"
+                        }
+                      }
+                    }]
+                  }
+                }]
+              }
+            },
 
-            }
+          },
+          regularPriorityProfile: {
+            capacity: 1,
+            minCapacity: 0,
+            allocationStrategy: "LowestPrice"
           }
         },
       },
@@ -68,31 +103,31 @@ describe("AzureFleet test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  // it("fleets get test", async function () {
-  //   const res = await client.fleets.get(
-  //     resourceGroup,
-  //     resourcename
-  //   );
-  //   assert.equal(res.name, resourcename);
-  // });
+  it("fleets get test", async function () {
+    const res = await client.fleets.get(
+      resourceGroup,
+      resourcename
+    );
+    assert.equal(res.name, resourcename);
+  });
 
-  // it("fleets list test", async function () {
-  //   const resArray = new Array();
-  //   for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
-  //     resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length, 1);
-  // });
+  it("fleets list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
 
-  // it("fleets delete test", async function () {
-  //   const resArray = new Array();
-  //   const res = await client.fleets.delete(resourceGroup, resourcename
-  //   )
-  //   for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
-  //     resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length, 0);
-  // });
+  it("fleets delete test", async function () {
+    const resArray = new Array();
+    const res = await client.fleets.delete(resourceGroup, resourcename
+    )
+    for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 
   it("operation list test", async function () {
     const resArray = new Array();

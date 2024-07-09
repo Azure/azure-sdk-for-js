@@ -17,19 +17,19 @@
         "Cache-Control": "no-cache",
         "Content-Length": "1984",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 09 Jul 2024 02:03:16 GMT",
+        "Date": "Tue, 09 Jul 2024 07:38:13 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "db726383-417d-4e02-b5d0-4b042cf7eaa9",
+        "x-ms-correlation-request-id": "0d89d370-6260-4e30-b688-f75e95a5e5fb",
         "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/GetFleet3Min;399,Microsoft.Compute/GetFleet30Min;2599",
-        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-ratelimit-remaining-tenant-reads": "11993",
         "x-ms-request-id": "Sanitized",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20240709T020317Z:db726383-417d-4e02-b5d0-4b042cf7eaa9",
-        "x-ms-served-by": "e9a49a86-2da4-4db9-9139-4ea72081ef7c_133558780154846178",
-        "X-MSEdge-Ref": "Ref A: A04564CC119449C8A1A1B2CD7B8DFB6B Ref B: MAA201060515033 Ref C: 2024-07-09T02:03:15Z"
+        "x-ms-routing-request-id": "MALAYSIASOUTH:20240709T073814Z:0d89d370-6260-4e30-b688-f75e95a5e5fb",
+        "x-ms-served-by": "9becf0c4-8445-446a-ab70-613a5b5a0599_133587971539753090",
+        "X-MSEdge-Ref": "Ref A: 61216FA8EA704B64A4E1A576BF62E778 Ref B: MAA201060513009 Ref C: 2024-07-09T07:38:12Z"
       },
       "ResponseBody": {
         "value": [

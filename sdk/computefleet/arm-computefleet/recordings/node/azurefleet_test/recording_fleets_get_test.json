@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureFleet/fleets/resourcetest?api-version=2024-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-computefleet-rest/1.0.0-beta.1 core-rest-pipeline/1.16.2 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "220",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 09 Jul 2024 07:38:03 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1902d5f2-8eba-4bad-95ec-643bd7f079cc",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240709T073803Z:1902d5f2-8eba-4bad-95ec-643bd7f079cc",
+        "X-MSEdge-Ref": "Ref A: 862D5133994D4122A35C2AD369F5E025 Ref B: MAA201060513009 Ref C: 2024-07-09T07:38:03Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ResourceNotFound",
+          "message": "The Resource 'Microsoft.AzureFleet/fleets/resourcetest' under resource group 'myjstest' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
