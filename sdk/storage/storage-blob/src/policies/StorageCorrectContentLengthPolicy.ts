@@ -14,19 +14,18 @@ import { HeaderConstants } from "../utils/constants";
  */
 export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 
-
 /**
  * storageCorrectContentLengthPolicy to correctly set Content-Length header with request body length.
  */
 export function storageCorrectContentLengthPolicy(): PipelinePolicy {
   function correctContentLength(request: PipelineRequest): void {
-        if (
-        request.body &&
-        (typeof request.body === "string" || Buffer.isBuffer(request.body)) &&
-        request.body.length > 0
-        ) {
-        request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
-        }
+    if (
+      request.body &&
+      (typeof request.body === "string" || Buffer.isBuffer(request.body)) &&
+      request.body.length > 0
+    ) {
+      request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
+    }
   }
 
   return {
