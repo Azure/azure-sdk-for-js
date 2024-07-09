@@ -14,7 +14,7 @@ import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleS
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -22,7 +22,7 @@ import {
   BackupAndExportCreateOptionalParams,
   BackupAndExportCreateResponse,
   BackupAndExportValidateBackupOptionalParams,
-  BackupAndExportValidateBackupResponse
+  BackupAndExportValidateBackupResponse,
 } from "../models";
 
 /** Class containing BackupAndExport operations. */
@@ -48,7 +48,7 @@ export class BackupAndExportImpl implements BackupAndExport {
     resourceGroupName: string,
     serverName: string,
     parameters: BackupAndExportRequest,
-    options?: BackupAndExportCreateOptionalParams
+    options?: BackupAndExportCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupAndExportCreateResponse>,
@@ -57,21 +57,20 @@ export class BackupAndExportImpl implements BackupAndExport {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupAndExportCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -80,8 +79,8 @@ export class BackupAndExportImpl implements BackupAndExport {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -89,15 +88,15 @@ export class BackupAndExportImpl implements BackupAndExport {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupAndExportCreateResponse,
@@ -105,7 +104,7 @@ export class BackupAndExportImpl implements BackupAndExport {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -122,13 +121,13 @@ export class BackupAndExportImpl implements BackupAndExport {
     resourceGroupName: string,
     serverName: string,
     parameters: BackupAndExportRequest,
-    options?: BackupAndExportCreateOptionalParams
+    options?: BackupAndExportCreateOptionalParams,
   ): Promise<BackupAndExportCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -142,11 +141,11 @@ export class BackupAndExportImpl implements BackupAndExport {
   validateBackup(
     resourceGroupName: string,
     serverName: string,
-    options?: BackupAndExportValidateBackupOptionalParams
+    options?: BackupAndExportValidateBackupOptionalParams,
   ): Promise<BackupAndExportValidateBackupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      validateBackupOperationSpec
+      validateBackupOperationSpec,
     );
   }
 }
@@ -154,25 +153,24 @@ export class BackupAndExportImpl implements BackupAndExport {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backupAndExport",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backupAndExport",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupAndExportResponse
+      bodyMapper: Mappers.BackupAndExportResponse,
     },
     201: {
-      bodyMapper: Mappers.BackupAndExportResponse
+      bodyMapper: Mappers.BackupAndExportResponse,
     },
     202: {
-      bodyMapper: Mappers.BackupAndExportResponse
+      bodyMapper: Mappers.BackupAndExportResponse,
     },
     204: {
-      bodyMapper: Mappers.BackupAndExportResponse
+      bodyMapper: Mappers.BackupAndExportResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion1],
@@ -180,31 +178,30 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateBackupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/validateBackup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/validateBackup",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateBackupResponse
+      bodyMapper: Mappers.ValidateBackupResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

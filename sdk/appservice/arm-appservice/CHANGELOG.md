@@ -1,6 +1,6 @@
 # Release History
 
-## 14.1.1 (Unreleased)
+## 15.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,82 @@
 
 ### Other Changes
 
+## 15.0.0 (2024-06-11)
+    
+### Features Added
+
+  - Added operation WebApps.createOrUpdateSiteContainer
+  - Added operation WebApps.createOrUpdateSiteContainerSlot
+  - Added operation WebApps.deleteSiteContainer
+  - Added operation WebApps.deleteSiteContainerSlot
+  - Added operation WebApps.getSiteContainer
+  - Added operation WebApps.getSiteContainerSlot
+  - Added operation WebApps.listSiteContainers
+  - Added operation WebApps.listSiteContainersSlot
+  - Added Interface EnvironmentVariable
+  - Added Interface FunctionAppConfig
+  - Added Interface FunctionsAlwaysReadyConfig
+  - Added Interface FunctionsDeployment
+  - Added Interface FunctionsDeploymentStorage
+  - Added Interface FunctionsDeploymentStorageAuthentication
+  - Added Interface FunctionsRuntime
+  - Added Interface FunctionsScaleAndConcurrency
+  - Added Interface FunctionsScaleAndConcurrencyTriggers
+  - Added Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Added Interface SiteContainer
+  - Added Interface SiteContainerCollection
+  - Added Interface SiteDnsConfig
+  - Added Interface VolumeMount
+  - Added Interface WebAppsCreateOrUpdateSiteContainerOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSiteContainerSlotOptionalParams
+  - Added Interface WebAppsDeleteSiteContainerOptionalParams
+  - Added Interface WebAppsDeleteSiteContainerSlotOptionalParams
+  - Added Interface WebAppsGetSiteContainerOptionalParams
+  - Added Interface WebAppsGetSiteContainerSlotOptionalParams
+  - Added Interface WebAppsListSiteContainersNextOptionalParams
+  - Added Interface WebAppsListSiteContainersOptionalParams
+  - Added Interface WebAppsListSiteContainersSlotNextOptionalParams
+  - Added Interface WebAppsListSiteContainersSlotOptionalParams
+  - Added Type Alias AuthenticationType
+  - Added Type Alias AuthType
+  - Added Type Alias AzureStorageProtocol
+  - Added Type Alias FunctionsDeploymentStorageType
+  - Added Type Alias RuntimeName
+  - Added Type Alias WebAppsCreateOrUpdateSiteContainerResponse
+  - Added Type Alias WebAppsCreateOrUpdateSiteContainerSlotResponse
+  - Added Type Alias WebAppsGetSiteContainerResponse
+  - Added Type Alias WebAppsGetSiteContainerSlotResponse
+  - Added Type Alias WebAppsListSiteContainersNextResponse
+  - Added Type Alias WebAppsListSiteContainersResponse
+  - Added Type Alias WebAppsListSiteContainersSlotNextResponse
+  - Added Type Alias WebAppsListSiteContainersSlotResponse
+  - Interface AzureStorageInfoValue has a new optional parameter protocol
+  - Interface Site has a new optional parameter dnsConfiguration
+  - Interface Site has a new optional parameter functionAppConfig
+  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
+  - Interface SitePatchResource has a new optional parameter dnsConfiguration
+  - Added Enum KnownAuthenticationType
+  - Added Enum KnownAzureStorageProtocol
+  - Added Enum KnownFunctionsDeploymentStorageType
+  - Added Enum KnownRuntimeName
+  - Enum KnownSkuName has a new value FlexConsumption
+  - Enum KnownSupportedTlsVersions has a new value One3
+
+### Breaking Changes
+
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
+    
+    
 ## 14.1.0 (2023-11-16)
     
-**Features**
+### Features Added
 
   - Added operation group GetUsagesInLocation
   - Added Interface AseRegion
@@ -46,7 +119,7 @@
     
 ## 14.0.0 (2023-03-10)
     
-**Features**
+### Features Added
 
   - Added operation StaticSites.createOrUpdateBasicAuth
   - Added operation StaticSites.createOrUpdateBuildDatabaseConnection
@@ -213,7 +286,7 @@
   - Interface WorkflowTriggersListNextOptionalParams no longer has parameter top
   - Interface WorkflowVersionsListNextOptionalParams no longer has parameter top
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOnPremOptionalParams is changed from Enum19 to ProviderOsTypeSelected
   - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOptionalParams is changed from Enum14 to ProviderOsTypeSelected
@@ -235,19 +308,19 @@
 
 ## 13.0.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  revert credential scopes
 
 ## 13.0.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  fix better user experience of credential scopes in government cloud
 
 ## 13.0.0 (2022-07-06)
     
-**Features**
+### Features Added
 
   - Added operation group WorkflowRunActionRepetitions
   - Added operation group WorkflowRunActionRepetitionsRequestHistories
@@ -645,7 +718,7 @@
   - Enum KnownEnum19 has a new value LinuxFunctions
   - Enum KnownEnum19 has a new value WindowsFunctions
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem
   - Removed Enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem
@@ -658,18 +731,18 @@
     
 ## 12.0.0 (2022-04-07)
     
-**Features**
+### Features Added
 
   - Added operation group Global_2
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Global
     
     
 ## 11.0.0 (2022-01-10)
     
-**Features**
+### Features Added
 
   - Added operation group ContainerApps
   - Added operation group ContainerAppsRevisions
@@ -764,7 +837,7 @@
   - Added Enum KnownRevisionHealthState
   - Added Enum KnownRevisionProvisioningState
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownEnum10
   - Removed Enum KnownEnum11

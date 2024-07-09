@@ -9,65 +9,67 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   InventoryItem,
-  InventoryItemsListByVMMServerOptionalParams,
-  InventoryItemsCreateOptionalParams,
-  InventoryItemsCreateResponse,
+  InventoryItemsListByVmmServerOptionalParams,
   InventoryItemsGetOptionalParams,
   InventoryItemsGetResponse,
-  InventoryItemsDeleteOptionalParams
+  InventoryItemsCreateOptionalParams,
+  InventoryItemsCreateResponse,
+  InventoryItemsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a InventoryItems. */
 export interface InventoryItems {
   /**
-   * Returns the list of inventoryItems in the given VMMServer.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
+   * Returns the list of inventoryItems in the given VmmServer.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
    * @param options The options parameters.
    */
-  listByVMMServer(
+  listByVmmServer(
     resourceGroupName: string,
     vmmServerName: string,
-    options?: InventoryItemsListByVMMServerOptionalParams
+    options?: InventoryItemsListByVmmServerOptionalParams,
   ): PagedAsyncIterableIterator<InventoryItem>;
   /**
-   * Create Or Update InventoryItem.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param inventoryItemName Name of the inventoryItem.
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    vmmServerName: string,
-    inventoryItemName: string,
-    options?: InventoryItemsCreateOptionalParams
-  ): Promise<InventoryItemsCreateResponse>;
-  /**
    * Shows an inventory item.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param inventoryItemName Name of the inventoryItem.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param inventoryItemResourceName Name of the inventoryItem.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vmmServerName: string,
-    inventoryItemName: string,
-    options?: InventoryItemsGetOptionalParams
+    inventoryItemResourceName: string,
+    options?: InventoryItemsGetOptionalParams,
   ): Promise<InventoryItemsGetResponse>;
   /**
+   * Create Or Update InventoryItem.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param inventoryItemResourceName Name of the inventoryItem.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    vmmServerName: string,
+    inventoryItemResourceName: string,
+    resource: InventoryItem,
+    options?: InventoryItemsCreateOptionalParams,
+  ): Promise<InventoryItemsCreateResponse>;
+  /**
    * Deletes an inventoryItem.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param inventoryItemName Name of the inventoryItem.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param inventoryItemResourceName Name of the inventoryItem.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     vmmServerName: string,
-    inventoryItemName: string,
-    options?: InventoryItemsDeleteOptionalParams
+    inventoryItemResourceName: string,
+    options?: InventoryItemsDeleteOptionalParams,
   ): Promise<void>;
 }

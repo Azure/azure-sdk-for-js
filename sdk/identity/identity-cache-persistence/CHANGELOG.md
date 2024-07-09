@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.1.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.1 (2024-06-10)
+
+### Other Changes
+
+- Updated msal-node to the latest version
 
 ## 1.1.0 (2024-03-05)
 

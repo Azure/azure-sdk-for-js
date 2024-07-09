@@ -32,14 +32,14 @@
   "dependencies": {
     "@azure-rest/iot-device-update": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.2.1",
     "uuid": "^8.3.0",
     "@azure/core-util": "^1.0.1"
   },
   "devDependencies": {
     "@types/uuid": "^8.0.0",
     "@types/node": "^18.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "rimraf": "latest"
   }
 }

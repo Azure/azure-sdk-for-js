@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.22.0",
+  "version": "12.23.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -84,7 +84,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/storageClientContext.ts",
+        "path": "src/generated/src/storageClient.ts",
         "prefix": "packageVersion"
       },
       {
@@ -119,7 +119,7 @@
     "@azure/core-xml": "^1.3.2",
     "@azure/core-util": "^1.1.1",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.23.0",
+    "@azure/storage-blob": "^12.24.0-beta.1",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },
@@ -154,13 +154,13 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "util": "^0.12.1"
   }
 }

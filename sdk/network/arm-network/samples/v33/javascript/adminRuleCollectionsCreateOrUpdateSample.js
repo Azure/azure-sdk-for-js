@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an admin rule collection.
  *
  * @summary Creates or updates an admin rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerAdminRuleCollectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerAdminRuleCollectionPut.json
  */
 async function createOrUpdateAnAdminRuleCollection() {
   const subscriptionId =

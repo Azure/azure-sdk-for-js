@@ -12,7 +12,7 @@
 
 ## 13.1.0 (2023-01-16)
     
-**Features**
+### Features Added
 
   - Added Interface DDAudio
   - Added Interface Fade
@@ -45,7 +45,7 @@
     
 ## 13.0.0 (2022-09-06)
     
-**Features**
+### Features Added
 
   - Added operation LiveEvents.asyncOperation
   - Added operation LiveEvents.operationLocation
@@ -84,7 +84,7 @@
   - Added Enum KnownAsyncOperationStatus
   - Added Enum KnownSecurityLevel
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureMediaServicesOptionalParams no longer has parameter apiVersion
   - Class AzureMediaServices no longer has parameter apiVersion
@@ -92,7 +92,7 @@
     
 ## 12.1.0 (2022-07-29)
     
-**Features**
+### Features Added
 
   - Added Interface AacAudio
   - Added Interface AbsoluteClipTime
@@ -177,7 +177,7 @@
     
 ## 12.0.0 (2022-06-24)
     
-**Features**
+### Features Added
 
   - Added operation group MediaServicesOperationResults
   - Added operation group MediaServicesOperationStatuses
@@ -208,7 +208,7 @@
   - Type Alias MediaService has a new parameter provisioningState
   - Type Alias MediaService has a new parameter privateEndpointConnections
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Mediaservices.createOrUpdate
   - Removed operation Mediaservices.update
@@ -216,7 +216,7 @@
     
 ## 11.0.0 (2022-04-14)
     
-**Features**
+### Features Added
 
   - Added operation group OperationResults
   - Added operation group OperationStatuses
@@ -275,7 +275,7 @@
   - Enum KnownH265VideoProfile has a new value Main10
   - Enum KnownStreamOptionsFlag has a new value LowLatencyV2
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureMediaServicesOptionalParams no longer has parameter apiVersion
   - Interface Layer no longer has parameter odataType

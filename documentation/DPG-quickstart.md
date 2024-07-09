@@ -21,11 +21,11 @@ Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5
 
 # Set up your development environment
 
-Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the Azure SDK for JS repository.
+Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the `azure-sdk-for-js` repository.
 
 # Identify your project's service and package name
 
-The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the azure-rest-api-specs repository containing your service's REST API definition.
+The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the `azure-rest-api-specs` repository containing your service's REST API definition.
 
 The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}` or `@azure/{service-name}-{module}` for services with multiple modules.
 
@@ -73,7 +73,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
     If you are generating the DPG library for Azure Cognitive Services Content Safety, and your TypeSpec configuration file is located at `https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml`, you would initialize the library like this:
 
-    ```shell
+    ```sh
     tsp-client init -c https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml
     ```
 
@@ -91,7 +91,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
     
     Run the `update` command from SDK directory (i.e sdk/agrifood/agrifood-farming) to re-generate the code:
 
-    ```shell
+    ```sh
     tsp-client update
     ```
 
@@ -103,9 +103,9 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 3. **Edit rush.json**  
     
-    As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
+    As the libraries in the `azure-sdk-for-js` repository are managed by rush, you need to add an entry in `rush.json` under projects section for the first time to make sure it works. For example:
 
-    ```
+    ```json
         {
           "packageName": "@azure/agrifood-farming",
           "projectFolder": "sdk/agrifood/agrifood-farming",
@@ -113,7 +113,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
         },
     ```
 
-    Here you also need to replace the `packageName`, `projectFolder` into your own services'.
+    You also need to replace the `packageName`, `projectFolder` entries with your own services'.
 
 # After SDK generation
 

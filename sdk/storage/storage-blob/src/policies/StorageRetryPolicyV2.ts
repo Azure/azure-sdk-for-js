@@ -106,6 +106,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         return true;
       }
     }
+
     // If attempt was against the secondary & it returned a StatusNotFound (404), then
     // the resource was not found. This may be due to replication delay. So, in this
     // case, we'll never try the secondary again for this operation.
@@ -122,6 +123,22 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         return true;
       }
     }
+
+    // [Copy source error code] Feature is pending on service side, skip retry on copy source error for now.
+    // if (response) {
+    //   // Retry select Copy Source Error Codes.
+    //   if (response?.status >= 400) {
+    //     const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
+    //     if (copySourceError !== undefined) {
+    //       switch (copySourceError) {
+    //         case "InternalError":
+    //         case "OperationTimedOut":
+    //         case "ServerBusy":
+    //           return true;
+    //       }
+    //     }
+    //   }
+    // }
 
     return false;
   }

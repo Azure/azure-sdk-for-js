@@ -33,7 +33,7 @@ export interface MessageAdapter<MessageT> {
 /**
  * Options for Schema
  */
-export interface JsonSerializerOptions<MessageT> {
+export interface JsonSchemaSerializerOptions<MessageT> {
   /**
    * The group name to be used when registering/looking up a schema. Must be specified
    * if `serialize` will be called.

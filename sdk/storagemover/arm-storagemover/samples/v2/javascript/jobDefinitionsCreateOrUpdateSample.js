@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a Job Definition resource, which contains configuration for a single unit of managed data transfer.
  *
  * @summary Creates or updates a Job Definition resource, which contains configuration for a single unit of managed data transfer.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobDefinitions_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_CreateOrUpdate.json
  */
 async function jobDefinitionsCreateOrUpdate() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function jobDefinitionsCreateOrUpdate() {
     storageMoverName,
     projectName,
     jobDefinitionName,
-    jobDefinition
+    jobDefinition,
   );
   console.log(result);
 }

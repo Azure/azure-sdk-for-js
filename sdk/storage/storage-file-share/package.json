@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.23.0",
+  "version": "12.24.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-file-share/src/index.js",
@@ -81,7 +81,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/storageClientContext.ts",
+        "path": "src/generated/src/storageClient.ts",
         "prefix": "packageVersion"
       },
       {
@@ -157,13 +157,13 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "util": "^0.12.1"
   }
 }

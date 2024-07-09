@@ -14,7 +14,7 @@ import {
   PipelineRunGetPipelineRunResponse,
   PipelineRunQueryActivityRunsOptionalParams,
   PipelineRunQueryActivityRunsResponse,
-  PipelineRunCancelPipelineRunOptionalParams
+  PipelineRunCancelPipelineRunOptionalParams,
 } from "../models";
 
 /** Interface representing a PipelineRunOperations. */
@@ -26,7 +26,7 @@ export interface PipelineRunOperations {
    */
   queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
+    options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams,
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
   /**
    * Get a pipeline run by its run ID.
@@ -35,7 +35,7 @@ export interface PipelineRunOperations {
    */
   getPipelineRun(
     runId: string,
-    options?: PipelineRunGetPipelineRunOptionalParams
+    options?: PipelineRunGetPipelineRunOptionalParams,
   ): Promise<PipelineRunGetPipelineRunResponse>;
   /**
    * Query activity runs based on input filter conditions.
@@ -48,7 +48,7 @@ export interface PipelineRunOperations {
     pipelineName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options?: PipelineRunQueryActivityRunsOptionalParams
+    options?: PipelineRunQueryActivityRunsOptionalParams,
   ): Promise<PipelineRunQueryActivityRunsResponse>;
   /**
    * Cancel a pipeline run by its run ID.
@@ -57,6 +57,6 @@ export interface PipelineRunOperations {
    */
   cancelPipelineRun(
     runId: string,
-    options?: PipelineRunCancelPipelineRunOptionalParams
+    options?: PipelineRunCancelPipelineRunOptionalParams,
   ): Promise<void>;
 }

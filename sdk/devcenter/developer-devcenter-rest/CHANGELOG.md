@@ -1,6 +1,16 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2024-07-08)
 
 This release targets Azure Dev Center 2023-04-01 General Available API, which is the same version as the previous 1.0.0-beta.3 release.
 
@@ -40,8 +50,6 @@ This release targets Azure Dev Center 2023-04-01 General Available API, which is
     - CreateOrUpdateEnvironment was renamed to CreateOrReplaceEnvironment
     - ListCatalogs was renamed to ListCatalogsByProject
     - ListEnvironmentDefinitions was renamed to listEnvironmentDefinitionsByProject
-    
-### Other Changes
 
 ## 1.0.0-beta.3 (2023-11-20)
 This release updates the Azure DevCenter library to use the 2023-04-01 GA API.

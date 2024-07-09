@@ -76,6 +76,7 @@ export interface SmbMultichannel {
 
 export interface StorageError {
   message?: string;
+  authenticationErrorDetail?: string;
   code?: string;
 }
 
@@ -124,6 +125,7 @@ export interface SharePropertiesInternal {
   leaseDuration?: LeaseDurationType;
   enabledProtocols?: string;
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 
 /** A permission (a security descriptor) at the share level. */
@@ -370,6 +372,8 @@ export interface ShareGetPropertiesHeaders {
   enabledProtocols?: string;
   /** Valid for NFS shares only. */
   rootSquash?: ShareRootSquash;
+  /** Version 2023-08-03 and newer. Specifies whether the snapshot virtual directory should be accessible at the root of share mount point when NFS is enabled. This header is only returned for shares, not for snapshots. */
+  enableSnapshotVirtualDirectoryAccess?: boolean;
   /** Error Code */
   errorCode?: string;
 }
@@ -1868,6 +1872,7 @@ export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
   enabledProtocols?: string;
   /** Root squash to set on the share.  Only valid for NFS shares. */
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 
 /** Contains response data for the create operation. */
@@ -2032,6 +2037,7 @@ export interface ShareSetPropertiesOptionalParams
   accessTier?: ShareAccessTier;
   /** Root squash to set on the share.  Only valid for NFS shares. */
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
 }
 
 /** Contains response data for the setProperties operation. */

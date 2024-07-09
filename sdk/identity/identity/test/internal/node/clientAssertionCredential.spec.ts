@@ -80,6 +80,6 @@ describe("ClientAssertionCredential (internal)", function () {
     }
 
     assert.equal(doGetTokenSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.lastCall.firstArg.clientAssertion, jwt);
+    assert.equal(doGetTokenSpy.lastCall.firstArg.clientAssertion, getAssertion);
   });
 });
