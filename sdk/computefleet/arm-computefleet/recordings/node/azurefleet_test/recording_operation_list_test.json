@@ -1,0 +1,96 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/providers/Microsoft.AzureFleet/operations?api-version=2024-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-computefleet-rest/1.0.0-beta.1 core-rest-pipeline/1.16.2 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1984",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 09 Jul 2024 02:03:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "db726383-417d-4e02-b5d0-4b042cf7eaa9",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/GetFleet3Min;399,Microsoft.Compute/GetFleet30Min;2599",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240709T020317Z:db726383-417d-4e02-b5d0-4b042cf7eaa9",
+        "x-ms-served-by": "e9a49a86-2da4-4db9-9139-4ea72081ef7c_133558780154846178",
+        "X-MSEdge-Ref": "Ref A: A04564CC119449C8A1A1B2CD7B8DFB6B Ref B: MAA201060515033 Ref C: 2024-07-09T02:03:15Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "origin": "user,system",
+            "name": "Microsoft.AzureFleet/fleets/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft Azure Fleet",
+              "resource": "Fleets",
+              "operation": "Get Azure Fleet",
+              "description": "Get properties of Azure Fleet resource"
+            }
+          },
+          {
+            "origin": "user,system",
+            "name": "Microsoft.AzureFleet/fleets/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft Azure Fleet",
+              "resource": "Fleets",
+              "operation": "Create or Update Azure Fleet",
+              "description": "Creates a new Azure Fleet resource or updates an existing one"
+            }
+          },
+          {
+            "origin": "user,system",
+            "name": "Microsoft.AzureFleet/fleets/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft Azure Fleet",
+              "resource": "Fleets",
+              "operation": "Delete Virtual Machine and Virtual Machine scale sets in a Azure Fleet resource",
+              "description": "Deletes all compute resources of Azure Fleet resource"
+            }
+          },
+          {
+            "origin": "user,system",
+            "name": "Microsoft.AzureFleet/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft Azure Fleet",
+              "resource": "Subscription",
+              "operation": "Register subscription for Microsoft.AzureFleet",
+              "description": "Registers Subscription with Microsoft.AzureFleet resource provider"
+            }
+          },
+          {
+            "origin": "user,system",
+            "name": "Microsoft.AzureFleet/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft Azure Fleet",
+              "resource": "Subscription",
+              "operation": "Unregister Subscription for Microsoft.AzureFleet",
+              "description": "Unregisters Subscription with Microsoft.AzureFleet resource provider"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

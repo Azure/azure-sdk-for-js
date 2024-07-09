@@ -14,7 +14,7 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { AzureFleetClient } from "../src/azureFleetClient.js";
+import { AzureFleetClient } from "../../src/azureFleetClient.js";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -23,7 +23,7 @@ export const testPollingOptions = {
 describe("AzureFleet test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: MongoClusterManagementClient;
+  let client: AzureFleetClient;
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
@@ -47,81 +47,58 @@ describe("AzureFleet test", () => {
     }
   });
 
-  it("mongoClusters create test", async function () {
-    const res = await client..createOrUpdate(
+  it("fleets create test", async function () {
+    const res = await client.fleets.createOrUpdate(
       resourceGroup,
       resourcename,
       {
         location,
         properties: {
-          administratorLogin: "mongoAdmin",
-          administratorLoginPassword: "Password01!",
-          nodeGroupSpecs: [
-            {
-              diskSizeGB: 128,
-              enableHa: true,
-              kind: "Shard",
-              nodeCount: 1,
-              sku: "M30",
-            },
-          ],
-          serverVersion: "5.0",
+          vmSizesProfile: [{
+            name: "Standard_DS1_v2"
+          }],
+          computeProfile: {
+            baseVirtualMachineProfile: {
+
+            }
+          }
         },
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
-  it("firerules create test", async function () {
-    const res = await client.firewallRules.createOrUpdate(
-      resourceGroup,
-      resourcename,
-      "testfilerule",
-      {
-        properties: {
-          startIpAddress: "0.0.0.0",
-          endIpAddress: "255.255.255.255"
-        },
-      },
-      testPollingOptions);
-    console.log(res)
-    // assert.equal(res.name, resourcename);
-  });
+  // it("fleets get test", async function () {
+  //   const res = await client.fleets.get(
+  //     resourceGroup,
+  //     resourcename
+  //   );
+  //   assert.equal(res.name, resourcename);
+  // });
 
-  it("mongoClusters get test", async function () {
-    const res = await client.mongoClusters.get(
-      resourceGroup,
-      resourcename
-    );
-    assert.equal(res.name, resourcename);
-  });
+  // it("fleets list test", async function () {
+  //   const resArray = new Array();
+  //   for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+  //     resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length, 1);
+  // });
 
-  it("mongoClusters list test", async function () {
+  // it("fleets delete test", async function () {
+  //   const resArray = new Array();
+  //   const res = await client.fleets.delete(resourceGroup, resourcename
+  //   )
+  //   for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+  //     resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length, 0);
+  // });
+
+  it("operation list test", async function () {
     const resArray = new Array();
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.operations.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("mongoClusters update test", async function () {
-    const res = await client.mongoClusters.update(
-      resourceGroup,
-      resourcename,
-      {
-        tags: {}
-      }
-    )
-    assert.equal(res.name, resourcename);
-  });
-
-  it("mongoClusters delete test", async function () {
-    const resArray = new Array();
-    const res = await client.mongoClusters.delete(resourceGroup, resourcename
-    )
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
+    assert.notEqual(resArray.length, 0);
   });
 })
