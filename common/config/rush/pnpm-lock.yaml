@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@microsoft/applicationinsights-web-snippet':
+    specifier: 1.1.2
+    version: 1.1.2
   '@rush-temp/abort-controller':
     specifier: file:./projects/abort-controller.tgz
     version: file:projects/abort-controller.tgz
@@ -2678,7 +2681,7 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/applicationinsights-web-snippet@1.1.2:
+   /@microsoft/applicationinsights-web-snippet@1.1.2:
     resolution: {integrity: sha512-qPoOk3MmEx3gS6hTc1/x8JWQG5g4BvRdH7iqZMENBsKCL927b7D7Mvl19bh3sW9Ucrg1fVrF+4hqShwQNdqLxQ==}
     dev: false
 

@@ -27,7 +27,7 @@ import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
-  const eventHubsConnectionString = env.EVENTHUB_JSON_CONNECTION_STRING || "";
+  const eventHubHostName = env.EVENTHUB_JSON_HOST_NAME || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
   let registry: SchemaRegistry;
@@ -41,7 +41,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
       createEventHubsClient({
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
-        eventHubsConnectionString,
+        eventHubHostName,
       }),
     );
     client.initialize({

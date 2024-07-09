@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';

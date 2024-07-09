@@ -70,11 +70,11 @@
     "rimraf": "^5.0.5",
     "cross-env": "^7.0.2",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "puppeteer": "^22.2.0",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ts-node": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/mocha": "^10.0.0"

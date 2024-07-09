@@ -21,7 +21,7 @@ import {
   DeletedShare,
   FileSharesRestoreOptionalParams,
   FileSharesLeaseOptionalParams,
-  FileSharesLeaseResponse
+  FileSharesLeaseResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface FileShares {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: FileSharesListOptionalParams
+    options?: FileSharesListOptionalParams,
   ): PagedAsyncIterableIterator<FileShareItem>;
   /**
    * Creates a new share under the specified account as described by request body. The share resource
@@ -61,7 +61,7 @@ export interface FileShares {
     accountName: string,
     shareName: string,
     fileShare: FileShare,
-    options?: FileSharesCreateOptionalParams
+    options?: FileSharesCreateOptionalParams,
   ): Promise<FileSharesCreateResponse>;
   /**
    * Updates share properties as specified in request body. Properties not mentioned in the request will
@@ -82,7 +82,7 @@ export interface FileShares {
     accountName: string,
     shareName: string,
     fileShare: FileShare,
-    options?: FileSharesUpdateOptionalParams
+    options?: FileSharesUpdateOptionalParams,
   ): Promise<FileSharesUpdateResponse>;
   /**
    * Gets properties of a specified share.
@@ -100,7 +100,7 @@ export interface FileShares {
     resourceGroupName: string,
     accountName: string,
     shareName: string,
-    options?: FileSharesGetOptionalParams
+    options?: FileSharesGetOptionalParams,
   ): Promise<FileSharesGetResponse>;
   /**
    * Deletes specified share under its account.
@@ -118,7 +118,7 @@ export interface FileShares {
     resourceGroupName: string,
     accountName: string,
     shareName: string,
-    options?: FileSharesDeleteOptionalParams
+    options?: FileSharesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Restore a file share within a valid retention days if share soft delete is enabled
@@ -138,7 +138,7 @@ export interface FileShares {
     accountName: string,
     shareName: string,
     deletedShare: DeletedShare,
-    options?: FileSharesRestoreOptionalParams
+    options?: FileSharesRestoreOptionalParams,
   ): Promise<void>;
   /**
    * The Lease Share operation establishes and manages a lock on a share for delete operations. The lock
@@ -157,6 +157,6 @@ export interface FileShares {
     resourceGroupName: string,
     accountName: string,
     shareName: string,
-    options?: FileSharesLeaseOptionalParams
+    options?: FileSharesLeaseOptionalParams,
   ): Promise<FileSharesLeaseResponse>;
 }

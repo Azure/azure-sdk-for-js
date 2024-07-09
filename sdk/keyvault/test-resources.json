@@ -309,14 +309,6 @@
       "type": "string",
       "value": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('primaryAccountName'))).primaryEndpoints.blob]"
     },
-    "BLOB_PRIMARY_STORAGE_ACCOUNT_KEY": {
-      "type": "string",
-      "value": "[listKeys(variables('primaryAccountName'), variables('mgmtApiVersion')).keys[0].value]"
-    },
-    "BLOB_STORAGE_SAS_TOKEN": {
-      "type": "string",
-      "value": "[listAccountSas(variables('primaryAccountName'), '2019-06-01', variables('accountSasProperties')).accountSasToken]"
-    },
     "BLOB_CONTAINER_NAME": {
       "type": "string",
       "value": "[variables('blobContainerName')]"
