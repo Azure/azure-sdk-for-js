@@ -5,3 +5,4 @@ stages:
     parameters:
       PackageName: "@azure/eventgrid-namespaces"
       ServiceDirectory: eventgrid
+      UseFederatedAuth: true
