@@ -15,6 +15,12 @@
       "metadata": {
         "description": "The location of the resource. By default, this is the same as the resource group."
       }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
@@ -22,7 +28,9 @@
     "cloudEventTopicName": "[concat(parameters('baseName'), '-ce')]",
     "customEventTopicName": "[concat(parameters('baseName'), '-cus')]",
     "serviceBusNamespaceName": "[concat(parameters('baseName'), '-ns')]",
-    "serviceBusQueueName": "[concat(parameters('baseName'), '-queue')]"
+    "serviceBusQueueName": "[concat(parameters('baseName'), '-queue')]",
+    "dataSenderRoleDefinitionId": "d5a91429-5739-47e2-a06b-3470a27159e7",
+    "dataContributorRoleDefinitionId": "1d8c3fe3-8864-474b-8749-01e3783e8157"
   },
   "resources": [
     {
@@ -92,6 +100,24 @@
           "properties": {}
         }
       ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataSender')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataSenderRoleDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataContributor')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataContributorRoleDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
     }
   ],
   "outputs": {
