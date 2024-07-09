@@ -124,6 +124,9 @@ export const recorderOptions: RecorderStartOptions = {
       },
     ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+    generalSanitizers: [
+      { regex: true, target: `(https://)([^/'",}]*)`, value: "https://endpoint/" },
+    ],
   },
 };
 
