@@ -58,6 +58,13 @@ export const recorderStartOptions: RecorderStartOptions = {
       },
     ],
   },
+
+  removeCentralSanitizers: [
+    // our own refresh token sanitizer above replaces the value with a valid JWT which is required for tests to work
+    "AZSDK3401",
+    // "name" as used in tag properties is not secret and does not need to be sanitized
+    "AZSDK3493",
+  ],
 };
 
 function getAuthority(endpoint: string): AzureAuthorityHosts | undefined {
