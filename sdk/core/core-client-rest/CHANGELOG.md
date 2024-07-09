@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Add an option to skip serialization for the request body when sending request.
+
 ### Other Changes
 
 ## 2.1.0 (2024-06-27)

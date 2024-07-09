@@ -106,6 +106,9 @@ function getContentType(body: any): string | undefined {
 
 export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
+
+  /** Skip serialization option for string body request */
+  skipSerialization?: boolean
 }
 
 function buildPipelineRequest(
@@ -114,7 +117,7 @@ function buildPipelineRequest(
   options: InternalRequestParameters = {},
 ): PipelineRequest {
   const requestContentType = getRequestContentType(options);
-  const { body, multipartBody } = getRequestBody(options.body, requestContentType);
+  const { body, multipartBody } = getRequestBody(options.body, requestContentType, options);
   const hasContent = body !== undefined || multipartBody !== undefined;
 
   const headers = createHttpHeaders({
@@ -153,7 +156,7 @@ interface RequestBody {
 /**
  * Prepares the body before sending the request
  */
-function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
+function getRequestBody(body?: unknown, contentType: string = "", options: InternalRequestParameters = {}): RequestBody {
   if (body === undefined) {
     return { body: undefined };
   }
@@ -163,6 +166,10 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (isReadableStream(body)) {
+    return { body };
+  }
+
+  if (options.skipSerialization && typeof body === "string") {
     return { body };
   }
 

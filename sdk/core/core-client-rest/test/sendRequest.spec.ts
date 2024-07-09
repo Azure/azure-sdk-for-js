@@ -363,6 +363,21 @@ describe("sendRequest", () => {
     });
   });
 
+  it("should send request without serialization for the string body request", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    const expectedBody = JSON.stringify({ foo: "foo" });
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.body, expectedBody);
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      body: expectedBody,
+      contentType: "application/json",
+      skipSerialization: true,
+    });
+  });
+
   it("should send request with undefined body", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
