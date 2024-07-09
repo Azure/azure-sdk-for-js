@@ -3,7 +3,7 @@
 ## 3.1.0-beta.1 (2024-05-13)
 Compared with version 3.0.0
     
-**Features**
+### Features Added
 
   - Added operation Databases.beginForceLinkToReplicationGroup
   - Added operation Databases.beginForceLinkToReplicationGroupAndWait
@@ -27,7 +27,7 @@ Compared with version 3.0.0
     
 ## 3.0.0 (2024-01-31)
     
-**Features**
+### Features Added
 
   - Added operation Databases.beginFlush
   - Added operation Databases.beginFlushAndWait
@@ -55,14 +55,14 @@ Compared with version 3.0.0
   - Enum KnownResourceState has a new value Scaling
   - Enum KnownResourceState has a new value ScalingFailed
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation PrivateEndpointConnections.delete
     
     
 ## 2.2.0 (2022-12-07)
     
-**Features**
+### Features Added
 
   - Added Interface Cluster
   - Added Interface Database
@@ -74,7 +74,7 @@ Compared with version 3.0.0
     
 ## 2.1.0 (2022-04-11)
     
-**Features**
+### Features Added
 
   - Added operation Databases.beginForceUnlink
   - Added operation Databases.beginForceUnlinkAndWait
