@@ -210,6 +210,9 @@
 # ServiceLabel: %DocumentTranslator
 # AzureSdkOwners: @joheredi
 
+# PRLabel: %Cognitive - Translator
+/sdk/translation/ai-translation-document-rest/ @hamshavathimunibyraiah
+
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
 /sdk/web-pubsub/ @vicancy
