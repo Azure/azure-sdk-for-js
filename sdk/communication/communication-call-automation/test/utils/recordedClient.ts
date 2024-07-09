@@ -123,7 +123,15 @@ export const recorderOptions: RecorderStartOptions = {
         actualConnString: env["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"] || undefined,
       },
     ],
-    bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+    bodyKeySanitizers: [
+      { 
+        jsonPath: "$.accessToken.token", 
+        value: fakeToken 
+      },
+      { 
+        jsonPath: "$.callbackUri", 
+        value: "https://endpoint" 
+      }],
     generalSanitizers: [
       { regex: true, target: `(https://)([^/'",}]*)`, value: "https://endpoint" },
     ],
