@@ -12,7 +12,7 @@ import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
-  HEALTH_INSIGHTS_ENDPOINT: "https://sanitized/"
+  HEALTH_INSIGHTS_ENDPOINT: "https://sanitized/",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
