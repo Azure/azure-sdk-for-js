@@ -7,13 +7,13 @@
 const dotenv = require("dotenv");
 const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
   { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 
 config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
+
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
@@ -198,7 +198,7 @@ function createRequestBody() {
 }
 
 async function main() {
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const client = new AzureHealthInsightsClient(endpoint, credential);
 
   // Create request body

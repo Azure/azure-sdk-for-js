@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { AzureHealthInsightsClient, getLongRunningPoller } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createRecorder, createTestClient } from "./utils/recordedClient";
 
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
@@ -203,7 +203,7 @@ describe("Limited Order Discrepancy Inference Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = await createClient(recorder);
+    client = await createTestClient(recorder);
   });
 
   afterEach(async function () {

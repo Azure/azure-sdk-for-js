@@ -41,17 +41,13 @@ After setup, you can choose which type of [credential][credential] from `@azure/
 As an example, [DefaultAzureCredential][defaultazurecredential]
 can be used to authenticate the client.
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
-AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
-
 ## Examples
 
 ### Create a RadiologyInsights asynchronous client
 
 ```typescript
-const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
-const credential = new AzureKeyCredential(apiKey);
+const credential = new DefaultAzureCredential();
 const client = RadiologyInsightsRestClient(endpoint, credential);
 ```
 
@@ -60,15 +56,17 @@ const client = RadiologyInsightsRestClient(endpoint, credential);
 ```typescript
 
 export async function main() {
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
-  // if you want to use DefaultAzureCredential, you need to be logged in through az portal
-  const client = AzureHealthInsightsClient(endpoint, new DefaultAzureCredential());
-  // if you need InteractiveBrowserCredential
-  const client = AzureHealthInsightsClient(endpoint, new InteractiveBrowserCredential({
-      clientId: process.env.CLIENT_ID,
-      tenantId: process.env.TENANT_ID,
-    }));
+ 
+ // if you want to use DefaultAzureCredential in you test, you can use the createTestCredential to do the correct switches between node and browser tests
+  import { createTestCredential } from "@azure-tools/test-credential";
+
+  export async function createTestClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
+  const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
+  const credential = createTestCredential();
+  return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
+}
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();

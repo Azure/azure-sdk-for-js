@@ -1,24 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createTestCredential } from "@azure-tools/test-credential";
 import {
   assertEnvironmentVariable,
   Recorder,
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "@azure/identity";
 import { Context } from "mocha";
 import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
-  HEALTH_INSIGHTS_ENDPOINT: "https://sanitized/",
-  HEALTH_INSIGHTS_KEY: "fake_key",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id",
+  HEALTH_INSIGHTS_ENDPOINT: "https://sanitized/"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -41,15 +35,8 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   return recorder;
 }
 
-export async function createClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
+export async function createTestClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
   const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
-  const key = assertEnvironmentVariable("HEALTH_INSIGHTS_KEY");
-  const credential = new AzureKeyCredential(key);
-  return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
-}
-
-export async function createDefaultClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
-  const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
-  const credential = new DefaultAzureCredential();
+  const credential = createTestCredential();
   return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
 }

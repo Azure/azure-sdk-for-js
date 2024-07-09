@@ -4,7 +4,7 @@
 /**
  * Displays the radiology procedure of the Radiology Insights request.
  */
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 import AzureHealthInsightsClient, {
@@ -17,7 +17,7 @@ import AzureHealthInsightsClient, {
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
+
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
@@ -225,7 +225,7 @@ function createRequestBody(): CreateJobParameters {
 }
 
 export async function main() {
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
   // Create request body

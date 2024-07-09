@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { AzureHealthInsightsClient, getLongRunningPoller } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createRecorder, createTestClient } from "./utils/recordedClient";
 
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
@@ -151,13 +151,13 @@ function findLateralityDiscrepancy(res: any): void {
       if ("code" in coding && "display" in coding && "system" in coding) {
         console.log(
           "   Coding: " +
-            coding.code +
-            ", " +
-            coding.display +
-            " (" +
-            coding.system +
-            "), type: " +
-            coding.type,
+          coding.code +
+          ", " +
+          coding.display +
+          " (" +
+          coding.system +
+          "), type: " +
+          coding.type,
         );
       }
     });
@@ -170,7 +170,7 @@ describe("Laterality Discrepancy Inference Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = await createClient(recorder);
+    client = await createTestClient(recorder);
   });
 
   afterEach(async function () {
