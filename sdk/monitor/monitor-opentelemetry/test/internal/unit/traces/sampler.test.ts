@@ -109,7 +109,7 @@ describe("Library/ApplicationInsightsSampler", () => {
     });
   });
   describe("#getSamplingHashCode()", () => {
-    it.skip("has results consistent with .net", () => {
+    it("has results consistent with .net", () => {
       // test array is produced by .net sdk test
       var testArray = [
         ["ss", 1179811869],

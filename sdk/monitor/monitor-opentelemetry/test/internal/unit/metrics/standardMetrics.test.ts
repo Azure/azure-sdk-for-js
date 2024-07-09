@@ -197,7 +197,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(metrics[3].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName");
   });
 
-  it.skip("should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
+  it("should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
     let resource = new Resource({});
     let serverSpan: any = {
       kind: SpanKind.SERVER,
@@ -227,7 +227,7 @@ describe("#StandardMetricsHandler", () => {
     assert.equal(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
   });
 
-  it.skip("should set service name based on service namespace if provided", async () => {
+  it("should set service name based on service namespace if provided", async () => {
     let resource = new Resource({});
     resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "testcloudRoleName";
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "serviceTestName";

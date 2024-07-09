@@ -261,7 +261,7 @@ describe("Library/TraceHandler", () => {
         });
     });
 
-    it.skip("should not track dependencies if configured off", (done) => {
+    it("should not track dependencies if configured off", (done) => {
       const httpConfig: HttpInstrumentationConfig = {
         enabled: true,
         ignoreOutgoingRequestHook: () => true,
