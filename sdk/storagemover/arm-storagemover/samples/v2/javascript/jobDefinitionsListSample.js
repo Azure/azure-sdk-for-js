@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Job Definitions in a Project.
  *
  * @summary Lists all Job Definitions in a Project.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobDefinitions_List.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_List.json
  */
 async function jobDefinitionsList() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function jobDefinitionsList() {
   for await (let item of client.jobDefinitions.list(
     resourceGroupName,
     storageMoverName,
-    projectName
+    projectName,
   )) {
     resArray.push(item);
   }
