@@ -30,7 +30,6 @@ describe("Log Exporter Scenarios", () => {
     after(() => {
       scenario.cleanup();
       nock.cleanAll();
-      ingest = [];
     });
 
     it.skip("should work", (done) => {
@@ -39,9 +38,11 @@ describe("Log Exporter Scenarios", () => {
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
           return scenario.flush().then(() => {
-            assertLogExpectation(ingest, scenario.expectation);
-            assertCount(ingest, scenario.expectation);
-            done();
+            setTimeout(() => {
+              assertLogExpectation(ingest, scenario.expectation);
+              assertCount(ingest, scenario.expectation);
+              done();
+            }, 1);
           });
         })
         .catch((e) => {
