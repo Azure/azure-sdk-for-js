@@ -26,7 +26,8 @@ export async function registerSchema(
       contentType: buildContentType(format) as any,
       body: schemaContent,
       ...options,
-    });
+      skipSerialization: true,
+    } as any);
   if (isUnexpected(response)) {
     throw new RestError(response.body.error.message, {
       code: response.body.error.code,

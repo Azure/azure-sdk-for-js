@@ -129,5 +129,4 @@ export enum KnownSchemaFormats {
 export type SchemaContentTypeValues =
   | "application/json; serialization=Avro"
   | "application/json; serialization=Json"
-  | "text/plain; charset=utf-8"
-  | "text/vnd.ms.protobuf";
+  | "text/plain; charset=utf-8";

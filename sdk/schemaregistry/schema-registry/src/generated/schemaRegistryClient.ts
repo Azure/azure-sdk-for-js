@@ -21,7 +21,7 @@ export interface SchemaRegistryClientOptions extends ClientOptions {
 export default function createClient(
   fullyQualifiedNamespace: string,
   credentials: TokenCredential,
-  { apiVersion = "2021-10", ...options }: SchemaRegistryClientOptions = {},
+  { apiVersion = "2022-10", ...options }: SchemaRegistryClientOptions = {},
 ): SchemaRegistryClient {
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? `https://${fullyQualifiedNamespace}`;

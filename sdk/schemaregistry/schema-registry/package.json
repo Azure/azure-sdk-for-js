@@ -89,11 +89,10 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-paging": "^1.5.0",
     "@azure/logger": "^1.0.0",
-    "@azure-rest/core-client": "^1.1.7",
+    "@azure-rest/core-client": "^2.1.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure-rest/core-client": "^1.1.7",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
