@@ -108,7 +108,7 @@ export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
 
   /** Skip serialization option for string body request */
-  skipSerialization?: boolean
+  skipSerialization?: boolean;
 }
 
 function buildPipelineRequest(
@@ -156,9 +156,17 @@ interface RequestBody {
 /**
  * Prepares the body before sending the request
  */
-function getRequestBody(body?: unknown, contentType: string = "", options: InternalRequestParameters = {}): RequestBody {
+function getRequestBody(
+  body?: unknown,
+  contentType: string = "",
+  options: InternalRequestParameters = {},
+): RequestBody {
   if (body === undefined) {
     return { body: undefined };
+  }
+
+  if (options.skipSerialization) {
+    return { body: body as RequestBodyType };
   }
 
   if (typeof FormData !== "undefined" && body instanceof FormData) {
@@ -166,10 +174,6 @@ function getRequestBody(body?: unknown, contentType: string = "", options: Inter
   }
 
   if (isReadableStream(body)) {
-    return { body };
-  }
-
-  if (options.skipSerialization && typeof body === "string") {
     return { body };
   }
 
