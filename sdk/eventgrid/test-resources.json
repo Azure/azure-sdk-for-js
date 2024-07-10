@@ -124,7 +124,7 @@
       "type": "Microsoft.EventGrid/namespaces",
       "apiVersion": "2024-06-01-preview",
       "name": "[variables('egNamespaceName')]",
-      "location": "[parameters('location')]",
+      "location": "eastus",
       "sku": {
         "name": "Standard",
         "capacity": 1
