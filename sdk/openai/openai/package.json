@@ -42,7 +42,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "generate": "tsp-client update",
-    "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
+    "customize": "rimraf --glob src && dev-tool customization apply -s sources/generated/src && npm run format",
     "bundle": "tsc -p . && dev-tool run bundle",
     "build": "npm run clean && npm run bundle && dev-tool run extract-api",
     "build:test": "npm run bundle",
@@ -125,11 +125,11 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "puppeteer": "^22.2.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^5.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   },
   "dependencies": {
     "@azure-rest/core-client": "^1.1.7",

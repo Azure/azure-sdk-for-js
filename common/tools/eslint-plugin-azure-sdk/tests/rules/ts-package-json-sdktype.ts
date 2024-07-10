@@ -155,14 +155,14 @@ const examplePackageGood = `{
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^10.2.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -309,14 +309,14 @@ const examplePackageBad = `{
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^10.2.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }

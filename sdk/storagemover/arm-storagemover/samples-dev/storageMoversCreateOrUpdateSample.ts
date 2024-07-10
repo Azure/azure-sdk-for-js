@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a top-level Storage Mover resource.
  *
  * @summary Creates or updates a top-level Storage Mover resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/StorageMovers_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/StorageMovers_CreateOrUpdate.json
  */
 async function storageMoversCreateOrUpdate() {
   const subscriptionId =
@@ -30,14 +30,14 @@ async function storageMoversCreateOrUpdate() {
   const storageMover: StorageMover = {
     description: "Example Storage Mover Description",
     location: "eastus2",
-    tags: { key1: "value1", key2: "value2" }
+    tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const result = await client.storageMovers.createOrUpdate(
     resourceGroupName,
     storageMoverName,
-    storageMover
+    storageMover,
   );
   console.log(result);
 }

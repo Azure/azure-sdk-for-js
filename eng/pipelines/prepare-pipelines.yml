@@ -6,5 +6,5 @@ extends:
     Repository: $(Build.Repository.Name)
     Prefix: js
     CIConventionOptions: ''
-    UPConventionOptions: '--variablegroups 24 58 76 56 93'
+    UPConventionOptions: '--variablegroups 24 58 76 93'
     TestsConventionOptions: '--variablegroups 64'

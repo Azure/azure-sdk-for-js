@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileServicesGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileServicesGet.json
  */
 async function getFileServices() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getFileServices() {
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.fileServices.getServiceProperties(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }

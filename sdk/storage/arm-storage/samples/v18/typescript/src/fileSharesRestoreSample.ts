@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Restore a file share within a valid retention days if share soft delete is enabled
  *
  * @summary Restore a file share within a valid retention days if share soft delete is enabled
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesRestore.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesRestore.json
  */
 async function restoreShares() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function restoreShares() {
   const shareName = "share1249";
   const deletedShare: DeletedShare = {
     deletedShareName: "share1249",
-    deletedShareVersion: "1234567890"
+    deletedShareVersion: "1234567890",
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -36,7 +36,7 @@ async function restoreShares() {
     resourceGroupName,
     accountName,
     shareName,
-    deletedShare
+    deletedShare,
   );
   console.log(result);
 }

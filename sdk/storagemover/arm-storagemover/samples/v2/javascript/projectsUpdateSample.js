@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates properties for a Project resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for a Project resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Projects_Update.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Projects_Update.json
  */
 async function projectsUpdate() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function projectsUpdate() {
     resourceGroupName,
     storageMoverName,
     projectName,
-    project
+    project,
   );
   console.log(result);
 }

@@ -57,9 +57,6 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     // ACCOUNT_TOKEN: `${mockAccountKey}`,
-    AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockAccountKey}`,
-    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     // MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     // MD_ACCOUNT_KEY: `${mockAccountKey}`,
     // MD_ACCOUNT_SAS: `${mockSas}`,
@@ -115,9 +112,6 @@ export const recorderEnvSetupWithCopySource: RecorderStartOptions = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     // ACCOUNT_TOKEN: `${mockAccountKey}`,
-    AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockAccountKey}`,
-    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     // MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     // MD_ACCOUNT_KEY: `${mockAccountKey}`,
     // MD_ACCOUNT_SAS: `${mockSas}`,

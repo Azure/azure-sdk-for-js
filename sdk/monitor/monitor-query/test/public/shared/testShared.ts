@@ -21,13 +21,13 @@ const envSetupForPlayback: Record<string, string> = {
   METRICS_RESOURCE_ID: "metrics-arm-resource-id",
   LOGS_RESOURCE_ID: replacementForLogsResourceId,
   MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
-  AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
 };
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 export interface RecorderAndLogsClient {
   client: LogsQueryClient;
@@ -84,10 +84,10 @@ export async function createRecorderAndMetricsClient(
   recorder: Recorder,
 ): Promise<RecorderAndMetricsClient> {
   await recorder.start(recorderOptions);
-  const client = new MetricsQueryClient(
-    createTestCredential(),
-    recorder.configureClientOptions({}),
-  );
+  const client = new MetricsQueryClient(createTestCredential(), {
+    audience: "https://management.azure.com",
+    ...recorder.configureClientOptions({}),
+  });
 
   return {
     client: client,

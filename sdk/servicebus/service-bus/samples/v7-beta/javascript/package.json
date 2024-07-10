@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
   "dependencies": {
-    "@azure/service-bus": "next",
+    "@azure/service-bus": "7.8.1-beta.1",
     "dotenv": "latest",
     "ws": "^8.0.0",
     "https-proxy-agent": "^7.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.2.1",
     "@azure/abort-controller": "^1.0.0"
   }
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the servers in a given subscription.
  *
  * @summary List all the servers in a given subscription.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServersList.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServersList.json
  */
 async function listServersInASubscription() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listServersInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.servers.list()) {
