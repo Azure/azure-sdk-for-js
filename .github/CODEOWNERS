@@ -210,6 +210,9 @@
 # ServiceLabel: %DocumentTranslator
 # AzureSdkOwners: @joheredi
 
+# PRLabel: %Cognitive - Translator
+/sdk/translation/ai-translation-document-rest/ @hamshavathimunibyraiah
+
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
 /sdk/web-pubsub/ @vicancy
@@ -301,7 +304,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/maps/ @dubiety @andykao1213
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger @joheredi
+/sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
+
+# Managment API review files
+/sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 # Management Plane
 # PRLabel: %Mgmt
