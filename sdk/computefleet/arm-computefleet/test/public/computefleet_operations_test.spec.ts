@@ -35,7 +35,7 @@ describe("AzureFleet test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureFleetClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
@@ -47,6 +47,9 @@ describe("AzureFleet test", () => {
     }
   });
 
+  // first create a networkSecurityGroups named "testnsg" with eastus2euap on portal
+  // second create a virtual network named "czwtestvn" with eastus2euap and config the ip address as 172.16.0.0/16 when creating a vitrual network on portal
+  // third create a subnet named "testsub" and before click add button, enable private subnet and link to networkSecurityGroups
   it("fleets create test", async function () {
     const res = await client.fleets.createOrUpdate(
       resourceGroup,
@@ -54,49 +57,85 @@ describe("AzureFleet test", () => {
       {
         location,
         properties: {
-          vmSizesProfile: [{
-            name: "Standard_DS1_v2"
-          }],
-          computeProfile: {
-            baseVirtualMachineProfile: {
-              storageProfile: {
-                osDisk: {
-                  osType: "Windows",
-                  createOption: "FromImage",
-                  managedDisk: {
-                    storageAccountType: "Standard_LRS"
+          "spotPriorityProfile": {
+            "maxPricePerVM": 1,
+            "evictionPolicy": "Delete",
+            "allocationStrategy": "LowestPrice",
+            "maintain": true,
+            "capacity": 1
+          },
+          "vmSizesProfile": [
+            {
+              "name": "Standard_D2s_v3"
+            },
+            {
+              "name": "Standard_D4s_v3"
+            },
+            {
+              "name": "Standard_E2s_v3"
+            }
+          ],
+          "computeProfile": {
+            "baseVirtualMachineProfile": {
+              "storageProfile": {
+                "imageReference": {
+                  "publisher": "canonical",
+                  "offer": "0001-com-ubuntu-server-focal",
+                  "sku": "20_04-lts-gen2",
+                  "version": "latest"
+                },
+                "osDisk": {
+                  "createOption": "fromImage",
+                  "caching": "ReadWrite",
+                  "osType": "Linux",
+                  "managedDisk": {
+                    "storageAccountType": "Premium_LRS"
                   }
                 }
               },
-              osProfile: {
-                computerNamePrefix: "fleet",
-                adminUsername: "azureuser",
-                adminPassword: "SecretPlaceholder"
+              "licenseType": "None",
+              "osProfile": {
+                "adminUsername": "azureuser",
+                "adminPassword": "testComputefleet01",
+                "computerNamePrefix": "testfleet"
               },
-              networkProfile: {
-                networkApiVersion: "2020-11-01",
-                networkInterfaceConfigurations: [{
-                  name: "testvnProfile",
-                  properties: {
-                    ipConfigurations: [{
-                      name: "testip",
-                      properties: {
-                        subnet: {
-                          id: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/testvn/subnets/default"
+              "securityProfile": {
+                "securityType": "TrustedLaunch",
+                "uefiSettings": {
+                  "secureBootEnabled": true,
+                  "vTpmEnabled": false
+                }
+              },
+              "networkProfile": {
+                "networkApiVersion": "2020-11-01",
+                "networkInterfaceConfigurations": [
+                  {
+                    "name": "testnsg",
+                    "properties": {
+                      "primary": true,
+                      "enableAcceleratedNetworking": false,
+                      "networkSecurityGroup": {
+                        "id": "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/networkSecurityGroups/testnsg"
+                      },
+                      "ipConfigurations": [
+                        {
+                          "name": "testvn-ipConfig",
+                          "properties": {
+                            "primary": true,
+                            "subnet": {
+                              "id": "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/czwtestvn/subnets/testsub"
+                            },
+                          }
                         }
-                      }
-                    }]
+                      ]
+                    }
                   }
-                }]
+                ]
               }
             },
-
+            "platformFaultDomainCount": 1,
+            "computeApiVersion": "2023-09-01"
           },
-          regularPriorityProfile: {
-            capacity: 1,
-            minCapacity: 0,
-            allocationStrategy: "LowestPrice"
-          }
         },
       },
       testPollingOptions);
