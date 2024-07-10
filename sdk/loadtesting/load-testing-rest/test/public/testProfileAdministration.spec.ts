@@ -68,7 +68,9 @@ describe("Test Profile Creation", () => {
   });
 
   it("should get the created test profile", async () => {
-    const result = await client.path("/test-profiles/{testProfileId}", "sample-test-profile-1").get();
+    const result = await client
+      .path("/test-profiles/{testProfileId}", "sample-test-profile-1")
+      .get();
 
     assert.equal("200", result.status);
   });

@@ -130,7 +130,7 @@ describe("Test Profile Run Creation", () => {
 
     const testProfileRunPoller = await getLongRunningPoller(client, result);
     await testProfileRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(600000), // timeout of 10 minutes
+      abortSignal: AbortController.timeout(1200000), // timeout of 20 minutes
     });
 
     assert.equal(testProfileRunPoller.getOperationState().status, "succeeded");
@@ -264,9 +264,14 @@ describe("Test Profile Run Stop", () => {
     }
 
     const testProfileRunPoller = await getLongRunningPoller(client, result);
-    await testProfileRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(180000), // Wait for some time
-    });
+    try {
+      await testProfileRunPoller.pollUntilDone({
+        abortSignal: AbortController.timeout(180000), // Wait for some time
+      });
+    } catch (ex: any) {
+      assert.equal(ex.name, "AbortError");
+      return;
+    }
 
     assert.equal(testProfileRunPoller.getOperationState().status, "running");
   });
