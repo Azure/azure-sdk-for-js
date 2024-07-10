@@ -71,10 +71,14 @@ export type ContentType = "TwoFactorAuthentication" | "AccountNotification" | "C
 
 // @public
 export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalParams {
+    // (undocumented)
+    brandDetails: BrandDetails | undefined;
 }
 
 // @public
 export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
+    // (undocumented)
+    campaignDetails: CampaignDetails | undefined;
 }
 
 // @public

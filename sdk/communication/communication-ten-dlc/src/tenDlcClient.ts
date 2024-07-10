@@ -86,7 +86,9 @@ export class TenDlcClient {
   public upsertUSBrand(
     brandId: string,
     id: string,
-    options: CreateOrUpdateBrandOptions = {}
+    options: CreateOrUpdateBrandOptions = {
+      brandDetails: {}
+    }
   ): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-upsertUSBrand", options);
     try {
@@ -105,7 +107,9 @@ export class TenDlcClient {
   public upsertUSCampaign(
     campaingId: string,
     id: string,
-    options: CreateOrUpdateCampaignOptions = {}
+    options: CreateOrUpdateCampaignOptions = {
+      campaignDetails: {}
+    }
   ): Promise<USCampaign> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-upsertUSCampaign",

@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import {
+  BrandDetails,
+  CampaignDetails,
   TenDlcDeleteUSBrandOptionalParams,
   TenDlcDeleteUSCampaignOptionalParams,
   TenDlcGetUSBrandOptionalParams,
@@ -16,12 +18,16 @@ import {
 /**
  * Additional options for the Create or update brand request.
  */
-export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalParams {}
+export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalParams {
+  brandDetails: BrandDetails | undefined;
+}
 
 /**
  * Additional options for the Create or update campaign request.
  */
-export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {}
+export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
+  campaignDetails: CampaignDetails | undefined;
+}
 
 /**
  * Additional options for the Delete brand request.
