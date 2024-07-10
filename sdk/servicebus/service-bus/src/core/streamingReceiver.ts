@@ -7,12 +7,7 @@ import { ConnectionContext } from "../connectionContext";
 import { ReceiverHelper } from "./receiverHelper";
 
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import {
-  RetryOperationType,
-  MessagingError,
-  RetryOptions,
-  ConditionErrorNameMapper,
-} from "@azure/core-amqp";
+import { RetryOperationType, MessagingError, ConditionErrorNameMapper } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
@@ -61,10 +56,6 @@ export class StreamingReceiver extends MessageReceiver {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
-  /**
-   *Retry policy options that determine the mode, number of retries, retry interval etc.
-   */
-  private _retryOptions: RetryOptions;
 
   private _receiverHelper: ReceiverHelper;
 
@@ -144,8 +135,6 @@ export class StreamingReceiver extends MessageReceiver {
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-
-    this._retryOptions = options?.retryOptions || {};
 
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,

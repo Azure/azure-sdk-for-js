@@ -11,6 +11,7 @@ import {
   RetryConfig,
   RetryOperationType,
   retry,
+  RetryOptions,
 } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
@@ -211,7 +212,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @returns A Promise that resolves when the link has been properly initialized
    * @throws `AbortError` if the link has been closed via 'close'
    */
-  async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
+  async initLink(
+    options: LinkOptionsT<LinkT>,
+    retryOptions?: RetryOptions,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void> {
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
     await this._context.readyToOpenLink();
 
@@ -227,7 +232,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         const retryConfig: RetryConfig<void> = {
           connectionId: this._context.connectionId,
           operationType: RetryOperationType.receiverLink,
-          retryOptions: undefined,
+          retryOptions,
           abortSignal,
           operation: () => this._initLinkImpl(options, abortSignal),
         };

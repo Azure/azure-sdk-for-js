@@ -111,7 +111,7 @@ describe("LinkEntity unit tests", () => {
         connectionContext["isConnectionClosing"] = () => true;
 
         try {
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, { maxRetries: 1 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -126,7 +126,7 @@ describe("LinkEntity unit tests", () => {
             old.apply(linkEntity);
           };
 
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, { maxRetries: 1 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -141,7 +141,7 @@ describe("LinkEntity unit tests", () => {
             old.apply(linkEntity);
           };
 
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, { maxRetries: 1 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -156,7 +156,7 @@ describe("LinkEntity unit tests", () => {
             connectionContext["isConnectionClosing"] = () => true;
           };
 
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, { maxRetries: 1 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -228,7 +228,7 @@ describe("LinkEntity unit tests", () => {
       };
 
       try {
-        await linkEntity.initLink({});
+        await linkEntity.initLink({}, { maxRetries: 1 });
         assert.fail("Should have thrown");
       } catch (err: any) {
         assert.equal(err.message, "SPECIAL ERROR THROWN FROM NEGOTIATECLAIM");
@@ -237,7 +237,7 @@ describe("LinkEntity unit tests", () => {
 
     it("abortSignal - simple abort signal flow", async () => {
       try {
-        await linkEntity.initLink({}, {
+        await linkEntity.initLink({}, undefined, {
           aborted: true,
         } as AbortSignalLike);
         assert.fail("Should have thrown.");
@@ -264,7 +264,7 @@ describe("LinkEntity unit tests", () => {
       };
 
       try {
-        await linkEntity.initLink({}, abortController.signal);
+        await linkEntity.initLink({}, undefined, abortController.signal);
         assert.fail("Should have thrown");
       } catch (err: any) {
         assert.equal(err.name, "AbortError");
@@ -298,7 +298,7 @@ describe("LinkEntity unit tests", () => {
           return old.call(linkEntity, props);
         };
 
-        await linkEntity.initLink({}, abortController.signal);
+        await linkEntity.initLink({}, undefined, abortController.signal);
         assert.fail("Should have thrown");
       } catch (err: any) {
         assert.isTrue(sawAbortSignal, "Should have seen the abortSignal.");

@@ -282,7 +282,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       if (!options) {
         options = this._createSenderOptions();
       }
-      await this.initLink(options, abortSignal);
+      await this.initLink(options, this._retryOptions, abortSignal);
     } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       logger.logError(
