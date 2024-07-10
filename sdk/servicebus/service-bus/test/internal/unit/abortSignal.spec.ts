@@ -341,7 +341,8 @@ describe("AbortSignal", () => {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        // with retry
+        assert.equal(err.message, `Error 0: AbortError: ${StandardAbortMessage}`);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -371,7 +372,8 @@ describe("AbortSignal", () => {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        // with retry
+        assert.equal(err.message, `Error 0: AbortError: ${StandardAbortMessage}`);
         assert.equal(err.name, "AbortError");
       }
     });

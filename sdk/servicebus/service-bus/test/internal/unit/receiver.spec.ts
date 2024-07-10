@@ -106,7 +106,7 @@ describe("Receiver unit tests", () => {
         await messageReceiver2["_init"]({} as ReceiverOptions);
         assert.fail("Should throw");
       } catch (err: any) {
-        assert.equal("Link has been permanently closed. Not reopening.", err.message);
+        assert.equal("Error 0: AbortError: Link has been permanently closed. Not reopening.", err.message);
         assert.equal(err.name, "AbortError");
         assert.isFalse(negotiateClaimWasCalled);
       }

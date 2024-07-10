@@ -80,7 +80,7 @@ describe("LinkEntity unit tests", () => {
         await linkEntity.initLink({});
         assert.fail("Should have thrown");
       } catch (err: any) {
-        assert.equal(err.message, "Link has been permanently closed. Not reopening.");
+        assert.equal(err.message, "Error 0: AbortError: Link has been permanently closed. Not reopening.");
         assert.equal(err.name, "AbortError");
       }
       assertLinkEntityClosedPermanently();
@@ -111,7 +111,7 @@ describe("LinkEntity unit tests", () => {
         connectionContext["isConnectionClosing"] = () => true;
 
         try {
-          await linkEntity.initLink({}, { maxRetries: 1 });
+          await linkEntity.initLink({}, { maxRetries: 0 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -126,7 +126,7 @@ describe("LinkEntity unit tests", () => {
             old.apply(linkEntity);
           };
 
-          await linkEntity.initLink({}, { maxRetries: 1 });
+          await linkEntity.initLink({}, { maxRetries: 0 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -141,7 +141,7 @@ describe("LinkEntity unit tests", () => {
             old.apply(linkEntity);
           };
 
-          await linkEntity.initLink({}, { maxRetries: 1 });
+          await linkEntity.initLink({}, { maxRetries: 0 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -156,7 +156,7 @@ describe("LinkEntity unit tests", () => {
             connectionContext["isConnectionClosing"] = () => true;
           };
 
-          await linkEntity.initLink({}, { maxRetries: 1 });
+          await linkEntity.initLink({}, { maxRetries: 0 });
           assert.fail("Should have thrown");
         } catch (err: any) {
           assertInitAbortError(err);
@@ -164,7 +164,7 @@ describe("LinkEntity unit tests", () => {
       });
 
       function assertInitAbortError(err: any): void {
-        assert.equal(err.message, "Connection is reopening, aborting link initialization.");
+        assert.equal(err.message, "Error 0: ServiceBusError: Connection is reopening, aborting link initialization.");
         assert.equal(err.name, "ServiceBusError");
         assert.isTrue(
           err.retryable,
@@ -216,7 +216,7 @@ describe("LinkEntity unit tests", () => {
         await linkEntity.initLink({});
         assert.fail("Should throw");
       } catch (err: any) {
-        assert.equal("Link has been permanently closed. Not reopening.", err.message);
+        assert.equal("Error 0: AbortError: Link has been permanently closed. Not reopening.", err.message);
         assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
         assert.isFalse(negotiateClaimSpy.called, "We shouldn't attempt to reopen the link.");
       }
@@ -228,10 +228,10 @@ describe("LinkEntity unit tests", () => {
       };
 
       try {
-        await linkEntity.initLink({}, { maxRetries: 1 });
+        await linkEntity.initLink({}, { maxRetries: 0 });
         assert.fail("Should have thrown");
       } catch (err: any) {
-        assert.equal(err.message, "SPECIAL ERROR THROWN FROM NEGOTIATECLAIM");
+        assert.equal(err.message, "Error 0: Error: SPECIAL ERROR THROWN FROM NEGOTIATECLAIM");
       }
     });
 
@@ -304,7 +304,7 @@ describe("LinkEntity unit tests", () => {
         assert.isTrue(sawAbortSignal, "Should have seen the abortSignal.");
         assert.deepNestedInclude(err, {
           name: "AbortError",
-          message: "The operation was aborted.",
+          message: "Error 0: AbortError: The operation was aborted.",
         });
       }
     });
