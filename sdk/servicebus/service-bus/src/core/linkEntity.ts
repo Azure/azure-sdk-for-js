@@ -8,6 +8,9 @@ import {
   RequestResponseLink,
   StandardAbortMessage,
   isSasTokenProvider,
+  RetryConfig,
+  RetryOperationType,
+  retry,
 } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
@@ -221,7 +224,15 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         this._logger.verbose(
           `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`,
         );
-        return this._initLinkImpl(options, abortSignal);
+        const retryConfig: RetryConfig<void> = {
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.receiverLink,
+          retryOptions: undefined,
+          abortSignal,
+          operation: () => this._initLinkImpl(options, abortSignal),
+        };
+
+        return retry<void>(retryConfig);
       },
       {
         abortSignal: abortSignal,
