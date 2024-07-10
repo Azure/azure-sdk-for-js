@@ -14,8 +14,8 @@ describe("Test Profile Run Creation", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   let readStreamTestFile: fs.ReadStream;
-  let testProfileId = "sample-test-profile-2";
-  let testProfileRunId = "sample-test-profile-run-2";
+  let testProfileId = "sample-test-profile-20";
+  let testProfileRunId = "sample-test-profile-run-20";
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -118,7 +118,7 @@ describe("Test Profile Run Creation", () => {
         contentType: "application/merge-patch+json",
         body: {
           displayName: "Sample Test Profile Run",
-          testProfileId: "sample-test-profile",
+          testProfileId: testProfileId,
         },
       });
 
@@ -163,8 +163,8 @@ describe("Test Profile Run Stop", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   let readStreamTestFile: fs.ReadStream;
-  let testProfileId = "sample-test-profile-3";
-  let testProfileRunId = "sample-test-profile-run-3";
+  let testProfileId = "sample-test-profile-35";
+  let testProfileRunId = "sample-test-profile-run-35";
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -253,7 +253,7 @@ describe("Test Profile Run Stop", () => {
         contentType: "application/merge-patch+json",
         body: {
           displayName: "Sample Test Profile Run",
-          testProfileId: "sample-test-profile",
+          testProfileId: testProfileId,
         },
       });
 
