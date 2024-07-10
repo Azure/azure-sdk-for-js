@@ -1,14 +1,10 @@
 # Release History
 
-## 1.9.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.9.1 (2024-07-10)
 
 ### Bugs Fixed
 
-### Other Changes
+- Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
 
 ## 1.9.0 (2024-04-09)
 
