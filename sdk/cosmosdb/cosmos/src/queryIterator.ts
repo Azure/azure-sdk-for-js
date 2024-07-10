@@ -105,6 +105,7 @@ export class QueryIterator<T> {
           throw error;
         }
       }
+
       const feedResponse = new FeedResponse<T>(
         response.result,
         response.headers,
