@@ -8,8 +8,7 @@ import {
   PagedTestProfileOutput,
   TestOutput,
   PagedTestOutput,
-  FileTypeOutput,
-  FileStatusOutput,
+  TestFileInfoOutput,
   PagedTestFileInfoOutput,
   TestAppComponentsOutput,
   TestServerMetricConfigOutput,
@@ -17,6 +16,7 @@ import {
   PagedTestProfileRunOutput,
   TestRunOutput,
   PagedTestRunOutput,
+  TestRunFileInfoOutput,
   MetricNamespaceCollectionOutput,
   MetricDefinitionCollectionOutput,
   MetricsOutput,
@@ -177,13 +177,7 @@ export interface LoadTestAdministrationListTestsDefaultResponse extends HttpResp
 /** The request has succeeded and a new resource has been created as a result. */
 export interface LoadTestAdministrationUploadTestFile201Response extends HttpResponse {
   status: "201";
-  body: {
-    url?: string;
-    fileType?: FileTypeOutput;
-    expireDateTime?: string;
-    validationStatus?: FileStatusOutput;
-    validationFailureDetails?: string;
-  };
+  body: TestFileInfoOutput;
 }
 
 export interface LoadTestAdministrationUploadTestFileDefaultHeaders {
@@ -200,13 +194,7 @@ export interface LoadTestAdministrationUploadTestFileDefaultResponse extends Htt
 /** The request has succeeded. */
 export interface LoadTestAdministrationGetTestFile200Response extends HttpResponse {
   status: "200";
-  body: {
-    url?: string;
-    fileType?: FileTypeOutput;
-    expireDateTime?: string;
-    validationStatus?: FileStatusOutput;
-    validationFailureDetails?: string;
-  };
+  body: TestFileInfoOutput;
 }
 
 export interface LoadTestAdministrationGetTestFileDefaultHeaders {
@@ -508,13 +496,7 @@ export interface LoadTestRunListTestRunsDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface LoadTestRunGetTestRunFile200Response extends HttpResponse {
   status: "200";
-  body: {
-    url?: string;
-    fileType?: FileTypeOutput;
-    expireDateTime?: string;
-    validationStatus?: FileStatusOutput;
-    validationFailureDetails?: string;
-  };
+  body: TestRunFileInfoOutput;
 }
 
 export interface LoadTestRunGetTestRunFileDefaultHeaders {

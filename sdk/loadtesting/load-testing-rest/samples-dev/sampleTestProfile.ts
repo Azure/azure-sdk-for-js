@@ -41,7 +41,7 @@ async function main() {
     throw testCreationResult.body.error;
   }
 
-  console.log("Test Created with ID: " + testCreationResult.body.testId); // Remove
+  console.log("Test Created with ID: " + testCreationResult.body.testId);
 
   // Step 2 : Upload test plan for the test
   const fileUploadResult = await client
@@ -55,7 +55,7 @@ async function main() {
     throw fileUploadResult.body.error;
   }
 
-  console.log("File uploaded successfully."); // Remove
+  console.log("File uploaded successfully.");
 
   let fileValidationResult;
   const fileValidationPoller = await getLongRunningPoller(client, fileUploadResult);
@@ -74,7 +74,7 @@ async function main() {
     );
   }
 
-  console.log("File uploaded and validated successfully."); // Remove
+  console.log("File uploaded and validated successfully.");
 
   // Step 3 : Create a test profile
   const testProfileCreationResult = await client
@@ -108,7 +108,7 @@ async function main() {
 
   console.log(
     "TestProfile created successfully with ID: " + testProfileCreationResult.body.testProfileId,
-  ); // Remove
+  );
 
   // Step 4 : Create Test Profile Run
   const testProfileRunCreationResult = await client
@@ -149,7 +149,7 @@ async function main() {
     throw new Error("Test Profile Run failed to complete with error: " + testProfileRunErrors);
   }
 
-  console.log("TestProfileRun completed successfully."); // Remove
+  console.log("TestProfileRun completed successfully.");
 }
 
 main().catch(console.error);

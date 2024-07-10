@@ -569,13 +569,7 @@ export interface LoadTestAdministrationGetTestDefaultResponse extends HttpRespon
 // @public
 export interface LoadTestAdministrationGetTestFile200Response extends HttpResponse {
     // (undocumented)
-    body: {
-        url?: string;
-        fileType?: FileTypeOutput;
-        expireDateTime?: string;
-        validationStatus?: FileStatusOutput;
-        validationFailureDetails?: string;
-    };
+    body: TestFileInfoOutput;
     // (undocumented)
     status: "200";
 }
@@ -688,13 +682,7 @@ export interface LoadTestAdministrationUploadTestFile {
 // @public
 export interface LoadTestAdministrationUploadTestFile201Response extends HttpResponse {
     // (undocumented)
-    body: {
-        url?: string;
-        fileType?: FileTypeOutput;
-        expireDateTime?: string;
-        validationStatus?: FileStatusOutput;
-        validationFailureDetails?: string;
-    };
+    body: TestFileInfoOutput;
     // (undocumented)
     status: "201";
 }
@@ -1025,13 +1013,7 @@ export interface LoadTestRunGetTestRunFile {
 // @public
 export interface LoadTestRunGetTestRunFile200Response extends HttpResponse {
     // (undocumented)
-    body: {
-        url?: string;
-        fileType?: FileTypeOutput;
-        expireDateTime?: string;
-        validationStatus?: FileStatusOutput;
-        validationFailureDetails?: string;
-    };
+    body: TestRunFileInfoOutput;
     // (undocumented)
     status: "200";
 }
