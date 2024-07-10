@@ -15,7 +15,7 @@ dotenv.config();
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
-
+const clientID = process.env["MANAGED_IDENTITY_CLIENT_ID"] || "";
 /**
     * Print the critical result inferences
  */
@@ -117,7 +117,7 @@ function createRequestBody() {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
@@ -189,16 +189,26 @@ function createRequestBody() {
 }
 
 async function main() {
-  const credential = new DefaultAzureCredential();
-  const client = new AzureHealthInsightsClient(endpoint, credential);
+  //Create Managed Identity Credential
+  const credential = new DefaultAzureCredential(
+    clientID ? { managedIdentityClientId: clientID } : undefined,
+  );
+  const tokenResponse = await credential.getToken('https://cognitiveservices.azure.com/.default');
+  logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
 
+  const client = AzureHealthInsightsClient(endpoint, credential);
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter, {
+    headers: {
+      'Authorization': `Bearer ${tokenResponse?.token}`,
+      'Content-Type': 'application/json'
+    },
+  });
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }

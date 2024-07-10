@@ -14,8 +14,8 @@
 
 - Client Changes
     - POST call replaced with PUT (this change is taken care of automatically by the SDK)
-    - Adding TokenCredential next to KeyCredential
-    - Credential through InteractiveBrowserCredential (browser) and DefaultAzureCredential (node)
+    - Adding TokenCredential remove KeyCredential
+    - Credential through DefaultAzureCredential  and Managed Identities
 
 - Request changes:
     - Renamed 'createdDateTime' into 'createdAt'

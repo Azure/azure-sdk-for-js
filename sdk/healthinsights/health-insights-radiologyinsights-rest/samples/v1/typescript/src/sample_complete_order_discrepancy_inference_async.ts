@@ -5,6 +5,7 @@
  * Displays the complete order discrepancy of the Radiology Insights request.
  */
 import AzureHealthInsightsClient, {
+  ClinicalDocumentTypeEnum,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
@@ -139,7 +140,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ClientOptions, getClient } from "@azure-rest/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import { AzureHealthInsightsClient } from "./clientDefinitions";
 import { logger } from "./logger";
 
@@ -14,7 +14,7 @@ import { logger } from "./logger";
  */
 export default function createClient(
   endpointParam: string,
-  credentials: TokenCredential | KeyCredential,
+  credentials: TokenCredential,
   options: ClientOptions = {},
 ): AzureHealthInsightsClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/health-insights`;

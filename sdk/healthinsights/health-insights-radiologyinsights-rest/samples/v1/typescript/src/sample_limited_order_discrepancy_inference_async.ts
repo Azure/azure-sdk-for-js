@@ -8,6 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 import AzureHealthInsightsClient, {
+  ClinicalDocumentTypeEnum,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
@@ -149,7 +150,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],

@@ -1012,16 +1012,17 @@ export type EncounterClassOutput =
 /** Alias for DocumentTypeOutput */
 export type DocumentTypeOutput = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
 /** Alias for ClinicalDocumentTypeOutput */
-export type ClinicalDocumentTypeOutput =
-  | string
-  | "consultation"
-  | "dischargeSummary"
-  | "historyAndPhysical"
-  | "radiologyReport"
-  | "procedure"
-  | "progress"
-  | "laboratory"
-  | "pathologyReport";
+export enum ClinicalDocumentTypeOutputEnum {
+  Consultation = "consultation",
+  DischargeSummary = "dischargeSummary",
+  HistoryAndPhysical = "historyAndPhysical",
+  RadiologyReport = "radiologyReport",
+  Procedure = "procedure",
+  Progress = "progress",
+  Laboratory = "laboratory",
+  // Add more predefined types as needed
+}
+export type ClinicalDocumentTypeOutput = ClinicalDocumentTypeOutputEnum;
 /** Alias for SpecialtyTypeOutput */
 export type SpecialtyTypeOutput = string | "pathology" | "radiology";
 /** Alias for DocumentContentSourceTypeOutput */

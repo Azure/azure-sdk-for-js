@@ -17,6 +17,7 @@ export interface GetJob {
   /** Creates a Radiology Insights job with the given request body. */
   put(
     options: CreateJobParameters,
+    requestOptions?: GetJobParameters,
   ): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
 }
 

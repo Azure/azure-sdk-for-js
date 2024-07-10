@@ -976,16 +976,18 @@ export type EncounterClass =
 /** Alias for DocumentType */
 export type DocumentType = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
 /** Alias for ClinicalDocumentType */
-export type ClinicalDocumentType =
-  | string
-  | "consultation"
-  | "dischargeSummary"
-  | "historyAndPhysical"
-  | "radiologyReport"
-  | "procedure"
-  | "progress"
-  | "laboratory"
-  | "pathologyReport";
+export enum ClinicalDocumentTypeEnum {
+  Consultation = "consultation",
+  DischargeSummary = "dischargeSummary",
+  HistoryAndPhysical = "historyAndPhysical",
+  RadiologyReport = "radiologyReport",
+  Procedure = "procedure",
+  Progress = "progress",
+  Laboratory = "laboratory",
+  // Add more predefined types as needed
+}
+export type ClinicalDocumentType = ClinicalDocumentTypeEnum;
+
 /** Alias for SpecialtyType */
 export type SpecialtyType = string | "pathology" | "radiology";
 /** Alias for DocumentContentSourceType */

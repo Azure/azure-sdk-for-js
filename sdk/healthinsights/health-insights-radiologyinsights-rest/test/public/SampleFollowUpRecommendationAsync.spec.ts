@@ -4,7 +4,11 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { AzureHealthInsightsClient, getLongRunningPoller } from "../../src";
+import {
+  AzureHealthInsightsClient,
+  ClinicalDocumentTypeEnum,
+  getLongRunningPoller,
+} from "../../src";
 import { createRecorder, createTestClient } from "./utils/recordedClient";
 
 const codingData = {
@@ -74,7 +78,7 @@ These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: "radiologyReport",
+  clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
   id: "docid1",
   language: "en",
   authors: [authorData],

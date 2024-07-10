@@ -14,7 +14,7 @@ These sample programs show how to use the JavaScript client libraries for Health
 | [sample_limited_order_disrepancy_inference_async.js][sample_limited_order_disrepancy_inference_async] | Infer limited orders from a radiology report (async) |
 | [sample_radioloy_procedure_inference_async.js][sample_radioloy_procedure_inference_async]           | Infer radiology procedures from a radiology report (async) |
 | [sample_sex_mismatch_inference_async.js][sample_sex_mismatch_inference_async]                       | Infer sex mismatches from a radiology report (async) |
-
+| [sample_critical_result_managed_identity.js][sample_critical_result_managed_identity]               | Sample on how to use Managed Identity credentials, should return the sam as the critical results example
 
 ## Prerequisites
 
@@ -64,6 +64,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sample_limited_order_disrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_limited_order_disrepancy_inference_async.js
 [sample_radioloy_procedure_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_radiology_procedure_inference_async.js
 [sample_sex_mismatch_inference_async]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_sex_mismatch_inference_async.js
+[sample_critical_result_managed_identity]:https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_critical_result_managed_identity.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/README.md

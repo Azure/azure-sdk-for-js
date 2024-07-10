@@ -9,7 +9,6 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { CreateHttpPollerOptions } from '@azure/core-lro';
 import { ErrorModel } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { OperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
@@ -47,13 +46,46 @@ export type AzureHealthInsightsClient = Client & {
 };
 
 // @public (undocumented)
-export function buildMultiCollection(items: string[], parameterName: string): string;
+export type ClinicalDocumentType = ClinicalDocumentTypeEnum;
 
 // @public
-export type ClinicalDocumentType = string | "consultation" | "dischargeSummary" | "historyAndPhysical" | "radiologyReport" | "procedure" | "progress" | "laboratory" | "pathologyReport";
+export enum ClinicalDocumentTypeEnum {
+    // (undocumented)
+    Consultation = "consultation",
+    // (undocumented)
+    DischargeSummary = "dischargeSummary",
+    // (undocumented)
+    HistoryAndPhysical = "historyAndPhysical",
+    // (undocumented)
+    Laboratory = "laboratory",
+    // (undocumented)
+    Procedure = "procedure",
+    // (undocumented)
+    Progress = "progress",
+    // (undocumented)
+    RadiologyReport = "radiologyReport"
+}
+
+// @public (undocumented)
+export type ClinicalDocumentTypeOutput = ClinicalDocumentTypeOutputEnum;
 
 // @public
-export type ClinicalDocumentTypeOutput = string | "consultation" | "dischargeSummary" | "historyAndPhysical" | "radiologyReport" | "procedure" | "progress" | "laboratory" | "pathologyReport";
+export enum ClinicalDocumentTypeOutputEnum {
+    // (undocumented)
+    Consultation = "consultation",
+    // (undocumented)
+    DischargeSummary = "dischargeSummary",
+    // (undocumented)
+    HistoryAndPhysical = "historyAndPhysical",
+    // (undocumented)
+    Laboratory = "laboratory",
+    // (undocumented)
+    Procedure = "procedure",
+    // (undocumented)
+    Progress = "progress",
+    // (undocumented)
+    RadiologyReport = "radiologyReport"
+}
 
 // @public
 export interface CodeableConcept extends Element {
@@ -206,7 +238,7 @@ export type ContactPointUse = string | "home" | "work" | "temp" | "old" | "mobil
 export type ContactPointUseOutput = string | "home" | "work" | "temp" | "old" | "mobile";
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): AzureHealthInsightsClient;
+function createClient(endpointParam: string, credentials: TokenCredential, options?: ClientOptions): AzureHealthInsightsClient;
 export default createClient;
 
 // @public (undocumented)
@@ -529,7 +561,7 @@ export interface GenericProcedureRecommendationOutput extends ProcedureRecommend
 // @public (undocumented)
 export interface GetJob {
     get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
-    put(options: CreateJobParameters): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
+    put(options: CreateJobParameters, requestOptions?: GetJobParameters): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
 }
 
 // @public (undocumented)

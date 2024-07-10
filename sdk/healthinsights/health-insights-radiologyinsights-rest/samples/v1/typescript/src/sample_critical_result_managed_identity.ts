@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the finding of the Radiology Insights request.
+ * Displays the critical results of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -13,16 +13,17 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "../src";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+const clientID = process.env["MANAGED_IDENTITY_CLIENT_ID"] || "";
 
 /**
-    * Print the finding inference
+    * Print the critical result inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
@@ -32,34 +33,10 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "finding") {
-              console.log("Finding Inference found: ");
-
-              let find = inference.finding;
-              if ("code" in find) {
-                let fcode = find.code;
-                console.log("   Code: ");
-                displayCodes(fcode);
+            if (inference.kind === "criticalResult") {
+              if ("result" in inference) {
+                console.log("Critical Result Inference found: " + inference.result.description);
               }
-
-              find.interpretation?.forEach((inter: any) => {
-                console.log("   Interpretation: ");
-                displayCodes(inter);
-              });
-
-              inference.finding.component?.forEach((comp: { code: any; valueCodeableConcept: any }) => {
-                console.log("   Component code: ");
-                displayCodes(comp.code);
-                if ("valueCodeableConcept" in comp) {
-                  console.log("     Value component codeable concept: ");
-                  displayCodes(comp.valueCodeableConcept);
-                }
-              });
-
-              if ("extension" in inference) {
-                displaySectionInfo(inference);
-              };
-
             }
           });
         }
@@ -71,28 +48,6 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       console.log(error.code, ":", error.message);
     }
   }
-
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
-      }
-    });
-  }
-
-  function displaySectionInfo(inference: { extension: any[]; }) {
-    inference.extension?.forEach((ext: any) => {
-      if ("url" in ext && ext.url === "section") {
-        console.log("   Section:");
-        ext.extension?.forEach((subextension: { url: string; valueString: string; }) => {
-          if ("url" in subextension && "valueString" in subextension) {
-            console.log("      " + subextension.url + ": " + subextension.valueString);
-          }
-        });
-      }
-    });
-  }
-
 }
 
 // Create request body for radiology insights
@@ -100,8 +55,8 @@ function createRequestBody(): CreateJobParameters {
 
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "ANG366",
-    display: "XA VENACAVA FILTER INSERTION"
+    code: "USPELVIS",
+    display: "US PELVIS COMPLETE"
   };
 
   const code = {
@@ -109,8 +64,8 @@ function createRequestBody(): CreateJobParameters {
   };
 
   const patientInfo = {
-    sex: "male",
-    birthDate: new Date("1980-04-22T02:00:00+00:00")
+    sex: "female",
+    birthDate: new Date("1959-11-11T19:00:00+00:00"),
   };
 
   const encounterData = {
@@ -129,7 +84,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "XA VENACAVA FILTER INSERTION"
+    description: "US PELVIS COMPLETE"
   };
 
   const administrativeMetadata = {
@@ -139,13 +94,31 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `FINDINGS:
-    1. Inferior vena cavagram using CO2 contrast shows the IVC is normal
-    in course and caliber without filling defects to indicate clot. It
-    measures 19.8 mm. in diameter infrarenally.
+    value: `CLINICAL HISTORY:
+    20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+    
+    COMPARISON:
+    Right upper quadrant sonographic performed 1 day prior.
+    
+    TECHNIQUE:
+    Transabdominal grayscale pelvic sonography with duplex color Doppler
+    and spectral waveform analysis of the ovaries.
+    
+    FINDINGS:
+    The uterus is unremarkable given the transabdominal technique with
+    endometrial echo complex within physiologic normal limits. The
+    ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
+    left measuring 2.8 x 1.5 x 1.9 cm.
+    
+    On duplex imaging, Doppler signal is symmetric.
+    
+    IMPRESSION:
+    1. Normal pelvic sonography. Findings of testicular torsion.
+    A new US pelvis within the next 6 months is recommended.
 
-    2. Successful placement of IVC filter in infrarenal location.`
+    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
   };
+
   const patientDocumentData = {
     type: "note",
     clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
@@ -156,12 +129,12 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION"
+    orderedProceduresAsCsv: "US PELVIS COMPLETE"
   };
 
 
   const patientData = {
-    id: "Roberto Lewis",
+    id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData]
@@ -212,23 +185,33 @@ function createRequestBody(): CreateJobParameters {
     }
   };
 
-  return {
+  const param = {
     body: RadiologyInsightsJob,
   };
 
 }
 
 export async function main() {
-  const credential = new DefaultAzureCredential();
-  const client = AzureHealthInsightsClient(endpoint, credential);
+  //Create Managed Identity Credential
+  const credential = new DefaultAzureCredential(
+    clientID ? { managedIdentityClientId: clientID } : undefined,
+  );
+  const tokenResponse = await credential.getToken('https://cognitiveservices.azure.com/.default');
+  logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
 
+  const client = AzureHealthInsightsClient(endpoint, credential);
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter, {
+    headers: {
+      'Authorization': `Bearer ${tokenResponse?.token}`,
+      'Content-Type': 'application/json'
+    },
+  });
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
@@ -242,5 +225,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The finding encountered an error:", err);
+  console.error("The critical result encountered an error:", err);
 });

@@ -7,6 +7,7 @@ import {
   Recorder,
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
+import { DefaultAzureCredential, logger } from "@azure/identity";
 import { Context } from "mocha";
 import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 import "./env";
@@ -39,4 +40,22 @@ export async function createTestClient(recorder: Recorder): Promise<AzureHealthI
   const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
   const credential = createTestCredential();
   return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
+}
+
+export async function createManagedClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
+  const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
+  const credential = new DefaultAzureCredential({
+    managedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID,
+  });
+  const tokenResponse = await credential.getToken("https://cognitiveservices.azure.com/.default");
+  logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
+  return AHIClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({
+      bearerTokenAuthenticationPolicy: {
+        token: tokenResponse?.token,
+      },
+    }),
+  );
 }

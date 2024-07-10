@@ -39,7 +39,8 @@ To authenticate with AAD, you must first `npm` install [`@azure/identity`][ident
 
 After setup, you can choose which type of [credential][credential] from `@azure/identity` to use.
 As an example, [DefaultAzureCredential][defaultazurecredential]
-can be used to authenticate the client.
+can be used to authenticate the client. See more info on defaultAzureCredentials [default_information]. 
+Managed Identities can also be used to authenticate through DefaultAzureCredential [managed_identity].
 
 ## Examples
 
@@ -50,6 +51,7 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 const credential = new DefaultAzureCredential();
 const client = RadiologyInsightsRestClient(endpoint, credential);
 ```
+
 
 ### Build a request, send it to the client and print out the description of a Critical Result Inference
 
@@ -158,7 +160,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
@@ -728,6 +730,27 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 }
 
 ```
+## Using a Managed Identity require changes in adding the clientID of your managed identity as a const, adding it to you DefaultAzureCredential and add the Authorization Header
+
+```typescript
+const clientID = process.env["MANAGED_IDENTITY_CLIENT_ID"] || "";
+...
+
+//Create Managed Identity Credential
+  const credential = new DefaultAzureCredential(
+    clientID ? { managedIdentityClientId: clientID } : undefined,
+  );
+  const tokenResponse = await credential.getToken('https://cognitiveservices.azure.com/.default');
+  logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
+
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter, {
+    headers: {
+      'Authorization': `Bearer ${tokenResponse?.token}`,
+      'Content-Type': 'application/json'
+    },
+  });
+
+```
 
 ## Troubleshooting
 
@@ -755,4 +778,6 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [identity]: https://www.npmjs.com/package/@azure/identity
 [token_credential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[default_information]: https://learn.microsoft.com/javascript/api/%40azure/identity/defaultazurecredential?view=azure-node-latest
+[managed_identity]: https://learn.microsoft.com/en-us/javascript/api/%40azure/identity/managedidentitycredential?view=azure-node-latest
 [credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
