@@ -55,19 +55,24 @@ describe("AzureFleet test", () => {
         location,
         properties: {
           vmSizesProfile: [{
-            name: "Standard_DS1_v2"
+            name: "Standard_D2s_v3"
           }],
           computeProfile: {
             baseVirtualMachineProfile: {
               storageProfile: {
                 osDisk: {
                   osType: "Windows",
+                  caching: "ReadWrite",
                   createOption: "FromImage",
                   managedDisk: {
-                    storageAccountType: "Standard_LRS"
+                    // storageAccountType: "Standard_LRS",
+                    diskEncryptionSet: {
+                      id: "/subscriptions/" + subscriptionId + "/resourcegroups/myjstest/providers/Microsoft.Storage/storageAccounts/czwtestsa"
+                    }
                   }
                 }
               },
+              licenseType: "",
               osProfile: {
                 computerNamePrefix: "fleet",
                 adminUsername: "azureuser",
@@ -83,9 +88,12 @@ describe("AzureFleet test", () => {
                       properties: {
                         subnet: {
                           id: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/testvn/subnets/default"
-                        }
+                        },
+                        loadBalancerBackendAddressPools: [{
+                          id: "/subscriptions/" + subscriptionId + "/resourcegroups/myjstest/providers/Microsoft.Network/loadBalancers/testlb/backendAddressPools/testbp"
+                        }]
                       }
-                    }]
+                    }],
                   }
                 }]
               }
