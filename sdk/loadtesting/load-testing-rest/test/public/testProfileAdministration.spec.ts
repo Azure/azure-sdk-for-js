@@ -41,7 +41,7 @@ describe("Test Profile Creation", () => {
 
   it("should create a test profile", async () => {
     const result = await client
-      .path("/test-profiles/{testProfileId}", "sample-test-profile")
+      .path("/test-profiles/{testProfileId}", "sample-test-profile-1")
       .patch({
         contentType: "application/merge-patch+json",
         body: {
@@ -68,14 +68,14 @@ describe("Test Profile Creation", () => {
   });
 
   it("should get the created test profile", async () => {
-    const result = await client.path("/test-profiles/{testProfileId}", "sample-test-profile").get();
+    const result = await client.path("/test-profiles/{testProfileId}", "sample-test-profile-1").get();
 
     assert.equal("200", result.status);
   });
 
   it("should delete the created test profile", async () => {
     const result = await client
-      .path("/test-profiles/{testProfileId}", "sample-test-profile")
+      .path("/test-profiles/{testProfileId}", "sample-test-profile-1")
       .delete();
 
     assert.equal("204", result.status);
