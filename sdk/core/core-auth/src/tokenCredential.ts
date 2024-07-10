@@ -74,6 +74,11 @@ export interface AccessToken {
    * The access token's expiration timestamp in milliseconds, UNIX epoch time.
    */
   expiresOnTimestamp: number;
+
+  /**
+   * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
+   */
+  refreshesOnTimestamp: number;
 }
 
 /**

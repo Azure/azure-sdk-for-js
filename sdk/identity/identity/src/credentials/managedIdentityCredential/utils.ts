@@ -42,6 +42,7 @@ export interface TokenResponseParsedBody {
   expires_in: number;
   expires_on?: number | string;
   refresh_in?: number;
+  refresh_on?: number | string;
 }
 
 /**
