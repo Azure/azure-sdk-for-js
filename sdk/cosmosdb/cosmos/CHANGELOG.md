@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Vector Search [#29393] (https://github.com/Azure/azure-sdk-for-js/issues/29393)
+- Vector Search [#29393](https://github.com/Azure/azure-sdk-for-js/issues/29393)
 - All versions and delete mode in change feed [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
 - Bypassing integrated cache [#2257127](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2257127)
 - Computed Properties [#2472654](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2472654)
