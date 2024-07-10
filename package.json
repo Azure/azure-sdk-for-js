@@ -1,0 +1,21 @@
+{
+  "name": "test-billy-azure-sdk-for-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "node": "fnm use v18.15.0",
+    "build": "fnm use v18.15.0 & rush update & rush build",
+    "dev": "tsx watch ..\\wanl-fork-azure-sdk-tools\\tools\\js-sdk-release-tools\\src\\autoGenerateInPipeline.ts --inputJsonPath=input.json --outputJsonPath=output.json --use=@autorest/typescript@^6.0.12 --typespecEmitter=@azure-tools/typespec-ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@autorest/typescript": "^6.0.12",
+    "@azure-tools/js-sdk-release-tools": "link:..\\wanl-fork-azure-sdk-tools\\tools\\js-sdk-release-tools",
+    "@azure-tools/typespec-ts": "^0.30.1",
+    "@microsoft/rush": "5.92.0"
+  }
+}
