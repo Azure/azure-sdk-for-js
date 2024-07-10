@@ -144,6 +144,27 @@
           "includedEventTypes": []
         }
       }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces",
+      "apiVersion": "2017-04-01",
+      "name": "[variables('serviceBusNamespaceName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Basic"
+      },
+      "properties": {},
+      "resources": [
+        {
+          "type": "Queues",
+          "apiVersion": "2017-04-01",
+          "name": "[variables('serviceBusQueueName')]",
+          "dependsOn": [
+            "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespaceName'))]"
+          ],
+          "properties": {}
+        }
+      ]
     }
   ],
   "outputs": {
@@ -158,6 +179,10 @@
     "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT": {
       "type": "string",
       "value": "[reference(variables('customEventTopicName')).endpoint]"
+    },
+    "SERVICE_BUS_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/AuthorizationRules',variables('serviceBusNamespaceName'),'RootManageSharedAccessKey'),'2017-04-01').primaryConnectionString]"
     },
     "SERVICE_BUS_QUEUE_NAME": {
       "type": "string",
