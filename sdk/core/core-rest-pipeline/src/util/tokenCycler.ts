@@ -135,6 +135,7 @@ export function createTokenCycler(
     get shouldRefresh(): boolean {
       return (
         !cycler.isRefreshing &&
+        (token.refreshesOnTimestamp && token.refreshesOnTimestamp < Date.now()) &&
         (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
       );
     },
@@ -144,7 +145,7 @@ export function createTokenCycler(
      */
     get mustRefresh(): boolean {
       return (
-        token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
+        token === null || (token.refreshesOnTimestamp && token.refreshesOnTimestamp < Date.now()) || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
       );
     },
   };
