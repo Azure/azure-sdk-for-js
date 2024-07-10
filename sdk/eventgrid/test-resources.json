@@ -191,7 +191,7 @@
     },
     "EVENT_GRID_NAMESPACES_ENDPOINT": {
       "type": "string",
-      "value": "['https://', reference(variables('egNamespaceName')).topicsConfiguration.hostname)]"
+      "value": "[concat('https://', reference(variables('egNamespaceName')).topicsConfiguration.hostname)]"
     }
   }
 }
