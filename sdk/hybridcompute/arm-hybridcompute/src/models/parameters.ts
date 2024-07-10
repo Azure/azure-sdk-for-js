@@ -12,15 +12,38 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  License as LicenseMapper,
+  LicenseUpdate as LicenseUpdateMapper,
   MachineInstallPatchesParameters as MachineInstallPatchesParametersMapper,
   MachineExtension as MachineExtensionMapper,
   MachineExtensionUpdate as MachineExtensionUpdateMapper,
   MachineExtensionUpgrade as MachineExtensionUpgradeMapper,
   MachineRunCommand as MachineRunCommandMapper,
+  MachineRunCommandUpdate as MachineRunCommandUpdateMapper,
+  Gateway as GatewayMapper,
+  GatewayUpdate as GatewayUpdateMapper,
+  Settings as SettingsMapper,
   HybridComputePrivateLinkScope as HybridComputePrivateLinkScopeMapper,
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LicenseMapper,
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -49,7 +72,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-03-preview",
+    defaultValue: "2024-03-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -85,6 +108,37 @@ export const resourceGroupName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const licenseName: OperationURLParameter = {
+  parameterPath: "licenseName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "licenseName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LicenseUpdateMapper,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const machineName: OperationURLParameter = {
@@ -135,33 +189,9 @@ export const name: OperationURLParameter = {
   },
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const installPatchesInput: OperationParameter = {
   parameterPath: "installPatchesInput",
   mapper: MachineInstallPatchesParametersMapper,
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
 };
 
 export const extensionParameters: OperationParameter = {
@@ -267,6 +297,96 @@ export const runCommandName: OperationURLParameter = {
   },
 };
 
+export const runCommandProperties1: OperationParameter = {
+  parameterPath: "runCommandProperties",
+  mapper: MachineRunCommandUpdateMapper,
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayMapper,
+};
+
+export const gatewayName: OperationURLParameter = {
+  parameterPath: "gatewayName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "gatewayName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayUpdateMapper,
+};
+
+export const baseProvider: OperationURLParameter = {
+  parameterPath: "baseProvider",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "baseProvider",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const baseResourceType: OperationURLParameter = {
+  parameterPath: "baseResourceType",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "baseResourceType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const baseResourceName: OperationURLParameter = {
+  parameterPath: "baseResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "baseResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const settingsResourceName: OperationURLParameter = {
+  parameterPath: "settingsResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("default"),
+    },
+    serializedName: "settingsResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SettingsMapper,
+};
+
 export const scopeName: OperationURLParameter = {
   parameterPath: "scopeName",
   mapper: {
@@ -281,7 +401,7 @@ export const scopeName: OperationURLParameter = {
   },
 };
 
-export const parameters: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: HybridComputePrivateLinkScopeMapper,
 };
@@ -352,7 +472,23 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters1: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
+};
+
+export const perimeterName: OperationURLParameter = {
+  parameterPath: "perimeterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[.]{1}.+$",
+      ),
+    },
+    serializedName: "perimeterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

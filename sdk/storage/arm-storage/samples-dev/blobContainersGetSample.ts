@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
  */
 async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
   const result = await client.blobContainers.get(
     resourceGroupName,
     accountName,
-    containerName
+    containerName,
   );
   console.log(result);
 }
@@ -40,7 +40,7 @@ async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersGet.json
  */
 async function getContainers() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function getContainers() {
   const result = await client.blobContainers.get(
     resourceGroupName,
     accountName,
-    containerName
+    containerName,
   );
   console.log(result);
 }

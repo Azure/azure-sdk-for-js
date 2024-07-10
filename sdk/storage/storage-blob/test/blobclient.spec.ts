@@ -975,6 +975,13 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
+  it("getAccountInfo", async function () {
+    const accountInfo = await blobClient.getAccountInfo();
+    assert.ok(accountInfo.accountKind);
+    assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
+  });
+
   // Skipped for now as it's not working in live tests pipeline.
   it.skip("lastAccessed returned", async function (this: Context) {
     const downloadRes = await blockBlobClient.download();

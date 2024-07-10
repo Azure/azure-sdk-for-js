@@ -91,7 +91,6 @@ export class ServiceClient {
 
   /**
    * The ServiceClient constructor
-   * @param credential - The credentials used for authentication with the service.
    * @param options - The service client options that govern the behavior of the client.
    */
   constructor(options: ServiceClientOptions = {}) {

@@ -113,7 +113,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure/msal-node": "^2.7.0",
+    "@azure/msal-node": "^2.9.2",
     "@azure-tools/test-utils": "^1.0.1",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
@@ -135,11 +135,11 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "process": "^0.11.10",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ts-node": "^10.0.0"
   }
 }

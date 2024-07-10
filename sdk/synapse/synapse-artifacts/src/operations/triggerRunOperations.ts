@@ -17,7 +17,7 @@ import {
   TriggerRunCancelTriggerInstanceOptionalParams,
   RunFilterParameters,
   TriggerRunQueryTriggerRunsByWorkspaceOptionalParams,
-  TriggerRunQueryTriggerRunsByWorkspaceResponse
+  TriggerRunQueryTriggerRunsByWorkspaceResponse,
 } from "../models";
 
 /** Class containing TriggerRunOperations operations. */
@@ -41,7 +41,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
   async rerunTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: TriggerRunRerunTriggerInstanceOptionalParams
+    options?: TriggerRunRerunTriggerInstanceOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.rerunTriggerInstance",
@@ -49,9 +49,9 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { triggerName, runId, options },
-          rerunTriggerInstanceOperationSpec
+          rerunTriggerInstanceOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -64,7 +64,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
   async cancelTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: TriggerRunCancelTriggerInstanceOptionalParams
+    options?: TriggerRunCancelTriggerInstanceOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.cancelTriggerInstance",
@@ -72,9 +72,9 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { triggerName, runId, options },
-          cancelTriggerInstanceOperationSpec
+          cancelTriggerInstanceOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -85,7 +85,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
    */
   async queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
+    options?: TriggerRunQueryTriggerRunsByWorkspaceOptionalParams,
   ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.queryTriggerRunsByWorkspace",
@@ -93,9 +93,9 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { filterParameters, options },
-          queryTriggerRunsByWorkspaceOperationSpec
+          queryTriggerRunsByWorkspaceOperationSpec,
         ) as Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
-      }
+      },
     );
   }
 }
@@ -108,17 +108,17 @@ const rerunTriggerInstanceOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.endpoint,
     Parameters.runId1,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelTriggerInstanceOperationSpec: coreClient.OperationSpec = {
   path: "/triggers/{triggerName}/triggerRuns/{runId}/cancel",
@@ -126,33 +126,33 @@ const cancelTriggerInstanceOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.endpoint,
     Parameters.runId1,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const queryTriggerRunsByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path: "/queryTriggerRuns",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TriggerRunsQueryResponse
+      bodyMapper: Mappers.TriggerRunsQueryResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

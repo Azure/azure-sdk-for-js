@@ -7,3 +7,4 @@
  */
 export * from "./logsIngestionClient";
 export * from "./models";
+export { KnownMonitorAudience } from "./constants";

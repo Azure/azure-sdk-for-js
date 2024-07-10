@@ -31,7 +31,7 @@ npm install @azure/schema-registry-json
 
 ## Key concepts
 
-### JsonSerializer
+### JsonSchemaSerializer
 
 Provides API to serialize to and deserialize from JSON wrapped in a message
 with a content type field containing the schema ID. Uses
@@ -63,14 +63,14 @@ adapters for their message types.
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createEventDataAdapter } = require("@azure/event-hubs");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { JsonSerializer } = require("@azure/schema-registry-json");
+const { JsonSchemaSerializer } = require("@azure/schema-registry-json");
 
 async function main(){
   const client = new SchemaRegistryClient(
     "<fully qualified namespace>",
     new DefaultAzureCredential()
   );
-  const serializer = new JsonSerializer(client, {
+  const serializer = new JsonSchemaSerializer(client, {
     groupName: "<group>",
     messageAdapter: createEventDataAdapter(),
   });

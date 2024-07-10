@@ -50,6 +50,10 @@ export async function authenticate(
     sanitizerOptions: {
       generalSanitizers,
     },
+    removeCentralSanitizers: [
+      // The secret ID has a specific format that is parsed by the SDK, cannot be sanitized, and is not a secret
+      "AZSDK3430",
+    ],
   };
 
   const recorder = new Recorder(that.currentTest);

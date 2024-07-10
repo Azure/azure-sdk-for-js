@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the queue with the specified queue name, under the specified account if it exists.
  *
  * @summary Gets the queue with the specified queue name, under the specified account if it exists.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/QueueOperationGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationGet.json
  */
 async function queueOperationGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function queueOperationGet() {
   const result = await client.queue.get(
     resourceGroupName,
     accountName,
-    queueName
+    queueName,
   );
   console.log(result);
 }

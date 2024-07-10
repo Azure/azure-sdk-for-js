@@ -16,7 +16,8 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
-    "chai": "4.3.10"
+    "chai": "4.3.10",
+    "@microsoft/applicationinsights-web-snippet": "1.1.2"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,

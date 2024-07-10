@@ -15,7 +15,7 @@ import { StorageManagementClient } from "../storageManagementClient";
 import {
   Usage,
   UsagesListByLocationOptionalParams,
-  UsagesListByLocationResponse
+  UsagesListByLocationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export class UsagesImpl implements Usages {
    */
   public listByLocation(
     location: string,
-    options?: UsagesListByLocationOptionalParams
+    options?: UsagesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listByLocationPagingAll(location, options);
     return {
@@ -53,14 +53,14 @@ export class UsagesImpl implements Usages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
     options?: UsagesListByLocationOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsagesListByLocationResponse;
     result = await this._listByLocation(location, options);
@@ -69,7 +69,7 @@ export class UsagesImpl implements Usages {
 
   private async *listByLocationPagingAll(
     location: string,
-    options?: UsagesListByLocationOptionalParams
+    options?: UsagesListByLocationOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listByLocationPagingPage(location, options)) {
       yield* page;
@@ -83,11 +83,11 @@ export class UsagesImpl implements Usages {
    */
   private _listByLocation(
     location: string,
-    options?: UsagesListByLocationOptionalParams
+    options?: UsagesListByLocationOptionalParams,
   ): Promise<UsagesListByLocationResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 }
@@ -95,20 +95,19 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult
-    }
+      bodyMapper: Mappers.UsageListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

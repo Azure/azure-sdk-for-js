@@ -28,7 +28,7 @@
   "dependencies": {
     "@azure/identity-broker": "^1.0.0",
     "dotenv": "latest",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.2.1",
     "electron": "^27.0.0",
     "@azure/logger": "^1.0.4"
   }

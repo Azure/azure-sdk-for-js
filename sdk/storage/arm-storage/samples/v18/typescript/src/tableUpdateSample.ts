@@ -11,7 +11,7 @@
 import {
   Table,
   TableUpdateOptionalParams,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/TableOperationPatch.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/TableOperationPatch.json
  */
 async function tableOperationPatch() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function tableOperationPatch() {
   const result = await client.tableOperations.update(
     resourceGroupName,
     accountName,
-    tableName
+    tableName,
   );
   console.log(result);
 }
@@ -44,7 +44,7 @@ async function tableOperationPatch() {
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/TableOperationPutOrPatchAcls.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/TableOperationPutOrPatchAcls.json
  */
 async function tableOperationPutOrPatchAcls() {
   const subscriptionId =
@@ -58,19 +58,19 @@ async function tableOperationPutOrPatchAcls() {
         accessPolicy: {
           expiryTime: new Date("2022-03-20T08:49:37.0000000Z"),
           permission: "raud",
-          startTime: new Date("2022-03-17T08:49:37.0000000Z")
+          startTime: new Date("2022-03-17T08:49:37.0000000Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI"
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI",
       },
       {
         accessPolicy: {
           expiryTime: new Date("2022-03-20T08:49:37.0000000Z"),
           permission: "rad",
-          startTime: new Date("2022-03-17T08:49:37.0000000Z")
+          startTime: new Date("2022-03-17T08:49:37.0000000Z"),
         },
-        id: "PTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODklMTI"
-      }
-    ]
+        id: "PTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODklMTI",
+      },
+    ],
   };
   const options: TableUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -79,7 +79,7 @@ async function tableOperationPutOrPatchAcls() {
     resourceGroupName,
     accountName,
     tableName,
-    options
+    options,
   );
   console.log(result);
 }
