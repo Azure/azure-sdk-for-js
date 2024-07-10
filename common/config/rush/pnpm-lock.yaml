@@ -17294,7 +17294,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-oXySL86VTVRf3KogrwetkE/Jla1XrVxDD7Z8GRgIZkV9QrtGUgORG7P6hF8GE2ImRID0fU7zY28JxKHgb2hzng==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-ZDBicuWnZ0fgFeJp7aEPj+voR/mWS/MKZuWpFNqMmjkqJHyavbqFAx7WGYVpw+WarqvXzb+feVo+k2f1IS6KgA==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -17309,6 +17309,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.5.2
       rimraf: 5.0.7
