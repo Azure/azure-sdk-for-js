@@ -140,6 +140,8 @@ export class AzurePipelinesCredential implements TokenCredential {
         throw new AuthenticationError(response.status, errorMessage);
       }
     } catch (e: any) {
+      //azure:identity:error AzurePipelinesCredential => AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response.Response = {"$id":"1","innerException":null,"message":"No service connection found with identifier 8089d38c-c287-4289-8012-c3c1fc775efd.","typeName":"Microsoft.TeamFoundation.DistributedTask.WebApi.EndpointNotFoundException, Microsoft.TeamFoundation.DistributedTask.WebApi","typeKey":"EndpointNotFoundException","errorCode":0,"eventId":3000}
+
       logger.error(e.message);
       logger.error(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
