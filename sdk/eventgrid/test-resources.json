@@ -28,69 +28,25 @@
     "cloudEventTopicName": "[concat(parameters('baseName'), '-ce')]",
     "customEventTopicName": "[concat(parameters('baseName'), '-cus')]",
     "serviceBusNamespaceName": "[concat(parameters('baseName'), '-ns')]",
+    "egNamespaceName": "[concat(parameters('baseName'), '-egns')]",
     "serviceBusQueueName": "[concat(parameters('baseName'), '-queue')]",
     "dataSenderRoleDefinitionId": "d5a91429-5739-47e2-a06b-3470a27159e7",
     "dataContributorRoleDefinitionId": "1d8c3fe3-8864-474b-8749-01e3783e8157"
   },
   "resources": [
     {
-      "type": "Microsoft.EventGrid/namespaces",
-      "apiVersion": "2023-12-15-preview",
-      "name": "[variables('serviceBusNamespaceName')]",
-      "location": "[resourceGroup().location]",
-      "sku": {
-        "name": "Standard",
-        "capacity": 1
-      },
+      "type": "Microsoft.EventGrid/topics",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('eventGridTopicName')]",
+      "location": "[parameters('location')]",
       "properties": {
-        "isZoneRedundant": true,
+        "inputSchema": "EventGridSchema",
         "publicNetworkAccess": "Enabled"
       }
     },
     {
-      "type": "Microsoft.EventGrid/namespaces/topics",
-      "apiVersion": "2023-12-15-preview",
-      "name": "[concat(variables('serviceBusNamespaceName'), '/testtopic1')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.EventGrid/namespaces', variables('serviceBusNamespaceName'))]"
-      ],
-      "properties": {
-        "publisherType": "Custom",
-        "inputSchema": "CloudEventSchemaV1_0",
-        "eventRetentionInDays": 1
-      }
-    },
-    {
-      "type": "Microsoft.EventGrid/namespaces/topics/eventSubscriptions",
-      "apiVersion": "2023-12-15-preview",
-      "name": "[concat(variables('serviceBusNamespaceName'), '/testtopic1/testsubscription1')]",
-      "properties": {
-        "deliveryConfiguration": {
-          "deliveryMode": "Queue",
-          "queue": {
-            "receiveLockDurationInSeconds": 60,
-            "maxDeliveryCount": 10,
-            "eventTimeToLive": "P1D"
-          }
-        },
-        "eventDeliverySchema": "CloudEventSchemaV1_0",
-        "filtersConfiguration": {
-          "includedEventTypes": []
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.EventGrid/namespaces/topics', variables('serviceBusNamespaceName'), 'testtopic1')]"
-      ]
-    },
-    {
       "type": "Microsoft.EventGrid/topics",
-      "apiVersion": "2022-06-15",
-      "name": "[variables('eventGridTopicName')]",
-      "location": "[parameters('location')]"
-    },
-    {
-      "type": "Microsoft.EventGrid/topics",
-      "apiVersion": "2022-06-15",
+      "apiVersion": "2020-06-01",
       "name": "[variables('cloudEventTopicName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -100,7 +56,7 @@
     },
     {
       "type": "Microsoft.EventGrid/topics",
-      "apiVersion": "2022-06-15",
+      "apiVersion": "2020-06-01",
       "name": "[variables('customEventTopicName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -126,26 +82,6 @@
       }
     },
     {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2019-04-01-preview",
-      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataSender')]",
-      "properties": {
-        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataSenderRoleDefinitionId'))]",
-        "principalId": "[parameters('testApplicationOid')]",
-        "scope": "[resourceGroup().id]"
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2019-04-01-preview",
-      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataContributor')]",
-      "properties": {
-        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataContributorRoleDefinitionId'))]",
-        "principalId": "[parameters('testApplicationOid')]",
-        "scope": "[resourceGroup().id]"
-      }
-    },
-    {
       "type": "Microsoft.ServiceBus/namespaces",
       "apiVersion": "2017-04-01",
       "name": "[variables('serviceBusNamespaceName')]",
@@ -165,6 +101,71 @@
           "properties": {}
         }
       ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataSender')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataSenderRoleDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataContributor')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataContributorRoleDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces",
+      "apiVersion": "2024-06-01-preview",
+      "name": "[variables('egNamespaceName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard",
+        "capacity": 1
+      },
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces/topics",
+      "apiVersion": "2024-06-01-preview",
+      "name": "[concat(variables('egNamespaceName'), '/testtopic1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventGrid/namespaces', variables('egNamespaceName'))]"
+      ],
+      "properties": {
+        "publisherType": "Custom",
+        "inputSchema": "CloudEventSchemaV1_0",
+        "eventRetentionInDays": 1
+      }
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces/topics/eventSubscriptions",
+      "apiVersion": "2024-06-01-preview",
+      "name": "[concat(variables('egNamespaceName'), '/testtopic1/testsubscription1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventGrid/namespaces/topics', variables('egNamespaceName'), 'testtopic1')]",
+        "[resourceId('Microsoft.EventGrid/namespaces', variables('egNamespaceName'))]"
+      ],
+      "properties": {
+        "deliveryConfiguration": {
+          "deliveryMode": "Queue",
+          "queue": {
+            "receiveLockDurationInSeconds": 60,
+            "maxDeliveryCount": 10,
+            "eventTimeToLive": "P1D"
+          }
+        },
+        "eventDeliverySchema": "CloudEventSchemaV1_0",
+        "filtersConfiguration": {
+          "includedEventTypes": []
+        }
+      }
     }
   ],
   "outputs": {
@@ -187,6 +188,10 @@
     "SERVICE_BUS_QUEUE_NAME": {
       "type": "string",
       "value": "[variables('serviceBusQueueName')]"
+    },
+    "EVENT_GRID_NAMESPACES_ENDPOINT": {
+      "type": "string",
+      "value": "['https://', reference(variables('egNamespaceName')).topicsConfiguration.hostname)]"
     }
   }
 }

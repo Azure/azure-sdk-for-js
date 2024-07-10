@@ -20,7 +20,7 @@ export interface RecordedV2Client {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT: "https://Sanitized",
+  EVENT_GRID_NAMESPACES_ENDPOINT: "https://Sanitized",
   EVENT_SUBSCRIPTION_NAME: "testsubscription1",
   TOPIC_NAME: "testtopic1",
   MAX_DELIVERY_COUNT: "10",
