@@ -53,13 +53,15 @@ describe("Correlated Activity Id", function () {
 
   it("fetchNext and fetchAll should have different correlated id with same iterator", async () => {
     const queryIterator = container.items.readAll();
-    await queryIterator.fetchNext();
+    const fetchNextResult = await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
     const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
+    assert.equal(fetchNextResult.correlatedActivityId, correlatedIdFetchNext);
     capturedCorrelatedActivityIds = [];
-    await queryIterator.fetchAll();
+    const fetchAllResult = await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
     const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
+    assert.equal(fetchAllResult.correlatedActivityId, correlatedIdFetchAll);
     assert.ok(correlatedIdFetchAll !== correlatedIdFetchNext);
   });
 
@@ -140,9 +142,8 @@ describe("Correlated Activity Id", function () {
 
   it("getAsyncIterator should pass correlation Id to request header", async () => {
     const queryIterator = container.items.readAll();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for await (const _ of queryIterator.getAsyncIterator()) {
-      // The loop is intentionally empty
+    for await (const response of queryIterator.getAsyncIterator()) {
+      assert.equal(response.correlatedActivityId, capturedCorrelatedActivityIds[0]);
     }
     assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(

@@ -230,6 +230,9 @@ export class ClientContext {
     logger.verbose(request);
     const start = Date.now();
     const response = await RequestHandler.request(request, diagnosticNode);
+    if (correlatedActivityId !== undefined) {
+      response.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+    }
     logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);

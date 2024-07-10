@@ -118,6 +118,7 @@ export type GatewayStatistics = {
    * This is the activityId for request, made to server for fetching the requested resource. (As opposed to other potential meta data requests)
    */
   activityId?: string;
+  correlatedActivityId?: string;
   startTimeUTCInMs: number;
   durationInMs: number;
   operationType?: OperationType;
