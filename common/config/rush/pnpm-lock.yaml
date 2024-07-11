@@ -22088,12 +22088,12 @@ packages:
     dev: false
 
   file:projects/communication-ten-dlc.tgz:
-    resolution: {integrity: sha512-nPu+HT9qOESZ9GVi6ryPXdcMQPQOUaVvzIxwRXV6sMzs7ELiSByLDNOSTbSVtOMvSfAPzZiAM1Jf7wsOUIFrhA==, tarball: file:projects/communication-ten-dlc.tgz}
+    resolution: {integrity: sha512-FYYSLIPrEEIfQEeFPux3Y+LPw/Lf2iYYRzqk+sn64i+7iTxk5HOWwCH9mARUHggkT9VUYhZGrQPVflX+Ad73xA==, tarball: file:projects/communication-ten-dlc.tgz}
     name: '@rush-temp/communication-ten-dlc'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.6.0
       '@azure/identity': 2.1.0
