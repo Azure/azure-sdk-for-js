@@ -368,6 +368,13 @@ export interface DatabaseUpdate {
   modules?: Module[];
   /** Optional set of properties to configure geo replication for this database. */
   geoReplication?: DatabasePropertiesGeoReplication;
+  /**
+   * Version of Redis the database is running on, e.g. '6.0'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more:  https://aka.ms/redisversionupgrade */
+  deferUpgrade?: DeferUpgradeSetting;
 }
 
 /** The secret access keys used for authenticating connections to redis */
@@ -418,6 +425,14 @@ export interface PrivateLinkResourceListResult {
 export interface ForceUnlinkParameters {
   /** The resource IDs of the database resources to be unlinked. */
   ids: string[];
+}
+
+/** Parameters for reconfiguring active geo-replication, of an existing database that was previously unlinked from a replication group. */
+export interface ForceLinkParameters {
+  /** The name of the group of linked database resources. This should match the existing replication group name. */
+  groupNickname: string;
+  /** The resource IDs of the databases that are expected to be linked and included in the replication group. This parameter is used to validate that the linking is to the expected (unlinked) part of the replication group, if it is splintered. */
+  linkedDatabases: LinkedDatabase[];
 }
 
 /** Parameters for a Redis Enterprise active geo-replication flush operation */
@@ -531,10 +546,33 @@ export interface Database extends ProxyResource {
   modules?: Module[];
   /** Optional set of properties to configure geo replication for this database. */
   geoReplication?: DatabasePropertiesGeoReplication;
+  /**
+   * Version of Redis the database is running on, e.g. '6.0'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more:  https://aka.ms/redisversionupgrade */
+  deferUpgrade?: DeferUpgradeSetting;
+}
+
+/** Defines headers for Databases_forceLinkToReplicationGroup operation. */
+export interface DatabasesForceLinkToReplicationGroupHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for Databases_flush operation. */
 export interface DatabasesFlushHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_upgradeDBRedisVersion operation. */
+export interface DatabasesUpgradeDBRedisVersionHeaders {
   /** Location URI to poll for result */
   location?: string;
   /** URI to poll for the operation status */
@@ -556,7 +594,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -573,7 +611,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -587,6 +625,8 @@ export type ActionType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** EnterpriseE5 */
+  EnterpriseE5 = "Enterprise_E5",
   /** EnterpriseE10 */
   EnterpriseE10 = "Enterprise_E10",
   /** EnterpriseE20 */
@@ -600,7 +640,7 @@ export enum KnownSkuName {
   /** EnterpriseFlashF700 */
   EnterpriseFlashF700 = "EnterpriseFlash_F700",
   /** EnterpriseFlashF1500 */
-  EnterpriseFlashF1500 = "EnterpriseFlash_F1500"
+  EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
 }
 
 /**
@@ -608,6 +648,7 @@ export enum KnownSkuName {
  * {@link KnownSkuName} can be used interchangeably with SkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Enterprise_E5** \
  * **Enterprise_E10** \
  * **Enterprise_E20** \
  * **Enterprise_E50** \
@@ -627,7 +668,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -649,7 +690,7 @@ export enum KnownTlsVersion {
   /** One1 */
   One1 = "1.1",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -668,7 +709,7 @@ export enum KnownCmkIdentityType {
   /** SystemAssignedIdentity */
   SystemAssignedIdentity = "systemAssignedIdentity",
   /** UserAssignedIdentity */
-  UserAssignedIdentity = "userAssignedIdentity"
+  UserAssignedIdentity = "userAssignedIdentity",
 }
 
 /**
@@ -694,7 +735,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -740,7 +781,7 @@ export enum KnownResourceState {
   /** Scaling */
   Scaling = "Scaling",
   /** ScalingFailed */
-  ScalingFailed = "ScalingFailed"
+  ScalingFailed = "ScalingFailed",
 }
 
 /**
@@ -772,7 +813,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -795,7 +836,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -815,7 +856,7 @@ export enum KnownProtocol {
   /** Encrypted */
   Encrypted = "Encrypted",
   /** Plaintext */
-  Plaintext = "Plaintext"
+  Plaintext = "Plaintext",
 }
 
 /**
@@ -833,7 +874,7 @@ export enum KnownClusteringPolicy {
   /** EnterpriseCluster */
   EnterpriseCluster = "EnterpriseCluster",
   /** OSSCluster */
-  OSSCluster = "OSSCluster"
+  OSSCluster = "OSSCluster",
 }
 
 /**
@@ -863,7 +904,7 @@ export enum KnownEvictionPolicy {
   /** VolatileRandom */
   VolatileRandom = "VolatileRandom",
   /** NoEviction */
-  NoEviction = "NoEviction"
+  NoEviction = "NoEviction",
 }
 
 /**
@@ -887,7 +928,7 @@ export enum KnownAofFrequency {
   /** OneS */
   OneS = "1s",
   /** Always */
-  Always = "always"
+  Always = "always",
 }
 
 /**
@@ -907,7 +948,7 @@ export enum KnownRdbFrequency {
   /** SixH */
   SixH = "6h",
   /** TwelveH */
-  TwelveH = "12h"
+  TwelveH = "12h",
 }
 
 /**
@@ -932,7 +973,7 @@ export enum KnownLinkState {
   /** LinkFailed */
   LinkFailed = "LinkFailed",
   /** UnlinkFailed */
-  UnlinkFailed = "UnlinkFailed"
+  UnlinkFailed = "UnlinkFailed",
 }
 
 /**
@@ -947,6 +988,24 @@ export enum KnownLinkState {
  * **UnlinkFailed**
  */
 export type LinkState = string;
+
+/** Known values of {@link DeferUpgradeSetting} that the service accepts. */
+export enum KnownDeferUpgradeSetting {
+  /** Deferred */
+  Deferred = "Deferred",
+  /** NotDeferred */
+  NotDeferred = "NotDeferred",
+}
+
+/**
+ * Defines values for DeferUpgradeSetting. \
+ * {@link KnownDeferUpgradeSetting} can be used interchangeably with DeferUpgradeSetting,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deferred** \
+ * **NotDeferred**
+ */
+export type DeferUpgradeSetting = string;
 /** Defines values for AccessKeyType. */
 export type AccessKeyType = "Primary" | "Secondary";
 
@@ -1133,6 +1192,19 @@ export interface DatabasesForceUnlinkOptionalParams
 }
 
 /** Optional parameters. */
+export interface DatabasesForceLinkToReplicationGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the forceLinkToReplicationGroup operation. */
+export type DatabasesForceLinkToReplicationGroupResponse =
+  DatabasesForceLinkToReplicationGroupHeaders;
+
+/** Optional parameters. */
 export interface DatabasesFlushOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1140,6 +1212,19 @@ export interface DatabasesFlushOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface DatabasesUpgradeDBRedisVersionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgradeDBRedisVersion operation. */
+export type DatabasesUpgradeDBRedisVersionResponse =
+  DatabasesUpgradeDBRedisVersionHeaders;
 
 /** Optional parameters. */
 export interface DatabasesListByClusterNextOptionalParams
@@ -1153,7 +1238,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1188,7 +1274,8 @@ export interface PrivateLinkResourcesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByClusterResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams

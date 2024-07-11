@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Correct content-length header with request body length. (#30138)
+
 ### Other Changes
 
 ## 12.23.0-beta.1 (2024-06-13)

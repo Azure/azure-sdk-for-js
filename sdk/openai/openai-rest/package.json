@@ -79,7 +79,7 @@
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest/README.md",
   "//metadata": {

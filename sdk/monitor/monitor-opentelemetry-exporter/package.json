@@ -98,7 +98,7 @@
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "tsx": "^4.7.1",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   },
   "dependencies": {
     "@azure/core-client": "^1.0.0",
