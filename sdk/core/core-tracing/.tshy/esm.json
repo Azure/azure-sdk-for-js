@@ -3,11 +3,13 @@
   "include": [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx"
+    "../src/**/*.tsx",
+    "../src/**/*.json"
   ],
   "exclude": [
-    ".././src/state-cjs.cts",
-    ".././src/state-browser.mts"
+    "../src/package.json",
+    "../src/state-cjs.cts",
+    "../src/state-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
