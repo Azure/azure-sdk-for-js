@@ -1,8 +1,12 @@
 # Release History
 
-## 1.6.1 (Unreleased)
+## 1.7.0 (Unreleased)
 
 ### Features Added
+
+- Support `listLabels` method to list all the labels in the configuration setting store.
+- Add `tagsFilter` in the option bag for `listConfigurationSettings` method. This feature allows you to filter configuration settings by specifying tags.
+- Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
 
 ### Breaking Changes
 
@@ -15,6 +19,7 @@
 ### Features Added
 
 - The `etag` for each page of configuration settings feature is generally available
+
 ## 1.6.0-beta.1 (2024-03-05)
 
 ### Features Added

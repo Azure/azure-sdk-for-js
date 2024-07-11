@@ -36,6 +36,7 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
       "AZSDK3490", // etag value in If-Match header is not a secret and is needed for etag test
       "AZSDK2030", // operation-location header is not a secret and is needed for long running operation tests
       "AZSDK3493", // .name in the body is not a secret
+      "AZSDK2021", // x-ms-client-request-id for custom client ID test
     ],
   };
 
@@ -172,7 +173,7 @@ export async function toSortedLabelsArray(
 }
 
 export function assertEqualSettings(
-  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly" | "tags">[],
+  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
   actual: ConfigurationSetting[],
 ): void {
   actual = actual.map((setting) => {
@@ -181,11 +182,22 @@ export function assertEqualSettings(
       label: setting.label || undefined,
       value: setting.value,
       isReadOnly: setting.isReadOnly,
-      tags: setting.tags,
     };
   });
 
   assert.deepEqual(expected, actual);
+}
+
+export function assertTags(
+  expected: Pick<ConfigurationSetting, "tags">[],
+  actual: ConfigurationSetting[],
+): void {
+  const tagsList = actual.map((setting) => {
+    return {
+      tags: setting.tags,
+    };
+  });
+  assert.deepEqual(expected, tagsList);
 }
 
 export async function assertThrowsRestError(

@@ -10,6 +10,7 @@ import {
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
+  assertTags,
   assertThrowsAbortError,
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -552,6 +553,140 @@ describe("AppConfigurationClient", () => {
     });
   });
 
+  describe("listLabels", () => {
+    const uniqueLabel = "listConfigSettingsLabelA";
+    let listConfigSettingA: ConfigurationSetting;
+    let count = 0;
+
+    /** Simulating a setting in production that will be made read only */
+    const productionASettingId: Pick<
+      ConfigurationSetting,
+      "key" | "label" | "value" | "contentType" | "tags"
+    > = {
+      key: "",
+      label: "",
+      value: "[A] production value",
+      contentType: "a content type",
+      tags: {
+        production: "A",
+        value: "1",
+      },
+    };
+
+    const keys: {
+      listConfigSettingA: string;
+      listConfigSettingB: string;
+    } = {
+      listConfigSettingA: "",
+      listConfigSettingB: "",
+    };
+
+    before(async () => {
+      if (!isPlaybackMode()) {
+        await deleteEverySetting();
+      }
+    });
+
+    beforeEach(async () => {
+      keys.listConfigSettingA = recorder.variable(
+        `listConfigSetting${count}A`,
+        `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
+      );
+
+      keys.listConfigSettingB = recorder.variable(
+        `listConfigSetting${count}B`,
+        `listConfigSetting${count}B${Math.floor(Math.random() * 100000)}`,
+      );
+      count += 1;
+
+      productionASettingId.key = keys.listConfigSettingA;
+      productionASettingId.label = uniqueLabel;
+
+      listConfigSettingA = await client.addConfigurationSetting(productionASettingId);
+    });
+
+    after(async () => {
+      try {
+        await deleteKeyCompletely([keys.listConfigSettingA], client);
+      } catch (e: any) {
+        /** empty */
+      }
+    });
+
+    it("basic list labels", async () => {
+      const labelsIterator = client.listLabels();
+      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
+      assert.deepEqual(
+        [
+          {
+            name: uniqueLabel,
+          },
+        ],
+        byLabelSettings,
+      );
+    });
+
+    it("name wildcards", async () => {
+      const uniqueLabel2 = "listConfigSettingsLabelB";
+      await client.addConfigurationSetting({
+        key: keys.listConfigSettingB,
+        label: uniqueLabel2,
+        value: "[B] production value",
+        tags: {
+          production: "B",
+          value: "2",
+        },
+      });
+      const labelsIterator = client.listLabels({
+        nameFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*",
+      });
+      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
+      assert.deepEqual(byLabelSettings, [
+        {
+          name: uniqueLabel,
+        },
+        {
+          name: uniqueLabel2,
+        },
+      ]);
+
+      await deleteKeyCompletely([keys.listConfigSettingB], client);
+    });
+
+    it("Using `select` via `fields`", async () => {
+      const labelsIterator = client.listLabels({
+        fields: ["name"],
+      });
+
+      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
+      assert.deepEqual(
+        [
+          {
+            name: uniqueLabel,
+          },
+        ],
+        byLabelSettings,
+      );
+    });
+
+    it("by date", async () => {
+      const labelsIterator = client.listLabels({
+        acceptDateTime: listConfigSettingA.lastModified,
+      });
+      const labels = await toSortedLabelsArray(labelsIterator);
+      let foundLabel = false;
+      for (const label of labels) {
+        assert.isDefined(label.name);
+
+        if (label.name === uniqueLabel) {
+          foundLabel = true;
+        }
+      }
+
+      assert.isTrue(foundLabel);
+    });
+  });
+
   describe("listConfigurationSettings", () => {
     let uniqueLabel: string;
     let listConfigSettingA: ConfigurationSetting;
@@ -568,7 +703,7 @@ describe("AppConfigurationClient", () => {
       contentType: "a content type",
       tags: {
         production: "A",
-        value: "A",
+        value: "1",
       },
     };
 
@@ -606,7 +741,7 @@ describe("AppConfigurationClient", () => {
         value: "[A] value",
         tags: {
           production: "A",
-          value: "A",
+          value: "2",
         },
       });
 
@@ -616,7 +751,7 @@ describe("AppConfigurationClient", () => {
         value: "[B] production value",
         tags: {
           production: "B",
-          value: "B",
+          value: "1",
         },
       });
       await client.addConfigurationSetting({
@@ -624,12 +759,12 @@ describe("AppConfigurationClient", () => {
         value: "[B] value",
         tags: {
           production: "B",
-          value: "B",
+          value: "2",
         },
       });
     });
 
-    after(async () => {
+    afterEach(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
       } catch (e: any) {
@@ -718,33 +853,40 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on tags", async () => {
-      const byTagsIterator = client.listConfigurationSettings({ tagsFilter: ["production=A"] });
+      await client.addConfigurationSetting({
+        key: "listConfigSettingC",
+        value: "[C] production value",
+        tags: {
+          production: "C",
+          value: "2",
+        },
+      });
+      const byTagsIterator = client.listConfigurationSettings({ tagsFilter: ["production=C"] });
       const byKeySettings = await toSortedArray(byTagsIterator);
-      assertEqualSettings(
+      assertTags(
         [
           {
-            key: keys.listConfigSettingA,
-            value: "[A] production value",
-            label: uniqueLabel,
-            isReadOnly: true,
             tags: {
-              production: "A",
-              value: "A",
-            },
-          },
-          {
-            key: keys.listConfigSettingA,
-            value: "[A] value",
-            label: undefined,
-            isReadOnly: false,
-            tags: {
-              production: "A",
-              value: "A",
+              production: "C",
+              value: "2",
             },
           },
         ],
         byKeySettings,
       );
+      assertEqualSettings(
+        [
+          {
+            key: "listConfigSettingC",
+            value: "[C] production value",
+            label: undefined,
+            isReadOnly: false,
+          },
+        ],
+        byKeySettings,
+      );
+
+      await deleteKeyCompletely(["listConfigSettingC"], client);
     });
 
     it("key wildcards", async () => {
@@ -1203,132 +1345,6 @@ describe("AppConfigurationClient", () => {
           isReadOnly: settings[0].isReadOnly,
         },
       );
-    });
-  });
-
-  describe("listLabels", () => {
-    const uniqueLabel = "listConfigSettingsLabelA";
-    let listConfigSettingA: ConfigurationSetting;
-    let count = 0;
-
-    /** Simulating a setting in production that will be made read only */
-    const productionASettingId: Pick<
-      ConfigurationSetting,
-      "key" | "label" | "value" | "contentType" | "tags"
-    > = {
-      key: "",
-      label: "",
-      value: "[A] production value",
-      contentType: "a content type",
-      tags: {
-        production: "A",
-        value: "A",
-      },
-    };
-
-    const keys: {
-      listConfigSettingA: string;
-      listConfigSettingB: string;
-    } = {
-      listConfigSettingA: "",
-      listConfigSettingB: "",
-    };
-
-    beforeEach(async () => {
-      keys.listConfigSettingA = recorder.variable(
-        `listConfigSetting${count}A`,
-        `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
-      );
-
-      keys.listConfigSettingB = recorder.variable(
-        `listConfigSetting${count}B`,
-        `listConfigSetting${count}B${Math.floor(Math.random() * 100000)}`,
-      );
-      count += 1;
-
-      productionASettingId.key = keys.listConfigSettingA;
-      productionASettingId.label = uniqueLabel;
-
-      listConfigSettingA = await client.addConfigurationSetting(productionASettingId);
-    });
-
-    after(async () => {
-      try {
-        await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
-      } catch (e: any) {
-        /** empty */
-      }
-    });
-
-    it("basic list labels", async () => {
-      const labelsIterator = client.listLabels();
-      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
-      assert.deepEqual(
-        [
-          {
-            name: uniqueLabel,
-          },
-        ],
-        byLabelSettings,
-      );
-    });
-
-    it("name wildcards", async () => {
-      const uniqueLabel2 = "listConfigSettingsLabelB";
-      await client.addConfigurationSetting({
-        key: keys.listConfigSettingB,
-        label: uniqueLabel2,
-        value: "[B] production value",
-        tags: {
-          production: "B",
-          value: "B",
-        },
-      });
-      const labelsIterator = client.listLabels({
-        nameFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*",
-      });
-      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
-      assert.deepEqual(byLabelSettings, [
-        {
-          name: uniqueLabel,
-        },
-        {
-          name: uniqueLabel2,
-        },
-      ]);
-    });
-
-    it("Using `select` via `fields`", async () => {
-      const labelsIterator = client.listLabels({
-        fields: ["name"],
-      });
-
-      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
-      assert.deepEqual(
-        [
-          {
-            name: uniqueLabel,
-          },
-        ],
-        byLabelSettings,
-      );
-    });
-
-    it("by date", async () => {
-      const labelsIterator = client.listLabels({
-        acceptDateTime: listConfigSettingA.lastModified,
-      });
-      const labels = await toSortedLabelsArray(labelsIterator);
-      let foundLabel = false;
-      for (const label of labels) {
-        assert.ok(label.name);
-
-        if (label.name === uniqueLabel) {
-          foundLabel = true;
-        }
-      }
-
-      assert.isTrue(foundLabel);
     });
   });
 

@@ -47,6 +47,7 @@ describe("AppConfigurationClient snapshot", () => {
     filter1 = {
       keyFilter: key1,
       labelFilter: label1,
+      tagsFilter: [],
     };
     filter2 = {
       keyFilter: key2,
@@ -141,7 +142,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it.only("list configuration setting snapshot with filters", async () => {
+    it("list configuration setting snapshot with filters", async () => {
       snapshot1 = {
         name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
         retentionPeriodInSeconds: 2592000,
