@@ -164,6 +164,17 @@ export interface ChatCompletionsFunctionToolSelection {
   name: string;
 }
 
+/** Represents an image with optional text. */
+export interface EmbeddingInput {
+  /** The input image, in PNG format. */
+  image: string;
+  /**
+   * Optional. The text input to feed into the model (like DINO, CLIP).
+   * Returns a 422 error if the model doesn't support the value or parameter.
+   */
+  text?: string;
+}
+
 /** An abstract representation of a chat message as provided in a request. */
 export type ChatRequestMessage =
   | ChatRequestMessageParent
@@ -191,17 +202,17 @@ export type ChatCompletionsToolDefinition =
 export type ChatCompletionsNamedToolSelection =
   | ChatCompletionsNamedToolSelectionParent
   | ChatCompletionsNamedFunctionToolSelection;
-/** Alias for UnknownParams */
-export type UnknownParams = string | "error" | "drop" | "pass_through";
+/** Alias for ExtraParameters */
+export type ExtraParameters = string;
 /** Alias for ChatRole */
-export type ChatRole = string | "system" | "user" | "assistant" | "tool";
+export type ChatRole = string;
 /** Alias for ChatMessageImageDetailLevel */
-export type ChatMessageImageDetailLevel = string | "auto" | "low" | "high";
+export type ChatMessageImageDetailLevel = string;
 /** Alias for ChatCompletionsResponseFormat */
-export type ChatCompletionsResponseFormat = string | "text" | "json_object";
+export type ChatCompletionsResponseFormat = string;
 /** Alias for ChatCompletionsToolSelectionPreset */
-export type ChatCompletionsToolSelectionPreset =
-  | string
-  | "auto"
-  | "none"
-  | "required";
+export type ChatCompletionsToolSelectionPreset = string;
+/** Alias for EmbeddingEncodingFormat */
+export type EmbeddingEncodingFormat = string;
+/** Alias for EmbeddingInputType */
+export type EmbeddingInputType = string;

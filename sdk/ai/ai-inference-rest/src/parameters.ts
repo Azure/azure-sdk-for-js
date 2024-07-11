@@ -4,20 +4,24 @@
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  UnknownParams,
+  ExtraParameters,
   ChatRequestMessage,
   ChatCompletionsResponseFormat,
   ChatCompletionsToolDefinition,
   ChatCompletionsToolSelectionPreset,
   ChatCompletionsNamedToolSelection,
+  EmbeddingEncodingFormat,
+  EmbeddingInputType,
+  EmbeddingInput,
 } from "./models.js";
 
 export interface GetChatCompletionsHeaders {
   /**
-   * Controls what happens if unknown parameters are passed in the JSON request payload.
-   * This sets the HTTP request header `unknown-parameters`.
+   * Controls what happens if extra parameters, undefined by the REST API,
+   * are passed in the JSON request payload.
+   * This sets the HTTP request header `extra-parameters`.
    */
-  "unknown-parameters"?: UnknownParams;
+  "extra-parameters"?: ExtraParameters;
 }
 
 export interface GetChatCompletionsBodyParam {
@@ -33,8 +37,8 @@ export interface GetChatCompletionsBodyParam {
     stop?: string[];
     tools?: Array<ChatCompletionsToolDefinition>;
     tool_choice?:
-      | ChatCompletionsToolSelectionPreset
-      | ChatCompletionsNamedToolSelection;
+    | ChatCompletionsToolSelectionPreset
+    | ChatCompletionsNamedToolSelection;
     seed?: number;
     model?: string;
   };
@@ -48,3 +52,55 @@ export type GetChatCompletionsParameters = GetChatCompletionsHeaderParam &
   GetChatCompletionsBodyParam &
   RequestParameters;
 export type GetModelInfoParameters = RequestParameters;
+
+export interface GetEmbeddingsHeaders {
+  /**
+   * Controls what happens if extra parameters, undefined by the REST API,
+   * are passed in the JSON request payload.
+   * This sets the HTTP request header `extra-parameters`.
+   */
+  "extra-parameters"?: ExtraParameters;
+}
+
+export interface GetEmbeddingsBodyParam {
+  body?: {
+    input: string[];
+    dimensions?: number;
+    encoding_format?: EmbeddingEncodingFormat;
+    input_type?: EmbeddingInputType;
+  };
+}
+
+export interface GetEmbeddingsHeaderParam {
+  headers?: RawHttpHeadersInput & GetEmbeddingsHeaders;
+}
+
+export type GetEmbeddingsParameters = GetEmbeddingsHeaderParam &
+  GetEmbeddingsBodyParam &
+  RequestParameters;
+
+export interface GetImageEmbeddingsHeaders {
+  /**
+   * Controls what happens if extra parameters, undefined by the REST API,
+   * are passed in the JSON request payload.
+   * This sets the HTTP request header `extra-parameters`.
+   */
+  "extra-parameters"?: ExtraParameters;
+}
+
+export interface GetImageEmbeddingsBodyParam {
+  body?: {
+    input: Array<EmbeddingInput>;
+    dimensions?: number;
+    encoding_format?: EmbeddingEncodingFormat;
+    input_type?: EmbeddingInputType;
+  };
+}
+
+export interface GetImageEmbeddingsHeaderParam {
+  headers?: RawHttpHeadersInput & GetImageEmbeddingsHeaders;
+}
+
+export type GetImageEmbeddingsParameters = GetImageEmbeddingsHeaderParam &
+  GetImageEmbeddingsBodyParam &
+  RequestParameters;
