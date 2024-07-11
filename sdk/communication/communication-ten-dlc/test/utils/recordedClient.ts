@@ -11,11 +11,12 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { TenDlcClient } from "../../src/tenDlcClient";
-import { isNode } from "@azure-tools/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { TenDlcClient } from "../../src/tenDlcClient";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -29,6 +30,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
+  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
 export const recorderOptions: RecorderStartOptions = {
@@ -40,18 +42,15 @@ export const recorderOptions: RecorderStartOptions = {
         fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
       },
     ],
-    generalSanitizers: [
-      {
-        regex: true,
-        target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
-        value: "00000000-0000-0000-0000-000000000000",
-      },
+    headerSanitizers: [
+      { key: "x-ms-content-sha256", value: "Sanitized" },
+      { key: "x-ms-client-request-id", value: "Sanitized" },
     ],
   },
 };
 
 export async function createRecordedClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<TenDlcClient>> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
@@ -66,7 +65,14 @@ export async function createRecordedClient(
   return {
     client: new TenDlcClient(
       assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      }),
     ),
     recorder,
   };
@@ -83,14 +89,14 @@ export function createMockToken(): {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<TenDlcClient> | undefined> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -98,24 +104,46 @@ export async function createRecordedClientWithToken(
 
     // casting is a workaround to enable min-max testing
     return {
-      client: new TenDlcClient(endpoint, credential, recorder.configureClientOptions({})),
+      client: new TenDlcClient(
+        endpoint,
+        credential,
+        recorder.configureClientOptions({
+          additionalPolicies: [
+            {
+              policy: createMSUserAgentPolicy(),
+              position: "perCall",
+            },
+          ],
+        }),
+      ),
       recorder,
     };
   }
 
-  if (isNode) {
+  if (isNodeLike) {
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(
       assertEnvironmentVariable("AZURE_TENANT_ID"),
       assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_SECRET")
+      assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
     );
   }
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new TenDlcClient(endpoint, credential, recorder.configureClientOptions({})),
+    client: new TenDlcClient(
+      endpoint,
+      credential,
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      }),
+    ),
     recorder,
   };
 }
