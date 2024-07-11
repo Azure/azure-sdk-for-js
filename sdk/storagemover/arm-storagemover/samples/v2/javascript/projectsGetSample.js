@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a Project resource.
  *
  * @summary Gets a Project resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Projects_Get.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Projects_Get.json
  */
 async function projectsGet() {
   const subscriptionId =

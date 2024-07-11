@@ -1,18 +1,30 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
+    
+## 2.1.0 (2024-06-13)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Recurrence
+  - Added Interface Time
+  - Added Interface UploadLimit
+  - Added Interface UploadLimitSchedule
+  - Added Interface UploadLimitWeeklyRecurrence
+  - Added Interface WeeklyRecurrence
+  - Added Type Alias DayOfWeek
+  - Added Type Alias Minute
+  - Interface Agent has a new optional parameter timeZone
+  - Interface Agent has a new optional parameter uploadLimitSchedule
+  - Interface AgentUpdateParameters has a new optional parameter uploadLimitSchedule
+  - Added Enum KnownMinute
+  - Enum KnownJobRunStatus has a new value PausedByBandwidthManagement
+  - Enum KnownProvisioningState has a new value Canceled
+  - Enum KnownProvisioningState has a new value Deleting
+  - Enum KnownProvisioningState has a new value Failed
+    
+    
 ## 2.0.0 (2023-10-07)
     
-**Features**
+### Features Added
 
   - Added Interface AzureKeyVaultSmbCredentials
   - Added Interface AzureStorageSmbFileShareEndpointProperties
@@ -35,7 +47,7 @@
   - Interface Project no longer has parameter systemData
   - Interface StorageMover no longer has parameter systemData
   
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new required parameter endpointType
   - Interface EndpointBaseUpdateProperties has a new required parameter endpointType
@@ -45,7 +57,7 @@
     
 ## 2.0.0-beta.1 (2023-07-12)
     
-**Features**
+### Features Added
 
   - Added Interface AzureKeyVaultSmbCredentials
   - Added Interface AzureStorageSmbFileShareEndpointProperties
@@ -68,7 +80,7 @@
   - Interface Project no longer has parameter systemData
   - Interface StorageMover no longer has parameter systemData
   
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new required parameter endpointType
   - Interface EndpointBaseUpdateProperties has a new required parameter endpointType

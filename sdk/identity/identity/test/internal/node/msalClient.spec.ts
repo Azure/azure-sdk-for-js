@@ -499,5 +499,31 @@ describe("MsalClient", function () {
       );
       await assert.isRejected(request, AbortError);
     });
+
+    it("supports cross-tenant federation", async function (this: Context) {
+      const tenantIdOne = "tenantOne";
+      const tenantIdTwo = "tenantTwo";
+      const authorityHost = "https://custom.authority.com";
+
+      const expectedAuthority = `${authorityHost}/${tenantIdTwo}`;
+
+      const clientCredentialAuthStub = sinon
+        .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
+        .resolves({
+          accessToken: "token",
+          expiresOn: new Date(Date.now() + 3600 * 1000),
+        } as AuthenticationResult);
+
+      const client = msalClient.createMsalClient(clientId, tenantIdOne, {
+        authorityHost,
+      });
+
+      const scopes = ["https://vault.azure.net/.default"];
+
+      await client.getTokenByDeviceCode(scopes, deviceCodeCallback, { tenantId: tenantIdTwo });
+
+      const { authority: requestAuthority } = clientCredentialAuthStub.firstCall.firstArg;
+      assert.equal(requestAuthority, expectedAuthority);
+    });
   });
 });

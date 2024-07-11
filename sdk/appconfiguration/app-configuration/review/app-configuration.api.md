@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { CommonClientOptions } from '@azure/core-client';
 import { CompatResponse } from '@azure/core-http-compat';
 import { OperationOptions } from '@azure/core-client';

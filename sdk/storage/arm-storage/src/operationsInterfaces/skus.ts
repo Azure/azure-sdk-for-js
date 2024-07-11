@@ -17,6 +17,6 @@ export interface Skus {
    * @param options The options parameters.
    */
   list(
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<SkuInformation>;
 }

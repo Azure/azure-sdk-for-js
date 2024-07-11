@@ -18,7 +18,7 @@ import {
   ProjectUpdateParameters,
   ProjectsUpdateOptionalParams,
   ProjectsUpdateResponse,
-  ProjectsDeleteOptionalParams
+  ProjectsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Projects {
   list(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): PagedAsyncIterableIterator<Project>;
   /**
    * Gets a Project resource.
@@ -46,7 +46,7 @@ export interface Projects {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: ProjectsGetOptionalParams
+    options?: ProjectsGetOptionalParams,
   ): Promise<ProjectsGetResponse>;
   /**
    * Creates or updates a Project resource, which is a logical grouping of related jobs.
@@ -61,7 +61,7 @@ export interface Projects {
     storageMoverName: string,
     projectName: string,
     project: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams
+    options?: ProjectsCreateOrUpdateOptionalParams,
   ): Promise<ProjectsCreateOrUpdateResponse>;
   /**
    * Updates properties for a Project resource. Properties not specified in the request body will be
@@ -77,7 +77,7 @@ export interface Projects {
     storageMoverName: string,
     projectName: string,
     project: ProjectUpdateParameters,
-    options?: ProjectsUpdateOptionalParams
+    options?: ProjectsUpdateOptionalParams,
   ): Promise<ProjectsUpdateResponse>;
   /**
    * Deletes a Project resource.
@@ -90,7 +90,7 @@ export interface Projects {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Project resource.
@@ -103,6 +103,6 @@ export interface Projects {
     resourceGroupName: string,
     storageMoverName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<void>;
 }

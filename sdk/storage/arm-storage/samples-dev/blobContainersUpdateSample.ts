@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.
  *
  * @summary Updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersPatch.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersPatch.json
  */
 async function updateContainers() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function updateContainers() {
   const containerName = "container6185";
   const blobContainer: BlobContainer = {
     metadata: { metadata: "true" },
-    publicAccess: "Container"
+    publicAccess: "Container",
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -36,7 +36,7 @@ async function updateContainers() {
     resourceGroupName,
     accountName,
     containerName,
-    blobContainer
+    blobContainer,
   );
   console.log(result);
 }

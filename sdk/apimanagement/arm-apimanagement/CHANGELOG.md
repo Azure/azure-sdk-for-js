@@ -2,7 +2,7 @@
 
 ## 9.1.0 (2023-08-23)
 
-**Features**
+### Features Added
 
 - Added operation group ApiWiki
 - Added operation group ApiWikis
@@ -257,7 +257,7 @@
 
 ## 9.0.0 (2023-02-01)
 
-**Features**
+### Features Added
 
 - Added operation group GlobalSchema
 - Added Interface GlobalSchemaCollection
@@ -452,26 +452,26 @@
 - Interface UserSubscriptionListNextOptionalParams no longer has parameter skip
 - Interface UserSubscriptionListNextOptionalParams no longer has parameter top
 
-**Breaking Changes**
+### Breaking Changes
 
 - Operation ContentItem.createOrUpdate has a new signature
 - Operation ContentType.createOrUpdate has a new signature
 
 ## 8.1.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - revert credential scopes
 
 ## 8.1.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - fix better user experience of credential scopes in government cloud
 
 ## 8.1.0 (2022-08-03)
 
-**Features**
+### Features Added
 
 - Added Interface AccessInformationContract
 - Added Interface ApiContract
@@ -559,7 +559,7 @@
 
 ## 8.0.1 (2022-04-06)
 
-**features**
+### Features Added
 
 - Bug fix
 

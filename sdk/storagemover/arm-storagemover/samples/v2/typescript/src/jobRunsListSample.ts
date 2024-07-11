@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Job Runs in a Job Definition.
  *
  * @summary Lists all Job Runs in a Job Definition.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobRuns_List.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobRuns_List.json
  */
 async function jobRunsList() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function jobRunsList() {
     resourceGroupName,
     storageMoverName,
     projectName,
-    jobDefinitionName
+    jobDefinitionName,
   )) {
     resArray.push(item);
   }

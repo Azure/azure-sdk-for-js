@@ -482,4 +482,14 @@ describe("BlockBlobClient", () => {
     assert.ok(properties.accessTier);
     assert.equal(properties.accessTier!, "Cold");
   });
+
+  it("Upload special content should work", async () => {
+    const content =
+      "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
+
+    await blockBlobClient.upload(content, content.length);
+
+    const result = await blockBlobClient.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
 });

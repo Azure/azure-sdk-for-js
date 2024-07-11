@@ -11,7 +11,8 @@ import { delay } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
 import { KeyClient } from "@azure/keyvault-keys";
 
-describe("KeyVaultBackupClient", () => {
+// TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
+describe.skip("KeyVaultBackupClient", () => {
   let client: KeyVaultBackupClient;
   let keyClient: KeyClient;
 

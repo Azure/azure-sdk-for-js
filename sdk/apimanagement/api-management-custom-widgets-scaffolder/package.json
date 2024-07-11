@@ -68,8 +68,8 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "rollup": "^4.14.0",
-    "tshy": "^1.13.0",
-    "typescript": "~5.3.3",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vitest": "^1.4.0"
   },
   "dependencies": {
@@ -108,5 +108,6 @@
     }
   },
   "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts"
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }
