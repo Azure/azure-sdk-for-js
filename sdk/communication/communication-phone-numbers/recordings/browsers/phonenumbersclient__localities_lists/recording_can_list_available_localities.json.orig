@@ -19,12 +19,29 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Sat, 15 Jul 2023 04:52:16 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+=======
         "x-ms-date": "Wed, 22 Nov 2023 10:40:55 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+<<<<<<< HEAD
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "10216",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 15 Jul 2023 04:52:16 GMT",
+        "MS-CV": "LlZeVIlWE0K6oIhT6WNhiw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0ACayZAAAAADhhiwB5\u002BqxSJ6p6mz96xmjV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "227ms"
+=======
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "10217",
@@ -35,6 +52,7 @@
         "X-Azure-Ref": "0ttpdZQAAAAAta//v0q7WTrwc2pWRskobUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "742ms"
+>>>>>>> main
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -333,7 +351,11 @@
             }
           },
           {
+<<<<<<< HEAD
+            "localizedName": "Tampa",
+=======
             "localizedName": "Tallahassee",
+>>>>>>> main
             "administrativeDivision": {
               "localizedName": "FL",
               "abbreviatedName": "FL"
@@ -635,6 +657,16 @@
           },
           {
             "localizedName": "Lynn",
+<<<<<<< HEAD
+            "administrativeDivision": {
+              "localizedName": "MA",
+              "abbreviatedName": "MA"
+            }
+          },
+          {
+            "localizedName": "Worcester",
+=======
+>>>>>>> main
             "administrativeDivision": {
               "localizedName": "MA",
               "abbreviatedName": "MA"
@@ -718,6 +750,16 @@
             }
           },
           {
+<<<<<<< HEAD
+            "localizedName": "Pontiac",
+            "administrativeDivision": {
+              "localizedName": "MI",
+              "abbreviatedName": "MI"
+            }
+          },
+          {
+=======
+>>>>>>> main
             "localizedName": "Saginaw",
             "administrativeDivision": {
               "localizedName": "MI",
@@ -746,11 +788,19 @@
             }
           }
         ],
+<<<<<<< HEAD
+        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2023-05-01-preview"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2023-05-01-preview",
+=======
         "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
       }
     },
     {
       "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01",
+>>>>>>> main
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -768,12 +818,29 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Sat, 15 Jul 2023 04:52:17 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+=======
         "x-ms-date": "Wed, 22 Nov 2023 10:40:56 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+<<<<<<< HEAD
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "10209",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 15 Jul 2023 04:52:16 GMT",
+        "MS-CV": "KGE7cwJ95kWTOuMgsQy41Q.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0ASayZAAAAADF/eE4U72mQYXhBh6MyEr0V1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "227ms"
+=======
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "10195",
@@ -784,6 +851,7 @@
         "X-Azure-Ref": "0t9pdZQAAAAAOXrpvCKKeSKl/1MfL2lLeUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "750ms"
+>>>>>>> main
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -1180,13 +1248,19 @@
             }
           },
           {
+<<<<<<< HEAD
+            "localizedName": "Lancaster",
+=======
             "localizedName": "Erie",
+>>>>>>> main
             "administrativeDivision": {
               "localizedName": "PA",
               "abbreviatedName": "PA"
             }
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Lancaster",
             "administrativeDivision": {
               "localizedName": "PA",
@@ -1194,6 +1268,7 @@
             }
           },
           {
+>>>>>>> main
             "localizedName": "Philadelphia",
             "administrativeDivision": {
               "localizedName": "PA",
@@ -1264,6 +1339,8 @@
             }
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Jackson",
             "administrativeDivision": {
               "localizedName": "TN",
@@ -1278,6 +1355,7 @@
             }
           },
           {
+>>>>>>> main
             "localizedName": "Memphis",
             "administrativeDivision": {
               "localizedName": "TN",
@@ -1390,6 +1468,8 @@
             }
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Odessa",
             "administrativeDivision": {
               "localizedName": "TX",
@@ -1397,6 +1477,7 @@
             }
           },
           {
+>>>>>>> main
             "localizedName": "San Antonio",
             "administrativeDivision": {
               "localizedName": "TX",
@@ -1481,7 +1562,25 @@
             }
           },
           {
+<<<<<<< HEAD
+            "localizedName": "Spokane",
+            "administrativeDivision": {
+              "localizedName": "WA",
+              "abbreviatedName": "WA"
+            }
+          },
+          {
+            "localizedName": "Tacoma",
+            "administrativeDivision": {
+              "localizedName": "WA",
+              "abbreviatedName": "WA"
+            }
+          },
+          {
+            "localizedName": "Eau Claire",
+=======
             "localizedName": "Seattle",
+>>>>>>> main
             "administrativeDivision": {
               "localizedName": "WA",
               "abbreviatedName": "WA"

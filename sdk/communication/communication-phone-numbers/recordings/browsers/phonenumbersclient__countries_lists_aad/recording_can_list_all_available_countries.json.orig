@@ -18,11 +18,27 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
+<<<<<<< HEAD
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+=======
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+<<<<<<< HEAD
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "1487",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 15 Jul 2023 04:51:59 GMT",
+        "MS-CV": "LZfeydMP7k6C1IYPG2U5HQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "07iWyZAAAAAA0KzCMm2X0TIWYecambqqDV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1910ms"
+=======
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "1968",
@@ -33,6 +49,7 @@
         "X-Azure-Ref": "0J9pdZQAAAAAD9hUnkKcBSZJK/Ddr451SUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "2840ms"
+>>>>>>> main
       },
       "ResponseBody": {
         "countries": [
@@ -41,6 +58,8 @@
             "countryCode": "AR"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Austria",
             "countryCode": "AT"
           },
@@ -49,6 +68,7 @@
             "countryCode": "BE"
           },
           {
+>>>>>>> main
             "localizedName": "Brazil",
             "countryCode": "BR"
           },
@@ -81,10 +101,13 @@
             "countryCode": "FR"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Germany",
             "countryCode": "DE"
           },
           {
+>>>>>>> main
             "localizedName": "Hong Kong SAR",
             "countryCode": "HK"
           },
@@ -109,10 +132,13 @@
             "countryCode": "KR"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Luxembourg",
             "countryCode": "LU"
           },
           {
+>>>>>>> main
             "localizedName": "Malaysia",
             "countryCode": "MY"
           },
@@ -129,10 +155,13 @@
             "countryCode": "NZ"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Norway",
             "countryCode": "NO"
           },
           {
+>>>>>>> main
             "localizedName": "Philippines",
             "countryCode": "PH"
           },
@@ -141,42 +170,57 @@
             "countryCode": "PL"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Portugal",
             "countryCode": "PT"
           },
           {
+>>>>>>> main
             "localizedName": "Puerto Rico",
             "countryCode": "PR"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Saudi Arabia",
             "countryCode": "SA"
           },
           {
+>>>>>>> main
             "localizedName": "Singapore",
             "countryCode": "SG"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Slovakia",
             "countryCode": "SK"
           },
           {
+>>>>>>> main
             "localizedName": "South Africa",
             "countryCode": "ZA"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Spain",
             "countryCode": "ES"
           },
           {
+>>>>>>> main
             "localizedName": "Sweden",
             "countryCode": "SE"
           },
           {
+<<<<<<< HEAD
+=======
             "localizedName": "Switzerland",
             "countryCode": "CH"
           },
           {
+>>>>>>> main
             "localizedName": "Taiwan",
             "countryCode": "TW"
           },

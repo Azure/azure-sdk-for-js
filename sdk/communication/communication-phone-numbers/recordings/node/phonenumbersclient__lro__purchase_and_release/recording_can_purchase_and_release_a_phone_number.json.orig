@@ -13,8 +13,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "4/hFIxcYwXqhguSdYcV2TsQR1Tf8cOFyLfVXdBF8OBU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:20 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:36 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": {
         "phoneNumberType": "tollFree",
@@ -55,8 +59,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:21 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:38 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -94,8 +102,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:21 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:39 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -133,8 +145,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:24 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:41 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -172,8 +188,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:24 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:42 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -220,9 +240,14 @@
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
+<<<<<<< HEAD
+        "x-ms-content-sha256": "alm2TGuHGpoEPUMvMvglT18kxJ9KTvpv2KQnS1ztbZM=",
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:25 GMT"
+=======
         "x-ms-content-sha256": "gnItjevdcLdmg9K05bRhay8e\u002BdlgBgVLAyMsTNJ/9L4=",
         "x-ms-date": "Fri, 06 Jan 2023 17:31:43 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": {
         "searchId": "sanitized"
@@ -256,8 +281,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:26 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:45 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -293,8 +322,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:26 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:46 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -330,8 +363,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:28 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:48 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -344,6 +381,9 @@
         "Transfer-Encoding": "chunked",
         "X-Azure-Ref": "0ndOwZAAAAACYjWJqbhfIR4s4IEXxrcOtV1NURURHRTA4MTMAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
+<<<<<<< HEAD
+        "X-Processing-Time": "251ms"
+=======
         "X-Processing-Time": "448ms"
       },
       "ResponseBody": {
@@ -382,6 +422,7 @@
         "X-Azure-Ref": "0BVu4YwAAAABrOU4EdNyTS59tvrt7UprRTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "462ms"
+>>>>>>> main
       },
       "ResponseBody": {
         "operationType": "purchase",
@@ -404,8 +445,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:31 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:53 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -441,8 +486,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:33 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:56 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -478,8 +527,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:35 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:31:58 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -515,8 +568,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:38 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:01 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -552,8 +609,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:40 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:03 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -660,8 +721,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:45 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:04 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -705,8 +770,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:46 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:06 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 202,
@@ -737,8 +806,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:49 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:08 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -773,8 +846,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:49 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:09 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -809,8 +886,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:51 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:11 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -845,8 +926,12 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+<<<<<<< HEAD
+        "x-ms-date": "Fri, 14 Jul 2023 04:48:54 GMT"
+=======
         "x-ms-date": "Fri, 06 Jan 2023 17:32:14 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,

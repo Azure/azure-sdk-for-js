@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/areaCodes?phoneNumberType=tollFree\u0026skip=0\u0026maxPageSize=100\u0026assignmentType=application\u0026api-version=2023-10-01-preview",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/areaCodes?phoneNumberType=tollFree\u0026skip=0\u0026maxPageSize=100\u0026assignmentType=application\u0026api-version=2024-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,27 +18,38 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/122.0.6261.57 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 Jan 2024 20:59:07 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-date": "Tue, 27 Feb 2024 18:50:33 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
-        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01-preview, 2024-08-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Connection": "keep-alive",
-        "Content-Length": "32",
+        "Content-Length": "107",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 Jan 2024 20:59:08 GMT",
-        "MS-CV": "NrKSNMeS70envw9k/ZMqPw.0",
+        "Date": "Tue, 27 Feb 2024 18:50:34 GMT",
+        "MS-CV": "3GlkSA8Em0aQp4zbccbuEg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20240102T205907Z-sdc64pz8cp5nf65ktzgxk4w2k8000000029g0000000001ph",
+        "X-Azure-Ref": "0\u002BS7eZQAAAAA48zijAwkdRrtvWPqJaPHJV1NURURHRTAxMDkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "830ms"
+        "X-Processing-Time": "1638ms"
       },
       "ResponseBody": {
-        "areaCodes": [],
+        "areaCodes": [
+          {
+            "areaCode": "866"
+          },
+          {
+            "areaCode": "855"
+          },
+          {
+            "areaCode": "844"
+          },
+          {
+            "areaCode": "833"
+          }
+        ],
         "nextLink": null
       }
     }

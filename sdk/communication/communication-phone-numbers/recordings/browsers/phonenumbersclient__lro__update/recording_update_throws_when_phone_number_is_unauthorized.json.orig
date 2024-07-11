@@ -21,8 +21,13 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "UC9kRixTqGBHL8/8LDOWaZFJCLceepyhWJ\u002B/vn6WEYQ=",
+<<<<<<< HEAD
+        "x-ms-date": "Sat, 15 Jul 2023 04:54:09 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+=======
         "x-ms-date": "Wed, 22 Nov 2023 10:40:50 GMT",
         "x-ms-useragent": "fake-useragent"
+>>>>>>> main
       },
       "RequestBody": {
         "calling": "none",
@@ -30,6 +35,17 @@
       },
       "StatusCode": 403,
       "ResponseHeaders": {
+<<<<<<< HEAD
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Content-Type": "application/json",
+        "Date": "Sat, 15 Jul 2023 04:54:09 GMT",
+        "MS-CV": "YrI3x35wgU2ImH8mByQTiA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0cSayZAAAAADlxaxf/Nk7TpyGd6yrnCxQV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "186ms"
+=======
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Content-Type": "application/json",
         "Date": "Wed, 22 Nov 2023 10:40:49 GMT",
@@ -39,6 +55,7 @@
         "X-Azure-Ref": "0sdpdZQAAAABBb5eL7E\u002B3RrLY6BXL79HDUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "431ms"
+>>>>>>> main
       },
       "ResponseBody": {
         "error": {

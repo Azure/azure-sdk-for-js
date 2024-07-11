@@ -285,12 +285,10 @@ export class PhoneNumbersClient {
    * ```
    *
    * @param searchId - The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
-   * @param consentToNotResellNumbers - The consent to not resell Phone Numbers.
    * @param options - Additional request options.
    */
   public beginPurchasePhoneNumbers(
     searchId: string,
-    consentToNotResellNumbers: boolean = false,
     options: BeginPurchasePhoneNumbersOptions = {},
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
@@ -299,11 +297,7 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options,
       (updatedOptions) => {
-        return this.client.phoneNumbers.beginPurchasePhoneNumbers({
-          ...updatedOptions,
-          searchId,
-          consentToNotResellNumbers,
-        });
+        return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
       },
     );
   }

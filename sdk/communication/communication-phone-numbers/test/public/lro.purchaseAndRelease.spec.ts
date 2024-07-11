@@ -39,14 +39,12 @@ matrix([[true, false]], async function (useAad) {
         phoneNumberType: "tollFree",
         assignmentType: "application",
         capabilities: {
-          sms: "none",
-          calling: "inbound",
+          sms: "inbound+outbound",
+          calling: "none",
         },
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
       const searchResults = await searchPoller.pollUntilDone();
-
-      const consentToNotResellNumbers = true;
 
       assert.ok(searchPoller.getOperationState().isCompleted);
       assert.isNotEmpty(searchResults.searchId);
@@ -57,10 +55,7 @@ matrix([[true, false]], async function (useAad) {
       assert.isNotEmpty(purchasedPhoneNumber);
 
       // purchase phone number
-      const purchasePoller = await client.beginPurchasePhoneNumbers(
-        searchResults.searchId,
-        consentToNotResellNumbers,
-      );
+      const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
 
       await purchasePoller.pollUntilDone();
       assert.ok(purchasePoller.getOperationState().isCompleted);
