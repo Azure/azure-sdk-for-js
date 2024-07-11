@@ -1,46 +1,78 @@
-# Azure EdgeZones REST client library for JavaScript
+# Azure MicrosoftEdgeZones client library for JavaScript
 
-Azure Edgezones Service
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MicrosoftEdgeZones client.
 
-**If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library, the REST client provides a light-weighted & developer friendly way to call azure rest api
 
-Key links:
 
-- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-edgezones)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-edgezones?view=azure-node-preview)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/edgezones/arm-edgezones) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-edgezones) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-edgezones?view=azure-node-preview) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
 ### Currently supported environments
 
-- LTS versions of Node.js
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+- An [Azure subscription][azure_sub].
 
 ### Install the `@azure/arm-edgezones` package
 
-Install the Azure EdgeZones REST client REST client library for JavaScript with `npm`:
+Install the Azure MicrosoftEdgeZones client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-edgezones
 ```
 
-### Create and authenticate a `EdgeZonesClient`
+### Create and authenticate a `MicrosoftEdgeZones`
 
-To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
-provide an instance of the desired credential type obtained from the
-[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+To create a client object to access the Azure MicrosoftEdgeZones API, you will need the `endpoint` of your Azure MicrosoftEdgeZones resource and a `credential`. The Azure MicrosoftEdgeZones client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure MicrosoftEdgeZones resource in the [Azure Portal][azure_portal].
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
-As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
-can be used to authenticate the client.
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
-AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+```bash
+npm install @azure/identity
+```
+
+You will also need to **register a new AAD application and grant access to Azure MicrosoftEdgeZones** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+
+```javascript
+const { MicrosoftEdgeZones } = require("@azure/arm-edgezones");
+const { DefaultAzureCredential } = require("@azure/identity");
+// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new MicrosoftEdgeZones(new DefaultAzureCredential(), subscriptionId);
+
+// For client-side applications running in the browser, use this code instead:
+// const credential = new InteractiveBrowserCredential({
+//   tenantId: "<YOUR_TENANT_ID>",
+//   clientId: "<YOUR_CLIENT_ID>"
+// });
+// const client = new MicrosoftEdgeZones(credential, subscriptionId);
+```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+## Key concepts
+
+### MicrosoftEdgeZones
+
+`MicrosoftEdgeZones` is the primary interface for developers using the Azure MicrosoftEdgeZones client library. Explore the methods on this client object to understand the different features of the Azure MicrosoftEdgeZones service that you can access.
 
 ## Troubleshooting
 
@@ -50,8 +82,28 @@ Enabling logging may help uncover useful information about failures. In order to
 
 ```javascript
 const { setLogLevel } = require("@azure/logger");
-
 setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+## Related projects
+
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fedgezones%2Farm-edgezones%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
