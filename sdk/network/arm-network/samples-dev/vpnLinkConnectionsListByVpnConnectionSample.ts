@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
  *
  * @summary Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnSiteLinkConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnSiteLinkConnectionList.json
  */
 async function vpnSiteLinkConnectionList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

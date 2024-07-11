@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the VM image templates associated with the specified resource group.
  *
  * @summary Gets information about the VM image templates associated with the specified resource group.
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/ListImageTemplatesByRg.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/ListImageTemplatesByRg.json
  */
 async function listImagesByResourceGroup() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";

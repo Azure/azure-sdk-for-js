@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates the specified application gateway.
  *
  * @summary Creates or updates the specified application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayCreate.json
  */
 async function createApplicationGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

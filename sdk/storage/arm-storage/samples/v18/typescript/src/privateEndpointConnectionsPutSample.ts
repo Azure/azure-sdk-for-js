@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the storage account.
  *
  * @summary Update the state of specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountPutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountPutPrivateEndpointConnection.json
  */
 async function storageAccountPutPrivateEndpointConnection() {
   const subscriptionId =
@@ -32,8 +32,8 @@ async function storageAccountPutPrivateEndpointConnection() {
   const properties: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Auto-Approved",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function storageAccountPutPrivateEndpointConnection() {
     resourceGroupName,
     accountName,
     privateEndpointConnectionName,
-    properties
+    properties,
   );
   console.log(result);
 }

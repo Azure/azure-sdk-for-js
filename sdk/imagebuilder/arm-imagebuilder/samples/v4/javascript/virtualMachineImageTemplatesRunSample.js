@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create artifacts from a existing image template
  *
  * @summary Create artifacts from a existing image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/RunImageTemplate.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/RunImageTemplate.json
  */
 async function createImageSFromExistingImageTemplate() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";

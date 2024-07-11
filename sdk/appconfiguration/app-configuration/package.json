@@ -109,7 +109,7 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "chai": "^4.2.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
@@ -127,7 +127,7 @@
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "tsx": "^4.7.1",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",

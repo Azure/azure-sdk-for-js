@@ -24,7 +24,7 @@ import {
   LocalUsersListKeysOptionalParams,
   LocalUsersListKeysResponse,
   LocalUsersRegeneratePasswordOptionalParams,
-  LocalUsersRegeneratePasswordResponse
+  LocalUsersRegeneratePasswordResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: LocalUsersListOptionalParams
+    options?: LocalUsersListOptionalParams,
   ): PagedAsyncIterableIterator<LocalUser> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -70,9 +70,9 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     options?: LocalUsersListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<LocalUser[]> {
     let result: LocalUsersListResponse;
     result = await this._list(resourceGroupName, accountName, options);
@@ -90,12 +90,12 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: LocalUsersListOptionalParams
+    options?: LocalUsersListOptionalParams,
   ): AsyncIterableIterator<LocalUser> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -113,11 +113,11 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: LocalUsersListOptionalParams
+    options?: LocalUsersListOptionalParams,
   ): Promise<LocalUsersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -136,16 +136,17 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersGetOptionalParams
+    options?: LocalUsersGetOptionalParams,
   ): Promise<LocalUsersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, username, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update the properties of a local user associated with the storage account
+   * Create or update the properties of a local user associated with the storage account. Properties for
+   * NFSv3 enablement and extended groups cannot be set with other properties.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -161,11 +162,11 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
     accountName: string,
     username: string,
     properties: LocalUser,
-    options?: LocalUsersCreateOrUpdateOptionalParams
+    options?: LocalUsersCreateOrUpdateOptionalParams,
   ): Promise<LocalUsersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, username, properties, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -184,11 +185,11 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersDeleteOptionalParams
+    options?: LocalUsersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, username, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -207,11 +208,11 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersListKeysOptionalParams
+    options?: LocalUsersListKeysOptionalParams,
   ): Promise<LocalUsersListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, username, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -230,11 +231,11 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersRegeneratePasswordOptionalParams
+    options?: LocalUsersRegeneratePasswordOptionalParams,
   ): Promise<LocalUsersRegeneratePasswordResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, username, options },
-      regeneratePasswordOperationSpec
+      regeneratePasswordOperationSpec,
     );
   }
 }
@@ -242,140 +243,139 @@ export class LocalUsersOperationsImpl implements LocalUsersOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalUsers
+      bodyMapper: Mappers.LocalUsers,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.maxpagesize1,
+    Parameters.include2,
+  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalUser
+      bodyMapper: Mappers.LocalUser,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.username
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.username,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalUser
+      bodyMapper: Mappers.LocalUser,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.username
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.username,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.username
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.username,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalUserKeys
+      bodyMapper: Mappers.LocalUserKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.username
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.username,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regeneratePasswordOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/regeneratePassword",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/regeneratePassword",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalUserRegeneratePasswordResult
+      bodyMapper: Mappers.LocalUserRegeneratePasswordResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.username
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.username,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

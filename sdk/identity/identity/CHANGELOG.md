@@ -4,11 +4,18 @@
 
 ### Features Added
 
+- `OnBehalfOfCredential` now supports taking clientAssertion callback `getAssertion`. [#29711](https://github.com/Azure/azure-sdk-for-js/pull/29711)
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Fixed an issue where cross-tenant federation did not honor the request's tenant ID. [#30266](https://github.com/Azure/azure-sdk-for-js/pull/30266)
+
 ### Other Changes
+
+- `OnBehalfOfCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29890](https://github.com/Azure/azure-sdk-for-js/pull/29890)
+- `InteractiveBrowserCredential` migrated to use MSALClient internally instead of MSALNode flow in Node. This is an internal refactoring and should not result in any behavioral changes. [#29894](https://github.com/Azure/azure-sdk-for-js/pull/29894)
 
 ## 4.3.0 (2024-06-18)
 

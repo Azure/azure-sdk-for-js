@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets Ssl predefined policy with the specified policy name.
  *
  * @summary Gets Ssl predefined policy with the specified policy name.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
  */
 async function getAvailableSslPredefinedPolicyByName() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

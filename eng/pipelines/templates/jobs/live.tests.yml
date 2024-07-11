@@ -82,7 +82,11 @@ jobs:
           parameters:
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
             SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
-            EnvVars: ${{ parameters.EnvVars }}
+            EnvVars:
+              Pool: $(Pool)
+              ${{ insert }}: ${{ parameters.EnvVars }}
+            ${{ if parameters.UseFederatedAuth }}:
+              SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
         - ${{ if parameters.TestResourceDirectories }}:
           - ${{ each directory in parameters.TestResourceDirectories }}:
@@ -96,6 +100,9 @@ jobs:
                 UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
                 ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
                 SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
+                EnvVars:
+                  Pool: $(Pool)
+                  ${{ insert }}: ${{ parameters.EnvVars }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/deploy-test-resources.yml
             parameters:
@@ -107,6 +114,9 @@ jobs:
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
               ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
               SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
+              EnvVars:
+                Pool: $(Pool)
+                ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -211,6 +221,10 @@ jobs:
             pwsh: true
             ScriptType: InlineScript
             Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries"
@@ -218,6 +232,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - task: AzurePowerShell@5
@@ -227,6 +242,10 @@ jobs:
             workingDirectory: $(PackageTestPath)
             ScriptType: InlineScript
             Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
               node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries"
@@ -234,6 +253,7 @@ jobs:
           env:
             TEST_MODE: "live"
             SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - ${{ parameters.PostSteps }}
@@ -245,11 +265,19 @@ jobs:
             workingDirectory: $(PackagePath)
             ScriptType: InlineScript
             Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
               node ../../../common/scripts/install-run-rushx.js execute:samples
               exit $LASTEXITCODE
           displayName: "Execute Samples"
           env:
             TEST_MODE: "live"
+            # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
+            # so "execute samples" step correctly picks up Powershell credential.
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
@@ -282,6 +310,9 @@ jobs:
           workingDirectory: $(PackagePath)
           env:
             TEST_MODE: "live"
+            # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
+            # so "execute samples" step correctly picks up Powershell credential.
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
@@ -294,11 +325,15 @@ jobs:
               parameters:
                 ServiceDirectory: "${{ directory }}"
                 SubscriptionConfiguration: $(SubscriptionConfiguration)
+                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/remove-test-resources.yml
             parameters:
               ServiceDirectory: "${{ parameters.ServiceDirectory }}"
               SubscriptionConfiguration: $(SubscriptionConfiguration)
+              UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+              ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"

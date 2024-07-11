@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 4.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,21 @@
 
 ### Other Changes
 
+## 4.1.0 (2024-06-12)
+    
+### Features Added
+
+  - Added Interface ImageTemplateAutoRun
+  - Added Type Alias AutoRunState
+  - Interface ImageTemplate has a new optional parameter autoRun
+  - Interface ImageTemplate has a new optional parameter managedResourceTags
+  - Interface ImageTemplateUpdateParametersProperties has a new optional parameter vmProfile
+  - Interface VirtualNetworkConfig has a new optional parameter containerInstanceSubnetId
+    
+    
 ## 4.0.0 (2023-12-21)
     
-**Features**
+### Features Added
 
   - Added Interface ErrorAdditionalInfo
   - Added Interface ImageTemplatePropertiesErrorHandling
@@ -24,7 +36,7 @@
   - Interface ImageTemplateUpdateParameters has a new optional parameter properties
   - Added Enum KnownOnBuildError
     
-**Breaking Changes**
+### Breaking Changes
 
   - Changed interface CloudError to ErrorResponse
   - Changed interface CloudErrorBody ErrorDetail
@@ -32,7 +44,7 @@
   
 ## 3.0.0 (2023-03-24)
     
-**Features**
+### Features Added
 
   - Added operation group Triggers
   - Added Interface DistributeVersioner
@@ -70,7 +82,7 @@
   - Type of parameter type of interface ImageTemplateInVMValidator is changed from "Shell" | "PowerShell" to "Shell" | "PowerShell" | "File"
   - Enum KnownSharedImageStorageAccountType has a new value PremiumLRS
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter userAssignedIdentities of interface ImageTemplateIdentity is changed from {
         [propertyName: string]: ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties;
@@ -81,7 +93,7 @@
     
 ## 2.1.0 (2023-01-11)
     
-**Features**
+### Features Added
 
   - Added Interface ImageTemplate
   - Added Interface ImageTemplateFileCustomizer
@@ -105,7 +117,7 @@
     
 ## 2.0.0 (2022-06-06)
     
-**Features**
+### Features Added
 
   - Added Interface ImageTemplateInVMValidator
   - Added Interface ImageTemplatePropertiesValidate
@@ -123,20 +135,20 @@
   - Enum KnownProvisioningErrorCode has a new value NoValidatorScript
   - Enum KnownProvisioningErrorCode has a new value UnsupportedValidatorType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Delete parameters of SubResource in TypeAlias RunOutput
   - Type Alias ImageTemplate no longer has parameter systemData
     
 ## 1.0.2 (2022-04-26)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 1.0.1 (2022-01-11)
 
-**Feature**
+### Features Added
 
   - Bump version
     

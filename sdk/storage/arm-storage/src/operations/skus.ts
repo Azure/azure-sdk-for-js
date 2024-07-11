@@ -15,7 +15,7 @@ import { StorageManagementClient } from "../storageManagementClient";
 import {
   SkuInformation,
   SkusListOptionalParams,
-  SkusListResponse
+  SkusListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export class SkusImpl implements Skus {
    * @param options The options parameters.
    */
   public list(
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<SkuInformation> {
     const iter = this.listPagingAll(options);
     return {
@@ -51,13 +51,13 @@ export class SkusImpl implements Skus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SkusListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<SkuInformation[]> {
     let result: SkusListResponse;
     result = await this._list(options);
@@ -65,7 +65,7 @@ export class SkusImpl implements Skus {
   }
 
   private async *listPagingAll(
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): AsyncIterableIterator<SkuInformation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -88,11 +88,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSkuListResult
-    }
+      bodyMapper: Mappers.StorageSkuListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileShareAclsPatch.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileShareAclsPatch.json
  */
 async function updateShareAcls() {
   const subscriptionId =
@@ -32,11 +32,11 @@ async function updateShareAcls() {
         accessPolicy: {
           expiryTime: new Date("2021-05-01T08:49:37.0000000Z"),
           permission: "rwd",
-          startTime: new Date("2021-04-01T08:49:37.0000000Z")
+          startTime: new Date("2021-04-01T08:49:37.0000000Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI"
-      }
-    ]
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function updateShareAcls() {
     resourceGroupName,
     accountName,
     shareName,
-    fileShare
+    fileShare,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function updateShareAcls() {
  * This sample demonstrates how to Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesPatch.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesPatch.json
  */
 async function updateShares() {
   const subscriptionId =
@@ -68,7 +68,7 @@ async function updateShares() {
     resourceGroupName,
     accountName,
     shareName,
-    fileShare
+    fileShare,
   );
   console.log(result);
 }
