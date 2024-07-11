@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-translation-document",
+      "projectFolder": "sdk/translation/ai-translation-document-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/defender-easm",
       "projectFolder": "sdk/easm/defender-easm-rest",
       "versionPolicyName": "client"
@@ -587,6 +592,11 @@
     {
       "packageName": "@azure/eventgrid-namespaces",
       "projectFolder": "sdk/eventgrid/eventgrid-namespaces",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/eventgrid-system-events",
+      "projectFolder": "sdk/eventgrid/eventgrid-system-events",
       "versionPolicyName": "client"
     },
     {
@@ -2221,6 +2231,16 @@
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mongocluster",
+      "projectFolder": "sdk/mongocluster/arm-mongocluster",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-inference",
+      "projectFolder": "sdk/ai/ai-inference-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

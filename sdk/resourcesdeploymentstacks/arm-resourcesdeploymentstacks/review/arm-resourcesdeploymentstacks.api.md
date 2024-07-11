@@ -11,6 +11,13 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface ActionOnUnmanage {
+    managementGroups?: DeploymentStacksDeleteDetachEnum;
+    resourceGroups?: DeploymentStacksDeleteDetachEnum;
+    resources: DeploymentStacksDeleteDetachEnum;
+}
+
+// @public
 export interface AzureResourceBase {
     readonly id?: string;
     readonly name?: string;
@@ -36,29 +43,19 @@ export type DenySettingsMode = string;
 export type DenyStatusMode = string;
 
 // @public
+export interface DeploymentParameter {
+    reference?: KeyVaultParameterReference;
+    type?: string;
+    value?: any;
+}
+
+// @public
 export interface DeploymentStack extends AzureResourceBase {
-    actionOnUnmanage?: DeploymentStackPropertiesActionOnUnmanage;
-    debugSetting?: DeploymentStacksDebugSetting;
-    readonly deletedResources?: ResourceReference[];
-    denySettings?: DenySettings;
-    readonly deploymentId?: string;
-    deploymentScope?: string;
-    description?: string;
-    readonly detachedResources?: ResourceReference[];
-    readonly duration?: string;
-    error?: ErrorResponse;
-    readonly failedResources?: ResourceReferenceExtended[];
     location?: string;
-    readonly outputs?: Record<string, unknown>;
-    parameters?: Record<string, unknown>;
-    parametersLink?: DeploymentStacksParametersLink;
-    readonly provisioningState?: DeploymentStackProvisioningState;
-    readonly resources?: ManagedResourceReference[];
+    properties?: DeploymentStackProperties;
     tags?: {
         [propertyName: string]: string;
     };
-    template?: Record<string, unknown>;
-    templateLink?: DeploymentStacksTemplateLink;
 }
 
 // @public
@@ -69,7 +66,9 @@ export interface DeploymentStackListResult {
 
 // @public
 export interface DeploymentStackProperties extends DeploymentStacksError {
-    actionOnUnmanage: DeploymentStackPropertiesActionOnUnmanage;
+    actionOnUnmanage: ActionOnUnmanage;
+    bypassStackOutOfSyncError?: boolean;
+    readonly correlationId?: string;
     debugSetting?: DeploymentStacksDebugSetting;
     readonly deletedResources?: ResourceReference[];
     denySettings: DenySettings;
@@ -80,19 +79,14 @@ export interface DeploymentStackProperties extends DeploymentStacksError {
     readonly duration?: string;
     readonly failedResources?: ResourceReferenceExtended[];
     readonly outputs?: Record<string, unknown>;
-    parameters?: Record<string, unknown>;
+    parameters?: {
+        [propertyName: string]: DeploymentParameter;
+    };
     parametersLink?: DeploymentStacksParametersLink;
     readonly provisioningState?: DeploymentStackProvisioningState;
     readonly resources?: ManagedResourceReference[];
     template?: Record<string, unknown>;
     templateLink?: DeploymentStacksTemplateLink;
-}
-
-// @public
-export interface DeploymentStackPropertiesActionOnUnmanage {
-    managementGroups?: DeploymentStacksDeleteDetachEnum;
-    resourceGroups?: DeploymentStacksDeleteDetachEnum;
-    resources: DeploymentStacksDeleteDetachEnum;
 }
 
 // @public
@@ -112,6 +106,12 @@ export interface DeploymentStacks {
     beginDeleteAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams): Promise<void>;
     beginDeleteAtSubscription(deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAtSubscriptionAndWait(deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams): Promise<void>;
+    beginValidateStackAtManagementGroup(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtManagementGroupResponse>, DeploymentStacksValidateStackAtManagementGroupResponse>>;
+    beginValidateStackAtManagementGroupAndWait(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams): Promise<DeploymentStacksValidateStackAtManagementGroupResponse>;
+    beginValidateStackAtResourceGroup(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtResourceGroupResponse>, DeploymentStacksValidateStackAtResourceGroupResponse>>;
+    beginValidateStackAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams): Promise<DeploymentStacksValidateStackAtResourceGroupResponse>;
+    beginValidateStackAtSubscription(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtSubscriptionResponse>, DeploymentStacksValidateStackAtSubscriptionResponse>>;
+    beginValidateStackAtSubscriptionAndWait(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams): Promise<DeploymentStacksValidateStackAtSubscriptionResponse>;
     exportTemplateAtManagementGroup(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams): Promise<DeploymentStacksExportTemplateAtManagementGroupResponse>;
     exportTemplateAtResourceGroup(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams): Promise<DeploymentStacksExportTemplateAtResourceGroupResponse>;
     exportTemplateAtSubscription(deploymentStackName: string, options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams): Promise<DeploymentStacksExportTemplateAtSubscriptionResponse>;
@@ -184,6 +184,7 @@ export interface DeploymentStacksDeleteAtManagementGroupHeaders {
 
 // @public
 export interface DeploymentStacksDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+    bypassStackOutOfSyncError?: boolean;
     resumeFrom?: string;
     unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
     unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
@@ -199,7 +200,9 @@ export interface DeploymentStacksDeleteAtResourceGroupHeaders {
 
 // @public
 export interface DeploymentStacksDeleteAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+    bypassStackOutOfSyncError?: boolean;
     resumeFrom?: string;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
     unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
     unmanageActionResources?: UnmanageActionResourceMode;
     updateIntervalInMs?: number;
@@ -213,7 +216,9 @@ export interface DeploymentStacksDeleteAtSubscriptionHeaders {
 
 // @public
 export interface DeploymentStacksDeleteAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+    bypassStackOutOfSyncError?: boolean;
     resumeFrom?: string;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
     unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
     unmanageActionResources?: UnmanageActionResourceMode;
     updateIntervalInMs?: number;
@@ -224,7 +229,7 @@ export type DeploymentStacksDeleteDetachEnum = string;
 
 // @public
 export interface DeploymentStacksError {
-    error?: ErrorResponse;
+    error?: ErrorDetail;
 }
 
 // @public
@@ -327,9 +332,76 @@ export interface DeploymentStacksTemplateLink {
 }
 
 // @public
+export interface DeploymentStacksValidateStackAtManagementGroupHeaders {
+    // (undocumented)
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface DeploymentStacksValidateStackAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DeploymentStacksValidateStackAtManagementGroupResponse = DeploymentStackValidateResult;
+
+// @public
+export interface DeploymentStacksValidateStackAtResourceGroupHeaders {
+    // (undocumented)
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface DeploymentStacksValidateStackAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DeploymentStacksValidateStackAtResourceGroupResponse = DeploymentStackValidateResult;
+
+// @public
+export interface DeploymentStacksValidateStackAtSubscriptionHeaders {
+    // (undocumented)
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface DeploymentStacksValidateStackAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DeploymentStacksValidateStackAtSubscriptionResponse = DeploymentStackValidateResult;
+
+// @public
 export interface DeploymentStackTemplateDefinition {
     template?: Record<string, unknown>;
     templateLink?: DeploymentStacksTemplateLink;
+}
+
+// @public
+export interface DeploymentStackValidateProperties {
+    actionOnUnmanage?: ActionOnUnmanage;
+    correlationId?: string;
+    denySettings?: DenySettings;
+    deploymentScope?: string;
+    description?: string;
+    parameters?: {
+        [propertyName: string]: DeploymentParameter;
+    };
+    templateLink?: DeploymentStacksTemplateLink;
+    validatedResources?: ResourceReference[];
+}
+
+// @public
+export interface DeploymentStackValidateResult extends AzureResourceBase, DeploymentStacksError {
+    properties?: DeploymentStackValidateProperties;
 }
 
 // @public
@@ -348,12 +420,19 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface KeyVaultParameterReference {
+    keyVault: KeyVaultReference;
+    secretName: string;
+    secretVersion?: string;
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface KeyVaultReference {
+    id: string;
+}
 
 // @public
 export enum KnownCreatedByType {
@@ -375,24 +454,24 @@ export enum KnownDenyStatusMode {
     DenyDelete = "denyDelete",
     DenyWriteAndDelete = "denyWriteAndDelete",
     Inapplicable = "inapplicable",
-    None = "None",
+    None = "none",
     NotSupported = "notSupported",
     RemovedBySystem = "removedBySystem"
 }
 
 // @public
 export enum KnownDeploymentStackProvisioningState {
-    Canceled = "Canceled",
-    Canceling = "Canceling",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    DeletingResources = "DeletingResources",
-    Deploying = "Deploying",
-    Failed = "Failed",
-    Locking = "Locking",
-    Succeeded = "Succeeded",
-    Validating = "Validating",
-    Waiting = "Waiting"
+    Canceled = "canceled",
+    Canceling = "canceling",
+    Creating = "creating",
+    Deleting = "deleting",
+    DeletingResources = "deletingResources",
+    Deploying = "deploying",
+    Failed = "failed",
+    Succeeded = "succeeded",
+    UpdatingDenyAssignments = "updatingDenyAssignments",
+    Validating = "validating",
+    Waiting = "waiting"
 }
 
 // @public
@@ -404,8 +483,7 @@ export enum KnownDeploymentStacksDeleteDetachEnum {
 // @public
 export enum KnownResourceStatusMode {
     DeleteFailed = "deleteFailed",
-    Managed = "Managed",
-    None = "None",
+    Managed = "managed",
     RemoveDenyFailed = "removeDenyFailed"
 }
 

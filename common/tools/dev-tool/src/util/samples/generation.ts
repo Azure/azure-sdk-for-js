@@ -115,7 +115,12 @@ export async function makeSampleGenerationInfo(
     }
   };
 
-  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail, requireInScope);
+  const moduleInfos = await processSources(
+    sampleSourcesPath,
+    sampleSources.sort(),
+    fail,
+    requireInScope,
+  );
 
   const defaultDependencies: Record<string, string> = {
     // If we are a beta package, use "next", otherwise we will use "latest"

@@ -311,7 +311,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.quota,
     Parameters.accessTier,
     Parameters.enabledProtocols,
-    Parameters.rootSquash
+    Parameters.rootSquash,
+    Parameters.enableSnapshotVirtualDirectoryAccess
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -622,6 +623,7 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.quota,
     Parameters.accessTier,
     Parameters.rootSquash,
+    Parameters.enableSnapshotVirtualDirectoryAccess,
     Parameters.leaseId
   ],
   isXML: true,

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the supported operations for the Azure Storage Mover REST API.
  *
  * @summary Lists all the supported operations for the Azure Storage Mover REST API.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Operations_List.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Operations_List.json
  */
 async function operationsList() {
   const subscriptionId =

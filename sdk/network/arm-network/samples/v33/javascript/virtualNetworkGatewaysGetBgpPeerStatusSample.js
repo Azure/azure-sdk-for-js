@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The GetBgpPeerStatus operation retrieves the status of all BGP peers.
  *
  * @summary The GetBgpPeerStatus operation retrieves the status of all BGP peers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayGetBGPPeerStatus.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayGetBGPPeerStatus.json
  */
 async function getVirtualNetworkGatewayBgpPeerStatus() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

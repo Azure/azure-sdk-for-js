@@ -92,6 +92,7 @@ export {
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
   OnBehalfOfCredentialCertificateOptions,
+  OnBehalfOfCredentialAssertionOptions,
 } from "./credentials/onBehalfOfCredentialOptions";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";

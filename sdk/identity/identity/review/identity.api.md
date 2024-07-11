@@ -107,7 +107,7 @@ export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCred
 
 // @public
 export class AzurePipelinesCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, serviceConnectionId: string, options?: AzurePipelinesCredentialOptions);
+    constructor(tenantId: string, clientId: string, serviceConnectionId: string, systemAccessToken: string, options?: AzurePipelinesCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -378,7 +378,16 @@ export interface MultiTenantTokenCredentialOptions extends TokenCredentialOption
 export class OnBehalfOfCredential implements TokenCredential {
     constructor(options: OnBehalfOfCredentialCertificateOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
     constructor(options: OnBehalfOfCredentialSecretOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
+    constructor(options: OnBehalfOfCredentialAssertionOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface OnBehalfOfCredentialAssertionOptions {
+    clientId: string;
+    getAssertion: () => Promise<string>;
+    tenantId: string;
+    userAssertionToken: string;
 }
 
 // @public
@@ -391,7 +400,7 @@ export interface OnBehalfOfCredentialCertificateOptions {
 }
 
 // @public
-export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
+export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
 // @public
 export interface OnBehalfOfCredentialSecretOptions {

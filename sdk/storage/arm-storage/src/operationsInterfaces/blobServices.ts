@@ -13,7 +13,7 @@ import {
   BlobServicesSetServicePropertiesOptionalParams,
   BlobServicesSetServicePropertiesResponse,
   BlobServicesGetServicePropertiesOptionalParams,
-  BlobServicesGetServicePropertiesResponse
+  BlobServicesGetServicePropertiesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface BlobServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: BlobServicesListOptionalParams
+    options?: BlobServicesListOptionalParams,
   ): PagedAsyncIterableIterator<BlobServiceProperties>;
   /**
    * Sets the properties of a storage account’s Blob service, including properties for Storage Analytics
@@ -49,7 +49,7 @@ export interface BlobServices {
     resourceGroupName: string,
     accountName: string,
     parameters: BlobServiceProperties,
-    options?: BlobServicesSetServicePropertiesOptionalParams
+    options?: BlobServicesSetServicePropertiesOptionalParams,
   ): Promise<BlobServicesSetServicePropertiesResponse>;
   /**
    * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics
@@ -64,6 +64,6 @@ export interface BlobServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: BlobServicesGetServicePropertiesOptionalParams
+    options?: BlobServicesGetServicePropertiesOptionalParams,
   ): Promise<BlobServicesGetServicePropertiesResponse>;
 }

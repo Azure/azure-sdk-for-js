@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all network manager connections created by this management group.
  *
  * @summary List all network manager connections created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerConnectionManagementGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerConnectionManagementGroupList.json
  */
 async function listManagementGroupNetworkManagerConnection() {
   const managementGroupId = "managementGroupA";

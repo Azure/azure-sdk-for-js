@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersList.json
  */
 async function listContainers() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -35,7 +35,7 @@ async function listContainers() {
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/DeletedBlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedBlobContainersList.json
  */
 async function listDeletedContainers() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

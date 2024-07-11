@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AgentUpdateParameters,
-  StorageMoverClient
+  StorageMoverClient,
 } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an Agent resource.
  *
  * @summary Creates or updates an Agent resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Agents_Update.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_Update.json
  */
 async function agentsUpdate() {
   const subscriptionId =
@@ -32,7 +32,17 @@ async function agentsUpdate() {
   const storageMoverName = "examples-storageMoverName";
   const agentName = "examples-agentName";
   const agent: AgentUpdateParameters = {
-    description: "Updated Agent Description"
+    description: "Example Agent Description",
+    uploadLimitSchedule: {
+      weeklyRecurrences: [
+        {
+          days: ["Monday"],
+          endTime: { hour: 18, minute: 30 },
+          limitInMbps: 2000,
+          startTime: { hour: 9, minute: 0 },
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -40,7 +50,7 @@ async function agentsUpdate() {
     resourceGroupName,
     storageMoverName,
     agentName,
-    agent
+    agent,
   );
   console.log(result);
 }
