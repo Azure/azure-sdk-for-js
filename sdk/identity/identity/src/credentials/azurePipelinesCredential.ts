@@ -122,9 +122,10 @@ export class AzurePipelinesCredential implements TokenCredential {
       );
       throw new AuthenticationError(
         response.status,
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
-          response.status
-        }. Complete response - ${JSON.stringify(response)}`,
+        {
+          error:  `${credentialName}: Authenticated Failed. Received null token from OIDC request.`,
+          error_description: `${JSON.stringify(response)}`
+        }
       );
     }
     try {
@@ -133,11 +134,16 @@ export class AzurePipelinesCredential implements TokenCredential {
         return result.oidcToken;
       } else {
         let errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+        let errorDescription = ``;
         if (response.status !== 200) {
-          errorMessage += `Response = ${JSON.stringify(result)}`;
+          errorDescription = `Complete response - ${JSON.stringify(result)}`
         }
         logger.error(errorMessage);
-        throw new AuthenticationError(response.status, errorMessage);
+        logger.error(errorDescription);
+        throw new AuthenticationError(response.status, {
+          error: errorMessage,
+          error_description: errorDescription
+        });
       }
     } catch (e: any) {
       //azure:identity:error AzurePipelinesCredential => AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response.Response = {"$id":"1","innerException":null,"message":"No service connection found with identifier 8089d38c-c287-4289-8012-c3c1fc775efd.","typeName":"Microsoft.TeamFoundation.DistributedTask.WebApi.EndpointNotFoundException, Microsoft.TeamFoundation.DistributedTask.WebApi","typeKey":"EndpointNotFoundException","errorCode":0,"eventId":3000}
@@ -146,9 +152,16 @@ export class AzurePipelinesCredential implements TokenCredential {
       logger.error(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
       );
+      let errorName = "";
+      if(text?.includes("No service connection found")){
+        errorName = "${credentialName}: Authentication Failed. Please check if you are using one of the Devops tasks or the correct subscriptionName assigned to the Devops task. Please refer to TSG"
+      }
       throw new AuthenticationError(
         response.status,
-        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
+        {
+          error: `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`,
+          error_description: `${text}`
+        }
       );
     }
   }
