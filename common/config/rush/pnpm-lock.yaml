@@ -1449,7 +1449,7 @@ packages:
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.9.0
-      '@azure/logger': 1.0.4
+      '@azure/logger': 1.1.2
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -11429,7 +11429,7 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-Fc6CDBOrnCCbu+rzYNMB1D7RtoJj9nxOcyKSBhy+PhhY8NG9eobHEbyNN8AWPpLIqmggMv0rXsizzGzdhl9z6g==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-TjPTaZYVczdAfJhVXOjt6okalK4HUbZyHVqpyi8rY2IZVBWcndjN4kyGbLhEHmPTw6Zv4jCwEeHcze0vpYJ/sw==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
@@ -11437,11 +11437,13 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
-      '@azure/core-lro': 2.7.2
+      '@azure/core-lro': 3.0.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.7
       '@types/node': 18.19.39
+      '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11460,18 +11462,29 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       nyc: 17.0.0
+      playwright: 1.45.1
+      prettier: 3.3.2
       rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tshy: 1.18.0
       tslib: 2.6.3
-      typescript: 5.5.3
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/ai-document-translator.tgz:
