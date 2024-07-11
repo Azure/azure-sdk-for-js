@@ -779,5 +779,5 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [token_credential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [default_information]: https://learn.microsoft.com/javascript/api/%40azure/identity/defaultazurecredential?view=azure-node-latest
-[managed_identity]: https://learn.microsoft.com/en-us/javascript/api/%40azure/identity/managedidentitycredential?view=azure-node-latest
+[managed_identity]: https://learn.microsoft.com/javascript/api/%40azure/identity/managedidentitycredential?view=azure-node-latest
 [credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
