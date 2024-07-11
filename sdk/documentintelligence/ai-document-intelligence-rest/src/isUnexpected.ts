@@ -5,22 +5,40 @@ import {
   ListOperations200Response,
   ListOperationsDefaultResponse,
   GetDocumentModelBuildOperation200Response,
-  GetDocumentModelComposeOperation200Response,
-  GetDocumentModelCopyToOperation200Response,
-  GetDocumentClassifierBuildOperation200Response,
-  GetOperation200Response,
   GetDocumentModelBuildOperationDefaultResponse,
+  GetDocumentModelComposeOperation200Response,
+  GetDocumentModelComposeOperationDefaultResponse,
+  GetDocumentModelCopyToOperation200Response,
+  GetDocumentModelCopyToOperationDefaultResponse,
+  GetDocumentClassifierCopyToOperation200Response,
+  GetDocumentClassifierCopyToOperationDefaultResponse,
+  GetDocumentClassifierBuildOperation200Response,
+  GetDocumentClassifierBuildOperationDefaultResponse,
+  GetOperation200Response,
+  GetOperationDefaultResponse,
   GetResourceInfo200Response,
   GetResourceInfoDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
+  GetAnalyzeResultPdf200Response,
+  GetAnalyzeResultPdfDefaultResponse,
+  GetAnalyzeResultFigure200Response,
+  GetAnalyzeResultFigureDefaultResponse,
   AnalyzeDocumentFromStream202Response,
-  AnalyzeDocument202Response,
   AnalyzeDocumentFromStreamLogicalResponse,
-  AnalyzeDocumentLogicalResponse,
   AnalyzeDocumentFromStreamDefaultResponse,
+  AnalyzeDocument202Response,
+  AnalyzeDocumentLogicalResponse,
+  AnalyzeDocumentDefaultResponse,
+  GetAnalyzeBatchResult200Response,
+  GetAnalyzeBatchResultDefaultResponse,
+  AnalyzeBatchDocuments202Response,
+  AnalyzeBatchDocumentsLogicalResponse,
+  AnalyzeBatchDocumentsDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
+  PatchModel200Response,
+  PatchModelDefaultResponse,
   DeleteModel204Response,
   DeleteModelDefaultResponse,
   BuildModel202Response,
@@ -46,39 +64,55 @@ import {
   DeleteClassifier204Response,
   DeleteClassifierDefaultResponse,
   ClassifyDocumentFromStream202Response,
-  ClassifyDocument202Response,
   ClassifyDocumentFromStreamLogicalResponse,
-  ClassifyDocumentLogicalResponse,
   ClassifyDocumentFromStreamDefaultResponse,
+  ClassifyDocument202Response,
+  ClassifyDocumentLogicalResponse,
+  ClassifyDocumentDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
-} from "./responses";
+  AuthorizeClassifierCopy200Response,
+  AuthorizeClassifierCopyDefaultResponse,
+  CopyClassifierTo202Response,
+  CopyClassifierToLogicalResponse,
+  CopyClassifierToDefaultResponse,
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /operations": ["200"],
   "GET /operations/{operationId}": ["200"],
   "GET /info": ["200"],
   "GET /documentModels/{modelId}/analyzeResults/{resultId}": ["200"],
-  "POST /documentModels/{modelId}:analyze": ["202"],
+  "GET /documentModels/{modelId}/analyzeResults/{resultId}/pdf": ["200"],
+  "GET /documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}":
+    ["200"],
   "GET /documentModels/{modelId}:analyze": ["200", "202"],
+  "POST /documentModels/{modelId}:analyze": ["202"],
+  "GET /documentModels/{modelId}/analyzeBatchResults/{resultId}": ["200"],
+  "GET /documentModels/{modelId}:analyzeBatch": ["200", "202"],
+  "POST /documentModels/{modelId}:analyzeBatch": ["202"],
   "GET /documentModels/{modelId}": ["200"],
+  "PATCH /documentModels/{modelId}": ["200"],
   "DELETE /documentModels/{modelId}": ["204"],
-  "POST /documentModels:build": ["202"],
   "GET /documentModels:build": ["200", "202"],
-  "POST /documentModels:compose": ["202"],
+  "POST /documentModels:build": ["202"],
   "GET /documentModels:compose": ["200", "202"],
+  "POST /documentModels:compose": ["202"],
   "POST /documentModels:authorizeCopy": ["200"],
-  "POST /documentModels/{modelId}:copyTo": ["202"],
   "GET /documentModels/{modelId}:copyTo": ["200", "202"],
+  "POST /documentModels/{modelId}:copyTo": ["202"],
   "GET /documentModels": ["200"],
-  "POST /documentClassifiers:build": ["202"],
   "GET /documentClassifiers:build": ["200", "202"],
+  "POST /documentClassifiers:build": ["202"],
   "GET /documentClassifiers": ["200"],
   "GET /documentClassifiers/{classifierId}": ["200"],
   "DELETE /documentClassifiers/{classifierId}": ["204"],
-  "POST /documentClassifiers/{classifierId}:analyze": ["202"],
   "GET /documentClassifiers/{classifierId}:analyze": ["200", "202"],
+  "POST /documentClassifiers/{classifierId}:analyze": ["202"],
   "GET /documentClassifiers/{classifierId}/analyzeResults/{resultId}": ["200"],
+  "POST /documentClassifiers:authorizeCopy": ["200"],
+  "GET /documentClassifiers/{classifierId}:copyTo": ["200", "202"],
+  "POST /documentClassifiers/{classifierId}:copyTo": ["202"],
 };
 
 export function isUnexpected(
@@ -87,12 +121,31 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | GetDocumentModelBuildOperation200Response
-    | GetDocumentModelComposeOperation200Response
-    | GetDocumentModelCopyToOperation200Response
-    | GetDocumentClassifierBuildOperation200Response
-    | GetOperation200Response
     | GetDocumentModelBuildOperationDefaultResponse,
 ): response is GetDocumentModelBuildOperationDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetDocumentModelComposeOperation200Response
+    | GetDocumentModelComposeOperationDefaultResponse,
+): response is GetDocumentModelComposeOperationDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetDocumentModelCopyToOperation200Response
+    | GetDocumentModelCopyToOperationDefaultResponse,
+): response is GetDocumentModelCopyToOperationDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetDocumentClassifierCopyToOperation200Response
+    | GetDocumentClassifierCopyToOperationDefaultResponse,
+): response is GetDocumentClassifierCopyToOperationDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetDocumentClassifierBuildOperation200Response
+    | GetDocumentClassifierBuildOperationDefaultResponse,
+): response is GetDocumentClassifierBuildOperationDefaultResponse;
+export function isUnexpected(
+  response: GetOperation200Response | GetOperationDefaultResponse,
+): response is GetOperationDefaultResponse;
 export function isUnexpected(
   response: GetResourceInfo200Response | GetResourceInfoDefaultResponse,
 ): response is GetResourceInfoDefaultResponse;
@@ -100,30 +153,65 @@ export function isUnexpected(
   response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse,
 ): response is GetAnalyzeResultDefaultResponse;
 export function isUnexpected(
+  response: GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse,
+): response is GetAnalyzeResultPdfDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetAnalyzeResultFigure200Response
+    | GetAnalyzeResultFigureDefaultResponse,
+): response is GetAnalyzeResultFigureDefaultResponse;
+export function isUnexpected(
   response:
     | AnalyzeDocumentFromStream202Response
-    | AnalyzeDocument202Response
     | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentLogicalResponse
     | AnalyzeDocumentFromStreamDefaultResponse,
 ): response is AnalyzeDocumentFromStreamDefaultResponse;
+export function isUnexpected(
+  response:
+    | AnalyzeDocument202Response
+    | AnalyzeDocumentLogicalResponse
+    | AnalyzeDocumentDefaultResponse,
+): response is AnalyzeDocumentDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetAnalyzeBatchResult200Response
+    | GetAnalyzeBatchResultDefaultResponse,
+): response is GetAnalyzeBatchResultDefaultResponse;
+export function isUnexpected(
+  response:
+    | AnalyzeBatchDocuments202Response
+    | AnalyzeBatchDocumentsLogicalResponse
+    | AnalyzeBatchDocumentsDefaultResponse,
+): response is AnalyzeBatchDocumentsDefaultResponse;
 export function isUnexpected(
   response: GetModel200Response | GetModelDefaultResponse,
 ): response is GetModelDefaultResponse;
 export function isUnexpected(
+  response: PatchModel200Response | PatchModelDefaultResponse,
+): response is PatchModelDefaultResponse;
+export function isUnexpected(
   response: DeleteModel204Response | DeleteModelDefaultResponse,
 ): response is DeleteModelDefaultResponse;
 export function isUnexpected(
-  response: BuildModel202Response | BuildModelLogicalResponse | BuildModelDefaultResponse,
+  response:
+    | BuildModel202Response
+    | BuildModelLogicalResponse
+    | BuildModelDefaultResponse,
 ): response is BuildModelDefaultResponse;
 export function isUnexpected(
-  response: ComposeModel202Response | ComposeModelLogicalResponse | ComposeModelDefaultResponse,
+  response:
+    | ComposeModel202Response
+    | ComposeModelLogicalResponse
+    | ComposeModelDefaultResponse,
 ): response is ComposeModelDefaultResponse;
 export function isUnexpected(
   response: AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse,
 ): response is AuthorizeModelCopyDefaultResponse;
 export function isUnexpected(
-  response: CopyModelTo202Response | CopyModelToLogicalResponse | CopyModelToDefaultResponse,
+  response:
+    | CopyModelTo202Response
+    | CopyModelToLogicalResponse
+    | CopyModelToDefaultResponse,
 ): response is CopyModelToDefaultResponse;
 export function isUnexpected(
   response: ListModels200Response | ListModelsDefaultResponse,
@@ -146,35 +234,68 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | ClassifyDocumentFromStream202Response
-    | ClassifyDocument202Response
     | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentLogicalResponse
     | ClassifyDocumentFromStreamDefaultResponse,
 ): response is ClassifyDocumentFromStreamDefaultResponse;
+export function isUnexpected(
+  response:
+    | ClassifyDocument202Response
+    | ClassifyDocumentLogicalResponse
+    | ClassifyDocumentDefaultResponse,
+): response is ClassifyDocumentDefaultResponse;
 export function isUnexpected(
   response: GetClassifyResult200Response | GetClassifyResultDefaultResponse,
 ): response is GetClassifyResultDefaultResponse;
 export function isUnexpected(
   response:
+    | AuthorizeClassifierCopy200Response
+    | AuthorizeClassifierCopyDefaultResponse,
+): response is AuthorizeClassifierCopyDefaultResponse;
+export function isUnexpected(
+  response:
+    | CopyClassifierTo202Response
+    | CopyClassifierToLogicalResponse
+    | CopyClassifierToDefaultResponse,
+): response is CopyClassifierToDefaultResponse;
+export function isUnexpected(
+  response:
     | ListOperations200Response
     | ListOperationsDefaultResponse
     | GetDocumentModelBuildOperation200Response
-    | GetDocumentModelComposeOperation200Response
-    | GetDocumentModelCopyToOperation200Response
-    | GetDocumentClassifierBuildOperation200Response
-    | GetOperation200Response
     | GetDocumentModelBuildOperationDefaultResponse
+    | GetDocumentModelComposeOperation200Response
+    | GetDocumentModelComposeOperationDefaultResponse
+    | GetDocumentModelCopyToOperation200Response
+    | GetDocumentModelCopyToOperationDefaultResponse
+    | GetDocumentClassifierCopyToOperation200Response
+    | GetDocumentClassifierCopyToOperationDefaultResponse
+    | GetDocumentClassifierBuildOperation200Response
+    | GetDocumentClassifierBuildOperationDefaultResponse
+    | GetOperation200Response
+    | GetOperationDefaultResponse
     | GetResourceInfo200Response
     | GetResourceInfoDefaultResponse
     | GetAnalyzeResult200Response
     | GetAnalyzeResultDefaultResponse
+    | GetAnalyzeResultPdf200Response
+    | GetAnalyzeResultPdfDefaultResponse
+    | GetAnalyzeResultFigure200Response
+    | GetAnalyzeResultFigureDefaultResponse
     | AnalyzeDocumentFromStream202Response
-    | AnalyzeDocument202Response
     | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentLogicalResponse
     | AnalyzeDocumentFromStreamDefaultResponse
+    | AnalyzeDocument202Response
+    | AnalyzeDocumentLogicalResponse
+    | AnalyzeDocumentDefaultResponse
+    | GetAnalyzeBatchResult200Response
+    | GetAnalyzeBatchResultDefaultResponse
+    | AnalyzeBatchDocuments202Response
+    | AnalyzeBatchDocumentsLogicalResponse
+    | AnalyzeBatchDocumentsDefaultResponse
     | GetModel200Response
     | GetModelDefaultResponse
+    | PatchModel200Response
+    | PatchModelDefaultResponse
     | DeleteModel204Response
     | DeleteModelDefaultResponse
     | BuildModel202Response
@@ -200,19 +321,36 @@ export function isUnexpected(
     | DeleteClassifier204Response
     | DeleteClassifierDefaultResponse
     | ClassifyDocumentFromStream202Response
-    | ClassifyDocument202Response
     | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentLogicalResponse
     | ClassifyDocumentFromStreamDefaultResponse
+    | ClassifyDocument202Response
+    | ClassifyDocumentLogicalResponse
+    | ClassifyDocumentDefaultResponse
     | GetClassifyResult200Response
-    | GetClassifyResultDefaultResponse,
+    | GetClassifyResultDefaultResponse
+    | AuthorizeClassifierCopy200Response
+    | AuthorizeClassifierCopyDefaultResponse
+    | CopyClassifierTo202Response
+    | CopyClassifierToLogicalResponse
+    | CopyClassifierToDefaultResponse,
 ): response is
   | ListOperationsDefaultResponse
   | GetDocumentModelBuildOperationDefaultResponse
+  | GetDocumentModelComposeOperationDefaultResponse
+  | GetDocumentModelCopyToOperationDefaultResponse
+  | GetDocumentClassifierCopyToOperationDefaultResponse
+  | GetDocumentClassifierBuildOperationDefaultResponse
+  | GetOperationDefaultResponse
   | GetResourceInfoDefaultResponse
   | GetAnalyzeResultDefaultResponse
+  | GetAnalyzeResultPdfDefaultResponse
+  | GetAnalyzeResultFigureDefaultResponse
   | AnalyzeDocumentFromStreamDefaultResponse
+  | AnalyzeDocumentDefaultResponse
+  | GetAnalyzeBatchResultDefaultResponse
+  | AnalyzeBatchDocumentsDefaultResponse
   | GetModelDefaultResponse
+  | PatchModelDefaultResponse
   | DeleteModelDefaultResponse
   | BuildModelDefaultResponse
   | ComposeModelDefaultResponse
@@ -224,7 +362,10 @@ export function isUnexpected(
   | GetClassifierDefaultResponse
   | DeleteClassifierDefaultResponse
   | ClassifyDocumentFromStreamDefaultResponse
-  | GetClassifyResultDefaultResponse {
+  | ClassifyDocumentDefaultResponse
+  | GetClassifyResultDefaultResponse
+  | AuthorizeClassifierCopyDefaultResponse
+  | CopyClassifierToDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -257,17 +398,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
