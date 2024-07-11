@@ -30,7 +30,7 @@ async function revokeAccessToASnapshot() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginRevokeAccessAndWait(
     resourceGroupName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }

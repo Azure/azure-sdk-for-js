@@ -1,4 +1,4 @@
-import { getEnvVar, PerfOptionDictionary } from "@azure/test-utils-perf";
+import { getEnvVar, PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MonitorIngestionPerfTest } from "./monitorIngestionPerfTest.spec";
 
 interface UploadLogsOptions {

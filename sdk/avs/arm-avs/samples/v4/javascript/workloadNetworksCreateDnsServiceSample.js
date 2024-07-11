@@ -38,7 +38,7 @@ async function workloadNetworksCreateDnsService() {
     resourceGroupName,
     privateCloudName,
     dnsServiceId,
-    workloadNetworkDnsService
+    workloadNetworkDnsService,
   );
   console.log(result);
 }

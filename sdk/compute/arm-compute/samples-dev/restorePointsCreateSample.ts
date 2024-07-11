@@ -29,9 +29,8 @@ async function copyARestorePointToADifferentRegion() {
   const restorePointName = "rpName";
   const parameters: RestorePoint = {
     sourceRestorePoint: {
-      id:
-        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName"
-    }
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -39,7 +38,7 @@ async function copyARestorePointToADifferentRegion() {
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -60,10 +59,9 @@ async function createARestorePoint() {
   const parameters: RestorePoint = {
     excludeDisks: [
       {
-        id:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
-      }
-    ]
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -71,7 +69,7 @@ async function createARestorePoint() {
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

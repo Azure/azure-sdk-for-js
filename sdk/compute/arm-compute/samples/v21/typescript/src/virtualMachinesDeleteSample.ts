@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachinesDeleteOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,7 +36,7 @@ async function forceDeleteAVM() {
   const result = await client.virtualMachines.beginDeleteAndWait(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }

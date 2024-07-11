@@ -32,7 +32,7 @@ async function virtualMachineExtensionDeleteMaximumSetGen() {
   const result = await client.virtualMachineExtensions.beginDeleteAndWait(
     resourceGroupName,
     vmName,
-    vmExtensionName
+    vmExtensionName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function virtualMachineExtensionDeleteMinimumSetGen() {
   const result = await client.virtualMachineExtensions.beginDeleteAndWait(
     resourceGroupName,
     vmName,
-    vmExtensionName
+    vmExtensionName,
   );
   console.log(result);
 }

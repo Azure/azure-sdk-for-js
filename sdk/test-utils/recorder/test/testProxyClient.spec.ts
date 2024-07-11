@@ -7,17 +7,18 @@ import {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { expect } from "chai";
-import { env, Recorder } from "../src";
-import { createRecordingRequest } from "../src/utils/createRecordingRequest";
-import { paths } from "../src/utils/paths";
-import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
+import { Recorder } from "../src/index.js";
+import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
+import { paths } from "../src/utils/paths.js";
+import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
+import { describe, it, beforeEach, afterEach, expect, type TaskContext } from "vitest";
+import { env } from "../src/index.js";
 
 const testRedirectedRequest = (
   client: Recorder,
   makeRequest: () => PipelineRequest,
   expectedModification: (req: PipelineRequest) => PipelineRequest,
-) => {
+): void => {
   const redirectedRequest = makeRequest();
   client["redirectRequest"](redirectedRequest);
   expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
@@ -26,11 +27,11 @@ const testRedirectedRequest = (
 describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
-  let testContext: Mocha.Test | undefined;
-  beforeEach(function () {
-    client = new Recorder(this.currentTest);
+  let testContext: TaskContext | undefined;
+  beforeEach(async function (context) {
+    testContext = context;
+    client = new Recorder(testContext);
     clientHttpClient = client["httpClient"] as HttpClient;
-    testContext = this.currentTest;
   });
 
   afterEach(() => {

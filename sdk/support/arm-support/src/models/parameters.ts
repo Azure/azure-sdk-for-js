@@ -9,15 +9,18 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  ServiceClassificationRequest as ServiceClassificationRequestMapper,
+  ProblemClassificationsClassificationInput as ProblemClassificationsClassificationInputMapper,
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   UpdateSupportTicket as UpdateSupportTicketMapper,
   SupportTicketDetails as SupportTicketDetailsMapper,
   CommunicationDetails as CommunicationDetailsMapper,
   FileDetails as FileDetailsMapper,
-  UploadFile as UploadFileMapper
+  UploadFile as UploadFileMapper,
+  LookUpResourceIdRequest as LookUpResourceIdRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -27,9 +30,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -38,22 +41,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const serviceName: OperationURLParameter = {
@@ -62,20 +65,9 @@ export const serviceName: OperationURLParameter = {
     serializedName: "serviceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const problemClassificationName: OperationURLParameter = {
-  parameterPath: "problemClassificationName",
-  mapper: {
-    serializedName: "problemClassificationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -85,14 +77,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const checkNameAvailabilityInput: OperationParameter = {
-  parameterPath: "checkNameAvailabilityInput",
-  mapper: CheckNameAvailabilityInputMapper
+export const serviceClassificationRequest: OperationParameter = {
+  parameterPath: "serviceClassificationRequest",
+  mapper: ServiceClassificationRequestMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -101,9 +93,44 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
+};
+
+export const problemClassificationsClassificationInput: OperationParameter = {
+  parameterPath: "problemClassificationsClassificationInput",
+  mapper: ProblemClassificationsClassificationInputMapper,
+};
+
+export const problemServiceName: OperationURLParameter = {
+  parameterPath: "problemServiceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9a-zA-Z_\\-. ]+$"),
+    },
+    serializedName: "problemServiceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const problemClassificationName: OperationURLParameter = {
+  parameterPath: "problemClassificationName",
+  mapper: {
+    serializedName: "problemClassificationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const checkNameAvailabilityInput: OperationParameter = {
+  parameterPath: "checkNameAvailabilityInput",
+  mapper: CheckNameAvailabilityInputMapper,
 };
 
 export const top: OperationQueryParameter = {
@@ -111,9 +138,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -121,9 +148,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const supportTicketName: OperationURLParameter = {
@@ -132,19 +159,19 @@ export const supportTicketName: OperationURLParameter = {
     serializedName: "supportTicketName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const updateSupportTicket: OperationParameter = {
   parameterPath: "updateSupportTicket",
-  mapper: UpdateSupportTicketMapper
+  mapper: UpdateSupportTicketMapper,
 };
 
 export const createSupportTicketParameters: OperationParameter = {
   parameterPath: "createSupportTicketParameters",
-  mapper: SupportTicketDetailsMapper
+  mapper: SupportTicketDetailsMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -153,10 +180,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const communicationName: OperationURLParameter = {
@@ -165,14 +192,14 @@ export const communicationName: OperationURLParameter = {
     serializedName: "communicationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const createCommunicationParameters: OperationParameter = {
   parameterPath: "createCommunicationParameters",
-  mapper: CommunicationDetailsMapper
+  mapper: CommunicationDetailsMapper,
 };
 
 export const chatTranscriptName: OperationURLParameter = {
@@ -181,9 +208,9 @@ export const chatTranscriptName: OperationURLParameter = {
     serializedName: "chatTranscriptName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileWorkspaceName: OperationURLParameter = {
@@ -192,23 +219,23 @@ export const fileWorkspaceName: OperationURLParameter = {
     serializedName: "fileWorkspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileWorkspaceName1: OperationURLParameter = {
   parameterPath: "fileWorkspaceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[0-9a-zA-Z_\\-. ]+$")
+      Pattern: new RegExp("^[0-9a-zA-Z_\\-. ]+$"),
     },
     serializedName: "fileWorkspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileName: OperationURLParameter = {
@@ -217,17 +244,22 @@ export const fileName: OperationURLParameter = {
     serializedName: "fileName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const createFileParameters: OperationParameter = {
   parameterPath: "createFileParameters",
-  mapper: FileDetailsMapper
+  mapper: FileDetailsMapper,
 };
 
 export const uploadFile: OperationParameter = {
   parameterPath: "uploadFile",
-  mapper: UploadFileMapper
+  mapper: UploadFileMapper,
+};
+
+export const lookUpResourceIdRequest: OperationParameter = {
+  parameterPath: "lookUpResourceIdRequest",
+  mapper: LookUpResourceIdRequestMapper,
 };

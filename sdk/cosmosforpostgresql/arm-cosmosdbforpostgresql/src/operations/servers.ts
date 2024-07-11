@@ -17,7 +17,7 @@ import {
   ServersListByClusterOptionalParams,
   ServersListByClusterResponse,
   ServersGetOptionalParams,
-  ServersGetResponse
+  ServersGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,12 +42,12 @@ export class ServersImpl implements Servers {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ServersListByClusterOptionalParams
+    options?: ServersListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<ClusterServer> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -64,9 +64,9 @@ export class ServersImpl implements Servers {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +74,7 @@ export class ServersImpl implements Servers {
     resourceGroupName: string,
     clusterName: string,
     options?: ServersListByClusterOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ClusterServer[]> {
     let result: ServersListByClusterResponse;
     result = await this._listByCluster(resourceGroupName, clusterName, options);
@@ -84,12 +84,12 @@ export class ServersImpl implements Servers {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ServersListByClusterOptionalParams
+    options?: ServersListByClusterOptionalParams,
   ): AsyncIterableIterator<ClusterServer> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -104,11 +104,11 @@ export class ServersImpl implements Servers {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ServersListByClusterOptionalParams
+    options?: ServersListByClusterOptionalParams,
   ): Promise<ServersListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -123,11 +123,11 @@ export class ServersImpl implements Servers {
     resourceGroupName: string,
     clusterName: string,
     serverName: string,
-    options?: ServersGetOptionalParams
+    options?: ServersGetOptionalParams,
   ): Promise<ServersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, serverName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -135,38 +135,15 @@ export class ServersImpl implements Servers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterServerListResult
+      bodyMapper: Mappers.ClusterServerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers/{serverName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterServer
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -174,8 +151,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.serverName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/servers/{serverName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterServer,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.serverName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

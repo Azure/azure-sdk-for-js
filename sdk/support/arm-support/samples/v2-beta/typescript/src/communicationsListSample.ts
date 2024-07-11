@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CommunicationsListOptionalParams,
-  MicrosoftSupport
+  MicrosoftSupport,
 } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  *
  * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListCommunicationsForSubscriptionSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListCommunicationsForSubscriptionSupportTicket.json
  */
 async function listCommunicationsForASubscriptionSupportTicket() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -39,7 +39,7 @@ async function listCommunicationsForASubscriptionSupportTicket() {
  * This sample demonstrates how to Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  *
  * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListWebCommunicationsForSubscriptionSupportTicketCreatedOnOrAfter.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListWebCommunicationsForSubscriptionSupportTicketCreatedOnOrAfter.json
  */
 async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -52,7 +52,7 @@ async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscription
   const resArray = new Array();
   for await (let item of client.communications.list(
     supportTicketName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -63,7 +63,7 @@ async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscription
  * This sample demonstrates how to Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  *
  * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListWebCommunicationsForSubscriptionSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListWebCommunicationsForSubscriptionSupportTicket.json
  */
 async function listWebCommunicationsForASubscriptionSupportTicket() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -75,7 +75,7 @@ async function listWebCommunicationsForASubscriptionSupportTicket() {
   const resArray = new Array();
   for await (let item of client.communications.list(
     supportTicketName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

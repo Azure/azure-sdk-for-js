@@ -16,9 +16,9 @@ require("dotenv").config();
  * This sample demonstrates how to Check the availability of a resource name. This API should be used to check the uniqueness of the name for support ticket creation for the selected subscription.
  *
  * @summary Check the availability of a resource name. This API should be used to check the uniqueness of the name for support ticket creation for the selected subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CheckNameAvailabilityWithSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CheckNameAvailabilityWithSubscription.json
  */
-async function checksWhetherNameIsAvailableForSupportTicketResource() {
+async function checksWhetherNameIsAvailableForSubscriptionScopedSupportTicketResource() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const checkNameAvailabilityInput = {
     name: "sampleName",
@@ -31,7 +31,7 @@ async function checksWhetherNameIsAvailableForSupportTicketResource() {
 }
 
 async function main() {
-  checksWhetherNameIsAvailableForSupportTicketResource();
+  checksWhetherNameIsAvailableForSubscriptionScopedSupportTicketResource();
 }
 
 main().catch(console.error);

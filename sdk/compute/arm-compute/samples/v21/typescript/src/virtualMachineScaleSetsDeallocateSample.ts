@@ -11,7 +11,7 @@
 import {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsDeallocateOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,18 +32,18 @@ async function virtualMachineScaleSetDeallocateMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const hibernate = true;
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaa"],
   };
   const options: VirtualMachineScaleSetsDeallocateOptionalParams = {
     hibernate,
-    vmInstanceIDs
+    vmInstanceIDs,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginDeallocateAndWait(
     resourceGroupName,
     vmScaleSetName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function virtualMachineScaleSetDeallocateMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginDeallocateAndWait(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }

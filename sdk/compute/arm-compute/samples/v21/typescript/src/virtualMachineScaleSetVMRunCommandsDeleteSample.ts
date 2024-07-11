@@ -30,12 +30,13 @@ async function deleteVirtualMachineScaleSetVMRunCommand() {
   const runCommandName = "myRunCommand";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMRunCommands.beginDeleteAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    runCommandName
-  );
+  const result =
+    await client.virtualMachineScaleSetVMRunCommands.beginDeleteAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      runCommandName,
+    );
   console.log(result);
 }
 

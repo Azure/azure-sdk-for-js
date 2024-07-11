@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified virtual network gateway by resource group.
  *
  * @summary Gets the specified virtual network gateway by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayGet.json
  */
 async function getVirtualNetworkGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getVirtualNetworkGateway() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworkGateways.get(
     resourceGroupName,
-    virtualNetworkGatewayName
+    virtualNetworkGatewayName,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function getVirtualNetworkGateway() {
  * This sample demonstrates how to Gets the specified virtual network gateway by resource group.
  *
  * @summary Gets the specified virtual network gateway by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkScalableGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkScalableGatewayGet.json
  */
 async function getVirtualNetworkScalableGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -47,7 +47,7 @@ async function getVirtualNetworkScalableGateway() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualNetworkGateways.get(
     resourceGroupName,
-    virtualNetworkGatewayName
+    virtualNetworkGatewayName,
   );
   console.log(result);
 }

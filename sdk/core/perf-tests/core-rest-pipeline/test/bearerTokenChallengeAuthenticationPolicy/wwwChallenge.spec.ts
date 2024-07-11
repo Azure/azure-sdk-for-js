@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest } from "@azure/test-utils-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
@@ -104,7 +104,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
 
-  constructor(public getTokenResponse: AccessToken) {}
+  constructor(public getTokenResponse: AccessToken) { }
 
   public getToken(
     scope: string | string[],

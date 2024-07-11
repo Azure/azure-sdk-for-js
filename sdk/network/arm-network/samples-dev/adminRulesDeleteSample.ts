@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AdminRulesDeleteOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an admin rule.
  *
  * @summary Deletes an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerAdminRuleDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerAdminRuleDelete.json
  */
 async function deletesAnAdminRule() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function deletesAnAdminRule() {
     configurationName,
     ruleCollectionName,
     ruleName,
-    options
+    options,
   );
   console.log(result);
 }

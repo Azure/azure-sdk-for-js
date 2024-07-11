@@ -30,7 +30,7 @@ async function deleteAProximityPlacementGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.proximityPlacementGroups.delete(
     resourceGroupName,
-    proximityPlacementGroupName
+    proximityPlacementGroupName,
   );
   console.log(result);
 }

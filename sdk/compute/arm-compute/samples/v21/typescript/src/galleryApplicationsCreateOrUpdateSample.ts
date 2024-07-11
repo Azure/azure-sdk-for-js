@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   GalleryApplication,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a gallery Application Definition.
  *
  * @summary Create or update a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplication_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplication_Create.json
  */
 async function createOrUpdateASimpleGalleryApplication() {
   const subscriptionId =
@@ -42,17 +42,17 @@ async function createOrUpdateASimpleGalleryApplication() {
             type: "String",
             description: "This is the description of the parameter",
             defaultValue: "default value of parameter.",
-            required: false
-          }
+            required: false,
+          },
         ],
-        script: "myCustomActionScript"
-      }
+        script: "myCustomActionScript",
+      },
     ],
     eula: "This is the gallery application EULA.",
     location: "West US",
     privacyStatementUri: "myPrivacyStatementUri}",
     releaseNoteUri: "myReleaseNoteUri",
-    supportedOSType: "Windows"
+    supportedOSType: "Windows",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -60,7 +60,7 @@ async function createOrUpdateASimpleGalleryApplication() {
     resourceGroupName,
     galleryName,
     galleryApplicationName,
-    galleryApplication
+    galleryApplication,
   );
   console.log(result);
 }

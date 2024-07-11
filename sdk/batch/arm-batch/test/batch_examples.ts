@@ -60,7 +60,7 @@ describe("Batch test", () => {
     resourceGroup = "myjstest";
     accountName = "myaccountxxx";
     applicationName = "myapplicationxxx";
-    storageaccountName = "mystorageaccountxxx111";
+    storageaccountName = "myjsstorageaccount111";
     certificateName = "sha1-cff2ab63c8c955aaf71989efa641b906558d9fb7";
     poolName = "mypoolxxx";
   });

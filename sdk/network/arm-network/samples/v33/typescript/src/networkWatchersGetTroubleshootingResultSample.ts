@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   QueryTroubleshootingParameters,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get the last completed troubleshooting result on a specified resource.
  *
  * @summary Get the last completed troubleshooting result on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherTroubleshootResultQuery.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherTroubleshootResultQuery.json
  */
 async function getTroubleshootResult() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,15 +29,16 @@ async function getTroubleshootResult() {
   const networkWatcherName = "nw1";
   const parameters: QueryTroubleshootingParameters = {
     targetResourceId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1"
+      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkWatchers.beginGetTroubleshootingResultAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    parameters
-  );
+  const result =
+    await client.networkWatchers.beginGetTroubleshootingResultAndWait(
+      resourceGroupName,
+      networkWatcherName,
+      parameters,
+    );
   console.log(result);
 }
 

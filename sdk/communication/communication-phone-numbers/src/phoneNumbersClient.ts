@@ -20,7 +20,6 @@ import {
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchResult,
-  PhoneNumbersOperatorInformationSearchOptionalParams,
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
@@ -556,16 +555,27 @@ export class PhoneNumbersClient {
    */
   public searchOperatorInformation(
     phoneNumbers: string[],
-    options: SearchOperatorInformationOptions = {},
+    options: SearchOperatorInformationOptions = { includeAdditionalOperatorDetails: false },
   ): Promise<OperatorInformationResult> {
-    return tracingClient.withSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-searchOperatorInformation",
       options,
-      (updatedOptions) => {
-        const params: PhoneNumbersOperatorInformationSearchOptionalParams = updatedOptions;
-        params.phoneNumbers = phoneNumbers;
-        return this.client.phoneNumbers.operatorInformationSearch(params);
-      },
     );
+
+    try {
+      return this.client.phoneNumbers.operatorInformationSearch(phoneNumbers, {
+        ...updatedOptions,
+        options: { includeAdditionalOperatorDetails: options.includeAdditionalOperatorDetails },
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

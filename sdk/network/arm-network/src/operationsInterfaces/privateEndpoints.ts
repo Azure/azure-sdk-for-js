@@ -16,7 +16,7 @@ import {
   PrivateEndpointsGetOptionalParams,
   PrivateEndpointsGetResponse,
   PrivateEndpointsCreateOrUpdateOptionalParams,
-  PrivateEndpointsCreateOrUpdateResponse
+  PrivateEndpointsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,14 +29,14 @@ export interface PrivateEndpoints {
    */
   list(
     resourceGroupName: string,
-    options?: PrivateEndpointsListOptionalParams
+    options?: PrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpoint>;
   /**
    * Gets all private endpoints in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PrivateEndpointsListBySubscriptionOptionalParams
+    options?: PrivateEndpointsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpoint>;
   /**
    * Deletes the specified private endpoint.
@@ -47,7 +47,7 @@ export interface PrivateEndpoints {
   beginDelete(
     resourceGroupName: string,
     privateEndpointName: string,
-    options?: PrivateEndpointsDeleteOptionalParams
+    options?: PrivateEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private endpoint.
@@ -58,7 +58,7 @@ export interface PrivateEndpoints {
   beginDeleteAndWait(
     resourceGroupName: string,
     privateEndpointName: string,
-    options?: PrivateEndpointsDeleteOptionalParams
+    options?: PrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified private endpoint by resource group.
@@ -69,7 +69,7 @@ export interface PrivateEndpoints {
   get(
     resourceGroupName: string,
     privateEndpointName: string,
-    options?: PrivateEndpointsGetOptionalParams
+    options?: PrivateEndpointsGetOptionalParams,
   ): Promise<PrivateEndpointsGetResponse>;
   /**
    * Creates or updates an private endpoint in the specified resource group.
@@ -82,7 +82,7 @@ export interface PrivateEndpoints {
     resourceGroupName: string,
     privateEndpointName: string,
     parameters: PrivateEndpoint,
-    options?: PrivateEndpointsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointsCreateOrUpdateResponse>,
@@ -100,6 +100,6 @@ export interface PrivateEndpoints {
     resourceGroupName: string,
     privateEndpointName: string,
     parameters: PrivateEndpoint,
-    options?: PrivateEndpointsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointsCreateOrUpdateResponse>;
 }

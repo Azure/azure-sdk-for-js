@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackendAddressPool,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a load balancer backend address pool.
  *
  * @summary Creates or updates a load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/LBBackendAddressPoolWithBackendAddressesPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LBBackendAddressPoolWithBackendAddressesPut.json
  */
 async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,28 +34,27 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
         name: "address1",
         ipAddress: "10.0.0.4",
         virtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
-        }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
+        },
       },
       {
         name: "address2",
         ipAddress: "10.0.0.5",
         virtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
-        }
-      }
-    ]
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
+        },
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancerBackendAddressPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    loadBalancerName,
-    backendAddressPoolName,
-    parameters
-  );
+  const result =
+    await client.loadBalancerBackendAddressPools.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      loadBalancerName,
+      backendAddressPoolName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -32,7 +32,7 @@ async function getARunCommand() {
   const result = await client.virtualMachineRunCommands.getByVirtualMachine(
     resourceGroupName,
     vmName,
-    runCommandName
+    runCommandName,
   );
   console.log(result);
 }

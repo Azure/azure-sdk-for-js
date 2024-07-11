@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SshPublicKeyUpdateResource,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,14 +31,14 @@ async function sshPublicKeyUpdateMaximumSetGen() {
   const sshPublicKeyName = "aaaaaaaaaaaa";
   const parameters: SshPublicKeyUpdateResource = {
     publicKey: "{ssh-rsa public key}",
-    tags: { key2854: "a" }
+    tags: { key2854: "a" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeys.update(
     resourceGroupName,
     sshPublicKeyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function sshPublicKeyUpdateMinimumSetGen() {
   const result = await client.sshPublicKeys.update(
     resourceGroupName,
     sshPublicKeyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

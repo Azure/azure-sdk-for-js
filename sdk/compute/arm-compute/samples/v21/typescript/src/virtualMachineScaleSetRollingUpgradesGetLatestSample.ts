@@ -30,7 +30,7 @@ async function virtualMachineScaleSetRollingUpgradeGetLatestMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetRollingUpgrades.getLatest(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function virtualMachineScaleSetRollingUpgradeGetLatestMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetRollingUpgrades.getLatest(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }

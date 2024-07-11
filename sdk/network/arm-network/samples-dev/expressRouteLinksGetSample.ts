@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the specified ExpressRouteLink resource.
  *
  * @summary Retrieves the specified ExpressRouteLink resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteLinkGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteLinkGet.json
  */
 async function expressRouteLinkGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function expressRouteLinkGet() {
   const result = await client.expressRouteLinks.get(
     resourceGroupName,
     expressRoutePortName,
-    linkName
+    linkName,
   );
   console.log(result);
 }

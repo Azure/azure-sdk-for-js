@@ -51,6 +51,12 @@ export interface MetricsQueryOptions extends OperationOptions {
   resultType?: ResultType;
   /** Metric namespace to query metric definitions for. */
   metricNamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollUpBy?: string;
 }
 
 /** The result data of a query. */
@@ -106,6 +112,8 @@ export interface MetricsQueryResult {
   granularity?: string;
   /** The namespace of the metrics been queried */
   namespace?: string;
+  /** The resource that has been queried for metrics. */
+  resourceId?: string;
   /** The region of the resource been queried for metrics. */
   resourceRegion?: string;
   /** the value of the collection. */

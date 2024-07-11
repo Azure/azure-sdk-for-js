@@ -37,7 +37,7 @@ export async function main() {
   var validForDays = 10;
   var validUntil = addDays(validFrom, validForDays);
   var pstnDialOutEnabled = true;
-  
+
   // options payload to create a room
   const createRoomOptions: CreateRoomOptions = {
     validFrom: validFrom,

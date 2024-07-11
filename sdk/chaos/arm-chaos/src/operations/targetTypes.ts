@@ -20,7 +20,7 @@ import {
   TargetTypesListResponse,
   TargetTypesGetOptionalParams,
   TargetTypesGetResponse,
-  TargetTypesListNextResponse
+  TargetTypesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class TargetTypesImpl implements TargetTypes {
    */
   public list(
     locationName: string,
-    options?: TargetTypesListOptionalParams
+    options?: TargetTypesListOptionalParams,
   ): PagedAsyncIterableIterator<TargetType> {
     const iter = this.listPagingAll(locationName, options);
     return {
@@ -58,14 +58,14 @@ export class TargetTypesImpl implements TargetTypes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     locationName: string,
     options?: TargetTypesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TargetType[]> {
     let result: TargetTypesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class TargetTypesImpl implements TargetTypes {
 
   private async *listPagingAll(
     locationName: string,
-    options?: TargetTypesListOptionalParams
+    options?: TargetTypesListOptionalParams,
   ): AsyncIterableIterator<TargetType> {
     for await (const page of this.listPagingPage(locationName, options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class TargetTypesImpl implements TargetTypes {
    */
   private _list(
     locationName: string,
-    options?: TargetTypesListOptionalParams
+    options?: TargetTypesListOptionalParams,
   ): Promise<TargetTypesListResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class TargetTypesImpl implements TargetTypes {
   get(
     locationName: string,
     targetTypeName: string,
-    options?: TargetTypesGetOptionalParams
+    options?: TargetTypesGetOptionalParams,
   ): Promise<TargetTypesGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, targetTypeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -135,11 +135,11 @@ export class TargetTypesImpl implements TargetTypes {
   private _listNext(
     locationName: string,
     nextLink: string,
-    options?: TargetTypesListNextOptionalParams
+    options?: TargetTypesListNextOptionalParams,
   ): Promise<TargetTypesListNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -147,65 +147,63 @@ export class TargetTypesImpl implements TargetTypes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TargetTypeListResult
+      bodyMapper: Mappers.TargetTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.continuationToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TargetType
+      bodyMapper: Mappers.TargetType,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.targetTypeName
+    Parameters.targetTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TargetTypeListResult
+      bodyMapper: Mappers.TargetTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

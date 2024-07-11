@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the problem classifications (categories) available for a specific Azure service. Always use the service and problem classifications obtained programmatically. This practice ensures that you always have the most recent set of service and problem classification Ids.
  *
  * @summary Lists all the problem classifications (categories) available for a specific Azure service. Always use the service and problem classifications obtained programmatically. This practice ensures that you always have the most recent set of service and problem classification Ids.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListProblemClassifications.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListProblemClassifications.json
  */
 async function getsListOfProblemClassificationsForAServiceForWhichASupportTicketCanBeCreated() {
   const serviceName = "service_guid";

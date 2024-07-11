@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get problem classification details for a specific Azure service.
  *
  * @summary Get problem classification details for a specific Azure service.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/GetProblemClassification.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetProblemClassification.json
  */
 async function getsDetailsOfProblemClassificationForAzureService() {
   const serviceName = "service_guid";

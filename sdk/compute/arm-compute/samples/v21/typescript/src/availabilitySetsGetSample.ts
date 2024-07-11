@@ -30,7 +30,7 @@ async function availabilitySetGetMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.get(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function availabilitySetGetMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.get(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   );
   console.log(result);
 }

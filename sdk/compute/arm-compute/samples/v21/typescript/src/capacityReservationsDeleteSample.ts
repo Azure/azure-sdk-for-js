@@ -32,7 +32,7 @@ async function capacityReservationDeleteMaximumSetGen() {
   const result = await client.capacityReservations.beginDeleteAndWait(
     resourceGroupName,
     capacityReservationGroupName,
-    capacityReservationName
+    capacityReservationName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function capacityReservationDeleteMinimumSetGen() {
   const result = await client.capacityReservations.beginDeleteAndWait(
     resourceGroupName,
     capacityReservationGroupName,
-    capacityReservationName
+    capacityReservationName,
   );
   console.log(result);
 }

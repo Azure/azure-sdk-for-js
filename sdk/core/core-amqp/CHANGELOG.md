@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.1 (Unreleased)
+## 4.2.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.2.1 (2024-03-04)
+
+### Other Changes
+
+- Update the message of the error thrown from `retry` to include all errors occurred between retries.
 
 ## 4.2.0 (2024-02-01)
 

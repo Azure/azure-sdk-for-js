@@ -11,7 +11,7 @@
 import {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,18 +31,19 @@ async function virtualMachineScaleSetPerformMaintenanceMaximumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaa"],
   };
   const options: VirtualMachineScaleSetsPerformMaintenanceOptionalParams = {
-    vmInstanceIDs
+    vmInstanceIDs,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    options
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      options,
+    );
   console.log(result);
 }
 
@@ -60,10 +61,11 @@ async function virtualMachineScaleSetPerformMaintenanceMinimumSetGen() {
   const vmScaleSetName = "aa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
-    resourceGroupName,
-    vmScaleSetName
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+    );
   console.log(result);
 }
 

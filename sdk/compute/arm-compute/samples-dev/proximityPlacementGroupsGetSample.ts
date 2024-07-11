@@ -30,7 +30,7 @@ async function getProximityPlacementGroups() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.proximityPlacementGroups.get(
     resourceGroupName,
-    proximityPlacementGroupName
+    proximityPlacementGroupName,
   );
   console.log(result);
 }

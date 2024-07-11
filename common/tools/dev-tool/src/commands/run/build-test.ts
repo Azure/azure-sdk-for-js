@@ -2,7 +2,15 @@
 // Licensed under the MIT license.
 
 import path from "node:path";
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
@@ -146,7 +154,7 @@ function copyOverrides(type: string, rootDir: string, filePath: string): void {
   const fileToReplaceWith = path.join(
     fileParsed.root,
     fileParsed.dir,
-    `${fileParsed.name}-${type}.mts`
+    `${fileParsed.name}-${type}.mts`,
   );
   if (existsSync(fileToReplace) && existsSync(fileToReplaceWith)) {
     log.info(`Copying over ${fileToReplaceWith} to ${fileToReplace}`);
@@ -156,20 +164,20 @@ function copyOverrides(type: string, rootDir: string, filePath: string): void {
       rootDir,
       relativeDir,
       `${fileParsed.name}-${type}.d.mts`,
-      `${fileParsed.name}.d.ts`
+      `${fileParsed.name}.d.ts`,
     );
     overrideFile(
       rootDir,
       relativeDir,
       `${fileParsed.name}-${type}.d.mts.map`,
-      `${fileParsed.name}.d.ts.map`
+      `${fileParsed.name}.d.ts.map`,
     );
     overrideFile(rootDir, relativeDir, `${fileParsed.name}-${type}.mjs`, `${fileParsed.name}.js`);
     overrideFile(
       rootDir,
       relativeDir,
       `${fileParsed.name}-${type}.mjs.map`,
-      `${fileParsed.name}.js.map`
+      `${fileParsed.name}.js.map`,
     );
   }
 }
@@ -178,7 +186,7 @@ function overrideFile(
   rootDir: string,
   relativeDir: string,
   sourceFile: string,
-  destinationFile: string
+  destinationFile: string,
 ): void {
   const sourceFileType = path.join(process.cwd(), rootDir, relativeDir, sourceFile);
   const destFileType = path.join(process.cwd(), rootDir, relativeDir, destinationFile);
@@ -189,7 +197,10 @@ function overrideFile(
 class OverrideSet {
   public map: Map<string, string>;
 
-  constructor(public type: "esm" | "commonjs", public name: string) {
+  constructor(
+    public type: "esm" | "commonjs",
+    public name: string,
+  ) {
     this.map = new Map();
   }
 
@@ -206,7 +217,7 @@ class OverrideSet {
   }
 }
 
-function getSources(dir: string = "src"): string[] {
+function getSources(dir = "src"): string[] {
   const sources: string[] = [];
   const entries = readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {

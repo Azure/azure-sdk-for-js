@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineExtension,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -44,8 +44,8 @@ async function virtualMachineExtensionCreateOrUpdateMaximumSetGen() {
           displayStatus: "aaaaaa",
           level: "Info",
           message: "a",
-          time: new Date("2021-11-30T12:58:26.522Z")
-        }
+          time: new Date("2021-11-30T12:58:26.522Z"),
+        },
       ],
       substatuses: [
         {
@@ -53,10 +53,10 @@ async function virtualMachineExtensionCreateOrUpdateMaximumSetGen() {
           displayStatus: "aaaaaa",
           level: "Info",
           message: "a",
-          time: new Date("2021-11-30T12:58:26.522Z")
-        }
+          time: new Date("2021-11-30T12:58:26.522Z"),
+        },
       ],
-      typeHandlerVersion: "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+      typeHandlerVersion: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
     },
     location: "westus",
     protectedSettings: {},
@@ -64,16 +64,17 @@ async function virtualMachineExtensionCreateOrUpdateMaximumSetGen() {
     settings: {},
     suppressFailures: true,
     tags: { key9183: "aa" },
-    typeHandlerVersion: "1.2"
+    typeHandlerVersion: "1.2",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    vmExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmName,
+      vmExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 
@@ -93,12 +94,13 @@ async function virtualMachineExtensionCreateOrUpdateMinimumSetGen() {
   const extensionParameters: VirtualMachineExtension = { location: "westus" };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmName,
-    vmExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmName,
+      vmExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 

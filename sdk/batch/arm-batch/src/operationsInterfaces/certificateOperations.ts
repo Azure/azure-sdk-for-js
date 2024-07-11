@@ -20,7 +20,7 @@ import {
   CertificateGetOptionalParams,
   CertificateGetResponse,
   CertificateCancelDeletionOptionalParams,
-  CertificateCancelDeletionResponse
+  CertificateCancelDeletionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface CertificateOperations {
   listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: CertificateListByBatchAccountOptionalParams
+    options?: CertificateListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<Certificate>;
   /**
    * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
@@ -56,7 +56,7 @@ export interface CertificateOperations {
     accountName: string,
     certificateName: string,
     parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateCreateOptionalParams
+    options?: CertificateCreateOptionalParams,
   ): Promise<CertificateCreateResponse>;
   /**
    * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
@@ -75,7 +75,7 @@ export interface CertificateOperations {
     accountName: string,
     certificateName: string,
     parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateUpdateOptionalParams
+    options?: CertificateUpdateOptionalParams,
   ): Promise<CertificateUpdateResponse>;
   /**
    * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
@@ -92,7 +92,7 @@ export interface CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateDeleteOptionalParams
+    options?: CertificateDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
@@ -109,7 +109,7 @@ export interface CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateDeleteOptionalParams
+    options?: CertificateDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Warning: This operation is deprecated and will be removed after February, 2024. Please use the
@@ -126,7 +126,7 @@ export interface CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateGetOptionalParams
+    options?: CertificateGetOptionalParams,
   ): Promise<CertificateGetResponse>;
   /**
    * If you try to delete a certificate that is being used by a pool or compute node, the status of the
@@ -150,6 +150,6 @@ export interface CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateCancelDeletionOptionalParams
+    options?: CertificateCancelDeletionOptionalParams,
   ): Promise<CertificateCancelDeletionResponse>;
 }

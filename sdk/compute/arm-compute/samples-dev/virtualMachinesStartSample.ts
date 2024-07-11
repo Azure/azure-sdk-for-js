@@ -30,7 +30,7 @@ async function virtualMachineStartMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginStartAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function virtualMachineStartMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginStartAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

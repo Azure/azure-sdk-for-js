@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID } from "@azure/core-util";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { StorageDFSTest } from "./storageTest.spec";
 

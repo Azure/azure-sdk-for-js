@@ -50,7 +50,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "unit-test:node": "mocha --require source-map-support/register --require ts-node/register --timeout 10000 --full-trace tests/**/*.ts",
+    "unit-test:node": "cross-env VITE_CJS_IGNORE_WARNING=true vitest",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"
@@ -60,6 +60,7 @@
   },
   "prettier": "./prettier.json",
   "peerDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "~5.57.0",
     "@typescript-eslint/parser": "~5.57.0",
     "eslint": "^8.50.0",
@@ -76,24 +77,23 @@
     "glob": "^9.0.0",
     "json-schema": "^0.4.0",
     "typescript": "~5.3.3",
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.6",
     "@types/json-schema": "^7.0.6",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "~5.57.0",
     "@typescript-eslint/experimental-utils": "~5.57.0",
     "@typescript-eslint/parser": "~5.57.0",
-    "chai": "^4.2.0",
+    "@typescript-eslint/rule-tester": "^7.3.0",
+    "@vitest/coverage-istanbul": "^1.4.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.50.0",
-    "mocha": "^10.0.0",
+    "eslint-plugin-markdown": "^4.0.0",
     "prettier": "^3.2.5",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
     "typescript": "~5.3.3",
-    "eslint-plugin-markdown": "~3.0.0",
-    "ts-node": "^10.0.0"
+    "vitest": "^1.4.0"
   }
 }

@@ -3,7 +3,7 @@
   "author": "Microsoft Corporation",
   "sdk-type": "client",
   "type": "module",
-  "version": "2.6.1",
+  "version": "2.7.3",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "exports": {
     "./package.json": "./package.json",
@@ -26,8 +26,14 @@
       }
     }
   },
+  "files": [
+    "dist/",
+    "LICENSE",
+    "README.md"
+  ],
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "tags": [
     "isomorphic",
     "browser",
@@ -51,10 +57,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "browser": {
-    "os": false,
-    "process": false
-  },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -66,16 +68,16 @@
     "build:samples": "echo Obsolete",
     "build:test": "npm run clean && tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && api-extractor run --local",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
     "execute:samples": "echo skipped",
     "extract-api": "tshy && api-extractor run --local",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test  --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test  --ext .ts --ext .cts --ext .mts",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
@@ -102,7 +104,7 @@
     "playwright": "^1.41.2",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "tshy": "^1.11.1",
+    "tshy": "^1.13.0",
     "typescript": "~5.3.3",
     "vitest": "^1.3.1"
   },

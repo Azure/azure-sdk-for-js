@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { LogsIngestionClient } from "@azure/monitor-ingestion";
 import { DefaultAzureCredential } from "@azure/identity";
 

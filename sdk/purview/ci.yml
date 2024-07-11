@@ -42,3 +42,5 @@ extends:
         safeName: azurerestpurviewsharing
       - name: azure-rest-purview-workflow
         safeName: azurerestpurviewworkflow
+      - name: azure-rest-purview-datamap
+        safeName: azurerestpurviewdatamap

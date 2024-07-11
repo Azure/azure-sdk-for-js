@@ -1,4 +1,7 @@
-import { SpawnOptions, spawn } from "child_process";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { SpawnOptions, spawn } from "node:child_process";
 
 export interface RunOptions extends SpawnOptions {
   captureOutput?: boolean;

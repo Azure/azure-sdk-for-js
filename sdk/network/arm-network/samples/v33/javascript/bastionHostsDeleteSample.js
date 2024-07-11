@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified Bastion Host.
  *
  * @summary Deletes the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/BastionHostDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionHostDelete.json
  */
 async function deleteBastionHost() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function deleteBastionHost() {
  * This sample demonstrates how to Deletes the specified Bastion Host.
  *
  * @summary Deletes the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/BastionHostDeveloperDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionHostDeveloperDelete.json
  */
 async function deleteDeveloperBastionHost() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

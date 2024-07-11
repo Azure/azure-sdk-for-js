@@ -8,6 +8,7 @@ export interface Hotel {
   hotelName?: string | null;
   description?: string | null;
   vectorDescription?: number[] | null;
+  compressedVectorDescription?: number[] | null;
   descriptionFr?: string | null;
   category?: string | null;
   tags?: string[] | null;

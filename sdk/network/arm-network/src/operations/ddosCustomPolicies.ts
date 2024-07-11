@@ -14,7 +14,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -26,7 +26,7 @@ import {
   DdosCustomPoliciesCreateOrUpdateResponse,
   TagsObject,
   DdosCustomPoliciesUpdateTagsOptionalParams,
-  DdosCustomPoliciesUpdateTagsResponse
+  DdosCustomPoliciesUpdateTagsResponse,
 } from "../models";
 
 /** Class containing DdosCustomPolicies operations. */
@@ -50,25 +50,24 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
   async beginDelete(
     resourceGroupName: string,
     ddosCustomPolicyName: string,
-    options?: DdosCustomPoliciesDeleteOptionalParams
+    options?: DdosCustomPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -77,8 +76,8 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -86,20 +85,20 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ddosCustomPolicyName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -114,12 +113,12 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
   async beginDeleteAndWait(
     resourceGroupName: string,
     ddosCustomPolicyName: string,
-    options?: DdosCustomPoliciesDeleteOptionalParams
+    options?: DdosCustomPoliciesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       ddosCustomPolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -133,11 +132,11 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
   get(
     resourceGroupName: string,
     ddosCustomPolicyName: string,
-    options?: DdosCustomPoliciesGetOptionalParams
+    options?: DdosCustomPoliciesGetOptionalParams,
   ): Promise<DdosCustomPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ddosCustomPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -152,7 +151,7 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
     resourceGroupName: string,
     ddosCustomPolicyName: string,
     parameters: DdosCustomPolicy,
-    options?: DdosCustomPoliciesCreateOrUpdateOptionalParams
+    options?: DdosCustomPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DdosCustomPoliciesCreateOrUpdateResponse>,
@@ -161,21 +160,20 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DdosCustomPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -184,8 +182,8 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -193,15 +191,15 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ddosCustomPolicyName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DdosCustomPoliciesCreateOrUpdateResponse,
@@ -209,7 +207,7 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -226,13 +224,13 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
     resourceGroupName: string,
     ddosCustomPolicyName: string,
     parameters: DdosCustomPolicy,
-    options?: DdosCustomPoliciesCreateOrUpdateOptionalParams
+    options?: DdosCustomPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DdosCustomPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       ddosCustomPolicyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,11 +246,11 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
     resourceGroupName: string,
     ddosCustomPolicyName: string,
     parameters: TagsObject,
-    options?: DdosCustomPoliciesUpdateTagsOptionalParams
+    options?: DdosCustomPoliciesUpdateTagsOptionalParams,
   ): Promise<DdosCustomPoliciesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ddosCustomPolicyName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 }
@@ -260,8 +258,7 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -269,61 +266,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ddosCustomPolicyName
+    Parameters.ddosCustomPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DdosCustomPolicy
+      bodyMapper: Mappers.DdosCustomPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ddosCustomPolicyName
+    Parameters.ddosCustomPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DdosCustomPolicy
+      bodyMapper: Mappers.DdosCustomPolicy,
     },
     201: {
-      bodyMapper: Mappers.DdosCustomPolicy
+      bodyMapper: Mappers.DdosCustomPolicy,
     },
     202: {
-      bodyMapper: Mappers.DdosCustomPolicy
+      bodyMapper: Mappers.DdosCustomPolicy,
     },
     204: {
-      bodyMapper: Mappers.DdosCustomPolicy
+      bodyMapper: Mappers.DdosCustomPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
@@ -331,23 +326,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ddosCustomPolicyName
+    Parameters.ddosCustomPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DdosCustomPolicy
+      bodyMapper: Mappers.DdosCustomPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -355,9 +349,9 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ddosCustomPolicyName
+    Parameters.ddosCustomPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

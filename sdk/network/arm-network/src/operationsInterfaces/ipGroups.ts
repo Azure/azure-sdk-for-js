@@ -19,7 +19,7 @@ import {
   TagsObject,
   IpGroupsUpdateGroupsOptionalParams,
   IpGroupsUpdateGroupsResponse,
-  IpGroupsDeleteOptionalParams
+  IpGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface IpGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IpGroupsListByResourceGroupOptionalParams
+    options?: IpGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IpGroup>;
   /**
    * Gets all IpGroups in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: IpGroupsListOptionalParams
+    options?: IpGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<IpGroup>;
   /**
    * Gets the specified ipGroups.
@@ -50,7 +50,7 @@ export interface IpGroups {
   get(
     resourceGroupName: string,
     ipGroupsName: string,
-    options?: IpGroupsGetOptionalParams
+    options?: IpGroupsGetOptionalParams,
   ): Promise<IpGroupsGetResponse>;
   /**
    * Creates or updates an ipGroups in a specified resource group.
@@ -63,7 +63,7 @@ export interface IpGroups {
     resourceGroupName: string,
     ipGroupsName: string,
     parameters: IpGroup,
-    options?: IpGroupsCreateOrUpdateOptionalParams
+    options?: IpGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpGroupsCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface IpGroups {
     resourceGroupName: string,
     ipGroupsName: string,
     parameters: IpGroup,
-    options?: IpGroupsCreateOrUpdateOptionalParams
+    options?: IpGroupsCreateOrUpdateOptionalParams,
   ): Promise<IpGroupsCreateOrUpdateResponse>;
   /**
    * Updates tags of an IpGroups resource.
@@ -94,7 +94,7 @@ export interface IpGroups {
     resourceGroupName: string,
     ipGroupsName: string,
     parameters: TagsObject,
-    options?: IpGroupsUpdateGroupsOptionalParams
+    options?: IpGroupsUpdateGroupsOptionalParams,
   ): Promise<IpGroupsUpdateGroupsResponse>;
   /**
    * Deletes the specified ipGroups.
@@ -105,7 +105,7 @@ export interface IpGroups {
   beginDelete(
     resourceGroupName: string,
     ipGroupsName: string,
-    options?: IpGroupsDeleteOptionalParams
+    options?: IpGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified ipGroups.
@@ -116,6 +116,6 @@ export interface IpGroups {
   beginDeleteAndWait(
     resourceGroupName: string,
     ipGroupsName: string,
-    options?: IpGroupsDeleteOptionalParams
+    options?: IpGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

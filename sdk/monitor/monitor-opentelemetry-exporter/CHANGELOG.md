@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.21 (2024-03-08)
+
+### Bugs Fixed
+
+- Fix issue with duration calculation for Spans.
+
 ## 1.0.0-beta.20 (2024-02-13)
 
 ### Bugs Fixed

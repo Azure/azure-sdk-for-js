@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetExtensionUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -40,16 +40,17 @@ async function virtualMachineScaleSetExtensionUpdateMaximumSetGen() {
     publisher: "{extension-Publisher}",
     settings: {},
     suppressFailures: true,
-    typeHandlerVersion: "{handler-version}"
+    typeHandlerVersion: "{handler-version}",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 
@@ -69,12 +70,13 @@ async function virtualMachineScaleSetExtensionUpdateMinimumSetGen() {
   const extensionParameters: VirtualMachineScaleSetExtensionUpdate = {};
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Query a snapshot of the most recent connection states.
  *
  * @summary Query a snapshot of the most recent connection states.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherConnectionMonitorQuery.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherConnectionMonitorQuery.json
  */
 async function queryConnectionMonitor() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function queryConnectionMonitor() {
   const result = await client.connectionMonitors.beginQueryAndWait(
     resourceGroupName,
     networkWatcherName,
-    connectionMonitorName
+    connectionMonitorName,
   );
   console.log(result);
 }

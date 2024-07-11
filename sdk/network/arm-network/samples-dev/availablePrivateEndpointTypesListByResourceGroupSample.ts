@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
  *
  * @summary Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AvailablePrivateEndpointTypesResourceGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/AvailablePrivateEndpointTypesResourceGroupGet.json
  */
 async function getAvailablePrivateEndpointTypesInTheResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -29,7 +29,7 @@ async function getAvailablePrivateEndpointTypesInTheResourceGroup() {
   const resArray = new Array();
   for await (let item of client.availablePrivateEndpointTypes.listByResourceGroup(
     location,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

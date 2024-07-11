@@ -11,7 +11,7 @@
 import {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsPowerOffOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,18 +32,18 @@ async function virtualMachineScaleSetPowerOffMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const skipShutdown = true;
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaa"],
   };
   const options: VirtualMachineScaleSetsPowerOffOptionalParams = {
     skipShutdown,
-    vmInstanceIDs
+    vmInstanceIDs,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginPowerOffAndWait(
     resourceGroupName,
     vmScaleSetName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function virtualMachineScaleSetPowerOffMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginPowerOffAndWait(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }

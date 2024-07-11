@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import path from "path";
-
+import path from "node:path";
 import * as rollup from "rollup";
 import nodeBuiltins from "builtin-modules";
-
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
 import inject from "@rollup/plugin-inject";
-
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";

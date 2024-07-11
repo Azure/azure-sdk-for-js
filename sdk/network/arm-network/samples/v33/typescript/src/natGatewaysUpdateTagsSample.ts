@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates nat gateway tags.
  *
  * @summary Updates nat gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NatGatewayUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NatGatewayUpdateTags.json
  */
 async function updateNatGatewayTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function updateNatGatewayTags() {
   const result = await client.natGateways.updateTags(
     resourceGroupName,
     natGatewayName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

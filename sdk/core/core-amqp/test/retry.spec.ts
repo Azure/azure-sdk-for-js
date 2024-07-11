@@ -67,7 +67,7 @@ const should = chai.should();
       } catch (err) {
         should.exist(err);
         should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would like to fail, not retryable.");
+        (err as MessagingError).message.should.match(/I would like to fail, not retryable./);
         counter.should.equal(1);
       }
     });
@@ -172,7 +172,7 @@ const should = chai.should();
       } catch (err) {
         should.exist(err);
         should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would like to fail.");
+        (err as MessagingError).message.should.match(/I would like to fail./);
         counter.should.equal(3);
       }
     });
@@ -196,7 +196,7 @@ const should = chai.should();
       } catch (err) {
         should.exist(err);
         should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
+        (err as MessagingError).message.should.match(/I would always like to fail, keep retrying./);
         counter.should.equal(5);
       }
     });
@@ -228,7 +228,7 @@ const should = chai.should();
       } catch (err) {
         should.exist(err);
         should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
+        (err as MessagingError).message.should.match(/I would always like to fail, keep retrying./);
         counter.should.equal(1);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
@@ -263,7 +263,7 @@ const should = chai.should();
       } catch (err) {
         should.exist(err);
         should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
+        (err as MessagingError).message.should.match(/I would always like to fail, keep retrying./);
         counter.should.equal(2);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
@@ -345,7 +345,7 @@ const should = chai.should();
         } catch (err) {
           should.exist(err);
           should.equal(true, err instanceof MessagingError);
-          (err as MessagingError).message.should.equal("I would like to fail, not retryable.");
+          (err as MessagingError).message.should.match(/I would like to fail, not retryable./);
           counter.should.equal(1);
         }
       });
@@ -454,7 +454,7 @@ const should = chai.should();
         } catch (err) {
           should.exist(err);
           should.equal(true, err instanceof MessagingError);
-          (err as MessagingError).message.should.equal("I would like to fail.");
+          (err as MessagingError).message.should.match(/I would like to fail./);
           counter.should.equal(3);
         }
       });

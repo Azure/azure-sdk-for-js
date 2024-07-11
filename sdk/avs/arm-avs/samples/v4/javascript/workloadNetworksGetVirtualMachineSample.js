@@ -29,7 +29,7 @@ async function workloadNetworksGetVirtualMachine() {
   const result = await client.workloadNetworks.getVirtualMachine(
     resourceGroupName,
     privateCloudName,
-    virtualMachineId
+    virtualMachineId,
   );
   console.log(result);
 }

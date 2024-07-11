@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityInput,
-  MicrosoftSupport
+  MicrosoftSupport,
 } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,24 +21,24 @@ dotenv.config();
  * This sample demonstrates how to Check the availability of a resource name. This API should be used to check the uniqueness of the name for support ticket creation for the selected subscription.
  *
  * @summary Check the availability of a resource name. This API should be used to check the uniqueness of the name for support ticket creation for the selected subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CheckNameAvailabilityWithSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CheckNameAvailabilityWithSubscription.json
  */
-async function checksWhetherNameIsAvailableForSupportTicketResource() {
+async function checksWhetherNameIsAvailableForSubscriptionScopedSupportTicketResource() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const checkNameAvailabilityInput: CheckNameAvailabilityInput = {
     name: "sampleName",
-    type: "Microsoft.Support/supportTickets"
+    type: "Microsoft.Support/supportTickets",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.checkNameAvailability(
-    checkNameAvailabilityInput
+    checkNameAvailabilityInput,
   );
   console.log(result);
 }
 
 async function main() {
-  checksWhetherNameIsAvailableForSupportTicketResource();
+  checksWhetherNameIsAvailableForSubscriptionScopedSupportTicketResource();
 }
 
 main().catch(console.error);

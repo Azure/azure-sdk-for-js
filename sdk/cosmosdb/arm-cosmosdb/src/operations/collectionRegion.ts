@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   Metric,
   CollectionRegionListMetricsOptionalParams,
-  CollectionRegionListMetricsResponse
+  CollectionRegionListMetricsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class CollectionRegionImpl implements CollectionRegion {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionRegionListMetricsOptionalParams
+    options?: CollectionRegionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric> {
     const iter = this.listMetricsPagingAll(
       resourceGroupName,
@@ -60,7 +60,7 @@ export class CollectionRegionImpl implements CollectionRegion {
       databaseRid,
       collectionRid,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class CollectionRegionImpl implements CollectionRegion {
           collectionRid,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class CollectionRegionImpl implements CollectionRegion {
     collectionRid: string,
     filter: string,
     options?: CollectionRegionListMetricsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Metric[]> {
     let result: CollectionRegionListMetricsResponse;
     result = await this._listMetrics(
@@ -105,7 +105,7 @@ export class CollectionRegionImpl implements CollectionRegion {
       databaseRid,
       collectionRid,
       filter,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -117,7 +117,7 @@ export class CollectionRegionImpl implements CollectionRegion {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionRegionListMetricsOptionalParams
+    options?: CollectionRegionListMetricsOptionalParams,
   ): AsyncIterableIterator<Metric> {
     for await (const page of this.listMetricsPagingPage(
       resourceGroupName,
@@ -126,7 +126,7 @@ export class CollectionRegionImpl implements CollectionRegion {
       databaseRid,
       collectionRid,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -152,7 +152,7 @@ export class CollectionRegionImpl implements CollectionRegion {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionRegionListMetricsOptionalParams
+    options?: CollectionRegionListMetricsOptionalParams,
   ): Promise<CollectionRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -162,9 +162,9 @@ export class CollectionRegionImpl implements CollectionRegion {
         databaseRid,
         collectionRid,
         filter,
-        options
+        options,
       },
-      listMetricsOperationSpec
+      listMetricsOperationSpec,
     );
   }
 }
@@ -172,13 +172,12 @@ export class CollectionRegionImpl implements CollectionRegion {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/metrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricListResult
-    }
+      bodyMapper: Mappers.MetricListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -188,8 +187,8 @@ const listMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.databaseRid,
     Parameters.collectionRid,
-    Parameters.region
+    Parameters.region,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

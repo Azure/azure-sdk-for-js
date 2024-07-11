@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Input,
   InputsListByStreamingJobOptionalParams,
@@ -19,7 +19,7 @@ import {
   InputsGetOptionalParams,
   InputsGetResponse,
   InputsTestOptionalParams,
-  InputsTestResponse
+  InputsTestResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Inputs {
   listByStreamingJob(
     resourceGroupName: string,
     jobName: string,
-    options?: InputsListByStreamingJobOptionalParams
+    options?: InputsListByStreamingJobOptionalParams,
   ): PagedAsyncIterableIterator<Input>;
   /**
    * Creates an input or replaces an already existing input under an existing streaming job.
@@ -50,7 +50,7 @@ export interface Inputs {
     jobName: string,
     inputName: string,
     input: Input,
-    options?: InputsCreateOrReplaceOptionalParams
+    options?: InputsCreateOrReplaceOptionalParams,
   ): Promise<InputsCreateOrReplaceResponse>;
   /**
    * Updates an existing input under an existing streaming job. This can be used to partially update (ie.
@@ -69,7 +69,7 @@ export interface Inputs {
     jobName: string,
     inputName: string,
     input: Input,
-    options?: InputsUpdateOptionalParams
+    options?: InputsUpdateOptionalParams,
   ): Promise<InputsUpdateResponse>;
   /**
    * Deletes an input from the streaming job.
@@ -82,7 +82,7 @@ export interface Inputs {
     resourceGroupName: string,
     jobName: string,
     inputName: string,
-    options?: InputsDeleteOptionalParams
+    options?: InputsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets details about the specified input.
@@ -95,7 +95,7 @@ export interface Inputs {
     resourceGroupName: string,
     jobName: string,
     inputName: string,
-    options?: InputsGetOptionalParams
+    options?: InputsGetOptionalParams,
   ): Promise<InputsGetResponse>;
   /**
    * Tests whether an input’s datasource is reachable and usable by the Azure Stream Analytics service.
@@ -108,9 +108,9 @@ export interface Inputs {
     resourceGroupName: string,
     jobName: string,
     inputName: string,
-    options?: InputsTestOptionalParams
+    options?: InputsTestOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<InputsTestResponse>, InputsTestResponse>
+    SimplePollerLike<OperationState<InputsTestResponse>, InputsTestResponse>
   >;
   /**
    * Tests whether an input’s datasource is reachable and usable by the Azure Stream Analytics service.
@@ -123,6 +123,6 @@ export interface Inputs {
     resourceGroupName: string,
     jobName: string,
     inputName: string,
-    options?: InputsTestOptionalParams
+    options?: InputsTestOptionalParams,
   ): Promise<InputsTestResponse>;
 }

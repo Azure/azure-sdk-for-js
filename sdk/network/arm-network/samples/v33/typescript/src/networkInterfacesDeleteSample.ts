@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified network interface.
  *
  * @summary Deletes the specified network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkInterfaceDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkInterfaceDelete.json
  */
 async function deleteNetworkInterface() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteNetworkInterface() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkInterfaces.beginDeleteAndWait(
     resourceGroupName,
-    networkInterfaceName
+    networkInterfaceName,
   );
   console.log(result);
 }

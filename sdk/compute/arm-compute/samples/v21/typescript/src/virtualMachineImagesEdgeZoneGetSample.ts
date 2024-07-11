@@ -37,7 +37,7 @@ async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
     publisherName,
     offer,
     skus,
-    version
+    version,
   );
   console.log(result);
 }
@@ -65,7 +65,7 @@ async function virtualMachineImagesEdgeZoneGetMinimumSetGen() {
     publisherName,
     offer,
     skus,
-    version
+    version,
   );
   console.log(result);
 }

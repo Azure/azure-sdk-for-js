@@ -76,7 +76,7 @@ async function createFluxConfiguration() {
     clusterResourceName,
     clusterName,
     fluxConfigurationName,
-    fluxConfiguration
+    fluxConfiguration,
   );
   console.log(result);
 }
@@ -131,7 +131,7 @@ async function createFluxConfigurationWithBucketSourceKind() {
     clusterResourceName,
     clusterName,
     fluxConfigurationName,
-    fluxConfiguration
+    fluxConfiguration,
   );
   console.log(result);
 }

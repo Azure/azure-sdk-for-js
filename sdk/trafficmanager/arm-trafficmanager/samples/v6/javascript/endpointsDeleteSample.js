@@ -31,7 +31,7 @@ async function endpointDeleteExternal() {
     resourceGroupName,
     profileName,
     endpointType,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }

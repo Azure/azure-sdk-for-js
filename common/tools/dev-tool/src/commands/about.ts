@@ -2,7 +2,6 @@
 // Licensed under the MIT license
 
 import chalk from "chalk";
-
 import { baseCommands, baseCommandInfo } from ".";
 import { resolveProject } from "../util/resolveProject";
 import { createPrinter } from "../util/printer";

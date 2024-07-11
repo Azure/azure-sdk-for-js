@@ -1,33 +1,27 @@
 jeremymeng is not a public member of Azure.
 mpodwysocki is not a public member of Azure.
-xirzec is not a public member of Azure.
 minhanh-phan is not a public member of Azure.
 anilba06 is not a public member of Azure.
 dpwatrous is not a public member of Azure.
 There are no owners defined for CODEOWNERS entry.
 danielav7 is not a public member of Azure.
-bgams is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 miguhern is not a public member of Azure.
 RoyHerrod is not a public member of Azure.
 ajpeacock0 is not a public member of Azure.
-Mrayyan is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 shwali-msft is not a public member of Azure.
 allchiang-msft is not a public member of Azure.
 phermanov-msft is not a public member of Azure.
 ilyapaliakou-msft is not a public member of Azure.
 abkolant-MSFT is not a public member of Azure.
-pjohari-ms is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 olivakar is not a public member of Azure.
 KarishmaGhiya is not a public member of Azure.
 schaabs is not a public member of Azure.
 EmmaZhu is not a public member of Azure.
-wangyuantao is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
-bowgong is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
-mengai is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
-minjuewu is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 RamonArguelles is not a public member of Azure.
+sagivf is not a public member of Azure.
 MaryGao is not a public member of Azure.
 JacksonWeber is not a public member of Azure.
+Aviv-Yaniv is not a public member of Azure.
 adamedx is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 Azure/aks-pm is an invalid team. Ensure the team exists and has write permissions.
 liadtal is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.

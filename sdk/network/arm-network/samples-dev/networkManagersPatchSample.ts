@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Patch NetworkManager.
  *
  * @summary Patch NetworkManager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerPatch.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerPatch.json
  */
 async function networkManagesPatch() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function networkManagesPatch() {
   const result = await client.networkManagers.patch(
     resourceGroupName,
     networkManagerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -32,7 +32,7 @@ async function virtualMachineScaleSetVMRedeployMaximumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginRedeployAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetVMRedeployMinimumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginRedeployAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }

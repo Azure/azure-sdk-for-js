@@ -31,7 +31,7 @@ async function getVirtualMachine() {
     resourceGroupName,
     privateCloudName,
     clusterName,
-    virtualMachineId
+    virtualMachineId,
   );
   console.log(result);
 }

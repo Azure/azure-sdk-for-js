@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMInstanceRequiredIDs,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,15 +30,16 @@ async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmInstanceIDs
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmInstanceIDs,
+    );
   console.log(result);
 }
 
@@ -55,15 +56,16 @@ async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmInstanceIDs
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmInstanceIDs,
+    );
   console.log(result);
 }
 

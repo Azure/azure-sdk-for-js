@@ -34,7 +34,7 @@ async function updateAScopedResourceInAPrivateLinkScope() {
     resourceGroupName,
     scopeName,
     name,
-    parameters
+    parameters,
   );
   console.log(result);
 }

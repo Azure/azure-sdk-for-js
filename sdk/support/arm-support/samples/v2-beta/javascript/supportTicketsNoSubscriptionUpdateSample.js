@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/UpdateAdvancedDiagnosticConsentOfSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/UpdateAdvancedDiagnosticConsentOfSupportTicket.json
  */
 async function updateAdvancedDiagnosticConsentOfASupportTicket() {
   const supportTicketName = "testticket";
@@ -27,7 +27,7 @@ async function updateAdvancedDiagnosticConsentOfASupportTicket() {
   const client = new MicrosoftSupport(credential);
   const result = await client.supportTicketsNoSubscription.update(
     supportTicketName,
-    updateSupportTicket
+    updateSupportTicket,
   );
   console.log(result);
 }
@@ -36,7 +36,7 @@ async function updateAdvancedDiagnosticConsentOfASupportTicket() {
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/UpdateContactDetailsOfSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/UpdateContactDetailsOfSupportTicket.json
  */
 async function updateContactDetailsOfASupportTicket() {
   const supportTicketName = "testticket";
@@ -57,7 +57,7 @@ async function updateContactDetailsOfASupportTicket() {
   const client = new MicrosoftSupport(credential);
   const result = await client.supportTicketsNoSubscription.update(
     supportTicketName,
-    updateSupportTicket
+    updateSupportTicket,
   );
   console.log(result);
 }
@@ -66,7 +66,7 @@ async function updateContactDetailsOfASupportTicket() {
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/UpdateSeverityOfSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/UpdateSeverityOfSupportTicket.json
  */
 async function updateSeverityOfASupportTicket() {
   const supportTicketName = "testticket";
@@ -75,7 +75,7 @@ async function updateSeverityOfASupportTicket() {
   const client = new MicrosoftSupport(credential);
   const result = await client.supportTicketsNoSubscription.update(
     supportTicketName,
-    updateSupportTicket
+    updateSupportTicket,
   );
   console.log(result);
 }
@@ -84,7 +84,7 @@ async function updateSeverityOfASupportTicket() {
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/UpdateStatusOfSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/UpdateStatusOfSupportTicket.json
  */
 async function updateStatusOfASupportTicket() {
   const supportTicketName = "testticket";
@@ -93,7 +93,7 @@ async function updateStatusOfASupportTicket() {
   const client = new MicrosoftSupport(credential);
   const result = await client.supportTicketsNoSubscription.update(
     supportTicketName,
-    updateSupportTicket
+    updateSupportTicket,
   );
   console.log(result);
 }

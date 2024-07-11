@@ -30,12 +30,13 @@ async function deleteVirtualMachineScaleSetVMExtension() {
   const vmExtensionName = "myVMExtension";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMExtensions.beginDeleteAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    vmExtensionName
-  );
+  const result =
+    await client.virtualMachineScaleSetVMExtensions.beginDeleteAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      vmExtensionName,
+    );
   console.log(result);
 }
 

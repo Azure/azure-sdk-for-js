@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   NetworkManagersPatchOptionalParams,
   NetworkManagersPatchResponse,
   NetworkManagersListBySubscriptionNextResponse,
-  NetworkManagersListNextResponse
+  NetworkManagersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class NetworkManagersImpl implements NetworkManagers {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkManagersListBySubscriptionOptionalParams
+    options?: NetworkManagersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkManager> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class NetworkManagersImpl implements NetworkManagers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkManagersListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkManager[]> {
     let result: NetworkManagersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class NetworkManagersImpl implements NetworkManagers {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkManagersListBySubscriptionOptionalParams
+    options?: NetworkManagersListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkManager> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class NetworkManagersImpl implements NetworkManagers {
    */
   public list(
     resourceGroupName: string,
-    options?: NetworkManagersListOptionalParams
+    options?: NetworkManagersListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkManager> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -128,14 +128,14 @@ export class NetworkManagersImpl implements NetworkManagers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: NetworkManagersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkManager[]> {
     let result: NetworkManagersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class NetworkManagersImpl implements NetworkManagers {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,7 +161,7 @@ export class NetworkManagersImpl implements NetworkManagers {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: NetworkManagersListOptionalParams
+    options?: NetworkManagersListOptionalParams,
   ): AsyncIterableIterator<NetworkManager> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -177,11 +177,11 @@ export class NetworkManagersImpl implements NetworkManagers {
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkManagersGetOptionalParams
+    options?: NetworkManagersGetOptionalParams,
   ): Promise<NetworkManagersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,11 +196,11 @@ export class NetworkManagersImpl implements NetworkManagers {
     resourceGroupName: string,
     networkManagerName: string,
     parameters: NetworkManager,
-    options?: NetworkManagersCreateOrUpdateOptionalParams
+    options?: NetworkManagersCreateOrUpdateOptionalParams,
   ): Promise<NetworkManagersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -213,25 +213,24 @@ export class NetworkManagersImpl implements NetworkManagers {
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkManagersDeleteOptionalParams
+    options?: NetworkManagersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -240,8 +239,8 @@ export class NetworkManagersImpl implements NetworkManagers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -249,20 +248,20 @@ export class NetworkManagersImpl implements NetworkManagers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkManagerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -277,12 +276,12 @@ export class NetworkManagersImpl implements NetworkManagers {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkManagersDeleteOptionalParams
+    options?: NetworkManagersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -298,11 +297,11 @@ export class NetworkManagersImpl implements NetworkManagers {
     resourceGroupName: string,
     networkManagerName: string,
     parameters: PatchObject,
-    options?: NetworkManagersPatchOptionalParams
+    options?: NetworkManagersPatchOptionalParams,
   ): Promise<NetworkManagersPatchResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, parameters, options },
-      patchOperationSpec
+      patchOperationSpec,
     );
   }
 
@@ -311,11 +310,11 @@ export class NetworkManagersImpl implements NetworkManagers {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkManagersListBySubscriptionOptionalParams
+    options?: NetworkManagersListBySubscriptionOptionalParams,
   ): Promise<NetworkManagersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -326,11 +325,11 @@ export class NetworkManagersImpl implements NetworkManagers {
    */
   private _list(
     resourceGroupName: string,
-    options?: NetworkManagersListOptionalParams
+    options?: NetworkManagersListOptionalParams,
   ): Promise<NetworkManagersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -341,11 +340,11 @@ export class NetworkManagersImpl implements NetworkManagers {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkManagersListBySubscriptionNextOptionalParams
+    options?: NetworkManagersListBySubscriptionNextOptionalParams,
   ): Promise<NetworkManagersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -358,11 +357,11 @@ export class NetworkManagersImpl implements NetworkManagers {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkManagersListNextOptionalParams
+    options?: NetworkManagersListNextOptionalParams,
   ): Promise<NetworkManagersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -370,41 +369,39 @@ export class NetworkManagersImpl implements NetworkManagers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManager
+      bodyMapper: Mappers.NetworkManager,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManager
+      bodyMapper: Mappers.NetworkManager,
     },
     201: {
-      bodyMapper: Mappers.NetworkManager
+      bodyMapper: Mappers.NetworkManager,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters32,
   queryParameters: [Parameters.apiVersion],
@@ -412,15 +409,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -428,30 +424,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManager
+      bodyMapper: Mappers.NetworkManager,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters33,
   queryParameters: [Parameters.apiVersion],
@@ -459,94 +454,92 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerListResult
+      bodyMapper: Mappers.NetworkManagerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerListResult
+      bodyMapper: Mappers.NetworkManagerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerListResult
+      bodyMapper: Mappers.NetworkManagerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerListResult
+      bodyMapper: Mappers.NetworkManagerListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -29,11 +29,12 @@ async function virtualMachineScaleSetVMApproveRollingUpgrade() {
   const instanceId = "0123";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId
-  );
+  const result =
+    await client.virtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+    );
   console.log(result);
 }
 

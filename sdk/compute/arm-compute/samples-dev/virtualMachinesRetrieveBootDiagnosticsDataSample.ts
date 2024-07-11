@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,14 +31,14 @@ async function retrieveBootDiagnosticsDataOfAVirtualMachine() {
   const vmName = "VMName";
   const sasUriExpirationTimeInMinutes = 60;
   const options: VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams = {
-    sasUriExpirationTimeInMinutes
+    sasUriExpirationTimeInMinutes,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.retrieveBootDiagnosticsData(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }

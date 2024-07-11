@@ -13,6 +13,7 @@ import {
   ListSnapshotsOptions,
   ConfigurationSnapshot,
   SnapshotResponse,
+  EtagEntity,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
@@ -34,18 +35,16 @@ import { OperationOptions } from "@azure/core-client";
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+export interface SendConfigurationSettingsOptions
+  extends OperationOptions,
+    ListSettingsOptions,
+    EtagEntity {
   /**
    * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */
   snapshotName?: string;
 }
-/**
- * Entity with etag. Represent both ConfigurationSetting and Snapshot
- */
-interface EtagEntity {
-  etag?: string;
-}
+
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
@@ -191,6 +190,27 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
   }
 
   return decodeURIComponent(afterToken);
+}
+
+/**
+ * Take the header link that gets returned from 304 response and extract the 'after' token needed
+ * to get the next page of results.
+ *
+ * @internal
+ */
+export function extractAfterTokenFromLinkHeader(link: string): string {
+  // Example transformation of the link header
+  // link:
+  // '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
+  //
+  // linkValue:
+  // </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
+  //
+  // nextLink:
+  // /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
+  const linkValue = link.split(";")[0];
+  const nextLink = linkValue.substring(1, linkValue.length - 1);
+  return extractAfterTokenFromNextLink(nextLink);
 }
 
 /**

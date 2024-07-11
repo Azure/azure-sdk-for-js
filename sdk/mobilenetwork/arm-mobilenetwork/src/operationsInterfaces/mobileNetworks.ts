@@ -17,9 +17,9 @@ import {
   MobileNetworksGetResponse,
   MobileNetworksCreateOrUpdateOptionalParams,
   MobileNetworksCreateOrUpdateResponse,
-  TagsObject,
+  IdentityAndTagsObject,
   MobileNetworksUpdateTagsOptionalParams,
-  MobileNetworksUpdateTagsResponse
+  MobileNetworksUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface MobileNetworks {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: MobileNetworksListBySubscriptionOptionalParams
+    options?: MobileNetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<MobileNetwork>;
   /**
    * Lists all the mobile networks in a resource group.
@@ -39,7 +39,7 @@ export interface MobileNetworks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MobileNetworksListByResourceGroupOptionalParams
+    options?: MobileNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MobileNetwork>;
   /**
    * Deletes the specified mobile network.
@@ -50,7 +50,7 @@ export interface MobileNetworks {
   beginDelete(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: MobileNetworksDeleteOptionalParams
+    options?: MobileNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified mobile network.
@@ -61,7 +61,7 @@ export interface MobileNetworks {
   beginDeleteAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: MobileNetworksDeleteOptionalParams
+    options?: MobileNetworksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified mobile network.
@@ -72,7 +72,7 @@ export interface MobileNetworks {
   get(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: MobileNetworksGetOptionalParams
+    options?: MobileNetworksGetOptionalParams,
   ): Promise<MobileNetworksGetResponse>;
   /**
    * Creates or updates a mobile network.
@@ -85,7 +85,7 @@ export interface MobileNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     parameters: MobileNetwork,
-    options?: MobileNetworksCreateOrUpdateOptionalParams
+    options?: MobileNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MobileNetworksCreateOrUpdateResponse>,
@@ -103,19 +103,19 @@ export interface MobileNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     parameters: MobileNetwork,
-    options?: MobileNetworksCreateOrUpdateOptionalParams
+    options?: MobileNetworksCreateOrUpdateOptionalParams,
   ): Promise<MobileNetworksCreateOrUpdateResponse>;
   /**
-   * Updates mobile network tags.
+   * Updates mobile network tags and managed identity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param parameters Parameters supplied to update mobile network tags.
+   * @param parameters Parameters supplied to update mobile network tags and/or identity.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
-    parameters: TagsObject,
-    options?: MobileNetworksUpdateTagsOptionalParams
+    parameters: IdentityAndTagsObject,
+    options?: MobileNetworksUpdateTagsOptionalParams,
   ): Promise<MobileNetworksUpdateTagsResponse>;
 }

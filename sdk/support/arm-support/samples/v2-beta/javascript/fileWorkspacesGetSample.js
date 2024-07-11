@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets details for a specific file workspace in an Azure subscription.
  *
  * @summary Gets details for a specific file workspace in an Azure subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/GetFileWorkspaceDetailsForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetFileWorkspaceDetailsForSubscription.json
  */
 async function getDetailsOfASubscriptionFileWorkspace() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";

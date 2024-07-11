@@ -30,7 +30,7 @@ async function sshPublicKeyDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeys.delete(
     resourceGroupName,
-    sshPublicKeyName
+    sshPublicKeyName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function sshPublicKeyDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeys.delete(
     resourceGroupName,
-    sshPublicKeyName
+    sshPublicKeyName,
   );
   console.log(result);
 }

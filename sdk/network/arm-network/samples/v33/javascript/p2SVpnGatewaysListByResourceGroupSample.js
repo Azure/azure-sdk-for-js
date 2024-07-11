@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the P2SVpnGateways in a resource group.
  *
  * @summary Lists all the P2SVpnGateways in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/P2SVpnGatewayListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/P2SVpnGatewayListByResourceGroup.json
  */
 async function p2SVpnGatewayListByResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

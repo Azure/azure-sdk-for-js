@@ -6,13 +6,13 @@
  */
 
 const {
-  SearchIndexingBufferedSender,
   AzureKeyCredential,
-  SearchClient,
   GeographyPoint,
+  SearchClient,
   SearchIndexClient,
+  SearchIndexingBufferedSender,
 } = require("@azure/search-documents");
-const { createIndex, documentKeyRetriever, WAIT_TIME, delay } = require("./setup");
+const { createIndex, delay, documentKeyRetriever, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
 
@@ -95,9 +95,9 @@ async function main() {
     });
 
     const documents = getDocumentsArray(1001);
-    bufferedClient.uploadDocuments(documents);
+    await bufferedClient.uploadDocuments(documents);
 
-    await WAIT_TIME;
+    await delay(WAIT_TIME);
 
     let count = await searchClient.getDocumentsCount();
     while (count !== documents.length) {
@@ -112,7 +112,6 @@ async function main() {
   } finally {
     await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
-  await delay(WAIT_TIME);
 }
 
 main();

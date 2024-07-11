@@ -33,7 +33,7 @@ async function getAvailableDedicatedHostSizes() {
   for await (let item of client.dedicatedHosts.listAvailableSizes(
     resourceGroupName,
     hostGroupName,
-    hostName
+    hostName,
   )) {
     resArray.push(item);
   }

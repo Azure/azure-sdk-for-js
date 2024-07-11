@@ -16,7 +16,7 @@ import {
   RolesCreateOptionalParams,
   RolesCreateResponse,
   RolesDeleteOptionalParams,
-  RolesDeleteResponse
+  RolesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Roles {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: RolesListByClusterOptionalParams
+    options?: RolesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Role>;
   /**
    * Gets information about a cluster role.
@@ -44,7 +44,7 @@ export interface Roles {
     resourceGroupName: string,
     clusterName: string,
     roleName: string,
-    options?: RolesGetOptionalParams
+    options?: RolesGetOptionalParams,
   ): Promise<RolesGetResponse>;
   /**
    * Creates a new role or updates an existing role.
@@ -59,7 +59,7 @@ export interface Roles {
     clusterName: string,
     roleName: string,
     parameters: Role,
-    options?: RolesCreateOptionalParams
+    options?: RolesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RolesCreateResponse>, RolesCreateResponse>
   >;
@@ -76,7 +76,7 @@ export interface Roles {
     clusterName: string,
     roleName: string,
     parameters: Role,
-    options?: RolesCreateOptionalParams
+    options?: RolesCreateOptionalParams,
   ): Promise<RolesCreateResponse>;
   /**
    * Deletes a cluster role.
@@ -89,7 +89,7 @@ export interface Roles {
     resourceGroupName: string,
     clusterName: string,
     roleName: string,
-    options?: RolesDeleteOptionalParams
+    options?: RolesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RolesDeleteResponse>, RolesDeleteResponse>
   >;
@@ -104,6 +104,6 @@ export interface Roles {
     resourceGroupName: string,
     clusterName: string,
     roleName: string,
-    options?: RolesDeleteOptionalParams
+    options?: RolesDeleteOptionalParams,
   ): Promise<RolesDeleteResponse>;
 }

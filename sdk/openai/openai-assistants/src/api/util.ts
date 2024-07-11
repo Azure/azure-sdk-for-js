@@ -116,3 +116,7 @@ function toSnakeCase<P extends string>(str: P): SnakeCase<P> {
     .replace(/([A-Z])/g, (group) => `_${group.toLowerCase()}`)
     .replace(/^_/, "") as SnakeCase<P>;
 }
+
+export function unixToDate(unix: number): Date {
+  return new Date(unix * 1000);
+}

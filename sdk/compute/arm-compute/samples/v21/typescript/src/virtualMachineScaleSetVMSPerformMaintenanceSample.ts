@@ -29,11 +29,12 @@ async function virtualMachineScaleSetVMPerformMaintenanceMaximumSetGen() {
   const instanceId = "aaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMs.beginPerformMaintenanceAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId
-  );
+  const result =
+    await client.virtualMachineScaleSetVMs.beginPerformMaintenanceAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+    );
   console.log(result);
 }
 
@@ -52,11 +53,12 @@ async function virtualMachineScaleSetVMPerformMaintenanceMinimumSetGen() {
   const instanceId = "aaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMs.beginPerformMaintenanceAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId
-  );
+  const result =
+    await client.virtualMachineScaleSetVMs.beginPerformMaintenanceAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+    );
   console.log(result);
 }
 

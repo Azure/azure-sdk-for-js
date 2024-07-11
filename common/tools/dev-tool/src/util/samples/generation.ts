@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import fs from "fs-extra";
-import path from "path";
+import path from "node:path";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
@@ -17,7 +20,6 @@ import {
   SampleGenerationInfo,
 } from "./info";
 import { processSources } from "./processor";
-
 import devToolPackageJson from "../../../package.json";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { resolveModule } from "./transforms";

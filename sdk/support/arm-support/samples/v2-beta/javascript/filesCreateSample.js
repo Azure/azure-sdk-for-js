@@ -16,9 +16,9 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new file under a workspace for the specified subscription.
  *
  * @summary Creates a new file under a workspace for the specified subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateFileForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateFileForSubscription.json
  */
-async function createAFileWorkspace() {
+async function createASubscriptionScopedFile() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const fileWorkspaceName = "testworkspace";
   const fileName = "test.txt";
@@ -34,7 +34,7 @@ async function createAFileWorkspace() {
 }
 
 async function main() {
-  createAFileWorkspace();
+  createASubscriptionScopedFile();
 }
 
 main().catch(console.error);

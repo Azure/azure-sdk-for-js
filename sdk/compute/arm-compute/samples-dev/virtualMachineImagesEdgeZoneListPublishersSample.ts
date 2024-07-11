@@ -29,7 +29,7 @@ async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZone.listPublishers(
     location,
-    edgeZone
+    edgeZone,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZone.listPublishers(
     location,
-    edgeZone
+    edgeZone,
   );
   console.log(result);
 }

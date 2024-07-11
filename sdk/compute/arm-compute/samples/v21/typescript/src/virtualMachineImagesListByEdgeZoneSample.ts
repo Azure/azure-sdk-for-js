@@ -30,7 +30,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImages.listByEdgeZone(
     location,
-    edgeZone
+    edgeZone,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImages.listByEdgeZone(
     location,
-    edgeZone
+    edgeZone,
   );
   console.log(result);
 }

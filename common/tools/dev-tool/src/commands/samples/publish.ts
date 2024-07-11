@@ -8,7 +8,7 @@
  * that are eventually used to generate a coherent set of sample programs.
  */
 
-import path from "path";
+import path from "node:path";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";

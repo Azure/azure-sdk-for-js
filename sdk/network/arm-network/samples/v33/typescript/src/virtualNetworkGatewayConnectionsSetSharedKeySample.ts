@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ConnectionSharedKey,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
  *
  * @summary The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGatewayConnectionSetSharedKey.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayConnectionSetSharedKey.json
  */
 async function setVirtualNetworkGatewayConnectionSharedKey() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,11 +30,12 @@ async function setVirtualNetworkGatewayConnectionSharedKey() {
   const parameters: ConnectionSharedKey = { value: "AzureAbc123" };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkGatewayConnections.beginSetSharedKeyAndWait(
-    resourceGroupName,
-    virtualNetworkGatewayConnectionName,
-    parameters
-  );
+  const result =
+    await client.virtualNetworkGatewayConnections.beginSetSharedKeyAndWait(
+      resourceGroupName,
+      virtualNetworkGatewayConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 

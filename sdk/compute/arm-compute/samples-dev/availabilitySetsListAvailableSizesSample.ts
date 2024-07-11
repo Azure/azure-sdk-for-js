@@ -31,7 +31,7 @@ async function availabilitySetListAvailableSizesMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.availabilitySets.listAvailableSizes(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   )) {
     resArray.push(item);
   }
@@ -55,7 +55,7 @@ async function availabilitySetListAvailableSizesMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.availabilitySets.listAvailableSizes(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   )) {
     resArray.push(item);
   }

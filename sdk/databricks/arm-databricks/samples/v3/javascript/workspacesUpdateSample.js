@@ -28,7 +28,7 @@ async function updateAWorkspaceTags() {
   const result = await client.workspaces.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

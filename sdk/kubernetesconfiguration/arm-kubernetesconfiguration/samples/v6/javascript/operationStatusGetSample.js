@@ -34,7 +34,7 @@ async function extensionAsyncOperationStatusGet() {
     clusterResourceName,
     clusterName,
     extensionName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

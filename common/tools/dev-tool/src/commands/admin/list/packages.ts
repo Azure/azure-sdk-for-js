@@ -2,12 +2,9 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
-
-import path from "path";
+import path from "node:path";
 import { resolveRoot } from "../../../util/resolveProject";
-
-import { readFile } from "fs/promises";
-
+import { readFile } from "node:fs/promises";
 import stripJsonComments from "strip-json-comments";
 
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {

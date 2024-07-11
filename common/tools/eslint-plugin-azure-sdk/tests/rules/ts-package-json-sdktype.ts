@@ -6,7 +6,7 @@
  * @author Ben Zhang
  */
 
-import { RuleTester } from "eslint";
+import { RuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-sdktype";
 
 //------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ const examplePackageGood = `{
     "@azure/identity": "^2.0.1",
     "@azure/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure-tools/test-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
@@ -264,7 +264,7 @@ const examplePackageBad = `{
     "@azure/identity": "^2.0.1",
     "@azure/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure-tools/test-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",

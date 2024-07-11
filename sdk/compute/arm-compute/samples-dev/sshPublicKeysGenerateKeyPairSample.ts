@@ -11,7 +11,7 @@
 import {
   SshGenerateKeyPairInputParameters,
   SshPublicKeysGenerateKeyPairOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function generateAnSshKeyPairWithEd25519Encryption() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const parameters: SshGenerateKeyPairInputParameters = {
-    encryptionType: "RSA"
+    encryptionType: "RSA",
   };
   const options: SshPublicKeysGenerateKeyPairOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function generateAnSshKeyPairWithEd25519Encryption() {
   const result = await client.sshPublicKeys.generateKeyPair(
     resourceGroupName,
     sshPublicKeyName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function generateAnSshKeyPairWithRsaEncryption() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const parameters: SshGenerateKeyPairInputParameters = {
-    encryptionType: "RSA"
+    encryptionType: "RSA",
   };
   const options: SshPublicKeysGenerateKeyPairOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function generateAnSshKeyPairWithRsaEncryption() {
   const result = await client.sshPublicKeys.generateKeyPair(
     resourceGroupName,
     sshPublicKeyName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -86,7 +86,7 @@ async function generateAnSshKeyPair() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeys.generateKeyPair(
     resourceGroupName,
-    sshPublicKeyName
+    sshPublicKeyName,
   );
   console.log(result);
 }

@@ -626,18 +626,6 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
           className: "PhoneNumberCost",
         },
       },
-      operatorId: {
-        serializedName: "operatorId",
-        type: {
-          name: "String",
-        },
-      },
-      operatorName: {
-        serializedName: "operatorName",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -677,6 +665,7 @@ export const OperatorInformationRequest: coreClient.CompositeMapper = {
     modelProperties: {
       phoneNumbers: {
         serializedName: "phoneNumbers",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -684,6 +673,28 @@ export const OperatorInformationRequest: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+      options: {
+        serializedName: "options",
+        type: {
+          name: "Composite",
+          className: "OperatorInformationOptions",
+        },
+      },
+    },
+  },
+};
+
+export const OperatorInformationOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperatorInformationOptions",
+    modelProperties: {
+      includeAdditionalOperatorDetails: {
+        serializedName: "includeAdditionalOperatorDetails",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -718,18 +729,31 @@ export const OperatorInformation: coreClient.CompositeMapper = {
     modelProperties: {
       phoneNumber: {
         serializedName: "phoneNumber",
+        required: true,
         type: {
           name: "String",
         },
       },
-      numberType: {
-        serializedName: "numberType",
+      nationalFormat: {
+        serializedName: "nationalFormat",
+        type: {
+          name: "String",
+        },
+      },
+      internationalFormat: {
+        serializedName: "internationalFormat",
         type: {
           name: "String",
         },
       },
       isoCountryCode: {
         serializedName: "isoCountryCode",
+        type: {
+          name: "String",
+        },
+      },
+      numberType: {
+        serializedName: "numberType",
         type: {
           name: "String",
         },
@@ -752,6 +776,7 @@ export const OperatorDetails: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String",
         },

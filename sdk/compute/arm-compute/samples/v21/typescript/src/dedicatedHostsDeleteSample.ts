@@ -32,7 +32,7 @@ async function dedicatedHostDeleteMaximumSetGen() {
   const result = await client.dedicatedHosts.beginDeleteAndWait(
     resourceGroupName,
     hostGroupName,
-    hostName
+    hostName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function dedicatedHostDeleteMinimumSetGen() {
   const result = await client.dedicatedHosts.beginDeleteAndWait(
     resourceGroupName,
     hostGroupName,
-    hostName
+    hostName,
   );
   console.log(result);
 }

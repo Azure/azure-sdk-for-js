@@ -30,7 +30,7 @@ async function virtualMachineRedeployMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginRedeployAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function virtualMachineRedeployMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginRedeployAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the specified network group.
  *
  * @summary Lists the specified network group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerGroupList.json
  */
 async function networkGroupsList() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function networkGroupsList() {
   const resArray = new Array();
   for await (let item of client.networkGroups.list(
     resourceGroupName,
-    networkManagerName
+    networkManagerName,
   )) {
     resArray.push(item);
   }

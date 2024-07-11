@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new file under a workspace.
  *
  * @summary Creates a new file under a workspace.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateFile.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateFile.json
  */
 async function createAFileWorkspace() {
   const fileWorkspaceName = "testworkspace";
@@ -26,14 +26,14 @@ async function createAFileWorkspace() {
   const createFileParameters: FileDetails = {
     chunkSize: 41423,
     fileSize: 41423,
-    numberOfChunks: 1
+    numberOfChunks: 1,
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const result = await client.filesNoSubscription.create(
     fileWorkspaceName,
     fileName,
-    createFileParameters
+    createFileParameters,
   );
   console.log(result);
 }

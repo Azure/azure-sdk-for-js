@@ -31,7 +31,7 @@ async function listRunCommandsInAVirtualMachine() {
   const resArray = new Array();
   for await (let item of client.virtualMachineRunCommands.listByVirtualMachine(
     resourceGroupName,
-    vmName
+    vmName,
   )) {
     resArray.push(item);
   }

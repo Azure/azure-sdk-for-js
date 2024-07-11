@@ -21,7 +21,7 @@ import {
   AliasesCreateOrUpdateResponse,
   AliasesDeleteOptionalParams,
   AliasesGetOptionalParams,
-  AliasesGetResponse
+  AliasesGetResponse,
 } from "../models";
 
 /** Class containing Aliases operations. */
@@ -43,11 +43,11 @@ export class AliasesImpl implements Aliases {
    */
   create(
     alias: SearchAlias,
-    options?: AliasesCreateOptionalParams
+    options?: AliasesCreateOptionalParams,
   ): Promise<AliasesCreateResponse> {
     return this.client.sendOperationRequest(
       { alias, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -68,11 +68,11 @@ export class AliasesImpl implements Aliases {
   createOrUpdate(
     aliasName: string,
     alias: SearchAlias,
-    options?: AliasesCreateOrUpdateOptionalParams
+    options?: AliasesCreateOrUpdateOptionalParams,
   ): Promise<AliasesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { aliasName, alias, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -84,11 +84,11 @@ export class AliasesImpl implements Aliases {
    */
   delete(
     aliasName: string,
-    options?: AliasesDeleteOptionalParams
+    options?: AliasesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { aliasName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -99,11 +99,11 @@ export class AliasesImpl implements Aliases {
    */
   get(
     aliasName: string,
-    options?: AliasesGetOptionalParams
+    options?: AliasesGetOptionalParams,
   ): Promise<AliasesGetResponse> {
     return this.client.sendOperationRequest(
       { aliasName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -115,48 +115,48 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.SearchAlias
+      bodyMapper: Mappers.SearchAlias,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.alias,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/aliases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListAliasesResult
+      bodyMapper: Mappers.ListAliasesResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/aliases('{aliasName}')",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchAlias
+      bodyMapper: Mappers.SearchAlias,
     },
     201: {
-      bodyMapper: Mappers.SearchAlias
+      bodyMapper: Mappers.SearchAlias,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.alias,
   queryParameters: [Parameters.apiVersion],
@@ -166,10 +166,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.accept,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.prefer
+    Parameters.prefer,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/aliases('{aliasName}')",
@@ -178,31 +178,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.aliasName],
   headerParameters: [
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/aliases('{aliasName}')",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchAlias
+      bodyMapper: Mappers.SearchAlias,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.aliasName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

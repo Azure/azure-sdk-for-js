@@ -13,7 +13,7 @@ import {
   SwapResource,
   VipSwapCreateOptionalParams,
   VipSwapListOptionalParams,
-  VipSwapListResponse
+  VipSwapListResponse,
 } from "../models";
 
 /** Interface representing a VipSwap. */
@@ -28,7 +28,7 @@ export interface VipSwap {
   get(
     groupName: string,
     resourceName: string,
-    options?: VipSwapGetOptionalParams
+    options?: VipSwapGetOptionalParams,
   ): Promise<VipSwapGetResponse>;
   /**
    * Performs vip swap operation on swappable cloud services.
@@ -42,7 +42,7 @@ export interface VipSwap {
     groupName: string,
     resourceName: string,
     parameters: SwapResource,
-    options?: VipSwapCreateOptionalParams
+    options?: VipSwapCreateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Performs vip swap operation on swappable cloud services.
@@ -56,7 +56,7 @@ export interface VipSwap {
     groupName: string,
     resourceName: string,
     parameters: SwapResource,
-    options?: VipSwapCreateOptionalParams
+    options?: VipSwapCreateOptionalParams,
   ): Promise<void>;
   /**
    * Gets the list of SwapResource which identifies the slot type for the specified cloud service. The
@@ -68,6 +68,6 @@ export interface VipSwap {
   list(
     groupName: string,
     resourceName: string,
-    options?: VipSwapListOptionalParams
+    options?: VipSwapListOptionalParams,
   ): Promise<VipSwapListResponse>;
 }

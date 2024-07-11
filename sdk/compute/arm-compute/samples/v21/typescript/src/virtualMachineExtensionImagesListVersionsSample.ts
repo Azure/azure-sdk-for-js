@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineExtensionImagesListVersionsOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
   const options: VirtualMachineExtensionImagesListVersionsOptionalParams = {
     filter,
     top,
-    orderby
+    orderby,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen() {
     location,
     publisherName,
     typeParam,
-    options
+    options,
   );
   console.log(result);
 }
@@ -65,7 +65,7 @@ async function virtualMachineExtensionImageListVersionsMinimumSetGen() {
   const result = await client.virtualMachineExtensionImages.listVersions(
     location,
     publisherName,
-    typeParam
+    typeParam,
   );
   console.log(result);
 }

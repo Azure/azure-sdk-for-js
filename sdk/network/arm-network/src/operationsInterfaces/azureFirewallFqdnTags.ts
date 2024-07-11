@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AzureFirewallFqdnTag,
-  AzureFirewallFqdnTagsListAllOptionalParams
+  AzureFirewallFqdnTagsListAllOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface AzureFirewallFqdnTags {
    * @param options The options parameters.
    */
   listAll(
-    options?: AzureFirewallFqdnTagsListAllOptionalParams
+    options?: AzureFirewallFqdnTagsListAllOptionalParams,
   ): PagedAsyncIterableIterator<AzureFirewallFqdnTag>;
 }

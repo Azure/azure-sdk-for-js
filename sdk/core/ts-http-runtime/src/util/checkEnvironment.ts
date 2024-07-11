@@ -46,15 +46,23 @@ export const isDeno =
   typeof Deno.version.deno !== "undefined";
 
 /**
+ * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
+ */
+export const isNodeLike =
+  typeof globalThis.process !== "undefined" &&
+  Boolean(globalThis.process.version) &&
+  Boolean(globalThis.process.versions?.node);
+
+/**
+ * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
+ * @deprecated Use `isNodeLike` instead.
+ */
+export const isNode = isNodeLike;
+
+/**
  * A constant that indicates whether the environment the code is running is Node.JS.
  */
-export const isNode =
-  typeof process !== "undefined" &&
-  Boolean(process.version) &&
-  Boolean(process.versions?.node) &&
-  // Deno thought it was a good idea to spoof process.versions.node, see https://deno.land/std@0.177.0/node/process.ts?s=versions
-  !isDeno &&
-  !isBun;
+export const isNodeRuntime = isNodeLike && !isBun && !isDeno;
 
 /**
  * A constant that indicates whether the environment the code is running is in React-Native.

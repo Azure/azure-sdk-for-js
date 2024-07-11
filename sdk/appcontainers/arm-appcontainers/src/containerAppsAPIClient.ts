@@ -11,13 +11,18 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AppResiliencyOperationsImpl,
   ContainerAppsAuthConfigsImpl,
   AvailableWorkloadProfilesImpl,
   BillingMetersImpl,
+  BuildersImpl,
+  BuildsByBuilderResourceImpl,
+  BuildsImpl,
+  BuildAuthTokenImpl,
   ConnectedEnvironmentsImpl,
   ConnectedEnvironmentsCertificatesImpl,
   ConnectedEnvironmentsDaprComponentsImpl,
@@ -28,21 +33,32 @@ import {
   ContainerAppsDiagnosticsImpl,
   ManagedEnvironmentDiagnosticsImpl,
   ManagedEnvironmentsDiagnosticsImpl,
-  OperationsImpl,
   JobsImpl,
+  OperationsImpl,
   JobsExecutionsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
   ManagedCertificatesImpl,
   NamespacesImpl,
+  DaprComponentResiliencyPoliciesImpl,
   DaprComponentsImpl,
+  DaprSubscriptionsImpl,
   ManagedEnvironmentsStoragesImpl,
-  ContainerAppsSourceControlsImpl
+  ContainerAppsSourceControlsImpl,
+  UsagesImpl,
+  ManagedEnvironmentUsagesImpl,
+  JavaComponentsImpl,
+  DotNetComponentsImpl,
 } from "./operations";
 import {
+  AppResiliencyOperations,
   ContainerAppsAuthConfigs,
   AvailableWorkloadProfiles,
   BillingMeters,
+  Builders,
+  BuildsByBuilderResource,
+  Builds,
+  BuildAuthToken,
   ConnectedEnvironments,
   ConnectedEnvironmentsCertificates,
   ConnectedEnvironmentsDaprComponents,
@@ -53,23 +69,31 @@ import {
   ContainerAppsDiagnostics,
   ManagedEnvironmentDiagnostics,
   ManagedEnvironmentsDiagnostics,
-  Operations,
   Jobs,
+  Operations,
   JobsExecutions,
   ManagedEnvironments,
   Certificates,
   ManagedCertificates,
   Namespaces,
+  DaprComponentResiliencyPolicies,
   DaprComponents,
+  DaprSubscriptions,
   ManagedEnvironmentsStorages,
-  ContainerAppsSourceControls
+  ContainerAppsSourceControls,
+  Usages,
+  ManagedEnvironmentUsages,
+  JavaComponents,
+  DotNetComponents,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
   ContainerAppsAPIClientOptionalParams,
   JobExecutionOptionalParams,
-  JobExecutionResponse
+  JobExecutionResponse,
+  GetCustomDomainVerificationIdOptionalParams,
+  GetCustomDomainVerificationIdResponse,
 } from "./models";
 
 export class ContainerAppsAPIClient extends coreClient.ServiceClient {
@@ -80,13 +104,13 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ContainerAppsAPIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ContainerAppsAPIClientOptionalParams
+    options?: ContainerAppsAPIClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -101,10 +125,10 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     }
     const defaults: ContainerAppsAPIClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/2.0.1`;
+    const packageDetails = `azsdk-js-arm-appcontainers/2.1.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -114,20 +138,21 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -137,7 +162,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -147,9 +172,9 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -157,46 +182,55 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2023-11-02-preview";
+    this.appResiliencyOperations = new AppResiliencyOperationsImpl(this);
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
     this.billingMeters = new BillingMetersImpl(this);
+    this.builders = new BuildersImpl(this);
+    this.buildsByBuilderResource = new BuildsByBuilderResourceImpl(this);
+    this.builds = new BuildsImpl(this);
+    this.buildAuthToken = new BuildAuthTokenImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
-    this.connectedEnvironmentsCertificates = new ConnectedEnvironmentsCertificatesImpl(
-      this
-    );
-    this.connectedEnvironmentsDaprComponents = new ConnectedEnvironmentsDaprComponentsImpl(
-      this
-    );
+    this.connectedEnvironmentsCertificates =
+      new ConnectedEnvironmentsCertificatesImpl(this);
+    this.connectedEnvironmentsDaprComponents =
+      new ConnectedEnvironmentsDaprComponentsImpl(this);
     this.connectedEnvironmentsStorages = new ConnectedEnvironmentsStoragesImpl(
-      this
+      this,
     );
     this.containerApps = new ContainerAppsImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
-      this
+      this,
     );
     this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
     this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
-      this
+      this,
     );
-    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(
-      this
-    );
-    this.operations = new OperationsImpl(this);
+    this.managedEnvironmentsDiagnostics =
+      new ManagedEnvironmentsDiagnosticsImpl(this);
     this.jobs = new JobsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.jobsExecutions = new JobsExecutionsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.managedCertificates = new ManagedCertificatesImpl(this);
     this.namespaces = new NamespacesImpl(this);
+    this.daprComponentResiliencyPolicies =
+      new DaprComponentResiliencyPoliciesImpl(this);
     this.daprComponents = new DaprComponentsImpl(this);
+    this.daprSubscriptions = new DaprSubscriptionsImpl(this);
     this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
-      this
+      this,
     );
     this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
-      this
+      this,
     );
+    this.usages = new UsagesImpl(this);
+    this.managedEnvironmentUsages = new ManagedEnvironmentUsagesImpl(this);
+    this.javaComponents = new JavaComponentsImpl(this);
+    this.dotNetComponents = new DotNetComponentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -209,7 +243,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -223,7 +257,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -239,17 +273,35 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     resourceGroupName: string,
     jobName: string,
     jobExecutionName: string,
-    options?: JobExecutionOptionalParams
+    options?: JobExecutionOptionalParams,
   ): Promise<JobExecutionResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, jobName, jobExecutionName, options },
-      jobExecutionOperationSpec
+      jobExecutionOperationSpec,
     );
   }
 
+  /**
+   * Get the verification id of a subscription used for verifying custom domains
+   * @param options The options parameters.
+   */
+  getCustomDomainVerificationId(
+    options?: GetCustomDomainVerificationIdOptionalParams,
+  ): Promise<GetCustomDomainVerificationIdResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getCustomDomainVerificationIdOperationSpec,
+    );
+  }
+
+  appResiliencyOperations: AppResiliencyOperations;
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
   availableWorkloadProfiles: AvailableWorkloadProfiles;
   billingMeters: BillingMeters;
+  builders: Builders;
+  buildsByBuilderResource: BuildsByBuilderResource;
+  builds: Builds;
+  buildAuthToken: BuildAuthToken;
   connectedEnvironments: ConnectedEnvironments;
   connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
@@ -260,31 +312,36 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   containerAppsDiagnostics: ContainerAppsDiagnostics;
   managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
   managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
-  operations: Operations;
   jobs: Jobs;
+  operations: Operations;
   jobsExecutions: JobsExecutions;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
   managedCertificates: ManagedCertificates;
   namespaces: Namespaces;
+  daprComponentResiliencyPolicies: DaprComponentResiliencyPolicies;
   daprComponents: DaprComponents;
+  daprSubscriptions: DaprSubscriptions;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSourceControls: ContainerAppsSourceControls;
+  usages: Usages;
+  managedEnvironmentUsages: ManagedEnvironmentUsages;
+  javaComponents: JavaComponents;
+  dotNetComponents: DotNetComponents;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const jobExecutionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobExecution
+      bodyMapper: Mappers.JobExecution,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -292,8 +349,24 @@ const jobExecutionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
-    Parameters.jobExecutionName
+    Parameters.jobExecutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getCustomDomainVerificationIdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/getCustomDomainVerificationId",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

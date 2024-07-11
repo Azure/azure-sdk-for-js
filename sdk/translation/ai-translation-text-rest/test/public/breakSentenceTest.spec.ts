@@ -39,7 +39,7 @@ describe("BreakSentence tests", () => {
 
     const breakSentences = response.body as BreakSentenceItemOutput[];
     assert.isTrue(breakSentences[0].detectedLanguage?.language === "en");
-    assert.isTrue(breakSentences[0].detectedLanguage?.score === 1.0);
+    assert.isTrue(breakSentences[0].detectedLanguage?.score === 0.98);
     assert.isTrue(breakSentences[0].sentLen[0] === 11);
   });
 

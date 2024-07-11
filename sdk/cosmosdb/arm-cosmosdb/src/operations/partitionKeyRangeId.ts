@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   PartitionMetric,
   PartitionKeyRangeIdListMetricsOptionalParams,
-  PartitionKeyRangeIdListMetricsResponse
+  PartitionKeyRangeIdListMetricsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
     collectionRid: string,
     partitionKeyRangeId: string,
     filter: string,
-    options?: PartitionKeyRangeIdListMetricsOptionalParams
+    options?: PartitionKeyRangeIdListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<PartitionMetric> {
     const iter = this.listMetricsPagingAll(
       resourceGroupName,
@@ -59,7 +59,7 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
       collectionRid,
       partitionKeyRangeId,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
           partitionKeyRangeId,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
     partitionKeyRangeId: string,
     filter: string,
     options?: PartitionKeyRangeIdListMetricsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PartitionMetric[]> {
     let result: PartitionKeyRangeIdListMetricsResponse;
     result = await this._listMetrics(
@@ -104,7 +104,7 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
       collectionRid,
       partitionKeyRangeId,
       filter,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -116,7 +116,7 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
     collectionRid: string,
     partitionKeyRangeId: string,
     filter: string,
-    options?: PartitionKeyRangeIdListMetricsOptionalParams
+    options?: PartitionKeyRangeIdListMetricsOptionalParams,
   ): AsyncIterableIterator<PartitionMetric> {
     for await (const page of this.listMetricsPagingPage(
       resourceGroupName,
@@ -125,7 +125,7 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
       collectionRid,
       partitionKeyRangeId,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,7 +150,7 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
     collectionRid: string,
     partitionKeyRangeId: string,
     filter: string,
-    options?: PartitionKeyRangeIdListMetricsOptionalParams
+    options?: PartitionKeyRangeIdListMetricsOptionalParams,
   ): Promise<PartitionKeyRangeIdListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -160,9 +160,9 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
         collectionRid,
         partitionKeyRangeId,
         filter,
-        options
+        options,
       },
-      listMetricsOperationSpec
+      listMetricsOperationSpec,
     );
   }
 }
@@ -170,13 +170,12 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitionKeyRangeId/{partitionKeyRangeId}/metrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitionKeyRangeId/{partitionKeyRangeId}/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartitionMetricListResult
-    }
+      bodyMapper: Mappers.PartitionMetricListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -186,8 +185,8 @@ const listMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.databaseRid,
     Parameters.collectionRid,
-    Parameters.partitionKeyRangeId
+    Parameters.partitionKeyRangeId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

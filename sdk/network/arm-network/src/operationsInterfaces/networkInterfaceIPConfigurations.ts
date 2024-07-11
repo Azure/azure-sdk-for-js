@@ -11,7 +11,7 @@ import {
   NetworkInterfaceIPConfiguration,
   NetworkInterfaceIPConfigurationsListOptionalParams,
   NetworkInterfaceIPConfigurationsGetOptionalParams,
-  NetworkInterfaceIPConfigurationsGetResponse
+  NetworkInterfaceIPConfigurationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface NetworkInterfaceIPConfigurations {
   list(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfaceIPConfigurationsListOptionalParams
+    options?: NetworkInterfaceIPConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterfaceIPConfiguration>;
   /**
    * Gets the specified network interface ip configuration.
@@ -39,6 +39,6 @@ export interface NetworkInterfaceIPConfigurations {
     resourceGroupName: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: NetworkInterfaceIPConfigurationsGetOptionalParams
+    options?: NetworkInterfaceIPConfigurationsGetOptionalParams,
   ): Promise<NetworkInterfaceIPConfigurationsGetResponse>;
 }

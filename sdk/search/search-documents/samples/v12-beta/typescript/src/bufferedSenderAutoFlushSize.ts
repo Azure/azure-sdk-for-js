@@ -6,14 +6,14 @@
  */
 
 import {
-  SearchIndexingBufferedSender,
   AzureKeyCredential,
-  SearchClient,
   GeographyPoint,
+  SearchClient,
   SearchIndexClient,
+  SearchIndexingBufferedSender,
 } from "@azure/search-documents";
-import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
+import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -58,7 +58,7 @@ function getDocumentsArray(size: number): Hotel[] {
   return array;
 }
 
-async function main() {
+async function main(): Promise<void> {
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
     return;
@@ -70,7 +70,7 @@ async function main() {
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
-    credential
+    credential,
   );
   const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
 
@@ -83,7 +83,7 @@ async function main() {
       documentKeyRetriever,
       {
         autoFlush: true,
-      }
+      },
     );
 
     bufferedClient.on("batchAdded", (response: any) => {
@@ -105,9 +105,9 @@ async function main() {
     });
 
     const documents: Hotel[] = getDocumentsArray(1001);
-    bufferedClient.uploadDocuments(documents);
+    await bufferedClient.uploadDocuments(documents);
 
-    await WAIT_TIME;
+    await delay(WAIT_TIME);
 
     let count = await searchClient.getDocumentsCount();
     while (count !== documents.length) {
@@ -122,7 +122,6 @@ async function main() {
   } finally {
     await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
-  await delay(WAIT_TIME);
 }
 
 main();

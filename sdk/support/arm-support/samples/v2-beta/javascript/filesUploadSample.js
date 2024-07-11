@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to This API allows you to upload content to a file
  *
  * @summary This API allows you to upload content to a file
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/UploadFileForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/UploadFileForSubscription.json
  */
 async function uploadFileForSubscription() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";

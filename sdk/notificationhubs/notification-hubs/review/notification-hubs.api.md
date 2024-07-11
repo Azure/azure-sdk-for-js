@@ -58,7 +58,7 @@ export interface AdmNotification extends JsonNotification {
 // @public
 export interface AdmNotificationParams {
     body: string | AdmNativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -131,7 +131,7 @@ export interface AppleCriticalSound {
 }
 
 // @public
-export interface AppleHeaders extends Record<string, string | undefined> {
+export interface AppleHeaders extends Record<string, unknown> {
     "apns-collapse-id"?: string;
     "apns-expiration"?: string;
     "apns-id"?: string;
@@ -334,7 +334,7 @@ export function createAppleTemplateRegistrationDescription(description: AppleTem
 export function createBaiduInstallation(installation: DeviceTokenInstallation): BaiduInstallation;
 
 // @public
-export function createBaiduNotification(notification: NotificationCommon): BaiduNotification;
+export function createBaiduNotification(notification: NotificationCommonParams): BaiduNotification;
 
 // @public
 export function createBaiduNotificationBody(nativeMessage: BaiduNativeMessage): string;
@@ -349,7 +349,7 @@ export function createBaiduTemplateRegistrationDescription(description: BaiduTem
 export function createBrowserInstallation(installation: BrowserInstallationCommon): BrowserInstallation;
 
 // @public
-export function createBrowserNotification(notification: NotificationCommon): BrowserNotification;
+export function createBrowserNotification(notification: NotificationCommonParams): BrowserNotification;
 
 // @public
 export function createBrowserRegistrationDescription(description: BrowserRegistrationDescriptionCommon): BrowserRegistrationDescription;
@@ -391,7 +391,7 @@ export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1Native
 export function createTagExpression(tags: string[]): string;
 
 // @public
-export function createTemplateNotification(notification: NotificationCommon): TemplateNotification;
+export function createTemplateNotification(notification: NotificationCommonParams): TemplateNotification;
 
 // @public
 export function createWindowsBadgeNotification(notification: WnsNotificationParams): WindowsNotification;
@@ -424,7 +424,7 @@ export function createWindowsToastNotification(notification: WnsNotificationPara
 export function createXiaomiInstallation(installation: DeviceTokenInstallation): XiaomiInstallation;
 
 // @public
-export function createXiaomiNotification(notification: NotificationCommon): XiaomiNotification;
+export function createXiaomiNotification(notification: NotificationCommonParams): XiaomiNotification;
 
 // @public
 export function createXiaomiRegistrationDescription(description: XiaomiRegistrationDescriptionCommon): XiaomiRegistrationDescription;
@@ -460,7 +460,7 @@ export interface FcmLegacyNotification extends JsonNotification {
 // @public
 export interface FcmLegacyNotificationParams {
     body: string | FirebaseLegacyNativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -476,7 +476,7 @@ export interface FcmV1Notification extends JsonNotification {
 // @public
 export interface FcmV1NotificationParams {
     body: string | FirebaseV1NativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -775,12 +775,18 @@ export interface MpnsTemplateRegistrationDescriptionCommon extends MpnsRegistrat
 }
 
 // @public
-export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | XiaomiNotification | WindowsNotification | TemplateNotification;
+export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | FcmV1Notification | XiaomiNotification | WindowsNotification | TemplateNotification;
 
 // @public
 export interface NotificationCommon {
     body: string;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, unknown>;
+}
+
+// @public
+export interface NotificationCommonParams {
+    body: string | unknown;
+    headers?: Record<string, unknown>;
 }
 
 // @public
@@ -1008,7 +1014,7 @@ export interface WindowsBadgeNativeMessage {
 export type WindowsContentType = "application/xml" | "application/octet-stream";
 
 // @public
-export interface WindowsHeaders extends Record<string, string | undefined> {
+export interface WindowsHeaders extends Record<string, unknown> {
     "X-WNS-Type"?: WnsTypes;
 }
 

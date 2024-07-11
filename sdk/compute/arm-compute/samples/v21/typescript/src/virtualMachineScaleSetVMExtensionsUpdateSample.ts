@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMExtensionUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,17 +36,18 @@ async function updateVirtualMachineScaleSetVMExtension() {
     autoUpgradeMinorVersion: true,
     publisher: "extPublisher",
     settings: { UserName: "xyz@microsoft.com" },
-    typeHandlerVersion: "1.2"
+    typeHandlerVersion: "1.2",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMExtensions.beginUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    vmExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineScaleSetVMExtensions.beginUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      vmExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 

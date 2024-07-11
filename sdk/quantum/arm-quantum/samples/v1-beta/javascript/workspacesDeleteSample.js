@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a Workspace resource.
  *
  * @summary Deletes a Workspace resource.
- * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesDelete.json
+ * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesDelete.json
  */
 async function quantumWorkspacesDelete() {
   const subscriptionId =

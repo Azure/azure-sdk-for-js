@@ -31,7 +31,7 @@ async function virtualMachineScaleSetExtensionListMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSetExtensions.list(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   )) {
     resArray.push(item);
   }
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetExtensionListMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSetExtensions.list(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   )) {
     resArray.push(item);
   }

@@ -31,7 +31,7 @@ async function listCapacityReservationsInReservationGroup() {
   const resArray = new Array();
   for await (let item of client.capacityReservations.listByCapacityReservationGroup(
     resourceGroupName,
-    capacityReservationGroupName
+    capacityReservationGroupName,
   )) {
     resArray.push(item);
   }

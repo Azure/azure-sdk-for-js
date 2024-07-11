@@ -10,11 +10,11 @@
   "devDependencies": {
     "@azure/core-util": "^1.6.1",
     "@azure/storage-blob": "^10.5.0",
-    "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
+    "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
     "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
     "tslib": "^2.0.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.5",
     "ts-node": "^8.3.0",
     "typescript": "~5.3.3"
   },
@@ -25,7 +25,7 @@
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "format": "prettier --write --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",

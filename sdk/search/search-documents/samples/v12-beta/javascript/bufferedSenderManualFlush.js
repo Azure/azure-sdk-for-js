@@ -6,13 +6,13 @@
  */
 
 const {
-  SearchIndexingBufferedSender,
   AzureKeyCredential,
-  SearchClient,
   GeographyPoint,
+  SearchClient,
   SearchIndexClient,
+  SearchIndexingBufferedSender,
 } = require("@azure/search-documents");
-const { createIndex, documentKeyRetriever, WAIT_TIME, delay } = require("./setup");
+const { createIndex, delay, documentKeyRetriever, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
 

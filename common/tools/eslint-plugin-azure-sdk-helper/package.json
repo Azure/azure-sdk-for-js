@@ -12,7 +12,7 @@
     "eslint-plugin-no-only-tests": "^3.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-tsdoc": "^0.2.10",
-    "eslint-plugin-markdown": "~3.0.0"
+    "eslint-plugin-markdown": "^4.0.0"
   },
   "dependencies": {
     "@typescript-eslint/experimental-utils": "~5.57.0",

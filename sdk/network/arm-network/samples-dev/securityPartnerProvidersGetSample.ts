@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Security Partner Provider.
  *
  * @summary Gets the specified Security Partner Provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SecurityPartnerProviderGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SecurityPartnerProviderGet.json
  */
 async function getSecurityPartnerProvider() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getSecurityPartnerProvider() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.securityPartnerProviders.get(
     resourceGroupName,
-    securityPartnerProviderName
+    securityPartnerProviderName,
   );
   console.log(result);
 }

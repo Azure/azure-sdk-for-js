@@ -14,12 +14,13 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   IdpsQueryObject,
   FirewallPolicyIdpsSignaturesListOptionalParams,
-  FirewallPolicyIdpsSignaturesListResponse
+  FirewallPolicyIdpsSignaturesListResponse,
 } from "../models";
 
 /** Class containing FirewallPolicyIdpsSignatures operations. */
 export class FirewallPolicyIdpsSignaturesImpl
-  implements FirewallPolicyIdpsSignatures {
+  implements FirewallPolicyIdpsSignatures
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -42,11 +43,11 @@ export class FirewallPolicyIdpsSignaturesImpl
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: IdpsQueryObject,
-    options?: FirewallPolicyIdpsSignaturesListOptionalParams
+    options?: FirewallPolicyIdpsSignaturesListOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallPolicyName, parameters, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -54,16 +55,15 @@ export class FirewallPolicyIdpsSignaturesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.QueryResults
+      bodyMapper: Mappers.QueryResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
@@ -71,9 +71,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

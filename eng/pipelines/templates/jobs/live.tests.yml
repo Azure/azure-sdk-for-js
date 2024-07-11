@@ -40,7 +40,8 @@ parameters:
 - name: UsePlatformContainer
   type: boolean
   default: false
-
+- name: OSName
+  type: string
 
 jobs:
   - job:
@@ -57,7 +58,13 @@ jobs:
 
     pool:
       name: $(Pool)
-      vmImage: $(OSVmImage)
+      # 1es pipeline templates converts `image` to demands: ImageOverride under the hood
+      # which is incompatible with image selection in the default non-1es hosted pools
+      ${{ if eq(parameters.OSName, 'macOS') }}:
+        vmImage: $(OSVmImage)
+      ${{ else }}:
+        image: $(OSVmImage)
+      os: ${{ parameters.OSName }}
 
     timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
 
@@ -190,13 +197,12 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
 
-      - task: PublishPipelineArtifact@1
-        displayName: "Publish Browser Code Coverage Report Artifact"
-        continueOnError: true
-        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
-        inputs:
-          path: "$(PackagePath)/coverage-browser"
-          artifact: BrowserCodeCoverageReport
+      - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+        parameters:
+          ArtifactPath: "$(PackagePath)/coverage-browser"
+          ArtifactName: BrowserCodeCoverageReport
+          CustomCondition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
+          SbomEnabled: false
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).

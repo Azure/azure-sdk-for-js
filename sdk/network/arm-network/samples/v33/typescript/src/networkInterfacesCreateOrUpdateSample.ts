@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a network interface.
  *
  * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkInterfaceCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkInterfaceCreate.json
  */
 async function createNetworkInterface() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,23 +31,21 @@ async function createNetworkInterface() {
       {
         name: "ipconfig1",
         publicIPAddress: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
         },
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
+        },
+      },
     ],
-    location: "eastus"
+    location: "eastus",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkInterfaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkInterfaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -56,7 +54,7 @@ async function createNetworkInterface() {
  * This sample demonstrates how to Creates or updates a network interface.
  *
  * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
  */
 async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -68,27 +66,24 @@ async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured()
       {
         name: "ipconfig1",
         gatewayLoadBalancer: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider",
         },
         publicIPAddress: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
         },
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
+        },
+      },
     ],
-    location: "eastus"
+    location: "eastus",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkInterfaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkInterfaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

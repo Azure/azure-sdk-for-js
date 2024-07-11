@@ -26,7 +26,7 @@ async function referenceDataSetsListByEnvironment() {
   const client = new TimeSeriesInsightsClient(credential, subscriptionId);
   const result = await client.referenceDataSets.listByEnvironment(
     resourceGroupName,
-    environmentName
+    environmentName,
   );
   console.log(result);
 }

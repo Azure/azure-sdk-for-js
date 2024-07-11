@@ -30,7 +30,7 @@ async function privateLinkScopeListByResourceGroup() {
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.privateLinkScopes.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

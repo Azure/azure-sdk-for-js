@@ -25,7 +25,7 @@ import {
   ApplicationGetResponse,
   ApplicationUpdateOptionalParams,
   ApplicationUpdateResponse,
-  ApplicationListNextResponse
+  ApplicationListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: ApplicationListOptionalParams
+    options?: ApplicationListOptionalParams,
   ): PagedAsyncIterableIterator<Application> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -68,9 +68,9 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     options?: ApplicationListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Application[]> {
     let result: ApplicationListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,12 +106,12 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: ApplicationListOptionalParams
+    options?: ApplicationListOptionalParams,
   ): AsyncIterableIterator<Application> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +128,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     applicationName: string,
-    options?: ApplicationCreateOptionalParams
+    options?: ApplicationCreateOptionalParams,
   ): Promise<ApplicationCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, applicationName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     applicationName: string,
-    options?: ApplicationDeleteOptionalParams
+    options?: ApplicationDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, applicationName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -166,11 +166,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     applicationName: string,
-    options?: ApplicationGetOptionalParams
+    options?: ApplicationGetOptionalParams,
   ): Promise<ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, applicationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -187,11 +187,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
     accountName: string,
     applicationName: string,
     parameters: Application,
-    options?: ApplicationUpdateOptionalParams
+    options?: ApplicationUpdateOptionalParams,
   ): Promise<ApplicationUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, applicationName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: ApplicationListOptionalParams
+    options?: ApplicationListOptionalParams,
   ): Promise<ApplicationListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -223,11 +223,11 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: ApplicationListNextOptionalParams
+    options?: ApplicationListNextOptionalParams,
   ): Promise<ApplicationListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -235,16 +235,15 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -253,22 +252,21 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.applicationName
+    Parameters.applicationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -276,22 +274,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.applicationName
+    Parameters.applicationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -299,22 +296,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.applicationName
+    Parameters.applicationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -323,52 +319,51 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.applicationName
+    Parameters.applicationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListApplicationsResult
+      bodyMapper: Mappers.ListApplicationsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.maxresults],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListApplicationsResult
+      bodyMapper: Mappers.ListApplicationsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

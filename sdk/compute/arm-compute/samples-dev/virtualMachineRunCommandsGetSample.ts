@@ -30,7 +30,7 @@ async function virtualMachineRunCommandGet() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineRunCommands.get(
     location,
-    commandId
+    commandId,
   );
   console.log(result);
 }

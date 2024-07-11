@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to Lists all chat transcripts for a support ticket under subscription
  *
  * @summary Lists all chat transcripts for a support ticket under subscription
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListChatTranscriptsForSubscriptionSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListChatTranscriptsForSubscriptionSupportTicket.json
  */
-async function listCommunicationsForASubscriptionSupportTicket() {
+async function listChatTranscriptsForASubscriptionSupportTicket() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function listCommunicationsForASubscriptionSupportTicket() {
 }
 
 async function main() {
-  listCommunicationsForASubscriptionSupportTicket();
+  listChatTranscriptsForASubscriptionSupportTicket();
 }
 
 main().catch(console.error);

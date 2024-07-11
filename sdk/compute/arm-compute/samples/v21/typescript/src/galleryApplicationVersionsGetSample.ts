@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   GalleryApplicationVersionsGetOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about a gallery Application Version.
  *
  * @summary Retrieves information about a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryApplicationVersionWithReplicationStatus() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getAGalleryApplicationVersionWithReplicationStatus() {
     galleryName,
     galleryApplicationName,
     galleryApplicationVersionName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function getAGalleryApplicationVersionWithReplicationStatus() {
  * This sample demonstrates how to Retrieves information about a gallery Application Version.
  *
  * @summary Retrieves information about a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplicationVersion_Get.json
  */
 async function getAGalleryApplicationVersion() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function getAGalleryApplicationVersion() {
     resourceGroupName,
     galleryName,
     galleryApplicationName,
-    galleryApplicationVersionName
+    galleryApplicationVersionName,
   );
   console.log(result);
 }

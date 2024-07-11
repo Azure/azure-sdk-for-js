@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates tags of a service endpoint policy.
  *
  * @summary Updates tags of a service endpoint policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ServiceEndpointPolicyUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ServiceEndpointPolicyUpdateTags.json
  */
 async function updateServiceEndpointPolicyTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function updateServiceEndpointPolicyTags() {
   const result = await client.serviceEndpointPolicies.updateTags(
     resourceGroupName,
     serviceEndpointPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

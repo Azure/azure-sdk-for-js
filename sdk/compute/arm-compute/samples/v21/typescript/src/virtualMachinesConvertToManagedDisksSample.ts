@@ -30,7 +30,7 @@ async function virtualMachineConvertToManagedDisksMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginConvertToManagedDisksAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function virtualMachineConvertToManagedDisksMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginConvertToManagedDisksAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachinesListAllOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";

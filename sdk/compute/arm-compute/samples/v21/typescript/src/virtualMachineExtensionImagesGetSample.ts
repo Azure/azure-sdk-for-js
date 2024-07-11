@@ -33,7 +33,7 @@ async function virtualMachineExtensionImageGetMaximumSetGen() {
     location,
     publisherName,
     typeParam,
-    version
+    version,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function virtualMachineExtensionImageGetMinimumSetGen() {
     location,
     publisherName,
     typeParam,
-    version
+    version,
   );
   console.log(result);
 }

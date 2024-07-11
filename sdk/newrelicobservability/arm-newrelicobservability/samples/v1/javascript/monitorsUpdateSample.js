@@ -16,10 +16,11 @@ require("dotenv").config();
  * This sample demonstrates how to Update a NewRelicMonitorResource
  *
  * @summary Update a NewRelicMonitorResource
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_Update_MaximumSet_Gen.json
  */
 async function monitorsUpdateMaximumSetGen() {
-  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "hfmjmpyqgezxkp";
+  const subscriptionId =
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "cdlymktqw";
   const properties = {

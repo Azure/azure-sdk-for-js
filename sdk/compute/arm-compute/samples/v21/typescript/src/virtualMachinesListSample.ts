@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachinesListOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ async function virtualMachineListMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachines.list(
     resourceGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

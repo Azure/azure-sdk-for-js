@@ -19,6 +19,6 @@ export interface Baselines {
    */
   list(
     resourceUri: string,
-    options?: BaselinesListOptionalParams
+    options?: BaselinesListOptionalParams,
   ): PagedAsyncIterableIterator<SingleMetricBaseline>;
 }

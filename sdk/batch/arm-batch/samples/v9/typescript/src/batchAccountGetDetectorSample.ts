@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the given detector for a given Batch account.
  *
  * @summary Gets information about the given detector for a given Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/DetectorGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/DetectorGet.json
  */
 async function getDetector() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function getDetector() {
   const result = await client.batchAccountOperations.getDetector(
     resourceGroupName,
     accountName,
-    detectorId
+    detectorId,
   );
   console.log(result);
 }

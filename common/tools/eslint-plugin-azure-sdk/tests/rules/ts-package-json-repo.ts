@@ -6,7 +6,7 @@
  * @author Arpan Laha
  */
 
-import { RuleTester } from "eslint";
+import { RuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-repo";
 
 //------------------------------------------------------------------------------

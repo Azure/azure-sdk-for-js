@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachinesDeallocateOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,7 +36,7 @@ async function virtualMachineDeallocateMaximumSetGen() {
   const result = await client.virtualMachines.beginDeallocateAndWait(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function virtualMachineDeallocateMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginDeallocateAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns communication details for a support ticket.
  *
  * @summary Returns communication details for a support ticket.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/GetCommunicationDetailsForSubscriptionSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetCommunicationDetailsForSubscriptionSupportTicket.json
  */
 async function getCommunicationDetailsForASubscriptionSupportTicket() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";

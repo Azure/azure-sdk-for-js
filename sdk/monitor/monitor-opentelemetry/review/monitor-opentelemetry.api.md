@@ -16,6 +16,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
+    enableTraceBasedSamplingForLogs?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;

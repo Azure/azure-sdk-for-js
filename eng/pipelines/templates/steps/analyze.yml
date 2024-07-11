@@ -20,12 +20,12 @@ steps:
       ServiceDirectory: "template"
       TestPipeline: ${{ parameters.TestPipeline }}
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish Report Artifacts"
-    inputs:
-      artifactName: package-diffs
-      path: $(Build.ArtifactStagingDirectory)
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'package-diffs'
+      SbomEnabled: false
+
 
   - template: /eng/common/pipelines/templates/steps/verify-readme.yml
     parameters:
@@ -104,9 +104,10 @@ steps:
       flattenFolders: true
     displayName: "Copy lint reports"
 
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'reports'
+      SbomEnabled: false
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

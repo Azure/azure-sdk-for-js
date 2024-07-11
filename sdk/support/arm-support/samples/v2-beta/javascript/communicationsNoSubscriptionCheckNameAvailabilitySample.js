@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the availability of a resource name. This API should be used to check the uniqueness of the name for adding a new communication to the support ticket.
  *
  * @summary Check the availability of a resource name. This API should be used to check the uniqueness of the name for adding a new communication to the support ticket.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CheckNameAvailabilityForNoSubscriptionSupportTicketCommunication.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CheckNameAvailabilityForNoSubscriptionSupportTicketCommunication.json
  */
 async function checksWhetherNameIsAvailableForCommunicationResource() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function checksWhetherNameIsAvailableForCommunicationResource() {
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.communicationsNoSubscription.checkNameAvailability(
     supportTicketName,
-    checkNameAvailabilityInput
+    checkNameAvailabilityInput,
   );
   console.log(result);
 }

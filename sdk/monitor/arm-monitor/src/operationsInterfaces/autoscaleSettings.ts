@@ -18,7 +18,7 @@ import {
   AutoscaleSettingsGetResponse,
   AutoscaleSettingResourcePatch,
   AutoscaleSettingsUpdateOptionalParams,
-  AutoscaleSettingsUpdateResponse
+  AutoscaleSettingsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,14 +31,14 @@ export interface AutoscaleSettings {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AutoscaleSettingsListByResourceGroupOptionalParams
+    options?: AutoscaleSettingsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutoscaleSettingResource>;
   /**
    * Lists the autoscale settings for a subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AutoscaleSettingsListBySubscriptionOptionalParams
+    options?: AutoscaleSettingsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AutoscaleSettingResource>;
   /**
    * Creates or updates an autoscale setting.
@@ -51,7 +51,7 @@ export interface AutoscaleSettings {
     resourceGroupName: string,
     autoscaleSettingName: string,
     parameters: AutoscaleSettingResource,
-    options?: AutoscaleSettingsCreateOrUpdateOptionalParams
+    options?: AutoscaleSettingsCreateOrUpdateOptionalParams,
   ): Promise<AutoscaleSettingsCreateOrUpdateResponse>;
   /**
    * Deletes and autoscale setting
@@ -62,7 +62,7 @@ export interface AutoscaleSettings {
   delete(
     resourceGroupName: string,
     autoscaleSettingName: string,
-    options?: AutoscaleSettingsDeleteOptionalParams
+    options?: AutoscaleSettingsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets an autoscale setting
@@ -73,7 +73,7 @@ export interface AutoscaleSettings {
   get(
     resourceGroupName: string,
     autoscaleSettingName: string,
-    options?: AutoscaleSettingsGetOptionalParams
+    options?: AutoscaleSettingsGetOptionalParams,
   ): Promise<AutoscaleSettingsGetResponse>;
   /**
    * Updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method.
@@ -86,6 +86,6 @@ export interface AutoscaleSettings {
     resourceGroupName: string,
     autoscaleSettingName: string,
     autoscaleSettingResource: AutoscaleSettingResourcePatch,
-    options?: AutoscaleSettingsUpdateOptionalParams
+    options?: AutoscaleSettingsUpdateOptionalParams,
   ): Promise<AutoscaleSettingsUpdateResponse>;
 }

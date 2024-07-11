@@ -65,7 +65,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     logRecordProcessor: logHandler.getAzureLogRecordProcessor(),
     resource: config.resource,
     sampler: traceHandler.getSampler(),
-    spanProcessor: traceHandler.getAzureMonitorSpanProcessor(),
+    spanProcessors: [traceHandler.getAzureMonitorSpanProcessor()],
   };
   sdk = new NodeSDK(sdkConfig);
   setSdkPrefix();

@@ -34,10 +34,7 @@ describe("Library/Config", () => {
     it("merge JSON config", () => {
       (JsonConfig["_instance"] as any) = undefined;
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
       process.env = env;
       const config = new InternalConfig();
@@ -648,5 +645,5 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.21.0",
+  "telemetry.sdk.version": "1.23.0",
 };

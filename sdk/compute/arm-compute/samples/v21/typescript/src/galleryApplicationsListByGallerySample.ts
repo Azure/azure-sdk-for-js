@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List gallery Application Definitions in a gallery.
  *
  * @summary List gallery Application Definitions in a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplication_ListByGallery.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplication_ListByGallery.json
  */
 async function listGalleryApplicationsInAGallery() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listGalleryApplicationsInAGallery() {
   const resArray = new Array();
   for await (let item of client.galleryApplications.listByGallery(
     resourceGroupName,
-    galleryName
+    galleryName,
   )) {
     resArray.push(item);
   }

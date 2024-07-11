@@ -32,7 +32,7 @@ async function restartDedicatedHost() {
   const result = await client.dedicatedHosts.beginRestartAndWait(
     resourceGroupName,
     hostGroupName,
-    hostName
+    hostName,
   );
   console.log(result);
 }

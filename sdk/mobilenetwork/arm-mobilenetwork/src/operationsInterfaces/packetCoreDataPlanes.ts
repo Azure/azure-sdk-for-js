@@ -18,7 +18,7 @@ import {
   PacketCoreDataPlanesCreateOrUpdateResponse,
   TagsObject,
   PacketCoreDataPlanesUpdateTagsOptionalParams,
-  PacketCoreDataPlanesUpdateTagsResponse
+  PacketCoreDataPlanesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface PacketCoreDataPlanes {
   listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
+    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreDataPlane>;
   /**
    * Deletes the specified packet core data plane.
@@ -46,7 +46,7 @@ export interface PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
+    options?: PacketCoreDataPlanesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet core data plane.
@@ -59,7 +59,7 @@ export interface PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
+    options?: PacketCoreDataPlanesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified packet core data plane.
@@ -72,7 +72,7 @@ export interface PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesGetOptionalParams
+    options?: PacketCoreDataPlanesGetOptionalParams,
   ): Promise<PacketCoreDataPlanesGetResponse>;
   /**
    * Creates or updates a packet core data plane. Must be created in the same location as its parent
@@ -88,7 +88,7 @@ export interface PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>,
@@ -109,7 +109,7 @@ export interface PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams,
   ): Promise<PacketCoreDataPlanesCreateOrUpdateResponse>;
   /**
    * Updates packet core data planes tags.
@@ -124,6 +124,6 @@ export interface PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: TagsObject,
-    options?: PacketCoreDataPlanesUpdateTagsOptionalParams
+    options?: PacketCoreDataPlanesUpdateTagsOptionalParams,
   ): Promise<PacketCoreDataPlanesUpdateTagsResponse>;
 }

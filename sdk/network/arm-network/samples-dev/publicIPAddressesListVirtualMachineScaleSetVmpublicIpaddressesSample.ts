@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
  *
  * @summary Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VmssVmPublicIpList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VmssVmPublicIpList.json
  */
 async function listVmssvmPublicIP() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function listVmssvmPublicIP() {
     virtualMachineScaleSetName,
     virtualmachineIndex,
     networkInterfaceName,
-    ipConfigurationName
+    ipConfigurationName,
   )) {
     resArray.push(item);
   }

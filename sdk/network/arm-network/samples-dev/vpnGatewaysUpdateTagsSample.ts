@@ -18,21 +18,21 @@ dotenv.config();
  * This sample demonstrates how to Updates virtual wan vpn gateway tags.
  *
  * @summary Updates virtual wan vpn gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VpnGatewayUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnGatewayUpdateTags.json
  */
 async function vpnGatewayUpdate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
   const vpnGatewayParameters: TagsObject = {
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.vpnGateways.beginUpdateTagsAndWait(
     resourceGroupName,
     gatewayName,
-    vpnGatewayParameters
+    vpnGatewayParameters,
   );
   console.log(result);
 }

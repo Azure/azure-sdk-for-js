@@ -7542,6 +7542,45 @@ export const SynapseSparkJobReference: coreClient.CompositeMapper = {
   },
 };
 
+export const ExpressionV2: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressionV2",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String",
+        },
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String",
+        },
+      },
+      operands: {
+        serializedName: "operands",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressionV2",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const ScheduleTriggerRecurrence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10159,6 +10198,139 @@ export const PostgreSqlLinkedService: coreClient.CompositeMapper = {
       connectionString: {
         serializedName: "typeProperties.connectionString",
         required: true,
+        type: {
+          name: "any",
+        },
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultSecretReference",
+        },
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PostgreSqlV2LinkedService: coreClient.CompositeMapper = {
+  serializedName: "PostgreSqlV2",
+  type: {
+    name: "Composite",
+    className: "PostgreSqlV2LinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      server: {
+        serializedName: "typeProperties.server",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      port: {
+        serializedName: "typeProperties.port",
+        type: {
+          name: "any",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      sslMode: {
+        serializedName: "typeProperties.sslMode",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      schema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "any",
+        },
+      },
+      pooling: {
+        serializedName: "typeProperties.pooling",
+        type: {
+          name: "any",
+        },
+      },
+      connectionTimeout: {
+        serializedName: "typeProperties.connectionTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      trustServerCertificate: {
+        serializedName: "typeProperties.trustServerCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      sslCertificate: {
+        serializedName: "typeProperties.sslCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      sslKey: {
+        serializedName: "typeProperties.sslKey",
+        type: {
+          name: "any",
+        },
+      },
+      sslPassword: {
+        serializedName: "typeProperties.sslPassword",
+        type: {
+          name: "any",
+        },
+      },
+      readBufferSize: {
+        serializedName: "typeProperties.readBufferSize",
+        type: {
+          name: "any",
+        },
+      },
+      logParameters: {
+        serializedName: "typeProperties.logParameters",
+        type: {
+          name: "any",
+        },
+      },
+      timezone: {
+        serializedName: "typeProperties.timezone",
+        type: {
+          name: "any",
+        },
+      },
+      encoding: {
+        serializedName: "typeProperties.encoding",
         type: {
           name: "any",
         },
@@ -12958,6 +13130,67 @@ export const GoogleBigQueryLinkedService: coreClient.CompositeMapper = {
         serializedName: "typeProperties.useSystemTrustStore",
         type: {
           name: "any",
+        },
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GoogleBigQueryV2LinkedService: coreClient.CompositeMapper = {
+  serializedName: "GoogleBigQueryV2",
+  type: {
+    name: "Composite",
+    className: "GoogleBigQueryV2LinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      projectId: {
+        serializedName: "typeProperties.projectId",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "any",
+        },
+      },
+      clientSecret: {
+        serializedName: "typeProperties.clientSecret",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      refreshToken: {
+        serializedName: "typeProperties.refreshToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      keyFileContent: {
+        serializedName: "typeProperties.keyFileContent",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
         },
       },
       encryptedCredential: {
@@ -15948,6 +16181,72 @@ export const WarehouseLinkedService: coreClient.CompositeMapper = {
   },
 };
 
+export const ServiceNowV2LinkedService: coreClient.CompositeMapper = {
+  serializedName: "ServiceNowV2",
+  type: {
+    name: "Composite",
+    className: "ServiceNowV2LinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      endpoint: {
+        serializedName: "typeProperties.endpoint",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any",
+        },
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "any",
+        },
+      },
+      clientSecret: {
+        serializedName: "typeProperties.clientSecret",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      grantType: {
+        serializedName: "typeProperties.grantType",
+        type: {
+          name: "any",
+        },
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AmazonS3Dataset: coreClient.CompositeMapper = {
   serializedName: "AmazonS3Object",
   type: {
@@ -17218,6 +17517,32 @@ export const PostgreSqlTableDataset: coreClient.CompositeMapper = {
   },
 };
 
+export const PostgreSqlV2TableDataset: coreClient.CompositeMapper = {
+  serializedName: "PostgreSqlV2Table",
+  type: {
+    name: "Composite",
+    className: "PostgreSqlV2TableDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "any",
+        },
+      },
+      schemaTypePropertiesSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
 export const MicrosoftAccessTableDataset: coreClient.CompositeMapper = {
   serializedName: "MicrosoftAccessTable",
   type: {
@@ -17826,6 +18151,32 @@ export const GoogleBigQueryObjectDataset: coreClient.CompositeMapper = {
           name: "any",
         },
       },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "any",
+        },
+      },
+      dataset: {
+        serializedName: "typeProperties.dataset",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const GoogleBigQueryV2ObjectDataset: coreClient.CompositeMapper = {
+  serializedName: "GoogleBigQueryV2Object",
+  type: {
+    name: "Composite",
+    className: "GoogleBigQueryV2ObjectDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
       table: {
         serializedName: "typeProperties.table",
         type: {
@@ -18689,6 +19040,26 @@ export const WarehouseTableDataset: coreClient.CompositeMapper = {
       },
       table: {
         serializedName: "typeProperties.table",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const ServiceNowV2ObjectDataset: coreClient.CompositeMapper = {
+  serializedName: "ServiceNowV2Object",
+  type: {
+    name: "Composite",
+    className: "ServiceNowV2ObjectDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      tableName: {
+        serializedName: "typeProperties.tableName",
         type: {
           name: "any",
         },
@@ -27004,6 +27375,26 @@ export const PostgreSqlSource: coreClient.CompositeMapper = {
   },
 };
 
+export const PostgreSqlV2Source: coreClient.CompositeMapper = {
+  serializedName: "PostgreSqlV2Source",
+  type: {
+    name: "Composite",
+    className: "PostgreSqlV2Source",
+    uberParent: "TabularSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: TabularSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TabularSource.type.modelProperties,
+      query: {
+        serializedName: "query",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
 export const SybaseSource: coreClient.CompositeMapper = {
   serializedName: "SybaseSource",
   type: {
@@ -27855,6 +28246,26 @@ export const GoogleBigQuerySource: coreClient.CompositeMapper = {
   },
 };
 
+export const GoogleBigQueryV2Source: coreClient.CompositeMapper = {
+  serializedName: "GoogleBigQueryV2Source",
+  type: {
+    name: "Composite",
+    className: "GoogleBigQueryV2Source",
+    uberParent: "TabularSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: TabularSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TabularSource.type.modelProperties,
+      query: {
+        serializedName: "query",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
 export const GreenplumSource: coreClient.CompositeMapper = {
   serializedName: "GreenplumSource",
   type: {
@@ -28518,6 +28929,27 @@ export const SalesforceV2Source: coreClient.CompositeMapper = {
   },
 };
 
+export const ServiceNowV2Source: coreClient.CompositeMapper = {
+  serializedName: "ServiceNowV2Source",
+  type: {
+    name: "Composite",
+    className: "ServiceNowV2Source",
+    uberParent: "TabularSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: TabularSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TabularSource.type.modelProperties,
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "Composite",
+          className: "ExpressionV2",
+        },
+      },
+    },
+  },
+};
+
 export const TumblingWindowTriggerDependencyReference: coreClient.CompositeMapper =
   {
     serializedName: "TumblingWindowTriggerDependencyReference",
@@ -28655,6 +29087,7 @@ export let discriminators = {
   "LinkedService.AzureMySql": AzureMySqlLinkedService,
   "LinkedService.MySql": MySqlLinkedService,
   "LinkedService.PostgreSql": PostgreSqlLinkedService,
+  "LinkedService.PostgreSqlV2": PostgreSqlV2LinkedService,
   "LinkedService.Sybase": SybaseLinkedService,
   "LinkedService.Db2": Db2LinkedService,
   "LinkedService.Teradata": TeradataLinkedService,
@@ -28706,6 +29139,7 @@ export let discriminators = {
   "LinkedService.Drill": DrillLinkedService,
   "LinkedService.Eloqua": EloquaLinkedService,
   "LinkedService.GoogleBigQuery": GoogleBigQueryLinkedService,
+  "LinkedService.GoogleBigQueryV2": GoogleBigQueryV2LinkedService,
   "LinkedService.Greenplum": GreenplumLinkedService,
   "LinkedService.HBase": HBaseLinkedService,
   "LinkedService.Hive": HiveLinkedService,
@@ -28751,6 +29185,7 @@ export let discriminators = {
   "LinkedService.SalesforceServiceCloudV2":
     SalesforceServiceCloudV2LinkedService,
   "LinkedService.Warehouse": WarehouseLinkedService,
+  "LinkedService.ServiceNowV2": ServiceNowV2LinkedService,
   "Dataset.AmazonS3Object": AmazonS3Dataset,
   "Dataset.Avro": AvroDataset,
   "Dataset.Excel": ExcelDataset,
@@ -28793,6 +29228,7 @@ export let discriminators = {
   "Dataset.OdbcTable": OdbcTableDataset,
   "Dataset.MySqlTable": MySqlTableDataset,
   "Dataset.PostgreSqlTable": PostgreSqlTableDataset,
+  "Dataset.PostgreSqlV2Table": PostgreSqlV2TableDataset,
   "Dataset.MicrosoftAccessTable": MicrosoftAccessTableDataset,
   "Dataset.SalesforceObject": SalesforceObjectDataset,
   "Dataset.SalesforceServiceCloudObject": SalesforceServiceCloudObjectDataset,
@@ -28817,6 +29253,7 @@ export let discriminators = {
   "Dataset.DrillTable": DrillTableDataset,
   "Dataset.EloquaObject": EloquaObjectDataset,
   "Dataset.GoogleBigQueryObject": GoogleBigQueryObjectDataset,
+  "Dataset.GoogleBigQueryV2Object": GoogleBigQueryV2ObjectDataset,
   "Dataset.GreenplumTable": GreenplumTableDataset,
   "Dataset.HBaseObject": HBaseObjectDataset,
   "Dataset.HiveObject": HiveObjectDataset,
@@ -28855,6 +29292,7 @@ export let discriminators = {
   "Dataset.SalesforceServiceCloudV2Object":
     SalesforceServiceCloudV2ObjectDataset,
   "Dataset.WarehouseTable": WarehouseTableDataset,
+  "Dataset.ServiceNowV2Object": ServiceNowV2ObjectDataset,
   "Activity.Container": ControlActivity,
   "Activity.Execution": ExecutionActivity,
   "Activity.ExecuteWranglingDataflow": ExecuteWranglingDataflowActivity,
@@ -29086,6 +29524,7 @@ export let discriminators = {
   "TabularSource.OdbcSource": OdbcSource,
   "TabularSource.MySqlSource": MySqlSource,
   "TabularSource.PostgreSqlSource": PostgreSqlSource,
+  "TabularSource.PostgreSqlV2Source": PostgreSqlV2Source,
   "TabularSource.SybaseSource": SybaseSource,
   "TabularSource.SapBwSource": SapBwSource,
   "TabularSource.SalesforceSource": SalesforceSource,
@@ -29111,6 +29550,7 @@ export let discriminators = {
   "TabularSource.DrillSource": DrillSource,
   "TabularSource.EloquaSource": EloquaSource,
   "TabularSource.GoogleBigQuerySource": GoogleBigQuerySource,
+  "TabularSource.GoogleBigQueryV2Source": GoogleBigQueryV2Source,
   "TabularSource.GreenplumSource": GreenplumSource,
   "TabularSource.HBaseSource": HBaseSource,
   "TabularSource.HiveSource": HiveSource,
@@ -29142,6 +29582,7 @@ export let discriminators = {
   "TabularSource.AmazonRedshiftSource": AmazonRedshiftSource,
   "TabularSource.WarehouseSource": WarehouseSource,
   "TabularSource.SalesforceV2Source": SalesforceV2Source,
+  "TabularSource.ServiceNowV2Source": ServiceNowV2Source,
   "TriggerDependencyReference.TumblingWindowTriggerDependencyReference":
     TumblingWindowTriggerDependencyReference,
 };

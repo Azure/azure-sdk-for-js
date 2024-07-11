@@ -27,7 +27,7 @@ async function privateCloudsRotateVcenterPassword() {
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const result = await client.privateClouds.beginRotateVcenterPasswordAndWait(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
   );
   console.log(result);
 }

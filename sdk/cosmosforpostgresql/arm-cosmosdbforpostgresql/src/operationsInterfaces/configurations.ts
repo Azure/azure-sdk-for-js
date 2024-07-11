@@ -22,7 +22,7 @@ import {
   ConfigurationsGetNodeOptionalParams,
   ConfigurationsGetNodeResponse,
   ConfigurationsUpdateOnNodeOptionalParams,
-  ConfigurationsUpdateOnNodeResponse
+  ConfigurationsUpdateOnNodeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Configurations {
     resourceGroupName: string,
     clusterName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerConfiguration>;
   /**
    * List all the configurations of a cluster.
@@ -50,7 +50,7 @@ export interface Configurations {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationsListByClusterOptionalParams
+    options?: ConfigurationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Configuration>;
   /**
    * Gets information of a configuration for coordinator and nodes.
@@ -63,7 +63,7 @@ export interface Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse>;
   /**
    * Gets information of a configuration for coordinator.
@@ -76,7 +76,7 @@ export interface Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetCoordinatorOptionalParams
+    options?: ConfigurationsGetCoordinatorOptionalParams,
   ): Promise<ConfigurationsGetCoordinatorResponse>;
   /**
    * Updates configuration of coordinator in a cluster
@@ -91,7 +91,7 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnCoordinatorOptionalParams
+    options?: ConfigurationsUpdateOnCoordinatorOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsUpdateOnCoordinatorResponse>,
@@ -111,7 +111,7 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnCoordinatorOptionalParams
+    options?: ConfigurationsUpdateOnCoordinatorOptionalParams,
   ): Promise<ConfigurationsUpdateOnCoordinatorResponse>;
   /**
    * Gets information of a configuration for worker nodes.
@@ -124,7 +124,7 @@ export interface Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetNodeOptionalParams
+    options?: ConfigurationsGetNodeOptionalParams,
   ): Promise<ConfigurationsGetNodeResponse>;
   /**
    * Updates configuration of worker nodes in a cluster
@@ -139,7 +139,7 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnNodeOptionalParams
+    options?: ConfigurationsUpdateOnNodeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsUpdateOnNodeResponse>,
@@ -159,6 +159,6 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: ServerConfiguration,
-    options?: ConfigurationsUpdateOnNodeOptionalParams
+    options?: ConfigurationsUpdateOnNodeOptionalParams,
   ): Promise<ConfigurationsUpdateOnNodeResponse>;
 }

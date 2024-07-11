@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -23,7 +23,7 @@ import {
   CertificateOperationsImpl,
   PrivateLinkResourceOperationsImpl,
   PrivateEndpointConnectionOperationsImpl,
-  PoolOperationsImpl
+  PoolOperationsImpl,
 } from "./operations";
 import {
   BatchAccountOperations,
@@ -34,7 +34,7 @@ import {
   CertificateOperations,
   PrivateLinkResourceOperations,
   PrivateEndpointConnectionOperations,
-  PoolOperations
+  PoolOperations,
 } from "./operationsInterfaces";
 import { BatchManagementClientOptionalParams } from "./models";
 
@@ -53,7 +53,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: BatchManagementClientOptionalParams
+    options?: BatchManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -68,10 +68,10 @@ export class BatchManagementClient extends coreClient.ServiceClient {
     }
     const defaults: BatchManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-batch/9.1.1`;
+    const packageDetails = `azsdk-js-arm-batch/9.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -81,20 +81,21 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -104,7 +105,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -114,9 +115,9 @@ export class BatchManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -124,21 +125,20 @@ export class BatchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-01";
+    this.apiVersion = options.apiVersion || "2024-02-01";
     this.batchAccountOperations = new BatchAccountOperationsImpl(this);
     this.applicationPackageOperations = new ApplicationPackageOperationsImpl(
-      this
+      this,
     );
     this.applicationOperations = new ApplicationOperationsImpl(this);
     this.location = new LocationImpl(this);
     this.operations = new OperationsImpl(this);
     this.certificateOperations = new CertificateOperationsImpl(this);
     this.privateLinkResourceOperations = new PrivateLinkResourceOperationsImpl(
-      this
+      this,
     );
-    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(
-      this
-    );
+    this.privateEndpointConnectionOperations =
+      new PrivateEndpointConnectionOperationsImpl(this);
     this.poolOperations = new PoolOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -152,7 +152,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -166,7 +166,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

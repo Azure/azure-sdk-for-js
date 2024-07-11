@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CapacityReservationGroupsListBySubscriptionOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,13 +28,13 @@ async function listCapacityReservationGroupsInSubscription() {
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const expand = "virtualMachines/$ref";
   const options: CapacityReservationGroupsListBySubscriptionOptionalParams = {
-    expand
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.capacityReservationGroups.listBySubscription(
-    options
+    options,
   )) {
     resArray.push(item);
   }

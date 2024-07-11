@@ -11,7 +11,7 @@
 import {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsStartOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function virtualMachineScaleSetStartMaximumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaa"],
   };
   const options: VirtualMachineScaleSetsStartOptionalParams = { vmInstanceIDs };
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function virtualMachineScaleSetStartMaximumSetGen() {
   const result = await client.virtualMachineScaleSets.beginStartAndWait(
     resourceGroupName,
     vmScaleSetName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -60,7 +60,7 @@ async function virtualMachineScaleSetStartMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginStartAndWait(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }

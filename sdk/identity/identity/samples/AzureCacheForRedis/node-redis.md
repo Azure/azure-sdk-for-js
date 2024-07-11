@@ -50,7 +50,7 @@ dotenv.config();
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
-  const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default";
+  const redisScope = "https://redis.azure.com/.default";
 
   // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
   let accessToken = await credential.getToken(redisScope);
@@ -110,7 +110,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default";
+    const redisScope = "https://redis.azure.com/.default";
 
     // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
     return credential.getToken(redisScope);
@@ -183,7 +183,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default";
+    const redisScope = "https://redis.azure.com/.default";
 
     // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
     return credential.getToken(redisScope);
@@ -267,7 +267,7 @@ main().catch((err) => {
 In this error scenario, the username provided and the access token used as password are not compatible. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
 * In **Data Access Configuration**, you've assigned the required role to your user/service principal identity.
-* In **Advanced settings**, the **Microsoft Entra Authentication** box is selected. If not, select it and select the **Save** button.
+* Under the **Authentication** -> **Microsoft Entra Authentication** category, the **Enable Microsoft Entra Authentication** box is selected. If not, select it and select the **Save** button.
 
 ##### Permissions not granted / NOPERM Error
 

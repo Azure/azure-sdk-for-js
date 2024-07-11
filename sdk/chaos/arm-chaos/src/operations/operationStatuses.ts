@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { ChaosManagementClient } from "../chaosManagementClient";
 import {
   OperationStatusesGetOptionalParams,
-  OperationStatusesGetResponse
+  OperationStatusesGetResponse,
 } from "../models";
 
 /** Class containing OperationStatuses operations. */
@@ -30,18 +30,18 @@ export class OperationStatusesImpl implements OperationStatuses {
 
   /**
    * Get the status of a long running azure asynchronous operation.
-   * @param location The region name of operation.
+   * @param location The name of the Azure region.
    * @param asyncOperationId The operation Id.
    * @param options The options parameters.
    */
   get(
     location: string,
     asyncOperationId: string,
-    options?: OperationStatusesGetOptionalParams
+    options?: OperationStatusesGetOptionalParams,
   ): Promise<OperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       { location, asyncOperationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class OperationStatusesImpl implements OperationStatuses {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/operationsStatuses/{asyncOperationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/operationStatuses/{asyncOperationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.asyncOperationId
+    Parameters.asyncOperationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

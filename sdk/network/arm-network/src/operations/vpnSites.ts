@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   VpnSitesUpdateTagsResponse,
   VpnSitesDeleteOptionalParams,
   VpnSitesListByResourceGroupNextResponse,
-  VpnSitesListNextResponse
+  VpnSitesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class VpnSitesImpl implements VpnSites {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: VpnSitesListByResourceGroupOptionalParams
+    options?: VpnSitesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VpnSite> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class VpnSitesImpl implements VpnSites {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: VpnSitesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VpnSite[]> {
     let result: VpnSitesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class VpnSitesImpl implements VpnSites {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class VpnSitesImpl implements VpnSites {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: VpnSitesListByResourceGroupOptionalParams
+    options?: VpnSitesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<VpnSite> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class VpnSitesImpl implements VpnSites {
    * @param options The options parameters.
    */
   public list(
-    options?: VpnSitesListOptionalParams
+    options?: VpnSitesListOptionalParams,
   ): PagedAsyncIterableIterator<VpnSite> {
     const iter = this.listPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class VpnSitesImpl implements VpnSites {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: VpnSitesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VpnSite[]> {
     let result: VpnSitesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class VpnSitesImpl implements VpnSites {
   }
 
   private async *listPagingAll(
-    options?: VpnSitesListOptionalParams
+    options?: VpnSitesListOptionalParams,
   ): AsyncIterableIterator<VpnSite> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -184,11 +184,11 @@ export class VpnSitesImpl implements VpnSites {
   get(
     resourceGroupName: string,
     vpnSiteName: string,
-    options?: VpnSitesGetOptionalParams
+    options?: VpnSitesGetOptionalParams,
   ): Promise<VpnSitesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vpnSiteName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -203,7 +203,7 @@ export class VpnSitesImpl implements VpnSites {
     resourceGroupName: string,
     vpnSiteName: string,
     vpnSiteParameters: VpnSite,
-    options?: VpnSitesCreateOrUpdateOptionalParams
+    options?: VpnSitesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VpnSitesCreateOrUpdateResponse>,
@@ -212,21 +212,20 @@ export class VpnSitesImpl implements VpnSites {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VpnSitesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -235,8 +234,8 @@ export class VpnSitesImpl implements VpnSites {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -244,15 +243,15 @@ export class VpnSitesImpl implements VpnSites {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vpnSiteName, vpnSiteParameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       VpnSitesCreateOrUpdateResponse,
@@ -260,7 +259,7 @@ export class VpnSitesImpl implements VpnSites {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -277,13 +276,13 @@ export class VpnSitesImpl implements VpnSites {
     resourceGroupName: string,
     vpnSiteName: string,
     vpnSiteParameters: VpnSite,
-    options?: VpnSitesCreateOrUpdateOptionalParams
+    options?: VpnSitesCreateOrUpdateOptionalParams,
   ): Promise<VpnSitesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vpnSiteName,
       vpnSiteParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -299,11 +298,11 @@ export class VpnSitesImpl implements VpnSites {
     resourceGroupName: string,
     vpnSiteName: string,
     vpnSiteParameters: TagsObject,
-    options?: VpnSitesUpdateTagsOptionalParams
+    options?: VpnSitesUpdateTagsOptionalParams,
   ): Promise<VpnSitesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vpnSiteName, vpnSiteParameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -316,25 +315,24 @@ export class VpnSitesImpl implements VpnSites {
   async beginDelete(
     resourceGroupName: string,
     vpnSiteName: string,
-    options?: VpnSitesDeleteOptionalParams
+    options?: VpnSitesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -343,8 +341,8 @@ export class VpnSitesImpl implements VpnSites {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -352,20 +350,20 @@ export class VpnSitesImpl implements VpnSites {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vpnSiteName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -380,12 +378,12 @@ export class VpnSitesImpl implements VpnSites {
   async beginDeleteAndWait(
     resourceGroupName: string,
     vpnSiteName: string,
-    options?: VpnSitesDeleteOptionalParams
+    options?: VpnSitesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vpnSiteName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -397,11 +395,11 @@ export class VpnSitesImpl implements VpnSites {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: VpnSitesListByResourceGroupOptionalParams
+    options?: VpnSitesListByResourceGroupOptionalParams,
   ): Promise<VpnSitesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -410,7 +408,7 @@ export class VpnSitesImpl implements VpnSites {
    * @param options The options parameters.
    */
   private _list(
-    options?: VpnSitesListOptionalParams
+    options?: VpnSitesListOptionalParams,
   ): Promise<VpnSitesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -424,11 +422,11 @@ export class VpnSitesImpl implements VpnSites {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VpnSitesListByResourceGroupNextOptionalParams
+    options?: VpnSitesListByResourceGroupNextOptionalParams,
   ): Promise<VpnSitesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -439,11 +437,11 @@ export class VpnSitesImpl implements VpnSites {
    */
   private _listNext(
     nextLink: string,
-    options?: VpnSitesListNextOptionalParams
+    options?: VpnSitesListNextOptionalParams,
   ): Promise<VpnSitesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -451,47 +449,45 @@ export class VpnSitesImpl implements VpnSites {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VpnSite
+      bodyMapper: Mappers.VpnSite,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vpnSiteName
+    Parameters.vpnSiteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VpnSite
+      bodyMapper: Mappers.VpnSite,
     },
     201: {
-      bodyMapper: Mappers.VpnSite
+      bodyMapper: Mappers.VpnSite,
     },
     202: {
-      bodyMapper: Mappers.VpnSite
+      bodyMapper: Mappers.VpnSite,
     },
     204: {
-      bodyMapper: Mappers.VpnSite
+      bodyMapper: Mappers.VpnSite,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.vpnSiteParameters,
   queryParameters: [Parameters.apiVersion],
@@ -499,23 +495,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vpnSiteName
+    Parameters.vpnSiteName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VpnSite
+      bodyMapper: Mappers.VpnSite,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.vpnSiteParameters1,
   queryParameters: [Parameters.apiVersion],
@@ -523,15 +518,14 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vpnSiteName
+    Parameters.vpnSiteName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -539,92 +533,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vpnSiteName
+    Parameters.vpnSiteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVpnSitesResult
+      bodyMapper: Mappers.ListVpnSitesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVpnSitesResult
+      bodyMapper: Mappers.ListVpnSitesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVpnSitesResult
+      bodyMapper: Mappers.ListVpnSitesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVpnSitesResult
+      bodyMapper: Mappers.ListVpnSitesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

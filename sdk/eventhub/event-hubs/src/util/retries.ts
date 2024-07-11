@@ -8,9 +8,7 @@ import { Constants, RetryOptions } from "@azure/core-amqp";
  */
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions = {}): number {
   const { timeoutInMs } = retryOptions;
-  return typeof timeoutInMs !== "number" ||
-    !isFinite(timeoutInMs) ||
-    timeoutInMs < Constants.defaultOperationTimeoutInMs
+  return typeof timeoutInMs !== "number" || !isFinite(timeoutInMs)
     ? Constants.defaultOperationTimeoutInMs
     : timeoutInMs;
 }

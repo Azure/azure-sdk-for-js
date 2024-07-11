@@ -19,7 +19,7 @@ import {
   TagsObject,
   VirtualWansUpdateTagsOptionalParams,
   VirtualWansUpdateTagsResponse,
-  VirtualWansDeleteOptionalParams
+  VirtualWansDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface VirtualWans {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualWansListByResourceGroupOptionalParams
+    options?: VirtualWansListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualWAN>;
   /**
    * Lists all the VirtualWANs in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: VirtualWansListOptionalParams
+    options?: VirtualWansListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualWAN>;
   /**
    * Retrieves the details of a VirtualWAN.
@@ -50,7 +50,7 @@ export interface VirtualWans {
   get(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VirtualWansGetOptionalParams
+    options?: VirtualWansGetOptionalParams,
   ): Promise<VirtualWansGetResponse>;
   /**
    * Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
@@ -63,7 +63,7 @@ export interface VirtualWans {
     resourceGroupName: string,
     virtualWANName: string,
     wANParameters: VirtualWAN,
-    options?: VirtualWansCreateOrUpdateOptionalParams
+    options?: VirtualWansCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualWansCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface VirtualWans {
     resourceGroupName: string,
     virtualWANName: string,
     wANParameters: VirtualWAN,
-    options?: VirtualWansCreateOrUpdateOptionalParams
+    options?: VirtualWansCreateOrUpdateOptionalParams,
   ): Promise<VirtualWansCreateOrUpdateResponse>;
   /**
    * Updates a VirtualWAN tags.
@@ -94,7 +94,7 @@ export interface VirtualWans {
     resourceGroupName: string,
     virtualWANName: string,
     wANParameters: TagsObject,
-    options?: VirtualWansUpdateTagsOptionalParams
+    options?: VirtualWansUpdateTagsOptionalParams,
   ): Promise<VirtualWansUpdateTagsResponse>;
   /**
    * Deletes a VirtualWAN.
@@ -105,7 +105,7 @@ export interface VirtualWans {
   beginDelete(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VirtualWansDeleteOptionalParams
+    options?: VirtualWansDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualWAN.
@@ -116,6 +116,6 @@ export interface VirtualWans {
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VirtualWansDeleteOptionalParams
+    options?: VirtualWansDeleteOptionalParams,
   ): Promise<void>;
 }

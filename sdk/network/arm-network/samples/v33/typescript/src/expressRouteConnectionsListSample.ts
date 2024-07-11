@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists ExpressRouteConnections.
  *
  * @summary Lists ExpressRouteConnections.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteConnectionList.json
  */
 async function expressRouteConnectionList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function expressRouteConnectionList() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.expressRouteConnections.list(
     resourceGroupName,
-    expressRouteGatewayName
+    expressRouteGatewayName,
   );
   console.log(result);
 }

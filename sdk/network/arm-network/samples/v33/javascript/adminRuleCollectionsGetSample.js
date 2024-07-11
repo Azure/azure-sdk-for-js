@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a network manager security admin configuration rule collection.
  *
  * @summary Gets a network manager security admin configuration rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerAdminRuleCollectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerAdminRuleCollectionGet.json
  */
 async function getsSecurityAdminRuleCollection() {
   const subscriptionId =

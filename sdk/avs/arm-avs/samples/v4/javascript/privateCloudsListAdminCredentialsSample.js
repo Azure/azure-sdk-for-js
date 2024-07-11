@@ -27,7 +27,7 @@ async function privateCloudsListAdminCredentials() {
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const result = await client.privateClouds.listAdminCredentials(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
   );
   console.log(result);
 }

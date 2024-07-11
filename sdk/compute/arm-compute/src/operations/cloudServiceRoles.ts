@@ -20,7 +20,7 @@ import {
   CloudServiceRolesListResponse,
   CloudServiceRolesGetOptionalParams,
   CloudServiceRolesGetResponse,
-  CloudServiceRolesListNextResponse
+  CloudServiceRolesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,12 +46,12 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   public list(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRolesListOptionalParams
+    options?: CloudServiceRolesListOptionalParams,
   ): PagedAsyncIterableIterator<CloudServiceRole> {
     const iter = this.listPagingAll(
       resourceGroupName,
       cloudServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +68,9 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
           resourceGroupName,
           cloudServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServiceRolesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CloudServiceRole[]> {
     let result: CloudServiceRolesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
         resourceGroupName,
         cloudServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,12 +106,12 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   private async *listPagingAll(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRolesListOptionalParams
+    options?: CloudServiceRolesListOptionalParams,
   ): AsyncIterableIterator<CloudServiceRole> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       cloudServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +128,11 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
     roleName: string,
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRolesGetOptionalParams
+    options?: CloudServiceRolesGetOptionalParams,
   ): Promise<CloudServiceRolesGetResponse> {
     return this.client.sendOperationRequest(
       { roleName, resourceGroupName, cloudServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   private _list(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRolesListOptionalParams
+    options?: CloudServiceRolesListOptionalParams,
   ): Promise<CloudServiceRolesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -165,11 +165,11 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
     resourceGroupName: string,
     cloudServiceName: string,
     nextLink: string,
-    options?: CloudServiceRolesListNextOptionalParams
+    options?: CloudServiceRolesListNextOptionalParams,
   ): Promise<CloudServiceRolesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -177,16 +177,15 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServiceRole
+      bodyMapper: Mappers.CloudServiceRole,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -194,51 +193,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
-    Parameters.roleName
+    Parameters.roleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServiceRoleListResult
+      bodyMapper: Mappers.CloudServiceRoleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudServiceName
+    Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServiceRoleListResult
+      bodyMapper: Mappers.CloudServiceRoleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.cloudServiceName
+    Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

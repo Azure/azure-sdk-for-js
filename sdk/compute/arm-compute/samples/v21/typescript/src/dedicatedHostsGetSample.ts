@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DedicatedHostsGetOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -38,7 +38,7 @@ async function getADedicatedHost() {
     resourceGroupName,
     hostGroupName,
     hostName,
-    options
+    options,
   );
   console.log(result);
 }

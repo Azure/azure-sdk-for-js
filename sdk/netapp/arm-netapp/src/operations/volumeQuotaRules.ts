@@ -15,7 +15,7 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   VolumeQuotaRulePatch,
   VolumeQuotaRulesUpdateOptionalParams,
   VolumeQuotaRulesUpdateResponse,
-  VolumeQuotaRulesDeleteOptionalParams
+  VolumeQuotaRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,14 +58,14 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumeQuotaRulesListByVolumeOptionalParams
+    options?: VolumeQuotaRulesListByVolumeOptionalParams,
   ): PagedAsyncIterableIterator<VolumeQuotaRule> {
     const iter = this.listByVolumePagingAll(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
           poolName,
           volumeName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -96,7 +96,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     poolName: string,
     volumeName: string,
     options?: VolumeQuotaRulesListByVolumeOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<VolumeQuotaRule[]> {
     let result: VolumeQuotaRulesListByVolumeResponse;
     result = await this._listByVolume(
@@ -104,7 +104,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       accountName,
       poolName,
       volumeName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -114,14 +114,14 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumeQuotaRulesListByVolumeOptionalParams
+    options?: VolumeQuotaRulesListByVolumeOptionalParams,
   ): AsyncIterableIterator<VolumeQuotaRule> {
     for await (const page of this.listByVolumePagingPage(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumeQuotaRulesListByVolumeOptionalParams
+    options?: VolumeQuotaRulesListByVolumeOptionalParams,
   ): Promise<VolumeQuotaRulesListByVolumeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
-      listByVolumeOperationSpec
+      listByVolumeOperationSpec,
     );
   }
 
@@ -163,7 +163,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     poolName: string,
     volumeName: string,
     volumeQuotaRuleName: string,
-    options?: VolumeQuotaRulesGetOptionalParams
+    options?: VolumeQuotaRulesGetOptionalParams,
   ): Promise<VolumeQuotaRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -172,9 +172,9 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         poolName,
         volumeName,
         volumeQuotaRuleName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -195,7 +195,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRule,
-    options?: VolumeQuotaRulesCreateOptionalParams
+    options?: VolumeQuotaRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeQuotaRulesCreateResponse>,
@@ -204,21 +204,20 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VolumeQuotaRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -227,8 +226,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -236,8 +235,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -250,9 +249,9 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         volumeName,
         volumeQuotaRuleName,
         body,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       VolumeQuotaRulesCreateResponse,
@@ -260,7 +259,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -283,7 +282,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRule,
-    options?: VolumeQuotaRulesCreateOptionalParams
+    options?: VolumeQuotaRulesCreateOptionalParams,
   ): Promise<VolumeQuotaRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -292,7 +291,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       volumeName,
       volumeQuotaRuleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -314,7 +313,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRulePatch,
-    options?: VolumeQuotaRulesUpdateOptionalParams
+    options?: VolumeQuotaRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeQuotaRulesUpdateResponse>,
@@ -323,21 +322,20 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VolumeQuotaRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -346,8 +344,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -355,8 +353,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -369,9 +367,9 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         volumeName,
         volumeQuotaRuleName,
         body,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       VolumeQuotaRulesUpdateResponse,
@@ -379,7 +377,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -402,7 +400,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     volumeName: string,
     volumeQuotaRuleName: string,
     body: VolumeQuotaRulePatch,
-    options?: VolumeQuotaRulesUpdateOptionalParams
+    options?: VolumeQuotaRulesUpdateOptionalParams,
   ): Promise<VolumeQuotaRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -411,7 +409,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       volumeName,
       volumeQuotaRuleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -431,25 +429,24 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     poolName: string,
     volumeName: string,
     volumeQuotaRuleName: string,
-    options?: VolumeQuotaRulesDeleteOptionalParams
+    options?: VolumeQuotaRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -458,8 +455,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -467,8 +464,8 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -480,14 +477,14 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
         poolName,
         volumeName,
         volumeQuotaRuleName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -508,7 +505,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     poolName: string,
     volumeName: string,
     volumeQuotaRuleName: string,
-    options?: VolumeQuotaRulesDeleteOptionalParams
+    options?: VolumeQuotaRulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -516,7 +513,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       poolName,
       volumeName,
       volumeQuotaRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -525,36 +522,15 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByVolumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeQuotaRulesList
+      bodyMapper: Mappers.VolumeQuotaRulesList,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VolumeQuotaRule
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -564,31 +540,55 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.volumeQuotaRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VolumeQuotaRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+    Parameters.volumeQuotaRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
     201: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
     202: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
     204: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body29,
+  requestBody: Parameters.body26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -597,32 +597,33 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.volumeQuotaRuleName
+    Parameters.volumeQuotaRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
     201: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
     202: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
     204: {
-      bodyMapper: Mappers.VolumeQuotaRule
+      bodyMapper: Mappers.VolumeQuotaRule,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body30,
+  requestBody: Parameters.body27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -631,17 +632,24 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.volumeQuotaRuleName
+    Parameters.volumeQuotaRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -650,7 +658,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.volumeQuotaRuleName
+    Parameters.volumeQuotaRuleName,
   ],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };

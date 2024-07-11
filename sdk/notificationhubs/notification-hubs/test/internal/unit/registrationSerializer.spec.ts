@@ -730,6 +730,11 @@ describe("serializeRegistrationDescription", () => {
 
     const xml = registrationDescriptionSerializer.serializeRegistrationDescription(registration);
 
+    // Check for ordering of the fields
+    // Bug: https://github.com/Azure/azure-sdk-for-js/issues/29081
+    assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH><Auth>{Auth Secret}</Auth>") !== -1);
+
+    // Check the fields
     assert.isTrue(xml.indexOf("<BrowserRegistrationDescription") !== -1);
     assert.isTrue(xml.indexOf("<Endpoint>https://www.microsoft.com/</Endpoint>") !== -1);
     assert.isTrue(xml.indexOf("<P256DH>{P256DH}</P256DH>") !== -1);

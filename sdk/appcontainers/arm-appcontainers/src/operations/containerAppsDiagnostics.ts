@@ -29,7 +29,7 @@ import {
   ContainerAppsDiagnosticsGetRootOptionalParams,
   ContainerAppsDiagnosticsGetRootResponse,
   ContainerAppsDiagnosticsListDetectorsNextResponse,
-  ContainerAppsDiagnosticsListRevisionsNextResponse
+  ContainerAppsDiagnosticsListRevisionsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   public listDetectors(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams
+    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams,
   ): PagedAsyncIterableIterator<Diagnostics> {
     const iter = this.listDetectorsPagingAll(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
           resourceGroupName,
           containerAppName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsDiagnosticsListDetectorsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Diagnostics[]> {
     let result: ContainerAppsDiagnosticsListDetectorsResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
       result = await this._listDetectors(
         resourceGroupName,
         containerAppName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
         resourceGroupName,
         containerAppName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   private async *listDetectorsPagingAll(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams
+    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams,
   ): AsyncIterableIterator<Diagnostics> {
     for await (const page of this.listDetectorsPagingPage(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,12 +138,12 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   public listRevisions(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams
+    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<Revision> {
     const iter = this.listRevisionsPagingAll(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     );
     return {
       next() {
@@ -160,9 +160,9 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
           resourceGroupName,
           containerAppName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -170,7 +170,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsDiagnosticsListRevisionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Revision[]> {
     let result: ContainerAppsDiagnosticsListRevisionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -178,7 +178,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
       result = await this._listRevisions(
         resourceGroupName,
         containerAppName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -190,7 +190,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
         resourceGroupName,
         containerAppName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -202,12 +202,12 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   private async *listRevisionsPagingAll(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams
+    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams,
   ): AsyncIterableIterator<Revision> {
     for await (const page of this.listRevisionsPagingPage(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -222,11 +222,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   private _listDetectors(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams
+    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams,
   ): Promise<ContainerAppsDiagnosticsListDetectorsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      listDetectorsOperationSpec
+      listDetectorsOperationSpec,
     );
   }
 
@@ -241,11 +241,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     detectorName: string,
-    options?: ContainerAppsDiagnosticsGetDetectorOptionalParams
+    options?: ContainerAppsDiagnosticsGetDetectorOptionalParams,
   ): Promise<ContainerAppsDiagnosticsGetDetectorResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, detectorName, options },
-      getDetectorOperationSpec
+      getDetectorOperationSpec,
     );
   }
 
@@ -258,11 +258,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   private _listRevisions(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams
+    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams,
   ): Promise<ContainerAppsDiagnosticsListRevisionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      listRevisionsOperationSpec
+      listRevisionsOperationSpec,
     );
   }
 
@@ -277,11 +277,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsDiagnosticsGetRevisionOptionalParams
+    options?: ContainerAppsDiagnosticsGetRevisionOptionalParams,
   ): Promise<ContainerAppsDiagnosticsGetRevisionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, revisionName, options },
-      getRevisionOperationSpec
+      getRevisionOperationSpec,
     );
   }
 
@@ -294,11 +294,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
   getRoot(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsGetRootOptionalParams
+    options?: ContainerAppsDiagnosticsGetRootOptionalParams,
   ): Promise<ContainerAppsDiagnosticsGetRootResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      getRootOperationSpec
+      getRootOperationSpec,
     );
   }
 
@@ -313,11 +313,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     nextLink: string,
-    options?: ContainerAppsDiagnosticsListDetectorsNextOptionalParams
+    options?: ContainerAppsDiagnosticsListDetectorsNextOptionalParams,
   ): Promise<ContainerAppsDiagnosticsListDetectorsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, nextLink, options },
-      listDetectorsNextOperationSpec
+      listDetectorsNextOperationSpec,
     );
   }
 
@@ -332,11 +332,11 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     nextLink: string,
-    options?: ContainerAppsDiagnosticsListRevisionsNextOptionalParams
+    options?: ContainerAppsDiagnosticsListRevisionsNextOptionalParams,
   ): Promise<ContainerAppsDiagnosticsListRevisionsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, nextLink, options },
-      listRevisionsNextOperationSpec
+      listRevisionsNextOperationSpec,
     );
   }
 }
@@ -344,38 +344,15 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listDetectorsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticsCollection
+      bodyMapper: Mappers.DiagnosticsCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDetectorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectors/{detectorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Diagnostics
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -383,44 +360,63 @@ const getDetectorOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.detectorName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listRevisionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectorProperties/revisionsApi/revisions/",
+const getDetectorOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectors/{detectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RevisionCollection
+      bodyMapper: Mappers.Diagnostics,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName,
+    Parameters.detectorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listRevisionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectorProperties/revisionsApi/revisions/",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RevisionCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getRevisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectorProperties/revisionsApi/revisions/{revisionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectorProperties/revisionsApi/revisions/{revisionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Revision
+      bodyMapper: Mappers.Revision,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -428,75 +424,74 @@ const getRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.revisionName
+    Parameters.revisionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getRootOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectorProperties/rootApi/",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/detectorProperties/rootApi/",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ContainerApp,
     },
     404: {
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticsCollection
+      bodyMapper: Mappers.DiagnosticsCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.containerAppName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RevisionCollection
+      bodyMapper: Mappers.RevisionCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.containerAppName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

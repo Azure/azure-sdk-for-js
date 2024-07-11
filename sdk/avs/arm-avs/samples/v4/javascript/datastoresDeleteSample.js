@@ -31,7 +31,7 @@ async function datastoresDelete() {
     resourceGroupName,
     privateCloudName,
     clusterName,
-    datastoreName
+    datastoreName,
   );
   console.log(result);
 }

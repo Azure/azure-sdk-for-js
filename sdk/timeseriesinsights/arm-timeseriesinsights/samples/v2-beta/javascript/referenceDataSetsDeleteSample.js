@@ -28,7 +28,7 @@ async function referenceDataSetsDelete() {
   const result = await client.referenceDataSets.delete(
     resourceGroupName,
     environmentName,
-    referenceDataSetName
+    referenceDataSetName,
   );
   console.log(result);
 }

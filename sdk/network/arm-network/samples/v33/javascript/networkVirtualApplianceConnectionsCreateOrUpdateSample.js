@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
  *
  * @summary Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkVirtualApplianceConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkVirtualApplianceConnectionPut.json
  */
 async function networkVirtualApplianceConnectionPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

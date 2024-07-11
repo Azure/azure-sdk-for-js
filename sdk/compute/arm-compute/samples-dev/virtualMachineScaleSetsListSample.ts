@@ -29,7 +29,7 @@ async function virtualMachineScaleSetListMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSets.list(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -51,7 +51,7 @@ async function virtualMachineScaleSetListMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSets.list(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

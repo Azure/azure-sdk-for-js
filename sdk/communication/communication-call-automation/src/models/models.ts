@@ -65,6 +65,8 @@ export interface CallParticipant {
   identifier?: CommunicationIdentifier;
   /** Is participant muted */
   isMuted?: boolean;
+  /** Is participant on hold. */
+  isOnHold?: boolean;
 }
 
 /** The locator used for joining or taking action on a call. */

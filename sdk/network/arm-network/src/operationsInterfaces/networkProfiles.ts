@@ -19,7 +19,7 @@ import {
   NetworkProfilesCreateOrUpdateResponse,
   TagsObject,
   NetworkProfilesUpdateTagsOptionalParams,
-  NetworkProfilesUpdateTagsResponse
+  NetworkProfilesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface NetworkProfiles {
    * @param options The options parameters.
    */
   listAll(
-    options?: NetworkProfilesListAllOptionalParams
+    options?: NetworkProfilesListAllOptionalParams,
   ): PagedAsyncIterableIterator<NetworkProfile>;
   /**
    * Gets all network profiles in a resource group.
@@ -39,7 +39,7 @@ export interface NetworkProfiles {
    */
   list(
     resourceGroupName: string,
-    options?: NetworkProfilesListOptionalParams
+    options?: NetworkProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkProfile>;
   /**
    * Deletes the specified network profile.
@@ -50,7 +50,7 @@ export interface NetworkProfiles {
   beginDelete(
     resourceGroupName: string,
     networkProfileName: string,
-    options?: NetworkProfilesDeleteOptionalParams
+    options?: NetworkProfilesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network profile.
@@ -61,7 +61,7 @@ export interface NetworkProfiles {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkProfileName: string,
-    options?: NetworkProfilesDeleteOptionalParams
+    options?: NetworkProfilesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified network profile in a specified resource group.
@@ -72,7 +72,7 @@ export interface NetworkProfiles {
   get(
     resourceGroupName: string,
     networkProfileName: string,
-    options?: NetworkProfilesGetOptionalParams
+    options?: NetworkProfilesGetOptionalParams,
   ): Promise<NetworkProfilesGetResponse>;
   /**
    * Creates or updates a network profile.
@@ -85,7 +85,7 @@ export interface NetworkProfiles {
     resourceGroupName: string,
     networkProfileName: string,
     parameters: NetworkProfile,
-    options?: NetworkProfilesCreateOrUpdateOptionalParams
+    options?: NetworkProfilesCreateOrUpdateOptionalParams,
   ): Promise<NetworkProfilesCreateOrUpdateResponse>;
   /**
    * Updates network profile tags.
@@ -98,6 +98,6 @@ export interface NetworkProfiles {
     resourceGroupName: string,
     networkProfileName: string,
     parameters: TagsObject,
-    options?: NetworkProfilesUpdateTagsOptionalParams
+    options?: NetworkProfilesUpdateTagsOptionalParams,
   ): Promise<NetworkProfilesUpdateTagsResponse>;
 }

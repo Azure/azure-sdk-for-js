@@ -32,7 +32,7 @@ async function getARestorePoint() {
   const result = await client.restorePoints.get(
     resourceGroupName,
     restorePointCollectionName,
-    restorePointName
+    restorePointName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function getRestorePointWithInstanceView() {
   const result = await client.restorePoints.get(
     resourceGroupName,
     restorePointCollectionName,
-    restorePointName
+    restorePointName,
   );
   console.log(result);
 }

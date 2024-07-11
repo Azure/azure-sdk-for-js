@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMsListOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen() {
   const options: VirtualMachineScaleSetVMsListOptionalParams = {
     filter,
     select,
-    expand
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen() {
   for await (let item of client.virtualMachineScaleSetVMs.list(
     resourceGroupName,
     virtualMachineScaleSetName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -67,7 +67,7 @@ async function virtualMachineScaleSetVMListMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSetVMs.list(
     resourceGroupName,
-    virtualMachineScaleSetName
+    virtualMachineScaleSetName,
   )) {
     resArray.push(item);
   }

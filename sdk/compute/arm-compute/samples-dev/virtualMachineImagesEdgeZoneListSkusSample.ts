@@ -33,7 +33,7 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
     location,
     edgeZone,
     publisherName,
-    offer
+    offer,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
     location,
     edgeZone,
     publisherName,
-    offer
+    offer,
   );
   console.log(result);
 }

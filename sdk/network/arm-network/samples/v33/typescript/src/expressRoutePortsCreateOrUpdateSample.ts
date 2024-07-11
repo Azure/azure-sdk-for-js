@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
  *
  * @summary Creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRoutePortCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRoutePortCreate.json
  */
 async function expressRoutePortCreate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,14 +29,14 @@ async function expressRoutePortCreate() {
     billingType: "UnlimitedData",
     encapsulation: "QinQ",
     location: "westus",
-    peeringLocation: "peeringLocationName"
+    peeringLocation: "peeringLocationName",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.expressRoutePorts.beginCreateOrUpdateAndWait(
     resourceGroupName,
     expressRoutePortName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function expressRoutePortCreate() {
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
  *
  * @summary Creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRoutePortUpdateLink.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRoutePortUpdateLink.json
  */
 async function expressRoutePortUpdateLink() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -57,14 +57,14 @@ async function expressRoutePortUpdateLink() {
     encapsulation: "QinQ",
     links: [{ name: "link1", adminState: "Enabled" }],
     location: "westus",
-    peeringLocation: "peeringLocationName"
+    peeringLocation: "peeringLocationName",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.expressRoutePorts.beginCreateOrUpdateAndWait(
     resourceGroupName,
     expressRoutePortName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

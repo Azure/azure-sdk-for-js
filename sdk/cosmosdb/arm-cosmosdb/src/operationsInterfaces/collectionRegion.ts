@@ -32,6 +32,6 @@ export interface CollectionRegion {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionRegionListMetricsOptionalParams
+    options?: CollectionRegionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric>;
 }

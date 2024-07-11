@@ -30,7 +30,7 @@ async function deleteADiskAccessResource() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.beginDeleteAndWait(
     resourceGroupName,
-    diskAccessName
+    diskAccessName,
   );
   console.log(result);
 }

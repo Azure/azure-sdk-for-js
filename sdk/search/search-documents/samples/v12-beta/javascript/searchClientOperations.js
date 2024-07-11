@@ -7,11 +7,11 @@
 
 const {
   AzureKeyCredential,
-  SearchClient,
   GeographyPoint,
+  SearchClient,
   SearchIndexClient,
 } = require("@azure/search-documents");
-const { createIndex, WAIT_TIME, delay } = require("./setup");
+const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
 

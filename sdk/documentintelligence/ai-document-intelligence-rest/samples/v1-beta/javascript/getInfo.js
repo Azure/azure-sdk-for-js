@@ -16,14 +16,14 @@ require("dotenv").config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
   const info = await client.path("/info").get();
   if (isUnexpected(info)) {
     throw info.body.error;
   }
   console.log(
-    `Custom document models: ${info.body.customDocumentModels.count} of ${info.body.customDocumentModels.limit}`
+    `Custom document models: ${info.body.customDocumentModels.count} of ${info.body.customDocumentModels.limit}`,
   );
 }
 

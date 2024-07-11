@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   NatGatewaysUpdateTagsOptionalParams,
   NatGatewaysUpdateTagsResponse,
   NatGatewaysListAllNextResponse,
-  NatGatewaysListNextResponse
+  NatGatewaysListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class NatGatewaysImpl implements NatGateways {
    * @param options The options parameters.
    */
   public listAll(
-    options?: NatGatewaysListAllOptionalParams
+    options?: NatGatewaysListAllOptionalParams,
   ): PagedAsyncIterableIterator<NatGateway> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class NatGatewaysImpl implements NatGateways {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: NatGatewaysListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NatGateway[]> {
     let result: NatGatewaysListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class NatGatewaysImpl implements NatGateways {
   }
 
   private async *listAllPagingAll(
-    options?: NatGatewaysListAllOptionalParams
+    options?: NatGatewaysListAllOptionalParams,
   ): AsyncIterableIterator<NatGateway> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class NatGatewaysImpl implements NatGateways {
    */
   public list(
     resourceGroupName: string,
-    options?: NatGatewaysListOptionalParams
+    options?: NatGatewaysListOptionalParams,
   ): PagedAsyncIterableIterator<NatGateway> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -128,14 +128,14 @@ export class NatGatewaysImpl implements NatGateways {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: NatGatewaysListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NatGateway[]> {
     let result: NatGatewaysListResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class NatGatewaysImpl implements NatGateways {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,7 +161,7 @@ export class NatGatewaysImpl implements NatGateways {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: NatGatewaysListOptionalParams
+    options?: NatGatewaysListOptionalParams,
   ): AsyncIterableIterator<NatGateway> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -177,25 +177,24 @@ export class NatGatewaysImpl implements NatGateways {
   async beginDelete(
     resourceGroupName: string,
     natGatewayName: string,
-    options?: NatGatewaysDeleteOptionalParams
+    options?: NatGatewaysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -204,8 +203,8 @@ export class NatGatewaysImpl implements NatGateways {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -213,20 +212,20 @@ export class NatGatewaysImpl implements NatGateways {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, natGatewayName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -241,12 +240,12 @@ export class NatGatewaysImpl implements NatGateways {
   async beginDeleteAndWait(
     resourceGroupName: string,
     natGatewayName: string,
-    options?: NatGatewaysDeleteOptionalParams
+    options?: NatGatewaysDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       natGatewayName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -260,11 +259,11 @@ export class NatGatewaysImpl implements NatGateways {
   get(
     resourceGroupName: string,
     natGatewayName: string,
-    options?: NatGatewaysGetOptionalParams
+    options?: NatGatewaysGetOptionalParams,
   ): Promise<NatGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, natGatewayName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -279,7 +278,7 @@ export class NatGatewaysImpl implements NatGateways {
     resourceGroupName: string,
     natGatewayName: string,
     parameters: NatGateway,
-    options?: NatGatewaysCreateOrUpdateOptionalParams
+    options?: NatGatewaysCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NatGatewaysCreateOrUpdateResponse>,
@@ -288,21 +287,20 @@ export class NatGatewaysImpl implements NatGateways {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NatGatewaysCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +309,8 @@ export class NatGatewaysImpl implements NatGateways {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,15 +318,15 @@ export class NatGatewaysImpl implements NatGateways {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, natGatewayName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       NatGatewaysCreateOrUpdateResponse,
@@ -336,7 +334,7 @@ export class NatGatewaysImpl implements NatGateways {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -353,13 +351,13 @@ export class NatGatewaysImpl implements NatGateways {
     resourceGroupName: string,
     natGatewayName: string,
     parameters: NatGateway,
-    options?: NatGatewaysCreateOrUpdateOptionalParams
+    options?: NatGatewaysCreateOrUpdateOptionalParams,
   ): Promise<NatGatewaysCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       natGatewayName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -375,11 +373,11 @@ export class NatGatewaysImpl implements NatGateways {
     resourceGroupName: string,
     natGatewayName: string,
     parameters: TagsObject,
-    options?: NatGatewaysUpdateTagsOptionalParams
+    options?: NatGatewaysUpdateTagsOptionalParams,
   ): Promise<NatGatewaysUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, natGatewayName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -388,7 +386,7 @@ export class NatGatewaysImpl implements NatGateways {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: NatGatewaysListAllOptionalParams
+    options?: NatGatewaysListAllOptionalParams,
   ): Promise<NatGatewaysListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -400,11 +398,11 @@ export class NatGatewaysImpl implements NatGateways {
    */
   private _list(
     resourceGroupName: string,
-    options?: NatGatewaysListOptionalParams
+    options?: NatGatewaysListOptionalParams,
   ): Promise<NatGatewaysListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -415,11 +413,11 @@ export class NatGatewaysImpl implements NatGateways {
    */
   private _listAllNext(
     nextLink: string,
-    options?: NatGatewaysListAllNextOptionalParams
+    options?: NatGatewaysListAllNextOptionalParams,
   ): Promise<NatGatewaysListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 
@@ -432,11 +430,11 @@ export class NatGatewaysImpl implements NatGateways {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NatGatewaysListNextOptionalParams
+    options?: NatGatewaysListNextOptionalParams,
   ): Promise<NatGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -444,8 +442,7 @@ export class NatGatewaysImpl implements NatGateways {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -453,61 +450,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.natGatewayName
+    Parameters.natGatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NatGateway
+      bodyMapper: Mappers.NatGateway,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.natGatewayName
+    Parameters.natGatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NatGateway
+      bodyMapper: Mappers.NatGateway,
     },
     201: {
-      bodyMapper: Mappers.NatGateway
+      bodyMapper: Mappers.NatGateway,
     },
     202: {
-      bodyMapper: Mappers.NatGateway
+      bodyMapper: Mappers.NatGateway,
     },
     204: {
-      bodyMapper: Mappers.NatGateway
+      bodyMapper: Mappers.NatGateway,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
@@ -515,23 +510,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.natGatewayName
+    Parameters.natGatewayName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NatGateway
+      bodyMapper: Mappers.NatGateway,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -539,86 +533,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.natGatewayName
+    Parameters.natGatewayName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NatGatewayListResult
+      bodyMapper: Mappers.NatGatewayListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NatGatewayListResult
+      bodyMapper: Mappers.NatGatewayListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NatGatewayListResult
+      bodyMapper: Mappers.NatGatewayListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NatGatewayListResult
+      bodyMapper: Mappers.NatGatewayListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

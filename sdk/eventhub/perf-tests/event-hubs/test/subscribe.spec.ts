@@ -9,7 +9,7 @@ import {
   PartitionContext,
   ReceivedEventData,
 } from "@azure/event-hubs";
-import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure-tools/test-perf";
 
 interface ReceiverOptions {
   "number-of-events": number;
@@ -123,14 +123,12 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     // The following might just be noise if we don't think there are related changes to the code
     if (this.parsedOptions["log-median-batch-size"].value) {
       console.log(
-        `\tBatch count: ${this.callbackCallsCount}, Batch count per sec: ${
-          this.callbackCallsCount / this.parsedOptions.duration.value
+        `\tBatch count: ${this.callbackCallsCount}, Batch count per sec: ${this.callbackCallsCount / this.parsedOptions.duration.value
         }`,
       );
       console.log(`\tmessagesPerBatch: ${this.messagesPerBatch}`);
       console.log(
-        `\tmessagesPerBatch... median: ${median(this.messagesPerBatch)}, avg: ${
-          this.messagesPerBatch.reduce((a, b) => a + b, 0) / this.messagesPerBatch.length
+        `\tmessagesPerBatch... median: ${median(this.messagesPerBatch)}, avg: ${this.messagesPerBatch.reduce((a, b) => a + b, 0) / this.messagesPerBatch.length
         }, max: ${Math.max(...this.messagesPerBatch)}, min: ${Math.min(...this.messagesPerBatch)}`,
       );
     }
