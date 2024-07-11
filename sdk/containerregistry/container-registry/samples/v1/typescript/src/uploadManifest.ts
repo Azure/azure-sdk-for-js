@@ -18,7 +18,7 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   const layer = Buffer.from("Hello, world");
@@ -32,7 +32,7 @@ async function main() {
         type: "layers",
         diff_ids: [layerDigest],
       },
-    })
+    }),
   );
 
   const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
