@@ -68,7 +68,7 @@
     "ts-morph": "^23.0.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.2.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "yaml": "^2.3.4"
   },
   "devDependencies": {

@@ -13,3 +13,4 @@ extends:
       ServiceDirectory: translation
       Location: "${{ parameters.Location }}"
       SupportedClouds: 'Public'
+      UseFederatedAuth: true

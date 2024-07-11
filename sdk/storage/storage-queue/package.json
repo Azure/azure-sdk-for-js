@@ -9,6 +9,7 @@
     "./dist-esm/storage-queue/src/index.js": "./dist-esm/storage-queue/src/index.browser.js",
     "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.browser.js",
     "./dist-esm/storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.js": "./dist-esm/storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.browser.js",
+    "./dist-esm/storage-blob/src/policies/StorageCorrectContentLengthPolicy.js": "./dist-esm/storage-blob/src/policies/StorageCorrectContentLengthPolicy.browser.js",
     "./dist-esm/storage-queue/test/utils/index.js": "./dist-esm/storage-queue/test/utils/index.browser.js",
     "os": false,
     "process": false
@@ -154,7 +155,7 @@
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "util": "^0.12.1"
   }
 }
