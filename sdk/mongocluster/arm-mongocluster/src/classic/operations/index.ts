@@ -3,7 +3,7 @@
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { Operation } from "../../models/models.js";
-import { operationsList } from "../../api/operations/index.js";
+import { list } from "../../api/operations/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { OperationsListOptionalParams } from "../../models/options.js";
 
@@ -17,8 +17,7 @@ export interface OperationsOperations {
 
 export function getOperations(context: DocumentDBContext) {
   return {
-    list: (options?: OperationsListOptionalParams) =>
-      operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 

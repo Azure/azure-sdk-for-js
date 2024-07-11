@@ -39,7 +39,7 @@ import {
   PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../../models/options.js";
 
-export function _privateEndpointConnectionsListByMongoClusterSend(
+export function _listByMongoClusterSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -61,7 +61,7 @@ export function _privateEndpointConnectionsListByMongoClusterSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
+export async function _listByMongoClusterDeserialize(
   result:
     | PrivateEndpointConnectionsListByMongoCluster200Response
     | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
@@ -115,7 +115,7 @@ export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
 }
 
 /** List existing private connections */
-export function privateEndpointConnectionsListByMongoCluster(
+export function listByMongoCluster(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -127,19 +127,19 @@ export function privateEndpointConnectionsListByMongoCluster(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _privateEndpointConnectionsListByMongoClusterSend(
+      _listByMongoClusterSend(
         context,
         subscriptionId,
         resourceGroupName,
         mongoClusterName,
         options,
       ),
-    _privateEndpointConnectionsListByMongoClusterDeserialize,
+    _listByMongoClusterDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _privateEndpointConnectionsGetSend(
+export function _getSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -161,7 +161,7 @@ export function _privateEndpointConnectionsGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _privateEndpointConnectionsGetDeserialize(
+export async function _getDeserialize(
   result:
     | PrivateEndpointConnectionsGet200Response
     | PrivateEndpointConnectionsGetDefaultResponse,
@@ -217,7 +217,7 @@ export async function _privateEndpointConnectionsGetDeserialize(
 }
 
 /** Get a specific private connection */
-export async function privateEndpointConnectionsGet(
+export async function get(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -225,7 +225,7 @@ export async function privateEndpointConnectionsGet(
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnectionResource> {
-  const result = await _privateEndpointConnectionsGetSend(
+  const result = await _getSend(
     context,
     subscriptionId,
     resourceGroupName,
@@ -233,10 +233,10 @@ export async function privateEndpointConnectionsGet(
     privateEndpointConnectionName,
     options,
   );
-  return _privateEndpointConnectionsGetDeserialize(result);
+  return _getDeserialize(result);
 }
 
-export function _privateEndpointConnectionsCreateSend(
+export function _createSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -271,7 +271,7 @@ export function _privateEndpointConnectionsCreateSend(
     });
 }
 
-export async function _privateEndpointConnectionsCreateDeserialize(
+export async function _createDeserialize(
   result:
     | PrivateEndpointConnectionsCreate200Response
     | PrivateEndpointConnectionsCreate201Response
@@ -331,7 +331,7 @@ export async function _privateEndpointConnectionsCreateDeserialize(
 }
 
 /** Create a Private endpoint connection */
-export function privateEndpointConnectionsCreate(
+export function create(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -345,30 +345,26 @@ export function privateEndpointConnectionsCreate(
   OperationState<PrivateEndpointConnectionResource>,
   PrivateEndpointConnectionResource
 > {
-  return getLongRunningPoller(
-    context,
-    _privateEndpointConnectionsCreateDeserialize,
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _privateEndpointConnectionsCreateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          mongoClusterName,
-          privateEndpointConnectionName,
-          resource,
-          options,
-        ),
-    },
-  ) as PollerLike<
+  return getLongRunningPoller(context, _createDeserialize, {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        privateEndpointConnectionName,
+        resource,
+        options,
+      ),
+  }) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
 }
 
-export function _privateEndpointConnectionsDeleteSend(
+export function _$deleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -394,7 +390,7 @@ export function _privateEndpointConnectionsDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _privateEndpointConnectionsDeleteDeserialize(
+export async function _$deleteDeserialize(
   result:
     | PrivateEndpointConnectionsDelete202Response
     | PrivateEndpointConnectionsDelete204Response
@@ -410,7 +406,12 @@ export async function _privateEndpointConnectionsDeleteDeserialize(
 }
 
 /** Delete the private endpoint connection */
-export function privateEndpointConnectionsDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -420,21 +421,17 @@ export function privateEndpointConnectionsDelete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _privateEndpointConnectionsDeleteDeserialize,
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _privateEndpointConnectionsDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          mongoClusterName,
-          privateEndpointConnectionName,
-          options,
-        ),
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        privateEndpointConnectionName,
+        options,
+      ),
+  }) as PollerLike<OperationState<void>, void>;
 }
