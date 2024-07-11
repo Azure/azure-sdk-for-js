@@ -58,8 +58,16 @@ describe("AppConfigurationClient snapshot", () => {
       filters: [filter1],
     };
 
-    await client.addConfigurationSetting({ ...configSetting1, value: "value1" });
-    await client.addConfigurationSetting({ ...configSetting2, value: "value2" });
+    await client.addConfigurationSetting({
+      ...configSetting1,
+      value: "value1",
+      tags: { production: "1" },
+    });
+    await client.addConfigurationSetting({
+      ...configSetting2,
+      value: "value2",
+      tags: { production: "2" },
+    });
   });
 
   afterEach(async function (this: Context) {
@@ -112,8 +120,6 @@ describe("AppConfigurationClient snapshot", () => {
         });
       });
     });
-
-    // TODO: Add snapshot test for filter by list
   });
 
   describe("listConfigurationSettings of a Snapshot", () => {
@@ -130,6 +136,27 @@ describe("AppConfigurationClient snapshot", () => {
         assert.equal(setting.key, key1);
         assert.equal(setting.label, "label1");
         assert.equal(setting.value, "value1", "Should not get the updated value of the setting");
+      }
+
+      await client.archiveSnapshot(newSnapshot.name);
+    });
+
+    it.only("list configuration setting snapshot with filters", async () => {
+      snapshot1 = {
+        name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
+        retentionPeriodInSeconds: 2592000,
+        filters: [{ keyFilter: "key*", tagsFilter: ["production=1"] }],
+      };
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
+      const snapshotConfigurationSettings = client.listConfigurationSettingsForSnapshot(
+        newSnapshot.name,
+      );
+
+      for await (const setting of snapshotConfigurationSettings) {
+        assert.equal(setting.key, key1);
+        assert.equal(setting.label, "label1");
+        assert.equal(setting.value, "value1");
+        assert.deepEqual(setting.tags, { production: "1" });
       }
 
       await client.archiveSnapshot(newSnapshot.name);

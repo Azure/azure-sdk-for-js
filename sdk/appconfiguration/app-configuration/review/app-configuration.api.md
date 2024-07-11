@@ -207,11 +207,6 @@ export enum KnownConfigurationSnapshotStatus {
 }
 
 // @public
-export enum KnownLabelFields {
-    Name = "name"
-}
-
-// @public
 export enum KnownSnapshotComposition {
     Key = "key",
     KeyLabel = "key_label"
@@ -221,9 +216,6 @@ export enum KnownSnapshotComposition {
 export interface Label {
     readonly name?: string;
 }
-
-// @public
-export type LabelFields = string;
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
@@ -289,7 +281,7 @@ export interface OptionalFields {
 
 // @public
 export interface OptionalLabelsFields {
-    fields?: LabelFields[];
+    fields?: (keyof Label)[];
 }
 
 // @public

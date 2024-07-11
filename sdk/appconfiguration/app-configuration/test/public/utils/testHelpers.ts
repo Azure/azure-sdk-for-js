@@ -6,6 +6,8 @@ import {
   AppConfigurationClientOptions,
   ListSnapshotsPage,
   ConfigurationSnapshot,
+  Label,
+  ListLabelsPage,
 } from "../../../src";
 import {
   ConfigurationSetting,
@@ -13,7 +15,7 @@ import {
   ListRevisionsPage,
 } from "../../../src";
 import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
@@ -143,6 +145,30 @@ export async function toSortedSnapshotArray(
         ),
   );
   return snapshots;
+}
+
+export async function toSortedLabelsArray(
+  pagedIterator: PagedAsyncIterableIterator<Label, ListLabelsPage, PageSettings>,
+  compareFn?: (a: Label, b: Label) => number,
+): Promise<Label[]> {
+  const labels: Label[] = [];
+
+  for await (const label of pagedIterator) {
+    labels.push(label);
+  }
+
+  let labelsViaPageIterator: Label[] = [];
+
+  for await (const page of pagedIterator.byPage()) {
+    labelsViaPageIterator = labelsViaPageIterator.concat(page.items);
+  }
+
+  // just a sanity-check
+  assert.deepEqual(labels, labelsViaPageIterator);
+
+  labels.sort((a, b) => (compareFn ? compareFn(a, b) : `${a.name}`.localeCompare(`${b.name}`)));
+
+  return labels;
 }
 
 export function assertEqualSettings(

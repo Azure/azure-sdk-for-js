@@ -10,7 +10,6 @@ import {
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   ConfigurationSnapshotStatus,
-  LabelFields,
   Label,
 } from "./generated/src";
 
@@ -185,7 +184,7 @@ export interface OptionalLabelsFields {
   /**
    * Which fields to return for each ConfigurationSetting
    */
-  fields?: LabelFields[];
+  fields?: (keyof Label)[];
 }
 /**
  * Sync token header field
@@ -544,7 +543,5 @@ export {
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
-  LabelFields,
   Label,
-  KnownLabelFields,
 } from "./generated/src";

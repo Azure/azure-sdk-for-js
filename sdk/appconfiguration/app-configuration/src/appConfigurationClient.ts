@@ -99,6 +99,7 @@ const deserializationContentTypes = {
     "application/vnd.microsoft.appconfig.revs+json",
     "application/vnd.microsoft.appconfig.snapshotset+json",
     "application/vnd.microsoft.appconfig.snapshot+json",
+    "application/vnd.microsoft.appconfig.labelset+json",
     "application/json",
   ],
 };
@@ -455,7 +456,6 @@ export class AppConfigurationClient {
             : undefined,
           _response: response._response,
         };
-        console.log(JSON.stringify(currentResponse, null, 2))
         return {
           page: currentResponse,
           nextPageLink: currentResponse.continuationToken,
