@@ -12,7 +12,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { TenDlcClient } from "../../src/tenDlcClient";
-import { isNode } from "@azure/test-utils";
+import { isNode } from "@azure-tools/test-utils";
 import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
