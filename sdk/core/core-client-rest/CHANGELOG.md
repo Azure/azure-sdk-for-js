@@ -1,16 +1,10 @@
 # Release History
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-- Update the serialization order before sending the request. 
+## 2.2.0 (2024-07-11)
 
 ### Other Changes
+
+- Update serialization to not serialize Uint8Array if the content type is "application/json". 
 
 ## 2.1.0 (2024-06-27)
 
