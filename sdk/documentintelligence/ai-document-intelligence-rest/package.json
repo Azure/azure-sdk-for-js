@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-document-intelligence",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.3",
   "description": "Document Intelligence Rest Client",
   "engines": {
     "node": ">=18.0.0"
