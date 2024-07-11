@@ -47,6 +47,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+function extractUsernameFromToken(accessToken: AccessToken): string{
+  const base64Metadata = accessToken.token.split(".")[1];
+  const { oid } = JSON.parse(
+    Buffer.from(base64Metadata, "base64").toString("utf8"),
+  );
+  return oid;
+}
+
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
@@ -58,7 +66,7 @@ async function main() {
 
   // Create redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   const client = createClient({
-    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    username: extractUsernameFromToken(accessToken),
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
     pingInterval: 100000,
@@ -116,13 +124,21 @@ async function returnPassword(credential: TokenCredential) {
     return credential.getToken(redisScope);
 }
 
+function extractUsernameFromToken(accessToken: AccessToken): string{
+  const base64Metadata = accessToken.token.split(".")[1];
+  const { oid } = JSON.parse(
+    Buffer.from(base64Metadata, "base64").toString("utf8"),
+  );
+  return oid;
+}
+
 async function main() {
   // Construct a Token Credential from Azure Identity library
   const credential = new DefaultAzureCredential();
   let accessToken = await returnPassword(credential);
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   let redisClient = createClient({
-    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    username: extractUsernameFromToken(accessToken),
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
     pingInterval: 100000,
@@ -146,7 +162,7 @@ async function main() {
         await redis.disconnect();
         accessToken = await returnPassword(credential);
         redisClient = createClient({
-          username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+          username: extractUsernameFromToken(accessToken),
           password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
           pingInterval: 100000,
@@ -194,6 +210,14 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function extractUsernameFromToken(accessToken: AccessToken): string{
+  const base64Metadata = accessToken.token.split(".")[1];
+  const { oid } = JSON.parse(
+    Buffer.from(base64Metadata, "base64").toString("utf8"),
+  );
+  return oid;
+}
+
 async function main() {
   // Construct a Token Credential from Azure Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
@@ -207,7 +231,7 @@ async function main() {
     id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
     if(redisClient){
         console.log("Auth called...");
-        await redisClient.auth({username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+        await redisClient.auth({username: extractUsernameFromToken(accessToken),
             password: accessToken.token});
     }
   }
@@ -216,7 +240,7 @@ async function main() {
   let accessToken: AccessToken | undefined = {...accessTokenCache};
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
   redisClient = createClient({
-    username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+    username: extractUsernameFromToken(accessToken),
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
     pingInterval: 100000,
@@ -240,7 +264,7 @@ async function main() {
       await redisClient.disconnect();
       accessToken = {...accessTokenCache};
       redisClient = createClient({
-          username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+          username: extractUsernameFromToken(accessToken),
           password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
           pingInterval: 100000,

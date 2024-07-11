@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   ExtensionTopicsGetOptionalParams,
-  ExtensionTopicsGetResponse
+  ExtensionTopicsGetResponse,
 } from "../models";
 
 /** Class containing ExtensionTopics operations. */
@@ -40,11 +40,11 @@ export class ExtensionTopicsImpl implements ExtensionTopics {
    */
   get(
     scope: string,
-    options?: ExtensionTopicsGetOptionalParams
+    options?: ExtensionTopicsGetOptionalParams,
   ): Promise<ExtensionTopicsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -56,12 +56,12 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionTopic
+      bodyMapper: Mappers.ExtensionTopic,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

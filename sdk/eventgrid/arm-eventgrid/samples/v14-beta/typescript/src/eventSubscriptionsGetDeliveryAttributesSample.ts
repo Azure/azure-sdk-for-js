@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all delivery attributes for an event subscription.
  *
  * @summary Get all delivery attributes for an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetDeliveryAttributes.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetDeliveryAttributes.json
  */
 async function eventSubscriptionsGetDeliveryAttributes() {
   const scope =
@@ -28,7 +28,7 @@ async function eventSubscriptionsGetDeliveryAttributes() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.getDeliveryAttributes(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

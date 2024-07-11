@@ -1,5 +1,40 @@
 # Release History
 
+## 1.0.0-beta.24 (2024-06-13)
+
+### Bugs Fixed
+
+- Fix issue with `disableOfflineStorage` being set sending error messages to customer apps.
+- Fix issue with `disableOfflineStorage` not applying to Statsbeat senders.
+
+### Other Changes
+
+- Client generated Span event exceptions no longer generate trace telemetry.
+- Sever spans with http status codes within 4xx range should count as request failures.
+- Update to the latest OpenTelemetry dependencies.
+
+## 1.0.0-beta.23 (2024-05-10)
+
+### Features Added
+
+- Capture and export measurements when creating log records from the Application Insights 3.X SDK.
+
+### Other Changes
+
+- Add live metrics activation tracking to statsbeat.
+- Update OpenTelemetry dependencies.
+- Convert OTel-valid performance counter names to appropriate breeze names.
+
+## 1.0.0-beta.22 (2024-04-16)
+
+### Features Added
+
+- Add support for more Azure Monitor part A/tags.
+
+### Other Changes
+
+- Update README Code Snippets.
+
 ## 1.0.0-beta.21 (2024-03-08)
 
 ### Bugs Fixed

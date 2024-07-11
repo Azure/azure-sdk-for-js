@@ -94,12 +94,14 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
           ) {
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "undefined");
             assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
+            assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "boolean");
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
             assert.ok(
               context.headers["x-ms-consistency-level"] === "Eventual" ||
                 context.headers["x-ms-consistency-level"] === "Session",
               `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
+            assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === true);
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "null") {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "null",
@@ -132,6 +134,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
 
   const itemRequestFeedOptions = {
     maxIntegratedCacheStalenessInMs: dedicatedGatewayMaxAge,
+    bypassIntegratedCache: true,
   };
   const { database } = await client.databases.createIfNotExists({
     id: dbId,
@@ -162,6 +165,37 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     // Should fail: maxIntegratedCacheStalenessInMs cannot be 0
     this.dedicatedGatewayMaxAge = 0;
     await container.read(this.dedicatedGatewayMaxAge);
+  });
+});
+
+// This test has to be run against sqlx endpoint
+describe.skip("Bypass integrated cache", function (this: Suite) {
+  beforeEach(async function () {
+    await removeAllDatabases();
+  });
+
+  it("Should pass with bypass integrated cache set", async function () {
+    const dbId = addEntropy("bypassIntegratedCacheTestDB");
+    const containerId = addEntropy("bypassIntegratedCacheTestContainer");
+    const client = new CosmosClient({
+      endpoint,
+      key: masterKey,
+      consistencyLevel: ConsistencyLevel.Eventual,
+    });
+    const { database } = await client.databases.createIfNotExists({
+      id: dbId,
+    });
+    const { container } = await database.containers.createIfNotExists({
+      id: containerId,
+    });
+    await container.items.create({ id: "1" });
+    const response = await container
+      .item("1")
+      .read({ maxIntegratedCacheStalenessInMs: 500, bypassIntegratedCache: true });
+    assert.ok(response);
+    console.log("x-ms-cosmos-cache-bypass", response.headers["x-ms-cosmos-cache-bypass"]);
+    assert.ok(response.headers["x-ms-cosmos-cache-bypass"] !== undefined);
+    assert.ok(response.headers["x-ms-cosmos-cache-bypass"] === "True");
   });
 });
 

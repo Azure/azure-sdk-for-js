@@ -241,6 +241,12 @@ export const KubernetesVersion: coreClient.CompositeMapper = {
           className: "KubernetesVersionCapabilities",
         },
       },
+      isDefault: {
+        serializedName: "isDefault",
+        type: {
+          name: "Boolean",
+        },
+      },
       isPreview: {
         serializedName: "isPreview",
         type: {
@@ -786,6 +792,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
             className: "AgentPoolNetworkProfile",
           },
         },
+        windowsProfile: {
+          serializedName: "windowsProfile",
+          type: {
+            name: "Composite",
+            className: "AgentPoolWindowsProfile",
+          },
+        },
       },
     },
   };
@@ -1240,6 +1253,21 @@ export const PortRange: coreClient.CompositeMapper = {
         serializedName: "protocol",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolWindowsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolWindowsProfile",
+    modelProperties: {
+      disableOutboundNat: {
+        serializedName: "disableOutboundNat",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -2958,13 +2986,6 @@ export const IstioEgressGateway: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
-      nodeSelector: {
-        serializedName: "nodeSelector",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
     },
   },
 };
@@ -3018,6 +3039,37 @@ export const IstioPluginCertificateAuthority: coreClient.CompositeMapper = {
         serializedName: "certChainObjectName",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterMetricsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterMetricsProfile",
+    modelProperties: {
+      costAnalysis: {
+        serializedName: "costAnalysis",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterCostAnalysis",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterCostAnalysis: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterCostAnalysis",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -5011,6 +5063,13 @@ export const AgentPool: coreClient.CompositeMapper = {
           className: "AgentPoolNetworkProfile",
         },
       },
+      windowsProfile: {
+        serializedName: "properties.windowsProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolWindowsProfile",
+        },
+      },
     },
   },
 };
@@ -5337,6 +5396,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      metricsProfile: {
+        serializedName: "properties.metricsProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterMetricsProfile",
         },
       },
     },

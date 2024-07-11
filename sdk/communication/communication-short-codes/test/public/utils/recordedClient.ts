@@ -12,11 +12,11 @@ import {
 } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { ShortCodesClient } from "../../../src";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -47,6 +47,10 @@ export const recorderOptions: RecorderStartOptions = {
       { key: "x-ms-client-request-id", value: "Sanitized" },
     ],
   },
+  removeCentralSanitizers: [
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createRecordedClient(
@@ -120,7 +124,7 @@ export async function createRecordedClientWithToken(
     };
   }
 
-  if (isNode) {
+  if (isNodeLike) {
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(

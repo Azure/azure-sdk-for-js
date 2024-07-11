@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the workspace.
@@ -21,15 +24,18 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/PrivateEndpointConnection/createOrUpdate.json
  */
 async function workspacePutPrivateEndpointConnection() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "rg-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "rg-1234";
   const workspaceName = "testworkspace";
   const privateEndpointConnectionName = "{privateEndpointConnectionName}";
   const properties: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Auto-Approved",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -37,9 +43,13 @@ async function workspacePutPrivateEndpointConnection() {
     resourceGroupName,
     workspaceName,
     privateEndpointConnectionName,
-    properties
+    properties,
   );
   console.log(result);
 }
 
-workspacePutPrivateEndpointConnection().catch(console.error);
+async function main() {
+  workspacePutPrivateEndpointConnection();
+}
+
+main().catch(console.error);

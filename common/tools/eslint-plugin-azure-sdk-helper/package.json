@@ -5,19 +5,28 @@
   "sdk-type": "utility",
   "private": true,
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "~5.57.0",
-    "@typescript-eslint/parser": "~5.57.0",
+    "@typescript-eslint/eslint-plugin": "~7.16.0",
+    "@typescript-eslint/parser": "~7.16.0",
     "eslint": "^8.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-no-only-tests": "^3.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-tsdoc": "^0.2.10",
-    "eslint-plugin-markdown": "^4.0.0"
+    "eslint-plugin-markdown": "^5.0.0"
   },
   "dependencies": {
-    "@typescript-eslint/experimental-utils": "~5.57.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "typescript": "~5.3.3"
+    "@eslint/compat": "^1.0.1",
+    "@eslint/js": "~9.2.0",
+    "@typescript-eslint/typescript-estree": "~7.16.0",
+    "@types/eslint": "~8.56.10",
+    "@types/estree": "~1.0.0",
+    "@typescript-eslint/utils": "~7.16.0",
+    "eslint-config-prettier": "^9.0.0",
+    "glob": "^10.3.10",
+    "typescript-eslint": "~7.16.0",
+    "typescript": "~5.5.3",
+    "tslib": "^2.6.2"
   },
   "scripts": {
     "audit": "echo skipped",

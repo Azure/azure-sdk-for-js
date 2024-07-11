@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get properties of a client.
  *
  * @summary Get properties of a client.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Clients_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Clients_Get.json
  */
 async function clientsGet() {
   const subscriptionId =

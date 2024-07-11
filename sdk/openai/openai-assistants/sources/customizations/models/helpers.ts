@@ -11,7 +11,7 @@ import {
 import { camelCaseKeys } from "../api/util.js";
 
 export function parseRequiredToolCallOutput(
-  requiredToolCallOutput: RequiredToolCallOutput
+  requiredToolCallOutput: RequiredToolCallOutput,
 ): RequiredToolCall {
   return {
     type: "function",
@@ -39,7 +39,7 @@ export function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
 }
 
 function parseCodeInterpreterToolCallDetailsOutput(
-  codeInterpreterToolCallDetailsOutput: CodeInterpreterToolCallDetailsOutput
+  codeInterpreterToolCallDetailsOutput: CodeInterpreterToolCallDetailsOutput,
 ): CodeInterpreterToolCallDetails {
   const { ...rest } = codeInterpreterToolCallDetailsOutput;
   return { ...camelCaseKeys(rest) };

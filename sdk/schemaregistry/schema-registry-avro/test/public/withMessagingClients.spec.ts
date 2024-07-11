@@ -22,7 +22,7 @@ import { assertError } from "./utils/assertError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient";
@@ -44,7 +44,7 @@ interface ScenariosTestInfo<T> {
 }
 
 describe("With messaging clients", function () {
-  const eventHubsConnectionString = env.EVENTHUB_AVRO_CONNECTION_STRING || "";
+  const eventHubAvroHostName = env.EVENTHUB_AVRO_HOST_NAME || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 
@@ -56,7 +56,7 @@ describe("With messaging clients", function () {
       createEventHubsClient({
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
-        eventHubsConnectionString,
+        eventHubAvroHostName,
       }),
     );
     client.initialize();

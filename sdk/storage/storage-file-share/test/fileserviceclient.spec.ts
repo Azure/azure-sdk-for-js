@@ -16,7 +16,7 @@ import {
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
 import { Context } from "mocha";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 
 describe("FileServiceClient", () => {
   let recorder: Recorder;
@@ -512,7 +512,6 @@ describe("FileServiceClient Premium", () => {
     assert.ok(propertiesSet.protocol?.smb?.multichannel);
   });
 
-  // Skipped for now as this feature is not available in our test account's region yet.
   it.skip("Share Enable Protocol & Share Squash Root", async function (this: Context) {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
@@ -525,6 +524,7 @@ describe("FileServiceClient Premium", () => {
         nfsEnabled: true,
       },
       rootSquash,
+      enableSnapshotVirtualDirectoryAccess: true,
     });
 
     // get properties
@@ -532,6 +532,7 @@ describe("FileServiceClient Premium", () => {
     const getRes = await shareClient.getProperties();
     assert.deepStrictEqual(getRes.protocols, expectedProtocols);
     assert.deepStrictEqual(getRes.rootSquash, rootSquash);
+    assert.ok(getRes.enableSnapshotVirtualDirectoryAccess);
 
     // set properties
     rootSquash = "AllSquash";
@@ -548,6 +549,7 @@ describe("FileServiceClient Premium", () => {
       if (share.name === shareName) {
         assert.deepStrictEqual(share.properties.protocols, expectedProtocols);
         assert.deepStrictEqual(share.properties.rootSquash, rootSquash);
+        assert.ok(share.properties.enableSnapshotVirtualDirectoryAccess);
       } else if (share.name === shareName1) {
         assert.deepStrictEqual(share.properties.protocols, protocols);
       }

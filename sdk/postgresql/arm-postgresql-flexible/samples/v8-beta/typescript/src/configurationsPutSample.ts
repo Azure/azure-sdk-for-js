@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Configuration,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a configuration of a server.
  *
  * @summary Updates a configuration of a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ConfigurationUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ConfigurationUpdate.json
  */
 async function updateAUserConfiguration() {
   const subscriptionId =
@@ -35,13 +35,13 @@ async function updateAUserConfiguration() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurations.beginPutAndWait(
     resourceGroupName,
     serverName,
     configurationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

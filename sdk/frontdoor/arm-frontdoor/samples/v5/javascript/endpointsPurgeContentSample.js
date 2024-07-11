@@ -30,7 +30,7 @@ async function purgeContentFromFrontDoor() {
   const result = await client.endpoints.beginPurgeContentAndWait(
     resourceGroupName,
     frontDoorName,
-    contentFilePaths
+    contentFilePaths,
   );
   console.log(result);
 }

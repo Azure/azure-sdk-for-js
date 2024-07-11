@@ -38,6 +38,12 @@ import {
   EncryptedSimUploadList,
   SimsBulkUploadEncryptedOptionalParams,
   SimsBulkUploadEncryptedResponse,
+  SimMove,
+  SimsMoveOptionalParams,
+  SimsMoveResponse,
+  SimClone,
+  SimsCloneOptionalParams,
+  SimsCloneResponse,
   SimsListByGroupNextResponse,
 } from "../models";
 
@@ -647,6 +653,190 @@ export class SimsImpl implements Sims {
   }
 
   /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  async beginMove(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsMoveResponse>, SimsMoveResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SimsMoveResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, parameters, options },
+      spec: moveOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SimsMoveResponse,
+      OperationState<SimsMoveResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  async beginMoveAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<SimsMoveResponse> {
+    const poller = await this.beginMove(
+      resourceGroupName,
+      simGroupName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Clone SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to clone the SIMs.
+   * @param options The options parameters.
+   */
+  async beginClone(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsCloneResponse>, SimsCloneResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SimsCloneResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, parameters, options },
+      spec: cloneOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SimsCloneResponse,
+      OperationState<SimsCloneResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Clone SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to clone the SIMs.
+   * @param options The options parameters.
+   */
+  async beginCloneAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<SimsCloneResponse> {
+    const poller = await this.beginClone(
+      resourceGroupName,
+      simGroupName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
@@ -852,6 +1042,70 @@ const bulkUploadEncryptedOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters13,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.simGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const moveOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/moveSims",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters14,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.simGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const cloneOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/cloneSims",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

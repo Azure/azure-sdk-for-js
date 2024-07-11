@@ -3,13 +3,14 @@
 
 import { AzureAuthorityHosts } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder, RecorderStartOptions, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, isLiveMode } from "@azure-tools/test-recorder";
 import {
   ContainerRegistryContentClient,
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
 } from "../../src";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import { createXhrHttpClient } from "@azure-tools/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -17,9 +18,6 @@ import { createXhrHttpClient, isNode } from "@azure/test-utils";
 const envSetupForPlayback: Record<string, string> = {
   CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
   CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT: "https://myregistry.azurecr.io",
-  CONTAINERREGISTRY_TENANT_ID: "12345678-1234-1234-1234-123456789012",
-  CONTAINERREGISTRY_CLIENT_ID: "azure_client_id",
-  CONTAINERREGISTRY_CLIENT_SECRET: "azure_client_secret",
   SUBSCRIPTION_ID: "subscription_id",
   RESOURCE_GROUP: "resource_group_id",
   REGISTRY: "myregistry",
@@ -60,6 +58,13 @@ export const recorderStartOptions: RecorderStartOptions = {
       },
     ],
   },
+
+  removeCentralSanitizers: [
+    // our own refresh token sanitizer above replaces the value with a valid JWT which is required for tests to work
+    "AZSDK3401",
+    // "name" as used in tag properties is not secret and does not need to be sanitized
+    "AZSDK3493",
+  ],
 };
 
 function getAuthority(endpoint: string): AzureAuthorityHosts | undefined {
@@ -98,7 +103,7 @@ export function createRegistryClient(
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
+  const httpClient = isNodeLike || isLiveMode() ? undefined : createXhrHttpClient();
   const clientOptions = {
     audience,
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
@@ -109,14 +114,7 @@ export function createRegistryClient(
     return new ContainerRegistryClient(endpoint, recorder.configureClientOptions(clientOptions));
   }
 
-  const credential = createTestCredential(
-    { ...tokenCredentialOptions, httpClient },
-    {
-      tenantId: env.CONTAINERREGISTRY_TENANT_ID,
-      clientId: env.CONTAINERREGISTRY_CLIENT_ID,
-      clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    },
-  );
+  const credential = createTestCredential({ ...tokenCredentialOptions, httpClient });
 
   return new ContainerRegistryClient(
     endpoint,
@@ -139,14 +137,7 @@ export function createBlobClient(
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
   };
 
-  const credential = createTestCredential(
-    { ...tokenCredentialOptions },
-    {
-      tenantId: env.CONTAINERREGISTRY_TENANT_ID,
-      clientId: env.CONTAINERREGISTRY_CLIENT_ID,
-      clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    },
-  );
+  const credential = createTestCredential(tokenCredentialOptions);
 
   return new ContainerRegistryContentClient(
     endpoint,

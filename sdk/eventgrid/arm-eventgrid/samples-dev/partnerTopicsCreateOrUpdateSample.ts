@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates a new partner topic with the specified parameters.
  *
  * @summary Asynchronously creates a new partner topic with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerTopics_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerTopics_CreateOrUpdate.json
  */
 async function partnerTopicsCreateOrUpdate() {
   const subscriptionId =
@@ -33,14 +33,14 @@ async function partnerTopicsCreateOrUpdate() {
     messageForActivation: "Example message for activation",
     partnerRegistrationImmutableId: "6f541064-031d-4cc8-9ec3-a3b4fc0f7185",
     partnerTopicFriendlyDescription: "Example description",
-    source: "ContosoCorp.Accounts.User1"
+    source: "ContosoCorp.Accounts.User1",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerTopics.createOrUpdate(
     resourceGroupName,
     partnerTopicName,
-    partnerTopicInfo
+    partnerTopicInfo,
   );
   console.log(result);
 }

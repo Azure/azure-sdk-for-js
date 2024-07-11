@@ -20,7 +20,7 @@ import {
   DatabaseTablesListBySchemaResponse,
   DatabaseTablesGetOptionalParams,
   DatabaseTablesGetResponse,
-  DatabaseTablesListBySchemaNextResponse
+  DatabaseTablesListBySchemaNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,14 +50,14 @@ export class DatabaseTablesImpl implements DatabaseTables {
     serverName: string,
     databaseName: string,
     schemaName: string,
-    options?: DatabaseTablesListBySchemaOptionalParams
+    options?: DatabaseTablesListBySchemaOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseTable> {
     const iter = this.listBySchemaPagingAll(
       resourceGroupName,
       serverName,
       databaseName,
       schemaName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class DatabaseTablesImpl implements DatabaseTables {
           databaseName,
           schemaName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class DatabaseTablesImpl implements DatabaseTables {
     databaseName: string,
     schemaName: string,
     options?: DatabaseTablesListBySchemaOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseTable[]> {
     let result: DatabaseTablesListBySchemaResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class DatabaseTablesImpl implements DatabaseTables {
         serverName,
         databaseName,
         schemaName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +112,7 @@ export class DatabaseTablesImpl implements DatabaseTables {
         databaseName,
         schemaName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,14 +126,14 @@ export class DatabaseTablesImpl implements DatabaseTables {
     serverName: string,
     databaseName: string,
     schemaName: string,
-    options?: DatabaseTablesListBySchemaOptionalParams
+    options?: DatabaseTablesListBySchemaOptionalParams,
   ): AsyncIterableIterator<DatabaseTable> {
     for await (const page of this.listBySchemaPagingPage(
       resourceGroupName,
       serverName,
       databaseName,
       schemaName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,11 +153,11 @@ export class DatabaseTablesImpl implements DatabaseTables {
     serverName: string,
     databaseName: string,
     schemaName: string,
-    options?: DatabaseTablesListBySchemaOptionalParams
+    options?: DatabaseTablesListBySchemaOptionalParams,
   ): Promise<DatabaseTablesListBySchemaResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, schemaName, options },
-      listBySchemaOperationSpec
+      listBySchemaOperationSpec,
     );
   }
 
@@ -177,7 +177,7 @@ export class DatabaseTablesImpl implements DatabaseTables {
     databaseName: string,
     schemaName: string,
     tableName: string,
-    options?: DatabaseTablesGetOptionalParams
+    options?: DatabaseTablesGetOptionalParams,
   ): Promise<DatabaseTablesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -186,9 +186,9 @@ export class DatabaseTablesImpl implements DatabaseTables {
         databaseName,
         schemaName,
         tableName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -208,7 +208,7 @@ export class DatabaseTablesImpl implements DatabaseTables {
     databaseName: string,
     schemaName: string,
     nextLink: string,
-    options?: DatabaseTablesListBySchemaNextOptionalParams
+    options?: DatabaseTablesListBySchemaNextOptionalParams,
   ): Promise<DatabaseTablesListBySchemaNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -217,9 +217,9 @@ export class DatabaseTablesImpl implements DatabaseTables {
         databaseName,
         schemaName,
         nextLink,
-        options
+        options,
       },
-      listBySchemaNextOperationSpec
+      listBySchemaNextOperationSpec,
     );
   }
 }
@@ -227,14 +227,13 @@ export class DatabaseTablesImpl implements DatabaseTables {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySchemaOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseTableListResult
+      bodyMapper: Mappers.DatabaseTableListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [
@@ -243,20 +242,19 @@ const listBySchemaOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.schemaName
+    Parameters.schemaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseTable
+      bodyMapper: Mappers.DatabaseTable,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -266,19 +264,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.schemaName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySchemaNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseTableListResult
+      bodyMapper: Mappers.DatabaseTableListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -287,8 +285,8 @@ const listBySchemaNextOperationSpec: coreClient.OperationSpec = {
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.nextLink,
-    Parameters.schemaName
+    Parameters.schemaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

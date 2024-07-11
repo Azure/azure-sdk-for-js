@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create backup for a given server with specified backup name.
  *
  * @summary Create backup for a given server with specified backup name.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2022-09-30-preview/examples/BackupPut.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/BackupPut.json
  */
 async function createBackupForAServer() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function createBackupForAServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.backups.put(
     resourceGroupName,
     serverName,
-    backupName
+    backupName,
   );
   console.log(result);
 }

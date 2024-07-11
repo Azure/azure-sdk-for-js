@@ -19,7 +19,7 @@
     "@types/uuid": "^8.0.0",
     "ts-node": "^8.3.0",
     "tslib": "^2.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.5.3"
   },
   "private": true,
   "scripts": {

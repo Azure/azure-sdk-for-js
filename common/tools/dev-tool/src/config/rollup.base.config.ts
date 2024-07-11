@@ -169,7 +169,7 @@ export function sourcemaps() {
         return { code, map: null };
       } catch (e) {
         // eslint-disable-next-line no-inner-declarations
-        function toString(error: any): string {
+        function toString(error: unknown): string {
           return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
         }
         this.warn({ message: toString(e), id });

@@ -20,7 +20,7 @@ import {
   TopicTypesListEventTypesOptionalParams,
   TopicTypesListEventTypesResponse,
   TopicTypesGetOptionalParams,
-  TopicTypesGetResponse
+  TopicTypesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class TopicTypesImpl implements TopicTypes {
    * @param options The options parameters.
    */
   public list(
-    options?: TopicTypesListOptionalParams
+    options?: TopicTypesListOptionalParams,
   ): PagedAsyncIterableIterator<TopicTypeInfo> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class TopicTypesImpl implements TopicTypes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: TopicTypesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<TopicTypeInfo[]> {
     let result: TopicTypesListResponse;
     result = await this._list(options);
@@ -70,7 +70,7 @@ export class TopicTypesImpl implements TopicTypes {
   }
 
   private async *listPagingAll(
-    options?: TopicTypesListOptionalParams
+    options?: TopicTypesListOptionalParams,
   ): AsyncIterableIterator<TopicTypeInfo> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -84,7 +84,7 @@ export class TopicTypesImpl implements TopicTypes {
    */
   public listEventTypes(
     topicTypeName: string,
-    options?: TopicTypesListEventTypesOptionalParams
+    options?: TopicTypesListEventTypesOptionalParams,
   ): PagedAsyncIterableIterator<EventType> {
     const iter = this.listEventTypesPagingAll(topicTypeName, options);
     return {
@@ -99,14 +99,14 @@ export class TopicTypesImpl implements TopicTypes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listEventTypesPagingPage(topicTypeName, options, settings);
-      }
+      },
     };
   }
 
   private async *listEventTypesPagingPage(
     topicTypeName: string,
     options?: TopicTypesListEventTypesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<EventType[]> {
     let result: TopicTypesListEventTypesResponse;
     result = await this._listEventTypes(topicTypeName, options);
@@ -115,11 +115,11 @@ export class TopicTypesImpl implements TopicTypes {
 
   private async *listEventTypesPagingAll(
     topicTypeName: string,
-    options?: TopicTypesListEventTypesOptionalParams
+    options?: TopicTypesListEventTypesOptionalParams,
   ): AsyncIterableIterator<EventType> {
     for await (const page of this.listEventTypesPagingPage(
       topicTypeName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,7 +130,7 @@ export class TopicTypesImpl implements TopicTypes {
    * @param options The options parameters.
    */
   private _list(
-    options?: TopicTypesListOptionalParams
+    options?: TopicTypesListOptionalParams,
   ): Promise<TopicTypesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -142,11 +142,11 @@ export class TopicTypesImpl implements TopicTypes {
    */
   get(
     topicTypeName: string,
-    options?: TopicTypesGetOptionalParams
+    options?: TopicTypesGetOptionalParams,
   ): Promise<TopicTypesGetResponse> {
     return this.client.sendOperationRequest(
       { topicTypeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class TopicTypesImpl implements TopicTypes {
    */
   private _listEventTypes(
     topicTypeName: string,
-    options?: TopicTypesListEventTypesOptionalParams
+    options?: TopicTypesListEventTypesOptionalParams,
   ): Promise<TopicTypesListEventTypesResponse> {
     return this.client.sendOperationRequest(
       { topicTypeName, options },
-      listEventTypesOperationSpec
+      listEventTypesOperationSpec,
     );
   }
 }
@@ -173,40 +173,40 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopicTypesListResult
+      bodyMapper: Mappers.TopicTypesListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.EventGrid/topicTypes/{topicTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopicTypeInfo
+      bodyMapper: Mappers.TopicTypeInfo,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.topicTypeName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listEventTypesOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.EventGrid/topicTypes/{topicTypeName}/eventTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventTypesListResult
+      bodyMapper: Mappers.EventTypesListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.topicTypeName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

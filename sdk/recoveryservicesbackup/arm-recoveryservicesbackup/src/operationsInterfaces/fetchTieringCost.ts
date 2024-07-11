@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FetchTieringCostInfoRequestUnion,
   FetchTieringCostPostOptionalParams,
-  FetchTieringCostPostResponse
+  FetchTieringCostPostResponse,
 } from "../models";
 
 /** Interface representing a FetchTieringCost. */
@@ -29,7 +29,7 @@ export interface FetchTieringCost {
     resourceGroupName: string,
     vaultName: string,
     parameters: FetchTieringCostInfoRequestUnion,
-    options?: FetchTieringCostPostOptionalParams
+    options?: FetchTieringCostPostOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FetchTieringCostPostResponse>,
@@ -50,6 +50,6 @@ export interface FetchTieringCost {
     resourceGroupName: string,
     vaultName: string,
     parameters: FetchTieringCostInfoRequestUnion,
-    options?: FetchTieringCostPostOptionalParams
+    options?: FetchTieringCostPostOptionalParams,
   ): Promise<FetchTieringCostPostResponse>;
 }

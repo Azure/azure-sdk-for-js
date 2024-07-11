@@ -10,7 +10,7 @@ import {
   uriSanitizers,
 } from "./utils";
 import { QueueClient, QueueServiceClient } from "../src";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";

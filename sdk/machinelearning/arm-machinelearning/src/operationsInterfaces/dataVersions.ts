@@ -14,7 +14,7 @@ import {
   DataVersionsGetOptionalParams,
   DataVersionsGetResponse,
   DataVersionsCreateOrUpdateOptionalParams,
-  DataVersionsCreateOrUpdateResponse
+  DataVersionsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface DataVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DataVersionsListOptionalParams
+    options?: DataVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<DataVersionBase>;
   /**
    * Delete version.
@@ -46,7 +46,7 @@ export interface DataVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: DataVersionsDeleteOptionalParams
+    options?: DataVersionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get version.
@@ -61,7 +61,7 @@ export interface DataVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: DataVersionsGetOptionalParams
+    options?: DataVersionsGetOptionalParams,
   ): Promise<DataVersionsGetResponse>;
   /**
    * Create or update version.
@@ -78,6 +78,6 @@ export interface DataVersions {
     name: string,
     version: string,
     body: DataVersionBase,
-    options?: DataVersionsCreateOrUpdateOptionalParams
+    options?: DataVersionsCreateOrUpdateOptionalParams,
   ): Promise<DataVersionsCreateOrUpdateResponse>;
 }

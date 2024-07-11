@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SecurityPolicyUpdateParameters,
-  CdnManagementClient
+  CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing security policy within a profile.
  *
  * @summary Updates an existing security policy within a profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/SecurityPolicies_Patch.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/SecurityPolicies_Patch.json
  */
 async function securityPoliciesPatch() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -35,22 +35,19 @@ async function securityPoliciesPatch() {
         {
           domains: [
             {
-              id:
-                "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain1"
+              id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain1",
             },
             {
-              id:
-                "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain2"
-            }
+              id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain2",
+            },
           ],
-          patternsToMatch: ["/*"]
-        }
+          patternsToMatch: ["/*"],
+        },
       ],
       wafPolicy: {
-        id:
-          "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest"
-      }
-    }
+        id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -58,7 +55,7 @@ async function securityPoliciesPatch() {
     resourceGroupName,
     profileName,
     securityPolicyName,
-    securityPolicyUpdateProperties
+    securityPolicyUpdateProperties,
   );
   console.log(result);
 }

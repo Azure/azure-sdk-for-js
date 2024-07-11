@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
  *
  * @summary Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafPolicyPatch.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyPatch.json
  */
 async function patchesSpecificPolicy() {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function patchesSpecificPolicy() {
   const result = await client.policies.beginUpdateAndWait(
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

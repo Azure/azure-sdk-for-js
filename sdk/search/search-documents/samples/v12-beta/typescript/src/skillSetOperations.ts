@@ -5,17 +5,13 @@
  * @summary Demonstrates the Skillset Operations.
  */
 
-import {
-  AzureKeyCredential,
-  SearchIndexerClient,
-  SearchIndexerSkillset,
-} from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SearchIndexerClient, SearchIndexerSkillset } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 
 const TEST_SKILLSET_NAME = "example-skillset-sample-1";
 
@@ -112,11 +108,11 @@ async function deleteSkillset(skillsetName: string, client: SearchIndexerClient)
 
 async function main(): Promise<void> {
   console.log(`Running Skillset Operations Sample....`);
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
   try {
     await createSkillset(TEST_SKILLSET_NAME, client);
     await getAndUpdateSkillset(TEST_SKILLSET_NAME, client);

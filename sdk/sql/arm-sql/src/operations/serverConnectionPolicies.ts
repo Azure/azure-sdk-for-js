@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   ServerConnectionPoliciesGetResponse,
   ServerConnectionPoliciesCreateOrUpdateOptionalParams,
   ServerConnectionPoliciesCreateOrUpdateResponse,
-  ServerConnectionPoliciesListByServerNextResponse
+  ServerConnectionPoliciesListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,12 +55,12 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerConnectionPoliciesListByServerOptionalParams
+    options?: ServerConnectionPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerConnectionPolicy> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
     resourceGroupName: string,
     serverName: string,
     options?: ServerConnectionPoliciesListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerConnectionPolicy[]> {
     let result: ServerConnectionPoliciesListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerConnectionPoliciesListByServerOptionalParams
+    options?: ServerConnectionPoliciesListByServerOptionalParams,
   ): AsyncIterableIterator<ServerConnectionPolicy> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
     resourceGroupName: string,
     serverName: string,
     connectionPolicyName: ConnectionPolicyName,
-    options?: ServerConnectionPoliciesGetOptionalParams
+    options?: ServerConnectionPoliciesGetOptionalParams,
   ): Promise<ServerConnectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, connectionPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,7 +160,7 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
     serverName: string,
     connectionPolicyName: ConnectionPolicyName,
     parameters: ServerConnectionPolicy,
-    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams
+    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerConnectionPoliciesCreateOrUpdateResponse>,
@@ -169,21 +169,20 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerConnectionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -192,8 +191,8 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -201,8 +200,8 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -213,16 +212,16 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
         serverName,
         connectionPolicyName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerConnectionPoliciesCreateOrUpdateResponse,
       OperationState<ServerConnectionPoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -242,14 +241,14 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
     serverName: string,
     connectionPolicyName: ConnectionPolicyName,
     parameters: ServerConnectionPolicy,
-    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams
+    options?: ServerConnectionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ServerConnectionPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       connectionPolicyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -264,11 +263,11 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerConnectionPoliciesListByServerOptionalParams
+    options?: ServerConnectionPoliciesListByServerOptionalParams,
   ): Promise<ServerConnectionPoliciesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -284,11 +283,11 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ServerConnectionPoliciesListByServerNextOptionalParams
+    options?: ServerConnectionPoliciesListByServerNextOptionalParams,
   ): Promise<ServerConnectionPoliciesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -296,14 +295,13 @@ export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies/{connectionPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies/{connectionPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConnectionPolicy
+      bodyMapper: Mappers.ServerConnectionPolicy,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion7],
   urlParameters: [
@@ -311,29 +309,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.connectionPolicyName
+    Parameters.connectionPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies/{connectionPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies/{connectionPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConnectionPolicy
+      bodyMapper: Mappers.ServerConnectionPolicy,
     },
     201: {
-      bodyMapper: Mappers.ServerConnectionPolicy
+      bodyMapper: Mappers.ServerConnectionPolicy,
     },
     202: {
-      bodyMapper: Mappers.ServerConnectionPolicy
+      bodyMapper: Mappers.ServerConnectionPolicy,
     },
     204: {
-      bodyMapper: Mappers.ServerConnectionPolicy
+      bodyMapper: Mappers.ServerConnectionPolicy,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters62,
   queryParameters: [Parameters.apiVersion7],
@@ -342,48 +339,47 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.connectionPolicyName
+    Parameters.connectionPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/connectionPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConnectionPolicyListResult
+      bodyMapper: Mappers.ServerConnectionPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerConnectionPolicyListResult
+      bodyMapper: Mappers.ServerConnectionPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

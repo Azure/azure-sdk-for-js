@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect } from "@azure/test-utils";
+import { assert, expect } from "@azure-tools/test-utils";
 import { WebPubSubClientOptions } from "../src/models";
 import { WebPubSubJsonProtocol } from "../src/protocols";
 import { WebPubSubClient } from "../src/webPubSubClient";

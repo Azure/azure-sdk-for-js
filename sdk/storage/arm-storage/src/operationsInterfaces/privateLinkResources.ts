@@ -8,7 +8,7 @@
 
 import {
   PrivateLinkResourcesListByStorageAccountOptionalParams,
-  PrivateLinkResourcesListByStorageAccountResponse
+  PrivateLinkResourcesListByStorageAccountResponse,
 } from "../models";
 
 /** Interface representing a PrivateLinkResources. */
@@ -25,6 +25,6 @@ export interface PrivateLinkResources {
   listByStorageAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourcesListByStorageAccountOptionalParams
+    options?: PrivateLinkResourcesListByStorageAccountOptionalParams,
   ): Promise<PrivateLinkResourcesListByStorageAccountResponse>;
 }

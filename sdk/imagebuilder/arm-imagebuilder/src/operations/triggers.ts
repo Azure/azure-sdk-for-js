@@ -16,7 +16,7 @@ import { ImageBuilderClient } from "../imageBuilderClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   TriggersCreateOrUpdateResponse,
   TriggersDeleteOptionalParams,
   TriggersDeleteResponse,
-  TriggersListByImageTemplateNextResponse
+  TriggersListByImageTemplateNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,12 +55,12 @@ export class TriggersImpl implements Triggers {
   public listByImageTemplate(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: TriggersListByImageTemplateOptionalParams
+    options?: TriggersListByImageTemplateOptionalParams,
   ): PagedAsyncIterableIterator<Trigger> {
     const iter = this.listByImageTemplatePagingAll(
       resourceGroupName,
       imageTemplateName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class TriggersImpl implements Triggers {
           resourceGroupName,
           imageTemplateName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class TriggersImpl implements Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     options?: TriggersListByImageTemplateOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Trigger[]> {
     let result: TriggersListByImageTemplateResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class TriggersImpl implements Triggers {
       result = await this._listByImageTemplate(
         resourceGroupName,
         imageTemplateName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class TriggersImpl implements Triggers {
         resourceGroupName,
         imageTemplateName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,12 +119,12 @@ export class TriggersImpl implements Triggers {
   private async *listByImageTemplatePagingAll(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: TriggersListByImageTemplateOptionalParams
+    options?: TriggersListByImageTemplateOptionalParams,
   ): AsyncIterableIterator<Trigger> {
     for await (const page of this.listByImageTemplatePagingPage(
       resourceGroupName,
       imageTemplateName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,11 +139,11 @@ export class TriggersImpl implements Triggers {
   private _listByImageTemplate(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: TriggersListByImageTemplateOptionalParams
+    options?: TriggersListByImageTemplateOptionalParams,
   ): Promise<TriggersListByImageTemplateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, imageTemplateName, options },
-      listByImageTemplateOperationSpec
+      listByImageTemplateOperationSpec,
     );
   }
 
@@ -158,11 +158,11 @@ export class TriggersImpl implements Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     triggerName: string,
-    options?: TriggersGetOptionalParams
+    options?: TriggersGetOptionalParams,
   ): Promise<TriggersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, imageTemplateName, triggerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -179,7 +179,7 @@ export class TriggersImpl implements Triggers {
     imageTemplateName: string,
     triggerName: string,
     parameters: Trigger,
-    options?: TriggersCreateOrUpdateOptionalParams
+    options?: TriggersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TriggersCreateOrUpdateResponse>,
@@ -188,21 +188,20 @@ export class TriggersImpl implements Triggers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TriggersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class TriggersImpl implements Triggers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,8 +219,8 @@ export class TriggersImpl implements Triggers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -232,9 +231,9 @@ export class TriggersImpl implements Triggers {
         imageTemplateName,
         triggerName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       TriggersCreateOrUpdateResponse,
@@ -242,7 +241,7 @@ export class TriggersImpl implements Triggers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,14 +260,14 @@ export class TriggersImpl implements Triggers {
     imageTemplateName: string,
     triggerName: string,
     parameters: Trigger,
-    options?: TriggersCreateOrUpdateOptionalParams
+    options?: TriggersCreateOrUpdateOptionalParams,
   ): Promise<TriggersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       imageTemplateName,
       triggerName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -284,7 +283,7 @@ export class TriggersImpl implements Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     triggerName: string,
-    options?: TriggersDeleteOptionalParams
+    options?: TriggersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TriggersDeleteResponse>,
@@ -293,21 +292,20 @@ export class TriggersImpl implements Triggers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TriggersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -316,8 +314,8 @@ export class TriggersImpl implements Triggers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -325,15 +323,15 @@ export class TriggersImpl implements Triggers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, imageTemplateName, triggerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       TriggersDeleteResponse,
@@ -341,7 +339,7 @@ export class TriggersImpl implements Triggers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -358,13 +356,13 @@ export class TriggersImpl implements Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     triggerName: string,
-    options?: TriggersDeleteOptionalParams
+    options?: TriggersDeleteOptionalParams,
   ): Promise<TriggersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       imageTemplateName,
       triggerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -380,11 +378,11 @@ export class TriggersImpl implements Triggers {
     resourceGroupName: string,
     imageTemplateName: string,
     nextLink: string,
-    options?: TriggersListByImageTemplateNextOptionalParams
+    options?: TriggersListByImageTemplateNextOptionalParams,
   ): Promise<TriggersListByImageTemplateNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, imageTemplateName, nextLink, options },
-      listByImageTemplateNextOperationSpec
+      listByImageTemplateNextOperationSpec,
     );
   }
 }
@@ -392,38 +390,15 @@ export class TriggersImpl implements Triggers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByImageTemplateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TriggerCollection
+      bodyMapper: Mappers.TriggerCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.imageTemplateName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers/{triggerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Trigger
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -431,31 +406,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.imageTemplateName,
-    Parameters.triggerName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers/{triggerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Trigger,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.imageTemplateName,
+    Parameters.triggerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers/{triggerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers/{triggerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Trigger
+      bodyMapper: Mappers.Trigger,
     },
     201: {
-      bodyMapper: Mappers.Trigger
+      bodyMapper: Mappers.Trigger,
     },
     202: {
-      bodyMapper: Mappers.Trigger
+      bodyMapper: Mappers.Trigger,
     },
     204: {
-      bodyMapper: Mappers.Trigger
+      bodyMapper: Mappers.Trigger,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -464,32 +459,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.imageTemplateName,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers/{triggerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers/{triggerName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.TriggersDeleteHeaders
+      headersMapper: Mappers.TriggersDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.TriggersDeleteHeaders
+      headersMapper: Mappers.TriggersDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.TriggersDeleteHeaders
+      headersMapper: Mappers.TriggersDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.TriggersDeleteHeaders
+      headersMapper: Mappers.TriggersDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -497,29 +491,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.imageTemplateName,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByImageTemplateNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TriggerCollection
+      bodyMapper: Mappers.TriggerCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.imageTemplateName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

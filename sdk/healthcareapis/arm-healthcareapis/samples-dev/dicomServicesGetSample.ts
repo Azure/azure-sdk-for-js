@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the properties of the specified DICOM Service.
  *
  * @summary Gets the properties of the specified DICOM Service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/dicomservices/DicomServices_Get.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/dicomservices/DicomServices_Get.json
  */
 async function getADicomservice() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getADicomservice() {
   const result = await client.dicomServices.get(
     resourceGroupName,
     workspaceName,
-    dicomServiceName
+    dicomServiceName,
   );
   console.log(result);
 }

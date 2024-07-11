@@ -3,11 +3,6 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import path from "path";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
 import {
   AccessToken,
   DefaultAzureCredential,
@@ -15,7 +10,13 @@ import {
   WorkloadIdentityCredential,
   WorkloadIdentityCredentialOptions,
 } from "../../../src";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+
 import { AuthenticationResult } from "@azure/msal-node";
+import { Context } from "mocha";
+import { assert } from "@azure-tools/test-utils";
+import { env } from "@azure-tools/test-recorder";
+import path from "path";
 import sinon from "sinon";
 
 describe("WorkloadIdentityCredential", function () {
@@ -69,8 +70,8 @@ describe("WorkloadIdentityCredential", function () {
   });
 
   it("authenticates with ManagedIdentity Credential", async function (this: Context) {
+    process.env.AZURE_FEDERATED_TOKEN_FILE = tokenFilePath;
     const credential = new ManagedIdentityCredential("dummy-clientId");
-    assert.equal(credential["clientId"], "dummy-clientId");
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());
@@ -125,26 +126,18 @@ describe("WorkloadIdentityCredential", function () {
   });
 });
 
-async function validateWorkloadIdentityCredential(
+function validateWorkloadIdentityCredential(
   credential: WorkloadIdentityCredential,
   token: AccessToken,
   options: { clientId: string; tenantId: string; tokenFilePath: string },
-) {
-  const {
-    clientId: expectedClientId,
-    tenantId: expectedTenantId,
-    tokenFilePath: expectedFederatedTokenFilePath,
-  } = options;
+): void {
+  const { tenantId: expectedTenantId, tokenFilePath: expectedFederatedTokenFilePath } = options;
   const actualFederatedTokenFilePath = credential["federatedTokenFilePath"];
   const clientAssertionCredential = credential["client"];
-  const actualClientId = clientAssertionCredential
-    ? clientAssertionCredential["clientId"]
-    : undefined;
   const actualTenantId = clientAssertionCredential
     ? clientAssertionCredential["tenantId"]
     : undefined;
   assert.equal(actualFederatedTokenFilePath, expectedFederatedTokenFilePath);
-  assert.equal(actualClientId, expectedClientId);
   assert.equal(actualTenantId, expectedTenantId);
   assert.ok(token?.token);
   assert.ok(token?.expiresOnTimestamp! > Date.now());

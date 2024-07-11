@@ -20,7 +20,7 @@ import {
   VerifiedPartnersListResponse,
   VerifiedPartnersGetOptionalParams,
   VerifiedPartnersGetResponse,
-  VerifiedPartnersListNextResponse
+  VerifiedPartnersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
    * @param options The options parameters.
    */
   public list(
-    options?: VerifiedPartnersListOptionalParams
+    options?: VerifiedPartnersListOptionalParams,
   ): PagedAsyncIterableIterator<VerifiedPartner> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: VerifiedPartnersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VerifiedPartner[]> {
     let result: VerifiedPartnersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
   }
 
   private async *listPagingAll(
-    options?: VerifiedPartnersListOptionalParams
+    options?: VerifiedPartnersListOptionalParams,
   ): AsyncIterableIterator<VerifiedPartner> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -97,11 +97,11 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
    */
   get(
     verifiedPartnerName: string,
-    options?: VerifiedPartnersGetOptionalParams
+    options?: VerifiedPartnersGetOptionalParams,
   ): Promise<VerifiedPartnersGetResponse> {
     return this.client.sendOperationRequest(
       { verifiedPartnerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -110,7 +110,7 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
    * @param options The options parameters.
    */
   private _list(
-    options?: VerifiedPartnersListOptionalParams
+    options?: VerifiedPartnersListOptionalParams,
   ): Promise<VerifiedPartnersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -122,11 +122,11 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
    */
   private _listNext(
     nextLink: string,
-    options?: VerifiedPartnersListNextOptionalParams
+    options?: VerifiedPartnersListNextOptionalParams,
   ): Promise<VerifiedPartnersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -138,39 +138,39 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VerifiedPartner
+      bodyMapper: Mappers.VerifiedPartner,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.verifiedPartnerName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.EventGrid/verifiedPartners",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VerifiedPartnersListResult
+      bodyMapper: Mappers.VerifiedPartnersListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VerifiedPartnersListResult
+      bodyMapper: Mappers.VerifiedPartnersListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

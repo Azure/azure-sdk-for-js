@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a storage account in Microsoft Azure.
  *
  * @summary Deletes a storage account in Microsoft Azure.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountDelete.json
  */
 async function storageAccountDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function storageAccountDelete() {
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.delete(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }

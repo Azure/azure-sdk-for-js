@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerServiceClient.",
-  "version": "19.8.1",
+  "version": "20.0.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -29,8 +29,8 @@
   "types": "./types/arm-containerservice.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
-    "mkdirp": "^2.1.2",
-    "typescript": "~5.3.3",
+    "mkdirp": "^3.0.1",
+    "typescript": "~5.5.3",
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",

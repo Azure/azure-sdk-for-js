@@ -33,49 +33,55 @@ import {
   DeploymentStacksExportTemplateAtSubscriptionOptionalParams,
   DeploymentStacksExportTemplateAtSubscriptionResponse,
   DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
-  DeploymentStacksExportTemplateAtManagementGroupResponse
+  DeploymentStacksExportTemplateAtManagementGroupResponse,
+  DeploymentStacksValidateStackAtResourceGroupOptionalParams,
+  DeploymentStacksValidateStackAtResourceGroupResponse,
+  DeploymentStacksValidateStackAtSubscriptionOptionalParams,
+  DeploymentStacksValidateStackAtSubscriptionResponse,
+  DeploymentStacksValidateStackAtManagementGroupOptionalParams,
+  DeploymentStacksValidateStackAtManagementGroupResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeploymentStacks. */
 export interface DeploymentStacks {
   /**
-   * Lists all the Deployment Stacks within the specified resource group.
+   * Lists all the Deployment stacks within the specified Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listAtResourceGroup(
     resourceGroupName: string,
-    options?: DeploymentStacksListAtResourceGroupOptionalParams
+    options?: DeploymentStacksListAtResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentStack>;
   /**
-   * Lists all the Deployment Stacks within the specified subscription.
+   * Lists all the Deployment stacks within the specified Subscription.
    * @param options The options parameters.
    */
   listAtSubscription(
-    options?: DeploymentStacksListAtSubscriptionOptionalParams
+    options?: DeploymentStacksListAtSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentStack>;
   /**
-   * Lists all the Deployment Stacks within the specified management group.
-   * @param managementGroupId Management Group.
+   * Lists all the Deployment stacks within the specified Management Group.
+   * @param managementGroupId Management Group id.
    * @param options The options parameters.
    */
   listAtManagementGroup(
     managementGroupId: string,
-    options?: DeploymentStacksListAtManagementGroupOptionalParams
+    options?: DeploymentStacksListAtManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentStack>;
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>,
@@ -83,20 +89,20 @@ export interface DeploymentStacks {
     >
   >;
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAtResourceGroupAndWait(
     resourceGroupName: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>;
   /**
-   * Gets a Deployment Stack with a given name.
+   * Gets a Deployment stack with a given name at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -104,11 +110,11 @@ export interface DeploymentStacks {
   getAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksGetAtResourceGroupOptionalParams
+    options?: DeploymentStacksGetAtResourceGroupOptionalParams,
   ): Promise<DeploymentStacksGetAtResourceGroupResponse>;
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Resource Group scope. When operation completes, status code
+   * 200 returned without content.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -116,11 +122,11 @@ export interface DeploymentStacks {
   beginDeleteAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams
+    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Resource Group scope. When operation completes, status code
+   * 200 returned without content.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -128,18 +134,18 @@ export interface DeploymentStacks {
   beginDeleteAtResourceGroupAndWait(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams
+    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams,
   ): Promise<void>;
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAtSubscription(
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>,
@@ -147,57 +153,57 @@ export interface DeploymentStacks {
     >
   >;
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAtSubscriptionAndWait(
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>;
   /**
-   * Gets a Deployment Stack with a given name.
+   * Gets a Deployment stack with a given name at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   getAtSubscription(
     deploymentStackName: string,
-    options?: DeploymentStacksGetAtSubscriptionOptionalParams
+    options?: DeploymentStacksGetAtSubscriptionOptionalParams,
   ): Promise<DeploymentStacksGetAtSubscriptionResponse>;
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Subscription scope. When operation completes, status code 200
+   * returned without content.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   beginDeleteAtSubscription(
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams
+    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Subscription scope. When operation completes, status code 200
+   * returned without content.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   beginDeleteAtSubscriptionAndWait(
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams
+    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams,
   ): Promise<void>;
   /**
-   * Creates or updates a Deployment Stack.
-   * @param managementGroupId Management Group.
+   * Creates or updates a Deployment stack at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>,
@@ -205,55 +211,55 @@ export interface DeploymentStacks {
     >
   >;
   /**
-   * Creates or updates a Deployment Stack.
-   * @param managementGroupId Management Group.
+   * Creates or updates a Deployment stack at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAtManagementGroupAndWait(
     managementGroupId: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,
   ): Promise<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>;
   /**
-   * Gets a Deployment Stack with a given name.
-   * @param managementGroupId Management Group.
+   * Gets a Deployment stack with a given name at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   getAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksGetAtManagementGroupOptionalParams
+    options?: DeploymentStacksGetAtManagementGroupOptionalParams,
   ): Promise<DeploymentStacksGetAtManagementGroupResponse>;
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
-   * @param managementGroupId Management Group.
+   * Deletes a Deployment stack by name at Management Group scope. When operation completes, status code
+   * 200 returned without content.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   beginDeleteAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams
+    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
-   * @param managementGroupId Management Group.
+   * Deletes a Deployment stack by name at Management Group scope. When operation completes, status code
+   * 200 returned without content.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   beginDeleteAtManagementGroupAndWait(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams
+    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams,
   ): Promise<void>;
   /**
-   * Exports the template used to create the deployment stack.
+   * Exports the template used to create the Deployment stack at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -261,26 +267,121 @@ export interface DeploymentStacks {
   exportTemplateAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams
+    options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams,
   ): Promise<DeploymentStacksExportTemplateAtResourceGroupResponse>;
   /**
-   * Exports the template used to create the deployment stack.
+   * Exports the template used to create the Deployment stack at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   exportTemplateAtSubscription(
     deploymentStackName: string,
-    options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams
+    options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams,
   ): Promise<DeploymentStacksExportTemplateAtSubscriptionResponse>;
   /**
-   * Exports the template used to create the deployment stack.
-   * @param managementGroupId Management Group.
+   * Exports the template used to create the Deployment stack at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   exportTemplateAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams
+    options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
   ): Promise<DeploymentStacksExportTemplateAtManagementGroupResponse>;
+  /**
+   * Runs preflight validation on the Resource Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  beginValidateStackAtResourceGroup(
+    resourceGroupName: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentStacksValidateStackAtResourceGroupResponse>,
+      DeploymentStacksValidateStackAtResourceGroupResponse
+    >
+  >;
+  /**
+   * Runs preflight validation on the Resource Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  beginValidateStackAtResourceGroupAndWait(
+    resourceGroupName: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams,
+  ): Promise<DeploymentStacksValidateStackAtResourceGroupResponse>;
+  /**
+   * Runs preflight validation on the Subscription scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  beginValidateStackAtSubscription(
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentStacksValidateStackAtSubscriptionResponse>,
+      DeploymentStacksValidateStackAtSubscriptionResponse
+    >
+  >;
+  /**
+   * Runs preflight validation on the Subscription scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  beginValidateStackAtSubscriptionAndWait(
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams,
+  ): Promise<DeploymentStacksValidateStackAtSubscriptionResponse>;
+  /**
+   * Runs preflight validation on the Management Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param managementGroupId Management Group id.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  beginValidateStackAtManagementGroup(
+    managementGroupId: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentStacksValidateStackAtManagementGroupResponse>,
+      DeploymentStacksValidateStackAtManagementGroupResponse
+    >
+  >;
+  /**
+   * Runs preflight validation on the Management Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param managementGroupId Management Group id.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  beginValidateStackAtManagementGroupAndWait(
+    managementGroupId: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams,
+  ): Promise<DeploymentStacksValidateStackAtManagementGroupResponse>;
 }

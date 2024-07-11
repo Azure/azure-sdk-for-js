@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update an extension.
  *
  * @summary The operation to update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionUpdateMaximumSetGen() {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function virtualMachineScaleSetExtensionUpdateMaximumSetGen() {
  * This sample demonstrates how to The operation to update an extension.
  *
  * @summary The operation to update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionUpdateMinimumSetGen() {
   const subscriptionId =

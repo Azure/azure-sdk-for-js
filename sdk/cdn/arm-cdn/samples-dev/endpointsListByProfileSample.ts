@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists existing CDN endpoints.
  *
  * @summary Lists existing CDN endpoints.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Endpoints_ListByProfile.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_ListByProfile.json
  */
 async function endpointsListByProfile() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function endpointsListByProfile() {
   const resArray = new Array();
   for await (let item of client.endpoints.listByProfile(
     resourceGroupName,
-    profileName
+    profileName,
   )) {
     resArray.push(item);
   }

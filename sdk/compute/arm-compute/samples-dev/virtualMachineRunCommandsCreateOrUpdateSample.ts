@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create or update the run command.
  *
  * @summary The operation to create or update the run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/runCommandExamples/VirtualMachineRunCommand_CreateOrUpdate.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/runCommandExamples/VirtualMachineRunCommand_CreateOrUpdate.json
  */
 async function createOrUpdateARunCommand() {
   const subscriptionId =

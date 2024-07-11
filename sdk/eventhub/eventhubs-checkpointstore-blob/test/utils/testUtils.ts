@@ -26,3 +26,7 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
     [EnvVarKeys.STORAGE_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.STORAGE_CONNECTION_STRING),
   };
 }
+
+export function addToOffset(offset: string, numToAdd: number): string {
+  return `${parseInt(offset) + numToAdd}`;
+}

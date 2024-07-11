@@ -20,20 +20,20 @@ export const DeploymentStackListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeploymentStack"
-            }
-          }
-        }
+              className: "DeploymentStack",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStacksTemplateLink: coreClient.CompositeMapper = {
@@ -44,35 +44,108 @@ export const DeploymentStacksTemplateLink: coreClient.CompositeMapper = {
       uri: {
         serializedName: "uri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       relativePath: {
         serializedName: "relativePath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       queryString: {
         serializedName: "queryString",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       contentVersion: {
         serializedName: "contentVersion",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentParameter",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      reference: {
+        serializedName: "reference",
+        type: {
+          name: "Composite",
+          className: "KeyVaultParameterReference",
+        },
+      },
+    },
+  },
+};
+
+export const KeyVaultParameterReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultParameterReference",
+    modelProperties: {
+      keyVault: {
+        serializedName: "keyVault",
+        type: {
+          name: "Composite",
+          className: "KeyVaultReference",
+        },
+      },
+      secretName: {
+        serializedName: "secretName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      secretVersion: {
+        serializedName: "secretVersion",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const KeyVaultReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStacksParametersLink: coreClient.CompositeMapper = {
@@ -84,45 +157,45 @@ export const DeploymentStacksParametersLink: coreClient.CompositeMapper = {
         serializedName: "uri",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       contentVersion: {
         serializedName: "contentVersion",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const DeploymentStackPropertiesActionOnUnmanage: coreClient.CompositeMapper = {
+export const ActionOnUnmanage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DeploymentStackPropertiesActionOnUnmanage",
+    className: "ActionOnUnmanage",
     modelProperties: {
       resources: {
         serializedName: "resources",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceGroups: {
         serializedName: "resourceGroups",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       managementGroups: {
         serializedName: "managementGroups",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStacksDebugSetting: coreClient.CompositeMapper = {
@@ -133,11 +206,11 @@ export const DeploymentStacksDebugSetting: coreClient.CompositeMapper = {
       detailLevel: {
         serializedName: "detailLevel",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DenySettings: coreClient.CompositeMapper = {
@@ -149,8 +222,8 @@ export const DenySettings: coreClient.CompositeMapper = {
         serializedName: "mode",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       excludedPrincipals: {
         serializedName: "excludedPrincipals",
@@ -158,10 +231,10 @@ export const DenySettings: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       excludedActions: {
         serializedName: "excludedActions",
@@ -169,19 +242,19 @@ export const DenySettings: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       applyToChildScopes: {
         serializedName: "applyToChildScopes",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceReference: coreClient.CompositeMapper = {
@@ -193,11 +266,11 @@ export const ResourceReference: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStacksError: coreClient.CompositeMapper = {
@@ -209,27 +282,11 @@ export const DeploymentStacksError: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorResponse"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -241,22 +298,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -266,10 +323,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -279,13 +336,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -297,19 +354,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const AzureResourceBase: coreClient.CompositeMapper = {
@@ -321,32 +378,32 @@ export const AzureResourceBase: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -357,41 +414,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStackTemplateDefinition: coreClient.CompositeMapper = {
@@ -403,18 +460,87 @@ export const DeploymentStackTemplateDefinition: coreClient.CompositeMapper = {
         serializedName: "template",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       templateLink: {
         serializedName: "templateLink",
         type: {
           name: "Composite",
-          className: "DeploymentStacksTemplateLink"
-        }
-      }
-    }
-  }
+          className: "DeploymentStacksTemplateLink",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentStackValidateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentStackValidateProperties",
+    modelProperties: {
+      actionOnUnmanage: {
+        serializedName: "actionOnUnmanage",
+        type: {
+          name: "Composite",
+          className: "ActionOnUnmanage",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String",
+        },
+      },
+      denySettings: {
+        serializedName: "denySettings",
+        type: {
+          name: "Composite",
+          className: "DenySettings",
+        },
+      },
+      deploymentScope: {
+        serializedName: "deploymentScope",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "DeploymentParameter" },
+          },
+        },
+      },
+      templateLink: {
+        serializedName: "templateLink",
+        type: {
+          name: "Composite",
+          className: "DeploymentStacksTemplateLink",
+        },
+      },
+      validatedResources: {
+        serializedName: "validatedResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ResourceReferenceExtended: coreClient.CompositeMapper = {
@@ -423,9 +549,9 @@ export const ResourceReferenceExtended: coreClient.CompositeMapper = {
     className: "ResourceReferenceExtended",
     modelProperties: {
       ...ResourceReference.type.modelProperties,
-      ...DeploymentStacksError.type.modelProperties
-    }
-  }
+      ...DeploymentStacksError.type.modelProperties,
+    },
+  },
 };
 
 export const ManagedResourceReference: coreClient.CompositeMapper = {
@@ -435,21 +561,20 @@ export const ManagedResourceReference: coreClient.CompositeMapper = {
     modelProperties: {
       ...ResourceReference.type.modelProperties,
       status: {
-        defaultValue: "None",
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       denyStatus: {
-        defaultValue: "None",
+        defaultValue: "none",
         serializedName: "denyStatus",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStackProperties: coreClient.CompositeMapper = {
@@ -462,72 +587,87 @@ export const DeploymentStackProperties: coreClient.CompositeMapper = {
         serializedName: "template",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       templateLink: {
         serializedName: "templateLink",
         type: {
           name: "Composite",
-          className: "DeploymentStacksTemplateLink"
-        }
+          className: "DeploymentStacksTemplateLink",
+        },
       },
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: {
+            type: { name: "Composite", className: "DeploymentParameter" },
+          },
+        },
       },
       parametersLink: {
         serializedName: "parametersLink",
         type: {
           name: "Composite",
-          className: "DeploymentStacksParametersLink"
-        }
+          className: "DeploymentStacksParametersLink",
+        },
       },
       actionOnUnmanage: {
         serializedName: "actionOnUnmanage",
         type: {
           name: "Composite",
-          className: "DeploymentStackPropertiesActionOnUnmanage"
-        }
+          className: "ActionOnUnmanage",
+        },
       },
       debugSetting: {
         serializedName: "debugSetting",
         type: {
           name: "Composite",
-          className: "DeploymentStacksDebugSetting"
-        }
+          className: "DeploymentStacksDebugSetting",
+        },
+      },
+      bypassStackOutOfSyncError: {
+        serializedName: "bypassStackOutOfSyncError",
+        type: {
+          name: "Boolean",
+        },
       },
       deploymentScope: {
         serializedName: "deploymentScope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         constraints: {
-          MaxLength: 4096
+          MaxLength: 4096,
         },
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       denySettings: {
         serializedName: "denySettings",
         type: {
           name: "Composite",
-          className: "DenySettings"
-        }
+          className: "DenySettings",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
       },
       detachedResources: {
         serializedName: "detachedResources",
@@ -537,10 +677,10 @@ export const DeploymentStackProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceReference"
-            }
-          }
-        }
+              className: "ResourceReference",
+            },
+          },
+        },
       },
       deletedResources: {
         serializedName: "deletedResources",
@@ -550,10 +690,10 @@ export const DeploymentStackProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceReference"
-            }
-          }
-        }
+              className: "ResourceReference",
+            },
+          },
+        },
       },
       failedResources: {
         serializedName: "failedResources",
@@ -563,10 +703,10 @@ export const DeploymentStackProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceReferenceExtended"
-            }
-          }
-        }
+              className: "ResourceReferenceExtended",
+            },
+          },
+        },
       },
       resources: {
         serializedName: "resources",
@@ -576,35 +716,53 @@ export const DeploymentStackProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManagedResourceReference"
-            }
-          }
-        }
+              className: "ManagedResourceReference",
+            },
+          },
+        },
       },
       deploymentId: {
         serializedName: "deploymentId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       outputs: {
         serializedName: "outputs",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       duration: {
         serializedName: "duration",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentStackValidateResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentStackValidateResult",
+    modelProperties: {
+      ...AzureResourceBase.type.modelProperties,
+      ...DeploymentStacksError.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DeploymentStackValidateProperties",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStack: coreClient.CompositeMapper = {
@@ -616,213 +774,137 @@ export const DeploymentStack: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      error: {
-        serializedName: "properties.error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponse"
-        }
-      },
-      template: {
-        serializedName: "properties.template",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      templateLink: {
-        serializedName: "properties.templateLink",
-        type: {
-          name: "Composite",
-          className: "DeploymentStacksTemplateLink"
-        }
-      },
-      parameters: {
-        serializedName: "properties.parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      parametersLink: {
-        serializedName: "properties.parametersLink",
-        type: {
-          name: "Composite",
-          className: "DeploymentStacksParametersLink"
-        }
-      },
-      actionOnUnmanage: {
-        serializedName: "properties.actionOnUnmanage",
-        type: {
-          name: "Composite",
-          className: "DeploymentStackPropertiesActionOnUnmanage"
-        }
-      },
-      debugSetting: {
-        serializedName: "properties.debugSetting",
-        type: {
-          name: "Composite",
-          className: "DeploymentStacksDebugSetting"
-        }
-      },
-      deploymentScope: {
-        serializedName: "properties.deploymentScope",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        constraints: {
-          MaxLength: 4096
+          value: { type: { name: "String" } },
         },
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
       },
-      denySettings: {
-        serializedName: "properties.denySettings",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "DenySettings"
-        }
+          className: "DeploymentStackProperties",
+        },
       },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      detachedResources: {
-        serializedName: "properties.detachedResources",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceReference"
-            }
-          }
-        }
-      },
-      deletedResources: {
-        serializedName: "properties.deletedResources",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceReference"
-            }
-          }
-        }
-      },
-      failedResources: {
-        serializedName: "properties.failedResources",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceReferenceExtended"
-            }
-          }
-        }
-      },
-      resources: {
-        serializedName: "properties.resources",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagedResourceReference"
-            }
-          }
-        }
-      },
-      deploymentId: {
-        serializedName: "properties.deploymentId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      outputs: {
-        serializedName: "properties.outputs",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      duration: {
-        serializedName: "properties.duration",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
-export const DeploymentStacksDeleteAtResourceGroupHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeploymentStacksDeleteAtResourceGroupHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const DeploymentStacksDeleteAtResourceGroupHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentStacksDeleteAtResourceGroupHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const DeploymentStacksDeleteAtSubscriptionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeploymentStacksDeleteAtSubscriptionHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const DeploymentStacksDeleteAtSubscriptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentStacksDeleteAtSubscriptionHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const DeploymentStacksDeleteAtManagementGroupHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeploymentStacksDeleteAtManagementGroupHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const DeploymentStacksDeleteAtManagementGroupHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentStacksDeleteAtManagementGroupHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DeploymentStacksValidateStackAtResourceGroupHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentStacksValidateStackAtResourceGroupHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DeploymentStacksValidateStackAtSubscriptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentStacksValidateStackAtSubscriptionHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DeploymentStacksValidateStackAtManagementGroupHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentStacksValidateStackAtManagementGroupHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };

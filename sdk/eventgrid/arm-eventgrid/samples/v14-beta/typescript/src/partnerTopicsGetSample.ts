@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of a partner topic.
  *
  * @summary Get properties of a partner topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerTopics_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerTopics_Get.json
  */
 async function partnerTopicsGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function partnerTopicsGet() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerTopics.get(
     resourceGroupName,
-    partnerTopicName
+    partnerTopicName,
   );
   console.log(result);
 }

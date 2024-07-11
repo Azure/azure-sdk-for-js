@@ -17,7 +17,7 @@ import {
   listAllTrunks,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - set trunks${useAad ? " [AAD]" : ""}`, function () {

@@ -12,12 +12,16 @@
         "OSVmImage": "env:LINUXVMIMAGE",
         "Pool": "env:LINUXPOOL"
       },
-      "macos-11": {
+      "macos-latest": {
         "OSVmImage": "env:MACVMIMAGE",
         "Pool": "env:MACPOOL"
       }
     },
-    "NodeTestVersion": ["18.19.x", "20.x", "21.2.0"],
+    "NodeTestVersion": [
+      "18.x",
+      "20.x",
+      "22.x"
+    ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
@@ -44,7 +48,7 @@
           "TestResultsFiles": "**/test-results.browser.xml"
         }
       },
-      "NodeTestVersion": "18.19.x"
+      "NodeTestVersion": "18.x"
     },
     {
       "Agent": {
@@ -54,8 +58,11 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "18.19.x",
-      "DependencyVersion": ["max", "min"],
+      "NodeTestVersion": "18.x",
+      "DependencyVersion": [
+        "max",
+        "min"
+      ],
       "TestResultsFiles": "**/test-results.xml"
     }
   ]

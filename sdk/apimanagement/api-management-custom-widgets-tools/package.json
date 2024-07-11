@@ -30,10 +30,10 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo skipped",
     "build:test": "npm run clean && tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && api-extractor run --local",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --no-test-proxy --browser -- --coverage",
     "integration-test:node": "dev-tool run test:vitest --no-test-proxy -- -coverage",
@@ -57,10 +57,9 @@
     "@vitest/coverage-istanbul": "^1.4.0",
     "eslint": "^8.0.0",
     "playwright": "^1.42.1",
-    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "tshy": "^1.13.0",
-    "typescript": "~5.3.3",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vitest": "^1.4.0"
   },
   "dependencies": {
@@ -79,21 +78,32 @@
       "esm",
       "commonjs"
     ],
+    "esmDialects": [
+      "browser"
+    ],
     "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "source": "./src/index.ts",
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     }
   },
-  "main": "dist/index.js",
-  "types": "./dist/commonjs/index.d.ts"
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

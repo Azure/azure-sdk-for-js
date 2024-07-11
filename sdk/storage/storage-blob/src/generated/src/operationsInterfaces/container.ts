@@ -43,7 +43,7 @@ import {
   ContainerListBlobHierarchySegmentOptionalParams,
   ContainerListBlobHierarchySegmentResponse,
   ContainerGetAccountInfoOptionalParams,
-  ContainerGetAccountInfoResponse
+  ContainerGetAccountInfoResponse,
 } from "../models";
 
 /** Interface representing a Container. */
@@ -54,7 +54,7 @@ export interface Container {
    * @param options The options parameters.
    */
   create(
-    options?: ContainerCreateOptionalParams
+    options?: ContainerCreateOptionalParams,
   ): Promise<ContainerCreateResponse>;
   /**
    * returns all user-defined metadata and system properties for the specified container. The data
@@ -62,7 +62,7 @@ export interface Container {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ContainerGetPropertiesOptionalParams
+    options?: ContainerGetPropertiesOptionalParams,
   ): Promise<ContainerGetPropertiesResponse>;
   /**
    * operation marks the specified container for deletion. The container and any blobs contained within
@@ -70,14 +70,14 @@ export interface Container {
    * @param options The options parameters.
    */
   delete(
-    options?: ContainerDeleteOptionalParams
+    options?: ContainerDeleteOptionalParams,
   ): Promise<ContainerDeleteResponse>;
   /**
    * operation sets one or more user-defined name-value pairs for the specified container.
    * @param options The options parameters.
    */
   setMetadata(
-    options?: ContainerSetMetadataOptionalParams
+    options?: ContainerSetMetadataOptionalParams,
   ): Promise<ContainerSetMetadataResponse>;
   /**
    * gets the permissions for the specified container. The permissions indicate whether container data
@@ -85,7 +85,7 @@ export interface Container {
    * @param options The options parameters.
    */
   getAccessPolicy(
-    options?: ContainerGetAccessPolicyOptionalParams
+    options?: ContainerGetAccessPolicyOptionalParams,
   ): Promise<ContainerGetAccessPolicyResponse>;
   /**
    * sets the permissions for the specified container. The permissions indicate whether blobs in a
@@ -93,14 +93,14 @@ export interface Container {
    * @param options The options parameters.
    */
   setAccessPolicy(
-    options?: ContainerSetAccessPolicyOptionalParams
+    options?: ContainerSetAccessPolicyOptionalParams,
   ): Promise<ContainerSetAccessPolicyResponse>;
   /**
    * Restores a previously-deleted container.
    * @param options The options parameters.
    */
   restore(
-    options?: ContainerRestoreOptionalParams
+    options?: ContainerRestoreOptionalParams,
   ): Promise<ContainerRestoreResponse>;
   /**
    * Renames an existing container.
@@ -109,7 +109,7 @@ export interface Container {
    */
   rename(
     sourceContainerName: string,
-    options?: ContainerRenameOptionalParams
+    options?: ContainerRenameOptionalParams,
   ): Promise<ContainerRenameResponse>;
   /**
    * The Batch operation allows multiple API calls to be embedded into a single HTTP request.
@@ -123,7 +123,7 @@ export interface Container {
     contentLength: number,
     multipartContentType: string,
     body: coreRestPipeline.RequestBodyType,
-    options?: ContainerSubmitBatchOptionalParams
+    options?: ContainerSubmitBatchOptionalParams,
   ): Promise<ContainerSubmitBatchResponse>;
   /**
    * The Filter Blobs operation enables callers to list blobs in a container whose tags match a given
@@ -131,7 +131,7 @@ export interface Container {
    * @param options The options parameters.
    */
   filterBlobs(
-    options?: ContainerFilterBlobsOptionalParams
+    options?: ContainerFilterBlobsOptionalParams,
   ): Promise<ContainerFilterBlobsResponse>;
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration can
@@ -139,7 +139,7 @@ export interface Container {
    * @param options The options parameters.
    */
   acquireLease(
-    options?: ContainerAcquireLeaseOptionalParams
+    options?: ContainerAcquireLeaseOptionalParams,
   ): Promise<ContainerAcquireLeaseResponse>;
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration can
@@ -149,7 +149,7 @@ export interface Container {
    */
   releaseLease(
     leaseId: string,
-    options?: ContainerReleaseLeaseOptionalParams
+    options?: ContainerReleaseLeaseOptionalParams,
   ): Promise<ContainerReleaseLeaseResponse>;
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration can
@@ -159,7 +159,7 @@ export interface Container {
    */
   renewLease(
     leaseId: string,
-    options?: ContainerRenewLeaseOptionalParams
+    options?: ContainerRenewLeaseOptionalParams,
   ): Promise<ContainerRenewLeaseResponse>;
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration can
@@ -167,7 +167,7 @@ export interface Container {
    * @param options The options parameters.
    */
   breakLease(
-    options?: ContainerBreakLeaseOptionalParams
+    options?: ContainerBreakLeaseOptionalParams,
   ): Promise<ContainerBreakLeaseResponse>;
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration can
@@ -181,14 +181,14 @@ export interface Container {
   changeLease(
     leaseId: string,
     proposedLeaseId: string,
-    options?: ContainerChangeLeaseOptionalParams
+    options?: ContainerChangeLeaseOptionalParams,
   ): Promise<ContainerChangeLeaseResponse>;
   /**
    * [Update] The List Blobs operation returns a list of the blobs under the specified container
    * @param options The options parameters.
    */
   listBlobFlatSegment(
-    options?: ContainerListBlobFlatSegmentOptionalParams
+    options?: ContainerListBlobFlatSegmentOptionalParams,
   ): Promise<ContainerListBlobFlatSegmentResponse>;
   /**
    * [Update] The List Blobs operation returns a list of the blobs under the specified container
@@ -200,13 +200,13 @@ export interface Container {
    */
   listBlobHierarchySegment(
     delimiter: string,
-    options?: ContainerListBlobHierarchySegmentOptionalParams
+    options?: ContainerListBlobHierarchySegmentOptionalParams,
   ): Promise<ContainerListBlobHierarchySegmentResponse>;
   /**
    * Returns the sku name and account kind
    * @param options The options parameters.
    */
   getAccountInfo(
-    options?: ContainerGetAccountInfoOptionalParams
+    options?: ContainerGetAccountInfoOptionalParams,
   ): Promise<ContainerGetAccountInfoResponse>;
 }

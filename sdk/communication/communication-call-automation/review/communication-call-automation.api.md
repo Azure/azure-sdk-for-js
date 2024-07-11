@@ -4,14 +4,13 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { MicrosoftTeamsAppIdentifier } from '@azure/communication-common';
 import { MicrosoftTeamsUserIdentifier } from '@azure/communication-common';
 import { OperationOptions } from '@azure/core-client';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
@@ -118,7 +117,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | TeamsRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -193,7 +192,7 @@ export interface CallInvite {
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
-    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier;
+    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier;
 }
 
 // @public
@@ -589,6 +588,7 @@ export type MediaStreamingAudioChannelType = string;
 export interface MediaStreamingConfiguration {
     audioChannelType: MediaStreamingAudioChannelType;
     contentType: MediaStreamingContentType;
+    startMediaStreaming?: boolean;
     transportType: MediaStreamingTransportType;
     transportUrl: string;
 }
@@ -743,6 +743,9 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
+// @public
 export type RecordingState = string;
 
 // Warning: (ae-forgotten-export) The symbol "RestRecordingStateChanged" needs to be exported by the entry point index.d.ts
@@ -760,11 +763,19 @@ export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
     // (undocumented)
+    recordingKind: string;
+    // (undocumented)
     recordingState: RecordingState;
 }
 
 // @public
-export type RecordingStorage = "acs" | "blobStorage";
+export interface RecordingStorage {
+    recordingDestinationContainerUrl?: string;
+    recordingStorageKind: RecordingStorageKind;
+}
+
+// @public
+export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
 
 // @public
 export interface RedirectCallOptions extends OperationOptions {
@@ -921,6 +932,7 @@ export interface StartRecordingOptions extends OperationOptions {
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpointUrl?: string;
+    recordingStorage?: RecordingStorage;
 }
 
 // @public
@@ -935,26 +947,6 @@ export type StopRecordingOptions = OperationOptions;
 // @public
 export interface StopTranscriptionOptions extends OperationOptions {
     operationContext?: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTeamsComplianceRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsComplianceRecordingStateChanged extends Omit<RestTeamsComplianceRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsComplianceRecordingStateChanged";
-    serverCallId: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsRecordingStateChanged";
-    serverCallId: string;
 }
 
 // @public

@@ -22,11 +22,10 @@
     "concurrently": "^8.2.0",
     "express": "^4.17.3",
     "eslint": "^8.56.0",
-    "prettier": "^2.5.1",
     "rimraf": "^5.0.5",
     "ts-node": "^10.0.0",
     "tslib": "^2.6.2",
-    "typescript": "~5.3.3"
+    "typescript": "~5.5.3"
   },
   "private": true,
   "scripts": {

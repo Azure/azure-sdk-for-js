@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validate a Secret in the profile.
  *
  * @summary Validate a Secret in the profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDProfiles_ValidateSecret.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_ValidateSecret.json
  */
 async function validateSecret() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

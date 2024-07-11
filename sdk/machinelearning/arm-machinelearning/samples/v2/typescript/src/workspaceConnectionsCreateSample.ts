@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   WorkspaceConnectionPropertiesV2BasicResource,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to
@@ -21,16 +24,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/WorkspaceConnection/create.json
  */
 async function createWorkspaceConnection() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "resourceGroup-1";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "resourceGroup-1";
   const workspaceName = "workspace-1";
   const connectionName = "connection-1";
   const parameters: WorkspaceConnectionPropertiesV2BasicResource = {
     properties: {
       authType: "None",
       category: "ContainerRegistry",
-      target: "www.facebook.com"
-    }
+      target: "www.facebook.com",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -38,9 +44,13 @@ async function createWorkspaceConnection() {
     resourceGroupName,
     workspaceName,
     connectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-createWorkspaceConnection().catch(console.error);
+async function main() {
+  createWorkspaceConnection();
+}
+
+main().catch(console.error);

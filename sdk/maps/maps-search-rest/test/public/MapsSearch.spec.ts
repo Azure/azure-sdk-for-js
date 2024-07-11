@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
@@ -34,7 +34,7 @@ describe("Authentication", function () {
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.
      * */
-    if (!isNode) this.skip();
+    if (!isNodeLike) this.skip();
     /**
      * Use createTestCredential() instead of new DefaultAzureCredential(), else the playback mode won't work
      * Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md#azuread-oauth2-authentication
