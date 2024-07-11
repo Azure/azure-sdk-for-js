@@ -812,7 +812,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.exists(process.env.IDENTITY_ENDPOINT);
       assert.ok(
-        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT?? ""),
         "URL does not start with expected host and path",
       );
 
@@ -867,7 +867,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.exists(process.env.IDENTITY_ENDPOINT);
       assert.ok(
-        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT?? ""),
         "URL does not start with expected host and path",
       );
 
@@ -880,7 +880,7 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(decodeURIComponent(query.get("msi_res_id")!), "RESOURCE-ID");
 
       assert.ok(
-        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT?? ""),
         "URL does not start with expected host and path",
       );
 
@@ -924,7 +924,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.exists(process.env.IDENTITY_ENDPOINT);
       assert.ok(
-        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT?? ""),
         "URL does not start with expected host and path",
       );
 
@@ -938,7 +938,7 @@ describe("ManagedIdentityCredential", function () {
       assert.equal(decodeURIComponent(query.get("client_id")!), "CLIENT-ID");
 
       assert.ok(
-        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT?? ""),
         "URL does not start with expected host and path",
       );
 
