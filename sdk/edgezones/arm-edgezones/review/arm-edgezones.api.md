@@ -22,14 +22,14 @@ export type CreatedByType = string;
 
 // @public (undocumented)
 export class EdgeZonesClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: EdgeZonesClientOptions);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: EdgeZonesClientOptionalParams);
     readonly extendedZones: ExtendedZonesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
 }
 
 // @public
-export interface EdgeZonesClientOptions extends ClientOptions {
+export interface EdgeZonesClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 

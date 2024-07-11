@@ -3,6 +3,6 @@
 
 export {
   createEdgeZones,
-  EdgeZonesClientOptions,
+  EdgeZonesClientOptionalParams,
   EdgeZonesContext,
 } from "./edgeZonesContext.js";

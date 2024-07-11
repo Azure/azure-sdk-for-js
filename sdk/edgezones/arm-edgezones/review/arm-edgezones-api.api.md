@@ -13,10 +13,10 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export function createEdgeZones(credential: TokenCredential, options?: EdgeZonesClientOptions): EdgeZonesContext;
+export function createEdgeZones(credential: TokenCredential, options?: EdgeZonesClientOptionalParams): EdgeZonesContext;
 
 // @public
-export interface EdgeZonesClientOptions extends ClientOptions {
+export interface EdgeZonesClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
