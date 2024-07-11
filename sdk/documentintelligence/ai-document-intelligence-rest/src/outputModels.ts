@@ -833,114 +833,37 @@ export type OperationDetailsOutput =
 /** Paged collection of OperationDetails items */
 export type PagedOperationDetailsOutput = Paged<OperationDetailsOutput>;
 /** Alias for OperationStatusOutput */
-export type OperationStatusOutput =
-  | string
-  | "notStarted"
-  | "running"
-  | "failed"
-  | "succeeded"
-  | "completed"
-  | "canceled";
+export type OperationStatusOutput = string;
 /** Alias for OperationKindOutput */
-export type OperationKindOutput =
-  | string
-  | "documentModelBuild"
-  | "documentModelCompose"
-  | "documentModelCopyTo"
-  | "documentClassifierCopyTo"
-  | "documentClassifierBuild";
+export type OperationKindOutput = string;
 /** Alias for DocumentBuildModeOutput */
-export type DocumentBuildModeOutput =
-  | string
-  | "template"
-  | "neural"
-  | "generative";
+export type DocumentBuildModeOutput = string;
 /** Alias for DocumentFieldTypeOutput */
-export type DocumentFieldTypeOutput =
-  | string
-  | "string"
-  | "date"
-  | "time"
-  | "phoneNumber"
-  | "number"
-  | "integer"
-  | "selectionMark"
-  | "countryRegion"
-  | "signature"
-  | "array"
-  | "object"
-  | "currency"
-  | "address"
-  | "boolean"
-  | "selectionGroup";
+export type DocumentFieldTypeOutput = string;
 /** Alias for ContentSourceKindOutput */
-export type ContentSourceKindOutput =
-  | string
-  | "url"
-  | "base64"
-  | "azureBlob"
-  | "azureBlobFileList";
+export type ContentSourceKindOutput = string;
 /** Alias for StringIndexTypeOutput */
-export type StringIndexTypeOutput =
-  | string
-  | "textElements"
-  | "unicodeCodePoint"
-  | "utf16CodeUnit";
+export type StringIndexTypeOutput = string;
 /** Alias for ContentFormatOutput */
-export type ContentFormatOutput = string | "text" | "markdown";
+export type ContentFormatOutput = string;
 /** Alias for LengthUnitOutput */
-export type LengthUnitOutput = string | "pixel" | "inch";
+export type LengthUnitOutput = string;
 /** Alias for DocumentSelectionMarkStateOutput */
-export type DocumentSelectionMarkStateOutput =
-  | string
-  | "selected"
-  | "unselected";
+export type DocumentSelectionMarkStateOutput = string;
 /** Alias for DocumentBarcodeKindOutput */
-export type DocumentBarcodeKindOutput =
-  | string
-  | "QRCode"
-  | "PDF417"
-  | "UPCA"
-  | "UPCE"
-  | "Code39"
-  | "Code128"
-  | "EAN8"
-  | "EAN13"
-  | "DataBar"
-  | "Code93"
-  | "Codabar"
-  | "DataBarExpanded"
-  | "ITF"
-  | "MicroQRCode"
-  | "Aztec"
-  | "DataMatrix"
-  | "MaxiCode";
+export type DocumentBarcodeKindOutput = string;
 /** Alias for DocumentFormulaKindOutput */
-export type DocumentFormulaKindOutput = string | "inline" | "display";
+export type DocumentFormulaKindOutput = string;
 /** Alias for ParagraphRoleOutput */
-export type ParagraphRoleOutput =
-  | string
-  | "pageHeader"
-  | "pageFooter"
-  | "pageNumber"
-  | "title"
-  | "sectionHeading"
-  | "footnote"
-  | "formulaBlock";
+export type ParagraphRoleOutput = string;
 /** Alias for DocumentTableCellKindOutput */
-export type DocumentTableCellKindOutput =
-  | string
-  | "content"
-  | "rowHeader"
-  | "columnHeader"
-  | "stubHead"
-  | "description";
+export type DocumentTableCellKindOutput = string;
 /** Alias for FontStyleOutput */
-export type FontStyleOutput = string | "normal" | "italic";
+export type FontStyleOutput = string;
 /** Alias for FontWeightOutput */
-export type FontWeightOutput = string | "normal" | "bold";
+export type FontWeightOutput = string;
 /** Alias for DocumentSignatureTypeOutput */
-export type DocumentSignatureTypeOutput = string | "signed" | "unsigned";
+export type DocumentSignatureTypeOutput = string;
 /** Paged collection of DocumentModelDetails items */
 export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
 /** Paged collection of DocumentClassifierDetails items */

@@ -174,11 +174,17 @@ export interface GetAnalyzeResultDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+export interface GetAnalyzeResultPdf200Headers {
+  /** Response content type. */
+  "content-type": "application/pdf";
+}
+
 /** The request has succeeded. */
 export interface GetAnalyzeResultPdf200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
+  headers: RawHttpHeaders & GetAnalyzeResultPdf200Headers;
 }
 
 export interface GetAnalyzeResultPdfDefaultResponse extends HttpResponse {
@@ -186,11 +192,17 @@ export interface GetAnalyzeResultPdfDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+export interface GetAnalyzeResultFigure200Headers {
+  /** Response content type. */
+  "content-type": "image/png";
+}
+
 /** The request has succeeded. */
 export interface GetAnalyzeResultFigure200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
+  headers: RawHttpHeaders & GetAnalyzeResultFigure200Headers;
 }
 
 export interface GetAnalyzeResultFigureDefaultResponse extends HttpResponse {

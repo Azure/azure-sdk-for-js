@@ -254,51 +254,18 @@ export interface ClassifierCopyAuthorization {
 }
 
 /** Alias for DocumentBuildMode */
-export type DocumentBuildMode = string | "template" | "neural" | "generative";
+export type DocumentBuildMode = string;
 /** Alias for DocumentFieldType */
-export type DocumentFieldType =
-  | string
-  | "string"
-  | "date"
-  | "time"
-  | "phoneNumber"
-  | "number"
-  | "integer"
-  | "selectionMark"
-  | "countryRegion"
-  | "signature"
-  | "array"
-  | "object"
-  | "currency"
-  | "address"
-  | "boolean"
-  | "selectionGroup";
+export type DocumentFieldType = string;
 /** Alias for ContentSourceKind */
-export type ContentSourceKind =
-  | string
-  | "url"
-  | "base64"
-  | "azureBlob"
-  | "azureBlobFileList";
+export type ContentSourceKind = string;
 /** Alias for StringIndexType */
-export type StringIndexType =
-  | string
-  | "textElements"
-  | "unicodeCodePoint"
-  | "utf16CodeUnit";
+export type StringIndexType = string;
 /** Alias for ContentFormat */
-export type ContentFormat = string | "text" | "markdown";
+export type ContentFormat = string;
 /** Alias for DocumentAnalysisFeature */
-export type DocumentAnalysisFeature =
-  | string
-  | "ocrHighResolution"
-  | "languages"
-  | "barcodes"
-  | "formulas"
-  | "keyValuePairs"
-  | "styleFont"
-  | "queryFields";
+export type DocumentAnalysisFeature = string;
 /** Alias for AnalyzeOutputOption */
-export type AnalyzeOutputOption = string | "pdf" | "figures";
+export type AnalyzeOutputOption = string;
 /** Alias for SplitMode */
-export type SplitMode = string | "auto" | "none" | "perPage";
+export type SplitMode = string;
