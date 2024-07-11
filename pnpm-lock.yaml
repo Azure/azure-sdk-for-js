@@ -15,7 +15,7 @@ importers:
         specifier: link:..\wanl-fork-azure-sdk-tools\tools\js-sdk-release-tools
         version: link:../wanl-fork-azure-sdk-tools/tools/js-sdk-release-tools
       '@azure-tools/typespec-ts':
-        specifier: ^0.30.1
+        specifier: 0.30.1
         version: 0.30.1(@azure-tools/typespec-azure-core@0.43.0(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0))(@typespec/rest@0.57.0(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0))))(@azure-tools/typespec-client-generator-core@0.43.2(@azure-tools/typespec-azure-core@0.43.0(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0))(@typespec/rest@0.57.0(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0))))(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0))(@typespec/rest@0.57.0(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0)))(@typespec/versioning@0.57.0(@typespec/compiler@0.57.0)))(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0))(@typespec/rest@0.57.0(@typespec/compiler@0.57.0)(@typespec/http@0.57.0(@typespec/compiler@0.57.0)))(@typespec/versioning@0.57.0(@typespec/compiler@0.57.0))
       '@microsoft/rush':
         specifier: 5.92.0

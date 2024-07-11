@@ -101,5 +101,6 @@
    },
    "relatedReadmeMdFiles": [
      "specification/hdinsight/resource-manager/readme.md"
-   ]
+   ],
+   "relatedTypeSpecProjectFolder": "../test-azure-rest-api-specs/specification/mongocluster/DocumentDB.MongoCluster.Management"
  }
