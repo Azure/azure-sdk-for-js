@@ -24,6 +24,10 @@ export const recorderOptions: RecorderStartOptions = {
   sanitizerOptions: {
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createRecorder(context: Test | undefined): Promise<Recorder> {

@@ -42,6 +42,11 @@ export const recorderOptions: RecorderStartOptions = {
     ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
+  removeCentralSanitizers: [
+    "AZSDK4001", // url need not be sanitized, fake conn string handles it already
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
