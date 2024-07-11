@@ -3,7 +3,11 @@
 
 import { NonStreamingOrderByResult } from "./nonStreamingOrderByResult";
 
-/** @hidden */
+/**
+ *  @hidden
+ * ord is used to compare different types. Eg. in ascending order, for cross type comparison, boolean will come first, then number and, then string.
+ * compFunc is used to compare the same type comparison.
+ */
 const TYPEORDCOMPARATOR: {
   [type: string]: { ord: number; compFunc?: (a: any, b: any) => number };
 } = Object.freeze({
@@ -88,15 +92,20 @@ export class OrderByComparator {
   }
 
   private compareValue(item1: unknown, type1: string, item2: unknown, type2: string): number {
+    //TODO: https://github.com/Azure/azure-sdk-for-js/issues/30122
+    // currently we do not support same type and cross type comparision for object and arrays.
+
     if (type1 === "object" || type2 === "object") {
       throw new Error("Tried to compare an object type");
     }
     const type1Ord = TYPEORDCOMPARATOR[type1].ord;
     const type2Ord = TYPEORDCOMPARATOR[type2].ord;
+
+    // Validate if the two item are of same type or not based on the type ordinal.
     const typeCmp = type1Ord - type2Ord;
 
+    // if not same type, compare based on the type ordinal. Lower ordinal takes precedence over higher ordinal.
     if (typeCmp !== 0) {
-      // if the types are different, use type ordinal
       return typeCmp;
     }
 

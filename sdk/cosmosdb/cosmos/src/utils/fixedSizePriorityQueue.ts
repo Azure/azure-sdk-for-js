@@ -4,6 +4,7 @@ import PriorityQueue from "priorityqueuejs";
 
 export class FixedSizePriorityQueue<T> {
   private pq: PriorityQueue<T>;
+  // The compare function should return a positive number if a is greater than b, a negative number if a is less than b, and 0 if a is equal to b.
   private compareFn: (a: T, b: T) => number;
   private pqMaxSize: number;
 
