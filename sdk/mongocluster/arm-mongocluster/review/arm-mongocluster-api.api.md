@@ -14,7 +14,7 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createMongoClusterManagement(credential: TokenCredential, options?: MongoClusterManagementClientOptions): DocumentDBContext;
+export function createMongoClusterManagement(credential: TokenCredential, options?: MongoClusterManagementClientOptionalParams): DocumentDBContext;
 
 // @public (undocumented)
 export type DocumentDBContext = Client & {
@@ -22,7 +22,7 @@ export type DocumentDBContext = Client & {
 };
 
 // @public
-export interface MongoClusterManagementClientOptions extends ClientOptions {
+export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
