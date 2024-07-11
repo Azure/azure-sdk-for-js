@@ -195,7 +195,7 @@ export interface MongoCluster extends TrackedResource {
 
 // @public (undocumented)
 export class MongoClusterManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: MongoClusterManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: MongoClusterManagementClientOptions);
     readonly firewallRules: FirewallRulesOperations;
     readonly mongoClusters: MongoClustersOperations;
     readonly operations: OperationsOperations;
@@ -205,7 +205,7 @@ export class MongoClusterManagementClient {
 }
 
 // @public
-export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
+export interface MongoClusterManagementClientOptions extends ClientOptions {
     apiVersion?: string;
 }
 

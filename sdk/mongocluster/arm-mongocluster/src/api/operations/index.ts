@@ -17,7 +17,7 @@ import {
 } from "@azure-rest/core-client";
 import { OperationsListOptionalParams } from "../../models/options.js";
 
-export function _operationsListSend(
+export function _listSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse> {
@@ -26,7 +26,7 @@ export function _operationsListSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _operationsListDeserialize(
+export async function _listDeserialize(
   result: OperationsList200Response | OperationsListDefaultResponse,
 ): Promise<_OperationListResult> {
   if (isUnexpected(result)) {
@@ -53,14 +53,14 @@ export async function _operationsListDeserialize(
 }
 
 /** List the operations for the provider */
-export function operationsList(
+export function list(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _operationsListSend(context, options),
-    _operationsListDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

@@ -39,7 +39,7 @@ describe("MongoCluster test", () => {
     client = new MongoClusterManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "czwjstest";
-    resourcename = "resourcetest";
+    resourcename = "testmongocluster";
     fireWallName = "testfilerule";
   });
 
@@ -57,7 +57,7 @@ describe("MongoCluster test", () => {
         location,
         properties: {
           administratorLogin: "mongoAdmin",
-          administratorLoginPassword: "Password01!",
+          administratorLoginPassword: "SecureString;",
           nodeGroupSpecs: [
             {
               diskSizeGB: 128,

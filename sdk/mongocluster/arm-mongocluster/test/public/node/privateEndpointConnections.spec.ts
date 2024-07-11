@@ -44,7 +44,7 @@ describe("MongoCluster test", () => {
     networkClient = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    resourcename = "resourcetest1";
+    resourcename = "resourcetest";
     virtualNetworkName = "testvn";
     privateEndpointName = "testPEC";
   });
@@ -63,7 +63,7 @@ describe("MongoCluster test", () => {
         location,
         properties: {
           administratorLogin: "mongoAdmin",
-          administratorLoginPassword: "Password01!",
+          administratorLoginPassword: "SecureString;",
           nodeGroupSpecs: [
             {
               diskSizeGB: 128,

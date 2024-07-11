@@ -5,26 +5,21 @@
 ```ts
 
 import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createMongoClusterManagement(credential: TokenCredential, options?: MongoClusterManagementClientOptions): DocumentDBContext;
+export function list(context: DocumentDBContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 
 // @public (undocumented)
-export type DocumentDBContext = Client & {
-    path: Routes;
-};
+export function _listDeserialize(result: OperationsList200Response | OperationsListDefaultResponse): Promise<_OperationListResult>;
 
-// @public
-export interface MongoClusterManagementClientOptions extends ClientOptions {
-    apiVersion?: string;
-}
+// @public (undocumented)
+export function _listSend(context: DocumentDBContext, options?: OperationsListOptionalParams): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 
 // (No @packageDocumentation comment for this package)
 
