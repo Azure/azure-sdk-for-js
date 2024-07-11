@@ -61,7 +61,7 @@ export class TenDlcClient {
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | TenDlcClientOptions,
-    maybeOptions: TenDlcClientOptions = {}
+    maybeOptions: TenDlcClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isTenDlcClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
@@ -87,7 +87,7 @@ export class TenDlcClient {
     brandId: string,
     options: CreateOrUpdateBrandOptions = {
       brandDetails: {},
-    }
+    },
   ): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-upsertUSBrand", options);
     try {
@@ -107,11 +107,11 @@ export class TenDlcClient {
     campaingId: string,
     options: CreateOrUpdateCampaignOptions = {
       campaignDetails: {},
-    }
+    },
   ): Promise<USCampaign> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-upsertUSCampaign",
-      options
+      options,
     );
     try {
       return this.client.tenDlc.upsertUSCampaign(campaingId, campaingId, updatedOptions);
@@ -143,11 +143,11 @@ export class TenDlcClient {
 
   public deleteUSCampaign(
     campaignId: string,
-    options: DeleteCampaignOptionalParams = {}
+    options: DeleteCampaignOptionalParams = {},
   ): Promise<void> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-deleteUSCampaign",
-      options
+      options,
     );
     try {
       return this.client.tenDlc.deleteUSCampaign(campaignId, updatedOptions);
@@ -194,7 +194,7 @@ export class TenDlcClient {
 
   public getUSCampaign(
     campaignId: string,
-    options: GetCampaignOptionalParams = {}
+    options: GetCampaignOptionalParams = {},
   ): Promise<USCampaign> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getUSCampaign", options);
     try {
@@ -211,11 +211,11 @@ export class TenDlcClient {
   }
 
   public listUSCampaigns(
-    options: ListCampaignsOptionalParams = {}
+    options: ListCampaignsOptionalParams = {},
   ): PagedAsyncIterableIterator<USCampaign> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-listUSCampaigns",
-      options
+      options,
     );
     try {
       return this.client.tenDlc.listUSCampaigns(updatedOptions);
@@ -251,26 +251,26 @@ export class TenDlcClient {
       options,
       (submitOptions: TenDlcSubmitUSBrandOptionalParams | undefined) => {
         return this.client.tenDlc.submitUSBrand(brandId, submitOptions);
-      }
+      },
     );
   }
 
   public submitUSCampaign(
     campaignId: string,
-    options: SubmitCampaignOptionalParams = {}
+    options: SubmitCampaignOptionalParams = {},
   ): Promise<USCampaign> {
     return tracingClient.withSpan(
       "TenDlcClient-submitUSCampaign",
       options,
       (submitOptions: TenDlcSubmitUSCampaignOptionalParams | undefined) => {
         return this.client.tenDlc.submitUSCampaign(campaignId, submitOptions);
-      }
+      },
     );
   }
 
   public cancelUSBrand(
     brandId: string,
-    options?: TenDlcCancelUSBrandOptionalParams
+    options?: TenDlcCancelUSBrandOptionalParams,
   ): Promise<TenDlcCancelUSBrandResponse> {
     const { span } = tracingClient.startSpan("TenDLCClient.cancelUSBrand", options);
     try {
@@ -288,7 +288,7 @@ export class TenDlcClient {
 
   public cancelUSCampaign(
     campaignId: string,
-    options?: TenDlcCancelUSCampaignOptionalParams
+    options?: TenDlcCancelUSCampaignOptionalParams,
   ): Promise<TenDlcCancelUSCampaignResponse> {
     const { span } = tracingClient.startSpan("TenDLCClient.cancelUSCampaign", options);
     try {
