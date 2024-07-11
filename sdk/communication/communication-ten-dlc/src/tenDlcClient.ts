@@ -87,7 +87,7 @@ export class TenDlcClient {
     brandId: string,
     id: string,
     options: CreateOrUpdateBrandOptions = {
-      brandDetails: {}
+      brandDetails: {},
     }
   ): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-upsertUSBrand", options);
@@ -108,7 +108,7 @@ export class TenDlcClient {
     campaingId: string,
     id: string,
     options: CreateOrUpdateCampaignOptions = {
-      campaignDetails: {}
+      campaignDetails: {},
     }
   ): Promise<USCampaign> {
     const { span, updatedOptions } = tracingClient.startSpan(
