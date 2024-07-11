@@ -47,10 +47,6 @@ export const recorderOptions: RecorderStartOptions = {
       { key: "x-ms-client-request-id", value: "Sanitized" },
     ],
   },
-  removeCentralSanitizers: [
-    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
-    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
-  ],
 };
 
 export async function createRecordedClient(
