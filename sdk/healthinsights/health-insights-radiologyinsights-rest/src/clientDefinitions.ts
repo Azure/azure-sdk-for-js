@@ -26,6 +26,7 @@ export interface Routes {
   (path: "/radiology-insights/jobs/{id}", id: string): GetJob;
 }
 
+/** Create a HealthInsightsclient which is a Client an defined by the resource */
 export type AzureHealthInsightsClient = Client & {
   path: Routes;
 };

@@ -973,19 +973,29 @@ export type EncounterClass =
   | "emergency"
   | "virtual"
   | "healthHome";
+
 /** Alias for DocumentType */
 export type DocumentType = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
+
 /** Alias for ClinicalDocumentType */
 export enum ClinicalDocumentTypeEnum {
+  /** Consultation documents */
   Consultation = "consultation",
+  /** Discharge summary documents */
   DischargeSummary = "dischargeSummary",
+  /** H&P documents */
   HistoryAndPhysical = "historyAndPhysical",
+  /** Radiology documents */
   RadiologyReport = "radiologyReport",
+  /** Procedure notes */
   Procedure = "procedure",
+  /** Progress notes */
   Progress = "progress",
+  /** Laboratory documents */
   Laboratory = "laboratory",
   // Add more predefined types as needed
 }
+/** Allowed types of documents to be evaluated, specified in an Enum  */
 export type ClinicalDocumentType = ClinicalDocumentTypeEnum;
 
 /** Alias for SpecialtyType */

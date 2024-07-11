@@ -40,50 +40,39 @@ export interface AnnotationOutput extends ElementOutput {
     time?: string;
 }
 
-// @public (undocumented)
+// @public
 export type AzureHealthInsightsClient = Client & {
     path: Routes;
 };
 
-// @public (undocumented)
+// @public
+export function buildMultiCollection(items: string[], parameterName: string): string;
+
+// @public
 export type ClinicalDocumentType = ClinicalDocumentTypeEnum;
 
 // @public
 export enum ClinicalDocumentTypeEnum {
-    // (undocumented)
     Consultation = "consultation",
-    // (undocumented)
     DischargeSummary = "dischargeSummary",
-    // (undocumented)
     HistoryAndPhysical = "historyAndPhysical",
-    // (undocumented)
     Laboratory = "laboratory",
-    // (undocumented)
     Procedure = "procedure",
-    // (undocumented)
     Progress = "progress",
-    // (undocumented)
     RadiologyReport = "radiologyReport"
 }
 
-// @public (undocumented)
+// @public
 export type ClinicalDocumentTypeOutput = ClinicalDocumentTypeOutputEnum;
 
 // @public
 export enum ClinicalDocumentTypeOutputEnum {
-    // (undocumented)
     Consultation = "consultation",
-    // (undocumented)
     DischargeSummary = "dischargeSummary",
-    // (undocumented)
     HistoryAndPhysical = "historyAndPhysical",
-    // (undocumented)
     Laboratory = "laboratory",
-    // (undocumented)
     Procedure = "procedure",
-    // (undocumented)
     Progress = "progress",
-    // (undocumented)
     RadiologyReport = "radiologyReport"
 }
 
@@ -241,7 +230,7 @@ export type ContactPointUseOutput = string | "home" | "work" | "temp" | "old" | 
 function createClient(endpointParam: string, credentials: TokenCredential, options?: ClientOptions): AzureHealthInsightsClient;
 export default createClient;
 
-// @public (undocumented)
+// @public
 export interface CreateJob200Headers {
     "operation-location": string;
     "x-ms-request-id"?: string;
@@ -257,7 +246,7 @@ export interface CreateJob200Response extends HttpResponse {
     status: "200";
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJob201Headers {
     "operation-location": string;
     "x-ms-request-id"?: string;
@@ -278,13 +267,13 @@ export interface CreateJobBodyParam {
     body: RadiologyInsightsJob;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobDefaultHeaders {
     "x-ms-error-code"?: string;
     "x-ms-request-id"?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: HealthInsightsErrorResponseOutput;
@@ -564,7 +553,7 @@ export interface GetJob {
     put(options: CreateJobParameters, requestOptions?: GetJobParameters): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface GetJob200Headers {
     "retry-after"?: number;
     "x-ms-request-id"?: string;
@@ -580,13 +569,13 @@ export interface GetJob200Response extends HttpResponse {
     status: "200";
 }
 
-// @public (undocumented)
+// @public
 export interface GetJobDefaultHeaders {
     "x-ms-error-code"?: string;
     "x-ms-request-id"?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: HealthInsightsErrorResponseOutput;

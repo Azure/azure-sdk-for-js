@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
-import { RadiologyInsightsJobOutput, HealthInsightsErrorResponseOutput } from "./outputModels";
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HealthInsightsErrorResponseOutput, RadiologyInsightsJobOutput } from "./outputModels";
 
+/** The headers of the succeeded request */
 export interface GetJob200Headers {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   "retry-after"?: number;
@@ -18,20 +19,20 @@ export interface GetJob200Response extends HttpResponse {
   body: RadiologyInsightsJobOutput;
   headers: RawHttpHeaders & GetJob200Headers;
 }
-
+/** The default headers of the reques */
 export interface GetJobDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
   /** An opaque, globally-unique, server-generated string identifier for the request. */
   "x-ms-request-id"?: string;
 }
-
+/** The default Response */
 export interface GetJobDefaultResponse extends HttpResponse {
   status: string;
   body: HealthInsightsErrorResponseOutput;
   headers: RawHttpHeaders & GetJobDefaultHeaders;
 }
-
+/** Creation of the Headers of the request */
 export interface CreateJob200Headers {
   /** An opaque, globally-unique, server-generated string identifier for the request. */
   "x-ms-request-id"?: string;
@@ -46,6 +47,7 @@ export interface CreateJob200Response extends HttpResponse {
   headers: RawHttpHeaders & CreateJob200Headers;
 }
 
+/** Creation of the headers */
 export interface CreateJob201Headers {
   /** An opaque, globally-unique, server-generated string identifier for the request. */
   "x-ms-request-id"?: string;
@@ -59,7 +61,7 @@ export interface CreateJob201Response extends HttpResponse {
   body: RadiologyInsightsJobOutput;
   headers: RawHttpHeaders & CreateJob201Headers;
 }
-
+/** The default header request creation */
 export interface CreateJobDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
@@ -67,6 +69,7 @@ export interface CreateJobDefaultHeaders {
   "x-ms-request-id"?: string;
 }
 
+/** The default header response creation */
 export interface CreateJobDefaultResponse extends HttpResponse {
   status: string;
   body: HealthInsightsErrorResponseOutput;

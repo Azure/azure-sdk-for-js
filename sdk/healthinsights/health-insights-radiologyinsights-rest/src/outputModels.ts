@@ -920,7 +920,7 @@ export interface HealthInsightsErrorResponseOutput {
 }
 
 /** Provides the 'x-ms-request-id' header to enable request correlation in responses. */
-export interface RequestIdResponseHeaderOutput {}
+export interface RequestIdResponseHeaderOutput { }
 
 /**
  * A resource with narrative, extensions, and contained resources
@@ -1011,17 +1011,27 @@ export type EncounterClassOutput =
   | "healthHome";
 /** Alias for DocumentTypeOutput */
 export type DocumentTypeOutput = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
+
 /** Alias for ClinicalDocumentTypeOutput */
 export enum ClinicalDocumentTypeOutputEnum {
+  /** Consultation documents */
   Consultation = "consultation",
+  /** Discharge summary documents */
   DischargeSummary = "dischargeSummary",
+  /** H&P documents */
   HistoryAndPhysical = "historyAndPhysical",
+  /** Radiology documents */
   RadiologyReport = "radiologyReport",
+  /** Procedure notes */
   Procedure = "procedure",
+  /** Progress notes */
   Progress = "progress",
+  /** Laboratory documents */
   Laboratory = "laboratory",
   // Add more predefined types as needed
+  // Add more predefined types as needed
 }
+/** Output types of documents */
 export type ClinicalDocumentTypeOutput = ClinicalDocumentTypeOutputEnum;
 /** Alias for SpecialtyTypeOutput */
 export type SpecialtyTypeOutput = string | "pathology" | "radiology";
