@@ -461,6 +461,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-ten-dlc",
+      "projectFolder": "sdk/communication/communication-ten-dlc",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-toll-free-verification",
       "projectFolder": "sdk/communication/communication-toll-free-verification",
       "versionPolicyName": "client"
