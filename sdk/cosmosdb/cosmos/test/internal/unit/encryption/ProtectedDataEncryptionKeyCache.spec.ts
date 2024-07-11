@@ -9,7 +9,6 @@ import {
   ProtectedDataEncryptionKey,
 } from "../../../../src/encryption";
 import { ProtectedDataEncryptionKeyCache } from "../../../../src/encryption/Cache/ProtectedDataEncryptionKeyCache";
-import { randomBytes } from "crypto";
 import { ErrorResponse, StatusCodes } from "../../../../src";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
@@ -65,7 +64,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
     keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
     const cacheTTL = 5000;
     protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);
-    const encryptedKey = randomBytes(32);
+    const encryptedKey = Buffer.alloc(32);
     key = JSON.stringify([
       "encryptionKeyId",
       keyEncryptionKey.name,
@@ -83,7 +82,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
   it("should create and cache a protected data encryption key", async function () {
     const result = protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(key);
     assert.equal(result, protectedDataEncryptionKey, "Key should be in cache");
-    const newEncryptedKey = randomBytes(32);
+    const newEncryptedKey = Buffer.alloc(32);
     const newKey = JSON.stringify([
       "newEncryptionKeyId",
       keyEncryptionKey.name,
@@ -110,7 +109,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
 
   it("should not store keys in cache when ttl is 0", async function () {
     const cacheWithZeroTTL = new ProtectedDataEncryptionKeyCache(0);
-    const newEncryptedKey = randomBytes(32);
+    const newEncryptedKey = Buffer.alloc(32);
     const newKey = JSON.stringify([
       "newEncryptionKeyId",
       keyEncryptionKey.name,

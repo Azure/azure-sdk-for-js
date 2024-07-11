@@ -165,6 +165,7 @@
     "test/internal/unit/utils/offer.spec.ts",
     "test/internal/unit/client.spec.ts",
     "test/internal/unit/timeoutFailoverRetryPolicy.spec.ts",
+    "test/internal/unit/encryption/*.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
     "test/public/common/setup.ts",

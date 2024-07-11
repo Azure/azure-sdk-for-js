@@ -4,13 +4,6 @@
 
 ```ts
 
-<<<<<<< HEAD
-/// <reference types="node" />
-/// <reference lib="dom" />
-/// <reference lib="esnext.asynciterable" />
-
-=======
->>>>>>> upstream/main
 import { AbortError } from '@azure/abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
@@ -669,12 +662,9 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
-<<<<<<< HEAD
     DefaultEncryptionCacheTimeToLive: number;
-=======
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
->>>>>>> upstream/main
 };
 
 // @public
@@ -713,12 +703,9 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
-<<<<<<< HEAD
-    clientEncryptionPolicy?: ClientEncryptionPolicy;
-=======
     changeFeedPolicy?: ChangeFeedPolicy;
+    clientEncryptionPolicy?: ClientEncryptionPolicy;
     computedProperties?: ComputedProperty[];
->>>>>>> upstream/main
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {

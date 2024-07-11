@@ -4,11 +4,7 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-<<<<<<< HEAD
 import { Constants, ResourceType, StatusCodes, addContainerRid } from "../../common";
-=======
-import { Constants, ResourceType, StatusCodes } from "../../common";
->>>>>>> upstream/main
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
@@ -162,41 +158,19 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     if (this.startTime) {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
     }
-<<<<<<< HEAD
-
-    if (this.clientContext.enableEncryption) {
-      addContainerRid(this.container);
-      feedOptions.containerRid = this.container._rid;
-      this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
-        convertToInternalPartitionKey(this.partitionKey),
-      );
-    }
-
-    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
-      path: this.resourceLink,
-      resourceType: ResourceType.item,
-      resourceId: this.resourceId,
-      resultFn: (result) => (result ? result.Documents : []),
-      diagnosticNode,
-      query: undefined,
-      options: feedOptions,
-      partitionKey: this.partitionKey,
-    }) as Promise<any>);
-
-    return new ChangeFeedIteratorResponse(
-      response.result,
-      response.result ? response.result.length : 0,
-      response.code,
-      response.headers,
-      getEmptyCosmosDiagnostics(),
-    );
-=======
     if (
       this.changeFeedOptions.changeFeedMode &&
       this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
     ) {
       feedOptions.useAllVersionsAndDeletesFeed = true;
       feedOptions.useLatestVersionFeed = false;
+    }
+    if (this.clientContext.enableEncryption) {
+      addContainerRid(this.container);
+      feedOptions.containerRid = this.container._rid;
+      this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+        convertToInternalPartitionKey(this.partitionKey),
+      );
     }
     try {
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
@@ -231,6 +205,5 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         getEmptyCosmosDiagnostics(),
       );
     }
->>>>>>> upstream/main
   }
 }
