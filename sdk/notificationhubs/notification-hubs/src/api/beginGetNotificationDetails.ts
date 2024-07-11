@@ -32,9 +32,42 @@ export async function beginGetNotificationDetails(
   let outcomeError: unknown | undefined;
   type Handler = (state: OperationState<NotificationDetails>) => void;
 
-  const state: OperationState<NotificationDetails> = {
-    status: "notStarted",
-  };
+  let state: OperationState<NotificationDetails> | undefined;
+
+  const runState = async (options?: {
+    abortSignal?: AbortSignalLike;
+  }): Promise<void> => {
+    try {
+      result = await getNotificationOutcomeDetails(context, notificationId, options);
+      outcomeState = result.state!;
+    } catch (e: unknown) {
+      // Possible to get 404 for when it doesn't exist yet.
+      if (isRestError(e) && e.statusCode === 404) {
+        logger.info(
+          `Notification outcome details not found yet for notificationId: ${notificationId}`,
+        );
+      } else {
+        outcomeError = e;
+      }
+    }
+
+    if (outcomeState === "Enqueued" || outcomeState === "Processing") {
+      state = { status: "running" };
+    }
+
+    if (outcomeState === "Completed" || outcomeState === "DetailedStateAvailable") {
+      state = { status: "succeeded", result };
+    }
+
+    if (outcomeState === "Cancelled") {
+      state = { status: "canceled" };
+    }
+
+    if (outcomeState === "Abandoned") {
+      state = { status: "failed", error: new Error("Notification outcome was abandoned") };
+    }
+  }
+  let statePromise = runState();
 
   const progressCallbacks = new Map<symbol, Handler>();
   const processProgressCallbacks = async (): Promise<void> =>
@@ -47,39 +80,10 @@ export async function beginGetNotificationDetails(
     async poll(options?: {
       abortSignal?: AbortSignalLike;
     }): Promise<OperationState<NotificationDetails>> {
-      try {
-        result = await getNotificationOutcomeDetails(context, notificationId, options);
-        outcomeState = result.state!;
-      } catch (e: unknown) {
-        // Possible to get 404 for when it doesn't exist yet.
-        if (isRestError(e) && e.statusCode === 404) {
-          logger.info(
-            `Notification outcome details not found yet for notificationId: ${notificationId}`,
-          );
-        } else {
-          outcomeError = e;
-        }
+      await statePromise;
+      if (!state) {
+        throw new Error("Poller should be initialized but it is not!");
       }
-
-      if (outcomeState === "Enqueued" || outcomeState === "Processing") {
-        state.status = "running";
-      }
-
-      if (outcomeState === "Completed" || outcomeState === "DetailedStateAvailable") {
-        state.status = "succeeded";
-        state.result = result;
-      }
-
-      if (outcomeState === "Cancelled") {
-        state.status = "canceled";
-      }
-
-      if (outcomeState === "Abandoned") {
-        state.status = "failed";
-        state.error = new Error(`Notification outcome failed with state: ${outcomeState}`);
-      }
-
-      await processProgressCallbacks();
 
       if (state.status === "canceled") {
         throw new Error("Operation was canceled");
@@ -93,11 +97,18 @@ export async function beginGetNotificationDetails(
         throw outcomeError;
       }
 
+      await processProgressCallbacks();
+
       return state;
     },
 
     pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<NotificationDetails> {
       return (resultPromise ??= (async () => {
+        await statePromise;
+        if (!state) {
+          throw new Error("Poller should be initialized but it is not!");
+        }
+
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         // In the future we can use AbortSignal.any() instead
         function abortListener(): void {
