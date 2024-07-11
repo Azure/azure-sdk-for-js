@@ -44,7 +44,7 @@ describe("MongoCluster test", () => {
     networkClient = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    resourcename = "resourcetest";
+    resourcename = "resourcetest1";
     virtualNetworkName = "testvn";
     privateEndpointName = "testPEC";
   });
