@@ -85,14 +85,13 @@ export class TenDlcClient {
 
   public upsertUSBrand(
     brandId: string,
-    id: string,
     options: CreateOrUpdateBrandOptions = {
       brandDetails: {},
     }
   ): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-upsertUSBrand", options);
     try {
-      return this.client.tenDlc.upsertUSBrand(brandId, id, updatedOptions);
+      return this.client.tenDlc.upsertUSBrand(brandId, brandId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -106,7 +105,6 @@ export class TenDlcClient {
 
   public upsertUSCampaign(
     campaingId: string,
-    id: string,
     options: CreateOrUpdateCampaignOptions = {
       campaignDetails: {},
     }
@@ -116,7 +114,7 @@ export class TenDlcClient {
       options
     );
     try {
-      return this.client.tenDlc.upsertUSCampaign(campaingId, id, updatedOptions);
+      return this.client.tenDlc.upsertUSCampaign(campaingId, campaingId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
