@@ -3,8 +3,8 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
-import { KeyVaultContext } from "../rest/index.js";
-import getClient from "../rest/index.js";
+import { KeyVaultContext } from "../rest/index";
+import getClient from "../rest/index";
 
 /** Optional parameters for the client. */
 export interface KeyVaultClientOptions extends ClientOptions {
@@ -12,7 +12,7 @@ export interface KeyVaultClientOptions extends ClientOptions {
   apiVersion?: string;
 }
 
-export { KeyVaultContext } from "../rest/index.js";
+export { KeyVaultContext } from "../rest/index";
 
 /**
  * The key vault client performs cryptographic key operations and vault operations
@@ -21,7 +21,7 @@ export { KeyVaultContext } from "../rest/index.js";
 export function createKeyVault(
   vaultBaseUrl: string,
   credential: TokenCredential,
-  options: KeyVaultClientOptions = {},
+  options: KeyVaultClientOptions = {}
 ): KeyVaultContext {
   const clientContext = getClient(vaultBaseUrl, credential, options);
   return clientContext;

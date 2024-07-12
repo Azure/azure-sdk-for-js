@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export {
-  createKeyVault,
-  KeyVaultClientOptions,
-  KeyVaultContext,
-} from "./keyVaultContext.js";
+export { createKeyVault, KeyVaultClientOptions, KeyVaultContext } from "./keyVaultContext";
 export {
   getCertificates,
   deleteCertificate,
@@ -34,4 +30,4 @@ export {
   getDeletedCertificate,
   purgeDeletedCertificate,
   recoverDeletedCertificate,
-} from "./operations.js";
+} from "./operations";

@@ -22,7 +22,7 @@ import {
   BackupCertificateResult,
   CertificateRestoreParameters,
   DeletedCertificateItem,
-} from "./models/models.js";
+} from "./models/models";
 import {
   GetCertificatesOptionalParams,
   DeleteCertificateOptionalParams,
@@ -51,8 +51,8 @@ import {
   GetDeletedCertificateOptionalParams,
   PurgeDeletedCertificateOptionalParams,
   RecoverDeletedCertificateOptionalParams,
-} from "./models/options.js";
-import { PagedAsyncIterableIterator } from "./models/pagingTypes.js";
+} from "./models/options";
+import { PagedAsyncIterableIterator } from "./models/pagingTypes";
 import {
   createKeyVault,
   KeyVaultClientOptions,
@@ -84,9 +84,9 @@ import {
   getDeletedCertificate,
   purgeDeletedCertificate,
   recoverDeletedCertificate,
-} from "./api/index.js";
+} from "./api/index";
 
-export { KeyVaultClientOptions } from "./api/keyVaultContext.js";
+export { KeyVaultClientOptions } from "./api/keyVaultContext";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;

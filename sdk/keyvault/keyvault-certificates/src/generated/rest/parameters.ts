@@ -13,7 +13,7 @@ import {
   CertificateOperationUpdateParameter,
   CertificateMergeParameters,
   CertificateRestoreParameters,
-} from "./models.js";
+} from "./models";
 
 export interface GetCertificatesQueryParamProperties {
   /**
@@ -29,8 +29,7 @@ export interface GetCertificatesQueryParam {
   queryParameters?: GetCertificatesQueryParamProperties;
 }
 
-export type GetCertificatesParameters = GetCertificatesQueryParam &
-  RequestParameters;
+export type GetCertificatesParameters = GetCertificatesQueryParam & RequestParameters;
 export type DeleteCertificateParameters = RequestParameters;
 
 export interface SetCertificateContactsBodyParam {
@@ -38,8 +37,7 @@ export interface SetCertificateContactsBodyParam {
   body: Contacts;
 }
 
-export type SetCertificateContactsParameters = SetCertificateContactsBodyParam &
-  RequestParameters;
+export type SetCertificateContactsParameters = SetCertificateContactsBodyParam & RequestParameters;
 export type GetCertificateContactsParameters = RequestParameters;
 export type DeleteCertificateContactsParameters = RequestParameters;
 
@@ -55,24 +53,22 @@ export interface GetCertificateIssuersQueryParam {
   queryParameters?: GetCertificateIssuersQueryParamProperties;
 }
 
-export type GetCertificateIssuersParameters = GetCertificateIssuersQueryParam &
-  RequestParameters;
+export type GetCertificateIssuersParameters = GetCertificateIssuersQueryParam & RequestParameters;
 
 export interface SetCertificateIssuerBodyParam {
   /** Certificate issuer set parameter. */
   body: CertificateIssuerSetParameters;
 }
 
-export type SetCertificateIssuerParameters = SetCertificateIssuerBodyParam &
-  RequestParameters;
+export type SetCertificateIssuerParameters = SetCertificateIssuerBodyParam & RequestParameters;
 
 export interface UpdateCertificateIssuerBodyParam {
   /** Certificate issuer update parameter. */
   body: CertificateIssuerUpdateParameters;
 }
 
-export type UpdateCertificateIssuerParameters =
-  UpdateCertificateIssuerBodyParam & RequestParameters;
+export type UpdateCertificateIssuerParameters = UpdateCertificateIssuerBodyParam &
+  RequestParameters;
 export type GetCertificateIssuerParameters = RequestParameters;
 export type DeleteCertificateIssuerParameters = RequestParameters;
 
@@ -81,16 +77,14 @@ export interface CreateCertificateBodyParam {
   body: CertificateCreateParameters;
 }
 
-export type CreateCertificateParameters = CreateCertificateBodyParam &
-  RequestParameters;
+export type CreateCertificateParameters = CreateCertificateBodyParam & RequestParameters;
 
 export interface ImportCertificateBodyParam {
   /** The parameters to import the certificate. */
   body: CertificateImportParameters;
 }
 
-export type ImportCertificateParameters = ImportCertificateBodyParam &
-  RequestParameters;
+export type ImportCertificateParameters = ImportCertificateBodyParam & RequestParameters;
 
 export interface GetCertificateVersionsQueryParamProperties {
   /**
@@ -104,8 +98,7 @@ export interface GetCertificateVersionsQueryParam {
   queryParameters?: GetCertificateVersionsQueryParamProperties;
 }
 
-export type GetCertificateVersionsParameters =
-  GetCertificateVersionsQueryParam & RequestParameters;
+export type GetCertificateVersionsParameters = GetCertificateVersionsQueryParam & RequestParameters;
 export type GetCertificatePolicyParameters = RequestParameters;
 
 export interface UpdateCertificatePolicyBodyParam {
@@ -113,16 +106,15 @@ export interface UpdateCertificatePolicyBodyParam {
   body: CertificatePolicy;
 }
 
-export type UpdateCertificatePolicyParameters =
-  UpdateCertificatePolicyBodyParam & RequestParameters;
+export type UpdateCertificatePolicyParameters = UpdateCertificatePolicyBodyParam &
+  RequestParameters;
 
 export interface UpdateCertificateBodyParam {
   /** The parameters for certificate update. */
   body: CertificateUpdateParameters;
 }
 
-export type UpdateCertificateParameters = UpdateCertificateBodyParam &
-  RequestParameters;
+export type UpdateCertificateParameters = UpdateCertificateBodyParam & RequestParameters;
 export type GetCertificateParameters = RequestParameters;
 
 export interface UpdateCertificateOperationBodyParam {
@@ -130,8 +122,8 @@ export interface UpdateCertificateOperationBodyParam {
   body: CertificateOperationUpdateParameter;
 }
 
-export type UpdateCertificateOperationParameters =
-  UpdateCertificateOperationBodyParam & RequestParameters;
+export type UpdateCertificateOperationParameters = UpdateCertificateOperationBodyParam &
+  RequestParameters;
 export type GetCertificateOperationParameters = RequestParameters;
 export type DeleteCertificateOperationParameters = RequestParameters;
 
@@ -140,8 +132,7 @@ export interface MergeCertificateBodyParam {
   body: CertificateMergeParameters;
 }
 
-export type MergeCertificateParameters = MergeCertificateBodyParam &
-  RequestParameters;
+export type MergeCertificateParameters = MergeCertificateBodyParam & RequestParameters;
 export type BackupCertificateParameters = RequestParameters;
 
 export interface RestoreCertificateBodyParam {
@@ -149,8 +140,7 @@ export interface RestoreCertificateBodyParam {
   body: CertificateRestoreParameters;
 }
 
-export type RestoreCertificateParameters = RestoreCertificateBodyParam &
-  RequestParameters;
+export type RestoreCertificateParameters = RestoreCertificateBodyParam & RequestParameters;
 
 export interface GetDeletedCertificatesQueryParamProperties {
   /**
@@ -166,8 +156,7 @@ export interface GetDeletedCertificatesQueryParam {
   queryParameters?: GetDeletedCertificatesQueryParamProperties;
 }
 
-export type GetDeletedCertificatesParameters =
-  GetDeletedCertificatesQueryParam & RequestParameters;
+export type GetDeletedCertificatesParameters = GetDeletedCertificatesQueryParam & RequestParameters;
 export type GetDeletedCertificateParameters = RequestParameters;
 export type PurgeDeletedCertificateParameters = RequestParameters;
 export type RecoverDeletedCertificateParameters = RequestParameters;

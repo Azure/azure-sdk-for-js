@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { KeyVaultClient, KeyVaultClientOptions } from "./keyVaultClient.js";
+export { KeyVaultClient, KeyVaultClientOptions } from "./keyVaultClient";
 export {
   CertificateItem,
   CertificateAttributes,
@@ -72,4 +72,4 @@ export {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
-} from "./models/index.js";
+} from "./models/index";

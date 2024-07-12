@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "../logger.js";
+import { logger } from "../logger";
 import { TokenCredential } from "@azure/core-auth";
-import { KeyVaultContext } from "./clientDefinitions.js";
+import { KeyVaultContext } from "./clientDefinitions";
 
 /** The optional parameters for the client */
 export interface KeyVaultContextOptions extends ClientOptions {
@@ -21,7 +21,7 @@ export interface KeyVaultContextOptions extends ClientOptions {
 export default function createClient(
   vaultBaseUrl: string,
   credentials: TokenCredential,
-  { apiVersion = "7.6-preview.1", ...options }: KeyVaultContextOptions = {},
+  { apiVersion = "7.6-preview.1", ...options }: KeyVaultContextOptions = {}
 ): KeyVaultContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${vaultBaseUrl}`;
   const userAgentInfo = `azsdk-js-KeyVault-rest/1.0.0-beta.1`;
@@ -38,11 +38,7 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as KeyVaultContext;
+  const client = getClient(endpointUrl, credentials, options) as KeyVaultContext;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

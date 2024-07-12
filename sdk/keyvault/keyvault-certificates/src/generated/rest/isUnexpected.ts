@@ -56,7 +56,7 @@ import {
   PurgeDeletedCertificateDefaultResponse,
   RecoverDeletedCertificate200Response,
   RecoverDeletedCertificateDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /certificates": ["200"],
@@ -89,121 +89,85 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: GetCertificates200Response | GetCertificatesDefaultResponse,
+  response: GetCertificates200Response | GetCertificatesDefaultResponse
 ): response is GetCertificatesDefaultResponse;
 export function isUnexpected(
-  response: DeleteCertificate200Response | DeleteCertificateDefaultResponse,
+  response: DeleteCertificate200Response | DeleteCertificateDefaultResponse
 ): response is DeleteCertificateDefaultResponse;
 export function isUnexpected(
-  response:
-    | SetCertificateContacts200Response
-    | SetCertificateContactsDefaultResponse,
+  response: SetCertificateContacts200Response | SetCertificateContactsDefaultResponse
 ): response is SetCertificateContactsDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCertificateContacts200Response
-    | GetCertificateContactsDefaultResponse,
+  response: GetCertificateContacts200Response | GetCertificateContactsDefaultResponse
 ): response is GetCertificateContactsDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteCertificateContacts200Response
-    | DeleteCertificateContactsDefaultResponse,
+  response: DeleteCertificateContacts200Response | DeleteCertificateContactsDefaultResponse
 ): response is DeleteCertificateContactsDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCertificateIssuers200Response
-    | GetCertificateIssuersDefaultResponse,
+  response: GetCertificateIssuers200Response | GetCertificateIssuersDefaultResponse
 ): response is GetCertificateIssuersDefaultResponse;
 export function isUnexpected(
-  response:
-    | SetCertificateIssuer200Response
-    | SetCertificateIssuerDefaultResponse,
+  response: SetCertificateIssuer200Response | SetCertificateIssuerDefaultResponse
 ): response is SetCertificateIssuerDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpdateCertificateIssuer200Response
-    | UpdateCertificateIssuerDefaultResponse,
+  response: UpdateCertificateIssuer200Response | UpdateCertificateIssuerDefaultResponse
 ): response is UpdateCertificateIssuerDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCertificateIssuer200Response
-    | GetCertificateIssuerDefaultResponse,
+  response: GetCertificateIssuer200Response | GetCertificateIssuerDefaultResponse
 ): response is GetCertificateIssuerDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteCertificateIssuer200Response
-    | DeleteCertificateIssuerDefaultResponse,
+  response: DeleteCertificateIssuer200Response | DeleteCertificateIssuerDefaultResponse
 ): response is DeleteCertificateIssuerDefaultResponse;
 export function isUnexpected(
-  response: CreateCertificate202Response | CreateCertificateDefaultResponse,
+  response: CreateCertificate202Response | CreateCertificateDefaultResponse
 ): response is CreateCertificateDefaultResponse;
 export function isUnexpected(
-  response: ImportCertificate200Response | ImportCertificateDefaultResponse,
+  response: ImportCertificate200Response | ImportCertificateDefaultResponse
 ): response is ImportCertificateDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCertificateVersions200Response
-    | GetCertificateVersionsDefaultResponse,
+  response: GetCertificateVersions200Response | GetCertificateVersionsDefaultResponse
 ): response is GetCertificateVersionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCertificatePolicy200Response
-    | GetCertificatePolicyDefaultResponse,
+  response: GetCertificatePolicy200Response | GetCertificatePolicyDefaultResponse
 ): response is GetCertificatePolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpdateCertificatePolicy200Response
-    | UpdateCertificatePolicyDefaultResponse,
+  response: UpdateCertificatePolicy200Response | UpdateCertificatePolicyDefaultResponse
 ): response is UpdateCertificatePolicyDefaultResponse;
 export function isUnexpected(
-  response: UpdateCertificate200Response | UpdateCertificateDefaultResponse,
+  response: UpdateCertificate200Response | UpdateCertificateDefaultResponse
 ): response is UpdateCertificateDefaultResponse;
 export function isUnexpected(
-  response: GetCertificate200Response | GetCertificateDefaultResponse,
+  response: GetCertificate200Response | GetCertificateDefaultResponse
 ): response is GetCertificateDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpdateCertificateOperation200Response
-    | UpdateCertificateOperationDefaultResponse,
+  response: UpdateCertificateOperation200Response | UpdateCertificateOperationDefaultResponse
 ): response is UpdateCertificateOperationDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCertificateOperation200Response
-    | GetCertificateOperationDefaultResponse,
+  response: GetCertificateOperation200Response | GetCertificateOperationDefaultResponse
 ): response is GetCertificateOperationDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteCertificateOperation200Response
-    | DeleteCertificateOperationDefaultResponse,
+  response: DeleteCertificateOperation200Response | DeleteCertificateOperationDefaultResponse
 ): response is DeleteCertificateOperationDefaultResponse;
 export function isUnexpected(
-  response: MergeCertificate201Response | MergeCertificateDefaultResponse,
+  response: MergeCertificate201Response | MergeCertificateDefaultResponse
 ): response is MergeCertificateDefaultResponse;
 export function isUnexpected(
-  response: BackupCertificate200Response | BackupCertificateDefaultResponse,
+  response: BackupCertificate200Response | BackupCertificateDefaultResponse
 ): response is BackupCertificateDefaultResponse;
 export function isUnexpected(
-  response: RestoreCertificate200Response | RestoreCertificateDefaultResponse,
+  response: RestoreCertificate200Response | RestoreCertificateDefaultResponse
 ): response is RestoreCertificateDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetDeletedCertificates200Response
-    | GetDeletedCertificatesDefaultResponse,
+  response: GetDeletedCertificates200Response | GetDeletedCertificatesDefaultResponse
 ): response is GetDeletedCertificatesDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetDeletedCertificate200Response
-    | GetDeletedCertificateDefaultResponse,
+  response: GetDeletedCertificate200Response | GetDeletedCertificateDefaultResponse
 ): response is GetDeletedCertificateDefaultResponse;
 export function isUnexpected(
-  response:
-    | PurgeDeletedCertificate204Response
-    | PurgeDeletedCertificateDefaultResponse,
+  response: PurgeDeletedCertificate204Response | PurgeDeletedCertificateDefaultResponse
 ): response is PurgeDeletedCertificateDefaultResponse;
 export function isUnexpected(
-  response:
-    | RecoverDeletedCertificate200Response
-    | RecoverDeletedCertificateDefaultResponse,
+  response: RecoverDeletedCertificate200Response | RecoverDeletedCertificateDefaultResponse
 ): response is RecoverDeletedCertificateDefaultResponse;
 export function isUnexpected(
   response:
@@ -260,7 +224,7 @@ export function isUnexpected(
     | PurgeDeletedCertificate204Response
     | PurgeDeletedCertificateDefaultResponse
     | RecoverDeletedCertificate200Response
-    | RecoverDeletedCertificateDefaultResponse,
+    | RecoverDeletedCertificateDefaultResponse
 ): response is
   | GetCertificatesDefaultResponse
   | DeleteCertificateDefaultResponse
@@ -321,24 +285,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || ""
+        );
 
         if (!isMatched) {
           found = false;

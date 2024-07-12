@@ -41,7 +41,7 @@ export {
   CertificateRestoreParameters,
   DeletedCertificateItem,
   Versions,
-} from "./models.js";
+} from "./models";
 export {
   GetCertificatesOptionalParams,
   DeleteCertificateOptionalParams,
@@ -70,9 +70,5 @@ export {
   GetDeletedCertificateOptionalParams,
   PurgeDeletedCertificateOptionalParams,
   RecoverDeletedCertificateOptionalParams,
-} from "./options.js";
-export {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./pagingTypes.js";
+} from "./options";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes";

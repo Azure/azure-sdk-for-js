@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { serializeRecord } from "../helpers/serializerHelpers.js";
+import { serializeRecord } from "../helpers/serializerHelpers";
 import { uint8ArrayToString } from "@azure/core-util";
 import {
   CertificateAttributes as CertificateAttributesRest,
@@ -28,7 +28,7 @@ import {
   CertificateOperationUpdateParameter as CertificateOperationUpdateParameterRest,
   CertificateMergeParameters as CertificateMergeParametersRest,
   CertificateRestoreParameters as CertificateRestoreParametersRest,
-} from "../rest/index.js";
+} from "../rest/index";
 
 /** The certificate item containing certificate metadata. */
 export interface CertificateItem {
@@ -69,7 +69,7 @@ export interface CertificateAttributes {
 }
 
 export function certificateAttributesSerializer(
-  item: CertificateAttributes,
+  item: CertificateAttributes
 ): CertificateAttributesRest {
   return {
     enabled: item["enabled"],
@@ -148,9 +148,7 @@ export interface CertificatePolicy {
   attributes?: CertificateAttributes;
 }
 
-export function certificatePolicySerializer(
-  item: CertificatePolicy,
-): CertificatePolicyRest {
+export function certificatePolicySerializer(item: CertificatePolicy): CertificatePolicyRest {
   return {
     key_props: !item.keyProperties
       ? item.keyProperties
@@ -191,9 +189,7 @@ export interface KeyProperties {
   curve?: JsonWebKeyCurveName;
 }
 
-export function keyPropertiesSerializer(
-  item: KeyProperties,
-): KeyPropertiesRest {
+export function keyPropertiesSerializer(item: KeyProperties): KeyPropertiesRest {
   return {
     exportable: item["exportable"],
     kty: item["keyType"],
@@ -204,13 +200,7 @@ export function keyPropertiesSerializer(
 }
 
 /** The type of key pair to be used for the certificate. */
-export type JsonWebKeyType =
-  | "EC"
-  | "EC-HSM"
-  | "RSA"
-  | "RSA-HSM"
-  | "oct"
-  | "oct-HSM";
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
 export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
@@ -220,9 +210,7 @@ export interface SecretProperties {
   contentType?: string;
 }
 
-export function secretPropertiesSerializer(
-  item: SecretProperties,
-): SecretPropertiesRest {
+export function secretPropertiesSerializer(item: SecretProperties): SecretPropertiesRest {
   return {
     contentType: item["contentType"],
   };
@@ -243,7 +231,7 @@ export interface X509CertificateProperties {
 }
 
 export function x509CertificatePropertiesSerializer(
-  item: X509CertificateProperties,
+  item: X509CertificateProperties
 ): X509CertificatePropertiesRest {
   return {
     subject: item["subject"],
@@ -267,7 +255,7 @@ export interface SubjectAlternativeNames {
 }
 
 export function subjectAlternativeNamesSerializer(
-  item: SubjectAlternativeNames,
+  item: SubjectAlternativeNames
 ): SubjectAlternativeNamesRest {
   return {
     emails: item["emails"],
@@ -299,9 +287,7 @@ export interface LifetimeAction {
   action?: Action;
 }
 
-export function lifetimeActionSerializer(
-  item: LifetimeAction,
-): LifetimeActionRest {
+export function lifetimeActionSerializer(item: LifetimeAction): LifetimeActionRest {
   return {
     trigger: !item.trigger ? item.trigger : triggerSerializer(item.trigger),
     action: !item.action ? item.action : actionSerializer(item.action),
@@ -361,9 +347,7 @@ export interface IssuerParameters {
   certificateTransparency?: boolean;
 }
 
-export function issuerParametersSerializer(
-  item: IssuerParameters,
-): IssuerParametersRest {
+export function issuerParametersSerializer(item: IssuerParameters): IssuerParametersRest {
   return {
     name: item["name"],
     cty: item["certificateType"],
@@ -427,7 +411,7 @@ export interface CertificateIssuerSetParameters {
 }
 
 export function certificateIssuerSetParametersSerializer(
-  item: CertificateIssuerSetParameters,
+  item: CertificateIssuerSetParameters
 ): CertificateIssuerSetParametersRest {
   return {
     provider: item["provider"],
@@ -437,9 +421,7 @@ export function certificateIssuerSetParametersSerializer(
     org_details: !item.organizationDetails
       ? item.organizationDetails
       : organizationDetailsSerializer(item.organizationDetails),
-    attributes: !item.attributes
-      ? item.attributes
-      : issuerAttributesSerializer(item.attributes),
+    attributes: !item.attributes ? item.attributes : issuerAttributesSerializer(item.attributes),
   };
 }
 
@@ -451,9 +433,7 @@ export interface IssuerCredentials {
   password?: string;
 }
 
-export function issuerCredentialsSerializer(
-  item: IssuerCredentials,
-): IssuerCredentialsRest {
+export function issuerCredentialsSerializer(item: IssuerCredentials): IssuerCredentialsRest {
   return {
     account_id: item["accountId"],
     pwd: item["password"],
@@ -468,9 +448,7 @@ export interface OrganizationDetails {
   adminDetails?: AdministratorDetails[];
 }
 
-export function organizationDetailsSerializer(
-  item: OrganizationDetails,
-): OrganizationDetailsRest {
+export function organizationDetailsSerializer(item: OrganizationDetails): OrganizationDetailsRest {
   return {
     id: item["id"],
     admin_details:
@@ -493,7 +471,7 @@ export interface AdministratorDetails {
 }
 
 export function administratorDetailsSerializer(
-  item: AdministratorDetails,
+  item: AdministratorDetails
 ): AdministratorDetailsRest {
   return {
     first_name: item["firstName"],
@@ -513,9 +491,7 @@ export interface IssuerAttributes {
   readonly updated?: Date;
 }
 
-export function issuerAttributesSerializer(
-  item: IssuerAttributes,
-): IssuerAttributesRest {
+export function issuerAttributesSerializer(item: IssuerAttributes): IssuerAttributesRest {
   return {
     enabled: item["enabled"],
   };
@@ -548,7 +524,7 @@ export interface CertificateIssuerUpdateParameters {
 }
 
 export function certificateIssuerUpdateParametersSerializer(
-  item: CertificateIssuerUpdateParameters,
+  item: CertificateIssuerUpdateParameters
 ): CertificateIssuerUpdateParametersRest {
   return {
     provider: item["provider"],
@@ -558,9 +534,7 @@ export function certificateIssuerUpdateParametersSerializer(
     org_details: !item.organizationDetails
       ? item.organizationDetails
       : organizationDetailsSerializer(item.organizationDetails),
-    attributes: !item.attributes
-      ? item.attributes
-      : issuerAttributesSerializer(item.attributes),
+    attributes: !item.attributes ? item.attributes : issuerAttributesSerializer(item.attributes),
   };
 }
 
@@ -575,7 +549,7 @@ export interface CertificateCreateParameters {
 }
 
 export function certificateCreateParametersSerializer(
-  item: CertificateCreateParameters,
+  item: CertificateCreateParameters
 ): CertificateCreateParametersRest {
   return {
     policy: !item.certificatePolicy
@@ -644,7 +618,7 @@ export interface CertificateImportParameters {
 }
 
 export function certificateImportParametersSerializer(
-  item: CertificateImportParameters,
+  item: CertificateImportParameters
 ): CertificateImportParametersRest {
   return {
     value: item["base64EncodedCertificate"],
@@ -703,7 +677,7 @@ export interface CertificateUpdateParameters {
 }
 
 export function certificateUpdateParametersSerializer(
-  item: CertificateUpdateParameters,
+  item: CertificateUpdateParameters
 ): CertificateUpdateParametersRest {
   return {
     policy: !item.certificatePolicy
@@ -723,7 +697,7 @@ export interface CertificateOperationUpdateParameter {
 }
 
 export function certificateOperationUpdateParameterSerializer(
-  item: CertificateOperationUpdateParameter,
+  item: CertificateOperationUpdateParameter
 ): CertificateOperationUpdateParameterRest {
   return {
     cancellation_requested: item["cancellationRequested"],
@@ -741,7 +715,7 @@ export interface CertificateMergeParameters {
 }
 
 export function certificateMergeParametersSerializer(
-  item: CertificateMergeParameters,
+  item: CertificateMergeParameters
 ): CertificateMergeParametersRest {
   return {
     x5c: item["x509Certificates"].map((p) => uint8ArrayToString(p, "base64")),
@@ -765,7 +739,7 @@ export interface CertificateRestoreParameters {
 }
 
 export function certificateRestoreParametersSerializer(
-  item: CertificateRestoreParameters,
+  item: CertificateRestoreParameters
 ): CertificateRestoreParametersRest {
   return {
     value: uint8ArrayToString(item["certificateBundleBackup"], "base64"),

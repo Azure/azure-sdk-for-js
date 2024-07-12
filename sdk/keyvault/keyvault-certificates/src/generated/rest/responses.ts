@@ -15,7 +15,7 @@ import {
   CertificatePolicyOutput,
   BackupCertificateResultOutput,
   PagedDeletedCertificateItemOutput,
-} from "./outputModels.js";
+} from "./outputModels";
 
 /** The request has succeeded. */
 export interface GetCertificates200Response extends HttpResponse {
@@ -317,8 +317,7 @@ export interface UpdateCertificateOperationDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface UpdateCertificateOperationDefaultResponse
-  extends HttpResponse {
+export interface UpdateCertificateOperationDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & UpdateCertificateOperationDefaultHeaders;
@@ -352,8 +351,7 @@ export interface DeleteCertificateOperationDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface DeleteCertificateOperationDefaultResponse
-  extends HttpResponse {
+export interface DeleteCertificateOperationDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & DeleteCertificateOperationDefaultHeaders;

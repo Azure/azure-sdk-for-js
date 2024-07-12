@@ -29,7 +29,7 @@ import {
   GetDeletedCertificateParameters,
   PurgeDeletedCertificateParameters,
   RecoverDeletedCertificateParameters,
-} from "./parameters.js";
+} from "./parameters";
 import {
   GetCertificates200Response,
   GetCertificatesDefaultResponse,
@@ -85,7 +85,7 @@ import {
   PurgeDeletedCertificateDefaultResponse,
   RecoverDeletedCertificate200Response,
   RecoverDeletedCertificateDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetCertificates {
@@ -94,10 +94,8 @@ export interface GetCertificates {
    * specified key vault. This operation requires the certificates/list permission.
    */
   get(
-    options?: GetCertificatesParameters,
-  ): StreamableMethod<
-    GetCertificates200Response | GetCertificatesDefaultResponse
-  >;
+    options?: GetCertificatesParameters
+  ): StreamableMethod<GetCertificates200Response | GetCertificatesDefaultResponse>;
 }
 
 export interface DeleteCertificate {
@@ -107,10 +105,8 @@ export interface DeleteCertificate {
    * certificate object. This operation requires the certificates/delete permission.
    */
   delete(
-    options?: DeleteCertificateParameters,
-  ): StreamableMethod<
-    DeleteCertificate200Response | DeleteCertificateDefaultResponse
-  >;
+    options?: DeleteCertificateParameters
+  ): StreamableMethod<DeleteCertificate200Response | DeleteCertificateDefaultResponse>;
 }
 
 export interface SetCertificateContacts {
@@ -119,29 +115,24 @@ export interface SetCertificateContacts {
    * requires the certificates/managecontacts permission.
    */
   put(
-    options: SetCertificateContactsParameters,
-  ): StreamableMethod<
-    SetCertificateContacts200Response | SetCertificateContactsDefaultResponse
-  >;
+    options: SetCertificateContactsParameters
+  ): StreamableMethod<SetCertificateContacts200Response | SetCertificateContactsDefaultResponse>;
   /**
    * The GetCertificateContacts operation returns the set of certificate contact
    * resources in the specified key vault. This operation requires the
    * certificates/managecontacts permission.
    */
   get(
-    options?: GetCertificateContactsParameters,
-  ): StreamableMethod<
-    GetCertificateContacts200Response | GetCertificateContactsDefaultResponse
-  >;
+    options?: GetCertificateContactsParameters
+  ): StreamableMethod<GetCertificateContacts200Response | GetCertificateContactsDefaultResponse>;
   /**
    * Deletes the certificate contacts for a specified key vault certificate. This
    * operation requires the certificates/managecontacts permission.
    */
   delete(
-    options?: DeleteCertificateContactsParameters,
+    options?: DeleteCertificateContactsParameters
   ): StreamableMethod<
-    | DeleteCertificateContacts200Response
-    | DeleteCertificateContactsDefaultResponse
+    DeleteCertificateContacts200Response | DeleteCertificateContactsDefaultResponse
   >;
 }
 
@@ -152,10 +143,8 @@ export interface GetCertificateIssuers {
    * certificates/manageissuers/getissuers permission.
    */
   get(
-    options?: GetCertificateIssuersParameters,
-  ): StreamableMethod<
-    GetCertificateIssuers200Response | GetCertificateIssuersDefaultResponse
-  >;
+    options?: GetCertificateIssuersParameters
+  ): StreamableMethod<GetCertificateIssuers200Response | GetCertificateIssuersDefaultResponse>;
 }
 
 export interface SetCertificateIssuer {
@@ -164,40 +153,32 @@ export interface SetCertificateIssuer {
    * issuer. This operation requires the certificates/setissuers permission.
    */
   put(
-    options: SetCertificateIssuerParameters,
-  ): StreamableMethod<
-    SetCertificateIssuer200Response | SetCertificateIssuerDefaultResponse
-  >;
+    options: SetCertificateIssuerParameters
+  ): StreamableMethod<SetCertificateIssuer200Response | SetCertificateIssuerDefaultResponse>;
   /**
    * The UpdateCertificateIssuer operation performs an update on the specified
    * certificate issuer entity. This operation requires the certificates/setissuers
    * permission.
    */
   patch(
-    options: UpdateCertificateIssuerParameters,
-  ): StreamableMethod<
-    UpdateCertificateIssuer200Response | UpdateCertificateIssuerDefaultResponse
-  >;
+    options: UpdateCertificateIssuerParameters
+  ): StreamableMethod<UpdateCertificateIssuer200Response | UpdateCertificateIssuerDefaultResponse>;
   /**
    * The GetCertificateIssuer operation returns the specified certificate issuer
    * resources in the specified key vault. This operation requires the
    * certificates/manageissuers/getissuers permission.
    */
   get(
-    options?: GetCertificateIssuerParameters,
-  ): StreamableMethod<
-    GetCertificateIssuer200Response | GetCertificateIssuerDefaultResponse
-  >;
+    options?: GetCertificateIssuerParameters
+  ): StreamableMethod<GetCertificateIssuer200Response | GetCertificateIssuerDefaultResponse>;
   /**
    * The DeleteCertificateIssuer operation permanently removes the specified
    * certificate issuer from the vault. This operation requires the
    * certificates/manageissuers/deleteissuers permission.
    */
   delete(
-    options?: DeleteCertificateIssuerParameters,
-  ): StreamableMethod<
-    DeleteCertificateIssuer200Response | DeleteCertificateIssuerDefaultResponse
-  >;
+    options?: DeleteCertificateIssuerParameters
+  ): StreamableMethod<DeleteCertificateIssuer200Response | DeleteCertificateIssuerDefaultResponse>;
 }
 
 export interface CreateCertificate {
@@ -206,10 +187,8 @@ export interface CreateCertificate {
    * operation requires the certificates/create permission.
    */
   post(
-    options: CreateCertificateParameters,
-  ): StreamableMethod<
-    CreateCertificate202Response | CreateCertificateDefaultResponse
-  >;
+    options: CreateCertificateParameters
+  ): StreamableMethod<CreateCertificate202Response | CreateCertificateDefaultResponse>;
 }
 
 export interface ImportCertificate {
@@ -221,10 +200,8 @@ export interface ImportCertificate {
    * certificates. Key Vault will only accept a key in PKCS#8 format.
    */
   post(
-    options: ImportCertificateParameters,
-  ): StreamableMethod<
-    ImportCertificate200Response | ImportCertificateDefaultResponse
-  >;
+    options: ImportCertificateParameters
+  ): StreamableMethod<ImportCertificate200Response | ImportCertificateDefaultResponse>;
 }
 
 export interface GetCertificateVersions {
@@ -234,10 +211,8 @@ export interface GetCertificateVersions {
    * permission.
    */
   get(
-    options?: GetCertificateVersionsParameters,
-  ): StreamableMethod<
-    GetCertificateVersions200Response | GetCertificateVersionsDefaultResponse
-  >;
+    options?: GetCertificateVersionsParameters
+  ): StreamableMethod<GetCertificateVersions200Response | GetCertificateVersionsDefaultResponse>;
 }
 
 export interface GetCertificatePolicy {
@@ -247,19 +222,15 @@ export interface GetCertificatePolicy {
    * certificates/get permission.
    */
   get(
-    options?: GetCertificatePolicyParameters,
-  ): StreamableMethod<
-    GetCertificatePolicy200Response | GetCertificatePolicyDefaultResponse
-  >;
+    options?: GetCertificatePolicyParameters
+  ): StreamableMethod<GetCertificatePolicy200Response | GetCertificatePolicyDefaultResponse>;
   /**
    * Set specified members in the certificate policy. Leave others as null. This
    * operation requires the certificates/update permission.
    */
   patch(
-    options: UpdateCertificatePolicyParameters,
-  ): StreamableMethod<
-    UpdateCertificatePolicy200Response | UpdateCertificatePolicyDefaultResponse
-  >;
+    options: UpdateCertificatePolicyParameters
+  ): StreamableMethod<UpdateCertificatePolicy200Response | UpdateCertificatePolicyDefaultResponse>;
 }
 
 export interface UpdateCertificate {
@@ -269,19 +240,15 @@ export interface UpdateCertificate {
    * operation requires the certificates/update permission.
    */
   patch(
-    options: UpdateCertificateParameters,
-  ): StreamableMethod<
-    UpdateCertificate200Response | UpdateCertificateDefaultResponse
-  >;
+    options: UpdateCertificateParameters
+  ): StreamableMethod<UpdateCertificate200Response | UpdateCertificateDefaultResponse>;
   /**
    * Gets information about a specific certificate. This operation requires the
    * certificates/get permission.
    */
   get(
-    options?: GetCertificateParameters,
-  ): StreamableMethod<
-    GetCertificate200Response | GetCertificateDefaultResponse
-  >;
+    options?: GetCertificateParameters
+  ): StreamableMethod<GetCertificate200Response | GetCertificateDefaultResponse>;
 }
 
 export interface UpdateCertificateOperation {
@@ -290,30 +257,26 @@ export interface UpdateCertificateOperation {
    * operation requires the certificates/update permission.
    */
   patch(
-    options: UpdateCertificateOperationParameters,
+    options: UpdateCertificateOperationParameters
   ): StreamableMethod<
-    | UpdateCertificateOperation200Response
-    | UpdateCertificateOperationDefaultResponse
+    UpdateCertificateOperation200Response | UpdateCertificateOperationDefaultResponse
   >;
   /**
    * Gets the creation operation associated with a specified certificate. This
    * operation requires the certificates/get permission.
    */
   get(
-    options?: GetCertificateOperationParameters,
-  ): StreamableMethod<
-    GetCertificateOperation200Response | GetCertificateOperationDefaultResponse
-  >;
+    options?: GetCertificateOperationParameters
+  ): StreamableMethod<GetCertificateOperation200Response | GetCertificateOperationDefaultResponse>;
   /**
    * Deletes the creation operation for a specified certificate that is in the
    * process of being created. The certificate is no longer created. This operation
    * requires the certificates/update permission.
    */
   delete(
-    options?: DeleteCertificateOperationParameters,
+    options?: DeleteCertificateOperationParameters
   ): StreamableMethod<
-    | DeleteCertificateOperation200Response
-    | DeleteCertificateOperationDefaultResponse
+    DeleteCertificateOperation200Response | DeleteCertificateOperationDefaultResponse
   >;
 }
 
@@ -324,10 +287,8 @@ export interface MergeCertificate {
    * operation requires the certificates/create permission.
    */
   post(
-    options: MergeCertificateParameters,
-  ): StreamableMethod<
-    MergeCertificate201Response | MergeCertificateDefaultResponse
-  >;
+    options: MergeCertificateParameters
+  ): StreamableMethod<MergeCertificate201Response | MergeCertificateDefaultResponse>;
 }
 
 export interface BackupCertificate {
@@ -337,10 +298,8 @@ export interface BackupCertificate {
    * requires the certificates/backup permission.
    */
   post(
-    options?: BackupCertificateParameters,
-  ): StreamableMethod<
-    BackupCertificate200Response | BackupCertificateDefaultResponse
-  >;
+    options?: BackupCertificateParameters
+  ): StreamableMethod<BackupCertificate200Response | BackupCertificateDefaultResponse>;
 }
 
 export interface RestoreCertificate {
@@ -349,10 +308,8 @@ export interface RestoreCertificate {
    * operation requires the certificates/restore permission.
    */
   post(
-    options: RestoreCertificateParameters,
-  ): StreamableMethod<
-    RestoreCertificate200Response | RestoreCertificateDefaultResponse
-  >;
+    options: RestoreCertificateParameters
+  ): StreamableMethod<RestoreCertificate200Response | RestoreCertificateDefaultResponse>;
 }
 
 export interface GetDeletedCertificates {
@@ -364,10 +321,8 @@ export interface GetDeletedCertificates {
    * soft-delete enabled vaults.
    */
   get(
-    options?: GetDeletedCertificatesParameters,
-  ): StreamableMethod<
-    GetDeletedCertificates200Response | GetDeletedCertificatesDefaultResponse
-  >;
+    options?: GetDeletedCertificatesParameters
+  ): StreamableMethod<GetDeletedCertificates200Response | GetDeletedCertificatesDefaultResponse>;
 }
 
 export interface GetDeletedCertificate {
@@ -378,10 +333,8 @@ export interface GetDeletedCertificate {
    * requires the certificates/get permission.
    */
   get(
-    options?: GetDeletedCertificateParameters,
-  ): StreamableMethod<
-    GetDeletedCertificate200Response | GetDeletedCertificateDefaultResponse
-  >;
+    options?: GetDeletedCertificateParameters
+  ): StreamableMethod<GetDeletedCertificate200Response | GetDeletedCertificateDefaultResponse>;
   /**
    * The PurgeDeletedCertificate operation performs an irreversible deletion of the
    * specified certificate, without possibility for recovery. The operation is not
@@ -389,10 +342,8 @@ export interface GetDeletedCertificate {
    * requires the certificate/purge permission.
    */
   delete(
-    options?: PurgeDeletedCertificateParameters,
-  ): StreamableMethod<
-    PurgeDeletedCertificate204Response | PurgeDeletedCertificateDefaultResponse
-  >;
+    options?: PurgeDeletedCertificateParameters
+  ): StreamableMethod<PurgeDeletedCertificate204Response | PurgeDeletedCertificateDefaultResponse>;
 }
 
 export interface RecoverDeletedCertificate {
@@ -404,10 +355,9 @@ export interface RecoverDeletedCertificate {
    * permission.
    */
   post(
-    options?: RecoverDeletedCertificateParameters,
+    options?: RecoverDeletedCertificateParameters
   ): StreamableMethod<
-    | RecoverDeletedCertificate200Response
-    | RecoverDeletedCertificateDefaultResponse
+    RecoverDeletedCertificate200Response | RecoverDeletedCertificateDefaultResponse
   >;
 }
 
@@ -415,73 +365,52 @@ export interface Routes {
   /** Resource for '/certificates' has methods for the following verbs: get */
   (path: "/certificates"): GetCertificates;
   /** Resource for '/certificates/\{certificateName\}' has methods for the following verbs: delete */
-  (
-    path: "/certificates/{certificateName}",
-    certificateName: string,
-  ): DeleteCertificate;
+  (path: "/certificates/{certificateName}", certificateName: string): DeleteCertificate;
   /** Resource for '/certificates/contacts' has methods for the following verbs: put, get, delete */
   (path: "/certificates/contacts"): SetCertificateContacts;
   /** Resource for '/certificates/issuers' has methods for the following verbs: get */
   (path: "/certificates/issuers"): GetCertificateIssuers;
   /** Resource for '/certificates/issuers/\{issuerName\}' has methods for the following verbs: put, patch, get, delete */
-  (
-    path: "/certificates/issuers/{issuerName}",
-    issuerName: string,
-  ): SetCertificateIssuer;
+  (path: "/certificates/issuers/{issuerName}", issuerName: string): SetCertificateIssuer;
   /** Resource for '/certificates/\{certificateName\}/create' has methods for the following verbs: post */
-  (
-    path: "/certificates/{certificateName}/create",
-    certificateName: string,
-  ): CreateCertificate;
+  (path: "/certificates/{certificateName}/create", certificateName: string): CreateCertificate;
   /** Resource for '/certificates/\{certificateName\}/import' has methods for the following verbs: post */
-  (
-    path: "/certificates/{certificateName}/import",
-    certificateName: string,
-  ): ImportCertificate;
+  (path: "/certificates/{certificateName}/import", certificateName: string): ImportCertificate;
   /** Resource for '/certificates/\{certificateName\}/versions' has methods for the following verbs: get */
   (
     path: "/certificates/{certificateName}/versions",
-    certificateName: string,
+    certificateName: string
   ): GetCertificateVersions;
   /** Resource for '/certificates/\{certificateName\}/policy' has methods for the following verbs: get, patch */
-  (
-    path: "/certificates/{certificateName}/policy",
-    certificateName: string,
-  ): GetCertificatePolicy;
+  (path: "/certificates/{certificateName}/policy", certificateName: string): GetCertificatePolicy;
   /** Resource for '/certificates/\{certificateName\}/\{certificateVersion\}' has methods for the following verbs: patch, get */
   (
     path: "/certificates/{certificateName}/{certificateVersion}",
     certificateName: string,
-    certificateVersion: string,
+    certificateVersion: string
   ): UpdateCertificate;
   /** Resource for '/certificates/\{certificateName\}/pending' has methods for the following verbs: patch, get, delete */
   (
     path: "/certificates/{certificateName}/pending",
-    certificateName: string,
+    certificateName: string
   ): UpdateCertificateOperation;
   /** Resource for '/certificates/\{certificateName\}/pending/merge' has methods for the following verbs: post */
   (
     path: "/certificates/{certificateName}/pending/merge",
-    certificateName: string,
+    certificateName: string
   ): MergeCertificate;
   /** Resource for '/certificates/\{certificateName\}/backup' has methods for the following verbs: post */
-  (
-    path: "/certificates/{certificateName}/backup",
-    certificateName: string,
-  ): BackupCertificate;
+  (path: "/certificates/{certificateName}/backup", certificateName: string): BackupCertificate;
   /** Resource for '/certificates/restore' has methods for the following verbs: post */
   (path: "/certificates/restore"): RestoreCertificate;
   /** Resource for '/deletedcertificates' has methods for the following verbs: get */
   (path: "/deletedcertificates"): GetDeletedCertificates;
   /** Resource for '/deletedcertificates/\{certificateName\}' has methods for the following verbs: get, delete */
-  (
-    path: "/deletedcertificates/{certificateName}",
-    certificateName: string,
-  ): GetDeletedCertificate;
+  (path: "/deletedcertificates/{certificateName}", certificateName: string): GetDeletedCertificate;
   /** Resource for '/deletedcertificates/\{certificateName\}/recover' has methods for the following verbs: post */
   (
     path: "/deletedcertificates/{certificateName}/recover",
-    certificateName: string,
+    certificateName: string
   ): RecoverDeletedCertificate;
 }
 
