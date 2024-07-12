@@ -37,11 +37,6 @@ export default function createClient(
     loggingOptions: {
       logger: options.loggingOptions?.logger ?? logger.info,
     },
-    credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://vault.azure.net/.default",
-      ],
-    },
   };
   const client = getClient(
     endpointUrl,
