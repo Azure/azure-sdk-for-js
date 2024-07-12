@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@microsoft/applicationinsights-web-snippet':
+    specifier: 1.1.2
+    version: 1.1.2
   '@rush-temp/abort-controller':
     specifier: file:./projects/abort-controller.tgz
     version: file:projects/abort-controller.tgz
@@ -1211,6 +1214,8 @@ packages:
       '@azure/core-tracing': 1.1.2
       '@azure/core-util': 1.9.0
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1236,6 +1241,9 @@ packages:
       '@azure/core-rest-pipeline': 1.16.0
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/identity': 4.3.0
+      tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1246,6 +1254,9 @@ packages:
     dependencies:
       '@azure/core-auth': 1.7.2
       '@azure/core-rest-pipeline': 1.16.0
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      '@azure/core-rest-pipeline': 1.16.1
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
     transitivePeerDependencies:
@@ -1281,6 +1292,9 @@ packages:
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1422,6 +1436,8 @@ packages:
       '@azure/abort-controller': 2.1.2
       '@azure/core-util': 1.9.0
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      tslib: 2.6.3
     dev: false
 
   /@azure/core-client@1.9.2:
@@ -1435,6 +1451,9 @@ packages:
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1503,6 +1522,9 @@ packages:
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
     dev: false
 
   /@azure/core-lro@3.0.0:
@@ -1513,6 +1535,9 @@ packages:
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
     dev: false
 
   /@azure/core-lro@3.0.0-beta.1:
@@ -1523,6 +1548,9 @@ packages:
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
     dev: false
 
   /@azure/core-paging@1.6.2:
@@ -1642,6 +1670,10 @@ packages:
       '@azure/logger': 1.1.2
       '@azure/msal-browser': 3.15.0
       '@azure/msal-node': 2.9.0
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      '@azure/msal-browser': 3.18.0
+      '@azure/msal-node': 2.10.0
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -1666,6 +1698,9 @@ packages:
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
       tslib: 2.6.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1757,6 +1792,8 @@ packages:
       '@azure/core-tracing': 1.1.2
       '@azure/logger': 1.1.2
       tslib: 2.6.2
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1825,6 +1862,12 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.1.2
       '@azure/storage-blob': 12.18.0
+      '@azure/core-rest-pipeline': 1.16.1
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/core-xml': 1.4.2
+      '@azure/logger': 1.1.2
+      '@azure/storage-blob': 12.23.0
       events: 3.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
@@ -1839,6 +1882,11 @@ packages:
       '@azure/core-http': 3.0.4
       '@azure/core-paging': 1.6.2
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.1.2
+      '@azure/core-rest-pipeline': 1.16.1
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/core-xml': 1.4.2
       '@azure/logger': 1.1.2
       events: 3.3.0
       tslib: 2.6.2
@@ -1914,6 +1962,9 @@ packages:
       '@babel/compat-data': 7.24.6
       '@babel/helper-validator-option': 7.24.6
       browserslist: 4.23.0
+      '@babel/compat-data': 7.24.7
+      '@babel/helper-validator-option': 7.24.7
+      browserslist: 4.23.1
       lru-cache: 5.1.1
       semver: 6.3.1
     dev: false
@@ -2345,6 +2396,8 @@ packages:
 
   /@grpc/grpc-js@1.10.8:
     resolution: {integrity: sha512-vYVqYzHicDqyKB+NQhAc54I1QWCBLCrYG6unqOIcBTHx+7x8C9lcoLj3KVJXs2VB4lUbpWY+Kk9NipcbXYWmvg==}
+  /@grpc/grpc-js@1.10.10:
+    resolution: {integrity: sha512-HPa/K5NX6ahMoeBv15njAc/sfF4/jmiXLar9UlC2UfHFKZzsCVLc3wbe7+7qua7w9VPh2/L6EBxyAV7/E8Wftg==}
     engines: {node: '>=12.10.0'}
     dependencies:
       '@grpc/proto-loader': 0.7.13
@@ -2561,6 +2614,12 @@ packages:
 
   /@microsoft/applicationinsights-web-snippet@1.1.2:
     resolution: {integrity: sha512-qPoOk3MmEx3gS6hTc1/x8JWQG5g4BvRdH7iqZMENBsKCL927b7D7Mvl19bh3sW9Ucrg1fVrF+4hqShwQNdqLxQ==}
+  /@microsoft/applicationinsights-web-snippet@1.1.2:
+    resolution: {integrity: sha512-qPoOk3MmEx3gS6hTc1/x8JWQG5g4BvRdH7iqZMENBsKCL927b7D7Mvl19bh3sW9Ucrg1fVrF+4hqShwQNdqLxQ==}
+    dev: false
+
+  /@microsoft/applicationinsights-web-snippet@1.2.1:
+    resolution: {integrity: sha512-+Cy9zFqdQgdAbMK1dpm7B+3DUnrByai0Tq6XG9v737HJpW6G1EiNNbTuFeXdPWyGaq6FIx9jxm/SUcxA6/Rxxg==}
     dev: false
 
   /@microsoft/tsdoc-config@0.16.2:
@@ -2653,6 +2712,7 @@ packages:
       '@opentelemetry/api': ^1.0.0
     dependencies:
       '@grpc/grpc-js': 1.10.8
+      '@grpc/grpc-js': 1.10.10
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.25.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-grpc-exporter-base': 0.52.1(@opentelemetry/api@1.9.0)
@@ -2826,6 +2886,8 @@ packages:
       '@opentelemetry/api-logs': 0.52.1
       '@types/shimmer': 1.0.5
       import-in-the-middle: 1.9.0
+      '@types/shimmer': 1.2.0
+      import-in-the-middle: 1.8.1
       require-in-the-middle: 7.3.0
       semver: 7.6.2
       shimmer: 1.2.1
@@ -2851,6 +2913,7 @@ packages:
       '@opentelemetry/api': ^1.0.0
     dependencies:
       '@grpc/grpc-js': 1.10.8
+      '@grpc/grpc-js': 1.10.10
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.25.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-exporter-base': 0.52.1(@opentelemetry/api@1.9.0)
@@ -4170,6 +4233,7 @@ packages:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
       ajv: 8.14.0
+      ajv: 8.16.0
     dev: false
 
   /ajv@6.12.6:
@@ -4279,6 +4343,7 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       glob: 10.4.1
+      glob: 10.4.3
       graceful-fs: 4.2.11
       is-stream: 2.0.1
       lazystream: 1.0.1
@@ -4656,13 +4721,18 @@ packages:
 
   /browserslist@4.23.0:
     resolution: {integrity: sha512-QW8HiM1shhT2GuzkvklfjcKDiWFXHOeFCIA/huJPwHsslwcydgk7X+z2zXpEijP98UCY7HbubZt5J2Zgvf0CaQ==}
+  /browserslist@4.23.1:
+    resolution: {integrity: sha512-TUfofFo/KsK/bWZ9TWQ5O26tsWW4Uhmt8IYklbnUa70udB6P2wA7w7o4PY4muaEPBQaAX+CEnmmIA41NVHtPVw==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001627
       electron-to-chromium: 1.4.788
+      caniuse-lite: 1.0.30001640
+      electron-to-chromium: 1.4.818
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
+      update-browserslist-db: 1.1.0(browserslist@4.23.1)
     dev: false
 
   /buffer-alloc-unsafe@1.1.0:
@@ -4772,6 +4842,8 @@ packages:
 
   /caniuse-lite@1.0.30001627:
     resolution: {integrity: sha512-4zgNiB8nTyV/tHhwZrFs88ryjls/lHiqFhrxCW4qSTeuRByBVnPYpDInchOIySWknznucaf31Z4KYqjfbrecVw==}
+  /caniuse-lite@1.0.30001640:
+    resolution: {integrity: sha512-lA4VMpW0PSUrFnkmVuEKBUovSWKhj7puyCg8StBChgu298N1AtuF1sKWEvfDuimSEDbhlb/KqPKC3fs1HbuQUA==}
     dev: false
 
   /catharsis@0.9.0:
@@ -5604,6 +5676,8 @@ packages:
 
   /electron-to-chromium@1.4.788:
     resolution: {integrity: sha512-ubp5+Ev/VV8KuRoWnfP2QF2Bg+O2ZFdb49DiiNbz2VmgkIqrnyYaqIOqj8A6K/3p1xV0QcU5hBQ1+BmB6ot1OA==}
+  /electron-to-chromium@1.4.818:
+    resolution: {integrity: sha512-eGvIk2V0dGImV9gWLq8fDfTTsCAeMDwZqEPMr+jMInxZdnp9Us8UpovYpRCf9NQ7VOFgrN2doNSgvISbsbNpxA==}
     dev: false
 
   /elliptic@6.5.5:
@@ -6655,11 +6729,17 @@ packages:
   /glob@10.4.1:
     resolution: {integrity: sha512-2jelhlq3E4ho74ZyVLN03oKdAZVUa6UDZzFLVH1H7dnoax+y9qyaq8zBkfDIggjniU19z0wU18y16jMB2eyVIw==}
     engines: {node: '>=16 || 14 >=14.18'}
+  /glob@10.4.3:
+    resolution: {integrity: sha512-Q38SGlYRpVtDBPSWEylRyctn7uDeTp4NQERTLiCT1FqA9JXPYWqAVmQU6qh4r/zMM5ehxTcbaO8EjhWnvEhmyg==}
+    engines: {node: '>=18'}
     hasBin: true
     dependencies:
       foreground-child: 3.1.1
       jackspeak: 3.2.0
       minimatch: 9.0.4
+      foreground-child: 3.2.1
+      jackspeak: 3.4.1
+      minimatch: 9.0.5
       minipass: 7.1.2
       path-scurry: 1.11.1
     dev: false
@@ -6928,8 +7008,8 @@ packages:
       resolve-from: 4.0.0
     dev: false
 
-  /import-in-the-middle@1.9.0:
-    resolution: {integrity: sha512-Ng1SJINJDBzyUEkx9Mj32XD8G0TQCUb5TMoL9V91CTn6F3wYZLygLuhNFrv0cNMBZaeptnL1zecV6XrIdHJ+xQ==}
+  /import-in-the-middle@1.8.1:
+    resolution: {integrity: sha512-yhRwoHtiLGvmSozNOALgjRPFI6uYsds60EoMqqnXyyv+JOIW/BrrLejuTGBt+bq0T5tLzOHrN0T7xYTm4Qt/ng==}
     dependencies:
       acorn: 8.11.3
       acorn-import-attributes: 1.9.5(acorn@8.11.3)
@@ -7400,6 +7480,9 @@ packages:
   /jackspeak@3.2.0:
     resolution: {integrity: sha512-eXIwN9gutMuB1AMW241gIHSEeaSMafWnxWXb/JGYWqifway4QgqBJLl7nYlmhGrxnHQ3wNc/QYFZ95aDtHHzpA==}
     engines: {node: '>=14'}
+  /jackspeak@3.4.1:
+    resolution: {integrity: sha512-U23pQPDnmYybVkYjObcuYMk43VRlMLLqLI+RdZy8s8WV8WsxO9SnqSroKaluuvcNOdCAlauKszDwd+umbot5Mg==}
+    engines: {node: '>=18'}
     dependencies:
       '@isaacs/cliui': 8.0.2
     optionalDependencies:
@@ -7931,6 +8014,9 @@ packages:
   /lru-cache@10.2.2:
     resolution: {integrity: sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==}
     engines: {node: 14 || >=16.14}
+  /lru-cache@10.4.0:
+    resolution: {integrity: sha512-bfJaPTuEiTYBu+ulDaeQ0F+uLmlfFkMgXj4cbwfuMSjgObGMzb55FMMbDvbRU0fAHZ4sLGkz2mKwcMg8Dvm8Ww==}
+    engines: {node: '>=18'}
     dev: false
 
   /lru-cache@5.1.1:
@@ -8838,6 +8924,7 @@ packages:
     engines: {node: '>=16 || 14 >=14.18'}
     dependencies:
       lru-cache: 10.2.2
+      lru-cache: 10.4.0
       minipass: 7.1.2
     dev: false
 
@@ -9264,6 +9351,8 @@ packages:
 
   /qs@6.12.1:
     resolution: {integrity: sha512-zWmv4RSuB9r2mYQw3zxQuHWeU+42aKi1wWig/j4ele4ygELZ7PEO6MM7rim9oAQH2A5MWfsAVf/jPvTPgCbvUQ==}
+  /qs@6.12.2:
+    resolution: {integrity: sha512-x+NLUpx9SYrcwXtX7ob1gnkSems4i/mGZX5SlYxwIau6RrUSODO89TR/XDGGpn5RPWSYIB+aSfuSlV5+CmbTBg==}
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.6
@@ -9464,6 +9553,7 @@ packages:
     engines: {node: 16 >=16.17.0 || 18 >= 18.6.0 || >=20}
     dependencies:
       glob: 10.4.1
+      glob: 10.4.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -9533,9 +9623,13 @@ packages:
   /rimraf@5.0.7:
     resolution: {integrity: sha512-nV6YcJo5wbLW77m+8KjH8aB/7/rxQy9SZ0HY5shnwULfS+9nmTtVXAJET5NdZmCzA4fPI/Hm1wo/Po/4mopOdg==}
     engines: {node: '>=14.18'}
+  /rimraf@5.0.8:
+    resolution: {integrity: sha512-XSh0V2/yNhDEi8HwdIefD8MLgs4LQXPag/nEJWs3YUc3Upn+UHa1GyIkEg9xSSNt7HnkO5FjTvmcRzgf+8UZuw==}
+    engines: {node: '>=18'}
     hasBin: true
     dependencies:
       glob: 10.4.1
+      glob: 10.4.3
     dev: false
 
   /ripemd160@2.0.2:
@@ -10189,9 +10283,11 @@ packages:
     hasBin: true
     dependencies:
       glob: 10.4.1
+      glob: 10.4.3
       mkdirp: 3.0.1
       path-scurry: 1.11.1
       rimraf: 5.0.7
+      rimraf: 5.0.8
     dev: false
 
   /tar-fs@2.1.1:
@@ -10538,6 +10634,8 @@ packages:
       polite-json: 4.0.1
       resolve-import: 1.4.5
       rimraf: 5.0.7
+      resolve-import: 1.4.5
+      rimraf: 5.0.8
       sync-content: 1.0.2
       typescript: 5.5.3
       walk-up-path: 3.0.1
@@ -10556,6 +10654,8 @@ packages:
       polite-json: 5.0.0
       resolve-import: 1.4.5
       rimraf: 5.0.7
+      resolve-import: 1.4.5
+      rimraf: 5.0.8
       sync-content: 1.0.2
       typescript: 5.5.3
       walk-up-path: 3.0.1
@@ -10816,11 +10916,14 @@ packages:
 
   /update-browserslist-db@1.0.16(browserslist@4.23.0):
     resolution: {integrity: sha512-KVbTxlBYlckhF5wgfyZXTWnMn7MMZjMu9XG8bPlliUOP9ThaF4QnhP8qrjrH7DRzHfSk0oQv1wToW+iA5GajEQ==}
+  /update-browserslist-db@1.1.0(browserslist@4.23.1):
+    resolution: {integrity: sha512-EdRAaAyk2cUE1wOf2DkEhzxqOQvFOoRJFNS6NeyJ01Gp2beMRpBAINjM2iDXE3KCuKhwnvHIQCJm6ThL2Z+HzQ==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
       browserslist: 4.23.0
+      browserslist: 4.23.1
       escalade: 3.1.2
       picocolors: 1.0.1
     dev: false
@@ -10843,6 +10946,7 @@ packages:
     dependencies:
       punycode: 1.4.1
       qs: 6.12.1
+      qs: 6.12.2
     dev: false
 
   /urlpattern-polyfill@10.0.0:
@@ -10956,6 +11060,10 @@ packages:
       '@types/node': 18.19.33
       esbuild: 0.20.2
       postcss: 8.4.38
+      rollup: 4.18.0
+      '@types/node': 18.19.39
+      esbuild: 0.21.5
+      postcss: 8.4.39
       rollup: 4.18.0
     optionalDependencies:
       fsevents: 2.3.3
@@ -11387,6 +11495,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -11441,6 +11551,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -11488,6 +11599,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -11533,6 +11645,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -11580,6 +11693,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -11625,6 +11739,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -11650,6 +11765,8 @@ packages:
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.18.0)
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.18.0)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.6
       '@types/node': 18.19.33
@@ -11673,6 +11790,9 @@ packages:
       nyc: 17.0.0
       prettier: 3.3.0
       rimraf: 5.0.7
+      rollup: 4.18.0
+      prettier: 3.3.2
+      rimraf: 5.0.8
       rollup: 4.18.0
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -11705,6 +11825,8 @@ packages:
       mkdirp: 3.0.1
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       tshy: 1.18.0
       tslib: 2.6.2
@@ -11761,6 +11883,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -11812,6 +11935,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -11843,6 +11967,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -11884,6 +12009,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -11932,6 +12058,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -11979,6 +12106,8 @@ packages:
       nyc: 17.0.0
       prettier: 3.3.0
       rimraf: 5.0.7
+      prettier: 3.3.2
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tshy: 1.15.1
@@ -12025,6 +12154,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -12056,6 +12186,9 @@ packages:
       playwright: 1.44.1
       prettier: 3.3.0
       rimraf: 5.0.7
+      playwright: 1.45.1
+      prettier: 3.3.2
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -12108,6 +12241,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@20.10.8)(typescript@5.5.3)
       tslib: 2.6.2
@@ -12137,10 +12271,15 @@ packages:
       eslint: 8.57.0
       glob: 10.4.1
       inquirer: 9.2.23
+      glob: 10.4.3
+      inquirer: 9.3.5
       magic-string: 0.30.10
       mustache: 4.2.0
       prettier: 3.3.0
       rimraf: 5.0.7
+      rollup: 4.18.0
+      prettier: 3.3.2
+      rimraf: 5.0.8
       rollup: 4.18.0
       tshy: 1.18.0
       tslib: 2.6.2
@@ -12179,6 +12318,9 @@ packages:
       mime: 4.0.3
       playwright: 1.44.1
       rimraf: 5.0.7
+      mime: 4.0.4
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -12231,6 +12373,7 @@ packages:
       nock: 13.5.4
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       tslib: 2.6.2
       tsx: 4.11.2
@@ -12262,6 +12405,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12291,6 +12438,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12320,6 +12471,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12350,6 +12505,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12380,6 +12539,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12411,6 +12574,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12441,6 +12609,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12471,6 +12643,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12498,6 +12674,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12528,6 +12708,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12559,6 +12743,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12589,6 +12778,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12630,6 +12823,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -12665,6 +12859,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12692,6 +12890,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12720,6 +12922,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12750,6 +12956,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12778,6 +12988,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12808,6 +13022,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12839,6 +13057,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12868,6 +13091,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12895,6 +13122,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12925,6 +13156,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12955,6 +13190,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -12985,6 +13224,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13014,6 +13257,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13043,6 +13290,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13073,6 +13324,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13103,6 +13358,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13130,6 +13389,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13157,6 +13420,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13188,6 +13455,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13218,6 +13489,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13246,6 +13521,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13273,6 +13552,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13300,6 +13583,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13330,6 +13617,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13361,6 +13652,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13391,6 +13686,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13433,6 +13732,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -13469,6 +13769,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13499,6 +13803,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13529,6 +13837,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13557,6 +13869,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13587,6 +13903,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13617,6 +13937,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13648,6 +13972,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13689,6 +14017,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -13725,6 +14054,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13756,6 +14090,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13786,6 +14125,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13816,6 +14159,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13845,6 +14192,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13875,6 +14226,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13905,6 +14260,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13935,6 +14294,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13964,6 +14327,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -13994,6 +14361,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14023,6 +14394,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14053,6 +14428,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14084,6 +14463,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14113,6 +14497,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14142,6 +14530,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14172,6 +14564,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14202,6 +14598,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14231,6 +14631,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14259,6 +14663,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14290,6 +14698,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14318,6 +14730,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14348,6 +14764,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14379,6 +14799,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14409,6 +14833,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14440,6 +14868,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14469,6 +14901,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14498,6 +14934,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14528,6 +14968,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14558,6 +15002,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14587,6 +15035,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14617,6 +15069,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14646,6 +15102,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14676,6 +15136,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14704,6 +15168,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14734,6 +15202,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14764,6 +15236,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14794,6 +15270,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14824,6 +15304,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14855,6 +15339,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14885,6 +15373,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14912,6 +15404,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14940,6 +15436,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -14970,6 +15470,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15000,6 +15504,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15029,6 +15537,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15058,6 +15570,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15088,6 +15604,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15118,6 +15638,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15148,6 +15672,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15177,6 +15705,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15207,6 +15739,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15238,6 +15774,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15266,6 +15807,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15296,6 +15841,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15325,6 +15874,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15355,6 +15908,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15386,6 +15943,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15417,6 +15979,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15446,6 +16013,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15474,6 +16045,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15504,6 +16079,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15534,6 +16113,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15564,6 +16147,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15594,6 +16181,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15624,6 +16215,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15654,6 +16249,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15684,6 +16283,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15714,6 +16317,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15741,6 +16348,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15771,6 +16382,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15799,6 +16414,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15826,6 +16445,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15856,6 +16479,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15887,6 +16514,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15916,6 +16548,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15944,6 +16580,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15973,6 +16613,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16003,6 +16647,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16033,6 +16681,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16062,6 +16714,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16090,6 +16746,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16118,6 +16778,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16147,6 +16811,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16175,6 +16843,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16205,6 +16877,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16233,6 +16909,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16263,6 +16943,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16290,6 +16974,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16321,6 +17009,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16346,6 +17039,11 @@ packages:
       rimraf: 5.0.7
       tshy: 1.14.0
       tslib: 2.6.2
+      playwright: 1.45.1
+      prettier: 3.3.2
+      rimraf: 5.0.8
+      tshy: 1.18.0
+      tslib: 2.6.3
       typescript: 5.4.5
       vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
@@ -16384,6 +17082,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16414,6 +17116,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16442,6 +17148,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16473,6 +17183,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16502,6 +17217,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16533,6 +17252,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16564,6 +17288,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16594,6 +17323,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16635,6 +17368,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -16670,6 +17404,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16700,6 +17438,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16729,6 +17471,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16759,6 +17505,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16789,6 +17539,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16819,6 +17573,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16848,6 +17606,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16878,6 +17640,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16907,6 +17673,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16938,6 +17708,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16968,6 +17743,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -16998,6 +17777,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17025,6 +17808,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17055,6 +17842,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17083,6 +17874,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17111,6 +17906,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17141,6 +17940,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17169,6 +17972,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17199,6 +18006,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17228,6 +18039,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17258,6 +18073,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17287,6 +18106,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17317,6 +18140,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17346,6 +18173,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17376,6 +18207,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17406,6 +18241,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17436,6 +18275,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17466,6 +18309,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17497,6 +18344,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17529,6 +18380,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17559,6 +18414,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17590,6 +18449,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17621,6 +18484,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17651,6 +18518,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17681,6 +18552,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17711,6 +18586,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17738,6 +18617,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17766,6 +18649,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17796,6 +18683,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17826,6 +18717,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17854,6 +18749,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17884,6 +18783,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17915,6 +18818,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17946,6 +18854,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -17976,6 +18889,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18007,6 +18924,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18037,6 +18958,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18067,6 +18992,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18099,6 +19028,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18126,6 +19060,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18156,6 +19094,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18186,6 +19128,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18227,6 +19173,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -18260,6 +19207,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18290,6 +19241,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18318,6 +19273,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18348,6 +19307,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18378,6 +19341,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18408,6 +19375,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18438,6 +19409,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18469,6 +19444,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18499,6 +19478,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18530,6 +19513,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18560,6 +19547,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18591,6 +19582,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18621,6 +19617,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18652,6 +19652,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18680,6 +19684,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18711,6 +19719,11 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
       tsx: 4.11.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18740,6 +19753,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18769,6 +19786,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18798,6 +19819,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18828,6 +19853,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18856,6 +19885,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18885,6 +19918,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18915,6 +19952,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18945,6 +19986,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -18972,6 +20017,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19002,6 +20051,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19030,6 +20083,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19059,6 +20116,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19089,6 +20150,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19119,6 +20184,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19149,6 +20218,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19178,6 +20251,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19208,6 +20285,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19238,6 +20319,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19265,6 +20350,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -19309,6 +20398,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       safe-buffer: 5.2.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -19355,6 +20445,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19401,6 +20492,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19450,6 +20542,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19498,6 +20591,7 @@ packages:
       mockdate: 3.0.5
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19542,6 +20636,8 @@ packages:
       nyc: 17.0.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
       tslib: 1.14.1
       typescript: 5.5.3
     transitivePeerDependencies:
@@ -19588,6 +20684,7 @@ packages:
       nyc: 17.0.0
       process: 0.11.10
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19634,6 +20731,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19681,6 +20779,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19726,6 +20825,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19772,6 +20872,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19818,6 +20919,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19854,6 +20956,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 1.14.1
@@ -19900,6 +21003,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19946,6 +21050,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -19993,6 +21098,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -20038,6 +21144,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -20071,6 +21178,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -20088,6 +21196,8 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.0
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
@@ -20115,6 +21225,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       util: 0.12.5
     transitivePeerDependencies:
@@ -20146,6 +21259,8 @@ packages:
       rhea: 3.0.2
       rhea-promise: 3.0.2
       rimraf: 5.0.7
+      rhea-promise: 3.0.3
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20184,6 +21299,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20216,6 +21333,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20248,6 +21367,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20280,6 +21401,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       typescript: 5.5.3
       vitest: 1.6.0(@types/node@18.19.33)(@vitest/browser@1.6.0)
@@ -20311,6 +21434,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20343,6 +21468,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20377,6 +21504,9 @@ packages:
       https-proxy-agent: 7.0.4
       playwright: 1.44.1
       rimraf: 5.0.7
+      https-proxy-agent: 7.0.5
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20410,6 +21540,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20442,6 +21574,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20474,6 +21608,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20508,6 +21644,8 @@ packages:
       fast-xml-parser: 4.4.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20557,6 +21695,7 @@ packages:
       priorityqueuejs: 2.0.0
       requirejs: 2.3.6
       rimraf: 5.0.7
+      rimraf: 5.0.8
       semaphore: 1.1.0
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -20599,6 +21738,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -20647,6 +21787,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -20669,6 +21810,13 @@ packages:
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
+      '@rollup/plugin-commonjs': 25.0.8(rollup@4.18.0)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.18.0)
+      '@rollup/plugin-json': 6.1.0(rollup@4.18.0)
+      '@rollup/plugin-multi-entry': 6.0.1(rollup@4.18.0)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.18.0)
+      '@azure/identity': 4.3.0
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@rollup/plugin-commonjs': 25.0.8(rollup@4.18.0)
       '@rollup/plugin-inject': 5.0.5(rollup@4.18.0)
       '@rollup/plugin-json': 6.1.0(rollup@4.18.0)
@@ -20699,6 +21847,11 @@ packages:
       mkdirp: 3.0.1
       prettier: 3.3.0
       rimraf: 5.0.7
+      rollup: 4.18.0
+      rollup-plugin-polyfill-node: 0.13.0(rollup@4.18.0)
+      rollup-plugin-visualizer: 5.12.0(rollup@4.18.0)
+      prettier: 3.3.2
+      rimraf: 5.0.8
       rollup: 4.18.0
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.18.0)
       rollup-plugin-visualizer: 5.12.0(rollup@4.18.0)
@@ -20745,6 +21898,9 @@ packages:
       playwright: 1.44.1
       prettier: 3.3.0
       rimraf: 5.0.7
+      playwright: 1.45.1
+      prettier: 3.3.2
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20796,6 +21952,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -20833,6 +21990,8 @@ packages:
       eslint-plugin-tsdoc: 0.2.17
       glob: 10.4.1
       tslib: 2.6.2
+      glob: 10.4.3
+      tslib: 2.6.3
       typescript: 5.5.3
       typescript-eslint: 7.16.0(eslint@8.57.0)(typescript@5.5.3)
     transitivePeerDependencies:
@@ -20869,6 +22028,9 @@ packages:
       glob: 10.4.1
       prettier: 3.3.0
       rimraf: 5.0.7
+      glob: 10.4.3
+      prettier: 3.3.2
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       tslib: 2.6.2
       typescript: 5.5.3
@@ -20937,6 +22099,9 @@ packages:
       puppeteer: 22.10.0(typescript@5.5.3)
       rhea-promise: 3.0.2
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rhea-promise: 3.0.3
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -20984,6 +22149,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21031,6 +22197,7 @@ packages:
       nyc: 17.0.0
       prettier: 2.8.8
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21076,6 +22243,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       tslib: 2.6.2
@@ -21127,6 +22295,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       util: 0.12.5
     transitivePeerDependencies:
@@ -21175,6 +22346,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       util: 0.12.5
     transitivePeerDependencies:
@@ -21216,6 +22390,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21264,6 +22439,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21311,6 +22487,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21358,6 +22535,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21390,6 +22568,9 @@ packages:
       mocha: 10.4.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      mocha: 10.6.0
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       tslib: 2.6.2
       typescript: 5.5.3
@@ -21422,6 +22603,9 @@ packages:
       mocha: 10.4.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      mocha: 10.6.0
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21457,6 +22641,9 @@ packages:
       mocha: 10.4.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      mocha: 10.6.0
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21512,6 +22699,8 @@ packages:
       open: 8.4.2
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       stoppable: 1.1.0
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21561,6 +22750,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21604,6 +22794,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21639,6 +22830,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21683,6 +22875,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21712,6 +22906,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21758,6 +22954,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21802,6 +23000,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -21851,6 +23051,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21878,6 +23079,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -21910,6 +23113,8 @@ packages:
       eslint: 8.57.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -21950,6 +23155,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -21996,6 +23202,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -22043,6 +23250,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -22090,6 +23298,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -22135,6 +23344,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       util: 0.12.5
     transitivePeerDependencies:
@@ -22182,6 +23394,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       util: 0.12.5
       uuid: 8.3.2
@@ -22207,6 +23422,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22248,6 +23466,7 @@ packages:
       nyc: 17.0.0
       pako: 2.1.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -22290,6 +23509,7 @@ packages:
       nock: 13.5.4
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       tslib: 2.6.2
       tsx: 4.11.2
@@ -22300,6 +23520,7 @@ packages:
 
   file:projects/monitor-opentelemetry.tgz:
     resolution: {integrity: sha512-Hq9xVY3qP2881jkZqlLQPKdMlggy5/5zOGhyHRYrcM4kPj/g/L/WN8V9BbnTi3dUilDFtCsQwj2+ZPyR3T7eYg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-LV7f1oklFBO7oOrigOyOBfLoAzTUOSBIK+5wJJNjnDhA/aqoAjSaxWq2Fn1XSFgI4iK/F1mecIOyJtbTXzcsAQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22338,6 +23559,7 @@ packages:
       nock: 13.5.4
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       tslib: 2.6.2
       tsx: 4.11.2
@@ -22380,6 +23602,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       tslib: 2.6.2
       tsx: 4.11.2
@@ -22405,6 +23628,8 @@ packages:
       eslint: 8.57.0
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -22460,6 +23685,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22500,6 +23729,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -22528,6 +23758,7 @@ packages:
       dotenv: 16.4.5
       mkdirp: 3.0.1
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       tslib: 2.6.2
       typescript: 5.5.3
@@ -22566,6 +23797,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       tslib: 2.6.2
@@ -22591,6 +23823,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22610,6 +23845,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22628,6 +23866,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22647,6 +23888,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22666,6 +23910,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22684,6 +23931,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22705,6 +23955,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       undici: 6.18.2
     transitivePeerDependencies:
@@ -22724,6 +23977,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22746,6 +24002,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -22765,6 +24024,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22785,6 +24047,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22805,6 +24070,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -22826,6 +24094,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -22847,6 +24118,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -22867,6 +24141,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22887,6 +24164,8 @@ packages:
       eslint: 8.57.0
       rimraf: 5.0.7
       tslib: 2.6.2
+      rimraf: 5.0.8
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - supports-color
@@ -22904,6 +24183,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22923,6 +24205,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22943,6 +24228,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22962,6 +24250,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -22982,6 +24273,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23001,6 +24295,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23021,6 +24318,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23042,6 +24342,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23080,6 +24383,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23125,6 +24429,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23170,6 +24475,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23214,6 +24520,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23261,6 +24568,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23306,6 +24614,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23351,6 +24660,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23402,9 +24712,12 @@ packages:
       karma-sourcemap-loader: 0.3.8
       lru-cache: 10.2.2
       mocha: 10.4.0
+      lru-cache: 10.4.0
+      mocha: 10.6.0
       nyc: 17.0.0
       process: 0.11.10
       rimraf: 5.0.7
+      rimraf: 5.0.8
       stream: 0.0.3
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23448,10 +24761,15 @@ packages:
       karma-sourcemap-loader: 0.3.8
       lru-cache: 10.2.2
       mocha: 10.4.0
+      lru-cache: 10.4.0
+      mocha: 10.6.0
       nyc: 17.0.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23492,6 +24810,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23534,6 +24855,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.3.3)
       tslib: 2.6.2
@@ -23596,6 +24918,9 @@ packages:
       puppeteer: 22.10.0(typescript@5.5.3)
       rhea-promise: 3.0.2
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rhea-promise: 3.0.3
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23646,6 +24971,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -23695,6 +25022,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23745,6 +25074,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -23795,6 +25126,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -23839,6 +25172,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23886,6 +25221,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -23931,6 +25268,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -23981,6 +25319,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -24031,6 +25370,7 @@ packages:
       mocha: 10.4.0
       nyc: 17.0.0
       rimraf: 5.0.7
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -24078,6 +25418,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -24115,6 +25458,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      mocha: 10.6.0
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -24158,6 +25505,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -24201,6 +25551,10 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
       util: 0.12.5
     transitivePeerDependencies:
@@ -24229,6 +25583,8 @@ packages:
       loupe: 3.1.1
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       source-map-support: 0.5.21
       tshy: 1.18.0
       tslib: 2.6.2
@@ -24262,6 +25618,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -24287,6 +25646,9 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
+      rimraf: 5.0.8
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -24313,6 +25675,8 @@ packages:
       express: 4.19.2
       playwright: 1.44.1
       rimraf: 5.0.7
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -24357,6 +25721,8 @@ packages:
       karma-env-preprocessor: 0.1.1
       mocha: 10.4.0
       rimraf: 5.0.7
+      mocha: 10.6.0
+      rimraf: 5.0.8
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
       tslib: 2.6.2
@@ -24385,6 +25751,9 @@ packages:
       https-proxy-agent: 7.0.4
       playwright: 1.44.1
       rimraf: 5.0.7
+      https-proxy-agent: 7.0.5
+      playwright: 1.45.1
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -24415,6 +25784,9 @@ packages:
       prettier: 3.3.0
       rimraf: 5.0.7
       tslib: 2.6.2
+      prettier: 3.3.2
+      rimraf: 5.0.8
+      tslib: 2.6.3
       typescript: 5.5.3
     transitivePeerDependencies:
       - supports-color
@@ -24463,6 +25835,11 @@ packages:
       protobufjs-cli: 1.1.2(protobufjs@7.3.0)
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      rollup: 4.18.0
+      protobufjs: 7.3.2
+      protobufjs-cli: 1.1.2(protobufjs@7.3.2)
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       rollup: 4.18.0
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -24517,6 +25894,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
@@ -24560,6 +25939,7 @@ packages:
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
+      rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.2
       typescript: 5.5.3
@@ -24613,6 +25993,8 @@ packages:
       nyc: 17.0.0
       puppeteer: 22.10.0(typescript@5.5.3)
       rimraf: 5.0.7
+      puppeteer: 22.12.1(typescript@5.5.3)
+      rimraf: 5.0.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.5.3)
