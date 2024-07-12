@@ -120,13 +120,10 @@ export class AzurePipelinesCredential implements TokenCredential {
           response.status
         }. Complete response - ${JSON.stringify(response)}`,
       );
-      throw new AuthenticationError(
-        response.status,
-        {
-          error:  `${credentialName}: Authenticated Failed. Received null token from OIDC request.`,
-          error_description: `${JSON.stringify(response)}`
-        }
-      );
+      throw new AuthenticationError(response.status, {
+        error: `${credentialName}: Authenticated Failed. Received null token from OIDC request.`,
+        error_description: `${JSON.stringify(response)}`,
+      });
     }
     try {
       const result = JSON.parse(text);
@@ -136,30 +133,27 @@ export class AzurePipelinesCredential implements TokenCredential {
         const errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
         let errorDescription = ``;
         if (response.status !== 200) {
-          errorDescription = `Complete response - ${JSON.stringify(result)}`
+          errorDescription = `Complete response - ${JSON.stringify(result)}`;
         }
         logger.error(errorMessage);
         logger.error(errorDescription);
         throw new AuthenticationError(response.status, {
           error: errorMessage,
-          error_description: errorDescription
+          error_description: errorDescription,
         });
       }
     } catch (e: any) {
-      let errorDetails =  `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+      let errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
       logger.error(`Response = ${text} and error message = ${e.message}`);
       logger.error(errorDetails);
-      
-      if(text?.includes("No service connection found")){
-        errorDetails = `${credentialName}: Authentication Failed. Please check if you are using one of the supported Azure Pipelines tasks and assigning the sercice connection name to the "subscriptionName" field in the current task. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`
+
+      if (text?.includes("No service connection found")) {
+        errorDetails = `${credentialName}: Authentication Failed. Please check if you are using one of the supported Azure Pipelines tasks and assigning the sercice connection name to the "subscriptionName" field in the current task. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
-      throw new AuthenticationError(
-        response.status,
-        {
-          error: errorDetails,
-          error_description: `${text}`
-        }
-      );
+      throw new AuthenticationError(response.status, {
+        error: errorDetails,
+        error_description: `${text}`,
+      });
     }
   }
 }
