@@ -165,7 +165,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (isReadableStream(body)) {
     return { body };
   }
-  
+
   if (ArrayBuffer.isView(body)) {
     return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
