@@ -165,22 +165,16 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (isReadableStream(body)) {
     return { body };
   }
-
-  if ((!contentType || contentType.includes("serialization")) && typeof body === "string") {
-    return { body };
-  }
-
-  const firstType = contentType.split(";")[0];
-
-  if (firstType === "application/json") {
-    return { body: JSON.stringify(body) };
-  }
-
+  
   if (ArrayBuffer.isView(body)) {
     return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
+  const firstType = contentType.split(";")[0];
+
   switch (firstType) {
+    case "application/json":
+      return { body: JSON.stringify(body) };
     case "multipart/form-data":
       if (Array.isArray(body)) {
         return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };

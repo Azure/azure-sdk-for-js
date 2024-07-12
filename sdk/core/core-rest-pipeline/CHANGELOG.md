@@ -1,6 +1,6 @@
 # Release History
 
-## 1.16.2 (Unreleased)
+## 1.16.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,17 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.16.2 (2024-07-10)
+
+### Bugs Fixed
+
+- Fix TypeError on some platforms when retrieving browser user agent data. [PR #30194](https://github.com/Azure/azure-sdk-for-js/pull/30194)
+- Fix `ERR_INVALID_URL` error thrown from sanitizer [PR #30151](https://github.com/Azure/azure-sdk-for-js/pull/30151)
+
+### Features Added
+
+- Add EdgeRuntime telemetry information [PR #30239](https://github.com/Azure/azure-sdk-for-js/pull/30239)
 
 ## 1.16.1 (2024-06-24)
 
