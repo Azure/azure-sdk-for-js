@@ -1,5 +1,11 @@
 # Release History
 
+## 4.3.1 (2024-07-18)
+
+### Bugs Fixed
+
+- Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
+
 ## 4.3.0 (2024-05-20)
 
 ### Breaking Changes
