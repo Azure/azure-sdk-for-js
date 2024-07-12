@@ -338,8 +338,8 @@ export class AppConfigurationClient {
       {
         firstPageLink: undefined,
         getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
           try {
-            const etag = pageEtags?.shift();
             const response = await this.sendConfigurationSettingsRequest(
               { ...options, etag },
               pageLink,
