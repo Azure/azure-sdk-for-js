@@ -36,7 +36,7 @@ export interface PatientDetails {
  * Based on [FHIR Resource](https://www.hl7.org/fhir/r4/resource.html
  */
 export interface Resource extends Record<string, unknown> {
-  /** The type of resource */
+  /** resourceType */
   resourceType: string;
   /** Resource Id */
   id?: string;
@@ -362,6 +362,7 @@ export interface DomainResourceParent extends Resource {
   extension?: Array<Extension>;
   /** Extensions that cannot be ignored */
   modifierExtension?: Array<Extension>;
+  /** resourceType */
   resourceType: string;
 }
 
@@ -702,6 +703,7 @@ export interface RadiologyInsightsPatientResult {
 export interface RadiologyInsightsInferenceParent {
   /** Additional Content defined by implementations */
   extension?: Array<Extension>;
+  /** The kind of inference */
   kind: string;
 }
 
@@ -849,6 +851,7 @@ export interface RecommendationFinding {
 export interface ProcedureRecommendationParent {
   /** Additional Content defined by implementations */
   extension?: Array<Extension>;
+  /** The kind of procedure recommendation eg. generic or imaging*/
   kind: string;
 }
 

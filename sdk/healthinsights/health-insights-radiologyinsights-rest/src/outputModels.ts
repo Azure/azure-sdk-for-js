@@ -384,6 +384,7 @@ export interface DomainResourceOutputParent extends ResourceOutput {
   extension?: Array<ExtensionOutput>;
   /** Extensions that cannot be ignored */
   modifierExtension?: Array<ExtensionOutput>;
+  /** resourceType */
   resourceType: string;
 }
 
@@ -724,6 +725,7 @@ export interface RadiologyInsightsPatientResultOutput {
 export interface RadiologyInsightsInferenceOutputParent {
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
+  /** The kind of inference */
   kind: string;
 }
 
@@ -875,6 +877,7 @@ export interface RecommendationFindingOutput {
 export interface ProcedureRecommendationOutputParent {
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
+  /** The kind of procedure recommendation eg. generic or imaging*/
   kind: string;
 }
 
@@ -920,7 +923,7 @@ export interface HealthInsightsErrorResponseOutput {
 }
 
 /** Provides the 'x-ms-request-id' header to enable request correlation in responses. */
-export interface RequestIdResponseHeaderOutput {}
+export interface RequestIdResponseHeaderOutput { }
 
 /**
  * A resource with narrative, extensions, and contained resources

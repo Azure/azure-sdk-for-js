@@ -238,11 +238,8 @@ export interface CreateJob200Headers {
 
 // @public
 export interface CreateJob200Response extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     headers: RawHttpHeaders & CreateJob200Headers;
-    // (undocumented)
     status: "200";
 }
 
@@ -254,15 +251,12 @@ export interface CreateJob201Headers {
 
 // @public
 export interface CreateJob201Response extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     headers: RawHttpHeaders & CreateJob201Headers;
-    // (undocumented)
     status: "201";
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobBodyParam {
     body: RadiologyInsightsJob;
 }
@@ -275,32 +269,26 @@ export interface CreateJobDefaultHeaders {
 
 // @public
 export interface CreateJobDefaultResponse extends HttpResponse {
-    // (undocumented)
     body: HealthInsightsErrorResponseOutput;
-    // (undocumented)
     headers: RawHttpHeaders & CreateJobDefaultHeaders;
-    // (undocumented)
     status: string;
 }
 
 // @public
 export interface CreateJobLogicalResponse extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     status: "200";
 }
 
-// @public (undocumented)
+// @public
 export type CreateJobParameters = CreateJobQueryParam & CreateJobBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface CreateJobQueryParam {
-    // (undocumented)
     queryParameters?: CreateJobQueryParamProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobQueryParamProperties {
     expand?: string;
 }
@@ -388,7 +376,6 @@ export interface DomainResourceOutputParent extends ResourceOutput {
     contained?: Array<ResourceOutput>;
     extension?: Array<ExtensionOutput>;
     modifierExtension?: Array<ExtensionOutput>;
-    // (undocumented)
     resourceType: string;
     text?: NarrativeOutput;
 }
@@ -398,7 +385,6 @@ export interface DomainResourceParent extends Resource {
     contained?: Array<Resource>;
     extension?: Array<Extension>;
     modifierExtension?: Array<Extension>;
-    // (undocumented)
     resourceType: string;
     text?: Narrative;
 }
@@ -547,7 +533,7 @@ export interface GenericProcedureRecommendationOutput extends ProcedureRecommend
     kind: "genericProcedureRecommendation";
 }
 
-// @public (undocumented)
+// @public
 export interface GetJob {
     get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
     put(options: CreateJobParameters, requestOptions?: GetJobParameters): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
@@ -561,11 +547,8 @@ export interface GetJob200Headers {
 
 // @public
 export interface GetJob200Response extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     headers: RawHttpHeaders & GetJob200Headers;
-    // (undocumented)
     status: "200";
 }
 
@@ -577,24 +560,20 @@ export interface GetJobDefaultHeaders {
 
 // @public
 export interface GetJobDefaultResponse extends HttpResponse {
-    // (undocumented)
     body: HealthInsightsErrorResponseOutput;
-    // (undocumented)
     headers: RawHttpHeaders & GetJobDefaultHeaders;
-    // (undocumented)
     status: string;
 }
 
-// @public (undocumented)
+// @public
 export type GetJobParameters = GetJobQueryParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface GetJobQueryParam {
-    // (undocumented)
     queryParameters?: GetJobQueryParamProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GetJobQueryParamProperties {
     expand?: string;
 }
@@ -662,10 +641,10 @@ export interface ImagingProcedureRecommendationOutput extends ProcedureRecommend
     procedureCodes?: Array<CodeableConceptOutput>;
 }
 
-// @public (undocumented)
+// @public
 export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;
 
-// @public (undocumented)
+// @public
 export function isUnexpected(response: CreateJob200Response | CreateJob201Response | CreateJobLogicalResponse | CreateJobDefaultResponse): response is CreateJobDefaultResponse;
 
 // @public
@@ -995,14 +974,12 @@ export type ProcedureRecommendationOutput = ProcedureRecommendationOutputParent 
 // @public
 export interface ProcedureRecommendationOutputParent {
     extension?: Array<ExtensionOutput>;
-    // (undocumented)
     kind: string;
 }
 
 // @public
 export interface ProcedureRecommendationParent {
     extension?: Array<Extension>;
-    // (undocumented)
     kind: string;
 }
 
@@ -1069,14 +1046,12 @@ export type RadiologyInsightsInferenceOutput = RadiologyInsightsInferenceOutputP
 // @public
 export interface RadiologyInsightsInferenceOutputParent {
     extension?: Array<ExtensionOutput>;
-    // (undocumented)
     kind: string;
 }
 
 // @public
 export interface RadiologyInsightsInferenceParent {
     extension?: Array<Extension>;
-    // (undocumented)
     kind: string;
 }
 
@@ -1321,7 +1296,7 @@ export interface ResourceOutput extends Record<string, any> {
     resourceType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface Routes {
     (path: "/radiology-insights/jobs/{id}", id: string): GetJob;
 }
