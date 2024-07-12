@@ -16,10 +16,6 @@ extends:
           SubscriptionConfigurations:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-        PPE:
-          SubscriptionConfigurations:
-            - $(sub-config-communication-ppe-test-resources-common)
-            - $(sub-config-communication-ppe-test-resources-js)
-      Clouds: Public,PPE
+      Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/
