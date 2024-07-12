@@ -4,9 +4,7 @@
     "declarationDir": "./typings",
     "outDir": "./dist-esm",
     "paths": {
-      "@azure/eventhubs-checkpointstore-table": [
-        "./src/index"
-      ]
+      "@azure/eventhubs-checkpointstore-table": ["./src/index"]
     }
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
