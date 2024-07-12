@@ -2431,6 +2431,24 @@ export interface AcsMessageChannelEventError {
   channelMessage: string;
 }
 
+/** Message Analysis Language Detection */
+export interface AcsMessageLanguageDetection {
+  /** The language of the message */
+  language: string;
+  /** The confidence score of the language detected */
+  confidenceScore: string;
+  /** The translation of the message */
+  translation: string;
+}
+
+/** Message Analysis Sentiments */
+export interface AcsMessageSentiment {
+  /** The score of the analysis */
+  score: number;
+  /** The description of the analysis */
+  description: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
 export interface PolicyInsightsPolicyStateCreatedEventData {
   /** The time that the resource was scanned by Azure Policy in the Universal ISO 8601 DateTime format yyyy-MM-ddTHH:mm:ss.fffffffZ. */
@@ -3117,6 +3135,22 @@ export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
   status: AcsMessageDeliveryStatus;
   /** The updated message channel type */
   channelKind: AcsMessageChannelKind;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageAnalysisCompleted event. */
+export type AcsMessageAnalysisCompleted = AcsMessageEventData & {
+  /** The original message received */
+  originalMessage: string;
+  /** The Analysed message channel Kind */
+  channelKind: AcsMessageChannelKind;
+  /** The intent of the analysed message */
+  intentAnalysis: string;
+  /** List of key phrases extracted */
+  keyPhraseExtraction: string[];
+  /** The analysed message language detection */
+  languageDetection: AcsMessageLanguageDetection;
+  /** The analysed message sentiment */
+  sentiments: AcsMessageSentiment;
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnded event */

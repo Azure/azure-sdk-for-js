@@ -212,6 +212,7 @@ import {
   AcsChatThreadDeletedEventData,
   AcsChatThreadCreatedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
+  AcsMessageAnalysisCompleted as AcsMessageAnalysisCompletedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -646,6 +647,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.ChatThreadDeleted": AcsChatThreadDeletedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdated" event. */
   "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageAnalysisCompleted" event. */
+  "Microsoft.Communication.AdvancedMessageAnalysisCompleted": AcsMessageAnalysisCompletedEventData;
 }
 
 /**
