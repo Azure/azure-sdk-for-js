@@ -6,7 +6,11 @@
     // THIS HAS TO ALWAYS BE ENABLED
     "strict": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"],
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.(ts|json)"
+  ],
   // ADDITION TO THIS LIST IS NOT ALLOWED
   "exclude": [
     "src/documents/DatabaseAccount.ts",
@@ -150,7 +154,7 @@
     "src/queryExecutionContext/nonStreamingOrderByResponse.ts",
     "src/queryExecutionContext/nonStreamingOrderByResult.ts",
     "src/queryExecutionContext/orderByComparator.ts",
-    "src/utils/nonStreamingOrderByPriorityQueue.ts",
+    "src/utils/fixedSizePriorityQueue.ts",
     "src/utils/supportedQueryFeaturesBuilder.ts",
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",

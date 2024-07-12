@@ -92,7 +92,7 @@ export class OrderByComparator {
   }
 
   private compareValue(item1: unknown, type1: string, item2: unknown, type2: string): number {
-    //TODO: https://github.com/Azure/azure-sdk-for-js/issues/30122
+    // TODO: https://github.com/Azure/azure-sdk-for-js/issues/30122
     // currently we do not support same type and cross type comparision for object and arrays.
 
     if (type1 === "object" || type2 === "object") {
