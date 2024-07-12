@@ -6,7 +6,6 @@
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "lib": ["dom", "ES2018.AsyncIterable"],
-    "downlevelIteration": true,
     "paths": {
       "@azure/service-bus": ["./src/index"]
     }
