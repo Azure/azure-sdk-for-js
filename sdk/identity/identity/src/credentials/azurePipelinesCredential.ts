@@ -133,7 +133,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       if (result?.oidcToken) {
         return result.oidcToken;
       } else {
-        let errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+        const errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
         let errorDescription = ``;
         if (response.status !== 200) {
           errorDescription = `Complete response - ${JSON.stringify(result)}`
