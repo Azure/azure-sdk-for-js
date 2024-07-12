@@ -1,4 +1,4 @@
-# client library samples for JavaScript (Beta)
+# client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for in some common scenarios.
 
@@ -60,23 +60,23 @@ npx cross-env INFORMATICA_SUBSCRIPTION_ID="<informatica subscription id>" node o
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/operationsListSample.js
-[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsCreateOrUpdateSample.js
-[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsDeleteSample.js
-[organizationsgetallserverlessruntimessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsGetAllServerlessRuntimesSample.js
-[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsGetSample.js
-[organizationsgetserverlessmetadatasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsGetServerlessMetadataSample.js
-[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsListByResourceGroupSample.js
-[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsListBySubscriptionSample.js
-[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/organizationsUpdateSample.js
-[serverlessruntimescheckdependenciessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesCheckDependenciesSample.js
-[serverlessruntimescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesCreateOrUpdateSample.js
-[serverlessruntimesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesDeleteSample.js
-[serverlessruntimesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesGetSample.js
-[serverlessruntimeslistbyinformaticaorganizationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesListByInformaticaOrganizationResourceSample.js
-[serverlessruntimesserverlessresourcebyidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesServerlessResourceByIdSample.js
-[serverlessruntimesstartfailedserverlessruntimesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesStartFailedServerlessRuntimeSample.js
-[serverlessruntimesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1-beta/javascript/serverlessRuntimesUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/operationsListSample.js
+[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsCreateOrUpdateSample.js
+[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsDeleteSample.js
+[organizationsgetallserverlessruntimessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsGetAllServerlessRuntimesSample.js
+[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsGetSample.js
+[organizationsgetserverlessmetadatasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsGetServerlessMetadataSample.js
+[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsListByResourceGroupSample.js
+[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsListBySubscriptionSample.js
+[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/organizationsUpdateSample.js
+[serverlessruntimescheckdependenciessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesCheckDependenciesSample.js
+[serverlessruntimescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesCreateOrUpdateSample.js
+[serverlessruntimesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesDeleteSample.js
+[serverlessruntimesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesGetSample.js
+[serverlessruntimeslistbyinformaticaorganizationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesListByInformaticaOrganizationResourceSample.js
+[serverlessruntimesserverlessresourcebyidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesServerlessResourceByIdSample.js
+[serverlessruntimesstartfailedserverlessruntimesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesStartFailedServerlessRuntimeSample.js
+[serverlessruntimesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesUpdateSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-informaticadatamanagement?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/informatica/arm-informaticadatamanagement/README.md

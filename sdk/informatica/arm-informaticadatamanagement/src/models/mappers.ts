@@ -243,57 +243,6 @@ export const InformaticaOrganizationResourceListResult: coreClient.CompositeMapp
     },
   };
 
-export const OrganizationProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OrganizationProperties",
-    modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      informaticaProperties: {
-        serializedName: "informaticaProperties",
-        type: {
-          name: "Composite",
-          className: "InformaticaProperties",
-        },
-      },
-      marketplaceDetails: {
-        serializedName: "marketplaceDetails",
-        type: {
-          name: "Composite",
-          className: "MarketplaceDetails",
-        },
-      },
-      userDetails: {
-        serializedName: "userDetails",
-        type: {
-          name: "Composite",
-          className: "UserDetails",
-        },
-      },
-      companyDetails: {
-        serializedName: "companyDetails",
-        type: {
-          name: "Composite",
-          className: "CompanyDetails",
-        },
-      },
-      linkOrganization: {
-        serializedName: "linkOrganization",
-        type: {
-          name: "Composite",
-          className: "LinkOrganization",
-        },
-      },
-    },
-  },
-};
-
 export const InformaticaProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -334,7 +283,6 @@ export const MarketplaceDetails: coreClient.CompositeMapper = {
     modelProperties: {
       marketplaceSubscriptionId: {
         serializedName: "marketplaceSubscriptionId",
-        required: true,
         type: {
           name: "String",
         },
@@ -1046,7 +994,7 @@ export const InfaServerlessFetchConfigProperties: coreClient.CompositeMapper = {
       tenantId: {
         serializedName: "tenantId",
         type: {
-          name: "String",
+          name: "Uuid",
         },
       },
       subscriptionId: {
@@ -1368,111 +1316,6 @@ export const InformaticaServerlessRuntimeResourceListResult: coreClient.Composit
           serializedName: "nextLink",
           type: {
             name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const InformaticaServerlessRuntimeProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InformaticaServerlessRuntimeProperties",
-      modelProperties: {
-        provisioningState: {
-          serializedName: "provisioningState",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-        description: {
-          serializedName: "description",
-          type: {
-            name: "String",
-          },
-        },
-        platform: {
-          serializedName: "platform",
-          type: {
-            name: "String",
-          },
-        },
-        applicationType: {
-          serializedName: "applicationType",
-          type: {
-            name: "String",
-          },
-        },
-        computeUnits: {
-          serializedName: "computeUnits",
-          type: {
-            name: "String",
-          },
-        },
-        executionTimeout: {
-          serializedName: "executionTimeout",
-          type: {
-            name: "String",
-          },
-        },
-        serverlessAccountLocation: {
-          serializedName: "serverlessAccountLocation",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-        serverlessRuntimeNetworkProfile: {
-          serializedName: "serverlessRuntimeNetworkProfile",
-          type: {
-            name: "Composite",
-            className: "ServerlessRuntimeNetworkProfile",
-          },
-        },
-        advancedCustomProperties: {
-          serializedName: "advancedCustomProperties",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "AdvancedCustomProperties",
-              },
-            },
-          },
-        },
-        supplementaryFileLocation: {
-          serializedName: "supplementaryFileLocation",
-          type: {
-            name: "String",
-          },
-        },
-        serverlessRuntimeConfig: {
-          serializedName: "serverlessRuntimeConfig",
-          type: {
-            name: "Composite",
-            className: "ServerlessRuntimeConfigProperties",
-          },
-        },
-        serverlessRuntimeTags: {
-          serializedName: "serverlessRuntimeTags",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ServerlessRuntimeTag",
-              },
-            },
-          },
-        },
-        serverlessRuntimeUserContextProperties: {
-          serializedName: "serverlessRuntimeUserContextProperties",
-          type: {
-            name: "Composite",
-            className: "ServerlessRuntimeUserContextProperties",
           },
         },
       },
@@ -1918,11 +1761,46 @@ export const InformaticaOrganizationResource: coreClient.CompositeMapper = {
     className: "InformaticaOrganizationResource",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      informaticaProperties: {
+        serializedName: "properties.informaticaProperties",
         type: {
           name: "Composite",
-          className: "OrganizationProperties",
+          className: "InformaticaProperties",
+        },
+      },
+      marketplaceDetails: {
+        serializedName: "properties.marketplaceDetails",
+        type: {
+          name: "Composite",
+          className: "MarketplaceDetails",
+        },
+      },
+      userDetails: {
+        serializedName: "properties.userDetails",
+        type: {
+          name: "Composite",
+          className: "UserDetails",
+        },
+      },
+      companyDetails: {
+        serializedName: "properties.companyDetails",
+        type: {
+          name: "Composite",
+          className: "CompanyDetails",
+        },
+      },
+      linkOrganization: {
+        serializedName: "properties.linkOrganization",
+        type: {
+          name: "Composite",
+          className: "LinkOrganization",
         },
       },
     },
@@ -1936,11 +1814,98 @@ export const InformaticaServerlessRuntimeResource: coreClient.CompositeMapper =
       className: "InformaticaServerlessRuntimeResource",
       modelProperties: {
         ...ProxyResource.type.modelProperties,
-        properties: {
-          serializedName: "properties",
+        provisioningState: {
+          serializedName: "properties.provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        description: {
+          serializedName: "properties.description",
+          type: {
+            name: "String",
+          },
+        },
+        platform: {
+          serializedName: "properties.platform",
+          type: {
+            name: "String",
+          },
+        },
+        applicationType: {
+          serializedName: "properties.applicationType",
+          type: {
+            name: "String",
+          },
+        },
+        computeUnits: {
+          serializedName: "properties.computeUnits",
+          type: {
+            name: "String",
+          },
+        },
+        executionTimeout: {
+          serializedName: "properties.executionTimeout",
+          type: {
+            name: "String",
+          },
+        },
+        serverlessAccountLocation: {
+          serializedName: "properties.serverlessAccountLocation",
+          type: {
+            name: "String",
+          },
+        },
+        serverlessRuntimeNetworkProfile: {
+          serializedName: "properties.serverlessRuntimeNetworkProfile",
           type: {
             name: "Composite",
-            className: "InformaticaServerlessRuntimeProperties",
+            className: "ServerlessRuntimeNetworkProfile",
+          },
+        },
+        advancedCustomProperties: {
+          serializedName: "properties.advancedCustomProperties",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "AdvancedCustomProperties",
+              },
+            },
+          },
+        },
+        supplementaryFileLocation: {
+          serializedName: "properties.supplementaryFileLocation",
+          type: {
+            name: "String",
+          },
+        },
+        serverlessRuntimeConfig: {
+          serializedName: "properties.serverlessRuntimeConfig",
+          type: {
+            name: "Composite",
+            className: "ServerlessRuntimeConfigProperties",
+          },
+        },
+        serverlessRuntimeTags: {
+          serializedName: "properties.serverlessRuntimeTags",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ServerlessRuntimeTag",
+              },
+            },
+          },
+        },
+        serverlessRuntimeUserContextProperties: {
+          serializedName: "properties.serverlessRuntimeUserContextProperties",
+          type: {
+            name: "Composite",
+            className: "ServerlessRuntimeUserContextProperties",
           },
         },
       },

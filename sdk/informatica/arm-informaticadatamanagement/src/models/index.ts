@@ -129,25 +129,6 @@ export interface InformaticaOrganizationResourceListResult {
   nextLink?: string;
 }
 
-/** Properties specific to the Informatica DataManagement Organization resource. */
-export interface OrganizationProperties {
-  /**
-   * Provisioning State of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Informatica Organization properties. */
-  informaticaProperties?: InformaticaProperties;
-  /** Marketplace details. */
-  marketplaceDetails?: MarketplaceDetails;
-  /** User details */
-  userDetails?: UserDetails;
-  /** Company details. */
-  companyDetails?: CompanyDetails;
-  /** Link Organization */
-  linkOrganization?: LinkOrganization;
-}
-
 /** Properties of the Informatica organization. */
 export interface InformaticaProperties {
   /** Organization id */
@@ -163,7 +144,7 @@ export interface InformaticaProperties {
 /** Marketplace details. */
 export interface MarketplaceDetails {
   /** Marketplace Subscription Id */
-  marketplaceSubscriptionId: string;
+  marketplaceSubscriptionId?: string;
   /** Marketplace offer details. */
   offerDetails: OfferDetails;
 }
@@ -492,39 +473,6 @@ export interface InformaticaServerlessRuntimeResourceListResult {
   nextLink?: string;
 }
 
-/** Serverless Runtime properties. */
-export interface InformaticaServerlessRuntimeProperties {
-  /**
-   * Provisioning State of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** description of the serverless runtime. */
-  description?: string;
-  /** Platform type of the Serverless Runtime. */
-  platform?: PlatformType;
-  /** Application type of the Serverless Runtime environment. */
-  applicationType?: ApplicationType;
-  /** Compute units of the serverless runtime. */
-  computeUnits?: string;
-  /** Serverless Execution timeout */
-  executionTimeout?: string;
-  /** Serverless account creation location */
-  serverlessAccountLocation: string;
-  /** Informatica Serverless Network profile properties. */
-  serverlessRuntimeNetworkProfile?: ServerlessRuntimeNetworkProfile;
-  /** String KV pairs indicating Advanced custom properties. */
-  advancedCustomProperties?: AdvancedCustomProperties[];
-  /** Supplementary file location. */
-  supplementaryFileLocation?: string;
-  /** Serverless config properties */
-  serverlessRuntimeConfig?: ServerlessRuntimeConfigProperties;
-  /** Serverless Runtime Tags */
-  serverlessRuntimeTags?: ServerlessRuntimeTag[];
-  /** Serverless runtime user context properties */
-  serverlessRuntimeUserContextProperties?: ServerlessRuntimeUserContextProperties;
-}
-
 /** Informatica Serverless Runtime Network Profile. */
 export interface ServerlessRuntimeNetworkProfile {
   /** Network Interface Configuration Profile */
@@ -666,14 +614,54 @@ export interface ProxyResource extends Resource {}
 
 /** An Organization Resource by Informatica. */
 export interface InformaticaOrganizationResource extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: OrganizationProperties;
+  /**
+   * Provisioning State of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Informatica Organization properties. */
+  informaticaProperties?: InformaticaProperties;
+  /** Marketplace details. */
+  marketplaceDetails?: MarketplaceDetails;
+  /** User details */
+  userDetails?: UserDetails;
+  /** Company details. */
+  companyDetails?: CompanyDetails;
+  /** Link Organization */
+  linkOrganization?: LinkOrganization;
 }
 
 /** A Serverless Runtime environment  resource by Informatica. */
 export interface InformaticaServerlessRuntimeResource extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: InformaticaServerlessRuntimeProperties;
+  /**
+   * Provisioning State of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** description of the serverless runtime. */
+  description?: string;
+  /** Platform type of the Serverless Runtime. */
+  platform?: PlatformType;
+  /** Application type of the Serverless Runtime environment. */
+  applicationType?: ApplicationType;
+  /** Compute units of the serverless runtime. */
+  computeUnits?: string;
+  /** Serverless Execution timeout */
+  executionTimeout?: string;
+  /** Serverless account creation location */
+  serverlessAccountLocation?: string;
+  /** Informatica Serverless Network profile properties. */
+  serverlessRuntimeNetworkProfile?: ServerlessRuntimeNetworkProfile;
+  /** String KV pairs indicating Advanced custom properties. */
+  advancedCustomProperties?: AdvancedCustomProperties[];
+  /** Supplementary file location. */
+  supplementaryFileLocation?: string;
+  /** Serverless config properties */
+  serverlessRuntimeConfig?: ServerlessRuntimeConfigProperties;
+  /** Serverless Runtime Tags */
+  serverlessRuntimeTags?: ServerlessRuntimeTag[];
+  /** Serverless runtime user context properties */
+  serverlessRuntimeUserContextProperties?: ServerlessRuntimeUserContextProperties;
 }
 
 /** Defines headers for Organizations_createOrUpdate operation. */

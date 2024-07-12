@@ -164,7 +164,12 @@ export interface InformaticaDataManagementOptionalParams extends coreClient.Serv
 
 // @public
 export interface InformaticaOrganizationResource extends TrackedResource {
-    properties?: OrganizationProperties;
+    companyDetails?: CompanyDetails;
+    informaticaProperties?: InformaticaProperties;
+    linkOrganization?: LinkOrganization;
+    marketplaceDetails?: MarketplaceDetails;
+    readonly provisioningState?: ProvisioningState;
+    userDetails?: UserDetails;
 }
 
 // @public
@@ -190,7 +195,7 @@ export interface InformaticaProperties {
 }
 
 // @public
-export interface InformaticaServerlessRuntimeProperties {
+export interface InformaticaServerlessRuntimeResource extends ProxyResource {
     advancedCustomProperties?: AdvancedCustomProperties[];
     applicationType?: ApplicationType;
     computeUnits?: string;
@@ -198,17 +203,12 @@ export interface InformaticaServerlessRuntimeProperties {
     executionTimeout?: string;
     platform?: PlatformType;
     readonly provisioningState?: ProvisioningState;
-    serverlessAccountLocation: string;
+    serverlessAccountLocation?: string;
     serverlessRuntimeConfig?: ServerlessRuntimeConfigProperties;
     serverlessRuntimeNetworkProfile?: ServerlessRuntimeNetworkProfile;
     serverlessRuntimeTags?: ServerlessRuntimeTag[];
     serverlessRuntimeUserContextProperties?: ServerlessRuntimeUserContextProperties;
     supplementaryFileLocation?: string;
-}
-
-// @public
-export interface InformaticaServerlessRuntimeResource extends ProxyResource {
-    properties?: InformaticaServerlessRuntimeProperties;
 }
 
 // @public
@@ -283,7 +283,7 @@ export interface LinkOrganization {
 
 // @public
 export interface MarketplaceDetails {
-    marketplaceSubscriptionId: string;
+    marketplaceSubscriptionId?: string;
     offerDetails: OfferDetails;
 }
 
@@ -368,16 +368,6 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
-
-// @public
-export interface OrganizationProperties {
-    companyDetails?: CompanyDetails;
-    informaticaProperties?: InformaticaProperties;
-    linkOrganization?: LinkOrganization;
-    marketplaceDetails?: MarketplaceDetails;
-    readonly provisioningState?: ProvisioningState;
-    userDetails?: UserDetails;
-}
 
 // @public
 export interface OrganizationPropertiesCustomUpdate {

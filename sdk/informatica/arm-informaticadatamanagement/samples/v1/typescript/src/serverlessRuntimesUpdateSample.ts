@@ -8,9 +8,14 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { InformaticaDataManagement } = require("@azure/arm-informaticadatamanagement");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import {
+  InformaticaServerlessRuntimeResourceUpdate,
+  InformaticaDataManagement,
+} from "@azure/arm-informaticadatamanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update a InformaticaServerlessRuntimeResource
@@ -20,11 +25,13 @@ require("dotenv").config();
  */
 async function serverlessRuntimesUpdate() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
+    "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName =
+    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "W5";
   const serverlessRuntimeName = "t_";
-  const properties = {
+  const properties: InformaticaServerlessRuntimeResourceUpdate = {
     properties: {
       description: "ocprslpljoikxyduackzqnkuhyzrh",
       advancedCustomProperties: [{ key: "qcmc", value: "unraxmnohdmvutt" }],
@@ -69,8 +76,10 @@ async function serverlessRuntimesUpdate() {
       },
       serverlessRuntimeNetworkProfile: {
         networkInterfaceConfiguration: {
-          subnetId: "dctcuhgttxhcarwcrgdmsfwksyrzj",
-          vnetId: "tnsqwwoxydeqqffumdnxlkkb",
+          subnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/subnet1",
+          vnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
           vnetResourceGuid: "5328d299-1462-4be0-bef1-303a28e556a0",
         },
       },
@@ -100,11 +109,13 @@ async function serverlessRuntimesUpdate() {
  */
 async function serverlessRuntimesUpdateMin() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
+    "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName =
+    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "_f--";
   const serverlessRuntimeName = "8Zr__";
-  const properties = {};
+  const properties: InformaticaServerlessRuntimeResourceUpdate = {};
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
   const result = await client.serverlessRuntimes.update(
