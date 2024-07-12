@@ -13,8 +13,10 @@ import createClient, { ModelClient } from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   AZURE_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/gpt-4o/",
+  AZURE_EMBEDDINGS_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/text-embedding-ada-002/",
   SUBSCRIPTION_ID: "azure_subscription_id",
-  AZURE_CLIENT_SECRET: "azureclientsecret"
+  AZURE_CLIENT_SECRET: "azureclientsecret",
+  AZURE_EMBEDDINGS_CLIENT_SECRET: "azureembeddingsclientsecret"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -38,6 +40,16 @@ export async function createModelClient(
 ): Promise<ModelClient> {
   const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
   const apikey = assertEnvironmentVariable("AZURE_CLIENT_SECRET");
+  const credential = new AzureKeyCredential(apikey);
+  return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
+}
+
+export async function createEmbeddingsClient(
+  recorder?: Recorder,
+  options?: ClientOptions,
+): Promise<ModelClient> {
+  const endpoint = assertEnvironmentVariable("AZURE_EMBEDDINGS_ENDPOINT");
+  const apikey = assertEnvironmentVariable("AZURE_EMBEDDINGS_CLIENT_SECRET");
   const credential = new AzureKeyCredential(apikey);
   return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }
