@@ -4,7 +4,6 @@
     "paths": {
       "@azure/logger": ["./src/index.ts"]
     },
-    "downlevelIteration": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
