@@ -20,7 +20,7 @@ export interface KeyVaultContextOptions extends ClientOptions {
  */
 export default function createClient(
   vaultBaseUrl: string,
-  credentials: TokenCredential,
+  _credentials: TokenCredential,
   { apiVersion = "7.6-preview.1", ...options }: KeyVaultContextOptions = {}
 ): KeyVaultContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${vaultBaseUrl}`;
@@ -38,7 +38,7 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as KeyVaultContext;
+  const client = getClient(endpointUrl, undefined, options) as KeyVaultContext;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
