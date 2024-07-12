@@ -146,20 +146,17 @@ export class AzurePipelinesCredential implements TokenCredential {
         });
       }
     } catch (e: any) {
-      //azure:identity:error AzurePipelinesCredential => AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response.Response = {"$id":"1","innerException":null,"message":"No service connection found with identifier 8089d38c-c287-4289-8012-c3c1fc775efd.","typeName":"Microsoft.TeamFoundation.DistributedTask.WebApi.EndpointNotFoundException, Microsoft.TeamFoundation.DistributedTask.WebApi","typeKey":"EndpointNotFoundException","errorCode":0,"eventId":3000}
-
-      logger.error(e.message);
-      logger.error(
-        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
-      );
-      let errorName = "";
+      let errorDetails =  `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+      logger.error(`Response = ${text} and error message = ${e.message}`);
+      logger.error(errorDetails);
+      
       if(text?.includes("No service connection found")){
-        errorName = "${credentialName}: Authentication Failed. Please check if you are using one of the Devops tasks or the correct subscriptionName assigned to the Devops task. Please refer to TSG"
+        errorDetails = `${credentialName}: Authentication Failed. Please check if you are using one of the supported Azure Pipelines tasks and assigning the sercice connection name to the "subscriptionName" field in the current task. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`
       }
       throw new AuthenticationError(
         response.status,
         {
-          error: `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`,
+          error: errorDetails,
           error_description: `${text}`
         }
       );
