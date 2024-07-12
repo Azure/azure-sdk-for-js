@@ -923,7 +923,7 @@ export interface HealthInsightsErrorResponseOutput {
 }
 
 /** Provides the 'x-ms-request-id' header to enable request correlation in responses. */
-export interface RequestIdResponseHeaderOutput { }
+export interface RequestIdResponseHeaderOutput {}
 
 /**
  * A resource with narrative, extensions, and contained resources
