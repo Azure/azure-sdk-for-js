@@ -18,18 +18,14 @@ import {
 describe("transformations", function () {
   describe("getCertificateOperationFromCoreOperation", function () {
     it("transforms null error to undefined", function () {
-      const input: CoreCertificateOperation = {
-        error: null,
-      };
+      const input: CoreCertificateOperation = {};
 
       assert.isUndefined(getCertificateOperationFromCoreOperation("", "", input).error);
     });
 
     it("transforms null inner error to undefined", function () {
       const input: CoreCertificateOperation = {
-        error: {
-          innerError: null,
-        },
+        error: {},
       };
 
       const output = getCertificateOperationFromCoreOperation("", "", input);
@@ -77,6 +73,7 @@ describe("transformations", function () {
 
     it("is populated by getDeletedCertificateFromItem", function () {
       const item: DeletedCertificateItem = {
+        recoveryId: "aaa",
         id: "https://myvault.vault.azure.net/certificates/certificateName/version",
         x509Thumbprint: new Uint8Array([0xab, 0xcd, 0xef]),
       };

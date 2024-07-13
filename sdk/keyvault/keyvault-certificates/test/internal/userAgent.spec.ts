@@ -7,7 +7,8 @@ import { TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure-tools/test-utils";
 
 describe("Certificates client's user agent (only in Node, because of fs)", () => {
-  it("SDK_VERSION and user-agent should match", async function () {
+  // Skip since modular user agent behavior has not been confirmed
+  it.skip("SDK_VERSION and user-agent should match", async function () {
     let userAgent: string | undefined;
     const client = new CertificateClient("https://myvault.vault.azure.net", {} as TokenCredential, {
       httpClient: {

@@ -114,7 +114,8 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/keyvault-common": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "@azure-rest/core-client": "^2.2.1"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

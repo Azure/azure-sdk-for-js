@@ -479,7 +479,8 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(updated.policy!.subject, "cn=MyOtherCert");
   });
 
-  it("can read, cancel and delete a certificate's operation", async function (this: Context) {
+  // skip, operation goes straight to success in new service version
+  it.skip("can read, cancel and delete a certificate's operation", async function (this: Context) {
     // Known flaky test due to the lag between the request and when the job gets picked up by the service.
     this.retries(5);
 

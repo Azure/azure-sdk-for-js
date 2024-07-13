@@ -3,6 +3,7 @@
 
 import { CertificateContentType } from "./certificatesModels";
 import { isNode } from "@azure/core-util";
+import { PagedAsyncIterableIterator } from "./generated";
 
 /**
  * Decodes a Uint8Array into a Base64 string.
@@ -70,4 +71,29 @@ export function parseCertificateBytes(
   } else {
     return toBase64(certificateBytes);
   }
+}
+
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
 }

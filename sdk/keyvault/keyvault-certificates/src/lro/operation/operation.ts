@@ -62,12 +62,16 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       options,
       async (updatedOptions) => {
         let parsedBody: any;
-        await this.client.updateCertificateOperation(this.vaultUrl, certificateName, true, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
+        await this.client.updateCertificateOperation(
+          certificateName,
+          { cancellationRequested: true },
+          {
+            ...updatedOptions,
+            onResponse: (response) => {
+              parsedBody = response.parsedBody;
+            },
           },
-        });
+        );
         return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
       },
     );
@@ -84,12 +88,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       "CertificateOperationPoller.getCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          "",
-          updatedOptions,
-        );
+        const result = await this.client.getCertificate(certificateName, "", updatedOptions);
         return getCertificateWithPolicyFromCertificateBundle(result);
       },
     );
@@ -107,7 +106,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       options,
       async (updatedOptions) => {
         let parsedBody: any;
-        await this.client.getCertificateOperation(this.vaultUrl, certificateName, {
+        await this.client.getCertificateOperation(certificateName, {
           ...updatedOptions,
           onResponse: (response) => {
             parsedBody = response.parsedBody;

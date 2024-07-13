@@ -35,7 +35,7 @@ export type BackupCertificateOptions = coreClient.OperationOptions;
 
 // @public
 export interface BackupCertificateResult {
-    readonly value?: Uint8Array;
+    value?: Uint8Array;
 }
 
 // @public
@@ -115,10 +115,10 @@ export interface CertificateIssuer extends IssuerProperties {
 }
 
 // @public
-export type CertificateKeyCurveName = string;
+export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export type CertificateKeyType = string;
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 // @public
 export interface CertificateOperation {
@@ -253,7 +253,9 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 export type DeleteIssuerOptions = coreClient.OperationOptions;
 
 // @public
-export type DeletionRecoveryLevel = string;
+type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
+export { DeletionRecoveryLevel }
+export { DeletionRecoveryLevel as KnownDeletionRecoveryLevels }
 
 // @public @deprecated
 export interface ErrorModel {
@@ -325,7 +327,7 @@ export interface IssuerProperties {
 }
 
 // @public
-export type KeyUsageType = string;
+export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
 
 // @public
 export interface KeyVaultCertificate {
@@ -371,17 +373,6 @@ export enum KnownCertificateKeyTypes {
     OctHSM = "oct-HSM",
     RSA = "RSA",
     RSAHSM = "RSA-HSM"
-}
-
-// @public
-export enum KnownDeletionRecoveryLevels {
-    CustomizedRecoverable = "CustomizedRecoverable",
-    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-    Purgeable = "Purgeable",
-    Recoverable = "Recoverable",
-    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-    RecoverablePurgeable = "Recoverable+Purgeable"
 }
 
 // @public

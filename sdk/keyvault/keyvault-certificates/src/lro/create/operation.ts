@@ -81,7 +81,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
         const id = options.id;
         const certificateAttributes = toCoreAttributes(options);
         const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
-        const result = await this.client.createCertificate(this.vaultUrl, certificateName, {
+        const result = await this.client.createCertificate(certificateName, {
           ...updatedOptions,
           certificatePolicy: corePolicy,
           certificateAttributes,
@@ -103,12 +103,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       "CreateCertificatePoller.getCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          "",
-          updatedOptions,
-        );
+        const result = await this.client.getCertificate(certificateName, "", updatedOptions);
 
         return getCertificateWithPolicyFromCertificateBundle(result);
       },
@@ -127,7 +122,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       options,
       async (updatedOptions) => {
         let parsedBody: any;
-        await this.client.getCertificateOperation(this.vaultUrl, certificateName, {
+        await this.client.getCertificateOperation(certificateName, {
           ...updatedOptions,
           onResponse: (response) => {
             parsedBody = response.parsedBody;
@@ -150,12 +145,16 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       options,
       async (updatedOptions) => {
         let parsedBody: any;
-        await this.client.updateCertificateOperation(this.vaultUrl, certificateName, true, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
+        await this.client.updateCertificateOperation(
+          certificateName,
+          { cancellationRequested: true },
+          {
+            ...updatedOptions,
+            onResponse: (response) => {
+              parsedBody = response.parsedBody;
+            },
           },
-        });
+        );
         return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
       },
     );
