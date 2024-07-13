@@ -117,6 +117,5 @@
       "react-native"
     ],
     "selfLink": false
-  },
-  "module": "./dist/esm/index.js"
+  }
 }
