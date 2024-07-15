@@ -32,60 +32,62 @@ async function serverlessRuntimesCreateOrUpdate() {
   const organizationName = "__C";
   const serverlessRuntimeName = "0j-__";
   const resource: InformaticaServerlessRuntimeResource = {
-    description: "mqkaenjmxakvzrwmirelmhgiedto",
-    advancedCustomProperties: [{ key: "qcmc", value: "unraxmnohdmvutt" }],
-    applicationType: "CDI",
-    computeUnits: "bsctukmndvowse",
-    executionTimeout: "ruiougpypny",
-    platform: "AZURE",
-    provisioningState: "Accepted",
-    serverlessAccountLocation: "bkxdfopapbqucyhduewrubjpaei",
-    serverlessRuntimeConfig: {
-      cdiConfigProps: [
-        {
-          applicationConfigs: [
-            {
-              name: "upfvjrqcrwwedfujkmsodeinw",
-              type: "lw",
-              customized: "j",
-              defaultValue: "zvgkqwmi",
-              platform: "dixfyeobngivyvf",
-              value: "mozgsetpwjmtyl",
-            },
-          ],
-          engineName: "hngsdqvtjdhwqlbqfotipaiwjuys",
-          engineVersion: "zlrlbg",
-        },
-      ],
-      cdieConfigProps: [
-        {
-          applicationConfigs: [
-            {
-              name: "upfvjrqcrwwedfujkmsodeinw",
-              type: "lw",
-              customized: "j",
-              defaultValue: "zvgkqwmi",
-              platform: "dixfyeobngivyvf",
-              value: "mozgsetpwjmtyl",
-            },
-          ],
-          engineName: "hngsdqvtjdhwqlbqfotipaiwjuys",
-          engineVersion: "zlrlbg",
-        },
-      ],
-    },
-    serverlessRuntimeNetworkProfile: {
-      networkInterfaceConfiguration: {
-        subnetId:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/subnet1",
-        vnetId:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
-        vnetResourceGuid: "5328d299-1462-4be0-bef1-303a28e556a0",
+    properties: {
+      description: "mqkaenjmxakvzrwmirelmhgiedto",
+      advancedCustomProperties: [{ key: "qcmc", value: "unraxmnohdmvutt" }],
+      applicationType: "CDI",
+      computeUnits: "bsctukmndvowse",
+      executionTimeout: "ruiougpypny",
+      platform: "AZURE",
+      provisioningState: "Accepted",
+      serverlessAccountLocation: "bkxdfopapbqucyhduewrubjpaei",
+      serverlessRuntimeConfig: {
+        cdiConfigProps: [
+          {
+            applicationConfigs: [
+              {
+                name: "upfvjrqcrwwedfujkmsodeinw",
+                type: "lw",
+                customized: "j",
+                defaultValue: "zvgkqwmi",
+                platform: "dixfyeobngivyvf",
+                value: "mozgsetpwjmtyl",
+              },
+            ],
+            engineName: "hngsdqvtjdhwqlbqfotipaiwjuys",
+            engineVersion: "zlrlbg",
+          },
+        ],
+        cdieConfigProps: [
+          {
+            applicationConfigs: [
+              {
+                name: "upfvjrqcrwwedfujkmsodeinw",
+                type: "lw",
+                customized: "j",
+                defaultValue: "zvgkqwmi",
+                platform: "dixfyeobngivyvf",
+                value: "mozgsetpwjmtyl",
+              },
+            ],
+            engineName: "hngsdqvtjdhwqlbqfotipaiwjuys",
+            engineVersion: "zlrlbg",
+          },
+        ],
       },
+      serverlessRuntimeNetworkProfile: {
+        networkInterfaceConfiguration: {
+          subnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/subnet1",
+          vnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
+          vnetResourceGuid: "5328d299-1462-4be0-bef1-303a28e556a0",
+        },
+      },
+      serverlessRuntimeTags: [{ name: "korveuycuwhs", value: "uyiuegxnkgp" }],
+      serverlessRuntimeUserContextProperties: { userContextToken: "oludf" },
+      supplementaryFileLocation: "zmlqtkncwgqhhupsnqluumz",
     },
-    serverlessRuntimeTags: [{ name: "korveuycuwhs", value: "uyiuegxnkgp" }],
-    serverlessRuntimeUserContextProperties: { userContextToken: "oludf" },
-    supplementaryFileLocation: "zmlqtkncwgqhhupsnqluumz",
   };
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);

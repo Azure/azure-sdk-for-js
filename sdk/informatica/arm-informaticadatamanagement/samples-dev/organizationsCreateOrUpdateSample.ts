@@ -31,46 +31,48 @@ async function organizationsCreateOrUpdate() {
     process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "C";
   const resource: InformaticaOrganizationResource = {
-    companyDetails: {
-      business: "pucosrtjv",
-      companyName: "xszcggknokhw",
-      country: "gwkcpnwyaqc",
-      domain: "utcxetzzpmbvwmjrvphqngvp",
-      numberOfEmployees: 25,
-      officeAddress: "sbttzwyajgdbsvipuiclbzvkcvwyil",
-    },
-    informaticaProperties: {
-      informaticaRegion: "zfqodqpbeflhedypiijdkc",
-      organizationId: "wtdmhlwhkvgqdumaehgfgiqcxgnqpx",
-      organizationName: "nomzbvwe",
-      singleSignOnUrl: "https://contoso.com/singlesignon",
-    },
-    linkOrganization: { token: "jjfouhoqpumjvrdsfbimgcy" },
     location: "pamjoudtssthlbhrnfjidr",
-    marketplaceDetails: {
-      marketplaceSubscriptionId: "ovenlecocg",
-      offerDetails: {
-        offerId:
-          "cwswcfwmzhjcoksmueukegwaptvpcmbfyvixfhvgwnjyblqivqdkkwkunkgimiopwwkvgnwclmajhuty",
-        planId: "jfnemevyivtlxhectiutdavdgfyidolivuojumdzckp",
-        planName:
-          "iaoxgaitteuoqgujkgxbdgryaobtkjjecuvchwutntrvmuorikrbqqegmelenbewhakiysprrnovjixyxrikscaptrbapbdspu",
-        publisherId:
-          "zajxpfacudwongxjvnnuhhpygmnydchgowjccyuzsjonegmqxcqqpnzafanggowfqdixnnutyfvmvwrkx",
-        termId:
-          "tcvvsxdjnjlfmjhmvwklptdmxetnzydxyuhfqchoubmtoeqbchnfxoxqzezlgpxdnzyvzgkynjxzzgetkqccxvpzahxattluqdipvbdktqmndfefitzuifqjpschzlbvixnvznkmmgjwvkplfhemnapsewgqxggdzdokryhv",
-        termUnit: "gjwmgevrblbosuogsvfspsgspetbnxaygkbelvadpgwiywl",
+    properties: {
+      companyDetails: {
+        business: "pucosrtjv",
+        companyName: "xszcggknokhw",
+        country: "gwkcpnwyaqc",
+        domain: "utcxetzzpmbvwmjrvphqngvp",
+        numberOfEmployees: 25,
+        officeAddress: "sbttzwyajgdbsvipuiclbzvkcvwyil",
+      },
+      informaticaProperties: {
+        informaticaRegion: "zfqodqpbeflhedypiijdkc",
+        organizationId: "wtdmhlwhkvgqdumaehgfgiqcxgnqpx",
+        organizationName: "nomzbvwe",
+        singleSignOnUrl: "https://contoso.com/singlesignon",
+      },
+      linkOrganization: { token: "jjfouhoqpumjvrdsfbimgcy" },
+      marketplaceDetails: {
+        marketplaceSubscriptionId: "ovenlecocg",
+        offerDetails: {
+          offerId:
+            "cwswcfwmzhjcoksmueukegwaptvpcmbfyvixfhvgwnjyblqivqdkkwkunkgimiopwwkvgnwclmajhuty",
+          planId: "jfnemevyivtlxhectiutdavdgfyidolivuojumdzckp",
+          planName:
+            "iaoxgaitteuoqgujkgxbdgryaobtkjjecuvchwutntrvmuorikrbqqegmelenbewhakiysprrnovjixyxrikscaptrbapbdspu",
+          publisherId:
+            "zajxpfacudwongxjvnnuhhpygmnydchgowjccyuzsjonegmqxcqqpnzafanggowfqdixnnutyfvmvwrkx",
+          termId:
+            "tcvvsxdjnjlfmjhmvwklptdmxetnzydxyuhfqchoubmtoeqbchnfxoxqzezlgpxdnzyvzgkynjxzzgetkqccxvpzahxattluqdipvbdktqmndfefitzuifqjpschzlbvixnvznkmmgjwvkplfhemnapsewgqxggdzdokryhv",
+          termUnit: "gjwmgevrblbosuogsvfspsgspetbnxaygkbelvadpgwiywl",
+        },
+      },
+      provisioningState: "Accepted",
+      userDetails: {
+        emailAddress: "7_-46@13D--3.m-4x-.11.c-9-.DHLYFc",
+        firstName: "appvdclawzfjntdfdftjevlhvzropnxqtnypid",
+        lastName: "nzirbvzmkxtbrlamyatlcszebxgcyncxoascojsmacwvjsjvn",
+        phoneNumber: "fvcjylxlmhdnshsgywnzlyvshu",
+        upn: "undljch",
       },
     },
-    provisioningState: "Accepted",
     tags: { key8430: "cagshqtjlxtqqhdwtchokvxszybp" },
-    userDetails: {
-      emailAddress: "7_-46@13D--3.m-4x-.11.c-9-.DHLYFc",
-      firstName: "appvdclawzfjntdfdftjevlhvzropnxqtnypid",
-      lastName: "nzirbvzmkxtbrlamyatlcszebxgcyncxoascojsmacwvjsjvn",
-      phoneNumber: "fvcjylxlmhdnshsgywnzlyvshu",
-      upn: "undljch",
-    },
   };
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);

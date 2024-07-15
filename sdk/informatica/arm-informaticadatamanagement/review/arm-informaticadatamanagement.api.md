@@ -164,12 +164,7 @@ export interface InformaticaDataManagementOptionalParams extends coreClient.Serv
 
 // @public
 export interface InformaticaOrganizationResource extends TrackedResource {
-    companyDetails?: CompanyDetails;
-    informaticaProperties?: InformaticaProperties;
-    linkOrganization?: LinkOrganization;
-    marketplaceDetails?: MarketplaceDetails;
-    readonly provisioningState?: ProvisioningState;
-    userDetails?: UserDetails;
+    properties?: OrganizationProperties;
 }
 
 // @public
@@ -195,7 +190,7 @@ export interface InformaticaProperties {
 }
 
 // @public
-export interface InformaticaServerlessRuntimeResource extends ProxyResource {
+export interface InformaticaServerlessRuntimeProperties {
     advancedCustomProperties?: AdvancedCustomProperties[];
     applicationType?: ApplicationType;
     computeUnits?: string;
@@ -203,12 +198,17 @@ export interface InformaticaServerlessRuntimeResource extends ProxyResource {
     executionTimeout?: string;
     platform?: PlatformType;
     readonly provisioningState?: ProvisioningState;
-    serverlessAccountLocation?: string;
+    serverlessAccountLocation: string;
     serverlessRuntimeConfig?: ServerlessRuntimeConfigProperties;
     serverlessRuntimeNetworkProfile?: ServerlessRuntimeNetworkProfile;
     serverlessRuntimeTags?: ServerlessRuntimeTag[];
     serverlessRuntimeUserContextProperties?: ServerlessRuntimeUserContextProperties;
     supplementaryFileLocation?: string;
+}
+
+// @public
+export interface InformaticaServerlessRuntimeResource extends ProxyResource {
+    properties?: InformaticaServerlessRuntimeProperties;
 }
 
 // @public
@@ -368,6 +368,16 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export interface OrganizationProperties {
+    companyDetails?: CompanyDetails;
+    informaticaProperties?: InformaticaProperties;
+    linkOrganization?: LinkOrganization;
+    marketplaceDetails?: MarketplaceDetails;
+    readonly provisioningState?: ProvisioningState;
+    userDetails?: UserDetails;
+}
 
 // @public
 export interface OrganizationPropertiesCustomUpdate {
