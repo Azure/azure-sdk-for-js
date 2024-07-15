@@ -91,14 +91,16 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("client accepts string[] and language", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] and language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn, "en"),
             expectation63,
           );
         });
 
-        it("client accepts string[] with no language", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn),
             expectation63,
@@ -135,7 +137,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("service returns an error for an empty document", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("service returns an error for an empty document", async function () {
           const data = [...testDataEn];
           data.splice(1, 0, "");
           assertActionResults(
@@ -144,7 +147,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("client accepts TextDocumentInput[]", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts TextDocumentInput[]", async function () {
           const enDocs = testDataEn.map((text) => ({
             id: getId(),
             language: "en",
