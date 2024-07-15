@@ -3,7 +3,6 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "downlevelIteration": true,
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@azure/event-hubs": ["./src/index"]
