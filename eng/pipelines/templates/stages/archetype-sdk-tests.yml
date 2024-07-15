@@ -48,6 +48,9 @@ parameters:
           - eng/common/TestResources/sub-config/AzurePublicMsft.json
       Preview:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+        ServiceConnection: azure-sdk-tests
+        SubscriptionConfigurationFilePaths: 
+          - eng/common/TestResources/sub-config/AzurePublicMsft.json
       Canary:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
         Location: centraluseuap
