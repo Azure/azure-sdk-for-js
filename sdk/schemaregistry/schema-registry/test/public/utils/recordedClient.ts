@@ -27,6 +27,7 @@ export const recorderOptions: RecorderStartOptions = {
   },
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK4001" // uri name is not a secret and is replaced using envSetupForPlayback
   ],
 };
 

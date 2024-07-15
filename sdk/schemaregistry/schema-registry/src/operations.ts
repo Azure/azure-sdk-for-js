@@ -24,7 +24,7 @@ export async function registerSchema(
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}", groupName, schemaName)
     .put({
       contentType: buildContentType(format) as any,
-      body: schemaContent,
+      body: new TextEncoder().encode(schemaContent),
       ...options,
       skipSerialization: true,
     } as any);
