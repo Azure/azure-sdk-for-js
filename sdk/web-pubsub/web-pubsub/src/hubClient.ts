@@ -239,7 +239,7 @@ export interface HubHasPermissionOptions extends OperationOptions {
 /**
  * The type of client endpoint that is being requested.
  */
-export type ClientEndpointType = "default" | "mqtt";
+export type ClientType = "default" | "mqtt";
 
 /**
  * Options for generating a token to connect a client to the Azure Web Pubsub service.
@@ -277,7 +277,7 @@ export interface GenerateClientTokenOptions extends OperationOptions {
    * * `default`: Default WebPubSub Client. Example Service URL: _wss://exampleHost.com/client/hubs/exampleHub_
    * * `mqtt`: MQTT Client. Example Service URL:  _wss://exampleHost.com/client/mqtt/hubs/exampleHub_
    */
-  clientEndpointType?: ClientEndpointType;
+  clientType?: ClientType;
 }
 
 /**
@@ -958,9 +958,9 @@ export class WebPubSubServiceClient {
       async (updatedOptions) => {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-        const clientEndpointType = updatedOptions.clientEndpointType;
+        const clientType = updatedOptions.clientType;
         const clientPath =
-          clientEndpointType && clientEndpointType === "mqtt"
+          clientType && clientType === "mqtt"
             ? `clients/mqtt/hubs/${this.hubName}`
             : `client/hubs/${this.hubName}`;
         const baseUrl = clientEndpoint + clientPath;
