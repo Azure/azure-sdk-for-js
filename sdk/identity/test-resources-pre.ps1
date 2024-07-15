@@ -24,6 +24,16 @@ $sshKey = Get-Content $PSScriptRoot/sshKey.pub
 
 $templateFileParameters['sshPubKey'] = $sshKey
 
+# Get the max version that is not preview and then get the name of the patch version with the max value
+az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
+$versions = az aks get-versions -l westus -o json | ConvertFrom-Json
+Write-Host "AKS versions: $($versions | ConvertTo-Json -Depth 100)"
+$patchVersions = $versions.values | Where-Object { $_.isPreview -eq $null } | Select-Object -ExpandProperty patchVersions
+Write-Host "AKS patch versions: $($patchVersions | ConvertTo-Json -Depth 100)"
+$latestAksVersion = $patchVersions | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | Sort-Object -Descending | Select-Object -First 1
+Write-Host "Latest AKS version: $latestAksVersion"
+$templateFileParameters['latestAksVersion'] = $latestAksVersion
+
 if (!$CI) {
     # TODO: Remove this once auto-cloud config downloads are supported locally
     Write-Host "Skipping cert setup in local testing mode"
