@@ -71,10 +71,10 @@ const serviceBusConnectionString: string = !isPlaybackMode()
 export const fileSourceUrl: string = !isPlaybackMode()
   ? env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
   : envSetupForPlayback["FILE_SOURCE_URL"];
-  export const transportUrl: string =  !isPlaybackMode() 
+export const transportUrl: string = !isPlaybackMode()
   ? env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"]
   : envSetupForPlayback["TRANSPORT_URL"];
-export const cognitiveServiceEndpoint: string = !isPlaybackMode() 
+export const cognitiveServiceEndpoint: string = !isPlaybackMode()
   ? env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"]
   : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
@@ -130,7 +130,7 @@ export const recorderOptions: RecorderStartOptions = {
     ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
-/*   removeCentralSanitizers: [
+  /*   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
   ], */
