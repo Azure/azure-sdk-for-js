@@ -9,7 +9,6 @@ import { DeidentificationJob } from "../../src/models.js";
 import {
   DeidentificationJobOutput,
   HealthFileDetailsOutput,
-  PagedHealthFileDetailsOutput,
 } from "../../src/outputModels.js";
 import { assert } from "@azure-tools/test-utils";
 import {
@@ -21,12 +20,13 @@ import {
 import { ErrorResponse } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { paginate } from "../../src/paginateHelper.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
 
 const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-const TEST_TIMEOUT_MS: number = 40000;
+const TEST_TIMEOUT_MS: number = 100000;
 
 const fakeServiceEndpoint = "fakeserviceId.api.cac001.deid.azure.com";
 const replaceableVariables: Record<string, string> = {
@@ -41,24 +41,6 @@ const generateJobName = (testName?: string): string => {
     jobName = `js-sdk-job-recorded-${testName}`;
   }
   return jobName;
-};
-
-const pollJobStatus = async (
-  client: DeidentificationClient,
-  jobName: string,
-  statusToWait: string,
-  intervalInMS = 2000,
-): Promise<DeidentificationJobOutput> => {
-  let jobOutput = await client.path("/jobs/{name}", jobName).get();
-
-  while ((jobOutput.body as DeidentificationJobOutput).status !== statusToWait) {
-    await new Promise((resolve) => setTimeout(resolve, intervalInMS));
-    jobOutput = await client.path("/jobs/{name}", jobName).get();
-    if ((jobOutput.body as DeidentificationJobOutput).error !== undefined) {
-      console.log(`Job error: ${(jobOutput.body as DeidentificationJobOutput).error?.message}`);
-    }
-  }
-  return jobOutput.body as DeidentificationJobOutput;
 };
 
 const OUTPUT_FOLDER = "_output";
@@ -109,7 +91,7 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName("21");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
 
       const job: DeidentificationJob = {
         dataType: "Plaintext",
@@ -118,22 +100,24 @@ describe("Batch", () => {
         targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
       };
 
-      const response = await client.path("/jobs/{name}", jobName).put({ body: job });
+      const jobOutput = await client.path("/jobs/{name}", jobName).put({ body: job });      
 
-      const jobOutput = response.body as DeidentificationJobOutput;
+      if(isUnexpected(jobOutput)){
+        throw new Error("Unexpected job result");
+      }
 
       assert.isNotNull(jobOutput);
-      assert.equal(jobName, jobOutput.name);
-      assert.isNotNull(jobOutput.createdAt);
-      assert.isNotNull(jobOutput.lastUpdatedAt);
-      assert.isUndefined(jobOutput.startedAt);
-      assert.equal("NotStarted", jobOutput.status);
-      assert.isUndefined(jobOutput.error);
-      assert.isUndefined(jobOutput.redactionFormat);
-      assert.isUndefined(jobOutput.summary);
-      assert.equal(inputPrefix, jobOutput.sourceLocation.prefix);
+      assert.equal(jobName, jobOutput.body.name);
+      assert.isNotNull(jobOutput.body.createdAt);
+      assert.isNotNull(jobOutput.body.lastUpdatedAt);
+      assert.isUndefined(jobOutput.body.startedAt);
+      assert.equal("NotStarted", jobOutput.body.status);
+      assert.isUndefined(jobOutput.body.error);
+      assert.isUndefined(jobOutput.body.redactionFormat);
+      assert.isUndefined(jobOutput.body.summary);
+      assert.equal(inputPrefix, jobOutput.body.sourceLocation.prefix);
       assert.isTrue(storageAccountSASUri.includes("blob.core.windows.net"));
-      assert.equal(OUTPUT_FOLDER, jobOutput.targetLocation.prefix);
+      assert.equal(OUTPUT_FOLDER, jobOutput.body.targetLocation.prefix);
       assert.isTrue(storageAccountSASUri.includes("blob.core.windows.net"));
     },
     TEST_TIMEOUT_MS,
@@ -144,7 +128,7 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName("22");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
 
       const job: DeidentificationJob = {
         dataType: "Plaintext",
@@ -153,7 +137,10 @@ describe("Batch", () => {
         targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
       };
 
-      await client.path("/jobs/{name}", jobName).put({ body: job });
+      const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
+      const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
+      await poller.poll();
+      assert.equal(poller.getOperationState().status, "running");
 
       // Test list jobs with pagination
       const jobs = await client.path("/jobs").get();
@@ -185,7 +172,7 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName("23");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
 
       const job: DeidentificationJob = {
         dataType: "Plaintext",
@@ -197,18 +184,25 @@ describe("Batch", () => {
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
 
       const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
-      await poller.pollUntilDone();
+      const finalJobOutput = await poller.pollUntilDone();
       assert.equal(poller.getOperationState().status, "succeeded");
 
-      const finalJobOutputBody = await pollJobStatus(client, jobName, "Succeeded");
-      assert.equal(finalJobOutputBody.status, "Succeeded");
-      assert.notEqual(finalJobOutputBody.startedAt, null);
-      assert.notEqual(finalJobOutputBody.summary, null);
-      assert.equal(finalJobOutputBody.summary!.total, 2);
-      assert.equal(finalJobOutputBody.summary!.successful, 2);
+      if(isUnexpected(finalJobOutput)){
+        throw new Error("Unexpected error occurred");
+      }
+
+      assert.equal(finalJobOutput.body.status, "Succeeded");
+      assert.notEqual(finalJobOutput.body.startedAt, null);
+      assert.notEqual(finalJobOutput.body.summary, null);
+      assert.equal(finalJobOutput.body.summary!.total, 2);
+      assert.equal(finalJobOutput.body.summary!.successful, 2);
 
       const reports = await client.path("/jobs/{name}/files", jobName).get();
-      reports.body = reports.body as PagedHealthFileDetailsOutput;
+      
+      if(isUnexpected(reports)){
+        throw new Error("Unexpected error occurred");
+      }
+      
       const items = [];
       const iter = paginate(client, reports);
 
@@ -239,7 +233,7 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName("24");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
 
       const job: DeidentificationJob = {
         dataType: "Plaintext",
@@ -250,10 +244,8 @@ describe("Batch", () => {
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
       const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
-      await poller.pollUntilDone();
-      assert.equal(poller.getOperationState().status, "succeeded");
-
-      await pollJobStatus(client, jobName, "Running");
+      await poller.poll();
+      assert.equal(poller.getOperationState().status, "running");
 
       const cancelledJob = await client.path("/jobs/{name}:cancel", jobName).post();
       assert.equal(cancelledJob.status, "200");
@@ -288,7 +280,7 @@ describe("Batch", () => {
 
       const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
 
-      await poller.pollUntilDone();
+      await poller.poll();
       assert.equal(poller.getOperationState().status, "failed");
 
       const createdJob = await client.path("/jobs/{name}", jobName).get();

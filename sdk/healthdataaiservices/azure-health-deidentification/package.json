@@ -108,7 +108,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "tshy && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "integration-test:node": "dev-tool run test:vitest",
+    "integration-test:node": "tshy && dev-tool run build-test && dev-tool run test:vitest",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",

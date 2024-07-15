@@ -19,7 +19,7 @@ export async function createRecordedDeidentificationClient(
   recorder: Recorder,
   credentials: TokenCredential,
 ): Promise<DeidentificationClient> {
-  const endpoint = assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");
+  const endpoint = 'localhost';
   const client = await createClient(endpoint, credentials, recorder.configureClientOptions({}));
 
   return client;
