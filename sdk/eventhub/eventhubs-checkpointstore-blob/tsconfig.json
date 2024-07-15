@@ -3,7 +3,6 @@
   "compilerOptions": {
     "declarationDir": "./typings",
     "outDir": "./dist-esm",
-    "downlevelIteration": true,
     "paths": {
       "@azure/eventhubs-checkpointstore-blob": ["./src/index"]
     }
