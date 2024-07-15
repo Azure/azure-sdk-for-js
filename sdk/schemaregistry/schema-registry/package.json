@@ -13,7 +13,6 @@
     "build:test": "npm run bundle",
     "build": "npm run clean && npm run bundle && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
