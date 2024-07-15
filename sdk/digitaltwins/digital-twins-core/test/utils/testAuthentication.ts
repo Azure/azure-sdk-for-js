@@ -12,7 +12,7 @@ export async function authenticate(that: Mocha.Context): Promise<any> {
       AZURE_DIGITALTWINS_URL: "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net",
     },
     // .id in the body request is not a secret
-    removeCentralSanitizers: ["AZSDK3430"]
+    removeCentralSanitizers: ["AZSDK3430"],
   });
   const credential = createTestCredential();
   const AZURE_DIGITALTWINS_URL = env.AZURE_DIGITALTWINS_URL || "";
