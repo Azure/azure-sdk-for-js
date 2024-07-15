@@ -139,7 +139,7 @@ Here's a sample of adding composite indexes for a container:
 
 #### Correlated Activity Id
 
-- Correlated Activity Id is now added in header of every query request on Items. This helps in troubleshooting by linking all sub-queries for a query that involves multiple server interactions and partitions.
+- Correlated Activity Id is now added in header of every query request on Items. This helps in troubleshooting by linking all requests for a query that involves multiple server interactions and partitions. Correlated Activity Id can be accessed through query response headers or `response.correlatedActivityId`.
 
 #### Split/Merge proof for Bulk API
 
@@ -156,6 +156,8 @@ Here's a sample of adding composite indexes for a container:
 - We have opted to discontinue support for TypeScript version 4.1. Consequently, the minimum supported TypeScript version has been elevated to 4.2. Kindly ensure that your environment is promptly updated to align with these changes.
 
 ### Bugs Fixed
+
+- Fix Bulk operations(Read, Delete, and Patch) failing due to wrong format of partition key in non-partitioned container.
 
 ### Other Changes
 
