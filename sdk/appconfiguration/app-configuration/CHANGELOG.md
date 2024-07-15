@@ -1,20 +1,17 @@
 # Release History
 
-## 1.6.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.6.1 (2024-07-11)
 
 ### Bugs Fixed
 
-### Other Changes
+- Parse the correct `etag` for the corresponding page in the `listConfigurationSettings` method.
 
 ## 1.6.0 (2024-04-09)
 
 ### Features Added
 
 - The `etag` for each page of configuration settings feature is generally available
+
 ## 1.6.0-beta.1 (2024-03-05)
 
 ### Features Added
