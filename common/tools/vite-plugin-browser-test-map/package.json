@@ -20,8 +20,10 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "types/"
   ],
   "scripts": {
     "build": "tsc -p .",
