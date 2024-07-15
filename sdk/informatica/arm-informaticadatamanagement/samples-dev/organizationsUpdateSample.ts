@@ -40,7 +40,8 @@ async function organizationsUpdate() {
         numberOfEmployees: 22,
         officeAddress: "sfcx",
       },
-      existingResourceId: "uvwlcphdfkqnhrtddpsiacbowcxxo",
+      existingResourceId:
+        "/subscriptions/subid/resourceGroups/rg1/providers/Informatica.DataManagement/organizations/org1/serverlessRuntimes/serverlessRuntimeName",
       marketplaceDetails: {
         marketplaceSubscriptionId: "szhyxzgjtssjmlguivepc",
         offerDetails: {

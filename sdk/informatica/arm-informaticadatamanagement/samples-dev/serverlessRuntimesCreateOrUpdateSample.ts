@@ -77,8 +77,10 @@ async function serverlessRuntimesCreateOrUpdate() {
       },
       serverlessRuntimeNetworkProfile: {
         networkInterfaceConfiguration: {
-          subnetId: "s",
-          vnetId: "uaqjvtubxccjs",
+          subnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/subnet1",
+          vnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
           vnetResourceGuid: "5328d299-1462-4be0-bef1-303a28e556a0",
         },
       },
