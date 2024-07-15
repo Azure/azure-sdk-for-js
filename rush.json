@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-translation-document",
+      "projectFolder": "sdk/translation/ai-translation-document-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/defender-easm",
       "projectFolder": "sdk/easm/defender-easm-rest",
       "versionPolicyName": "client"
@@ -2230,6 +2235,11 @@
     {
       "packageName": "@azure-rest/health-deidentification",
       "projectFolder": "sdk/healthdataaiservices/azure-health-deidentification",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-inference",
+      "projectFolder": "sdk/ai/ai-inference-rest",
       "versionPolicyName": "client"
     }
   ]

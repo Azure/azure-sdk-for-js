@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_CreateOrUpdate_AzureStorageBlobContainer.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_AzureStorageBlobContainer.json
  */
 async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
   const subscriptionId =
@@ -34,8 +34,8 @@ async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
       blobContainerName: "examples-blobcontainer",
       endpointType: "AzureStorageBlobContainer",
       storageAccountResourceId:
-        "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.Storage/storageAccounts/examplesa"
-    }
+        "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.Storage/storageAccounts/examplesa",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -52,7 +52,7 @@ async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
  * This sample demonstrates how to Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_CreateOrUpdate_AzureStorageSmbFileShare.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_AzureStorageSmbFileShare.json
  */
 async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
   const subscriptionId =
@@ -68,8 +68,8 @@ async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
       endpointType: "AzureStorageSmbFileShare",
       fileShareName: "examples-fileshare",
       storageAccountResourceId:
-        "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.Storage/storageAccounts/examplesa"
-    }
+        "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.Storage/storageAccounts/examplesa",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -77,7 +77,7 @@ async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -86,7 +86,7 @@ async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
  * This sample demonstrates how to Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_CreateOrUpdate_NfsMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_NfsMount.json
  */
 async function endpointsCreateOrUpdateNfsMount() {
   const subscriptionId =
@@ -101,8 +101,8 @@ async function endpointsCreateOrUpdateNfsMount() {
       description: "Example NFS Mount Endpoint Description",
       endpointType: "NfsMount",
       export: "examples-exportName",
-      host: "0.0.0.0"
-    }
+      host: "0.0.0.0",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -110,7 +110,7 @@ async function endpointsCreateOrUpdateNfsMount() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -119,7 +119,7 @@ async function endpointsCreateOrUpdateNfsMount() {
  * This sample demonstrates how to Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  *
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_CreateOrUpdate_SmbMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_SmbMount.json
  */
 async function endpointsCreateOrUpdateSmbMount() {
   const subscriptionId =
@@ -137,12 +137,12 @@ async function endpointsCreateOrUpdateSmbMount() {
         passwordUri:
           "https://examples-azureKeyVault.vault.azure.net/secrets/examples-password",
         usernameUri:
-          "https://examples-azureKeyVault.vault.azure.net/secrets/examples-username"
+          "https://examples-azureKeyVault.vault.azure.net/secrets/examples-username",
       },
       endpointType: "SmbMount",
       host: "0.0.0.0",
-      shareName: "examples-shareName"
-    }
+      shareName: "examples-shareName",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -150,7 +150,7 @@ async function endpointsCreateOrUpdateSmbMount() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }

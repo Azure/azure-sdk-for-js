@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Live Migration of storage account to enable Hns
  *
  * @summary Live Migration of storage account to enable Hns
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountHierarchicalNamespaceMigration.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountHierarchicalNamespaceMigration.json
  */
 async function storageAccountHierarchicalNamespaceMigration() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -28,7 +28,7 @@ async function storageAccountHierarchicalNamespaceMigration() {
   const result = await client.storageAccounts.beginHierarchicalNamespaceMigrationAndWait(
     resourceGroupName,
     accountName,
-    requestType
+    requestType,
   );
   console.log(result);
 }

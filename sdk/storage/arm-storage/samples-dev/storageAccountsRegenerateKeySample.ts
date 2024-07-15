@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   StorageAccountRegenerateKeyParameters,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary Regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountRegenerateKerbKey.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountRegenerateKerbKey.json
  */
 async function storageAccountRegenerateKerbKey() {
   const subscriptionId =
@@ -29,14 +29,14 @@ async function storageAccountRegenerateKerbKey() {
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4167";
   const accountName = "sto3539";
   const regenerateKey: StorageAccountRegenerateKeyParameters = {
-    keyName: "kerb1"
+    keyName: "kerb1",
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.regenerateKey(
     resourceGroupName,
     accountName,
-    regenerateKey
+    regenerateKey,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function storageAccountRegenerateKerbKey() {
  * This sample demonstrates how to Regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary Regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountRegenerateKey.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountRegenerateKey.json
  */
 async function storageAccountRegenerateKey() {
   const subscriptionId =
@@ -53,14 +53,14 @@ async function storageAccountRegenerateKey() {
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4167";
   const accountName = "sto3539";
   const regenerateKey: StorageAccountRegenerateKeyParameters = {
-    keyName: "key2"
+    keyName: "key2",
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.regenerateKey(
     resourceGroupName,
     accountName,
-    regenerateKey
+    regenerateKey,
   );
   console.log(result);
 }

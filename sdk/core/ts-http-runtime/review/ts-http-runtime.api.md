@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 // @public
 export type AbortablePromiseBuilder<T> = (abortOptions: {
     abortSignal?: AbortSignalLike;
