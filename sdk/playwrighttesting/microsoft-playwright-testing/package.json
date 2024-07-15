@@ -1,19 +1,22 @@
 {
   "name": "@azure/microsoft-playwright-testing",
   "version": "1.0.0-beta.1",
-  "description": "client for Microsoft Playwright Testing integration in Playwright",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md",
+  "description": "Package to integrate your Playwright test suite with Microsoft Playwright Testing service",
+  "homepage": "https://aka.ms/mpt/about",
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "cloud",
-    "playwright"
+    "playwright",
+    "playwright service",
+    "reporting",
+    "playwright testing"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+    "url": "https://aka.ms/mpt/feedback"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -57,7 +57,7 @@ export class Constants {
   public static readonly TEST_TYPE = "WebTest";
   public static readonly TEST_SDK_LANGUAGE = "JavaScript/TypeScript";
   // Placeholder version
-  public static readonly REPORTER_PACKAGE_VERSION = "0.0.4";
+  public static readonly REPORTER_PACKAGE_VERSION = "1.0.0-beta.1";
   public static readonly DEFAULT_DASHBOARD_ENDPOINT = "https://playwright.microsoft.com";
   public static readonly DEFAULT_SERVICE_ENDPOINT =
     "https://{region}.reporting.api.playwright-test.io";

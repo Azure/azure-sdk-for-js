@@ -69,7 +69,7 @@ The service configuration serves to:
 
 ### Set up environment
 
-Ensure that the `PLAYWRIGHT_SERVICE_URL` that you obtained in previous steps are available in your environment.
+Ensure that the `PLAYWRIGHT_SERVICE_URL` that you obtained in previous step is available in your environment.
 
 We recommend using `dotenv` module to manage your environment. With `dotenv` you'll be using the `.env` file to define your environment variables.
 
