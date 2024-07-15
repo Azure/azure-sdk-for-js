@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';

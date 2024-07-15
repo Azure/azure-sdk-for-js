@@ -22,24 +22,20 @@
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/421f0b00-d931-441b-bf88-58b09e9de827",
-      "type": "Microsoft.Communication.CreateCallFailed",
+      "source": "calling/callConnections/0d002280-2a03-4780-b31d-129838bdda83",
+      "type": "Microsoft.Communication.CallDisconnected",
       "data": {
-        "eventSource": "calling/callConnections/421f0b00-d931-441b-bf88-58b09e9de827",
-        "resultInformation": {
-          "code": 603,
-          "subCode": 0,
-          "message": "Decline. DiagCode: 603#0.@"
-        },
-        "version": "2023-10-03-preview",
-        "callConnectionId": "421f0b00-d931-441b-bf88-58b09e9de827",
+        "operationContext": "operationContextRejectCall",
+        "version": "2024-06-15-preview",
+        "callConnectionId": "0d002280-2a03-4780-b31d-129838bdda83",
+        "serverCallId": "sanitized",
         "correlationId": "sanitized",
-        "publicEventType": "Microsoft.Communication.CreateCallFailed"
+        "publicEventType": "Microsoft.Communication.CallDisconnected"
       },
-      "time": "2024-03-08T21:37:25.9377797+00:00",
+      "time": "2024-07-15T19:05:14.5332688+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/421f0b00-d931-441b-bf88-58b09e9de827"
+      "subject": "calling/callConnections/0d002280-2a03-4780-b31d-129838bdda83"
     }
   ]
 ]
