@@ -22,20 +22,20 @@
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/0d002280-2a03-4780-b31d-129838bdda83",
+      "source": "calling/callConnections/09002280-ade1-4798-b463-82a8159e2079",
       "type": "Microsoft.Communication.CallDisconnected",
       "data": {
         "operationContext": "operationContextRejectCall",
         "version": "2024-06-15-preview",
-        "callConnectionId": "0d002280-2a03-4780-b31d-129838bdda83",
+        "callConnectionId": "09002280-ade1-4798-b463-82a8159e2079",
         "serverCallId": "sanitized",
         "correlationId": "sanitized",
         "publicEventType": "Microsoft.Communication.CallDisconnected"
       },
-      "time": "2024-07-15T19:05:14.5332688+00:00",
+      "time": "2024-07-15T23:16:52.1810679+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/0d002280-2a03-4780-b31d-129838bdda83"
+      "subject": "calling/callConnections/09002280-ade1-4798-b463-82a8159e2079"
     }
   ]
 ]
