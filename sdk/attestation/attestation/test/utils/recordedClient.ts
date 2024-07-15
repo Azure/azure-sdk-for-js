@@ -31,7 +31,7 @@ const envSetupForPlayback: { [k: string]: string } = {
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   // token is not a secret
-  removeCentralSanitizers: ["AZSDK3431"]
+  removeCentralSanitizers: ["AZSDK3431"],
 };
 
 export type EndpointType = "AAD" | "Isolated" | "Shared";

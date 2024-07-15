@@ -121,8 +121,7 @@ describe("RemoteRendering functional tests", () => {
     await recorder.stop();
   });
 
-  // TODO: Fix the test. Tracking issue: https://github.com/Azure/azure-sdk-for-js/issues/30395
-  it.skip("can convert successfully", async () => {
+  it("can convert successfully", async () => {
     const storageContainerUrl: string =
       "https://" +
       assertEnvironmentVariable("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
@@ -221,8 +220,7 @@ describe("RemoteRendering functional tests", () => {
     assert.isTrue(didThrowExpected);
   });
 
-  // TODO: Fix the test. Tracking issue: https://github.com/Azure/azure-sdk-for-js/issues/30395
-  it.skip("will fail in the correct way on missing asset", async () => {
+  it("will fail in the correct way on missing asset", async () => {
     const storageContainerUrl =
       "https://" +
       assertEnvironmentVariable("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +

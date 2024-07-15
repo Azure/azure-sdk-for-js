@@ -64,7 +64,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
       uriSanitizers,
     },
     // userId is not a secret, need it for the get user test
-    removeCentralSanitizers: ["AZSDK3433"]
+    removeCentralSanitizers: ["AZSDK3433"],
   });
   return recorder;
 }
