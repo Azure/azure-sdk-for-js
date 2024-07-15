@@ -303,6 +303,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
 
+# PRLabel: %Microsoft Playwright Testing
+# ServiceLabel: %Microsoft Playwright Testing
+/sdk/playwrighttesting/ @Sid200026 @puagarwa @vvs11
+
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
 

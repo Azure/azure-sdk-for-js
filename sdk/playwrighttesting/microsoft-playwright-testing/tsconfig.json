@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["ESNext"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "strict": true,
+    "allowJs": false,
+    "resolveJsonModule": true,
+    "noImplicitOverride": true,
+    "useUnknownInCatchVariables": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "strictNullChecks": false,
+    "strictBindCallApply": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "useDefineForClassFields": true
+  },
+  "exclude": ["test", "dist", "node_modules", "samples"]
+}
