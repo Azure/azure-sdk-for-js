@@ -41,14 +41,6 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedSchemaRegistryClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      },
-      {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       }
