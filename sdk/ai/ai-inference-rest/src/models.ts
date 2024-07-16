@@ -165,7 +165,7 @@ export interface ChatCompletionsFunctionToolSelection {
 }
 
 /** Represents an image with optional text. */
-export interface EmbeddingInput {
+export interface ImageEmbeddingInput {
   /** The input image, in PNG format. */
   image: string;
   /**

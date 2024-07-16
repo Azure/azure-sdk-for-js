@@ -200,12 +200,6 @@ export default createClient;
 export type EmbeddingEncodingFormat = string;
 
 // @public
-export interface EmbeddingInput {
-    image: string;
-    text?: string;
-}
-
-// @public
 export type EmbeddingInputType = string;
 
 // @public
@@ -383,7 +377,7 @@ export interface GetImageEmbeddings200Response extends HttpResponse {
 export interface GetImageEmbeddingsBodyParam {
     // (undocumented)
     body?: {
-        input: Array<EmbeddingInput>;
+        input: Array<ImageEmbeddingInput>;
         dimensions?: number;
         encoding_format?: EmbeddingEncodingFormat;
         input_type?: EmbeddingInputType;
@@ -450,6 +444,12 @@ export interface GetModelInfoDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type GetModelInfoParameters = RequestParameters;
+
+// @public
+export interface ImageEmbeddingInput {
+    image: string;
+    text?: string;
+}
 
 // @public (undocumented)
 export function isUnexpected(response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse): response is GetChatCompletionsDefaultResponse;
