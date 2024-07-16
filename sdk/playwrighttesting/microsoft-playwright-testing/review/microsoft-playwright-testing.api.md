@@ -7,7 +7,13 @@
 import type { TokenCredential } from '@azure/identity';
 
 // @public
-export type AuthenticationType = (typeof ServiceAuthenticationConstants)[keyof typeof ServiceAuthenticationConstants];
+export const Auth: {
+    readonly ENTRA: "ENTRA";
+    readonly TOKEN: "TOKEN";
+};
+
+// @public
+export type AuthenticationType = (typeof Auth)[keyof typeof Auth];
 
 // @public
 export type BrowserConnectOptions = EndpointOptions & {
@@ -41,7 +47,7 @@ export interface MPTReporterConfig {
 }
 
 // @public
-export type OsType = (typeof ServiceOsConstants)[keyof typeof ServiceOsConstants];
+export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
 
 // @public
 export type PlaywrightConfig = {
@@ -71,12 +77,6 @@ export type PlaywrightServiceAdditionalOptions = {
 };
 
 // @public
-export const ServiceAuthenticationConstants: {
-    readonly ENTRA_ID: "ENTRA_ID";
-    readonly SERVICE_TOKEN: "SERVICE_TOKEN";
-};
-
-// @public
 export const ServiceEnvironmentVariableConstants: {
     PLAYWRIGHT_SERVICE_OS: string;
     PLAYWRIGHT_SERVICE_RUN_ID: string;
@@ -87,7 +87,7 @@ export const ServiceEnvironmentVariableConstants: {
 };
 
 // @public
-export const ServiceOsConstants: {
+export const ServiceOS: {
     readonly LINUX: "linux";
     readonly WINDOWS: "windows";
 };

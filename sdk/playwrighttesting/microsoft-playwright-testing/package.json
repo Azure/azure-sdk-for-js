@@ -2,7 +2,7 @@
   "name": "@azure/microsoft-playwright-testing",
   "version": "1.0.0-beta.1",
   "description": "Package to integrate your Playwright test suite with Microsoft Playwright Testing service",
-  "homepage": "https://aka.ms/mpt/about",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md",
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -16,7 +16,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://aka.ms/mpt/feedback"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
     "node": ">=18.0.0"

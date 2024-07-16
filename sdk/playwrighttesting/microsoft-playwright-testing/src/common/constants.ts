@@ -11,7 +11,7 @@ export const EntraIdAccessTokenConstants = {
  *
  * OS types supported on Microsoft Playwright Testing cloud hosted browsers
  */
-export const ServiceOsConstants = {
+export const ServiceOS = {
   LINUX: "linux",
   WINDOWS: "windows",
 } as const;
@@ -20,9 +20,9 @@ export const ServiceOsConstants = {
  *
  * Authentication types supported on Microsoft Playwright Testing
  */
-export const ServiceAuthenticationConstants = {
-  ENTRA_ID: "ENTRA_ID",
-  SERVICE_TOKEN: "SERVICE_TOKEN",
+export const Auth = {
+  ENTRA: "ENTRA",
+  TOKEN: "TOKEN",
 } as const;
 
 /** @public
@@ -42,7 +42,7 @@ export const DefaultConnectOptionsConstants = {
   DEFAULT_TIMEOUT: 0,
   DEFAULT_SLOW_MO: 0,
   DEFAULT_EXPOSE_NETWORK: "<loopback>",
-  DEFAULT_SERVICE_OS: ServiceOsConstants.LINUX,
+  DEFAULT_SERVICE_OS: ServiceOS.LINUX,
 };
 
 export const API_VERSION = "2023-10-01-preview";

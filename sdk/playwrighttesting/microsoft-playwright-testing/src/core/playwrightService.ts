@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceAuthenticationConstants } from "../common/constants";
+import { Auth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
@@ -41,12 +41,12 @@ import {
  * @example
  * ```
  * import { defineConfig } from "playwright/test";
- * import { getServiceConfig, ServiceOsConstants } from "@azure/microsoft-playwright-testing";
+ * import { getServiceConfig, ServiceOS } from "@azure/microsoft-playwright-testing";
  * import playwrightConfig from "./playwright.config";
  *
  * export default defineConfig(playwrightConfig, getServiceConfig(playwrightConfig, {
  *  runId: "custom run id",
- *  os: ServiceOsConstants.WINDOWS
+ *  os: ServiceOS.WINDOWS
  * }));
  * ```
  */
@@ -70,7 +70,7 @@ const getServiceConfig = (
   emitReportingUrl();
 
   const globalFunctions: any = {};
-  if (options?.defaultAuth === ServiceAuthenticationConstants.SERVICE_TOKEN && getAccessToken()) {
+  if (options?.defaultAuth === Auth.TOKEN && getAccessToken()) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT();
   } else {

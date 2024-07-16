@@ -1,4 +1,4 @@
-import { getServiceConfig, ServiceOsConstants } from "@azure/microsoft-playwright-testing";
+import { getServiceConfig, ServiceOS } from "@azure/microsoft-playwright-testing";
 import { defineConfig } from "@playwright/test";
 import config from "./playwright.config";
 import { AzureCliCredential } from "@azure/identity";
@@ -6,7 +6,7 @@ import { AzureCliCredential } from "@azure/identity";
 export default defineConfig(
   config,
   getServiceConfig(config, {
-    os: ServiceOsConstants.WINDOWS,
+    os: ServiceOS.WINDOWS,
     runId: new Date().toISOString(),
     credential: new AzureCliCredential(),
   }),

@@ -3,7 +3,7 @@
 
 import type { JwtPayload } from "jwt-decode";
 import type { Location, TestStep } from "@playwright/test/reporter";
-import { ServiceAuthenticationConstants, ServiceOsConstants } from "./constants";
+import { Auth, ServiceOS } from "./constants";
 import type { TokenCredential } from "@azure/identity";
 
 export type AccessTokenClaims = JwtPayload & {
@@ -138,7 +138,7 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * Authentication types supported by Microsoft Playwright Testing.
    *
-   * @defaultValue  `ENTRA_ID`
+   * @defaultValue  `ENTRA`
    */
   defaultAuth?: AuthenticationType;
 
@@ -211,15 +211,14 @@ export type PlaywrightServiceAdditionalOptions = {
  *
  * OS Types supported by Microsoft Playwright Testing.
  */
-export type OsType = (typeof ServiceOsConstants)[keyof typeof ServiceOsConstants];
+export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
 
 /**
  * @public
  *
  * Authentication types supported by Microsoft Playwright Testing.
  */
-export type AuthenticationType =
-  (typeof ServiceAuthenticationConstants)[keyof typeof ServiceAuthenticationConstants];
+export type AuthenticationType = (typeof Auth)[keyof typeof Auth];
 
 export type ErrorDetails = {
   message: string;

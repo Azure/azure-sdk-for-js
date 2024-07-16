@@ -8,7 +8,6 @@ import { ServiceErrorMessageConstants } from "../common/messages";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken";
 import playwrightServiceDebugLogger from "../common/debugLogger";
 import type { TokenCredential } from "@azure/identity";
-import type { PlaywrightTestConfig, ReporterDescription } from "@playwright/test";
 import ReporterUtils from "./reporterUtils";
 import { CIInfoProvider } from "./cIInfoProvider";
 dotenv.config();

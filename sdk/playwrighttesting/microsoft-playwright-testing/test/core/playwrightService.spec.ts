@@ -3,9 +3,9 @@
 
 import {
   API_VERSION,
-  ServiceAuthenticationConstants,
+  Auth,
   ServiceEnvironmentVariableConstants,
-  ServiceOsConstants,
+  ServiceOS,
 } from "../../src/common/constants";
 import { ServiceErrorMessageConstants } from "../../src/common/messages";
 import * as jwtDecode from "jwt-decode";
@@ -66,11 +66,11 @@ describe("getServiceConfig", () => {
   it("should set service config options as passed", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     getServiceConfig(samplePlaywrightConfigInput, {
-      os: ServiceOsConstants.WINDOWS,
+      os: ServiceOS.WINDOWS,
       runId: "1234",
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOsConstants.WINDOWS);
+    expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
     expect(playwrightServiceConfig.runId).to.equal("1234");
   });
 
@@ -88,7 +88,7 @@ describe("getServiceConfig", () => {
   it("should set service global setup and teardown for mpt PAT authentication if pat is not set", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     const config = getServiceConfig(samplePlaywrightConfigInput, {
-      defaultAuth: ServiceAuthenticationConstants.SERVICE_TOKEN,
+      defaultAuth: Auth.TOKEN,
     });
     expect(config.globalSetup).to.equal(
       require.resolve("../../src/core/global/playwright-service-global-setup"),
@@ -115,7 +115,7 @@ describe("getServiceConfig", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const config = getServiceConfig(samplePlaywrightConfigInput, {
-      defaultAuth: ServiceAuthenticationConstants.SERVICE_TOKEN,
+      defaultAuth: Auth.TOKEN,
     });
     expect(config.globalSetup).to.be.undefined;
     expect(config.globalTeardown).to.be.undefined;
@@ -183,11 +183,11 @@ describe("getConnectOptions", () => {
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({
       runId: "1234",
-      os: ServiceOsConstants.WINDOWS,
+      os: ServiceOS.WINDOWS,
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(playwrightServiceConfig.runId).to.equal("1234");
-    expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOsConstants.WINDOWS);
+    expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
   });
 
   it("should set service connect options with fetched token", async () => {
