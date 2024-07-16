@@ -1,5 +1,15 @@
 # Release History
 
+## 1.9.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.9.1 (2024-07-10)
 
 ### Bugs Fixed

@@ -1,12 +1,20 @@
 # Release History
 
-## 4.3.1 (Unreleased)
+## 4.5.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.4.0 (2024-07-16)
 
 ### Features Added
 
 - `OnBehalfOfCredential` now supports taking clientAssertion callback `getAssertion`. [#29711](https://github.com/Azure/azure-sdk-for-js/pull/29711)
-
-### Breaking Changes
 
 ### Bugs Fixed
 

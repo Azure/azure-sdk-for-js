@@ -8,9 +8,14 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { InformaticaDataManagement } = require("@azure/arm-informaticadatamanagement");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import {
+  InformaticaOrganizationResourceUpdate,
+  InformaticaDataManagement,
+} from "@azure/arm-informaticadatamanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update a InformaticaOrganizationResource
@@ -20,10 +25,12 @@ require("dotenv").config();
  */
 async function organizationsUpdate() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
+    "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName =
+    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "_-";
-  const properties = {
+  const properties: InformaticaOrganizationResourceUpdate = {
     properties: {
       companyDetails: {
         business: "mwqblnruflwpolgbxpqbqneve",
@@ -33,17 +40,21 @@ async function organizationsUpdate() {
         numberOfEmployees: 22,
         officeAddress: "sfcx",
       },
-      existingResourceId: "uvwlcphdfkqnhrtddpsiacbowcxxo",
+      existingResourceId:
+        "/subscriptions/subid/resourceGroups/rg1/providers/Informatica.DataManagement/organizations/org1/serverlessRuntimes/serverlessRuntimeName",
       marketplaceDetails: {
         marketplaceSubscriptionId: "szhyxzgjtssjmlguivepc",
         offerDetails: {
-          offerId: "idaxbflabvjsippplyenvrpgeydsjxcmyubgukffkcdvlvrtwpdhnvdblxjsldiuswrchsibk",
-          planId: "giihvvnwdwzkfqrhkpqzbgfotzyixnsvmxzauseebillhslauglzfxzvzvts",
+          offerId:
+            "idaxbflabvjsippplyenvrpgeydsjxcmyubgukffkcdvlvrtwpdhnvdblxjsldiuswrchsibk",
+          planId:
+            "giihvvnwdwzkfqrhkpqzbgfotzyixnsvmxzauseebillhslauglzfxzvzvts",
           planName:
             "tfqjenotaewzdeerliteqxdawuqxhwdzbtiiimsaedrlsnbdoonnloakjtvnwhhrcyxxsgoachguthqvlahpjyofpoqpfacfmiaauawazkmxkjgvktbptojknzojtjrfzvbbjjkvstabqyaczxinijhoxrjukftsagpwgsvpmczopztmplipyufhuaumfx",
           publisherId:
             "ktzfghsyjqbsswhltoaemgotmnorhdogvkaxplutbjjqzuepxizliynyakersobagvpwvpzwjtjjxigsqgcyqaahaxdijghnexliofhfjlqzjmmbvrhcvjxdodnexxizbgfhjopbwzjojxsluasnwwsgcajefglbcvzpaeblanhmurcculndtfwnfjyxol",
-          termId: "eolmwogtgpdncqoigqcdomupwummaicwvdxgbskpdsmjizdfbdgbxbuekcpwmenqzbhqxpdnjtup",
+          termId:
+            "eolmwogtgpdncqoigqcdomupwummaicwvdxgbskpdsmjizdfbdgbxbuekcpwmenqzbhqxpdnjtup",
           termUnit: "nykqoplazujcwmfldntifjqrnx",
         },
       },
@@ -59,7 +70,11 @@ async function organizationsUpdate() {
   };
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
-  const result = await client.organizations.update(resourceGroupName, organizationName, properties);
+  const result = await client.organizations.update(
+    resourceGroupName,
+    organizationName,
+    properties,
+  );
   console.log(result);
 }
 
@@ -71,13 +86,19 @@ async function organizationsUpdate() {
  */
 async function organizationsUpdateMin() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
+    "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName =
+    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "-";
-  const properties = {};
+  const properties: InformaticaOrganizationResourceUpdate = {};
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
-  const result = await client.organizations.update(resourceGroupName, organizationName, properties);
+  const result = await client.organizations.update(
+    resourceGroupName,
+    organizationName,
+    properties,
+  );
   console.log(result);
 }
 

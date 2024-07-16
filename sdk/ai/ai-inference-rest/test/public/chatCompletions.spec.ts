@@ -41,7 +41,10 @@ describe("chat test suite", () => {
     assert.isNotEmpty(completion.choices);
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
-  });
+  },
+    {
+      timeout: 50000
+    });
 
   it("function calling test", async function () {
     const getCurrentWeather = {
@@ -90,6 +93,38 @@ describe("chat test suite", () => {
     assert.isDefined(toolCall.function);
     assert.isNotEmpty(toolCall.function.name);
     assert.isTrue(toolCall.function.arguments.includes("location"));
-  });
+  },
+    {
+      timeout: 50000
+    });
+
+  it("image url test", async function () {
+    const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
+
+    const response = await client.path("/chat/completions").post({
+      body: {
+        messages: [{
+          role: "user", content: [{
+            type: "image_url",
+            image_url: {
+              url,
+              detail: "auto"
+            }
+          }]
+        }, { role: "user", content: "describe the image" }],
+      }
+    });
+
+    assert.isFalse(isUnexpected(response));
+
+    const completion = response.body as ChatCompletionsOutput;
+    assert.isDefined(completion);
+    assert.isNotEmpty(completion.choices);
+    assert.isDefined(completion.choices[0].message);
+    assert.isDefined(completion.choices[0].message.content);
+  },
+    {
+      timeout: 50000
+    });
 
 });
