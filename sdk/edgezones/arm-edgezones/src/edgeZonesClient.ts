@@ -8,9 +8,9 @@ import {
   getExtendedZonesOperations,
   ExtendedZonesOperations,
 } from "./classic/extendedZones/index.js";
-import { createEdgeZones, EdgeZonesClientOptions, EdgeZonesContext } from "./api/index.js";
+import { createEdgeZones, EdgeZonesClientOptionalParams, EdgeZonesContext } from "./api/index.js";
 
-export { EdgeZonesClientOptions } from "./api/edgeZonesContext.js";
+export { EdgeZonesClientOptionalParams } from "./api/edgeZonesContext.js";
 
 export class EdgeZonesClient {
   private _client: EdgeZonesContext;
@@ -20,7 +20,7 @@ export class EdgeZonesClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: EdgeZonesClientOptions = {},
+    options: EdgeZonesClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
