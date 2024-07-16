@@ -305,7 +305,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @Sid200026 @puagarwa @vvs11
+/sdk/playwrighttesting/ @Sid200026 @puagarwa @vvs11 @ShreyaAnand
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
