@@ -22,6 +22,7 @@ import {
 } from "../customTestsAssets";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { readdir, rm } from "fs/promises";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 const pathName = path.join(
   __dirname.split("ai-language-text")[0],
@@ -53,11 +54,11 @@ const deployParam: TextAnalysisAuthoringDeployProjectParameters = {
 
 async function createStorageBlob(): Promise<ContainerClient> {
   /* Return a container client */
-  const defaultAzureCredential = new DefaultAzureCredential();
+  const tokenCredential = createTestCredential();
   // Get documents containers
   const blobServiceClient = new BlobServiceClient(
     assertEnvironmentVariable("STORAGE_ENDPOINT"),
-    defaultAzureCredential,
+    tokenCredential,
   );
   return blobServiceClient.getContainerClient(storageInputContainerName);
 }
