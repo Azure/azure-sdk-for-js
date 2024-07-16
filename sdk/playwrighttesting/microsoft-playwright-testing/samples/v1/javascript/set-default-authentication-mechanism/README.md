@@ -23,7 +23,7 @@ Make sure you have set up your Playwright Testing workspace by following these s
     npm init @azure/microsoft-playwright-testing
     ```
 
-Installing the service package will create a service config with the name `playwright.service.config.ts`
+Installing the service package will create a service config named `playwright.service.config.ts`.
 
 The service configuration serves to:
 
