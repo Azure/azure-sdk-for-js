@@ -12,7 +12,6 @@ import {
   ExportedCustomEntityRecognitionProjectAssets,
 } from "@azure/ai-language-textauthoring";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-import { DefaultAzureCredential } from "@azure/identity";
 import path from "path";
 import decompress from "decompress";
 import {
