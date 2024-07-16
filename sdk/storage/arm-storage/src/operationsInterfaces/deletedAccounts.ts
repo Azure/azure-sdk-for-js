@@ -11,7 +11,7 @@ import {
   DeletedAccount,
   DeletedAccountsListOptionalParams,
   DeletedAccountsGetOptionalParams,
-  DeletedAccountsGetResponse
+  DeletedAccountsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface DeletedAccounts {
    * @param options The options parameters.
    */
   list(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedAccount>;
   /**
    * Get properties of specified deleted account resource.
@@ -33,6 +33,6 @@ export interface DeletedAccounts {
   get(
     deletedAccountName: string,
     location: string,
-    options?: DeletedAccountsGetOptionalParams
+    options?: DeletedAccountsGetOptionalParams,
   ): Promise<DeletedAccountsGetResponse>;
 }

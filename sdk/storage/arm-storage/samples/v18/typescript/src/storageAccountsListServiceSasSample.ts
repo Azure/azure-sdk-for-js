@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServiceSasParameters,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List service SAS credentials of a specific resource.
  *
  * @summary List service SAS credentials of a specific resource.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountListServiceSAS.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListServiceSAS.json
  */
 async function storageAccountListServiceSas() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function storageAccountListServiceSas() {
     canonicalizedResource: "/blob/sto1299/music",
     sharedAccessExpiryTime: new Date("2017-05-24T11:32:48.8457197Z"),
     permissions: "l",
-    resource: "c"
+    resource: "c",
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.listServiceSAS(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
