@@ -5,7 +5,7 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
-import { extractPartitionKeys } from "../../extractPartitionKey";
+import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, Response } from "../../request";
@@ -603,6 +603,14 @@ export class Items {
   ): Promise<Response<OperationResponse[]>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       operations.map((operation) => decorateBatchOperation(operation, options));
+
+      if (partitionKey === undefined) {
+        const partitionKeyDefinition = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+        partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+      }
 
       const path = getPathFromLink(this.container.url, ResourceType.item);
 
