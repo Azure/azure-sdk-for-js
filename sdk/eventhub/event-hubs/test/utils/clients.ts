@@ -15,13 +15,8 @@ import {
 } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import {
-  EnvVarKeys,
-  EVENTHUB_CONNECTION_STRING_WITH_KEY,
-  EVENTHUB_CONNECTION_STRING_WITH_SAS,
-  EVENTHUB_FQDN,
-  EVENTHUB_NAME,
-} from "./constants.js";
+import { EnvVarKeys } from "./constants.js";
+import * as MOCKS from "./constants.js";
 import type { NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { assert } from "vitest";
 import { ConnectionContext, createConnectionContext } from "../../src/connectionContext.js";
@@ -40,16 +35,16 @@ export function isMock(): boolean {
 }
 
 function getEventhubName(): string {
-  return isMock() ? EVENTHUB_NAME : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_NAME);
+  return isMock() ? MOCKS.EVENTHUB_NAME : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_NAME);
 }
 
 function getFullyQualifiedNamespace(): string {
-  return isMock() ? EVENTHUB_FQDN : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_FQDN);
+  return isMock() ? MOCKS.EVENTHUB_FQDN : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_FQDN);
 }
 
 export function getConnectionStringWithKey(): string | undefined {
   return isMock()
-    ? EVENTHUB_CONNECTION_STRING_WITH_KEY
+    ? MOCKS.EVENTHUB_CONNECTION_STRING_WITH_KEY
     : getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING);
 }
 
@@ -83,7 +78,7 @@ export async function getConnectionStringWithSasTokenFromConnectionStringWithKey
 
 export async function getConnectionStringWithSAS(): Promise<string | undefined> {
   if (isMock()) {
-    return EVENTHUB_CONNECTION_STRING_WITH_SAS;
+    return MOCKS.EVENTHUB_CONNECTION_STRING_WITH_SAS;
   }
   const connectionString = getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING);
   return connectionString
