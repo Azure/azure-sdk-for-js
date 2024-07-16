@@ -9,7 +9,7 @@ This guide will walk you through the steps to integrate your Playwright project 
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) must be installed in the machine from where you are running Playwright tests. 
 
 
-### Set up Playwright Testing workspace
+### Setup Playwright Testing workspace
 
 Make sure you have set up your Playwright Testing workspace by following these steps
 
@@ -19,7 +19,7 @@ Make sure you have set up your Playwright Testing workspace by following these s
 
 1. Run this command to install the service package
 
-    ```nodejs
+    ```sh
     npm init @azure/microsoft-playwright-testing
     ```
 

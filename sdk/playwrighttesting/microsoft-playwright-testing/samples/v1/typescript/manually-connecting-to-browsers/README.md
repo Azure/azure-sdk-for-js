@@ -1,4 +1,4 @@
-# How to integrae your test suite with Microsoft Playwright Testing service if you are manually launching browsers in tests
+# How to integrate your test suite with Microsoft Playwright Testing service if you are manually launching browsers in tests
 
 This guide will walk you through the steps to integrate your Playwright project where you are launching browsers from within the tests with the service. 
 
@@ -9,7 +9,7 @@ This guide will walk you through the steps to integrate your Playwright project 
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) must be installed in the machine from where you are running Playwright tests. 
 
 
-### Set up Playwright Testing workspace
+### Setup Playwright Testing workspace
 
 Make sure you have set up your Playwright Testing workspace by following these steps
 
@@ -19,7 +19,7 @@ Make sure you have set up your Playwright Testing workspace by following these s
 
 1. Run this command to install the service package
 
-    ```nodejs
+    ```sh
     npm init @azure/microsoft-playwright-testing
     ```
 
@@ -57,7 +57,7 @@ npm i --save-dev dotenv
 
 `.env` file
 
-```nodejs
+```sh
 PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
 ```
 
@@ -89,6 +89,6 @@ az login
 
 Run Playwright tests against browsers managed by the service using the configuration you created above.
 
-```nodejs
+```sh
 npx playwright test --config=playwright.service.config.ts --workers=20
 ```
