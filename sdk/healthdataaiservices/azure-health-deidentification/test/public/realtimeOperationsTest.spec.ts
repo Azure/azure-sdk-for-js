@@ -3,7 +3,7 @@
 
 import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
 import { beforeEach, afterEach, it, describe } from "vitest";
-import { DeidentificationClient } from "../../src/clientDefinitions.js";
+import { DeidServicesClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 import { DeidentificationContent } from "../../src/models.js";
@@ -15,7 +15,7 @@ const replaceableVariables: Record<string, string> = {};
 
 describe("Realtime", () => {
   let recorder: Recorder;
-  let client: DeidentificationClient;
+  let client: DeidServicesClient;
 
   beforeEach(async function (context) {
     recorder = await createRecorder(context);
@@ -76,11 +76,6 @@ describe("Realtime", () => {
     assert.isUndefined(output.outputText, "On Tag Operation, expect OutputText to be null.");
     assert.isTrue(output.taggerResult!.etag === undefined, "Expected Etag to be null.");
     assert.isTrue(output.taggerResult!.path === undefined, "Expected Path to be null.");
-    assert.equal(
-      "TextElement_v8",
-      output.taggerResult!.stringIndexType,
-      "Expected StringIndexType to be Utf16CodeUnit.",
-    );
 
     assert.isTrue(
       output.taggerResult!.entities.length > 0,
@@ -96,11 +91,11 @@ describe("Realtime", () => {
       "Expected first tag to be 'John Smith'.",
     );
     assert.isTrue(
-      output.taggerResult!.entities[0].offset === 18,
+      output.taggerResult!.entities[0].offset.utf8 === 18,
       "Expected first tag to start at index 19.",
     );
     assert.isTrue(
-      output.taggerResult!.entities[0].length === 10,
+      output.taggerResult!.entities[0].length.utf8 === 10,
       "Expected first tag to be 10 characters long.",
     );
   }, 10000);

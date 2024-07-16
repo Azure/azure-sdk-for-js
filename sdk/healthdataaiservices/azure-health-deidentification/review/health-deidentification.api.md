@@ -72,7 +72,7 @@ export interface CancelJobHeaders {
 export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, options?: ClientOptions): DeidentificationClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidServicesClientOptions): DeidServicesClient;
 export default createClient;
 
 // @public (undocumented)
@@ -149,18 +149,12 @@ export interface CreateJobLogicalResponse extends HttpResponse {
 // @public (undocumented)
 export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
 
-// @public (undocumented)
-export type DeidentificationClient = Client & {
-    path: Routes;
-};
-
 // @public
 export interface DeidentificationContent {
     dataType: DocumentDataType;
     inputText: string;
     operation: OperationType;
     redactionFormat?: string;
-    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -177,7 +171,7 @@ export interface DeidentificationJobOutput {
     readonly createdAt: string;
     dataType: DocumentDataTypeOutput;
     readonly error?: ErrorModel;
-    readonly lastUpdatedAt?: string;
+    readonly lastUpdatedAt: string;
     readonly name: string;
     operation: OperationTypeOutput;
     redactionFormat?: string;
@@ -231,6 +225,16 @@ export interface DeidentifyDefaultResponse extends HttpResponse {
 export type DeidentifyParameters = DeidentifyBodyParam & RequestParameters;
 
 // @public (undocumented)
+export type DeidServicesClient = Client & {
+    path: Routes;
+};
+
+// @public
+export interface DeidServicesClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public (undocumented)
 export interface DeleteJob204Headers {
     "x-ms-client-request-id"?: string;
 }
@@ -273,13 +277,22 @@ export interface DeleteJobHeaders {
 export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
 
 // @public
-export type DocumentDataType = "Plaintext" | string;
+export type DocumentDataType = string;
 
 // @public
-export type DocumentDataTypeOutput = "Plaintext" | string;
+export type DocumentDataTypeOutput = string;
 
 // @public
-export interface FileLocationOutput {
+export interface DocumentDetailsOutput {
+    error?: ErrorModel;
+    readonly id: string;
+    input: DocumentLocationOutput;
+    output?: DocumentLocationOutput;
+    status: OperationStateOutput;
+}
+
+// @public
+export interface DocumentLocationOutput {
     readonly etag: string;
     path: string;
 }
@@ -347,15 +360,6 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
     nextPageLink?: string;
 }>;
 
-// @public
-export interface HealthFileDetailsOutput {
-    error?: ErrorModel;
-    readonly id: string;
-    input: FileLocationOutput;
-    output?: FileLocationOutput;
-    status: OperationStateOutput;
-}
-
 // @public (undocumented)
 export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;
 
@@ -369,7 +373,7 @@ export function isUnexpected(response: DeleteJob204Response | DeleteJobDefaultRe
 export function isUnexpected(response: ListJobs200Response | ListJobsDefaultResponse): response is ListJobsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ListJobFiles200Response | ListJobFilesDefaultResponse): response is ListJobFilesDefaultResponse;
+export function isUnexpected(response: ListJobDocuments200Response | ListJobDocumentsDefaultResponse): response is ListJobDocumentsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: CancelJob200Response | CancelJobDefaultResponse): response is CancelJobDefaultResponse;
@@ -378,10 +382,10 @@ export function isUnexpected(response: CancelJob200Response | CancelJobDefaultRe
 export function isUnexpected(response: Deidentify200Response | DeidentifyDefaultResponse): response is DeidentifyDefaultResponse;
 
 // @public
-export type JobStatus = "NotStarted" | "Running" | "Succeeded" | "PartialFailed" | "Failed" | "Canceled" | string;
+export type JobStatus = string;
 
 // @public
-export type JobStatusOutput = "NotStarted" | "Running" | "Succeeded" | "PartialFailed" | "Failed" | "Canceled" | string;
+export type JobStatusOutput = string;
 
 // @public
 export interface JobSummary {
@@ -402,64 +406,64 @@ export interface JobSummaryOutput {
 }
 
 // @public (undocumented)
-export interface ListJobFiles {
-    get(options?: ListJobFilesParameters): StreamableMethod<ListJobFiles200Response | ListJobFilesDefaultResponse>;
+export interface ListJobDocuments {
+    get(options?: ListJobDocumentsParameters): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
 }
 
 // @public (undocumented)
-export interface ListJobFiles200Headers {
+export interface ListJobDocuments200Headers {
     "x-ms-client-request-id"?: string;
 }
 
 // @public
-export interface ListJobFiles200Response extends HttpResponse {
+export interface ListJobDocuments200Response extends HttpResponse {
     // (undocumented)
-    body: PagedHealthFileDetailsOutput;
+    body: PagedDocumentDetailsOutput;
     // (undocumented)
-    headers: RawHttpHeaders & ListJobFiles200Headers;
+    headers: RawHttpHeaders & ListJobDocuments200Headers;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface ListJobFilesDefaultHeaders {
+export interface ListJobDocumentsDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface ListJobFilesDefaultResponse extends HttpResponse {
+export interface ListJobDocumentsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & ListJobFilesDefaultHeaders;
+    headers: RawHttpHeaders & ListJobDocumentsDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export interface ListJobFilesHeaderParam {
+export interface ListJobDocumentsHeaderParam {
     // (undocumented)
-    headers?: RawHttpHeadersInput & ListJobFilesHeaders;
+    headers?: RawHttpHeadersInput & ListJobDocumentsHeaders;
 }
 
 // @public (undocumented)
-export interface ListJobFilesHeaders {
+export interface ListJobDocumentsHeaders {
     "x-ms-client-request-id"?: string;
 }
 
 // @public (undocumented)
-export type ListJobFilesParameters = ListJobFilesQueryParam & ListJobFilesHeaderParam & RequestParameters;
+export type ListJobDocumentsParameters = ListJobDocumentsQueryParam & ListJobDocumentsHeaderParam & RequestParameters;
 
 // @public (undocumented)
-export interface ListJobFilesQueryParam {
+export interface ListJobDocumentsQueryParam {
     // (undocumented)
-    queryParameters?: ListJobFilesQueryParamProperties;
+    queryParameters?: ListJobDocumentsQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface ListJobFilesQueryParamProperties {
+export interface ListJobDocumentsQueryParamProperties {
+    continuationToken?: string;
     maxpagesize?: number;
-    nextToken?: string;
 }
 
 // @public (undocumented)
@@ -519,24 +523,24 @@ export interface ListJobsQueryParam {
 
 // @public (undocumented)
 export interface ListJobsQueryParamProperties {
+    continuationToken?: string;
     maxpagesize?: number;
-    nextToken?: string;
 }
 
 // @public
-export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+export type OperationStateOutput = string;
 
 // @public
-export type OperationType = "Redact" | "Surrogate" | "Tag" | string;
+export type OperationType = string;
 
 // @public
-export type OperationTypeOutput = "Redact" | "Surrogate" | "Tag" | string;
+export type OperationTypeOutput = string;
 
 // @public
 export type PagedDeidentificationJobOutput = Paged<DeidentificationJobOutput>;
 
 // @public
-export type PagedHealthFileDetailsOutput = Paged<HealthFileDetailsOutput>;
+export type PagedDocumentDetailsOutput = Paged<DocumentDetailsOutput>;
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -554,30 +558,29 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
-export type PhiCategoryOutput = "Unknown" | "Account" | "Age" | "BioID" | "City" | "CountryOrRegion" | "Date" | "Device" | "Doctor" | "Email" | "Fax" | "HealthPlan" | "Hospital" | "IDNum" | "IPAddress" | "License" | "LocationOther" | "MedicalRecord" | "Organization" | "Patient" | "Phone" | "Profession" | "SocialSecurity" | "State" | "Street" | "Url" | "Username" | "Vehicle" | "Zip" | string;
+export type PhiCategoryOutput = string;
 
 // @public
 export interface PhiEntityOutput {
     category: PhiCategoryOutput;
     confidenceScore?: number;
-    length: number;
-    offset: number;
+    length: StringIndexOutput;
+    offset: StringIndexOutput;
     text?: string;
 }
 
 // @public
 export interface PhiTaggerResultOutput {
     entities: Array<PhiEntityOutput>;
-    readonly etag: string;
+    etag?: string;
     path?: string;
-    stringIndexType: StringIndexTypeOutput;
 }
 
 // @public (undocumented)
 export interface Routes {
     (path: "/jobs/{name}", name: string): GetJob;
     (path: "/jobs"): ListJobs;
-    (path: "/jobs/{name}/files", name: string): ListJobFiles;
+    (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
     (path: "/jobs/{name}:cancel", name: string): CancelJob;
     (path: "/deid"): Deidentify;
 }
@@ -587,6 +590,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
     getOperationState(): TState;
     getResult(): TResult | undefined;
     isDone(): boolean;
+    // @deprecated
     isStopped(): boolean;
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     poll(options?: {
@@ -618,10 +622,11 @@ export interface SourceStorageLocationOutput {
 }
 
 // @public
-export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit" | string;
-
-// @public
-export type StringIndexTypeOutput = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit" | string;
+export interface StringIndexOutput {
+    codePoint: number;
+    utf16: number;
+    utf8: number;
+}
 
 // @public
 export interface TargetStorageLocation {

@@ -6,7 +6,7 @@ import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   DeidentificationJobOutput,
   PagedDeidentificationJobOutput,
-  PagedHealthFileDetailsOutput,
+  PagedDocumentDetailsOutput,
   DeidentificationResultOutput,
 } from "./outputModels.js";
 
@@ -101,27 +101,27 @@ export interface ListJobsDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & ListJobsDefaultHeaders;
 }
 
-export interface ListJobFiles200Headers {
+export interface ListJobDocuments200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface ListJobFiles200Response extends HttpResponse {
+export interface ListJobDocuments200Response extends HttpResponse {
   status: "200";
-  body: PagedHealthFileDetailsOutput;
-  headers: RawHttpHeaders & ListJobFiles200Headers;
+  body: PagedDocumentDetailsOutput;
+  headers: RawHttpHeaders & ListJobDocuments200Headers;
 }
 
-export interface ListJobFilesDefaultHeaders {
+export interface ListJobDocumentsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListJobFilesDefaultResponse extends HttpResponse {
+export interface ListJobDocumentsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListJobFilesDefaultHeaders;
+  headers: RawHttpHeaders & ListJobDocumentsDefaultHeaders;
 }
 
 export interface CancelJob200Headers {

@@ -476,9 +476,6 @@ dependencies:
   '@rush-temp/arm-mobilenetwork':
     specifier: file:./projects/arm-mobilenetwork.tgz
     version: file:projects/arm-mobilenetwork.tgz
-  '@rush-temp/arm-mongocluster':
-    specifier: file:./projects/arm-mongocluster.tgz
-    version: file:projects/arm-mongocluster.tgz
   '@rush-temp/arm-monitor':
     specifier: file:./projects/arm-monitor.tgz
     version: file:projects/arm-monitor.tgz
@@ -15965,41 +15962,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-ek+xIsndDYbi10jHCLcUgI6d0GT/tBOScv2lj30H0jQxkyr7awwxyzyulcLJamAXc+OaUWBVmK1/9myWTAj+wg==, tarball: file:projects/arm-mongocluster.tgz}
-    name: '@rush-temp/arm-mongocluster'
-    version: 0.0.0
-    dependencies:
-      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
-      '@types/node': 18.19.39
-      '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
-      dotenv: 16.4.5
-      eslint: 8.57.0
-      mkdirp: 3.0.1
-      playwright: 1.45.1
-      prettier: 3.3.2
-      rimraf: 5.0.8
-      tshy: 1.18.0
-      tslib: 2.6.3
-      typescript: 5.4.5
-      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - webdriverio
-    dev: false
-
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-TDcMUZWmV+fd5irv7mhg+OHTlr2r8k2lXC4PtT5i8Dde31I6Pkyf7qpuyk7su0+7XEM0hQHKZ2DIIpbAVxKjZg==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
@@ -20746,22 +20708,23 @@ packages:
     dev: false
 
   file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-3mp7rpJHhVf45U+2BqmkBuK0h4wWw33274ULRF1RUY8t55JbqvQMkzhFdbPChgDzKLP3Gbwg0jDibcWzP2yDTg==, tarball: file:projects/health-deidentification.tgz}
+    resolution: {integrity: sha512-3NLeX6k7xTOx/eW2TJ4z2E9oBLBu67MrK7pH27m9sqn1D/uA5TpKocyB/FZOiACRX4TywyoQ6UmNssV2cAZiPQ==, tarball: file:projects/health-deidentification.tgz}
     name: '@rush-temp/health-deidentification'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 3.0.0-beta.1
+      '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/node': 18.19.39
-      '@vitest/browser': 1.6.0(playwright@1.44.1)(vitest@1.6.0)
+      '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       dotenv: 16.4.5
       eslint: 8.57.0
       loupe: 3.1.1
       mkdirp: 3.0.1
-      playwright: 1.44.1
-      rimraf: 5.0.7
-      tshy: 1.16.0
+      playwright: 1.45.1
+      rimraf: 5.0.8
+      tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.4.5
       vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)

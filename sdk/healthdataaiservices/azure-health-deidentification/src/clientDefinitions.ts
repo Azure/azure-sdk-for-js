@@ -6,7 +6,7 @@ import {
   CreateJobParameters,
   DeleteJobParameters,
   ListJobsParameters,
-  ListJobFilesParameters,
+  ListJobDocumentsParameters,
   CancelJobParameters,
   DeidentifyParameters,
 } from "./parameters.js";
@@ -20,8 +20,8 @@ import {
   DeleteJobDefaultResponse,
   ListJobs200Response,
   ListJobsDefaultResponse,
-  ListJobFiles200Response,
-  ListJobFilesDefaultResponse,
+  ListJobDocuments200Response,
+  ListJobDocumentsDefaultResponse,
   CancelJob200Response,
   CancelJobDefaultResponse,
   Deidentify200Response,
@@ -36,7 +36,7 @@ export interface GetJob {
   put(
     options: CreateJobParameters,
   ): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
-  /** Removes the record of the job from the service. Does not delete any files. */
+  /** Removes the record of the job from the service. Does not delete any documents. */
   delete(
     options?: DeleteJobParameters,
   ): StreamableMethod<DeleteJob204Response | DeleteJobDefaultResponse>;
@@ -49,18 +49,18 @@ export interface ListJobs {
   ): StreamableMethod<ListJobs200Response | ListJobsDefaultResponse>;
 }
 
-export interface ListJobFiles {
+export interface ListJobDocuments {
   /** Resource list operation template. */
   get(
-    options?: ListJobFilesParameters,
-  ): StreamableMethod<ListJobFiles200Response | ListJobFilesDefaultResponse>;
+    options?: ListJobDocumentsParameters,
+  ): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
 }
 
 export interface CancelJob {
   /**
    * Cancels a job that is in progress.
    *
-   * The job will be marked as canceled and the service will stop processing the job. The service will not delete any files that have already been processed.
+   * The job will be marked as canceled and the service will stop processing the job. The service will not delete any documents that have already been processed.
    *
    * If the job is already complete, this will have no effect.
    */
@@ -81,14 +81,14 @@ export interface Routes {
   (path: "/jobs/{name}", name: string): GetJob;
   /** Resource for '/jobs' has methods for the following verbs: get */
   (path: "/jobs"): ListJobs;
-  /** Resource for '/jobs/\{name\}/files' has methods for the following verbs: get */
-  (path: "/jobs/{name}/files", name: string): ListJobFiles;
+  /** Resource for '/jobs/\{name\}/documents' has methods for the following verbs: get */
+  (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
   /** Resource for '/jobs/\{name\}:cancel' has methods for the following verbs: post */
   (path: "/jobs/{name}:cancel", name: string): CancelJob;
   /** Resource for '/deid' has methods for the following verbs: post */
   (path: "/deid"): Deidentify;
 }
 
-export type DeidentificationClient = Client & {
+export type DeidServicesClient = Client & {
   path: Routes;
 };

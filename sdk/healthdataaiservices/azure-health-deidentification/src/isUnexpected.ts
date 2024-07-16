@@ -12,8 +12,8 @@ import {
   DeleteJobDefaultResponse,
   ListJobs200Response,
   ListJobsDefaultResponse,
-  ListJobFiles200Response,
-  ListJobFilesDefaultResponse,
+  ListJobDocuments200Response,
+  ListJobDocumentsDefaultResponse,
   CancelJob200Response,
   CancelJobDefaultResponse,
   Deidentify200Response,
@@ -25,7 +25,7 @@ const responseMap: Record<string, string[]> = {
   "PUT /jobs/{name}": ["200", "201"],
   "DELETE /jobs/{name}": ["204"],
   "GET /jobs": ["200"],
-  "GET /jobs/{name}/files": ["200"],
+  "GET /jobs/{name}/documents": ["200"],
   "POST /jobs/{name}:cancel": ["200"],
   "POST /deid": ["200"],
 };
@@ -47,8 +47,8 @@ export function isUnexpected(
   response: ListJobs200Response | ListJobsDefaultResponse,
 ): response is ListJobsDefaultResponse;
 export function isUnexpected(
-  response: ListJobFiles200Response | ListJobFilesDefaultResponse,
-): response is ListJobFilesDefaultResponse;
+  response: ListJobDocuments200Response | ListJobDocumentsDefaultResponse,
+): response is ListJobDocumentsDefaultResponse;
 export function isUnexpected(
   response: CancelJob200Response | CancelJobDefaultResponse,
 ): response is CancelJobDefaultResponse;
@@ -67,8 +67,8 @@ export function isUnexpected(
     | DeleteJobDefaultResponse
     | ListJobs200Response
     | ListJobsDefaultResponse
-    | ListJobFiles200Response
-    | ListJobFilesDefaultResponse
+    | ListJobDocuments200Response
+    | ListJobDocumentsDefaultResponse
     | CancelJob200Response
     | CancelJobDefaultResponse
     | Deidentify200Response
@@ -78,7 +78,7 @@ export function isUnexpected(
   | CreateJobDefaultResponse
   | DeleteJobDefaultResponse
   | ListJobsDefaultResponse
-  | ListJobFilesDefaultResponse
+  | ListJobDocumentsDefaultResponse
   | CancelJobDefaultResponse
   | DeidentifyDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];

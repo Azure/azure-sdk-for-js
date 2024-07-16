@@ -3,13 +3,10 @@
 
 import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
 import { beforeEach, afterEach, it, describe } from "vitest";
-import { DeidentificationClient } from "../../src/clientDefinitions.js";
+import { DeidServicesClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { DeidentificationJob } from "../../src/models.js";
-import {
-  DeidentificationJobOutput,
-  HealthFileDetailsOutput,
-} from "../../src/outputModels.js";
+import { DeidentificationJobOutput, DocumentDetailsOutput } from "../../src/outputModels.js";
 import { assert } from "@azure-tools/test-utils";
 import {
   Recorder,
@@ -26,9 +23,9 @@ const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-const TEST_TIMEOUT_MS: number = 100000;
+const TEST_TIMEOUT_MS: number = 200000;
 
-const fakeServiceEndpoint = "fakeserviceId.api.cac001.deid.azure.com";
+const fakeServiceEndpoint = "example.com";
 const replaceableVariables: Record<string, string> = {
   DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
   STORAGE_ACCOUNT_SAS_URI:
@@ -56,7 +53,7 @@ const OUTPUT_FOLDER = "_output";
 
 describe("Batch", () => {
   let recorder: Recorder;
-  let client: DeidentificationClient;
+  let client: DeidServicesClient;
 
   beforeEach(async function (context) {
     recorder = await createRecorder(context);
@@ -89,10 +86,9 @@ describe("Batch", () => {
   it(
     "CreateJob returns expected",
     async function () {
-      const jobName = generateJobName("21");
+      const jobName = generateJobName("001i");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
-
+      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
@@ -100,9 +96,9 @@ describe("Batch", () => {
         targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
       };
 
-      const jobOutput = await client.path("/jobs/{name}", jobName).put({ body: job });      
+      const jobOutput = await client.path("/jobs/{name}", jobName).put({ body: job });
 
-      if(isUnexpected(jobOutput)){
+      if (isUnexpected(jobOutput)) {
         throw new Error("Unexpected job result");
       }
 
@@ -126,10 +122,9 @@ describe("Batch", () => {
   it(
     "CreateThenList returns expected",
     async function () {
-      const jobName = generateJobName("22");
-      const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
-
+      const jobName = generateJobName("002i");
+      const inputPrefix = "example_patient_1"; 
+      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
@@ -170,10 +165,9 @@ describe("Batch", () => {
   it(
     "JobE2E wait until success",
     async function () {
-      const jobName = generateJobName("23");
+      const jobName = generateJobName("003i");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
-
+      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
@@ -187,7 +181,7 @@ describe("Batch", () => {
       const finalJobOutput = await poller.pollUntilDone();
       assert.equal(poller.getOperationState().status, "succeeded");
 
-      if(isUnexpected(finalJobOutput)){
+      if (isUnexpected(finalJobOutput)) {
         throw new Error("Unexpected error occurred");
       }
 
@@ -197,12 +191,12 @@ describe("Batch", () => {
       assert.equal(finalJobOutput.body.summary!.total, 2);
       assert.equal(finalJobOutput.body.summary!.successful, 2);
 
-      const reports = await client.path("/jobs/{name}/files", jobName).get();
-      
-      if(isUnexpected(reports)){
+      const reports = await client.path("/jobs/{name}/documents", jobName).get();
+
+      if (isUnexpected(reports)) {
         throw new Error("Unexpected error occurred");
       }
-      
+
       const items = [];
       const iter = paginate(client, reports);
 
@@ -210,19 +204,19 @@ describe("Batch", () => {
         items.push(item);
       }
 
-      assert.isTrue((items as unknown[] as HealthFileDetailsOutput[]).length === 2);
+      assert.isTrue((items as unknown[] as DocumentDetailsOutput[]).length === 2);
       assert.isTrue(
-        (items as unknown[] as HealthFileDetailsOutput[]).every(
+        (items as unknown[] as DocumentDetailsOutput[]).every(
           (obj) => obj.status === "Succeeded",
         ),
       );
       assert.isTrue(
-        (items as unknown[] as HealthFileDetailsOutput[]).every((obj) =>
+        (items as unknown[] as DocumentDetailsOutput[]).every((obj) =>
           obj.output!.path.startsWith(OUTPUT_FOLDER),
         ),
       );
       assert.isTrue(
-        (items as unknown[] as HealthFileDetailsOutput[]).every((obj) => obj.id.length === 36),
+        (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.id.length === 36),
       );
     },
     TEST_TIMEOUT_MS,
@@ -231,10 +225,9 @@ describe("Batch", () => {
   it(
     "JobE2E cancel job then delete it deletes job",
     async function () {
-      const jobName = generateJobName("24");
+      const jobName = generateJobName("004i");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = "https://blobsdkdevdaszanis.blob.core.windows.net/container-sdk-dev-daszanis?sp=racwdl&st=2024-06-28T20:24:27Z&se=2024-06-30T04:24:27Z&skoid=8d086f2d-7e3f-4a72-8c00-51078332fc01&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2024-06-28T20:24:27Z&ske=2024-06-30T04:24:27Z&sks=b&skv=2022-11-02&spr=https&sv=2022-11-02&sr=c&sig=XtUk4CSiJo5zhsvqZtCaraYcgmObzD%2FlJeYpMMAhzWE%3D";
-
+      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
@@ -265,7 +258,7 @@ describe("Batch", () => {
   it(
     "JobE2E cannot access storage create job returns 404",
     async function () {
-      const jobName = generateJobName("25");
+      const jobName = generateJobName("005i");
       const inputPrefix = "example_patient_1";
       const storageAccountSASUri = "FAKE_STORAGE_ACCOUNT";
 

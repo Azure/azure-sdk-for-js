@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** A job containing a batch of documents to deidentify. */
+/** A job containing a batch of documents to de-identify. */
 export interface DeidentificationJob {
   /** Storage location to perform the operation on. */
   sourceLocation: SourceStorageLocation;
@@ -17,62 +17,51 @@ export interface DeidentificationJob {
 
 /** Storage location. */
 export interface SourceStorageLocation {
-  /** URL to storage location. Must be a valid Azure Storage SAS URI. */
+  /** URL to storage location. */
   location: string;
-  /** Prefix to filter blobs by. */
+  /** Prefix to filter path by. */
   prefix: string;
-  /** List of extensions to filter blobs by. */
+  /** List of extensions to filter path by. */
   extensions: string[];
 }
 
 /** Storage location. */
 export interface TargetStorageLocation {
-  /** URL to storage location. Must be a valid Azure Storage SAS URI. */
+  /** URL to storage location. */
   location: string;
-  /** Prefix to filter blobs by. */
+  /** Prefix to filter path by. */
   prefix: string;
 }
 
-/** Summary metrics the documents pertaining to a job. */
+/** Summary metrics of a job. */
 export interface JobSummary {
-  /** Number of blobs that have completed. */
+  /** Number of documents that have completed. */
   successful: number;
-  /** Number of blobs that have failed. */
+  /** Number of documents that have failed. */
   failed: number;
-  /** Number of blobs that have been canceled. */
+  /** Number of documents that have been canceled. */
   canceled: number;
-  /** Number of blobs total. */
+  /** Number of documents total. */
   total: number;
   /** Number of bytes processed. */
   bytesProcessed: number;
 }
 
-/** Request for synchronous De-Identify operation. */
+/** Request body for de-identification operation. */
 export interface DeidentificationContent {
-  /** Input text to deidentify. */
+  /** Input text to de-identify. */
   inputText: string;
   /** Operation to perform on the input. */
   operation: OperationType;
   /** Data type of the input. */
   dataType: DocumentDataType;
-  /** Requested Encoding of the tag response indices. */
-  stringIndexType?: StringIndexType;
-  /** Format of the redacted output. Only valid when OperationType is Redact. */
+  /** Format of the redacted output. Only valid when OperationType is "Redact". */
   redactionFormat?: string;
 }
 
 /** Alias for OperationType */
-export type OperationType = "Redact" | "Surrogate" | "Tag" | string;
+export type OperationType = string;
 /** Alias for DocumentDataType */
-export type DocumentDataType = "Plaintext" | string;
+export type DocumentDataType = string;
 /** Alias for JobStatus */
-export type JobStatus =
-  | "NotStarted"
-  | "Running"
-  | "Succeeded"
-  | "PartialFailed"
-  | "Failed"
-  | "Canceled"
-  | string;
-/** Alias for StringIndexType */
-export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit" | string;
+export type JobStatus = string;

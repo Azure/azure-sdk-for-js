@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, VitestTestContext, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, VitestTestContext, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/core-auth";
-import { DeidentificationClient } from "../../../src/clientDefinitions.js";
-import createClient from "../../../src/deidentificationClient.js";
+import { DeidServicesClient } from "../../../src/clientDefinitions.js";
+import createClient from "../../../src/deidServicesClient.js";
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
@@ -18,8 +18,8 @@ export async function createRecorder(testContext: VitestTestContext): Promise<Re
 export async function createRecordedDeidentificationClient(
   recorder: Recorder,
   credentials: TokenCredential,
-): Promise<DeidentificationClient> {
-  const endpoint = 'localhost';
+): Promise<DeidServicesClient> {
+  const endpoint = isPlaybackMode() ? 'example.com' : assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");
   const client = await createClient(endpoint, credentials, recorder.configureClientOptions({}));
 
   return client;

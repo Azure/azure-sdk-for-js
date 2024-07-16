@@ -41,7 +41,7 @@ export interface ListJobsQueryParamProperties {
   /** The maximum number of result items per page. */
   maxpagesize?: number;
   /** Token to continue a previous query. */
-  nextToken?: string;
+  continuationToken?: string;
 }
 
 export interface ListJobsQueryParam {
@@ -54,28 +54,28 @@ export interface ListJobsHeaderParam {
 
 export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
 
-export interface ListJobFilesHeaders {
+export interface ListJobDocumentsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface ListJobFilesQueryParamProperties {
+export interface ListJobDocumentsQueryParamProperties {
   /** The maximum number of result items per page. */
   maxpagesize?: number;
   /** Token to continue a previous query. */
-  nextToken?: string;
+  continuationToken?: string;
 }
 
-export interface ListJobFilesQueryParam {
-  queryParameters?: ListJobFilesQueryParamProperties;
+export interface ListJobDocumentsQueryParam {
+  queryParameters?: ListJobDocumentsQueryParamProperties;
 }
 
-export interface ListJobFilesHeaderParam {
-  headers?: RawHttpHeadersInput & ListJobFilesHeaders;
+export interface ListJobDocumentsHeaderParam {
+  headers?: RawHttpHeadersInput & ListJobDocumentsHeaders;
 }
 
-export type ListJobFilesParameters = ListJobFilesQueryParam &
-  ListJobFilesHeaderParam &
+export type ListJobDocumentsParameters = ListJobDocumentsQueryParam &
+  ListJobDocumentsHeaderParam &
   RequestParameters;
 
 export interface CancelJobHeaders {
@@ -101,7 +101,7 @@ export interface DeleteJobHeaderParam {
 export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
 
 export interface DeidentifyBodyParam {
-  /** The request body for realtime deidentification. */
+  /** Request body for de-identification operation. */
   body: DeidentificationContent;
 }
 
