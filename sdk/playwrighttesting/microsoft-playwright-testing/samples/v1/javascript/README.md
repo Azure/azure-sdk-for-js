@@ -5,7 +5,7 @@ languages:
 products:
 - azure
 - microsoft-playwright-testing
-name: @azure/microsoft-playwright-testing samples for javascript
+name: azure/microsoft-playwright-testing samples for javascript
 description: Samples for the @azure/microsoft-playwright-testing client library
 ---
 
