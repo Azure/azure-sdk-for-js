@@ -9,7 +9,7 @@ import { describe, it, afterEach, beforeEach } from "vitest";
 import { createProducer, isMock } from "../utils/clients.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
-describe.runIf(!isMock())("EventHubProducerClient internal idempotent publishing", function () {
+describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing", function () {
   let producerClient: EventHubProducerClient;
 
   afterEach(async function () {

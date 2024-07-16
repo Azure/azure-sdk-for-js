@@ -106,7 +106,7 @@ describe("RuntimeInformation", function () {
         should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
       });
 
-      it.skip("bubbles up error from service for invalid partitionId", async function () {
+      it("bubbles up error from service for invalid partitionId", async function () {
         try {
           const client = clientMap.get(clientType)!;
           await client.getPartitionProperties("boo");
