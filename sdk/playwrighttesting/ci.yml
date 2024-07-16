@@ -30,3 +30,5 @@ extends:
         safeName: azurearmplaywrighttesting
       - name: azure-create-microsoft-playwright-testing
         safeName: azurecreatemicrosoftplaywrighttesting
+      - name: azure-microsoft-playwright-testing
+        safeName: azuremicrosoftplaywrighttesting
