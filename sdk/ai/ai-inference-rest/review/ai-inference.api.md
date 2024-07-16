@@ -102,7 +102,7 @@ export interface ChatCompletionsToolDefinitionParent {
 }
 
 // @public
-export type ChatCompletionsToolSelectionPreset = string;
+export type ChatCompletionsToolSelectionPreset = string | "auto" | "none" | "required";
 
 // @public
 export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem;
@@ -333,6 +333,7 @@ export interface GetEmbeddingsBodyParam {
         dimensions?: number;
         encoding_format?: EmbeddingEncodingFormat;
         input_type?: EmbeddingInputType;
+        model?: string;
     };
 }
 
@@ -386,6 +387,7 @@ export interface GetImageEmbeddingsBodyParam {
         dimensions?: number;
         encoding_format?: EmbeddingEncodingFormat;
         input_type?: EmbeddingInputType;
+        model?: string;
     };
 }
 

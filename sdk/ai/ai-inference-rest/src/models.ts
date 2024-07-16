@@ -211,7 +211,11 @@ export type ChatMessageImageDetailLevel = string;
 /** Alias for ChatCompletionsResponseFormat */
 export type ChatCompletionsResponseFormat = string;
 /** Alias for ChatCompletionsToolSelectionPreset */
-export type ChatCompletionsToolSelectionPreset = string;
+export type ChatCompletionsToolSelectionPreset =
+  | string
+  | "auto"
+  | "none"
+  | "required";
 /** Alias for EmbeddingEncodingFormat */
 export type EmbeddingEncodingFormat = string;
 /** Alias for EmbeddingInputType */

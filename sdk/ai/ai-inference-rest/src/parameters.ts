@@ -68,6 +68,7 @@ export interface GetEmbeddingsBodyParam {
     dimensions?: number;
     encoding_format?: EmbeddingEncodingFormat;
     input_type?: EmbeddingInputType;
+    model?: string;
   };
 }
 
@@ -94,6 +95,7 @@ export interface GetImageEmbeddingsBodyParam {
     dimensions?: number;
     encoding_format?: EmbeddingEncodingFormat;
     input_type?: EmbeddingInputType;
+    model?: string;
   };
 }
 
