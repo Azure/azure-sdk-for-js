@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2024-07-17)
 
 ### Features Added
 - Add support for text and image embeddings.
