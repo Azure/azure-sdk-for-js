@@ -9,6 +9,9 @@ export default defineConfig({
       enabled: true,
     },
     testTimeout: 18000,
+    typecheck: {
+      enabled: true,
+    },
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.xml",
