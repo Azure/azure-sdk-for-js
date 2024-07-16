@@ -183,6 +183,49 @@ describe("Correlated Activity Id", function () {
     assert.ok(correlatedIdFetchNext !== correlatedIdAsyncIterator);
   });
 
+  it("error response should have correlated activity id header", async () => {
+    // wrong query format to trigger error
+    const query = "SELECT * frm c";
+    const queryIterator = container.items.query(query);
+    // fetchNext
+    try {
+      await queryIterator.fetchNext();
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+    queryIterator.reset();
+    capturedCorrelatedActivityIds = [];
+    // fetchAll
+    try {
+      await queryIterator.fetchAll();
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+    queryIterator.reset();
+    capturedCorrelatedActivityIds = [];
+    // getAsyncIterator
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      for await (const _ of queryIterator.getAsyncIterator()) {
+        // The loop is intentionally empty
+      }
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+  });
+
   after(async function () {
     await removeAllDatabases();
   });
