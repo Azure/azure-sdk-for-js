@@ -9,8 +9,8 @@ Here is the updated `playwright.service.config.ts` file with all the available o
 ```typescript
 import { getServiceConfig, ServiceOS } from "@azure/microsoft-playwright-testing";
 import { defineConfig } from "@playwright/test";
-import config from "./playwright.config";
 import { AzureCliCredential } from "@azure/identity";
+import config from "./playwright.config";
 
 export default defineConfig(
   config,
@@ -18,7 +18,7 @@ export default defineConfig(
     os: ServiceOS.WINDOWS, // Select the operating system where you want to run tests.
     runId: new Date().toISOString(), // Set a unique ID for every test run to distinguish them in the service portal.
     credential: new AzureCliCredential(), // Select the authentication method you want to use with Entra
-    useCloudHostedBrowsers: true //Select if you want to use cloud-hosted browsers to run your Playwright tests
+    useCloudHostedBrowsers: true, //Select if you want to use cloud-hosted browsers to run your Playwright tests
   }),
   {
     reporter: [
@@ -63,7 +63,7 @@ export default defineConfig(
       ```
 
 4. **`enableGitHubSummary`**:
-    - **Description**: This setting allows you to configure the Microsoft Playwright Testing service reporter. You can select if you want to add the summary of the test run in GitHub summary when run in GitHub Actions.
+    - **Description**: This setting allows you to configure the Microsoft Playwright Testing service reporter. You can choose whether to include the test run summary in the GitHub summary when running in GitHub Actions.
     - **Default Value**: true
     - **Example**:
     ```typescript
@@ -79,7 +79,7 @@ export default defineConfig(
       ```
 
 5. **`useCloudHostedBrowsers`**
-    - **Description**: This setting allows you to select whether you want to use cloud browsers to run your Playwright tests. You can still use reporting if you disable it.
+    - **Description**: This setting allows you to select whether to use cloud-hosted browsers to run your Playwright tests. Reporting features remain available even if you disable this setting.
     - **Example**:
       ```typescript
       useCloudHostedBrowsers: true

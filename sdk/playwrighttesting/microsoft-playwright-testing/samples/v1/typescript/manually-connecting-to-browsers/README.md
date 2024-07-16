@@ -1,6 +1,6 @@
 # How to integrate your test suite with Microsoft Playwright Testing service if you are manually launching browsers in tests
 
-This guide will walk you through the steps to integrate your Playwright project where you are launching browsers from within the tests with the service. 
+This guide will walk you through the steps to integrate your Playwright project, where you are launching browsers from within the tests, with the service.
 
 ### Prerequisites
 
@@ -11,7 +11,7 @@ This guide will walk you through the steps to integrate your Playwright project 
 
 ### Setup Playwright Testing workspace
 
-Make sure you have set up your Playwright Testing workspace by following these steps
+Make sure you have set up your Playwright Testing workspace by following these steps:
 
 - [Create a workspace](../../../../README.md#create-a-workspace)
 
