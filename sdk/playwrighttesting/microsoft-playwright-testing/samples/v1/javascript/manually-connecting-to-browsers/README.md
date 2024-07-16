@@ -11,7 +11,7 @@ This guide will walk you through the steps to integrate your Playwright project 
 
 ### Setup Playwright Testing workspace
 
-Make sure you have set up your Playwright Testing workspace by following these steps
+Make sure you have set up your Playwright Testing workspace by following these steps:
 
 - [Create a workspace](../../../../README.md#create-a-workspace)
 
