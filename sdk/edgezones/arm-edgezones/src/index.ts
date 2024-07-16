@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { EdgeZonesClient, EdgeZonesClientOptionalParams } from "./edgeZonesClient.js";
+export { EdgeZonesClient, EdgeZonesClientOptions } from "./edgeZonesClient.js";
 export {
   Resource,
   SystemData,
@@ -34,7 +34,4 @@ export {
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./models/index.js";
-export {
-  ExtendedZonesOperations,
-  OperationsOperations,
-} from "./classic/index.js";
+export { ExtendedZonesOperations, OperationsOperations } from "./classic/index.js";

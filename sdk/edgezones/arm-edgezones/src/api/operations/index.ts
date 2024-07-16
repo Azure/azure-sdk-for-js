@@ -59,10 +59,8 @@ export function list(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSend(context, options),
-    _listDeserialize,
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
+  return buildPagedAsyncIterator(context, () => _listSend(context, options), _listDeserialize, {
+    itemName: "value",
+    nextLinkName: "nextLink",
+  });
 }

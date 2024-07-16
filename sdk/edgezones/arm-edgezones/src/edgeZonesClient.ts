@@ -3,21 +3,14 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getExtendedZonesOperations,
   ExtendedZonesOperations,
 } from "./classic/extendedZones/index.js";
-import {
-  createEdgeZones,
-  EdgeZonesClientOptionalParams,
-  EdgeZonesContext,
-} from "./api/index.js";
+import { createEdgeZones, EdgeZonesClientOptions, EdgeZonesContext } from "./api/index.js";
 
-export { EdgeZonesClientOptionalParams } from "./api/edgeZonesContext.js";
+export { EdgeZonesClientOptions } from "./api/edgeZonesContext.js";
 
 export class EdgeZonesClient {
   private _client: EdgeZonesContext;
@@ -27,7 +20,7 @@ export class EdgeZonesClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: EdgeZonesClientOptionalParams = {},
+    options: EdgeZonesClientOptions = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
@@ -40,10 +33,7 @@ export class EdgeZonesClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.extendedZones = getExtendedZonesOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.extendedZones = getExtendedZonesOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */

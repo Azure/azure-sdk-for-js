@@ -7,7 +7,7 @@ import { EdgeZonesContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
 
 /** Optional parameters for the client. */
-export interface EdgeZonesClientOptionalParams extends ClientOptions {
+export interface EdgeZonesClientOptions extends ClientOptions {
   /** The API version to use for this operation. */
   apiVersion?: string;
 }
@@ -16,12 +16,10 @@ export { EdgeZonesContext } from "../rest/index.js";
 
 export function createEdgeZones(
   credential: TokenCredential,
-  options: EdgeZonesClientOptionalParams = {},
+  options: EdgeZonesClientOptions = {},
 ): EdgeZonesContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api`
-    : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
 
   const clientContext = getClient(credential, {
     ...options,

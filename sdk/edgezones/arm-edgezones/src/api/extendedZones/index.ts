@@ -95,12 +95,7 @@ export async function get(
   extendedZoneName: string,
   options: ExtendedZonesGetOptionalParams = { requestOptions: {} },
 ): Promise<ExtendedZone> {
-  const result = await _getSend(
-    context,
-    subscriptionId,
-    extendedZoneName,
-    options,
-  );
+  const result = await _getSend(context, subscriptionId, extendedZoneName, options);
   return _getDeserialize(result);
 }
 
@@ -110,9 +105,7 @@ export function _listBySubscriptionSend(
   options: ExtendedZonesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  ListBySubscription200Response | ListBySubscriptionDefaultResponse
-> {
+): StreamableMethod<ListBySubscription200Response | ListBySubscriptionDefaultResponse> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones",
@@ -254,12 +247,7 @@ export async function register(
   extendedZoneName: string,
   options: ExtendedZonesRegisterOptionalParams = { requestOptions: {} },
 ): Promise<ExtendedZone> {
-  const result = await _registerSend(
-    context,
-    subscriptionId,
-    extendedZoneName,
-    options,
-  );
+  const result = await _registerSend(context, subscriptionId, extendedZoneName, options);
   return _registerDeserialize(result);
 }
 
@@ -330,11 +318,6 @@ export async function unregister(
   extendedZoneName: string,
   options: ExtendedZonesUnregisterOptionalParams = { requestOptions: {} },
 ): Promise<ExtendedZone> {
-  const result = await _unregisterSend(
-    context,
-    subscriptionId,
-    extendedZoneName,
-    options,
-  );
+  const result = await _unregisterSend(context, subscriptionId, extendedZoneName, options);
   return _unregisterDeserialize(result);
 }

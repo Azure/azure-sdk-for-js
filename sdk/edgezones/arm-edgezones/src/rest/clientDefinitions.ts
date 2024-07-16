@@ -24,25 +24,19 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface List {
   /** List the operations for the provider */
-  get(
-    options?: ListParameters,
-  ): StreamableMethod<List200Response | ListDefaultResponse>;
+  get(options?: ListParameters): StreamableMethod<List200Response | ListDefaultResponse>;
 }
 
 export interface Get {
   /** Gets an Azure Extended Zone for a subscription */
-  get(
-    options?: GetParameters,
-  ): StreamableMethod<Get200Response | GetDefaultResponse>;
+  get(options?: GetParameters): StreamableMethod<Get200Response | GetDefaultResponse>;
 }
 
 export interface ListBySubscription {
   /** Lists the Azure Extended Zones available to a subscription */
   get(
     options?: ListBySubscriptionParameters,
-  ): StreamableMethod<
-    ListBySubscription200Response | ListBySubscriptionDefaultResponse
-  >;
+  ): StreamableMethod<ListBySubscription200Response | ListBySubscriptionDefaultResponse>;
 }
 
 export interface Register {

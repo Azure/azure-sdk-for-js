@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  isPlaybackMode,
-  delay,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -28,18 +23,19 @@ describe("extendedZones test", () => {
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
+  let resourcename1: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
     recorder = await createRecorder(context);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new EdgeZonesClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "losangeles";
-
+    resourcename1 = "losangeless";
   });
 
   afterEach(async function () {
@@ -47,9 +43,7 @@ describe("extendedZones test", () => {
   });
 
   it("extendedZones register test", async function () {
-    const res = await client.extendedZones.register(
-      resourcename
-    );
+    const res = await client.extendedZones.register(resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -60,7 +54,7 @@ describe("extendedZones test", () => {
 
   it("extendedZones list test", async function () {
     const resArray = new Array();
-    for await (let item of client.extendedZones.listBySubscription()) {
+    for await (let item of client.extendedZones.listBySubscription().byPage()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -77,4 +71,4 @@ describe("extendedZones test", () => {
     }
     assert.notEqual(resArray.length, 0);
   });
-})
+});
