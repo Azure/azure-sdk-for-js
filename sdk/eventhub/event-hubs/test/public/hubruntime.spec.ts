@@ -15,6 +15,11 @@ type ClientCommonMethods = Pick<
   "close" | "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties"
 >;
 
+// TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
+// The supportsTracing assertion from chaiAzure can be used to verify that
+// the `getEventHubProperties` method is being traced correctly, that the
+// tracing span is properly parented and closed.
+
 describe("RuntimeInformation", function () {
   const clientTypes = [
     "EventHubBufferedProducerClient",

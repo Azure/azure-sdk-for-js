@@ -18,12 +18,12 @@ import { describe, it, beforeEach, afterEach } from "vitest";
 import debugModule from "debug";
 import { createConsumer, createProducer } from "../utils/clients.js";
 
+const debug = debugModule("azure:event-hubs:sender-spec");
+
 // TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
 // The supportsTracing assertion from chaiAzure can be used to verify that
 // the `getEventHubProperties` method is being traced correctly, that the
 // tracing span is properly parented and closed.
-
-const debug = debugModule("azure:event-hubs:sender-spec");
 
 describe("EventHub Sender", function () {
   let producerClient: EventHubProducerClient;
