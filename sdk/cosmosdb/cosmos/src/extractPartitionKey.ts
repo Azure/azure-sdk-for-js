@@ -83,9 +83,9 @@ function extractPartitionKey(path: string, obj: unknown): any {
 export function undefinedPartitionKey(
   partitionKeyDefinition: PartitionKeyDefinition,
 ): PartitionKeyInternal {
-  if (partitionKeyDefinition.systemKey === true) {
+  if (partitionKeyDefinition?.systemKey) {
     return [];
   } else {
-    return partitionKeyDefinition.paths.map(() => NonePartitionKeyLiteral);
+    return partitionKeyDefinition?.paths.map(() => NonePartitionKeyLiteral);
   }
 }

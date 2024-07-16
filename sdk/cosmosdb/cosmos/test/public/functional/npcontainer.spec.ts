@@ -11,7 +11,7 @@ import {
   OperationInput,
   PatchOperationType,
 } from "../../../src";
-import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
@@ -46,7 +46,7 @@ const client = new CosmosClient({
 
 describe("Non Partitioned Container", function () {
   let container: Container;
-  before(async () => {
+  beforeEach(async () => {
     await removeAllDatabases();
     const npContainer = await getTestContainer("Validate Container CRUD", legacyClient);
     container = client.database(npContainer.database.id).container(npContainer.id);
@@ -148,5 +148,45 @@ describe("Non Partitioned Container", function () {
     assert.equal(response[3].statusCode, StatusCodes.NoContent);
     assert.equal(response[4].statusCode, StatusCodes.Ok);
     assert.equal(response[5].statusCode, StatusCodes.Ok);
+  });
+
+  it("should handle batch operations", async function () {
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "1", key: 1 },
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: { id: "2", key: 2 },
+      },
+      {
+        operationType: "Replace",
+        id: "1",
+        resourceBody: { id: "1", key: 2 },
+      },
+      {
+        operationType: "Delete",
+        id: "2",
+      },
+      {
+        operationType: "Read",
+        id: "1",
+      },
+      {
+        operationType: "Patch",
+        id: "1",
+        resourceBody: { operations: [{ op: PatchOperationType.incr, value: 1, path: "/key" }] },
+      },
+    ];
+
+    const response = await container.items.batch(operations);
+    assert.equal(response.result.length, 6);
+    assert.equal(response.result[0].statusCode, StatusCodes.Created);
+    assert.equal(response.result[1].statusCode, StatusCodes.Created);
+    assert.equal(response.result[2].statusCode, StatusCodes.Ok);
+    assert.equal(response.result[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response.result[4].statusCode, StatusCodes.Ok);
+    assert.equal(response.result[5].statusCode, StatusCodes.Ok);
   });
 });
