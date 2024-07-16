@@ -1273,6 +1273,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.6.0:
+    resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.1
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -13072,7 +13087,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-99R2IlSrT7L0d3NgHk2T3ZlcrShyfY6dXQknyZPLicpA29hDS6gJ01+3HnYL81V2wbVcbsa/+19izHBFoYGG8w==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-LZLkU9iABGytKTqhKGDeY54pfnGxY4l3nAiMI8rBbG7+MDqBflbKPRYYzWdVktbtUPe1QgEduzufANnG7chJvw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13091,9 +13106,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.8
-      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -15030,13 +15046,14 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-NWaw2xSbkwB71PU6E3wS4X9L/ofdysUsB7BcBGJ2JPFuv1FRXzaWTPl4RgKp+Ekbx2I7EH31mtH3Fki5je2f6g==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-nSFk/yXgBzRokdLHXVP3I+21wBuGGeJoDSFXExq8/2hCWNpygJqV3V/ulPWTHCiY+6oKM3dgHz/Yf9sUdx+b5g==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.6.0
       '@azure/core-lro': 2.7.2
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/chai': 4.3.16
