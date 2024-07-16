@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecorder, createEmbeddingsClient } from "./utils/recordedClient.js";
+import { createRecorder, createModelClient } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { ModelClient, isUnexpected, EmbeddingsResultOutput } from "../../src/index.js";
@@ -12,7 +12,7 @@ describe("embeddings test suite", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = await createEmbeddingsClient(recorder);
+    client = await createModelClient("embeddings", recorder);
   });
 
   afterEach(async () => {

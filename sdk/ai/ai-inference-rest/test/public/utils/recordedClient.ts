@@ -10,6 +10,7 @@ import {
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import createClient, { ModelClient } from "../../../src/index.js";
+import { DeploymentType } from "../types.js";
 
 const envSetupForPlayback: Record<string, string> = {
   AZURE_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/gpt-4o/",
@@ -33,22 +34,30 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   return recorder;
 }
 
-export async function createModelClient(
-  recorder?: Recorder,
-  options?: ClientOptions,
-): Promise<ModelClient> {
-  const endpoint = assertEnvironmentVariable("AZURE_ENDPOINT");
-  const apikey = assertEnvironmentVariable("AZURE_CLIENT_SECRET");
-  const credential = new AzureKeyCredential(apikey);
-  return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
+function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
+  endpoint: string;
+  apiKey: string;
+} {
+  switch (resourceType) {
+    case "embeddings":
+      return {
+        endpoint: assertEnvironmentVariable("AZURE_EMBEDDINGS_ENDPOINT"),
+        apiKey: assertEnvironmentVariable("AZURE_EMBEDDINGS_CLIENT_SECRET"),
+      };
+    case "completions":
+      return {
+        endpoint: assertEnvironmentVariable("AZURE_ENDPOINT"),
+        apiKey: assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
+      };
+  }
 }
 
-export async function createEmbeddingsClient(
+export async function createModelClient(
+  resourceType: DeploymentType,
   recorder?: Recorder,
   options?: ClientOptions,
 ): Promise<ModelClient> {
-  const endpoint = assertEnvironmentVariable("AZURE_EMBEDDINGS_ENDPOINT");
-  const apikey = assertEnvironmentVariable("AZURE_EMBEDDINGS_CLIENT_SECRET");
-  const credential = new AzureKeyCredential(apikey);
+  const { endpoint, apiKey } = getEndpointAndAPIKeyFromResourceType(resourceType);
+  const credential = new AzureKeyCredential(apiKey);
   return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
 }
