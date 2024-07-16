@@ -3,7 +3,7 @@
 ## 1.0.0-beta.2 (Unreleased)
 
 ### Features Added
-- add routes, models, and samples for embeddings
+- Add support for text and image embeddings.
 
 ## 1.0.0-beta.1 (2024-06-30)
 
