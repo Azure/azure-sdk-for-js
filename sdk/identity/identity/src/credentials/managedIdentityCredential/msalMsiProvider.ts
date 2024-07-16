@@ -254,11 +254,16 @@ export class MsalMsiProvider {
 }
 
 function isNetworkError(err: any): boolean {
+  // MSAL error
   if (err.errorCode === "network_error") {
     return true;
   }
 
-  // TODO: validate this is still needed or delete
+  // Probe errors
+  if (err.code === "ENETUNREACH" || err.code === "EHOSTUNREACH") {
+    return true;
+  }
+
   // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
   // rather than just timing out, as expected.
   if (err.statusCode === 403 || err.code === 403) {
