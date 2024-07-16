@@ -32,7 +32,7 @@
   "type": "module",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "bundle:bin": "rollup -c rollup.config.bin.mjs",
+    "bundle:bin": "rollup -c rollup.config.bin.mjs 2>&1",
     "build:test": "echo skip",
     "build:samples": "echo skipped",
     "build": "npm run clean && tshy && npm run bundle:bin && dev-tool run extract-api",
