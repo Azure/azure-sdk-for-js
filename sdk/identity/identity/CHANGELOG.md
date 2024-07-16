@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- `ManagedIdentityCredential` migrated to use [MSAL](https://www.npmjs.com/package/@azure/msal-node) for handling the majority of the managed identity implementation. [#30172](https://github.com/Azure/azure-sdk-for-js/pull/30172)
+
 ## 4.4.0 (2024-07-16)
 
 ### Features Added
