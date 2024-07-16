@@ -11,7 +11,10 @@ import { DeidentificationResultOutput } from "../../src/outputModels.js";
 import { assert } from "@azure-tools/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 
-const replaceableVariables: Record<string, string> = {};
+const fakeServiceEndpoint = "example.com";
+const replaceableVariables: Record<string, string> = {
+  DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
+};
 
 describe("Realtime", () => {
   let recorder: Recorder;
@@ -21,6 +24,7 @@ describe("Realtime", () => {
     recorder = await createRecorder(context);
     await recorder.start({
       envSetupForPlayback: replaceableVariables,
+      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
     });
     const credential = createTestCredential();
     if (process.env.DEID_SERVICE_ENDPOINT) {
