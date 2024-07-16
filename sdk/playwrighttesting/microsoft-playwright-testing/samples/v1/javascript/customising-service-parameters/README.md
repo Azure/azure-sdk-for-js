@@ -63,7 +63,7 @@ export default defineConfig(
       ```
 
 4. **`enableGitHubSummary`**:
-    - **Description**: This setting allows you to configure the Microsoft Playwright Testing service reporter. You can select if you want to add the summary of the test run in GitHub summary when run in GitHub Actions.
+    - **Description**: This setting allows you to configure the Microsoft Playwright Testing service reporter. You can choose whether to include the test run summary in the GitHub summary when running in GitHub Actions.
     - **Default Value**: true
     - **Example**:
     ```typescript
