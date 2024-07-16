@@ -20,7 +20,7 @@ export const ServiceOS = {
  *
  * Authentication types supported on Microsoft Playwright Testing
  */
-export const Auth = {
+export const ServiceAuth = {
   ENTRA: "ENTRA",
   TOKEN: "TOKEN",
 } as const;
@@ -29,7 +29,7 @@ export const Auth = {
  *
  * Environment variables used by Microsoft Playwright Testing
  */
-export const ServiceEnvironmentVariableConstants = {
+export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_OS: "PLAYWRIGHT_SERVICE_OS",
   PLAYWRIGHT_SERVICE_RUN_ID: "PLAYWRIGHT_SERVICE_RUN_ID",
   PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: "PLAYWRIGHT_SERVICE_EXPOSE_NETWORK",

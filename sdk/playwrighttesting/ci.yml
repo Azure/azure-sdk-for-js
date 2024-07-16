@@ -9,6 +9,9 @@ trigger:
   paths:
     include:
       - sdk/playwrighttesting/
+    exclude:
+      - sdk/playwrighttesting/ci.mgmt.yml
+      - sdk/playwrighttesting/arm-playwrighttesting
 
 pr:
   branches:
@@ -20,14 +23,15 @@ pr:
   paths:
     include:
       - sdk/playwrighttesting/
+    exclude:
+      - sdk/playwrighttesting/ci.mgmt.yml
+      - sdk/playwrighttesting/arm-playwrighttesting
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: playwrighttesting
     Artifacts:
-      - name: azure-arm-playwrighttesting
-        safeName: azurearmplaywrighttesting
       - name: azure-create-microsoft-playwright-testing
         safeName: azurecreatemicrosoftplaywrighttesting
       - name: azure-microsoft-playwright-testing

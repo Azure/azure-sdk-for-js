@@ -6,7 +6,7 @@ import sinon from "sinon";
 import * as jwtDecode from "jwt-decode";
 import {
   EntraIdAccessTokenConstants,
-  ServiceEnvironmentVariableConstants,
+  ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra").default;
 
@@ -17,14 +17,14 @@ describe("playwrightServiceEntra", () => {
     sandbox = sinon.createSandbox();
     sandbox.stub(console, "error").returns(); // Mock console.error
     sandbox.stub(console, "log").returns(); // Mock console.log
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] =
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
   });
 
   afterEach(() => {
     sandbox.restore();
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch entra id access token and setup rotation handler", async () => {
@@ -41,7 +41,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should validate mpt PAT if entra id access token fetch fails and does not setup rotation handler", async () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: new Date().getTime() / 1000 + 10000 });
     sandbox
       .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")

@@ -3,7 +3,7 @@
 
 import type { JwtPayload } from "jwt-decode";
 import type { Location, TestStep } from "@playwright/test/reporter";
-import { Auth, ServiceOS } from "./constants";
+import { ServiceAuth, ServiceOS } from "./constants";
 import type { TokenCredential } from "@azure/identity";
 
 export type AccessTokenClaims = JwtPayload & {
@@ -218,7 +218,7 @@ export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
  *
  * Authentication types supported by Microsoft Playwright Testing.
  */
-export type AuthenticationType = (typeof Auth)[keyof typeof Auth];
+export type AuthenticationType = (typeof ServiceAuth)[keyof typeof ServiceAuth];
 
 export type ErrorDetails = {
   message: string;

@@ -51,7 +51,7 @@ The service configuration serves to:
     export default defineConfig(
         config,
         getServiceConfig(config, {
-            defaultAuth: Auth.TOKEN,
+            defaultAuth: ServiceAuth.TOKEN,
         }),
         {
             reporter: [["list"], ["@azure/microsoft-playwright-testing/reporter"]],

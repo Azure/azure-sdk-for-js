@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { API_VERSION, ServiceEnvironmentVariableConstants } from "../../src/common/constants";
+import { API_VERSION, ServiceEnvironmentVariable } from "../../src/common/constants";
 import {
   getAccessToken,
   getServiceBaseURL,
@@ -39,10 +39,10 @@ describe("Service Utils", () => {
   });
 
   it("should return access token set in env variable", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     expect(getAccessToken()).to.equal("test");
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should return undefined if access token is not set in env variable", () => {
@@ -50,10 +50,10 @@ describe("Service Utils", () => {
   });
 
   it("should return service base url set in env variable", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "test";
     expect(getServiceBaseURL()).to.equal("test");
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
   it("should return undefined if service base url is not set in env variable", () => {
@@ -63,26 +63,24 @@ describe("Service Utils", () => {
   it("should return and set run id set in env variable", () => {
     const runId = getDefaultRunId();
     expect(runId).to.be.a("string");
-    expect(process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(
-      runId,
-    );
+    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(runId);
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
   });
 
   it("should return service base url with query params", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] =
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const os = "windows";
     const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${runId}&os=${os}&api-version=${API_VERSION}`;
     expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
   it("should exit with error message if service url is not set", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] = "";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "";
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -90,11 +88,11 @@ describe("Service Utils", () => {
     expect(() => validateServiceUrl()).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
   it("should be no-op if service url is set", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "test";
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -102,11 +100,11 @@ describe("Service Utils", () => {
     expect(() => validateServiceUrl()).not.to.throw();
     expect(exitStub.called).to.be.false;
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
   it("should exit with error message if MPT PAT is not set", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "";
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -114,11 +112,11 @@ describe("Service Utils", () => {
     expect(() => validateMptPAT()).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should exit with error message if MPT PAT is not valid", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -126,11 +124,11 @@ describe("Service Utils", () => {
     expect(() => validateMptPAT()).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should exit with error message if invalid token is set in env variable", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(jwtDecode, "jwtDecode").returns({});
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
@@ -139,11 +137,11 @@ describe("Service Utils", () => {
     expect(() => validateMptPAT()).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should exit with error message if MPT PAT is expired", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 - 10 });
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
@@ -152,21 +150,21 @@ describe("Service Utils", () => {
     expect(() => validateMptPAT()).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should be no-op if MPT PAT is valid", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 + 10 });
 
     expect(() => validateMptPAT()).not.to.throw();
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should return entra access token (not close to expiry)", async () => {
     const tokenMock = "test";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
       token: tokenMock,
       doesEntraIdAccessTokenNeedRotation: sinon.stub().returns(false),
@@ -181,19 +179,18 @@ describe("Service Utils", () => {
 
     expect(token).to.equal(tokenMock);
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch entra access token if expired", async () => {
     const tokenMock = "test";
     const newTokenMock = "newTest";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
       token: tokenMock,
       doesEntraIdAccessTokenNeedRotation: sinon.stub().returns(true),
       fetchEntraIdAccessToken: sinon.stub().callsFake(() => {
-        process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] =
-          newTokenMock;
+        process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = newTokenMock;
       }),
     };
 
@@ -205,13 +202,13 @@ describe("Service Utils", () => {
 
     expect(token).to.equal(newTokenMock);
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch entra access token using passed credentials if expired", async () => {
     const tokenMock = "test";
     const newTokenMock = "newTest";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const expiry = Date.now();
     sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: expiry / 1000 });
     const credential = {
@@ -226,12 +223,12 @@ describe("Service Utils", () => {
     expect(credential.getToken.called).to.be.true;
     expect(token).to.equal(newTokenMock);
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should return mpt pat", async () => {
     const tokenMock = "test";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
       token: "",
       doesEntraIdAccessTokenNeedRotation: sinon.stub().returns(false),
@@ -246,11 +243,11 @@ describe("Service Utils", () => {
 
     expect(token).to.equal(tokenMock);
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should throw error if no auth token is set", async () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "";
     const entraIdAccessToken = {
       token: "",
     };
@@ -259,7 +256,7 @@ describe("Service Utils", () => {
 
     await expect(fetchOrValidateAccessToken()).to.be.rejected;
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should print error message and exit", () => {
@@ -300,12 +297,12 @@ describe("Service Utils", () => {
     ];
 
     testRubrics.forEach(({ serviceUrl, reportingUrl }) => {
-      process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] = serviceUrl;
+      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = serviceUrl;
       emitReportingUrl();
-      expect(
-        process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_REPORTING_URL],
-      ).to.equal(reportingUrl);
-      delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
+      expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL]).to.equal(
+        reportingUrl,
+      );
+      delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     });
   });
 });

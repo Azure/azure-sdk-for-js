@@ -7,7 +7,7 @@
  * @packageDocumentation
  */
 
-import { Auth, ServiceOS, ServiceEnvironmentVariableConstants } from "./common/constants";
+import { ServiceAuth, ServiceOS, ServiceEnvironmentVariable } from "./common/constants";
 import type {
   PlaywrightConfig,
   PlaywrightConfigInput,
@@ -25,8 +25,8 @@ export {
   getServiceConfig,
   getConnectOptions,
   ServiceOS,
-  Auth,
-  ServiceEnvironmentVariableConstants,
+  ServiceAuth,
+  ServiceEnvironmentVariable,
   PlaywrightConfig,
   PlaywrightConfigInput,
   OsType,

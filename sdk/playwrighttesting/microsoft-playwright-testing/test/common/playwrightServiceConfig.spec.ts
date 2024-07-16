@@ -3,7 +3,7 @@
 
 import {
   DefaultConnectOptionsConstants,
-  ServiceEnvironmentVariableConstants,
+  ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
 import { expect } from "chai";
@@ -40,25 +40,25 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.exposeNetwork).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK,
     );
-    expect(process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(
+    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(
       playwrightServiceConfig.runId,
     );
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
   });
 
   it("should set service config object with values from env variables", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_OS] = "windows";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID] = "runId";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] = "windows";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = "runId";
 
     const playwrightServiceConfig = new PlaywrightServiceConfig();
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");
     expect(playwrightServiceConfig.runId).to.equal("runId");
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
   });
 
   it("should set service config object with values from options", () => {
@@ -76,15 +76,11 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.slowMo).to.equal(100);
     expect(playwrightServiceConfig.timeout).to.equal(200);
     expect(playwrightServiceConfig.exposeNetwork).to.equal("localhost");
-    expect(process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(
-      "runId",
-    );
-    expect(process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_OS]).to.equal(
-      "windows",
-    );
+    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal("runId");
+    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS]).to.equal("windows");
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
   });
 
   it("should not set service config object with options if not provided", () => {
@@ -102,11 +98,11 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.exposeNetwork).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK,
     );
-    expect(process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(
+    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(
       playwrightServiceConfig.runId,
     );
 
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
   });
 });

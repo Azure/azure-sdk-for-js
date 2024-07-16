@@ -5,7 +5,7 @@ import config from "./playwright.config";
 export default defineConfig(
   config,
   getServiceConfig(config, {
-    defaultAuth: Auth.TOKEN,
+    defaultAuth: ServiceAuth.TOKEN,
   }),
   {
     reporter: [["list"], ["@azure/microsoft-playwright-testing/reporter"]],

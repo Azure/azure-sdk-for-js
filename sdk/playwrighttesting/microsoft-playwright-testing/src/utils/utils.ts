@@ -3,7 +3,7 @@
 
 import dotenv from "dotenv";
 import { JwtPayload, jwtDecode } from "jwt-decode";
-import { API_VERSION, ServiceEnvironmentVariableConstants } from "../common/constants";
+import { API_VERSION, ServiceEnvironmentVariable } from "../common/constants";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken";
 import playwrightServiceDebugLogger from "../common/debugLogger";
@@ -19,16 +19,16 @@ export const exitWithFailureMessage = (message: string): never => {
 };
 
 export const getAccessToken = (): string => {
-  return process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
 };
 
 export const getServiceBaseURL = (): string => {
-  return process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
+  return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
 };
 
 export const getDefaultRunId = (): string => {
   const runId = ReporterUtils.getRunId(CIInfoProvider.getCIInfo());
-  process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_RUN_ID] = runId;
+  process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = runId;
   return runId;
 };
 
@@ -82,7 +82,7 @@ export const emitReportingUrl = (): void => {
   const match = url.match(regex);
   if (match && match.groups) {
     const { region, domain } = match.groups;
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_REPORTING_URL] =
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL] =
       `https://${region}.reporting.api.${domain}`;
   }
 };

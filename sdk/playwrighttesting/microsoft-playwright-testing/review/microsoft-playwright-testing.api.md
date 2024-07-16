@@ -7,13 +7,7 @@
 import type { TokenCredential } from '@azure/identity';
 
 // @public
-export const Auth: {
-    readonly ENTRA: "ENTRA";
-    readonly TOKEN: "TOKEN";
-};
-
-// @public
-export type AuthenticationType = (typeof Auth)[keyof typeof Auth];
+export type AuthenticationType = (typeof ServiceAuth)[keyof typeof ServiceAuth];
 
 // @public
 export type BrowserConnectOptions = EndpointOptions & {
@@ -77,7 +71,13 @@ export type PlaywrightServiceAdditionalOptions = {
 };
 
 // @public
-export const ServiceEnvironmentVariableConstants: {
+export const ServiceAuth: {
+    readonly ENTRA: "ENTRA";
+    readonly TOKEN: "TOKEN";
+};
+
+// @public
+export const ServiceEnvironmentVariable: {
     PLAYWRIGHT_SERVICE_OS: string;
     PLAYWRIGHT_SERVICE_RUN_ID: string;
     PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: string;

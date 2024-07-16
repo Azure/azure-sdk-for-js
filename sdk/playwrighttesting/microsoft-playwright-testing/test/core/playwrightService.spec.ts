@@ -3,8 +3,8 @@
 
 import {
   API_VERSION,
-  Auth,
-  ServiceEnvironmentVariableConstants,
+  ServiceAuth,
+  ServiceEnvironmentVariable,
   ServiceOS,
 } from "../../src/common/constants";
 import { ServiceErrorMessageConstants } from "../../src/common/messages";
@@ -26,18 +26,18 @@ describe("getServiceConfig", () => {
     sandbox = sinon.createSandbox();
     sandbox.stub(console, "error");
     sandbox.stub(console, "log");
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] =
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
   });
 
   afterEach(() => {
     sandbox.restore();
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should exit with error message when fetching service config if service endpoint is not set", () => {
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     sandbox.restore();
     const consoleErrorSpy = sandbox.stub(console, "error");
     sandbox.stub(process, "exit").throws(new Error());
@@ -88,7 +88,7 @@ describe("getServiceConfig", () => {
   it("should set service global setup and teardown for mpt PAT authentication if pat is not set", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     const config = getServiceConfig(samplePlaywrightConfigInput, {
-      defaultAuth: Auth.TOKEN,
+      defaultAuth: ServiceAuth.TOKEN,
     });
     expect(config.globalSetup).to.equal(
       require.resolve("../../src/core/global/playwright-service-global-setup"),
@@ -100,7 +100,7 @@ describe("getServiceConfig", () => {
 
   it("should set service global setup and teardown for entra id authentication even if pat is set", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const config = getServiceConfig(samplePlaywrightConfigInput);
     expect(config.globalSetup).to.equal(
       require.resolve("../../src/core/global/playwright-service-global-setup"),
@@ -113,16 +113,16 @@ describe("getServiceConfig", () => {
   it("should not set service global setup and teardown for mpt pat authentication if pat is set", () => {
     sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 + 10000 });
     const { getServiceConfig } = require("../../src/core/playwrightService");
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const config = getServiceConfig(samplePlaywrightConfigInput, {
-      defaultAuth: Auth.TOKEN,
+      defaultAuth: ServiceAuth.TOKEN,
     });
     expect(config.globalSetup).to.be.undefined;
     expect(config.globalTeardown).to.be.undefined;
   });
 
   it("should return service config with service connect options", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const { getServiceConfig } = require("../../src/core/playwrightService");
     const config = getServiceConfig(samplePlaywrightConfigInput);
     const playwrightServiceConfig = new PlaywrightServiceConfig();
@@ -144,7 +144,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should not set connect options if disable scalable execution is true", () => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const { getServiceConfig } = require("../../src/core/playwrightService");
     const config = getServiceConfig(samplePlaywrightConfigInput, { useCloudHostedBrowsers: false });
     expect(config).to.deep.equal({
@@ -155,7 +155,7 @@ describe("getServiceConfig", () => {
 
   it("should set token credentials if passed on playwright service entra singleton object", () => {
     const accessToken = "token";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
     const { getServiceConfig } = require("../../src/core/playwrightService");
     const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra");
     const credential = {
@@ -170,13 +170,13 @@ describe("getServiceConfig", () => {
 
 describe("getConnectOptions", () => {
   beforeEach(() => {
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_URL] =
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
   });
 
   afterEach(() => {
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should set service connect options with passed values", async () => {
@@ -208,7 +208,7 @@ describe("getConnectOptions", () => {
   });
 
   it("should throw error if token is not set", async () => {
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await expect(getConnectOptions()).to.be.rejectedWith(
       ServiceErrorMessageConstants.NO_AUTH_ERROR,
@@ -218,7 +218,7 @@ describe("getConnectOptions", () => {
   it("should fetch entra token using credentials passed by customer", async () => {
     const sandbox = sinon.createSandbox();
     const accessToken = "token";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
     sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 });
     const credential = {
       getToken: sandbox.stub().resolves(accessToken),

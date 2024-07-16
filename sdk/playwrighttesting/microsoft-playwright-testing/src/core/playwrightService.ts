@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Auth } from "../common/constants";
+import { ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
@@ -70,7 +70,7 @@ const getServiceConfig = (
   emitReportingUrl();
 
   const globalFunctions: any = {};
-  if (options?.defaultAuth === Auth.TOKEN && getAccessToken()) {
+  if (options?.defaultAuth === ServiceAuth.TOKEN && getAccessToken()) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT();
   } else {

@@ -3,7 +3,7 @@
 
 import {
   EntraIdAccessTokenConstants,
-  ServiceEnvironmentVariableConstants,
+  ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken";
 import { expect } from "chai";
@@ -29,14 +29,14 @@ describe("EntraIdAccessToken", () => {
   it("should set entra id access token from environment variable on object creation", () => {
     const token = "token";
     const expiry = Date.now();
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
     sandbox.stub(require("jwt-decode"), "jwtDecode").returns({
       exp: expiry / 1000,
     });
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.equal(token);
     expect(entraIdAccessToken["_expiryTimestamp"]).to.equal(expiry);
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should not set entra id access token if environment variable is empty on object creation", () => {
@@ -47,36 +47,36 @@ describe("EntraIdAccessToken", () => {
 
   it("should not set entra id access token if mpt pat is set in environment variable on object creation", () => {
     const token = "token";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
     sandbox.stub(require("jwt-decode"), "jwtDecode").returns({
       aid: "aid",
     });
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.be.undefined;
     expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should not set entra id access token if mpt back compat pat is set in environment variable on object creation", () => {
     const token = "token";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
     sandbox.stub(require("jwt-decode"), "jwtDecode").returns({
       accountId: "accountId",
     });
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.be.undefined;
     expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should not set entra id access token if jwt decode throws error on object creation", () => {
     const token = "token";
-    process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
     sandbox.stub(require("jwt-decode"), "jwtDecode").throws(new Error());
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.be.undefined;
     expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch and set entra id access token in environment variable", async () => {
@@ -93,11 +93,9 @@ describe("EntraIdAccessToken", () => {
     const status = await entraIdAccessToken.fetchEntraIdAccessToken();
     expect(entraIdAccessToken.token).to.equal(token);
     expect(entraIdAccessToken["_expiryTimestamp"]).to.equal(expiry);
-    expect(
-      process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN],
-    ).to.equal(token);
+    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN]).to.equal(token);
     expect(status).to.be.true;
-    delete process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should return false if cached access token is returned", async () => {

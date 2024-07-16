@@ -4,7 +4,7 @@
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { jwtDecode } from "jwt-decode";
 import mptDebugLogger from "./debugLogger";
-import { EntraIdAccessTokenConstants, ServiceEnvironmentVariableConstants } from "./constants";
+import { EntraIdAccessTokenConstants, ServiceEnvironmentVariable } from "./constants";
 import { AccessTokenClaims } from "./types";
 
 class EntraIdAccessToken {
@@ -28,8 +28,7 @@ class EntraIdAccessToken {
       }
       this.token = accessToken.token;
       this._expiryTimestamp = accessToken.expiresOnTimestamp;
-      process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] =
-        this.token!;
+      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = this.token!;
       mptDebugLogger("Entra id access token fetched and set in environment variable");
       mptDebugLogger(
         "Entra id access token expiry:",
@@ -60,8 +59,7 @@ class EntraIdAccessToken {
 
   private setEntraIdAccessTokenFromEnvironment = (): void => {
     try {
-      const token =
-        process.env[ServiceEnvironmentVariableConstants.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+      const token = process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
       if (!token) {
         return;
       }
