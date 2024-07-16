@@ -1,189 +1,101 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { EventHubConsumerClient, EventHubProducerClient } from "../../src";
-import { AbortController } from "@azure/abort-controller";
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { createMockServer } from "./utils/mockService";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { EventHubConsumerClient, EventHubProducerClient } from "../../src/index.js";
+import { describe, it, beforeEach, afterEach } from "vitest";
+import { createConsumer, createProducer } from "../utils/clients.js";
+import { expect } from "../utils/chai.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
-const should = chai.should();
-chai.use(chaiAsPromised);
+function expectAbortError(promise: Promise<unknown>): Chai.PromisedAssertion {
+  return expect(promise)
+    .to.eventually.be.rejectedWith(new RegExp(StandardAbortMessage))
+    .and.has.property("name", "AbortError");
+}
 
-const abortMsgRegex = new RegExp(StandardAbortMessage);
-
-testWithServiceTypes((serviceVersion) => {
-  const env = getEnvVars();
-  if (serviceVersion === "mock") {
-    let service: ReturnType<typeof createMockServer>;
-    before("Starting mock service", () => {
-      service = createMockServer();
-      return service.start();
-    });
-
-    after("Stopping mock service", () => {
-      return service?.stop();
-    });
-  }
-
-  describe("Cancellation via AbortSignal", () => {
-    const service = {
-      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME],
-    };
-    before("validate environment", () => {
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests.",
-      );
-    });
-
-    const TEST_FAILURE = "Test failure";
-
-    const cancellationCases = [
-      {
-        type: "pre-aborted",
-        getSignal() {
-          const controller = new AbortController();
+describe("Cancellation via AbortSignal", function () {
+  const cancellationCases = [
+    {
+      type: "pre-aborted",
+      getSignal() {
+        const controller = new AbortController();
+        controller.abort();
+        return controller.signal;
+      },
+    },
+    {
+      type: "aborted after timeout",
+      getSignal() {
+        const controller = new AbortController();
+        setTimeout(() => {
           controller.abort();
-          return controller.signal;
-        },
+        }, 0);
+        return controller.signal;
       },
-      {
-        type: "aborted after timeout",
-        getSignal() {
-          const controller = new AbortController();
-          setTimeout(() => {
-            controller.abort();
-          }, 0);
-          return controller.signal;
-        },
-      },
-    ];
+    },
+  ];
 
-    describe("EventHubConsumerClient", () => {
-      let consumerClient: EventHubConsumerClient;
-      beforeEach("instantiate EventHubConsumerClient", () => {
-        consumerClient = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path,
+  describe("EventHubConsumerClient", function () {
+    let consumerClient: EventHubConsumerClient;
+    beforeEach(async function () {
+      consumerClient = createConsumer().consumer;
+    });
+
+    afterEach(async function () {
+      await consumerClient.close();
+    });
+
+    for (const { type: caseType, getSignal } of cancellationCases) {
+      it(`getEventHubProperties supports cancellation (${caseType})`, async function () {
+        await expectAbortError(consumerClient.getEventHubProperties({ abortSignal: getSignal() }));
+      });
+
+      it(`getPartitionIds supports cancellation (${caseType})`, async function () {
+        await expectAbortError(consumerClient.getPartitionIds({ abortSignal: getSignal() }));
+      });
+
+      it(`getPartitionProperties supports cancellation (${caseType})`, async function () {
+        await expectAbortError(
+          consumerClient.getPartitionProperties("0", { abortSignal: getSignal() }),
+        );
+      });
+    }
+  });
+
+  describe("EventHubProducerClient", function () {
+    let producerClient: EventHubProducerClient;
+    beforeEach(async function () {
+      producerClient = createProducer().producer;
+    });
+
+    afterEach(async function () {
+      await producerClient.close();
+    });
+
+    for (const { type: caseType, getSignal } of cancellationCases) {
+      it(`getEventHubProperties supports cancellation (${caseType})`, async function () {
+        await expectAbortError(producerClient.getEventHubProperties({ abortSignal: getSignal() }));
+      });
+
+      it(`getPartitionIds supports cancellation (${caseType})`, async function () {
+        await expectAbortError(producerClient.getPartitionIds({ abortSignal: getSignal() }));
+      });
+
+      it(`getPartitionProperties supports cancellation (${caseType})`, async function () {
+        await expectAbortError(
+          producerClient.getPartitionProperties("0", { abortSignal: getSignal() }),
         );
       });
 
-      afterEach("close EventHubConsumerClient", () => {
-        return consumerClient.close();
+      it(`createBatch supports cancellation (${caseType})`, async function () {
+        await expectAbortError(producerClient.createBatch({ abortSignal: getSignal() }));
       });
 
-      for (const { type: caseType, getSignal } of cancellationCases) {
-        it(`getEventHubProperties supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await consumerClient.getEventHubProperties({ abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-
-        it(`getPartitionIds supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await consumerClient.getPartitionIds({ abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-
-        it(`getPartitionProperties supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await consumerClient.getPartitionProperties("0", { abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-      }
-    });
-
-    describe("EventHubProducerClient", () => {
-      let producerClient: EventHubProducerClient;
-      beforeEach("instantiate EventHubProducerClient", () => {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+      it(`sendBatch supports cancellation (${caseType})`, async function () {
+        await expectAbortError(
+          producerClient.sendBatch([{ body: "unsung hero" }], { abortSignal: getSignal() }),
+        );
       });
-
-      afterEach("close EventHubProducerClient", () => {
-        return producerClient.close();
-      });
-
-      for (const { type: caseType, getSignal } of cancellationCases) {
-        it(`getEventHubProperties supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await producerClient.getEventHubProperties({ abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-
-        it(`getPartitionIds supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await producerClient.getPartitionIds({ abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-
-        it(`getPartitionProperties supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await producerClient.getPartitionProperties("0", { abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-
-        it(`createBatch supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await producerClient.createBatch({ abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-
-        it(`sendBatch supports cancellation (${caseType})`, async () => {
-          const abortSignal = getSignal();
-          try {
-            await producerClient.sendBatch([{ body: "unsung hero" }], { abortSignal });
-            throw new Error(TEST_FAILURE);
-          } catch (err: any) {
-            should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
-          }
-        });
-      }
-    });
+    }
   });
 });

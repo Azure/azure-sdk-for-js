@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConnectionContext, createConnectionContext } from "./connectionContext";
+import { ConnectionContext, createConnectionContext } from "./connectionContext.js";
 import {
   CreateBatchOptions,
   EventHubClientOptions,
@@ -9,29 +9,29 @@ import {
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   SendBatchOptions,
-} from "./models/public";
-import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private";
-import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
+} from "./models/public.js";
+import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private.js";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch.js";
+import { EventHubProperties, PartitionProperties } from "./managementClient.js";
 import { TracingContext, TracingSpanLink } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isDefined } from "@azure/core-util";
-import { isCredential } from "./util/typeGuards";
-import { logErrorStackTrace, logger } from "./logger";
+import { isCredential } from "./util/typeGuards.js";
+import { logErrorStackTrace, logger } from "./logger.js";
 import {
   idempotentAlreadyPublished,
   idempotentSomeAlreadyPublished,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   validateProducerPartitionSettings,
-} from "./util/error";
+} from "./util/error.js";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData, EventDataInternal } from "./eventData";
-import { EventHubSender } from "./eventHubSender";
-import { OperationOptions } from "./util/operationOptions";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { getRandomName } from "./util/utils";
+import { EventData, EventDataInternal } from "./eventData.js";
+import { EventHubSender } from "./eventHubSender.js";
+import { OperationOptions } from "./util/operationOptions.js";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
+import { instrumentEventData } from "./diagnostics/instrumentEventData.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.

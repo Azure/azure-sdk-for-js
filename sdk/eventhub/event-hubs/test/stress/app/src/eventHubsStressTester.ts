@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import util from "util";
-import { SnapshotOptions } from "./utils";
+import { SnapshotOptions } from "./utils.js";
 import * as appInsights from "applicationinsights";
 import * as dotenv from "dotenv";
 

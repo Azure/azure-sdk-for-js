@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { Checkpoint, PartitionProcessor } from "./partitionProcessor";
-import { EventPosition, isEventPosition, latestEventPosition } from "./eventPosition";
-import { PumpManager, PumpManagerImpl } from "./pumpManager";
-import { logErrorStackTrace, logger } from "./logger";
-import { CloseReason } from "./models/public";
-import { CommonEventProcessorOptions } from "./models/private";
-import { ConnectionContext } from "./connectionContext";
-import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
-import { OperationOptions } from "./util/operationOptions";
-import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
-import { delayWithoutThrow } from "./util/delayWithoutThrow";
-import { getRandomName } from "./util/utils";
+import { Checkpoint, PartitionProcessor } from "./partitionProcessor.js";
+import { EventPosition, isEventPosition, latestEventPosition } from "./eventPosition.js";
+import { PumpManager, PumpManagerImpl } from "./pumpManager.js";
+import { logErrorStackTrace, logger } from "./logger.js";
+import { CloseReason } from "./models/public.js";
+import { CommonEventProcessorOptions } from "./models/private.js";
+import { ConnectionContext } from "./connectionContext.js";
+import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy.js";
+import { OperationOptions } from "./util/operationOptions.js";
+import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels.js";
+import { delayWithoutThrow } from "./util/delayWithoutThrow.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing

@@ -5,9 +5,9 @@ import { EventHubConsumerClient } from "@azure/event-hubs";
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 import { delay } from "@azure/core-util";
-import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester";
+import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester.js";
 import parsedArgs from "minimist";
-import { createEventHubsProducerClient } from "./utils";
+import { createEventHubsProducerClient } from "./utils.js";
 
 interface scenarioCheckpointStoreOptions {
   testDurationInMs?: number;

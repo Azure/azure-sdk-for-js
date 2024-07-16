@@ -1,107 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
-import { EnvironmentCredential, TokenCredential } from "@azure/identity";
-import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
-import { assert, should as shouldFn } from "@azure-tools/test-utils";
+import type { EventHubConsumerClient, EventHubProducerClient } from "../../../src/index.js";
+import { tracingClient } from "../../../src/diagnostics/tracing.js";
+import { assert } from "@azure-tools/test-utils";
+import { describe, it, afterEach, vi, expect } from "vitest";
+import { createConsumer } from "../../utils/clients.js";
 
-import Sinon from "sinon";
-import { createMockServer } from "../../public/utils/mockService";
-import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
-import { tracingClient } from "../../../src/diagnostics/tracing";
+describe("Create clients using Azure Identity (Internal)", function (): void {
+  let client: EventHubConsumerClient | EventHubProducerClient;
 
-const should = shouldFn();
+  afterEach(async () => {
+    await client.close();
+  });
 
-testWithServiceTypes((serviceVersion) => {
-  const env = getEnvVars();
-  if (serviceVersion === "mock") {
-    let service: ReturnType<typeof createMockServer>;
-    before("Starting mock service", () => {
-      service = createMockServer();
-      return service.start();
-    });
+  // TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
+  // The supportsTracing assertion from chaiAzure can be used to verify that
+  // the `getEventHubProperties` method is being traced correctly, that the
+  // tracing span is properly parented and closed.
+  it.skip("getEventHubProperties() creates a span with a peer.address attribute as the FQDN", async function () {
+    const { consumer, fqdn, eventhubName } = createConsumer();
+    client = consumer;
+    assert.equal(client.fullyQualifiedNamespace, fqdn);
+    assert.equal(client.eventHubName, eventhubName);
 
-    after("Stopping mock service", async () => {
-      await service?.stop();
-    });
-  }
+    const withSpanStub = vi.spyOn(tracingClient, "withSpan");
 
-  describe("Create clients using Azure Identity (Internal)", function (): void {
-    let endpoint: string;
-    let credential: TokenCredential;
-    let client: EventHubConsumerClient | EventHubProducerClient;
+    // Ensure tracing is implemented correctly
+    await assert.supportsTracing(
+      (options) => client.getEventHubProperties(options),
+      ["ManagementClient.getEventHubProperties"],
+    );
 
-    afterEach(async () => {
-      // The client must always be closed, or MockHub will hang on shutdown.
-      await client?.close();
-    });
+    // Additional validation that we created the correct initial span options
+    const expectedSpanOptions = {
+      spanAttributes: {
+        "messaging.destination.name": client.eventHubName,
+        "messaging.system": "eventhubs",
+        "net.peer.name": client.fullyQualifiedNamespace,
+      },
+    };
 
-    before("validate environment", function () {
-      should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
-      );
-      // This is of the form <your-namespace>.servicebus.windows.net
-      endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
-      if (serviceVersion === "mock") {
-        // Create a mock credential that implements the TokenCredential interface.
-        credential = {
-          getToken(_args) {
-            return Promise.resolve({ token: "token", expiresOnTimestamp: Date.now() + 360000 });
-          },
-        };
-      } else {
-        credential = new EnvironmentCredential();
-      }
-    });
-
-    it("getEventHubProperties() creates a span with a peer.address attribute as the FQNS", async () => {
-      client = new EventHubConsumerClient(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        endpoint,
-        env.EVENTHUB_NAME,
-        credential,
-      );
-      should.equal(client.fullyQualifiedNamespace, endpoint);
-
-      const withSpanStub = Sinon.spy(tracingClient, "withSpan");
-
-      // Ensure tracing is implemented correctly
-      await assert.supportsTracing(
-        (options) => client.getEventHubProperties(options),
-        ["ManagementClient.getEventHubProperties"],
-      );
-
-      // Additional validation that we created the correct initial span options
-      const expectedSpanOptions = {
-        spanAttributes: {
-          "messaging.destination.name": client.eventHubName,
-          "messaging.system": "eventhubs",
-          "net.peer.name": client.fullyQualifiedNamespace,
-        },
-      };
-
-      assert.isTrue(
-        withSpanStub.calledWith(
-          Sinon.match.any,
-          Sinon.match.any,
-          Sinon.match.any,
-          expectedSpanOptions,
-        ),
-      );
-    });
+    expect(withSpanStub).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+      expectedSpanOptions,
+    );
   });
 });

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignal } from "@azure/abort-controller";
 import {
   CheckpointStore,
   CloseReason,
@@ -13,52 +12,36 @@ import {
   SubscriptionEventHandlers,
   earliestEventPosition,
   latestEventPosition,
-} from "../../src";
+} from "../../src/index.js";
 import { Dictionary } from "rhea-promise";
-import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
-import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
+import { loopUntil } from "../utils/testUtils.js";
+import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
 import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition,
-} from "../public/utils/subscriptionHandlerForTests";
-import { AbortController } from "@azure/abort-controller";
-import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
-import { Checkpoint } from "../../src/partitionProcessor";
-import { FakeSubscriptionEventHandlers } from "../public/utils/fakeSubscriptionEventHandlers";
-import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
-import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
-import { PartitionContext } from "../../src/eventHubConsumerClientModels";
-import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { createMockServer } from "../public/utils/mockService";
+} from "../utils/subscriptionHandlerForTests.js";
+import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
+import { Checkpoint } from "../../src/partitionProcessor.js";
+import { FakeSubscriptionEventHandlers } from "../utils/fakeSubscriptionEventHandlers.js";
+import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
+import { PartitionContext } from "../../src/eventHubConsumerClientModels.js";
+import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy.js";
 import debugModule from "debug";
-import { delay } from "@azure/core-amqp";
-import { isLatestPosition } from "../../src/eventPosition";
-import { loggerForTest } from "../public/utils/logHelpers";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { getRandomName } from "../../src/util/utils";
+import { delay, MessagingError } from "@azure/core-amqp";
+import { isLatestPosition } from "../../src/eventPosition.js";
+import { loggerForTest } from "../utils/logHelpers.js";
+import { getRandomName } from "../../src/util/utils.js";
 import { randomUUID } from "@azure/core-util";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+import { should } from "../utils/chai.js";
+import { describe, it, beforeEach, afterEach } from "vitest";
+import { createConsumer, createProducer } from "../utils/clients.js";
+import { AbortError, type AbortSignal } from "@azure/abort-controller";
 const debug = debugModule("azure:event-hubs:partitionPump");
 
-testWithServiceTypes((serviceVersion) => {
-  const env = getEnvVars();
-  if (serviceVersion === "mock") {
-    let service: ReturnType<typeof createMockServer>;
-    before("Starting mock service", () => {
-      service = createMockServer();
-      return service.start();
-    });
-
-    after("Stopping mock service", () => {
-      return service?.stop();
-    });
-  }
-
-  describe("Event Processor", function (): void {
+describe(
+  "Event Processor",
+  function () {
     const defaultOptions: FullEventProcessorOptions = {
       maxBatchSize: 1,
       maxWaitTimeInSeconds: 1,
@@ -67,40 +50,21 @@ testWithServiceTypes((serviceVersion) => {
       loadBalancingStrategy: new UnbalancedLoadBalancingStrategy(),
     };
 
-    const service = {
-      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME],
-    };
     let producerClient: EventHubProducerClient;
     let consumerClient: EventHubConsumerClient;
 
-    before("validate environment", async function (): Promise<void> {
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests.",
-      );
+    beforeEach(async function () {
+      producerClient = createProducer().producer;
+      consumerClient = createConsumer().consumer;
     });
 
-    beforeEach("create the client", function () {
-      producerClient = new EventHubProducerClient(service.connectionString, service.path);
-      consumerClient = new EventHubConsumerClient(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        service.connectionString,
-        service.path,
-      );
-    });
-
-    afterEach("close the connection", async function (): Promise<void> {
+    afterEach(async function () {
       await producerClient.close();
       await consumerClient.close();
     });
 
-    describe("unit tests", () => {
-      describe("_getStartingPosition", () => {
+    describe("unit tests", function () {
+      describe("_getStartingPosition", function () {
         function createEventProcessor(
           checkpointStore: CheckpointStore,
           startPosition?: FullEventProcessorOptions["startPosition"],
@@ -157,7 +121,7 @@ testWithServiceTypes((serviceVersion) => {
           };
         }
 
-        before(() => {
+        beforeEach(async function () {
           consumerClient["_context"].managementSession!.getEventHubProperties = async () => {
             return Promise.resolve({
               name: "boo",
@@ -168,14 +132,14 @@ testWithServiceTypes((serviceVersion) => {
           };
         });
 
-        it("no checkpoint or user specified default", async () => {
+        it("no checkpoint or user specified default", async function () {
           const processor = createEventProcessor(emptyCheckpointStore);
 
           const eventPosition = await processor["_getStartingPosition"]("0");
           should.equal(isLatestPosition(eventPosition), true);
         });
 
-        it("has a checkpoint", async () => {
+        it("has a checkpoint", async function () {
           const checkpointStore = createCheckpointStore([
             {
               offset: "1009",
@@ -195,7 +159,7 @@ testWithServiceTypes((serviceVersion) => {
           should.not.exist(eventPosition!.sequenceNumber);
         });
 
-        it("checkpoint with falsy values", async () => {
+        it("checkpoint with falsy values", async function () {
           // this caused a bug for us before - it's a perfectly valid offset
           // but we were thrown off by its falsy-ness. (actually it was
           // sequence number before but the concept is the same)
@@ -214,7 +178,7 @@ testWithServiceTypes((serviceVersion) => {
           should.not.exist(eventPosition!.sequenceNumber);
         });
 
-        it("using a single default event position for any partition", async () => {
+        it("using a single default event position for any partition", async function () {
           const processor = createEventProcessor(emptyCheckpointStore, { offset: "1009" });
 
           const eventPosition = await processor["_getStartingPosition"]("0");
@@ -222,7 +186,7 @@ testWithServiceTypes((serviceVersion) => {
           should.not.exist(eventPosition!.sequenceNumber);
         });
 
-        it("using a fallback map", async () => {
+        it("using a fallback map", async function () {
           const fallbackPositions = { "0": { offset: "2001" } };
           // we'll purposefully omit "1" which should act as "fallback to the fallback" which is earliest()
 
@@ -237,13 +201,13 @@ testWithServiceTypes((serviceVersion) => {
         });
       });
 
-      describe("_handleSubscriptionError", () => {
+      describe("_handleSubscriptionError", function () {
         let eventProcessor: EventProcessor;
         let userCallback: (() => void) | undefined;
         let errorFromCallback: Error | undefined;
         let contextFromCallback: PartitionContext | undefined;
 
-        beforeEach(() => {
+        beforeEach(async function () {
           userCallback = undefined;
           errorFromCallback = undefined;
           contextFromCallback = undefined;
@@ -273,9 +237,9 @@ testWithServiceTypes((serviceVersion) => {
           );
         });
 
-        it("error thrown from user's processError handler", async () => {
+        it("error thrown from user's processError handler", async function () {
           // the user's error handler will throw an error - won't escape from this function
-          userCallback = () => {
+          userCallback = function () {
             throw new Error("Error thrown from the user's error handler");
           };
 
@@ -285,7 +249,7 @@ testWithServiceTypes((serviceVersion) => {
           contextFromCallback!.partitionId.should.equal("");
         });
 
-        it("non-useful errors are filtered out", async () => {
+        it("non-useful errors are filtered out", async function () {
           // the user's error handler will throw an error - won't escape from this function
 
           await eventProcessor["_handleSubscriptionError"](new AbortError("test error"));
@@ -296,7 +260,7 @@ testWithServiceTypes((serviceVersion) => {
         });
       });
 
-      it("if we fail to claim partitions we don't start up new processors", async () => {
+      it("if we fail to claim partitions we don't start up new processors", async function () {
         const checkpointStore = {
           claimOwnershipCalled: false,
 
@@ -311,7 +275,7 @@ testWithServiceTypes((serviceVersion) => {
           async listOwnership(): Promise<PartitionOwnership[]> {
             return [];
           },
-          async updateCheckpoint(): Promise<void> {
+          async updateCheckpoint() {
             /* no-op */
           },
           async listCheckpoints(): Promise<Checkpoint[]> {
@@ -376,7 +340,7 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(checkpointStore.claimOwnershipCalled, true);
       });
 
-      it("abandoned claims are treated as unowned claims", async () => {
+      it("abandoned claims are treated as unowned claims", async function () {
         const commonFields = {
           fullyQualifiedNamespace: "irrelevant namespace",
           eventHubName: "irrelevant eventhub name",
@@ -400,7 +364,7 @@ testWithServiceTypes((serviceVersion) => {
 
         const fakeConnectionContext = {
           managementSession: {
-            getEventHubProperties: async () => {
+            getEventHubProperties: async function () {
               return {
                 partitionIds,
               };
@@ -425,7 +389,7 @@ testWithServiceTypes((serviceVersion) => {
               async createPump() {
                 /* no-op */
               },
-              async removeAllPumps(): Promise<void> {
+              async removeAllPumps() {
                 /* no-op */
               },
               isReceivingFromPartition() {
@@ -535,8 +499,8 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    it("claimOwnership throws and is reported to the user", async () => {
-      const errors = [];
+    it("claimOwnership throws and is reported to the user", async function () {
+      const errors: (Error | MessagingError)[] = [];
       const partitionIds = await consumerClient.getPartitionIds();
 
       const faultyCheckpointStore: CheckpointStore = {
@@ -592,7 +556,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("errors thrown from the user's handlers are reported to processError()", async () => {
+    it("errors thrown from the user's handlers are reported to processError()", async function () {
       const errors = new Set<Error>();
       const partitionIds = await consumerClient.getPartitionIds();
 
@@ -654,15 +618,15 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should expose an id", async function (): Promise<void> {
+    it("should expose an id", async function () {
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
         consumerClient["_context"],
         {
-          processEvents: async () => {
+          processEvents: async function () {
             /* no-op */
           },
-          processError: async () => {
+          processError: async function () {
             /* no-op */
           },
         },
@@ -677,15 +641,15 @@ testWithServiceTypes((serviceVersion) => {
       id.length.should.be.gt(1);
     });
 
-    it("id can be forced to be a specific value", async function (): Promise<void> {
+    it("id can be forced to be a specific value", async function () {
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
         consumerClient["_context"],
         {
-          processEvents: async () => {
+          processEvents: async function () {
             /* no-op */
           },
-          processError: async () => {
+          processError: async function () {
             /* no-op */
           },
         },
@@ -696,7 +660,7 @@ testWithServiceTypes((serviceVersion) => {
       processor.id.should.equal("hello");
     });
 
-    it("should treat consecutive start invocations as idempotent", async function (): Promise<void> {
+    it("should treat consecutive start invocations as idempotent", async function () {
       const partitionIds = await producerClient.getPartitionIds();
 
       // ensure we have at least 2 partitions
@@ -736,20 +700,20 @@ testWithServiceTypes((serviceVersion) => {
       subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
     });
 
-    it("should not throw if stop is called without start", async function (): Promise<void> {
+    it("should not throw if stop is called without start", async function () {
       let didPartitionProcessorStart = false;
 
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
         consumerClient["_context"],
         {
-          processInitialize: async () => {
+          processInitialize: async function () {
             didPartitionProcessorStart = true;
           },
-          processEvents: async () => {
+          processEvents: async function () {
             /* no-op */
           },
-          processError: async () => {
+          processError: async function () {
             /* no-op */
           },
         },
@@ -766,7 +730,7 @@ testWithServiceTypes((serviceVersion) => {
       didPartitionProcessorStart.should.equal(false);
     });
 
-    it("should support start after stopping", async function (): Promise<void> {
+    it("should support start after stopping", async function () {
       const partitionIds = await producerClient.getPartitionIds();
 
       // ensure we have at least 2 partitions
@@ -817,8 +781,8 @@ testWithServiceTypes((serviceVersion) => {
       subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
     });
 
-    describe("Partition processor", function (): void {
-      it("should support processing events across multiple partitions", async function (): Promise<void> {
+    describe("Partition processor", function () {
+      it("should support processing events across multiple partitions", async function () {
         const partitionIds = await producerClient.getPartitionIds();
         const { subscriptionEventHandler, startPosition } =
           await SubscriptionHandlerForTests.startingFromHere(producerClient);
@@ -849,8 +813,8 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("InMemory Partition Manager", function (): void {
-      it("should claim ownership, get a list of ownership and update checkpoint", async function (): Promise<void> {
+    describe("InMemory Partition Manager", function () {
+      it("should claim ownership, get a list of ownership and update checkpoint", async function () {
         const inMemoryCheckpointStore = new InMemoryCheckpointStore();
         const partitionOwnership1: PartitionOwnership = {
           fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
@@ -903,7 +867,7 @@ testWithServiceTypes((serviceVersion) => {
         );
       });
 
-      it("should receive events from the checkpoint", async function (): Promise<void> {
+      it("should receive events from the checkpoint", async function () {
         const partitionIds = await producerClient.getPartitionIds();
 
         // ensure we have at least 2 partitions
@@ -1047,7 +1011,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("makes copies and never returns internal instances directly", async () => {
+      it("makes copies and never returns internal instances directly", async function () {
         const checkpointStore = new InMemoryCheckpointStore();
         const allObjects = new Set();
 
@@ -1124,8 +1088,8 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("Load balancing", function (): void {
-      beforeEach("validate partitions", async function (): Promise<void> {
+    describe("Load balancing", function () {
+      beforeEach(async function () {
         const partitionIds = await producerClient.getPartitionIds();
         // ensure we have at least 3 partitions
         partitionIds.length.should.gte(
@@ -1134,7 +1098,7 @@ testWithServiceTypes((serviceVersion) => {
         );
       });
 
-      it("should 'steal' partitions until all the processors have reached a steady-state (BalancedLoadBalancingStrategy)", async function (): Promise<void> {
+      it("should 'steal' partitions until all the processors have reached a steady-state (BalancedLoadBalancingStrategy)", async function () {
         loggerForTest("starting up the stealing test");
 
         const processorByName: Dictionary<EventProcessor> = {};
@@ -1240,7 +1204,7 @@ testWithServiceTypes((serviceVersion) => {
           name: "Processors are balanced",
           maxTimes: 60,
           timeBetweenRunsMs: 1000,
-          until: async () => {
+          until: async function () {
             // it should be impossible for 'processor-2' to have obtained the number of
             // partitions it needed without having stolen some from 'processor-1'
             // so if we haven't see any `ReceiverDisconnectedError`'s then that stealing
@@ -1294,7 +1258,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("should 'steal' partitions until all the processors have reached a steady-state (GreedyLoadBalancingStrategy)", async function (): Promise<void> {
+      it("should 'steal' partitions until all the processors have reached a steady-state (GreedyLoadBalancingStrategy)", async function () {
         loggerForTest("starting up the stealing test");
 
         const processorByName: Dictionary<EventProcessor> = {};
@@ -1400,7 +1364,7 @@ testWithServiceTypes((serviceVersion) => {
           name: "Processors are balanced",
           maxTimes: 60,
           timeBetweenRunsMs: 1000,
-          until: async () => {
+          until: async function () {
             // it should be impossible for 'processor-2' to have obtained the number of
             // partitions it needed without having stolen some from 'processor-1'
             // so if we haven't see any `ReceiverDisconnectedError`'s then that stealing
@@ -1454,7 +1418,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("should ensure that all the processors reach a steady-state where all partitions are being processed (BalancedLoadBalancingStrategy)", async function (): Promise<void> {
+      it("should ensure that all the processors reach a steady-state where all partitions are being processed (BalancedLoadBalancingStrategy)", async function () {
         const processorByName: Dictionary<EventProcessor> = {};
         const partitionIds = await producerClient.getPartitionIds();
         const checkpointStore = new InMemoryCheckpointStore();
@@ -1540,7 +1504,7 @@ testWithServiceTypes((serviceVersion) => {
           .length.should.oneOf([n, n + 1]);
       });
 
-      it("should ensure that all the processors reach a steady-state where all partitions are being processed (GreedyLoadBalancingStrategy)", async function (): Promise<void> {
+      it("should ensure that all the processors reach a steady-state where all partitions are being processed (GreedyLoadBalancingStrategy)", async function () {
         const processorByName: Dictionary<EventProcessor> = {};
         const partitionIds = await producerClient.getPartitionIds();
         const checkpointStore = new InMemoryCheckpointStore();
@@ -1624,7 +1588,7 @@ testWithServiceTypes((serviceVersion) => {
           .length.should.oneOf([n, n + 1]);
       });
 
-      it("should ensure that all the processors maintain a steady-state when all partitions are being processed (BalancedLoadBalancingStrategy)", async function (): Promise<void> {
+      it("should ensure that all the processors maintain a steady-state when all partitions are being processed (BalancedLoadBalancingStrategy)", async function () {
         const partitionIds = await producerClient.getPartitionIds();
         const checkpointStore = new InMemoryCheckpointStore();
         const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
@@ -1662,14 +1626,10 @@ testWithServiceTypes((serviceVersion) => {
             const claimedPartitions = claimedPartitionsMap[eventProcessorId];
             claimedPartitions.delete(partitionId);
             loggerForTest(
-              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
-                context.partitionId
-              }`,
+              `[${eventProcessorId}] processClose(${reason}) on partition ${context.partitionId}`,
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
-              loggerForTest(
-                `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`,
-              );
+              loggerForTest(`[${eventProcessorId}] Lost partition ${context.partitionId}`);
               thrashAfterSettling = true;
             }
           },
@@ -1715,7 +1675,7 @@ testWithServiceTypes((serviceVersion) => {
             timeBetweenRunsMs: 10000,
 
             errorMessageFn: () => JSON.stringify(lastLoopError, undefined, "  "),
-            until: async () => {
+            until: async function () {
               // Ensure the partition ownerships are balanced.
               const eventProcessorIds = Object.keys(claimedPartitionsMap);
 
@@ -1789,7 +1749,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("should ensure that all the processors maintain a steady-state when all partitions are being processed (GreedyLoadBalancingStrategy)", async function (): Promise<void> {
+      it("should ensure that all the processors maintain a steady-state when all partitions are being processed (GreedyLoadBalancingStrategy)", async function () {
         const partitionIds = await producerClient.getPartitionIds();
         const checkpointStore = new InMemoryCheckpointStore();
         const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
@@ -1827,14 +1787,10 @@ testWithServiceTypes((serviceVersion) => {
             const claimedPartitions = claimedPartitionsMap[eventProcessorId];
             claimedPartitions.delete(partitionId);
             loggerForTest(
-              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
-                context.partitionId
-              }`,
+              `[${eventProcessorId}] processClose(${reason}) on partition ${context.partitionId}`,
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
-              loggerForTest(
-                `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`,
-              );
+              loggerForTest(`[${eventProcessorId}] Lost partition ${context.partitionId}`);
               thrashAfterSettling = true;
             }
           },
@@ -1954,49 +1910,50 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
     });
-  }).timeout(100000);
+  },
+  { timeout: 100000 },
+);
 
-  function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<string, string[]> {
-    const partitionOwnershipMap: Map<string, string[]> = new Map();
+function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<string, string[]> {
+  const partitionOwnershipMap: Map<string, string[]> = new Map();
 
-    for (const ownership of partitionOwnership) {
-      if (!partitionOwnershipMap.has(ownership.ownerId)) {
-        partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
-      } else {
-        const arr = partitionOwnershipMap.get(ownership.ownerId);
-        arr!.push(ownership.partitionId);
-        partitionOwnershipMap.set(ownership.ownerId, arr!);
-      }
+  for (const ownership of partitionOwnership) {
+    if (!partitionOwnershipMap.has(ownership.ownerId)) {
+      partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
+    } else {
+      const arr = partitionOwnershipMap.get(ownership.ownerId);
+      arr!.push(ownership.partitionId);
+      partitionOwnershipMap.set(ownership.ownerId, arr!);
     }
-
-    return partitionOwnershipMap;
   }
 
-  function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
-    let count = 0;
+  return partitionOwnershipMap;
+}
 
-    const abortSignal: AbortSignal = {
-      get aborted(): boolean {
-        ++count;
+function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
+  let count = 0;
 
-        if (count >= maxCalls) {
-          return true;
-        }
+  const abortSignal: AbortSignal = {
+    get aborted(): boolean {
+      ++count;
 
-        return false;
-      },
-      addEventListener: () => {
-        /* no-op */
-      },
-      removeEventListener: () => {
-        /* no-op */
-      },
-      onabort: () => {
-        /* no-op */
-      },
-      dispatchEvent: () => true,
-    };
+      if (count >= maxCalls) {
+        return true;
+      }
 
-    return abortSignal;
-  }
-});
+      return false;
+    },
+    addEventListener: function () {
+      /* no-op */
+    },
+    removeEventListener: function () {
+      /* no-op */
+    },
+    onabort: function () {
+      /* no-op */
+    },
+    dispatchEvent: () => true,
+  };
+
+  return abortSignal;
+}
