@@ -79,7 +79,7 @@ export default defineConfig(
       ```
 
 5. **`useCloudHostedBrowsers`**
-    - **Description**: This setting allows you to select whether you want to use cloud browsers to run your Playwright tests. You can still use reporting if you disable it.
+    - **Description**: This setting allows you to select whether to use cloud-hosted browsers to run your Playwright tests. Reporting features remain available even if you disable this setting.
     - **Example**:
       ```typescript
       useCloudHostedBrowsers: true
