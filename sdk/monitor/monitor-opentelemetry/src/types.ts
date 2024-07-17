@@ -212,6 +212,12 @@ export enum StatsbeatInstrumentation {
   ROUTER = 17179869184,
 }
 
+export const StatsbeatInstrumentationMap = new Map<string, number>(
+  [
+    ["@opentelemetry/instrumentation-express", 1048576]
+  ]
+)
+
 export interface StatsbeatEnvironmentConfig {
   instrumentation: StatsbeatInstrumentation;
   feature: StatsbeatFeature;
