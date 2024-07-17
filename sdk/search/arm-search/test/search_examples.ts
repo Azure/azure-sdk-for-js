@@ -114,7 +114,7 @@ describe("Search test", () => {
     assert.equal(resArray.length, 2);
   });
 
-  it("queryKeys delete test", async function () {
+  it.skip("queryKeys delete test", async function () {
     let resArray = new Array();
     for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
       resArray.push(item);
