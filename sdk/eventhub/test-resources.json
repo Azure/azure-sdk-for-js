@@ -34,6 +34,8 @@
     "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
     "eventHubName": "eventhub",
     "eventHubNameFull": "[concat(parameters('baseName'), '/eventhub')]",
+    "retentionTimeInDays": 1,
+    "partitionCount": 4,
     "location": "[resourceGroup().location]",
     "authorizationApiVersion": "2018-01-01-preview",
     "eventHubsDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec')]",
@@ -74,8 +76,8 @@
       "location": "[variables('location')]",
       "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
       "properties": {
-        "messageRetentionInDays": 1,
-        "partitionCount": 4
+        "messageRetentionInDays": "[variables('retentionTimeInDays')]",
+        "partitionCount": "[variables('partitionCount')]"
       }
     },
     {
@@ -146,8 +148,8 @@
         "ipFilterRules": [],
         "eventHubEndpoints": {
           "events": {
-            "retentionTimeInDays": 1,
-            "partitionCount": 4
+            "retentionTimeInDays": "[variables('retentionTimeInDays')]",
+            "partitionCount": "[variables('partitionCount')]"
           }
         },
         "routing": {
@@ -207,9 +209,7 @@
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('blobDataContributorRoleId', variables('storageAccountName')))]",
-      "dependsOn": [
-        "[variables('storageAccountName')]"
-      ],
+      "dependsOn": ["[variables('storageAccountName')]"],
       "properties": {
         "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
@@ -219,9 +219,7 @@
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('blobDataOwnerRoleId', variables('storageAccountName')))]",
-      "dependsOn": [
-        "[variables('storageAccountName')]"
-      ],
+      "dependsOn": ["[variables('storageAccountName')]"],
       "properties": {
         "roleDefinitionId": "[variables('blobDataOwnerRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
@@ -239,7 +237,7 @@
     },
     "EVENTHUB_FQDN": {
       "type": "string",
-      "value": "[replace(replace(reference(resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'), variables('eventHubName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
+      "value": "[replace(replace(reference(resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
     },
     "EVENTHUB_NAME": {
       "type": "string",
