@@ -8976,6 +8976,12 @@ packages:
     hasBin: true
     dev: false
 
+  /prettier@3.3.3:
+    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: false
+
   /pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -11578,7 +11584,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-g1X1zcftLheXjVzE685UWx6/Uj1U0PdkzcQWOq5iOWhkx16gLhIBqXzwVqechUY80XmZe7X6cMMjAoqhx8G3nQ==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-RG5Nhoe7cotY9A5vUtQjCWgJnJ/Vy+dHEhsRbEA4ncnaY2NxymZGAEOCdjY46xv/NPvVqD33i8ObNmXxSHCKTw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -11610,7 +11616,7 @@ packages:
       magic-string: 0.30.10
       mocha: 10.6.0
       nyc: 17.0.0
-      prettier: 3.3.2
+      prettier: 3.3.3
       rimraf: 5.0.8
       rollup: 4.18.0
       sinon: 17.0.1
@@ -11887,7 +11893,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-vvbU9JCXPRiIK7dJJ1bRLa95oXJXxn7Je4bMoDCdgUYpdhYwUOGQiiTjArM5BtGCeRg/yADLdNLBPzxJ2KKVGA==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-Kjs/dT4av+uQBjl0LWZTYpLftkGnmrZF/Q+Cr9+8dw2w2Aj1ObaL/5896Ngl2j+6ck9QmYNG06x99+lNSGjFiA==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -11980,7 +11986,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-face.tgz:
-    resolution: {integrity: sha512-e+daR0EJSma7h8S2GkytnaVWQoerQ0++y6BjHExrwO8x7WX+DX2OcXqd661Qy6lGBIkX3aQqmC7YrFejvRlNZg==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-yrz9WamFIlutlxlZk8+4KpDQZnLox+FQo/VW3IzDeOjl0hLve6LqbqmF8aAPzK8TwYnqj1dCM27VzEP8JV29Qw==, tarball: file:projects/ai-vision-face.tgz}
     name: '@rush-temp/ai-vision-face'
     version: 0.0.0
     dependencies:
@@ -12063,7 +12069,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-zuIHsy2oRcF7+RIWrJpHqXBp1IC6x3BgMOR8wFVI8g5RGFPQjQQHmGaDd1gLSYibvBcOYwaFnfb7mDa6x+nO0g==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-GZeSyqANNsL9zcWkTlNZbFxBxvYB3OBoWq9YWyZr6+co0Ob66Qa4u/KIageRNg4a/jrLQ4sFTPL5XxbZaxacpg==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -12080,7 +12086,7 @@ packages:
       inquirer: 9.3.5
       magic-string: 0.30.10
       mustache: 4.2.0
-      prettier: 3.3.2
+      prettier: 3.3.3
       rimraf: 5.0.8
       rollup: 4.18.0
       tshy: 1.18.0
@@ -16270,7 +16276,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-vJH7ZecLmdna/s5dNIZAzFXj9rv+WG7nV+f3fvkADuibhpJsNMOYXVLVmK3Zx3HyCJ9p8ahJpDPRqa36EJNSPQ==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-u22kNdMto8bx7fAnUfv1KssjOdwLOMppylXkBZa+rCpm4WdRodlnVF/mCXVjkXd8TupRqtekx9aISLVw2K9/Fg==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
@@ -20601,7 +20607,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-EIC4Z/tMm9wzK39F2FYiZG9qwwOSIiysEcpvb/YLip2ooqv0oGWMDBzRDwOl/6iQ+UcsUH8QppzDc6/5OyuSBw==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-8OsCk9+lXF8lgpqXzccPDrZSup89T0UNYWARwy2Ro2Ki2sJeMbnzCy2+It8VukNuYuurScXQ7IL+1Z61p5OytA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -20637,7 +20643,7 @@ packages:
       fs-extra: 11.2.0
       minimist: 1.2.8
       mkdirp: 3.0.1
-      prettier: 3.3.2
+      prettier: 3.3.3
       rimraf: 5.0.8
       rollup: 4.18.0
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.18.0)
@@ -20668,7 +20674,7 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-9XU8gH2UgAScj6/g83oyXtMYQWpMVHVBNLsLvXCoEtltpE23DKalaGNYsBL4RbsfEH0Pw5m/PPdmLBKEMd2hqQ==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-jdmEUgEnU8EhQYwv7fcdq49kf844QtjHOyGffXxgT4x+Xx9wyv85dsOsrAPWpRiw1cU08iPa/NFRTHWNrlDSbw==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
@@ -20779,7 +20785,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-fBAmbcJQRljhm99b4p7ff6Sc8Ih00DliZsAXeiD7xi4PINWTj4wF03/dwghPr09W/D0cPnTTlvU1kG1Gvsx3UA==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-sUDu5Rj6kUbWGeiDeq+rfCEKHu7FHj2JAy/3VRjukVZzzdiuApRdSETw5/X3yFWJ6C4ro6cGRdKrYYo2XbcOgg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -20806,7 +20812,7 @@ packages:
       eslint-plugin-promise: 6.4.0(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
       glob: 10.4.3
-      prettier: 3.3.2
+      prettier: 3.3.3
       rimraf: 5.0.8
       source-map-support: 0.5.21
       tslib: 2.6.3
@@ -24346,13 +24352,13 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-3iQMKaAXcKlDCY9v9SwnmVRbUkHZZl8+KbgTY2fxhLVaL4Jismy5/R993xZyWorX9GbgtrstQ/2RhwP5AwWxlA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-OfgBiUirU0lvcttCRGp55ht3Mia/hYzXunldhwPadyhLLZS2CfmFe/YMqTY1mGKv0i31rk1ub5ldRGIIjyUSCg==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.39
       eslint: 8.57.0
-      prettier: 3.3.2
+      prettier: 3.3.3
       rimraf: 5.0.8
       tslib: 2.6.3
       typescript: 5.5.3
