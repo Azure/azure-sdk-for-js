@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { FileSystemResource, QumuloStorage } from "@azure/arm-qumulo";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { QumuloStorage } = require("@azure/arm-qumulo");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a FileSystemResource
@@ -22,12 +20,10 @@ dotenv.config();
  */
 async function fileSystemsCreateOrUpdate() {
   const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] ||
-    "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
-  const resourceGroupName =
-    process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
+    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
+  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
   const fileSystemName = "hfcmtgaes";
-  const resource: FileSystemResource = {
+  const resource = {
     adminPassword: "fakeTestSecretPlaceholder",
     availabilityZone: "eqdvbdiuwmhhzqzmksmwllpddqquwt",
     clusterLoginUrl: "ykaynsjvhihdthkkvvodjrgc",
@@ -64,12 +60,10 @@ async function fileSystemsCreateOrUpdate() {
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function fileSystemsCreateOrUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaaaaaaaa";
-  const resourceGroupName =
-    process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgopenapi";
+  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgopenapi";
   const fileSystemName = "aaaaaaaa";
-  const resource: FileSystemResource = {
+  const resource = {
     adminPassword: "fakeTestSecretPlaceholder",
     delegatedSubnetId: "aaaaaaaaaa",
     location: "aaaaaaaaaaaaaaaaaaaaaaaaa",

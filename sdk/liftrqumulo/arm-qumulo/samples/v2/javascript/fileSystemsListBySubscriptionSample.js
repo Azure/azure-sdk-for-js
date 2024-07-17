@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { QumuloStorage } from "@azure/arm-qumulo";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { QumuloStorage } = require("@azure/arm-qumulo");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List FileSystemResource resources by subscription ID
@@ -22,8 +20,7 @@ dotenv.config();
  */
 async function fileSystemsListBySubscription() {
   const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] ||
-    "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
+    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
@@ -40,8 +37,7 @@ async function fileSystemsListBySubscription() {
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_ListBySubscription_MinimumSet_Gen.json
  */
 async function fileSystemsListBySubscriptionMinimumSetGen() {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
+  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();

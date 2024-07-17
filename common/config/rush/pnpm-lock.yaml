@@ -17171,7 +17171,7 @@ packages:
     dev: false
 
   file:projects/arm-qumulo.tgz:
-    resolution: {integrity: sha512-sk4BG9dwLB3VKSx0RY7+mmxn9Je+xB+o7FnMR2tp86iWpJAt8epMALif9XApWGDwtRWID0BL4pLL3iCSge22yQ==, tarball: file:projects/arm-qumulo.tgz}
+    resolution: {integrity: sha512-16kffyI39XON8XY0eZ8FV4msa7hdHziR5iXUAOOcVXnhrlyWeIeZ8BAWNRxdwfSRDIrnWzDx+aJTQnVRKL3E2Q==, tarball: file:projects/arm-qumulo.tgz}
     name: '@rush-temp/arm-qumulo'
     version: 0.0.0
     dependencies:
@@ -17190,9 +17190,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
