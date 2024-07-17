@@ -94,7 +94,7 @@ export default function MapsRoute(
     client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
+        scopes: "https://atlas.microsoft.com/.default",
       }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));

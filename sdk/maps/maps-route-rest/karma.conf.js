@@ -53,11 +53,7 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "MAPS_SUBSCRIPTION_KEY",
       "MAPS_RESOURCE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_CLIENT_ID",
-      "AZURE_TENANT_ID",
       "RECORDINGS_RELATIVE_PATH",
     ],
 

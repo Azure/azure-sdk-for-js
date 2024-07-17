@@ -5,8 +5,7 @@
  * @summary Demonstrates how to manipulate a long running request.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
-// import { DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
@@ -22,16 +21,16 @@ dotenv.config();
  * But the same approach can be used in:
  *  - "/route/matrix/"
  */
-async function main() {
-  /** Use subscription key authentication */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRoute(credential);
+async function main(): Promise<void> {
+  /** Use Azure AD authentication (Recommended) */
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsRoute(credential, mapsClientId);
 
-  /** Or use Azure AD authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = new MapsRoute(credential, mapsClientId);
+  /** Use subscription key authentication */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsRoute(credential);
 
   const request = createRouteDirectionsBatchRequest([
     {
@@ -74,7 +73,7 @@ async function main() {
   logBatchResponse(finalResult as RouteGetRouteDirectionsBatch200Response);
 }
 
-function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response) {
+function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response): void {
   const { summary, batchItems } = result.body;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
   batchItems.forEach((item, index) => {
@@ -82,14 +81,14 @@ function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response) {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {
       console.log(`Request ${index} success!`);
-      item.response.routes.forEach(({ summary, legs }) => {
+      item.response.routes.forEach(({ summary: itemSummary, legs }) => {
         console.log(
-          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
+          `The total distance is ${itemSummary.lengthInMeters} meters, and it takes ${itemSummary.travelTimeInSeconds} seconds.`,
         );
-        legs.forEach(({ summary, points }, idx) => {
+        legs.forEach(({ summary: legSummary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-              summary.travelTimeInSeconds
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
+              legSummary.travelTimeInSeconds
             } seconds. Followings are the first 10 points: `,
           );
           console.table(points.slice(0, 10));

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * @summary Demonstrates the use of a MapsRoute to retrieve a setting value.
  */
 
-const { AzureKeyCredential } = require("@azure/core-auth");
-// import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRoute = require("@azure-rest/maps-route").default,
   { isUnexpected } = require("@azure-rest/maps-route");
 
@@ -19,20 +18,20 @@ async function main() {
    * - Shared Key authentication (subscription-key)
    * - Azure Active Directory (Azure AD) authentication
    *
-   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
-   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for AAD auth,
+   * Or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
-  /** Shared Key authentication (subscription-key) */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRoute(credential);
-
   /** Azure Active Directory (Azure AD) authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsRoute(credential, mapsClientId);
+
+  /** Shared Key authentication (subscription-key) */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsRoute(credential);
 
   /**
    * Calculate route matrix in synchronous way.
@@ -70,11 +69,11 @@ async function main() {
 
   const { summary, matrix } = routeMatrixResult.body;
   console.log(
-    `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`
+    `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`,
   );
   matrix.forEach((row) => {
     row.forEach((cell) => {
-      cell.response && console.dir(cell.response.routeSummary);
+      if (cell.response) console.dir(cell.response.routeSummary);
     });
   });
 }
