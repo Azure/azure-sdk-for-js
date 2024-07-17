@@ -1065,6 +1065,12 @@ export const UpdateTranscriptionRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1452,6 +1458,12 @@ export const StopMediaStreamingRequest: coreClient.CompositeMapper = {
     modelProperties: {
       operationCallbackUri: {
         serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
         type: {
           name: "String",
         },

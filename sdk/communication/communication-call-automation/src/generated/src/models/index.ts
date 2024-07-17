@@ -377,6 +377,8 @@ export interface UpdateTranscriptionRequest {
   locale: string;
   /** Sets Endpoint id where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }
 
 export interface RecognizeRequest {
@@ -514,6 +516,8 @@ export interface StopMediaStreamingRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }
 
 /** The response payload for getting participants of the call. */

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CommunicationIdentifier } from "@azure/communication-common";
 
 /**
  * Audio streaming data.
@@ -11,6 +12,8 @@ export interface AudioData {
   timestamp: Date;
   /** Audio streaming is silent.*/
   isSilent: boolean;
+  /** The identified speaker based on participant raw ID. */
+  participant: CommunicationIdentifier;
 }
 
 /**

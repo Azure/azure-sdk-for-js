@@ -1177,6 +1177,7 @@ export interface StartTranscriptionOptions extends OperationOptions {
 // @public
 export interface StopMediaStreamingOptions extends OperationOptions {
     operationCallbackUrl?: string;
+    operationContext?: string;
 }
 
 // @public
@@ -1310,6 +1311,7 @@ export interface UnholdOptions extends OperationOptions {
 
 // @public
 export interface UpdateTranscriptionOptions extends OperationOptions {
+    operationContext?: string;
     speechRecognitionModelEndpointId?: string;
 }
 

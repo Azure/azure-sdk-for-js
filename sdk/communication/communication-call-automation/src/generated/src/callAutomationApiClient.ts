@@ -66,7 +66,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-call-automation/1.3.0-beta.1`;
+    const packageDetails = `azsdk-js-communication-call-automation/1.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

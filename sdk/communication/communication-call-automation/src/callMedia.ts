@@ -31,6 +31,7 @@ import { CallMediaImpl } from "./generated/src/operations";
 
 import {
   CommunicationIdentifier,
+  createCommunicationAuthPolicy,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
@@ -55,7 +56,6 @@ import {
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SendDtmfTonesResult } from "./models/responses";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
  * CallMedia class represents call media related APIs.
@@ -70,11 +70,9 @@ export class CallMedia {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      options,
-      endpoint,
-    );
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
@@ -529,6 +527,7 @@ export class CallMedia {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
       speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId,
+      operationContext: options?.operationContext,
     };
     return this.callMedia.updateTranscription(
       this.callConnectionId,
@@ -560,6 +559,7 @@ export class CallMedia {
   public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
     const stopMediaStreamingRequest: StopMediaStreamingRequest = {
       operationCallbackUri: options.operationCallbackUrl,
+      operationContext: options?.operationContext,
     };
     return this.callMedia.stopMediaStreaming(
       this.callConnectionId,

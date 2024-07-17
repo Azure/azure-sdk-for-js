@@ -6,6 +6,7 @@ import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import {
   parseClientArguments,
   isKeyCredential,
+  createCommunicationAuthPolicy,
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
@@ -39,7 +40,7 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -66,7 +67,6 @@ export class CallAutomationClient {
   private readonly sourceIdentity?: CommunicationUserIdentifierModel;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
-  private readonly endpoint: string;
   /**
    * Initializes a new instance of the CallAutomationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
@@ -110,17 +110,12 @@ export class CallAutomationClient {
     };
 
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    this.endpoint = url;
+
+    const authPolicy = createCommunicationAuthPolicy(credential);
 
     this.credential = credential;
-
-    // create api client (using custom api endpoint if available)
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      this.internalPipelineOptions,
-      this.endpoint,
-    );
-
+    this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }
 
@@ -131,7 +126,7 @@ export class CallAutomationClient {
   public getCallConnection(callConnectionId: string): CallConnection {
     return new CallConnection(
       callConnectionId,
-      this.endpoint,
+      this.callAutomationApiClient.endpoint,
       this.credential,
       this.internalPipelineOptions,
     );
@@ -141,7 +136,7 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.endpoint, this.credential, this.internalPipelineOptions);
+    return new CallRecording(this.callAutomationApiClient.endpoint, this.credential, this.internalPipelineOptions);
   }
 
   /**
@@ -186,7 +181,7 @@ export class CallAutomationClient {
       };
       const callConnection = new CallConnection(
         callConnectionId,
-        this.endpoint,
+        this.callAutomationApiClient.endpoint,
         this.credential,
         this.internalPipelineOptions,
       );
@@ -308,7 +303,7 @@ export class CallAutomationClient {
       };
       const callConnection = new CallConnection(
         callConnectionId,
-        this.endpoint,
+        this.callAutomationApiClient.endpoint,
         this.credential,
         this.internalPipelineOptions,
       );
@@ -428,7 +423,7 @@ export class CallAutomationClient {
       };
       const callConnection = new CallConnection(
         callConnectionId,
-        this.endpoint,
+        this.callAutomationApiClient.endpoint,
         this.credential,
         this.internalPipelineOptions,
       );

@@ -291,7 +291,6 @@ export function persistEvents(testName: string): void {
         "id",
         "incomingCallContext",
         "value",
-        "correlationId",
         "serverCallId",
       ]);
       sanatizedEvents.push(jsonData);

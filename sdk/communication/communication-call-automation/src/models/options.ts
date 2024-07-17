@@ -369,6 +369,8 @@ export interface StartTranscriptionOptions extends OperationOptions {
 export interface UpdateTranscriptionOptions extends OperationOptions {
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }
 
 /**
@@ -417,4 +419,6 @@ export interface StopMediaStreamingOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }

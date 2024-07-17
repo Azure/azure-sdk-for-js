@@ -728,7 +728,7 @@ describe("Call Media Client Live Tests", function () {
     }
   });
 
-  it.skip("Play audio to target participant", async function () {
+  it("Play audio to target participant", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "play_audio_to_target_participant";
@@ -953,7 +953,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-  it.skip("Creates a call, start media streaming, and hangs up.", async function () {
+  it("Creates a call, start media streaming, and hangs up.", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_start_media_streaming_and_hang_up";
@@ -1004,7 +1004,6 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    console.log(result.callConnectionProperties.mediaStreamingSubscription);
     await callConnection.getCallMedia().startMediaStreaming();
     const mediaStreamingStarted = await waitForEvent(
       "MediaStreamingStarted",
@@ -1026,7 +1025,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-  it.skip("Answers a call, start media streaming, and hangs up", async function () {
+  it("Answers a call, start media streaming, and hangs up", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "answer_call_start_media_streaming_and_hang_up";
@@ -1054,7 +1053,7 @@ describe("Call Media Client Live Tests", function () {
         mediaStreamingOptions: mediaStreamingOptions,
       };
 
-      const answerCallResult = await receiverCallAutomationClient.answerCall(
+     const answerCallResult =  await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
         answerCallOptions,
@@ -1062,28 +1061,34 @@ describe("Call Media Client Live Tests", function () {
 
       const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
       assert.isDefined(callConnectedEvent);
-      callConnection = answerCallResult.callConnection;
-    }
 
-    await callConnection.getCallMedia().startMediaStreaming();
+      const answerCallConnection = answerCallResult.callConnection;
+      const answerCallConnectionId: string = answerCallResult.callConnectionProperties.callConnectionId
+      ? answerCallResult.callConnectionProperties.callConnectionId
+      : "";
+      await answerCallConnection.getCallMedia().startMediaStreaming();
     const mediaStreamingStarted = await waitForEvent(
       "MediaStreamingStarted",
-      callConnectionId,
+      answerCallConnectionId,
       8000,
     );
     assert.isDefined(mediaStreamingStarted);
 
-    await callConnection.getCallMedia().stopMediaStreaming();
+    await answerCallConnection.getCallMedia().stopMediaStreaming();
     const mediaStreamingStopped = await waitForEvent(
       "MediaStreamingStopped",
-      callConnectionId,
+      answerCallConnectionId,
       8000,
     );
     assert.isDefined(mediaStreamingStopped);
 
-    await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    await answerCallConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", answerCallConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
+
+    }
+
+    
   }).timeout(60000);
 
   it("Play multiple file sources with play and playall", async function () {
@@ -1095,7 +1100,6 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    console.log("cognitiveServicesEndpoint: " + cognitiveServiceEndpoint);
     const createCallOption: CreateCallOptions = {
       operationContext: "playMultipleSourcesCreateCall",
     };
@@ -1164,7 +1168,6 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    console.log("cognitiveServicesEndpoint: " + cognitiveServiceEndpoint);
     const createCallOption: CreateCallOptions = {
       operationContext: "playMultipleSourcesCreateCall",
     };
@@ -1228,7 +1231,6 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    console.log("cognitiveServicesEndpoint: " + cognitiveServiceEndpoint);
     const createCallOption: CreateCallOptions = {
       operationContext: "playMultipleSourcesCreateCall",
     };
@@ -1286,7 +1288,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(playCompletedEventToTargetMultipleSource);
   }).timeout(60000);
 
-  it("Play wrong source with play and playall", async function () {
+  it("Play wrong source with play", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "play_wrong_source_with_play_and_playall";
@@ -1295,7 +1297,61 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    console.log("cognitiveServicesEndpoint: " + cognitiveServiceEndpoint);
+    const createCallOption: CreateCallOptions = {
+      operationContext: "playMultipleSourcesCreateCall",
+    };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const answerCallOption: AnswerCallOptions = {
+        operationContext: "playMultipleSourcesAnswerCall",
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOption,
+      );
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    const filePrompt: FileSource = { kind: "fileSource", url: "https://dummy.com/dummyurl.wav" };
+
+    await callConnection
+      .getCallMedia()
+      .play([filePrompt], [testUser2], { operationContext: "playFailContext" });
+    const playFailedEventWithTargetParticipant = await waitForEvent(
+      "PlayFailed",
+      callConnectionId,
+      20000,
+    );
+    assert.isDefined(playFailedEventWithTargetParticipant);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Play wrong source with playall", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "play_wrong_source_with_play_and_playall";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const createCallOption: CreateCallOptions = {
       operationContext: "playMultipleSourcesCreateCall",
     };
@@ -1332,16 +1388,6 @@ describe("Call Media Client Live Tests", function () {
       .playToAll([filePrompt], { operationContext: "playFailContext" });
     const playFailedEvent = await waitForEvent("PlayFailed", callConnectionId, 20000);
     assert.isDefined(playFailedEvent);
-
-    await callConnection
-      .getCallMedia()
-      .play([filePrompt], [testUser2], { operationContext: "playFailContext" });
-    const playFailedEventWithTargetParticipant = await waitForEvent(
-      "PlayFailed",
-      callConnectionId,
-      20000,
-    );
-    assert.isDefined(playFailedEventWithTargetParticipant);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);

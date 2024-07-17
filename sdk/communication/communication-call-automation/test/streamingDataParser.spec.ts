@@ -16,7 +16,7 @@ describe("Stream data parser unit tests", function () {
   const audioMetadataJson =
     '{"kind":"AudioMetadata","audioMetadata":{"subscriptionId":"4af370df-3868-461f-8242-91f077a6f8a6","encoding":"PCM","sampleRate":16000,"channels":1,"length":640}}';
   const audioDataJson =
-    '{"kind":"AudioData","audioData":{"timestamp":"2024-05-30T06:25:02.948Z","data":"test","silent":false}}';
+    '{"kind":"AudioData","audioData":{"timestamp":"2024-05-30T06:25:02.948Z","data":"test","silent":false, "participantRawID":"28:6b45c5b6-1c34-47c0-8980-11e98d47d23f"}}';
   it("Successfully parse binary data to transcription meta data ", function () {
     const transcriptionMetaDataBinary = encoder.encode(transcriptionMetaDataJson);
     const parsedData = streamingData(transcriptionMetaDataBinary);
