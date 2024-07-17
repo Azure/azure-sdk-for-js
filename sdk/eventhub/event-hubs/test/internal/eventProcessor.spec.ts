@@ -1504,7 +1504,6 @@ describe(
           .length.should.oneOf([n, n + 1]);
       });
 
-      // All partitions get owned by one process
       it("should ensure that all the processors reach a steady-state where all partitions are being processed (GreedyLoadBalancingStrategy)", async function () {
         const processorByName: Dictionary<EventProcessor> = {};
         const partitionIds = await producerClient.getPartitionIds();
