@@ -7,133 +7,139 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  VMMServer,
-  VmmServersListByResourceGroupOptionalParams,
+  VmmServer,
   VmmServersListBySubscriptionOptionalParams,
+  VmmServersListByResourceGroupOptionalParams,
   VmmServersGetOptionalParams,
   VmmServersGetResponse,
   VmmServersCreateOrUpdateOptionalParams,
   VmmServersCreateOrUpdateResponse,
-  VmmServersDeleteOptionalParams,
-  ResourcePatch,
+  VmmServerTagsUpdate,
   VmmServersUpdateOptionalParams,
-  VmmServersUpdateResponse
+  VmmServersUpdateResponse,
+  VmmServersDeleteOptionalParams,
+  VmmServersDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VmmServers. */
 export interface VmmServers {
   /**
-   * List of VmmServers in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: VmmServersListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<VMMServer>;
-  /**
    * List of VmmServers in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VmmServersListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<VMMServer>;
+    options?: VmmServersListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<VmmServer>;
   /**
-   * Implements VMMServer GET method.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
+   * List of VmmServers in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: VmmServersListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<VmmServer>;
+  /**
+   * Implements VmmServer GET method.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vmmServerName: string,
-    options?: VmmServersGetOptionalParams
+    options?: VmmServersGetOptionalParams,
   ): Promise<VmmServersGetResponse>;
   /**
-   * Onboards the SCVMM fabric as an Azure VmmServer resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param body Request payload.
+   * Onboards the SCVmm fabric as an Azure VmmServer resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     vmmServerName: string,
-    body: VMMServer,
-    options?: VmmServersCreateOrUpdateOptionalParams
+    resource: VmmServer,
+    options?: VmmServersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersCreateOrUpdateResponse>,
       VmmServersCreateOrUpdateResponse
     >
   >;
   /**
-   * Onboards the SCVMM fabric as an Azure VmmServer resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param body Request payload.
+   * Onboards the SCVmm fabric as an Azure VmmServer resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     vmmServerName: string,
-    body: VMMServer,
-    options?: VmmServersCreateOrUpdateOptionalParams
+    resource: VmmServer,
+    options?: VmmServersCreateOrUpdateOptionalParams,
   ): Promise<VmmServersCreateOrUpdateResponse>;
   /**
-   * Deboards the SCVMM fabric from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    vmmServerName: string,
-    options?: VmmServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deboards the SCVMM fabric from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    vmmServerName: string,
-    options?: VmmServersDeleteOptionalParams
-  ): Promise<void>;
-  /**
    * Updates the VmmServers resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param body VmmServers patch payload.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     vmmServerName: string,
-    body: ResourcePatch,
-    options?: VmmServersUpdateOptionalParams
+    properties: VmmServerTagsUpdate,
+    options?: VmmServersUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersUpdateResponse>,
       VmmServersUpdateResponse
     >
   >;
   /**
    * Updates the VmmServers resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmmServerName Name of the VMMServer.
-   * @param body VmmServers patch payload.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     vmmServerName: string,
-    body: ResourcePatch,
-    options?: VmmServersUpdateOptionalParams
+    properties: VmmServerTagsUpdate,
+    options?: VmmServersUpdateOptionalParams,
   ): Promise<VmmServersUpdateResponse>;
+  /**
+   * Removes the SCVmm fabric from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    vmmServerName: string,
+    options?: VmmServersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VmmServersDeleteResponse>,
+      VmmServersDeleteResponse
+    >
+  >;
+  /**
+   * Removes the SCVmm fabric from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmmServerName Name of the VmmServer.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    vmmServerName: string,
+    options?: VmmServersDeleteOptionalParams,
+  ): Promise<VmmServersDeleteResponse>;
 }

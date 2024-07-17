@@ -3,9 +3,8 @@
 /* eslint-disable eqeqeq */
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
-import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { isNode, isNumber, isString } from "../src/util/utils";
-import { isError } from "@azure/core-util";
+import { isDefined, isError, isNodeLike, isObjectWithProperties } from "@azure/core-util";
+import { isNumber, isString } from "./util/utils.js";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -118,6 +117,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when the connection parameters are wrong and the server refused the connection.
    */
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   "com.microsoft:auth-failed" = "UnauthorizedError",
   /**
    * Error is thrown when the service is unavailable. The operation should be retried.
@@ -138,6 +138,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when a condition that should have been met in order to execute an operation was not.
    */
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   "com.microsoft:precondition-failed" = "PreconditionFailedError",
   /**
    * Error is thrown when data could not be decoded.
@@ -582,6 +583,7 @@ export const retryableErrors: string[] = [
  * Maps some SystemErrors to amqp error conditions
  */
 export enum SystemErrorConditionMapper {
+  /* eslint-disable @typescript-eslint/no-duplicate-enum-values */
   ENOTFOUND = "amqp:not-found",
   EBUSY = "com.microsoft:server-busy",
   ECONNREFUSED = "amqp:connection:forced",
@@ -592,6 +594,7 @@ export enum SystemErrorConditionMapper {
   ENETRESET = "com.microsoft:timeout",
   ENETUNREACH = "com.microsoft:timeout",
   ENONET = "com.microsoft:timeout",
+  /* eslint-enable @typescript-eslint/no-duplicate-enum-values */
 }
 
 /**
@@ -623,7 +626,12 @@ export function isSystemError(err: unknown): err is NetworkSystemError {
  */
 function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
-  if (!isNode && self && err.type === "error" && err.target instanceof (self as any).WebSocket) {
+  if (
+    !isNodeLike &&
+    self &&
+    err.type === "error" &&
+    err.target instanceof (self as any).WebSocket
+  ) {
     result = true;
   }
   return result;

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the two keys used to publish to a domain.
  *
  * @summary List the two keys used to publish to a domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Domains_ListSharedAccessKeys.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Domains_ListSharedAccessKeys.json
  */
 async function domainsListSharedAccessKeys() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function domainsListSharedAccessKeys() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.domains.listSharedAccessKeys(
     resourceGroupName,
-    domainName
+    domainName,
   );
   console.log(result);
 }

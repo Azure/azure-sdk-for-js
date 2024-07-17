@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified application security group.
  *
  * @summary Deletes the specified application security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationSecurityGroupDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationSecurityGroupDelete.json
  */
 async function deleteApplicationSecurityGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

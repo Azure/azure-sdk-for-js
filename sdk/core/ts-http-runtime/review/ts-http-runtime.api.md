@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 // @public
 export type AbortablePromiseBuilder<T> = (abortOptions: {
     abortSignal?: AbortSignalLike;
@@ -777,6 +775,7 @@ export const tracingPolicyName = "tracingPolicy";
 
 // @public
 export interface TracingPolicyOptions {
+    additionalAllowedQueryParameters?: string[];
     userAgentPrefix?: string;
 }
 

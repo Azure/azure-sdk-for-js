@@ -512,9 +512,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     logger.verbose(
       `${this.logPrefix} receiver '${this.identifier}' deleted ${deletedCount} messages.`,
     );
-    if (deletedCount > 0) {
-      let batchCount = deletedCount;
-      while (batchCount > 0) {
+    if (deletedCount === MaxDeleteMessageCount) {
+      let batchCount = MaxDeleteMessageCount;
+      while (batchCount === MaxDeleteMessageCount) {
         batchCount = await this.deleteMessages({
           maxMessageCount: MaxDeleteMessageCount,
           beforeEnqueueTime: options?.beforeEnqueueTime,

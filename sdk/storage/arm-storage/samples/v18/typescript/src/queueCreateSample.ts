@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new queue with the specified queue name, under the specified account.
  *
  * @summary Creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/QueueOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationPut.json
  */
 async function queueOperationPut() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function queueOperationPut() {
     resourceGroupName,
     accountName,
     queueName,
-    queue
+    queue,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function queueOperationPut() {
  * This sample demonstrates how to Creates a new queue with the specified queue name, under the specified account.
  *
  * @summary Creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/QueueOperationPutWithMetadata.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationPutWithMetadata.json
  */
 async function queueOperationPutWithMetadata() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function queueOperationPutWithMetadata() {
   const accountName = "sto328";
   const queueName = "queue6185";
   const queue: StorageQueue = {
-    metadata: { sample1: "meta1", sample2: "meta2" }
+    metadata: { sample1: "meta1", sample2: "meta2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -59,7 +59,7 @@ async function queueOperationPutWithMetadata() {
     resourceGroupName,
     accountName,
     queueName,
-    queue
+    queue,
   );
   console.log(result);
 }

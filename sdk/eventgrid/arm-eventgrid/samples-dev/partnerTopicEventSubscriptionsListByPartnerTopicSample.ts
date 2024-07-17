@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List event subscriptions that belong to a specific partner topic.
  *
  * @summary List event subscriptions that belong to a specific partner topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerTopicEventSubscriptions_ListByPartnerTopic.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerTopicEventSubscriptions_ListByPartnerTopic.json
  */
 async function partnerTopicEventSubscriptionsListByPartnerTopic() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function partnerTopicEventSubscriptionsListByPartnerTopic() {
   const resArray = new Array();
   for await (let item of client.partnerTopicEventSubscriptions.listByPartnerTopic(
     resourceGroupName,
-    partnerTopicName
+    partnerTopicName,
   )) {
     resArray.push(item);
   }

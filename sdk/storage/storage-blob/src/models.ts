@@ -333,6 +333,14 @@ export enum StorageBlobAudience {
 }
 
 /**
+ *
+ * To get OAuth audience for a storage account for blob service.
+ */
+export function getBlobServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.blob.core.windows.net/.default`;
+}
+
+/**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
 export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {

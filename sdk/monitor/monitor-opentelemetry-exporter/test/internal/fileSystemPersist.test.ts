@@ -88,7 +88,8 @@ describe("FileSystemPersist", () => {
       const envelopes = [envelope];
       const persister = new FileSystemPersist(instrumentationKey, { disableOfflineStorage: true });
       const success = await persister.push(envelopes);
-      assert.strictEqual(success, false);
+      // Should not send a persister failure if offline storage is disabled
+      assert.strictEqual(success, true);
       const fileValue = await persister.shift();
       assert.deepStrictEqual(fileValue, null, "File is present"); // File should not exist
     });

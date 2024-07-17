@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources that need to be created for a storage account.
  *
  * @summary Gets the private link resources that need to be created for a storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountListPrivateLinkResources.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListPrivateLinkResources.json
  */
 async function storageAccountListPrivateLinkResources() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function storageAccountListPrivateLinkResources() {
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.privateLinkResources.listByStorageAccount(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }

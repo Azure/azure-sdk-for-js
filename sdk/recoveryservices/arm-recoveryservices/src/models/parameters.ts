@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CertificateRequest as CertificateRequestMapper,
@@ -17,7 +17,7 @@ import {
   ResourceCapabilities as ResourceCapabilitiesMapper,
   Vault as VaultMapper,
   PatchVault as PatchVaultMapper,
-  VaultExtendedInfoResource as VaultExtendedInfoResourceMapper
+  VaultExtendedInfoResource as VaultExtendedInfoResourceMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -27,14 +27,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const certificateRequest: OperationParameter = {
   parameterPath: "certificateRequest",
-  mapper: CertificateRequestMapper
+  mapper: CertificateRequestMapper,
 };
 
 export const accept: OperationParameter = {
@@ -44,9 +44,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -55,36 +55,36 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-01",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -92,14 +92,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const vaultName: OperationURLParameter = {
@@ -108,9 +108,9 @@ export const vaultName: OperationURLParameter = {
     serializedName: "vaultName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const certificateName: OperationURLParameter = {
@@ -119,9 +119,9 @@ export const certificateName: OperationURLParameter = {
     serializedName: "certificateName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const identityName: OperationURLParameter = {
@@ -130,9 +130,9 @@ export const identityName: OperationURLParameter = {
     serializedName: "identityName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateLinkResourceName: OperationURLParameter = {
@@ -141,9 +141,9 @@ export const privateLinkResourceName: OperationURLParameter = {
     serializedName: "privateLinkResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -152,15 +152,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const input: OperationParameter = {
   parameterPath: "input",
-  mapper: CheckNameAvailabilityParametersMapper
+  mapper: CheckNameAvailabilityParametersMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -169,29 +169,39 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input1: OperationParameter = {
   parameterPath: "input",
-  mapper: ResourceCapabilitiesMapper
+  mapper: ResourceCapabilitiesMapper,
 };
 
 export const vault: OperationParameter = {
   parameterPath: "vault",
-  mapper: VaultMapper
+  mapper: VaultMapper,
+};
+
+export const xMsAuthorizationAuxiliary: OperationParameter = {
+  parameterPath: ["options", "xMsAuthorizationAuxiliary"],
+  mapper: {
+    serializedName: "x-ms-authorization-auxiliary",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const vault1: OperationParameter = {
   parameterPath: "vault",
-  mapper: PatchVaultMapper
+  mapper: PatchVaultMapper,
 };
 
 export const resourceExtendedInfoDetails: OperationParameter = {
   parameterPath: "resourceExtendedInfoDetails",
-  mapper: VaultExtendedInfoResourceMapper
+  mapper: VaultExtendedInfoResourceMapper,
 };
 
 export const operationId: OperationURLParameter = {
@@ -200,7 +210,7 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

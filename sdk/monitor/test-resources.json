@@ -35,12 +35,6 @@
         "description": "The application client ID used to run tests."
       }
     },
-    "testApplicationSecret": {
-      "type": "string",
-      "metadata": {
-        "description": "The application client secret used to run tests."
-      }
-    },
     "dataCollectionEndpointName": {
       "type": "string",
       "defaultValue": "azmonitordce",
@@ -244,10 +238,6 @@
     "AZURE_CLIENT_ID": {
       "type": "string",
       "value": "[parameters('testApplicationId')]"
-    },
-    "AZURE_CLIENT_SECRET": {
-      "type": "string",
-      "value": "[parameters('testApplicationSecret')]"
     },
     "APPLICATION_ID": {
       "value": "[reference(resourceId('Microsoft.Insights/components', parameters('baseName')), '2015-05-01').AppId]",

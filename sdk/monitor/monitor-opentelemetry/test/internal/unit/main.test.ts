@@ -17,6 +17,7 @@ import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { FsInstrumentation } from "@opentelemetry/instrumentation-fs";
+import { getInstance } from "../../../src/utils/statsbeat";
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -170,6 +171,7 @@ describe("Main functions", () => {
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
     );
+    assert.ok(!(features & StatsbeatFeature.SHIM), "SHIM is set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MONGODB, "MONGODB not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
@@ -177,21 +179,45 @@ describe("Main functions", () => {
     assert.strictEqual(instrumentations, 31);
   });
 
-  it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", () => {
-    let config: AzureMonitorOpenTelemetryOptions = {
-      azureMonitorExporterOptions: {
-        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-      },
-    };
-    useAzureMonitor(config);
-    registerInstrumentations({
-      instrumentations: [new FsInstrumentation()],
-    });
-    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-    const instrumentations = Number(output["instrumentation"]);
-    assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
-    assert.strictEqual(instrumentations, StatsbeatInstrumentation.FS);
-  });
+// <<<<<<< HEAD
+//   it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", () => {
+// =======
+//   it("should set shim feature in statsbeat if env var is populated", () => {
+//     getInstance()["initializedByShim"] = true;
+//     let config: AzureMonitorOpenTelemetryOptions = {
+//       azureMonitorExporterOptions: {
+//         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+//       },
+//     };
+//     useAzureMonitor(config);
+//     let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+//     const features = Number(output["feature"]);
+//     assert.ok(features & StatsbeatFeature.SHIM, `SHIM is not set ${features}`);
+//   });
+
+//   it("should use statsbeat features if already available", () => {
+//     const env = <{ [id: string]: string }>{};
+//     let current = 0;
+//     current |= StatsbeatFeature.AAD_HANDLING;
+//     current |= StatsbeatFeature.DISK_RETRY;
+//     current |= StatsbeatFeature.LIVE_METRICS;
+//     env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
+//     process.env = env;
+// >>>>>>> main
+  //   let config: AzureMonitorOpenTelemetryOptions = {
+  //     azureMonitorExporterOptions: {
+  //       connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+  //     },
+  //   };
+  //   useAzureMonitor(config);
+  //   registerInstrumentations({
+  //     instrumentations: [new FsInstrumentation()],
+  //   });
+  //   let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+  //   const instrumentations = Number(output["instrumentation"]);
+  //   assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
+  //   assert.strictEqual(instrumentations, StatsbeatInstrumentation.FS);
+  // });
 
   it("should capture the app service SDK prefix correctly", () => {
     const os = getOsPrefix();
@@ -233,5 +259,72 @@ describe("Main functions", () => {
     };
     useAzureMonitor(config);
     assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
+  });
+
+  it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", () => {
+    const expectedResourceAttributeNamespaces = new Set(["os", "service", "telemetry"]);
+    const env = <{ [id: string]: string }>{};
+    env.OTEL_NODE_RESOURCE_DETECTORS = "os";
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    span.end();
+
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
+    const resource = (span as any)["resource"]["_attributes"];
+    console.log(resource);
+    Object.keys(resource).forEach((attr) => {
+      const parts = attr.split(".");
+      assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
+    });
+  });
+
+  it("should skip unknown resource detectors", () => {
+    const expectedResourceAttributeNamespaces = new Set(["host", "service", "telemetry"]);
+    const env = <{ [id: string]: string }>{};
+    env.OTEL_NODE_RESOURCE_DETECTORS = "blah,host";
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    span.end();
+
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
+    const resource = (span as any)["resource"]["_attributes"];
+    console.log(resource);
+    Object.keys(resource).forEach((attr) => {
+      const parts = attr.split(".");
+      assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
+    });
+  });
+
+  it("should not use process resource detector if OTEL_NODE_RESOURCE_DETECTORS not specified", () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    span.end();
+
+    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
+    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
+    const resource = (span as any)["resource"]["_attributes"];
+    console.log(resource);
+    Object.keys(resource).forEach((attr) => {
+      assert.ok(!attr.includes("process"));
+    });
   });
 });

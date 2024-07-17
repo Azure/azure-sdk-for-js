@@ -2,11 +2,11 @@
 
 This document shows the customers of the JavaScript/TypeScript management libraries on how to migrate their code to use the next-generation libraries.
 
-**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)) please see [quick start for next generation](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**
+**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start for next generation](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**
 
 ## Current status
 
-Currently, we have released GA version of selected services including `@azure/arm-resources`, `@azure/arm-storage`, `@azure/arm-compute`, `@azure/arm-network`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in npmjs.com and have a try.
+Currently, we have released GA version of selected services including `@azure/arm-resources`, `@azure/arm-storage`, `@azure/arm-compute`, `@azure/arm-network`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and have a try.
 
 ## Why Switching to the next-generation
 
@@ -15,7 +15,7 @@ Compared to the current management libraries, the next-generation libraries have
 1. Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
 1. Callbacks: Method overloads that use callbacks have been replaced to use Promise instead.
 1. You could iterate the result of List operations by using the `PagedAsyncIterableIterator` interface, compared with in previous model, you have to make a new request using the link to the next page.
-1. Interface and API change for Long running operations: To check the final result of the Poller object returned by long running operations like `beginCreateOrUpdate`, please use `pollUntilDone` instead of `pollUntilFinished`. To get the final result directly, use the method with the suffix `AndWait` e.g.`beginCreateOrUpdateAndWait`.
+1. Interface and API change for long-running operations: To check the final result of the Poller object returned by long-running operations like `beginCreateOrUpdate`, please use `pollUntilDone` instead of `pollUntilFinished`. To get the final result directly, use the method with the suffix `AndWait` e.g.`beginCreateOrUpdateAndWait`.
 1. The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
 
 If you have an existing application that uses the JavaScript/TypeScript Azure SDK packages and you're interested in updating your application to use the next-generation SDKs, here are the things that you need to do for the migration:
@@ -44,11 +44,11 @@ import { ClientSecretCredential } from "@azure/identity";
 const credentials = new ClientSecretCredential(tenantId, clientId, clientSecrat);
 ```
 
-Please refer to [@azure/identity](https://www.npmjs.com/package/@azure/identity) for more details about @azure/identity and [migration guide from @azure/ms-rest-nodeauth to @azure/identity](https://github.com/Azure/ms-rest-nodeauth/blob/master/migrate-to-identity-v2.md) on how to migrate from @azure/ms-rest-nodeauth.  
+Please refer to [@azure/identity](https://www.npmjs.com/package/@azure/identity) for more details about `@azure/identity` and [migration guide from @azure/ms-rest-nodeauth to @azure/identity](https://github.com/Azure/ms-rest-nodeauth/blob/master/migrate-to-identity-v2.md) on how to migrate from `@azure/ms-rest-nodeauth`.  
 
 ## Callbacks
 
-In current libraries. we have some operations that allow customers to use callback such as
+In current libraries, we have some operations that allow customers to use callback such as
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -130,7 +130,7 @@ The below example shows how you could handle the list result in previous version
 await client.availabilitySets.list(this.resourceName).then((response) => handle(response));
 ```
 
-now you will get a iterator, and you need to do the iteration to get the result.
+Now, you will get a iterator, and you need to do the iteration to get the result.
 
 ```typescript
 const result = client.availabilitySets.list(this.resourceName);

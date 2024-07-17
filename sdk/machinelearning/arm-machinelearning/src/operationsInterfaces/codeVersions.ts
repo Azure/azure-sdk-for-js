@@ -14,7 +14,7 @@ import {
   CodeVersionsGetOptionalParams,
   CodeVersionsGetResponse,
   CodeVersionsCreateOrUpdateOptionalParams,
-  CodeVersionsCreateOrUpdateResponse
+  CodeVersionsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface CodeVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: CodeVersionsListOptionalParams
+    options?: CodeVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<CodeVersion>;
   /**
    * Delete version.
@@ -46,7 +46,7 @@ export interface CodeVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: CodeVersionsDeleteOptionalParams
+    options?: CodeVersionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get version.
@@ -61,7 +61,7 @@ export interface CodeVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: CodeVersionsGetOptionalParams
+    options?: CodeVersionsGetOptionalParams,
   ): Promise<CodeVersionsGetResponse>;
   /**
    * Create or update version.
@@ -78,6 +78,6 @@ export interface CodeVersions {
     name: string,
     version: string,
     body: CodeVersion,
-    options?: CodeVersionsCreateOrUpdateOptionalParams
+    options?: CodeVersionsCreateOrUpdateOptionalParams,
   ): Promise<CodeVersionsCreateOrUpdateResponse>;
 }

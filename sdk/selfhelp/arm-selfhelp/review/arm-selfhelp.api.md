@@ -29,16 +29,16 @@ export type AutomatedCheckResultType = string;
 
 // @public
 export interface CheckNameAvailability {
-    post(scope: string, options?: CheckNameAvailabilityPostOptionalParams): Promise<CheckNameAvailabilityPostResponse>;
+    checkAvailability(scope: string, options?: CheckNameAvailabilityCheckAvailabilityOptionalParams): Promise<CheckNameAvailabilityCheckAvailabilityResponse>;
 }
 
 // @public
-export interface CheckNameAvailabilityPostOptionalParams extends coreClient.OperationOptions {
+export interface CheckNameAvailabilityCheckAvailabilityOptionalParams extends coreClient.OperationOptions {
     checkNameAvailabilityRequest?: CheckNameAvailabilityRequest;
 }
 
 // @public
-export type CheckNameAvailabilityPostResponse = CheckNameAvailabilityResponse;
+export type CheckNameAvailabilityCheckAvailabilityResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface CheckNameAvailabilityRequest {
@@ -168,30 +168,26 @@ export interface DiscoverySolutionListOptionalParams extends coreClient.Operatio
 export type DiscoverySolutionListResponse = DiscoveryResponse;
 
 // @public
-export interface DiscoverySolutionNLPSubscriptionScope {
-    post(options?: DiscoverySolutionNLPSubscriptionScopePostOptionalParams): Promise<DiscoverySolutionNLPSubscriptionScopePostResponse>;
+export interface DiscoverySolutionNLP {
+    discoverSolutions(options?: DiscoverySolutionNLPDiscoverSolutionsOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsResponse>;
+    discoverSolutionsBySubscription(subscriptionId: string, options?: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse>;
 }
 
 // @public
-export interface DiscoverySolutionNLPSubscriptionScopePostOptionalParams extends coreClient.OperationOptions {
+export interface DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams extends coreClient.OperationOptions {
     discoverSolutionRequest?: DiscoveryNlpRequest;
 }
 
 // @public
-export type DiscoverySolutionNLPSubscriptionScopePostResponse = DiscoveryNlpResponse;
+export type DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse = DiscoveryNlpResponse;
 
 // @public
-export interface DiscoverySolutionNLPTenantScope {
-    post(options?: DiscoverySolutionNLPTenantScopePostOptionalParams): Promise<DiscoverySolutionNLPTenantScopePostResponse>;
-}
-
-// @public
-export interface DiscoverySolutionNLPTenantScopePostOptionalParams extends coreClient.OperationOptions {
+export interface DiscoverySolutionNLPDiscoverSolutionsOptionalParams extends coreClient.OperationOptions {
     discoverSolutionRequest?: DiscoveryNlpRequest;
 }
 
 // @public
-export type DiscoverySolutionNLPTenantScopePostResponse = DiscoveryNlpResponse;
+export type DiscoverySolutionNLPDiscoverSolutionsResponse = DiscoveryNlpResponse;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -243,7 +239,6 @@ export function getContinuationToken(page: unknown): string | undefined;
 export class HelpRP extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HelpRPOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: HelpRPOptionalParams);
     // (undocumented)
     apiVersion: string;
@@ -254,9 +249,7 @@ export class HelpRP extends coreClient.ServiceClient {
     // (undocumented)
     discoverySolution: DiscoverySolution;
     // (undocumented)
-    discoverySolutionNLPSubscriptionScope: DiscoverySolutionNLPSubscriptionScope;
-    // (undocumented)
-    discoverySolutionNLPTenantScope: DiscoverySolutionNLPTenantScope;
+    discoverySolutionNLP: DiscoverySolutionNLP;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -265,8 +258,6 @@ export class HelpRP extends coreClient.ServiceClient {
     solution: Solution;
     // (undocumented)
     solutionSelfHelp: SolutionSelfHelp;
-    // (undocumented)
-    subscriptionId?: string;
     // (undocumented)
     troubleshooters: Troubleshooters;
 }

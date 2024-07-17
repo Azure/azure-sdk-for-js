@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.1.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.3 (2024-07-10)
+
+### Features Added
+
+- Adding react-native logger support [PR #30076](https://github.com/Azure/azure-sdk-for-js/pull/30076)
 
 ## 1.1.2 (2024-04-09)
 

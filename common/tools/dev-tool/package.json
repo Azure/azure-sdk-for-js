@@ -29,7 +29,6 @@
     "unit-test": "npm run unit-test:node",
     "unit-test:node": "vitest",
     "unit-test:browser": "echo skipped",
-    
     "test": "echo Skipped."
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -45,6 +44,7 @@
   "dependencies": {
     "@_ts/min": "npm:typescript@~4.2.4",
     "@_ts/max": "npm:typescript@latest",
+    "@azure/identity": "^4.2.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-multi-entry": "^6.0.1",
@@ -56,6 +56,7 @@
     "decompress": "^4.2.1",
     "dotenv": "^16.0.0",
     "env-paths": "^2.2.1",
+    "express": "^4.19.2",
     "fs-extra": "^11.2.0",
     "minimist": "^1.2.8",
     "prettier": "^3.2.5",
@@ -64,16 +65,18 @@
     "rollup-plugin-visualizer": "^5.9.3",
     "semver": "^7.6.0",
     "strip-json-comments": "^3.1.1",
-    "ts-morph": "^22.0.0",
+    "ts-morph": "^23.0.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.2.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "yaml": "^2.3.4"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.42.3",
     "@types/archiver": "~6.0.2",
     "@types/decompress": "^4.2.7",
+    "@types/express": "^4.17.21",
+    "@types/express-serve-static-core": "4.19.0",
     "@types/fs-extra": "^11.0.4",
     "@types/minimist": "^1.2.5",
     "@types/node": "^18.0.0",

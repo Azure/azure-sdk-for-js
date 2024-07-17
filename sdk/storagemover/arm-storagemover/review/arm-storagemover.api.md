@@ -26,6 +26,8 @@ export interface Agent extends ProxyResource {
     readonly memoryInMB?: number;
     readonly numberOfCores?: number;
     readonly provisioningState?: ProvisioningState;
+    readonly timeZone?: string;
+    uploadLimitSchedule?: UploadLimitSchedule;
     readonly uptimeInSeconds?: number;
 }
 
@@ -98,6 +100,7 @@ export type AgentsUpdateResponse = Agent;
 // @public
 export interface AgentUpdateParameters {
     description?: string;
+    uploadLimitSchedule?: UploadLimitSchedule;
 }
 
 // @public
@@ -147,6 +150,9 @@ export type CredentialsUnion = Credentials | AzureKeyVaultSmbCredentials;
 
 // @public
 export type CredentialType = string;
+
+// @public
+export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
 export interface Endpoint extends ProxyResource {
@@ -496,10 +502,17 @@ export enum KnownJobRunStatus {
     Canceling = "Canceling",
     CancelRequested = "CancelRequested",
     Failed = "Failed",
+    PausedByBandwidthManagement = "PausedByBandwidthManagement",
     Queued = "Queued",
     Running = "Running",
     Started = "Started",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownMinute {
+    Thirty = 30,
+    Zero = 0
 }
 
 // @public
@@ -518,8 +531,14 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
     Succeeded = "Succeeded"
 }
+
+// @public
+export type Minute = number;
 
 // @public
 export interface NfsMountEndpointProperties extends EndpointBaseProperties {
@@ -655,6 +674,12 @@ export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface Recurrence {
+    endTime: Time;
+    startTime: Time;
 }
 
 // @public
@@ -808,11 +833,36 @@ export interface SystemData {
 }
 
 // @public
+export interface Time {
+    hour: number;
+    minute?: Minute;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UploadLimit {
+    limitInMbps: number;
+}
+
+// @public
+export interface UploadLimitSchedule {
+    weeklyRecurrences?: UploadLimitWeeklyRecurrence[];
+}
+
+// @public
+export interface UploadLimitWeeklyRecurrence extends WeeklyRecurrence, UploadLimit {
+}
+
+// @public
+export interface WeeklyRecurrence extends Recurrence {
+    days: DayOfWeek[];
 }
 
 // (No @packageDocumentation comment for this package)

@@ -529,7 +529,7 @@ describe("sendRequest", () => {
     assert.equal(response.body, "test");
   });
 
-  it.skipIf(typeof FormData === undefined)("should send FormData body", async () => {
+  it.skipIf(typeof FormData === "undefined")("should send FormData body", async () => {
     const formData = new FormData();
     formData.append("foo", "test");
 
@@ -655,6 +655,42 @@ describe("sendRequest", () => {
         called = true;
       },
     });
+    assert.isTrue(called);
+  });
+
+  it("should provide error to onResponse", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    let called = false;
+    const error = new RestError("Error", {
+      response: {
+        headers: createHttpHeaders(),
+        status: 500,
+      } as PipelineResponse,
+    });
+
+    mockPipeline.sendRequest = async () => {
+      throw error;
+    };
+
+    try {
+      await sendRequest("GET", mockBaseUrl, mockPipeline, {
+        body: "{}",
+        onResponse: (response, callbackError, legacyError) => {
+          assert.strictEqual(
+            callbackError,
+            legacyError,
+            "Legacy error parameter must be the same as normal error for backward compatability",
+          );
+          assert.equal(response.status, 500);
+          called = true;
+        },
+      });
+
+      assert.fail("Expected sendRequest to throw");
+    } catch (e: unknown) {
+      assert.strictEqual(e, error);
+    }
+
     assert.isTrue(called);
   });
 });

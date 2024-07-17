@@ -11,6 +11,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type AutoRunState = "Enabled" | "Disabled";
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -81,6 +84,7 @@ export interface ImageBuilderClientOptionalParams extends coreClient.ServiceClie
 
 // @public
 export interface ImageTemplate extends TrackedResource {
+    autoRun?: ImageTemplateAutoRun;
     buildTimeoutInMinutes?: number;
     customize?: ImageTemplateCustomizerUnion[];
     distribute?: ImageTemplateDistributorUnion[];
@@ -88,6 +92,9 @@ export interface ImageTemplate extends TrackedResource {
     readonly exactStagingResourceGroup?: string;
     identity: ImageTemplateIdentity;
     readonly lastRunStatus?: ImageTemplateLastRunStatus;
+    managedResourceTags?: {
+        [propertyName: string]: string;
+    };
     optimize?: ImageTemplatePropertiesOptimize;
     readonly provisioningError?: ProvisioningError;
     readonly provisioningState?: ProvisioningState;
@@ -95,6 +102,11 @@ export interface ImageTemplate extends TrackedResource {
     stagingResourceGroup?: string;
     validate?: ImageTemplatePropertiesValidate;
     vmProfile?: ImageTemplateVmProfile;
+}
+
+// @public
+export interface ImageTemplateAutoRun {
+    state?: AutoRunState;
 }
 
 // @public
@@ -297,6 +309,7 @@ export interface ImageTemplateUpdateParameters {
 // @public
 export interface ImageTemplateUpdateParametersProperties {
     distribute?: ImageTemplateDistributorUnion[];
+    vmProfile?: ImageTemplateVmProfile;
 }
 
 // @public
@@ -703,6 +716,7 @@ export type VirtualMachineImageTemplatesUpdateResponse = ImageTemplate;
 
 // @public
 export interface VirtualNetworkConfig {
+    containerInstanceSubnetId?: string;
     proxyVmSize?: string;
     subnetId?: string;
 }

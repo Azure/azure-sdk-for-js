@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-package-json-sdktype rule.
- * @author Ben Zhang
+ *
  */
 
-import { RuleTester } from "../ruleTester";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-sdktype";
 
 //------------------------------------------------------------------------------
@@ -155,14 +155,14 @@ const examplePackageGood = `{
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^10.2.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -309,14 +309,14 @@ const examplePackageBad = `{
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^10.2.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -326,13 +326,7 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-sdktype", rule, {
   valid: [
@@ -370,7 +364,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            'unrecognized sdk-type value: clien. Expected either "client", "mgmt", or "utility."',
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },
@@ -381,7 +375,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            'unrecognized sdk-type value: mgm. Expected either "client", "mgmt", or "utility."',
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },
@@ -392,7 +386,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            'unrecognized sdk-type value: util. Expected either "client", "mgmt", or "utility."',
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },

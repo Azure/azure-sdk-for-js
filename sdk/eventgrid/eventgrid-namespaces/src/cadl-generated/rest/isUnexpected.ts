@@ -3,8 +3,9 @@
 
 import {
   PublishCloudEvent200Response,
-  PublishCloudEvents200Response,
   PublishCloudEventDefaultResponse,
+  PublishCloudEvents200Response,
+  PublishCloudEventsDefaultResponse,
   ReceiveCloudEvents200Response,
   ReceiveCloudEventsDefaultResponse,
   AcknowledgeCloudEvents200Response,
@@ -27,11 +28,11 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response:
-    | PublishCloudEvent200Response
-    | PublishCloudEvents200Response
-    | PublishCloudEventDefaultResponse,
+  response: PublishCloudEvent200Response | PublishCloudEventDefaultResponse,
 ): response is PublishCloudEventDefaultResponse;
+export function isUnexpected(
+  response: PublishCloudEvents200Response | PublishCloudEventsDefaultResponse,
+): response is PublishCloudEventsDefaultResponse;
 export function isUnexpected(
   response: ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse,
 ): response is ReceiveCloudEventsDefaultResponse;
@@ -50,8 +51,9 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | PublishCloudEvent200Response
-    | PublishCloudEvents200Response
     | PublishCloudEventDefaultResponse
+    | PublishCloudEvents200Response
+    | PublishCloudEventsDefaultResponse
     | ReceiveCloudEvents200Response
     | ReceiveCloudEventsDefaultResponse
     | AcknowledgeCloudEvents200Response
@@ -64,6 +66,7 @@ export function isUnexpected(
     | RenewCloudEventLocksDefaultResponse,
 ): response is
   | PublishCloudEventDefaultResponse
+  | PublishCloudEventsDefaultResponse
   | ReceiveCloudEventsDefaultResponse
   | AcknowledgeCloudEventsDefaultResponse
   | ReleaseCloudEventsDefaultResponse

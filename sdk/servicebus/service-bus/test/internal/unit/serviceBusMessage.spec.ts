@@ -18,7 +18,7 @@ import { ConnectionConfig, Constants } from "@azure/core-amqp";
 import { defaultDataTransformer } from "../../../src/dataTransformer";
 import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
 import { ConnectionContext } from "../../../src/connectionContext";
-const assert = chai.assert;
+const assert: typeof chai.assert = chai.assert;
 
 const fakeDelivery = {} as Delivery;
 

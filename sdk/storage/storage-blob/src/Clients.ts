@@ -33,6 +33,7 @@ import {
   BlobCreateSnapshotHeaders,
   BlobDeleteHeaders,
   BlobDeleteImmutabilityPolicyHeaders,
+  BlobGetAccountInfoHeaders,
   BlobGetPropertiesResponse as BlobGetPropertiesResponseInternal,
   BlobGetTagsResponse as BlobGetTagsResponseInternal,
   BlobSetHttpHeadersHeaders,
@@ -65,6 +66,7 @@ import {
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
   BlobDownloadResponseModel,
+  BlobGetAccountInfoResponse,
   BlobGetPropertiesResponseModel,
   BlobGetTagsHeaders,
   BlobSetHTTPHeadersResponse,
@@ -879,6 +881,17 @@ export interface BlobSetImmutabilityPolicyOptions extends CommonOptions {
  * Options for setting legal hold {@link BlobClient.setLegalHold} operation.
  */
 export interface BlobSetLegalHoldOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure the {@link BlobClient.getAccountInfo} operation.
+ */
+export interface BlobGetAccountInfoOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -2212,6 +2225,29 @@ export class BlobClient extends StorageClient {
     return tracingClient.withSpan("BlobClient-setLegalHold", options, async (updatedOptions) => {
       return assertResponse<BlobSetLegalHoldHeaders, BlobSetLegalHoldHeaders>(
         await this.blobContext.setLegalHold(legalHoldEnabled, {
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
+      );
+    });
+  }
+
+  /**
+   * The Get Account Information operation returns the sku name and account kind
+   * for the specified account.
+   * The Get Account Information operation is available on service versions beginning
+   * with version 2018-03-28.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   *
+   * @param options - Options to the Service Get Account Info operation.
+   * @returns Response data for the Service Get Account Info operation.
+   */
+  public async getAccountInfo(
+    options: BlobGetAccountInfoOptions = {},
+  ): Promise<BlobGetAccountInfoResponse> {
+    return tracingClient.withSpan("BlobClient-getAccountInfo", options, async (updatedOptions) => {
+      return assertResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>(
+        await this.blobContext.getAccountInfo({
+          abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
