@@ -33,6 +33,7 @@ describe("Analyze Tests", () => {
 
       beforeEach(async function (this: Context) {
         recorder = await createRecorder(this);
+        
         recorder.addSanitizers({
           headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
           uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint/" }],
@@ -348,7 +349,6 @@ describe("Analyze Tests", () => {
           if (["person", "woman", "laptop", "cat", "canidae"].includes(oneTag.name.toLowerCase())) {
             found++;
           }
-console.log(oneTag.name);
           assert.isFalse(tagNames.has(oneTag.name));
           tagNames.add(oneTag.name);
         }
