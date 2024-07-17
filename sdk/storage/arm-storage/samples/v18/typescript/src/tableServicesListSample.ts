@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all table services for the storage account.
  *
  * @summary List all table services for the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/TableServicesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/TableServicesList.json
  */
 async function tableServicesList() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function tableServicesList() {
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.tableServices.list(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }

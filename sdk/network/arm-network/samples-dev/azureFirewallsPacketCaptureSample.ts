@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Runs a packet capture on AzureFirewall.
  *
  * @summary Runs a packet capture on AzureFirewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/AzureFirewallPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPacketCapture.json
  */
 async function azureFirewallPacketCapture() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

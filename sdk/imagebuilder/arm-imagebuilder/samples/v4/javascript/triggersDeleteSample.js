@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a trigger for the specified virtual machine image template
  *
  * @summary Delete a trigger for the specified virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/DeleteTrigger.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/DeleteTrigger.json
  */
 async function deleteATriggerResource() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";

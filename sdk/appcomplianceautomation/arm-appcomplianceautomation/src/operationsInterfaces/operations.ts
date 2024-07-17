@@ -13,10 +13,10 @@ import { Operation, OperationsListOptionalParams } from "../models";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists all of the available REST API operations of the Microsoft.AppComplianceAutomation provider.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation>;
 }

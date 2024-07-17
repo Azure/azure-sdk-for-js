@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
  * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountPutEncryptionScope.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountPutEncryptionScope.json
  */
 async function storageAccountPutEncryptionScope() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function storageAccountPutEncryptionScope() {
     resourceGroupName,
     accountName,
     encryptionScopeName,
-    encryptionScope
+    encryptionScope,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function storageAccountPutEncryptionScope() {
  * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
  * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
  */
 async function storageAccountPutEncryptionScopeWithInfrastructureEncryption() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -55,7 +55,7 @@ async function storageAccountPutEncryptionScopeWithInfrastructureEncryption() {
     resourceGroupName,
     accountName,
     encryptionScopeName,
-    encryptionScope
+    encryptionScope,
   );
   console.log(result);
 }

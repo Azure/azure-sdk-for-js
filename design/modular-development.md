@@ -18,7 +18,7 @@ There are cons to this approach as we consider bringing the JavaScript clients i
 
 ## Modular Design
 
-We can create a more ala carte experience where the customer only pulls in the methods they need.  With the Azure SDK for JavaScript, we can create a client previously using the `ServiceClient` pattern:
+We can create a more a-la-carte experience where the customer only pulls in the methods they need.  With the Azure SDK for JavaScript, we can create a client previously using the `ServiceClient` pattern:
 
 ```typescript
 import { NotificationHubsClient } from "@azure/notification-hubs";
@@ -40,7 +40,7 @@ const registrationId = await createRegistrationId(context);
 
 The pros of this design are as follows:
 
-- Fine grained exports to only give the customer what they need
+- Fine-grained exports to only give the customer what they need
 - Smaller bundle sizes the customer for exports.
 - Tree shaking is easier for bundlers.
 
@@ -54,7 +54,7 @@ The goals of enabling both the class based `ServiceClient` and modular developme
 
 - **Do not introduce breaking changes**
 - Keep the existing CommonJS compatibility.
-- Do not pollute the top level index with all exports, keeping the top level index.ts as is
+- Do not pollute the top-level index with all exports, keeping the top-level index.ts as is
 - Expose exports at "namespaces" or export subpaths
 
 ## Subpath Exports
@@ -68,7 +68,7 @@ Node added the following support for subpath exports in the following versions:
 - `v12.7.0` - Introduce `"exports"` package.json field as a more powerful alternative to the classic `"main"` field
 - `v12.0.0` - Add support for ES modules using `.js` file extension via `package.json` `"type"` field.
 
-For subpaths, we can specify the path which is either a path or a wildcard path.  Inside the path, we can specify following:
+For subpaths, we can specify the path which is either a path or a wildcard path.  Inside the path, we can specify the following:
 
 - `types` - The TypeScript types for that path
 - `require` - Common JS entry point
@@ -94,7 +94,7 @@ For example, we could have our client and associated methods exposed as `@azure/
   },
 ```
 
-Then we could import those modules as the following:
+Then, we could import those modules as the following:
 
 ```typescript
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
@@ -115,7 +115,7 @@ Note the main exports of `.` can expose both ES-Modules and CommonJS such as the
 
 This approach has a number of benefits:
 
-- Does not pollute the top level index to export the world.
+- Does not pollute the top-level index to export the world.
 - Can support both class-based `ServiceClient` and modular development separately.
 - Allows the SDK Team to ship experimental/beta features through its own subpath.
 
@@ -133,7 +133,7 @@ First and foremost, we do not want to break the customers so they can continue t
 
 The standard for Azure SDKs going forward is the following:
 
-- `.` - Still expose all things at the top level exports for CommonJS and ES-Modules.
+- `.` - Still expose all things at the top-level exports for CommonJS and ES-Modules.
 - `/api` - The client context and single method exports
 - `/models` - The models and factories
 
@@ -171,7 +171,7 @@ This could then be imported such as the following:
 import { createClient, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 ```
 
-For models and their associated factory functions should be in a `models` subpath.  The models are then exported via the `models/index.js` file.
+Models and their associated factory functions should be in a `models` subpath.  The models are then exported via the `models/index.js` file.
 
 ```json
 "./models": {
@@ -188,7 +188,7 @@ import { Installation, createAppleInstallation } from "@azure/notification-hubs/
 
 ## Shipping Experimental Features
 
-Another aspect of this design is to allow us to ship experimental features with modular development.  We can ship preview features in either `experimental` or `preview` subpath exports which allow us to ship features that do not collide with our top level exports nor our standard APIs.  Once these features have been approved for GA, they will be removed from the `experimental` or `preview` subpath.
+Another aspect of this design is to allow us to ship experimental features with modular development.  We can ship preview features in either `experimental` or `preview` subpath exports which allow us to ship features that do not collide with our top-level exports nor our standard APIs.  Once these features have been approved for GA, they will be removed from the `experimental` or `preview` subpath.
 
 ## Onboarding Azure SDK Packages to Subpath Exports
 
@@ -214,7 +214,7 @@ To support subpath exports, the `package.json` requires the following changes.
       ],
     ```
 
-- The `exports` must be specified for the top level export as well as subpaths. Wildcards or absolute paths can be specified.
+- The `exports` must be specified for the top-level export as well as subpaths. Wildcards or absolute paths can be specified.
 
     ```json
       "exports": {
@@ -240,7 +240,7 @@ The TypeScript configuration `tsconfig.json` must also be updated with the follo
 
 - Update the `module` setting to either `NodeNext` or `Node16`.
 - Update the `moduleResolution` setting to either `NodeNext` or `Node16`.
-- In some cases,the compiler needed `rootDir` set, so update `rootDir` to be `"."`.
+- In some cases, the compiler needed `rootDir` set, so update `rootDir` to be `"."`.
 
 ### Source Code Changes
 
@@ -252,7 +252,7 @@ Previously, we imported files such as the following:
 import { isDefined } from "./utils";
 ```
 
-And now we must specify the `.js` extension.
+And now, we must specify the `.js` extension.
 
 ```typescript
 import { isDefined } from "./utils.js";
@@ -264,7 +264,7 @@ To support this in our packages, we should think about how we support a hybrid p
 
 ### Hybrid Design
 
-For design considerations and code re-use, we could deploy a hybrid solution to this problem by using the single method exports and still expose the existing `ServiceClient` which simply acts as a proxy to the the underlying method.  
+For design considerations and code re-use, we could deploy a hybrid solution to this problem by using the single method exports and still expose the existing `ServiceClient` which simply acts as a proxy to the underlying method.  
 
 ```typescript
 import { NotificationHubsClientContext, createClientContext, createRegistrationId } from "@azure/notification-hubs/api";
@@ -284,7 +284,7 @@ export class NotificationHubsServiceClient {
 
 ## Follow On Work
 
-With this approach the following functions still work as expected:
+With this approach, the following functions still work as expected:
 
 - CI
 - Linting
