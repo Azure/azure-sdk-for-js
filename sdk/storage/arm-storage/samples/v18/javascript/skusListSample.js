@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the available SKUs supported by Microsoft.Storage for given subscription.
  *
  * @summary Lists the available SKUs supported by Microsoft.Storage for given subscription.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/SKUList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/SKUList.json
  */
 async function skuList() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

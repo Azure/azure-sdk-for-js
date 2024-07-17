@@ -11,7 +11,7 @@
 import {
   ImmutabilityPolicy,
   BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
  *
  * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersPutImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersPutImmutabilityPolicy.json
  */
 async function createOrUpdateImmutabilityPolicy() {
   const subscriptionId =
@@ -32,18 +32,17 @@ async function createOrUpdateImmutabilityPolicy() {
   const containerName = "container6397";
   const parameters: ImmutabilityPolicy = {
     allowProtectedAppendWrites: true,
-    immutabilityPeriodSinceCreationInDays: 3
+    immutabilityPeriodSinceCreationInDays: 3,
   };
-  const options: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams = {
-    parameters
-  };
+  const options: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams =
+    { parameters };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.blobContainers.createOrUpdateImmutabilityPolicy(
     resourceGroupName,
     accountName,
     containerName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -52,7 +51,7 @@ async function createOrUpdateImmutabilityPolicy() {
  * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
  *
  * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersPutImmutabilityPolicyAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersPutImmutabilityPolicyAllowProtectedAppendWritesAll.json
  */
 async function createOrUpdateImmutabilityPolicyWithAllowProtectedAppendWritesAll() {
   const subscriptionId =
@@ -62,18 +61,17 @@ async function createOrUpdateImmutabilityPolicyWithAllowProtectedAppendWritesAll
   const containerName = "container6397";
   const parameters: ImmutabilityPolicy = {
     allowProtectedAppendWritesAll: true,
-    immutabilityPeriodSinceCreationInDays: 3
+    immutabilityPeriodSinceCreationInDays: 3,
   };
-  const options: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams = {
-    parameters
-  };
+  const options: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams =
+    { parameters };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.blobContainers.createOrUpdateImmutabilityPolicy(
     resourceGroupName,
     accountName,
     containerName,
-    options
+    options,
   );
   console.log(result);
 }

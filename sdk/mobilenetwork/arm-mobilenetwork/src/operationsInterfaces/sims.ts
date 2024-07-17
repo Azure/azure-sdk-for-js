@@ -25,6 +25,12 @@ import {
   EncryptedSimUploadList,
   SimsBulkUploadEncryptedOptionalParams,
   SimsBulkUploadEncryptedResponse,
+  SimMove,
+  SimsMoveOptionalParams,
+  SimsMoveResponse,
+  SimClone,
+  SimsCloneOptionalParams,
+  SimsCloneResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -208,4 +214,60 @@ export interface Sims {
     parameters: EncryptedSimUploadList,
     options?: SimsBulkUploadEncryptedOptionalParams,
   ): Promise<SimsBulkUploadEncryptedResponse>;
+  /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  beginMove(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsMoveResponse>, SimsMoveResponse>
+  >;
+  /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  beginMoveAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<SimsMoveResponse>;
+  /**
+   * Clone SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to clone the SIMs.
+   * @param options The options parameters.
+   */
+  beginClone(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsCloneResponse>, SimsCloneResponse>
+  >;
+  /**
+   * Clone SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to clone the SIMs.
+   * @param options The options parameters.
+   */
+  beginCloneAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<SimsCloneResponse>;
 }

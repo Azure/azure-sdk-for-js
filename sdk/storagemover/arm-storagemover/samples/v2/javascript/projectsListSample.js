@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Projects in a Storage Mover.
  *
  * @summary Lists all Projects in a Storage Mover.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Projects_List.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Projects_List.json
  */
 async function projectsList() {
   const subscriptionId =

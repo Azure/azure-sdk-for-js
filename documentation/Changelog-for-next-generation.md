@@ -10,4 +10,4 @@ The next-generation Azure JavaScript libraries introduce a few important changes
 #### Tips:  
 1. **For more details on how to migrate the next-generation libraries, please visit the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md).**  
 1. **To get started, please visit the [quickstart guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**  
-1. **For more sample code, Please visit our [samples repo](https://github.com/Azure-Samples/azure-sdk-for-js-samples).**  
+1. **For more sample code, please visit our [samples repo](https://github.com/Azure-Samples/azure-sdk-for-js-samples).**  

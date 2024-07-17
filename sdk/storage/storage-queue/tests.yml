@@ -3,9 +3,16 @@ trigger: none
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
+      UseFederatedAuth: true
       PackageName: "@azure/storage-queue"
       ServiceDirectory: storage
       Location: canadacentral
       Clouds: 'Preview'
       MatrixFilters:
         - DependencyVersion=^$
+      CloudConfig:
+        Preview:
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+          ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFilePaths: 
+            - eng/common/TestResources/sub-config/AzurePublicMsft.json

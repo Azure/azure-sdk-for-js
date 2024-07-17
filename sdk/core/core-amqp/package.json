@@ -9,18 +9,22 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
+        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
+        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
@@ -97,8 +101,8 @@
     "eslint": "^8.57.0",
     "playwright": "^1.43.1",
     "rimraf": "^5.0.7",
-    "tshy": "^1.14.0",
-    "typescript": "~5.4.5",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vite": "^5.2.11",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vitest": "^1.6.0",
@@ -121,5 +125,6 @@
       "react-native"
     ],
     "selfLink": false
-  }
+  },
+  "module": "./dist/esm/index.js"
 }

@@ -17,7 +17,7 @@ import {
   DatasetGetDatasetResponse,
   DatasetDeleteDatasetOptionalParams,
   ArtifactRenameRequest,
-  DatasetRenameDatasetOptionalParams
+  DatasetRenameDatasetOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface DatasetOperations {
    * @param options The options parameters.
    */
   listDatasetsByWorkspace(
-    options?: DatasetGetDatasetsByWorkspaceOptionalParams
+    options?: DatasetGetDatasetsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DatasetResource>;
   /**
    * Creates or updates a dataset.
@@ -39,7 +39,7 @@ export interface DatasetOperations {
   beginCreateOrUpdateDataset(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetCreateOrUpdateDatasetOptionalParams
+    options?: DatasetCreateOrUpdateDatasetOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatasetCreateOrUpdateDatasetResponse>,
@@ -55,7 +55,7 @@ export interface DatasetOperations {
   beginCreateOrUpdateDatasetAndWait(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetCreateOrUpdateDatasetOptionalParams
+    options?: DatasetCreateOrUpdateDatasetOptionalParams,
   ): Promise<DatasetCreateOrUpdateDatasetResponse>;
   /**
    * Gets a dataset.
@@ -64,7 +64,7 @@ export interface DatasetOperations {
    */
   getDataset(
     datasetName: string,
-    options?: DatasetGetDatasetOptionalParams
+    options?: DatasetGetDatasetOptionalParams,
   ): Promise<DatasetGetDatasetResponse>;
   /**
    * Deletes a dataset.
@@ -73,7 +73,7 @@ export interface DatasetOperations {
    */
   beginDeleteDataset(
     datasetName: string,
-    options?: DatasetDeleteDatasetOptionalParams
+    options?: DatasetDeleteDatasetOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a dataset.
@@ -82,7 +82,7 @@ export interface DatasetOperations {
    */
   beginDeleteDatasetAndWait(
     datasetName: string,
-    options?: DatasetDeleteDatasetOptionalParams
+    options?: DatasetDeleteDatasetOptionalParams,
   ): Promise<void>;
   /**
    * Renames a dataset.
@@ -93,7 +93,7 @@ export interface DatasetOperations {
   beginRenameDataset(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetRenameDatasetOptionalParams
+    options?: DatasetRenameDatasetOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a dataset.
@@ -104,6 +104,6 @@ export interface DatasetOperations {
   beginRenameDatasetAndWait(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetRenameDatasetOptionalParams
+    options?: DatasetRenameDatasetOptionalParams,
   ): Promise<void>;
 }

@@ -311,6 +311,13 @@ export const StorageError: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      authenticationErrorDetail: {
+        serializedName: "AuthenticationErrorDetail",
+        xmlName: "AuthenticationErrorDetail",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3858,6 +3865,13 @@ export const ContainerGetAccountInfoHeaders: coreClient.CompositeMapper = {
           ],
         },
       },
+      isHierarchicalNamespaceEnabled: {
+        serializedName: "x-ms-is-hns-enabled",
+        xmlName: "x-ms-is-hns-enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -6067,6 +6081,13 @@ export const BlobGetAccountInfoHeaders: coreClient.CompositeMapper = {
             "FileStorage",
             "BlockBlobStorage",
           ],
+        },
+      },
+      isHierarchicalNamespaceEnabled: {
+        serializedName: "x-ms-is-hns-enabled",
+        xmlName: "x-ms-is-hns-enabled",
+        type: {
+          name: "Boolean",
         },
       },
     },

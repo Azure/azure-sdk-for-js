@@ -68,7 +68,7 @@
     "@azure/core-client": "^1.7.0",
     "@azure/core-util": "^1.6.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.1.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger": "^1.0.4",
     "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
@@ -81,7 +81,7 @@
     "mocha": "^10.0.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.1",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "sinon": "^17.0.0"
   },
   "//sampleConfiguration": {
