@@ -8,9 +8,9 @@ export interface DeidentificationJob {
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocation;
   /** Operation to perform on the input documents. */
-  operation: OperationType;
+  operation?: OperationType;
   /** Data type of the input documents. */
-  dataType: DocumentDataType;
+  dataType?: DocumentDataType;
   /** Format of the redacted output. Only valid when Operation is Redact. */
   redactionFormat?: string;
 }
@@ -22,7 +22,7 @@ export interface SourceStorageLocation {
   /** Prefix to filter path by. */
   prefix: string;
   /** List of extensions to filter path by. */
-  extensions: string[];
+  extensions?: string[];
 }
 
 /** Storage location. */
@@ -52,9 +52,9 @@ export interface DeidentificationContent {
   /** Input text to de-identify. */
   inputText: string;
   /** Operation to perform on the input. */
-  operation: OperationType;
+  operation?: OperationType;
   /** Data type of the input. */
-  dataType: DocumentDataType;
+  dataType?: DocumentDataType;
   /** Format of the redacted output. Only valid when OperationType is "Redact". */
   redactionFormat?: string;
 }

@@ -13,9 +13,9 @@ export interface DeidentificationJobOutput {
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocationOutput;
   /** Operation to perform on the input documents. */
-  operation: OperationTypeOutput;
+  operation?: OperationTypeOutput;
   /** Data type of the input documents. */
-  dataType: DocumentDataTypeOutput;
+  dataType?: DocumentDataTypeOutput;
   /** Format of the redacted output. Only valid when Operation is Redact. */
   redactionFormat?: string;
   /** Current status of a job. */
@@ -45,7 +45,7 @@ export interface SourceStorageLocationOutput {
   /** Prefix to filter path by. */
   prefix: string;
   /** List of extensions to filter path by. */
-  extensions: string[];
+  extensions?: string[];
 }
 
 /** Storage location. */

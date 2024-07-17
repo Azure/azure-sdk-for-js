@@ -28,7 +28,8 @@ const TEST_TIMEOUT_MS: number = 200000;
 const fakeServiceEndpoint = "example.com";
 const replaceableVariables: Record<string, string> = {
   DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
-  STORAGE_ACCOUNT_SAS_URI: "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+  STORAGE_ACCOUNT_SAS_URI:
+    "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
 };
 
 const generateJobName = (testName?: string): string => {
@@ -64,10 +65,10 @@ describe("Batch", () => {
             value: replaceableVariables.STORAGE_ACCOUNT_SAS_URI,
             jsonPath: "$..location",
             regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
-          }
+          },
         ],
       },
-      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430","AZSDK3493"],
+      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
     });
     const credential = createTestCredential();
     if (process.env.DEID_SERVICE_ENDPOINT) {
@@ -87,7 +88,9 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName("001g");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountSASUri = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
+        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
@@ -110,10 +113,24 @@ describe("Batch", () => {
       assert.isUndefined(jobOutput.body.error, "Job should not have error");
       assert.isUndefined(jobOutput.body.redactionFormat, "Job should not have redactionFormat");
       assert.isUndefined(jobOutput.body.summary, "Job should not have summary");
-      assert.equal(inputPrefix, jobOutput.body.sourceLocation.prefix, "Job sourceLocation prefix should match");
-      assert.isTrue(storageAccountSASUri.includes("blob.core.windows.net"), "Storage account SAS URI should contain 'blob.core.windows.net'");
-      assert.equal(OUTPUT_FOLDER, jobOutput.body.targetLocation.prefix, "Job targetLocation prefix should match");
-      assert.isTrue(storageAccountSASUri.includes("blob.core.windows.net"), "Storage account SAS URI should contain 'blob.core.windows.net'");
+      assert.equal(
+        inputPrefix,
+        jobOutput.body.sourceLocation.prefix,
+        "Job sourceLocation prefix should match",
+      );
+      assert.isTrue(
+        storageAccountSASUri.includes("blob.core.windows.net"),
+        "Storage account SAS URI should contain 'blob.core.windows.net'",
+      );
+      assert.equal(
+        OUTPUT_FOLDER,
+        jobOutput.body.targetLocation.prefix,
+        "Job targetLocation prefix should match",
+      );
+      assert.isTrue(
+        storageAccountSASUri.includes("blob.core.windows.net"),
+        "Storage account SAS URI should contain 'blob.core.windows.net'",
+      );
     },
     TEST_TIMEOUT_MS,
   );
@@ -122,8 +139,10 @@ describe("Batch", () => {
     "CreateThenList returns expected",
     async function () {
       const jobName = generateJobName("002g");
-      const inputPrefix = "example_patient_1"; 
-      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const inputPrefix = "example_patient_1";
+      const storageAccountSASUri = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
+        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
 
       const job: DeidentificationJob = {
         dataType: "Plaintext",
@@ -154,10 +173,24 @@ describe("Batch", () => {
       assert.isUndefined(foundJob!.error, "Job should not have error");
       assert.isUndefined(foundJob!.redactionFormat, "Job should not have redactionFormat");
       assert.isUndefined(foundJob!.summary, "Job should not have summary");
-      assert.equal(inputPrefix, foundJob!.sourceLocation.prefix, "Job sourceLocation prefix should match");
-      assert.isTrue(storageAccountSASUri.includes("blob.core.windows.net"), "Storage account SAS URI should contain 'blob.core.windows.net'");
-      assert.equal(OUTPUT_FOLDER, foundJob!.targetLocation.prefix, "Job targetLocation prefix should match");
-      assert.isTrue(storageAccountSASUri.includes("blob.core.windows.net"), "Storage account SAS URI should contain 'blob.core.windows.net");
+      assert.equal(
+        inputPrefix,
+        foundJob!.sourceLocation.prefix,
+        "Job sourceLocation prefix should match",
+      );
+      assert.isTrue(
+        storageAccountSASUri.includes("blob.core.windows.net"),
+        "Storage account SAS URI should contain 'blob.core.windows.net'",
+      );
+      assert.equal(
+        OUTPUT_FOLDER,
+        foundJob!.targetLocation.prefix,
+        "Job targetLocation prefix should match",
+      );
+      assert.isTrue(
+        storageAccountSASUri.includes("blob.core.windows.net"),
+        "Storage account SAS URI should contain 'blob.core.windows.net",
+      );
     },
     TEST_TIMEOUT_MS,
   );
@@ -167,7 +200,9 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName("003g");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountSASUri = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
+        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
@@ -189,7 +224,11 @@ describe("Batch", () => {
       assert.notEqual(finalJobOutput.body.startedAt, null, "Job should have startedAt");
       assert.notEqual(finalJobOutput.body.summary, null, "Job should have summary");
       assert.equal(finalJobOutput.body.summary!.total, 2, "Job should have processed 2 documents");
-      assert.equal(finalJobOutput.body.summary!.successful, 2, "Job should have succeeded 2 documents");
+      assert.equal(
+        finalJobOutput.body.summary!.successful,
+        2,
+        "Job should have succeeded 2 documents",
+      );
 
       const reports = await client.path("/jobs/{name}/documents", jobName).get();
 
@@ -204,18 +243,19 @@ describe("Batch", () => {
         items.push(item);
       }
 
-      assert.isTrue((items as unknown[] as DocumentDetailsOutput[]).length === 2, "Should have 2 documents");
       assert.isTrue(
-        (items as unknown[] as DocumentDetailsOutput[]).every(
-          (obj) => obj.status === "Succeeded",
-        ),
+        (items as unknown[] as DocumentDetailsOutput[]).length === 2,
+        "Should have 2 documents",
+      );
+      assert.isTrue(
+        (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.status === "Succeeded"),
         "All documents should have succeeded",
       );
       assert.isTrue(
         (items as unknown[] as DocumentDetailsOutput[]).every((obj) =>
           obj.output!.path.startsWith(OUTPUT_FOLDER),
         ),
-       "Output path should start with the output folder",
+        "Output path should start with the output folder",
       );
       assert.isTrue(
         (items as unknown[] as DocumentDetailsOutput[]).every((obj) => obj.id.length === 36),
@@ -230,7 +270,9 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName("004g");
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = isPlaybackMode() ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountSASUri = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
+        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
@@ -284,7 +326,10 @@ describe("Batch", () => {
       const createdJobOutput = createdJob.body as ErrorResponse;
       assert.isNotNull(createdJobOutput.error, "Job should have error");
       assert.equal("JobNotFound", createdJobOutput.error.code, "Error code should be JobNotFound");
-      assert.isTrue(createdJobOutput.error!.message.length > 10, "Error message should be descriptive");
+      assert.isTrue(
+        createdJobOutput.error!.message.length > 10,
+        "Error message should be descriptive",
+      );
     },
     TEST_TIMEOUT_MS,
   );
