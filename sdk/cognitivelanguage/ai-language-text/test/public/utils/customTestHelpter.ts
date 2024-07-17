@@ -12,6 +12,7 @@ import {
   ExportedCustomEntityRecognitionProjectAssets,
 } from "@azure/ai-language-textauthoring";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
 import path from "path";
 import decompress from "decompress";
 import {
@@ -21,7 +22,6 @@ import {
 } from "../customTestsAssets";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { readdir, rm } from "fs/promises";
-import { createTestCredential } from "@azure-tools/test-credential";
 
 const pathName = path.join(
   __dirname.split("ai-language-text")[0],
@@ -53,11 +53,11 @@ const deployParam: TextAnalysisAuthoringDeployProjectParameters = {
 
 async function createStorageBlob(): Promise<ContainerClient> {
   /* Return a container client */
-  const tokenCredential = createTestCredential();
+  const defaultAzureCredential = new DefaultAzureCredential();
   // Get documents containers
   const blobServiceClient = new BlobServiceClient(
     assertEnvironmentVariable("STORAGE_ENDPOINT"),
-    tokenCredential,
+    defaultAzureCredential,
   );
   return blobServiceClient.getContainerClient(storageInputContainerName);
 }
