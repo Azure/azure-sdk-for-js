@@ -47,7 +47,7 @@ node getCopyrightCaption.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node getCopyrightCaption.js
+npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node getCopyrightCaption.js
 ```
 
 ## Next Steps
@@ -63,7 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getmaptileinbrowser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileInBrowser.js
 [getmaptileinnode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileInNode.js
 [getmaptileset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileset.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-render
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/README.md
