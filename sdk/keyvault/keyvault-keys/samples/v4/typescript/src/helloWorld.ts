@@ -6,11 +6,14 @@
  */
 
 import { KeyClient } from "@azure/keyvault-keys";
-import { DefaultAzureCredential } from "@azure/identity";
+import { AzureCliCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
+import {setLogLevel} from "@azure/logger";
+setLogLevel("verbose");
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
