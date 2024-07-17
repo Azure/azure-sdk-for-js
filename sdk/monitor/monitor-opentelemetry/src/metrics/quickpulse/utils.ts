@@ -259,6 +259,9 @@ export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency 
   return document;
 }
 
+// implementation note: create new util function for getting RequestMetric & RemoteDependencyMetric columns w/ customdims
+// implementation note: create new util function for getting TraceMetric & ExceptionMetric columns w/ customdims
+
 export function getLogDocument(logRecord: LogRecord): Trace | Exception {
   let document: Trace | Exception = {
     documentType: KnownDocumentType.Exception,

@@ -27,6 +27,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
   private getDocumentsFn: () => DocumentIngress[];
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
+  private etag: string;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
@@ -43,6 +44,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     this.postCallback = options.postCallback;
     this.getDocumentsFn = options.getDocumentsFn;
     this.baseMonitoringDataPoint = options.baseMonitoringDataPoint;
+    this.etag = "";
     diag.debug("QuickpulseMetricExporter was successfully setup");
   }
 
@@ -63,6 +65,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
         this.getDocumentsFn(),
       ),
       transmissionTime: getTransmissionTime(),
+      configurationEtag: this.etag,
     };
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
@@ -110,5 +113,9 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    */
   public getSender(): QuickpulseSender {
     return this.sender;
+  }
+
+  public setEtag(etag: string) {
+    this.etag = etag;
   }
 }

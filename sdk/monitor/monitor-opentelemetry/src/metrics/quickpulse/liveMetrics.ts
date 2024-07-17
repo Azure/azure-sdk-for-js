@@ -46,6 +46,13 @@ import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
 import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 import { getInstance } from "../../utils/statsbeat";
+import { CollectionConfigurationError } from "../../generated";
+import {
+  TelemetryTypeError,
+  UnexpectedFilterCreateError,
+  validateTelemetryType,
+  checkCustomMetricProjection,
+} from "./filtering";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -106,12 +113,15 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-        model: string;
-        speed: number;
-        times: { user: number; nice: number; sys: number; idle: number; irq: number };
-      }[]
+      model: string;
+      speed: number;
+      times: { user: number; nice: number; sys: number; idle: number; irq: number };
+    }[]
     | undefined;
   private statsbeatOptionsUpdated = false;
+  private etag: string = "";
+  private errors: CollectionConfigurationError[] = [];
+  // implementation note: add configuration info or some list representation of filters
 
   /**
    * Initializes a new instance of the StandardMetrics class.
@@ -169,6 +179,7 @@ export class LiveMetrics {
         let params: IsSubscribedOptionalParams = {
           transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
+          configurationEtag: this.etag,
         };
         await context.with(suppressTracing(context.active()), async () => {
           let response = await this.pingSender.isSubscribed(params);
@@ -188,6 +199,7 @@ export class LiveMetrics {
   private async quickPulseDone(response: PublishResponse | IsSubscribedResponse | undefined) {
     if (!response) {
       if (!this.isCollectingData) {
+        this.etag = "";
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
           this.pingInterval = FALLBACK_INTERVAL;
         }
@@ -204,6 +216,26 @@ export class LiveMetrics {
       this.lastSuccessTime = Date.now();
       this.isCollectingData =
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
+
+      if (response.xMsQpsConfigurationEtag && this.etag !== response.xMsQpsConfigurationEtag) {
+        this.etag = response.xMsQpsConfigurationEtag;
+        this.quickpulseExporter.setEtag(this.etag);
+        response.metrics.forEach((derivedMetricInfo) => {
+          // implementation note: duplicate metric id handling here
+          try {
+            validateTelemetryType(derivedMetricInfo);
+            checkCustomMetricProjection(derivedMetricInfo);
+            // implementation note: add valid metric id, filter expression, to some structure
+          } catch (error) {
+            if (error instanceof TelemetryTypeError) {
+
+            } else if (error instanceof UnexpectedFilterCreateError) {
+
+            }
+          }
+
+        });
+      }
 
       // If collecting was stoped
       if (!this.isCollectingData && this.meterProvider) {
@@ -361,6 +393,7 @@ export class LiveMetrics {
   private addDocument(document: DocumentIngress) {
     if (document) {
       // Limit risk of memory leak by limiting doc length to something manageable
+      // implementation note: Do I need to modify this limit?
       if (this.documents.length > 20) {
         this.documents.shift(); // Remove oldest document
       }
@@ -375,6 +408,11 @@ export class LiveMetrics {
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
       // Add document and calculate metrics
+
+      // implementation note: apply metric filter logic here for request, dependency, and exception
+      console.log(span);
+
+
       let document: Request | RemoteDependency = getSpanDocument(span);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
@@ -410,6 +448,7 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
+      // implementation note: apply filtering logic here for exception, trace 
       let document: Trace | Exception = getLogDocument(logRecord);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
@@ -586,4 +625,5 @@ export class LiveMetrics {
     }
     this.lastCpus = cpus;
   }
+
 }
