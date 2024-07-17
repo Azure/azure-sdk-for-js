@@ -59,7 +59,7 @@
     "express": "^4.19.2",
     "fs-extra": "^11.2.0",
     "minimist": "^1.2.8",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "rollup": "^4.0.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.9.3",

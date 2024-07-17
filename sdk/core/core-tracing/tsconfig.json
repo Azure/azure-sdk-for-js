@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
       "@azure/core-tracing": ["./src/index.ts"]
