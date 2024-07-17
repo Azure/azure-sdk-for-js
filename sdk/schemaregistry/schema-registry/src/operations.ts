@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-rest-pipeline";
-import { isUnexpected } from "./generated/isUnexpected";
+import { isUnexpected } from "./isUnexpected";
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
@@ -12,7 +11,8 @@ import {
   SchemaProperties,
 } from "./models";
 import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-import { SchemaRegistryClient } from "./generated/clientDefinitions";
+import { SchemaRegistryClient } from "./clientDefinitions";
+import { createRestError } from "@azure-rest/core-client";
 
 export async function registerSchema(
   context: SchemaRegistryClient,
@@ -23,19 +23,19 @@ export async function registerSchema(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}", groupName, schemaName)
     .put({
-      contentType: buildContentType(format) as any,
-      body: new TextEncoder().encode(schemaContent),
+      contentType: buildContentType(format),
+      body: prepareSchemaContent(schemaContent),
       ...options,
-      skipSerialization: true,
-    } as any);
-  if (isUnexpected(response)) {
-    throw new RestError(response.body.error.message, {
-      code: response.body.error.code,
-      statusCode: Number(response.status),
     });
+  if (isUnexpected(response)) {
+    throw createRestError(response);
   }
 
   return convertSchemaIdResponse(response, format);
+}
+
+export function prepareSchemaContent(schemaContent: string): Uint8Array {
+  return new TextEncoder().encode(schemaContent);
 }
 
 export async function getSchemaProperties(
@@ -52,10 +52,7 @@ export async function getSchemaProperties(
       ...options,
     });
   if (isUnexpected(response)) {
-    throw new RestError(response.body.error.message, {
-      code: response.body.error.code,
-      statusCode: Number(response.status),
-    });
+    throw createRestError(response);
   }
 
   return convertSchemaIdResponse(response, format);
@@ -69,10 +66,7 @@ export async function getSchemaById(
   const response = await context.path("/$schemaGroups/$schemas/{id}", schemaId).get({ ...options });
 
   if (isUnexpected(response)) {
-    throw new RestError(response.body.error.message, {
-      code: response.body.error.code,
-      statusCode: Number(response.status),
-    });
+    throw createRestError(response);
   }
 
   return convertSchemaResponse(response);
@@ -95,10 +89,7 @@ export async function getSchemaByVersion(
     .get({ ...options });
 
   if (isUnexpected(response)) {
-    throw new RestError(response.body.error.message, {
-      code: response.body.error.code,
-      statusCode: Number(response.status),
-    });
+    throw createRestError(response);
   }
 
   return convertSchemaResponse(response);

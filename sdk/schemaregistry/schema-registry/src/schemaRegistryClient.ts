@@ -11,7 +11,7 @@ import {
   SchemaRegistry,
   SchemaRegistryClientOptions,
 } from "./models";
-import { SchemaRegistryClient as SchemaRegistryContext } from "./generated/clientDefinitions";
+import { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
 import {
   registerSchema,
   getSchemaProperties,
@@ -19,7 +19,7 @@ import {
   getSchemaByVersion,
 } from "./operations";
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./generated/logger";
+import { logger } from "./logger";
 import { TokenCredential } from "@azure/core-auth";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
@@ -37,7 +37,7 @@ export default function createClient(
 ): SchemaRegistryContext {
   const baseUrl = options.baseUrl ?? `${fullyQualifiedNamespace}`;
   options.apiVersion = options.apiVersion ?? "2023-07-01";
-  const userAgentInfo = `azsdk-js-schema-registry-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-schema-registry/${SDK_VERSION}`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

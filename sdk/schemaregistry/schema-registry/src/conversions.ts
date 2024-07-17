@@ -6,8 +6,8 @@ import {
   GetSchemaByVersion200Response,
   GetSchemaPropertiesByContent204Response,
   RegisterSchema204Response,
-} from "./generated/responses";
-import { SchemaProperties, Schema } from "./models";
+} from "./responses";
+import { SchemaProperties, Schema, SchemaContentTypeValues } from "./models";
 
 const textPlain = "text/plain";
 const charsetutf8 = "charset=utf-8";
@@ -52,10 +52,10 @@ export async function convertSchemaIdResponse(
  * @param format - schema format
  * @returns corresponding content-type value
  */
-export function buildContentType(format: string): string {
+export function buildContentType(format: string): SchemaContentTypeValues {
   return format.toLowerCase() === customFormat.toLowerCase()
     ? customContentType
-    : `application/json; serialization=${format}`;
+    : `application/json; serialization=${format}` as any;
 }
 
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
