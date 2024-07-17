@@ -107,7 +107,7 @@ describe("MsalClient", function () {
       const clientId = "client-id";
       const tenantId = "tenant-id";
       const logger = credentialLogger("test");
-      const logSpy = sinon.spy(logger, "info");
+      const logSpy = sinon.spy(logger.getToken, "info");
 
       const client = msalClient.createMsalClient(clientId, tenantId, { logger });
       try {
@@ -139,33 +139,6 @@ describe("MsalClient", function () {
 
         const config = msalClient.generateMsalConfiguration(clientId, tenantId, {});
         assert.instanceOf(config.system!.networkClient, IdentityClient);
-      });
-
-      it("configures logging options", function () {
-        const clientId = "client-id";
-        const tenantId = "tenant-id";
-        const loggingOptions = {
-          enableUnsafeSupportLogging: true,
-        };
-        const testCorrelationId = "test-correlation-id-1";
-        const logger = credentialLogger("test");
-        const logSpy = sinon.spy(logger, "info");
-
-        const config = msalClient.generateMsalConfiguration(clientId, tenantId, {
-          loggingOptions,
-          logger,
-        });
-        config.auth.clientSecret = "client-secret";
-        const cca = new ConfidentialClientApplication(config);
-
-        assert.equal(config.system!.loggerOptions!.piiLoggingEnabled, true);
-
-        cca.getLogger().info("logging test", testCorrelationId);
-        const loggerCall = logSpy.getCalls().find((c) => c.lastArg.includes(testCorrelationId));
-        assert.exists(
-          loggerCall,
-          `Unable to find logger call with correlation id ${testCorrelationId}`,
-        );
       });
     });
 

@@ -76,7 +76,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
     ```
          {
-           "extends": "../../../../tsconfig.package",
+           "extends": "../../../../tsconfig",
            "compilerOptions": {
              "module": "CommonJS",
              "declarationDir": "./typings/latest",

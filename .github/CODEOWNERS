@@ -33,16 +33,16 @@
 /sdk/core/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
+/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-client-rest/ @joheredi @jeremymeng @deyaaeldeen @timovv
+/sdk/core/core-client-rest/ @joheredi @timovv @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-lro/ @deyaaeldeen @joheredi
+/sdk/core/core-lro/ @deyaaeldeen @joheredi @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @maorleger @jeremymeng @mpodwysocki
+/sdk/core/core-tracing/ @maorleger @mpodwysocki @Azure/azure-sdk-for-js-core
 
 # ServiceLabel: %Azure.Core
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
@@ -1532,11 +1532,14 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 # Tools
 ###########
 
+# PRLabel: %EngSys
+/common/tools/ @Azure/azure-sdk-js-dev
+
 # PRLabel: %dev-tool
 /common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv
 
 # PRLabel: %eslint plugin
-/common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen @jeremymeng
+/common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
