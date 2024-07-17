@@ -136,7 +136,11 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.callAutomationApiClient.endpoint, this.credential, this.internalPipelineOptions);
+    return new CallRecording(
+      this.callAutomationApiClient.endpoint,
+      this.credential,
+      this.internalPipelineOptions,
+    );
   }
 
   /**

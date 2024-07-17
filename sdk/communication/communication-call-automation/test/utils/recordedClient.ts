@@ -286,13 +286,7 @@ export function persistEvents(testName: string): void {
     const sanatizedEvents: any[] = [];
     for (const event of eventsToPersist) {
       const jsonData = JSON.parse(event);
-      sanitizeObject(jsonData, [
-        "rawId",
-        "id",
-        "incomingCallContext",
-        "value",
-        "serverCallId",
-      ]);
+      sanitizeObject(jsonData, ["rawId", "id", "incomingCallContext", "value", "serverCallId"]);
       sanatizedEvents.push(jsonData);
     }
 

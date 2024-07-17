@@ -1053,7 +1053,7 @@ describe("Call Media Client Live Tests", function () {
         mediaStreamingOptions: mediaStreamingOptions,
       };
 
-     const answerCallResult =  await receiverCallAutomationClient.answerCall(
+      const answerCallResult = await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
         answerCallOptions,
@@ -1063,32 +1063,34 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(callConnectedEvent);
 
       const answerCallConnection = answerCallResult.callConnection;
-      const answerCallConnectionId: string = answerCallResult.callConnectionProperties.callConnectionId
-      ? answerCallResult.callConnectionProperties.callConnectionId
-      : "";
+      const answerCallConnectionId: string = answerCallResult.callConnectionProperties
+        .callConnectionId
+        ? answerCallResult.callConnectionProperties.callConnectionId
+        : "";
       await answerCallConnection.getCallMedia().startMediaStreaming();
-    const mediaStreamingStarted = await waitForEvent(
-      "MediaStreamingStarted",
-      answerCallConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStarted);
+      const mediaStreamingStarted = await waitForEvent(
+        "MediaStreamingStarted",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(mediaStreamingStarted);
 
-    await answerCallConnection.getCallMedia().stopMediaStreaming();
-    const mediaStreamingStopped = await waitForEvent(
-      "MediaStreamingStopped",
-      answerCallConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStopped);
+      await answerCallConnection.getCallMedia().stopMediaStreaming();
+      const mediaStreamingStopped = await waitForEvent(
+        "MediaStreamingStopped",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(mediaStreamingStopped);
 
-    await answerCallConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", answerCallConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
-
+      await answerCallConnection.hangUp(true);
+      const callDisconnectedEvent = await waitForEvent(
+        "CallDisconnected",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(callDisconnectedEvent);
     }
-
-    
   }).timeout(60000);
 
   it("Play multiple file sources with play and playall", async function () {

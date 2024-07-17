@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier,  createCommunicationAuthPolicy } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  createCommunicationAuthPolicy,
+} from "@azure/communication-common";
 import { CallMedia } from "./callMedia";
 import {
   AddParticipantRequest,

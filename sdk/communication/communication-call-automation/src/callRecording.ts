@@ -21,9 +21,7 @@ import * as fs from "fs";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationApiClient } from "./generated/src";
-import {
-  createCommunicationAuthPolicy,
-} from "@azure/communication-common";
+import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
 /**
  * CallRecording class represents call recording related APIs.
