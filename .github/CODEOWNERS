@@ -1545,8 +1545,8 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /**/tsconfig.json @jeremymeng @deyaaeldeen
 /**/tsconfig.strict.json @deyaaeldeen
 /.scripts/ @mikeharder @ckairen
-/vitest.shared.config.ts @jeremymeng @deyaaeldeen
-/vitest.browser.shared.config.ts @jeremymeng @deyaaeldeen
+/vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
+/vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
