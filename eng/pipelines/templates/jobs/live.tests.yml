@@ -258,26 +258,37 @@ jobs:
 
         - ${{ parameters.PostSteps }}
 
-        - task: AzurePowerShell@5
+        - task: AzureCLI@2
           inputs:
             azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
-            azurePowerShellVersion: LatestVersion
             workingDirectory: $(PackagePath)
-            ScriptType: InlineScript
-            Inline: |
-              $account = (Get-AzContext).Account
-              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
-              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+            scriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              Write-Host "Where is az CLI located"
+              (Get-Command az).Path
+              Write-Host "Check az CLI version"
+              az --version
+              Write-Host "Run az account show"
+              az account show
+              Write-Host "Run az account list --debug"
+              az account list --debug
+              Write-Host "Run az account get-access-token --output none --debug --verbose"
+              az account get-access-token --output none --debug --verbose
+              Write-Host "Run env:AZURE_CONFIG_DIR"
+              $env:AZURE_CONFIG_DIR
+              Write-Host "Run Get-ChildItem env:"
+              Get-ChildItem env:
 
               node ../../../common/scripts/install-run-rushx.js execute:samples
               exit $LASTEXITCODE
-          displayName: "Execute Samples"
+          displayName: "Execute Samples with az CLI"
           env:
             TEST_MODE: "live"
             # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
             # so "execute samples" step correctly picks up Powershell credential.
             AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
-            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+            # SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
