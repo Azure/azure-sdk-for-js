@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
 const MapsGeolocation = require("@azure-rest/maps-geolocation").default,
   { isUnexpected } = require("@azure-rest/maps-geolocation");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
  * @summary This sample demonstrates how to get the country code for an IP address using MapsGeolocation.
  */
 async function successfullyRetrieveCountryCodeFromIPAddress() {
-  /** Use subscription key authentication */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsGeolocation(credential);
+  /** Use Azure AD authentication (Recommended) */
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsGeolocation(credential, mapsClientId);
 
-  /** Or use Azure AD authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = new MapsGeolocation(credential, mapsClientId);
+  /** Or use subscription key authentication */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsGeolocation(credential);
 
   const result = await client.path("/geolocation/ip/{format}", "json").get({
     queryParameters: { ip: "2001:4898:80e8:b::189" },
