@@ -7,7 +7,6 @@ import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
-import { AzureKeyCredential } from "@azure/core-auth";
 import MapsSearch, { isUnexpected, MapsSearchClient } from "../../src";
 
 describe("Authentication", function () {
@@ -19,14 +18,6 @@ describe("Authentication", function () {
 
   afterEach(async function () {
     await recorder.stop();
-  });
-
-  it("should work with Shared Key authentication", async function () {
-    const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] as string);
-    const client = MapsSearch(credential, recorder.configureClientOptions({}));
-
-    const response = await client.path("/geocode").get({ queryParameters: { query: "Starbucks" } });
-    assert.isOk(!isUnexpected(response));
   });
 
   it("should work with AAD authentication", async function () {

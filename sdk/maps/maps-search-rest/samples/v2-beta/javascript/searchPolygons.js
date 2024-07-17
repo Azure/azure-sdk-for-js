@@ -3,7 +3,7 @@
 
 const MapsSearch = require("@azure-rest/maps-search").default,
   { isUnexpected } = require("@azure-rest/maps-search");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
@@ -15,20 +15,20 @@ async function main() {
    * - Shared Key authentication (subscription-key)
    * - Azure Active Directory (Azure AD) authentication
    *
-   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
-   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for AAD auth,
+   * Or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
-  /** Shared Key authentication (subscription-key) */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsSearch(credential);
-
   /** Azure Active Directory (Azure AD) authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = MapsSearch(credential, mapsClientId);
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsSearch(credential, mapsClientId);
+
+  /** Shared Key authentication (subscription-key) */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsSearch(credential);
 
   const response = await client.path("/search/polygon").get({
     queryParameters: {
