@@ -175,9 +175,6 @@ export interface SystemData {
     lastModifiedByType?: CreatedByType;
 }
 
-// @public
-export type Versions = "2024-04-01-preview";
-
 // (No @packageDocumentation comment for this package)
 
 ```
