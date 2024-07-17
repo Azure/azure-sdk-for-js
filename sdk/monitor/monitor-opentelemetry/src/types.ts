@@ -64,7 +64,7 @@ export interface InstrumentationOptions {
  * Order of the options is important as it is used to calculate the bit map.
  * @internal
  */
-export interface StatsbeatInstrumentations {
+export interface StatsbeatOptions {
   /** Azure Monitor Supported Instrumentations */
   azureSdk?: boolean;
   mongoDb?: boolean;
@@ -102,19 +102,11 @@ export interface StatsbeatInstrumentations {
   pino?: boolean;
   restify?: boolean;
   router?: boolean;
-}
-
-/**
- * Statsbeat Feature Options interface.
- * Order of the options is important as it is used to calculate the bit map.
- * @internal
- */
-export interface StatsbeatFeatures {
-  diskRetry?: boolean;
-  aadHandling?: boolean;
-  browserSdkLoader?: boolean;
-  distro?: boolean;
+  /** Features */
   liveMetrics?: boolean;
+  browserSdkLoader?: boolean;
+  aadHandling?: boolean;
+  diskRetry?: boolean;
 }
 
 /**
@@ -169,6 +161,7 @@ export enum StatsbeatFeature {
   BROWSER_SDK_LOADER = 4,
   DISTRO = 8,
   LIVE_METRICS = 16,
+  SHIM = 32,
 }
 
 export enum StatsbeatInstrumentation {

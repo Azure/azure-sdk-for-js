@@ -5,10 +5,8 @@ import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
   StatsbeatEnvironmentConfig,
   StatsbeatFeature,
-  StatsbeatFeatures,
   StatsbeatInstrumentation,
-  StatsbeatInstrumentations,
-  StatsbeatOption,
+  StatsbeatOptions,
 } from "../types";
 import { Logger as InternalLogger } from "../shared/logging";
 
@@ -16,12 +14,28 @@ let instance: StatsbeatConfiguration;
 
 class StatsbeatConfiguration {
   // Initial Statsbeat options
-  private currentStatsbeatInstrumentations: StatsbeatInstrumentations = {};
-  private currentStatsbeatFeatures: StatsbeatFeatures = {};
+  private initializedByShim = false;
+  private currentStatsbeatOptions: StatsbeatOptions = {};
+
+  constructor() {
+    // Check for shim initialization upon construction
+    try {
+      if (
+        JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || "{}").feature &
+        StatsbeatFeature.SHIM
+      ) {
+        this.initializedByShim = true;
+      }
+    } catch (error) {
+      InternalLogger.getInstance().error(
+        "Failed to parse statsbeat config environment variable.",
+        error,
+      );
+    }
+  }
 
   public setStatsbeatFeatures = (
-    statsbeatFeatures?: StatsbeatFeatures,
-    statsbeatInstrumentations?: StatsbeatInstrumentations,
+    statsbeatOptions: StatsbeatOptions
   ) => {
     let statsbeatEnv: StatsbeatEnvironmentConfig;
     try {
@@ -33,8 +47,9 @@ class StatsbeatConfiguration {
       );
     }
 
-    statsbeatInstrumentations = {
-      ...statsbeatInstrumentations,
+    // Set the statsbeat options for community instrumentations based on the environment variable
+    statsbeatOptions = {
+      ...statsbeatOptions,
       /** OpenTelemetry Instrumentations */
       amqplib: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.AMQPLIB ? true : false,
       cucumber: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.CUCUMBER ? true : false,
@@ -71,42 +86,56 @@ class StatsbeatConfiguration {
       router: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.ROUTER ? true : false,
     };
 
-    // Merge old statsbeat options with new statsbeat options overriding any common properties
-    this.currentStatsbeatInstrumentations = {
-      ...this.currentStatsbeatInstrumentations,
-      ...statsbeatInstrumentations,
-    };
-    this.currentStatsbeatFeatures = { ...this.currentStatsbeatFeatures, ...statsbeatFeatures };
     let instrumentationBitMap = StatsbeatInstrumentation.NONE;
+
+    // Create instrumentation bit map
+    if (statsbeatOptions.azureSdk === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.AZURE_CORE_TRACING;
+    }
+    if (statsbeatOptions.mongoDb === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.MONGODB;
+    }
+    if (statsbeatOptions.mySql === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.MYSQL;
+    }
+    if (statsbeatOptions.postgreSql === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.POSTGRES;
+    }
+    if (statsbeatOptions.redis === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.REDIS;
+    }
+    if (statsbeatOptions.bunyan === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.BUNYAN;
+    }
+    if (statsbeatOptions.winston === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.WINSTON;
+    }
+    if (statsbeatOptions.express === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.EXPRESS;
+    }
+
+    // Create feature bit map
     let featureBitMap = StatsbeatFeature.NONE;
+    featureBitMap |= StatsbeatFeature.DISTRO;
 
-    const instrumentationArray: Array<StatsbeatOption> = Object.entries(
-      this.currentStatsbeatInstrumentations,
-    ).map((entry) => {
-      return { option: entry[0], value: entry[1] };
-    });
-
-    // Map the instrumentation options to a bit map
-    for (let i = 0; i < instrumentationArray.length; i++) {
-      if (instrumentationArray[i].value) {
-        instrumentationBitMap |= 2 ** i;
-      }
+    if (statsbeatOptions.browserSdkLoader === true) {
+      featureBitMap |= StatsbeatFeature.BROWSER_SDK_LOADER;
+    }
+    // Determines if the customer has activated the Live Metrics feature
+    if (statsbeatOptions.liveMetrics === true) {
+      featureBitMap |= StatsbeatFeature.LIVE_METRICS;
     }
 
-    const featureArray: Array<StatsbeatOption> = Object.entries(this.currentStatsbeatFeatures).map(
-      (entry) => {
-        return { option: entry[0], value: entry[1] };
-      },
-    );
-
-    // Map the feature options to a bit map
-    for (let i = 0; i < featureArray.length; i++) {
-      if (featureArray[i].value) {
-        featureBitMap |= 2 ** i;
-      }
+    if (this.initializedByShim) {
+      featureBitMap |= StatsbeatFeature.SHIM;
     }
 
+    // Merge old statsbeat options with new statsbeat options overriding any common properties
     try {
+      const currentFeaturesBitMap = Number(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]);
+      if (!isNaN(currentFeaturesBitMap)) {
+        featureBitMap |= currentFeaturesBitMap;
+      }
       process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
         instrumentation: instrumentationBitMap,
         feature: featureBitMap,
