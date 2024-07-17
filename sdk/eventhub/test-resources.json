@@ -193,6 +193,10 @@
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value]"
     },
+    "EVENTHUB_FQDN": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'), variables('eventHubName')), variables('apiVersion')).properties.hostNames[0]]"
+    },
     "EVENTHUB_NAME": {
       "type": "string",
       "value": "[variables('eventHubName')]"

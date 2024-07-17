@@ -3,21 +3,27 @@
 
 import type { EventHubBufferedProducerClient } from "../../src/index.js";
 import { createBufferedProducer } from "../utils/clients.js";
-import { describe, it, afterEach, vi, beforeEach } from "vitest";
+import { describe, it, afterEach, vi, beforeEach, beforeAll, afterAll } from "vitest";
 import { assert, expect } from "../utils/chai.js";
 
 describe("EventHubBufferedProducerClient unit tests", function () {
   let client: EventHubBufferedProducerClient;
 
+  beforeAll(async function () {
+    vi.useFakeTimers();
+  });
+
+  afterAll(async function () {
+    vi.restoreAllMocks();
+    vi.useRealTimers();
+  });
+
   beforeEach(async function () {
     client = createBufferedProducer().producer;
-    vi.useFakeTimers();
   });
 
   afterEach(async function () {
     client?.close();
-    vi.restoreAllMocks();
-    vi.useRealTimers();
   });
 
   it("should update partition ids periodically", async function () {
