@@ -239,7 +239,7 @@
     },
     "EVENTHUB_FQDN": {
       "type": "string",
-      "value": "[replace(replace(reference(resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaceName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
+      "value": "[replace(replace(reference(resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
     },
     "EVENTHUB_NAME": {
       "type": "string",
