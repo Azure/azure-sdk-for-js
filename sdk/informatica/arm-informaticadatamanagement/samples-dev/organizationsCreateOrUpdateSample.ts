@@ -45,7 +45,7 @@ async function organizationsCreateOrUpdate() {
         informaticaRegion: "zfqodqpbeflhedypiijdkc",
         organizationId: "wtdmhlwhkvgqdumaehgfgiqcxgnqpx",
         organizationName: "nomzbvwe",
-        singleSignOnUrl: "espcbzjhtmgwfdkckhqk",
+        singleSignOnUrl: "https://contoso.com/singlesignon",
       },
       linkOrganization: { token: "jjfouhoqpumjvrdsfbimgcy" },
       marketplaceDetails: {

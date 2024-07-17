@@ -13,27 +13,26 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Create a InformaticaServerlessRuntimeResource
+ * This sample demonstrates how to Update a InformaticaServerlessRuntimeResource
  *
- * @summary Create a InformaticaServerlessRuntimeResource
- * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary Update a InformaticaServerlessRuntimeResource
+ * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_Update_MaximumSet_Gen.json
  */
-async function serverlessRuntimesCreateOrUpdate() {
+async function serverlessRuntimesUpdate() {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
   const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
-  const organizationName = "__C";
-  const serverlessRuntimeName = "0j-__";
-  const resource = {
+  const organizationName = "W5";
+  const serverlessRuntimeName = "t_";
+  const properties = {
     properties: {
-      description: "mqkaenjmxakvzrwmirelmhgiedto",
+      description: "ocprslpljoikxyduackzqnkuhyzrh",
       advancedCustomProperties: [{ key: "qcmc", value: "unraxmnohdmvutt" }],
       applicationType: "CDI",
-      computeUnits: "bsctukmndvowse",
-      executionTimeout: "ruiougpypny",
+      computeUnits: "uncwbpu",
+      executionTimeout: "tjyfytuywriabt",
       platform: "AZURE",
-      provisioningState: "Accepted",
-      serverlessAccountLocation: "bkxdfopapbqucyhduewrubjpaei",
+      serverlessAccountLocation: "goaugkyfanqfnvcmntreibqrswfpis",
       serverlessRuntimeConfig: {
         cdiConfigProps: [
           {
@@ -70,54 +69,58 @@ async function serverlessRuntimesCreateOrUpdate() {
       },
       serverlessRuntimeNetworkProfile: {
         networkInterfaceConfiguration: {
-          subnetId: "s",
-          vnetId: "uaqjvtubxccjs",
+          subnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/subnet1",
+          vnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
           vnetResourceGuid: "5328d299-1462-4be0-bef1-303a28e556a0",
         },
       },
       serverlessRuntimeTags: [{ name: "korveuycuwhs", value: "uyiuegxnkgp" }],
-      serverlessRuntimeUserContextProperties: { userContextToken: "oludf" },
-      supplementaryFileLocation: "zmlqtkncwgqhhupsnqluumz",
+      serverlessRuntimeUserContextProperties: {
+        userContextToken: "ctgebtvjhwh",
+      },
+      supplementaryFileLocation: "csxaqzpxu",
     },
   };
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
-  const result = await client.serverlessRuntimes.beginCreateOrUpdateAndWait(
+  const result = await client.serverlessRuntimes.update(
     resourceGroupName,
     organizationName,
     serverlessRuntimeName,
-    resource,
+    properties,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a InformaticaServerlessRuntimeResource
+ * This sample demonstrates how to Update a InformaticaServerlessRuntimeResource
  *
- * @summary Create a InformaticaServerlessRuntimeResource
- * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary Update a InformaticaServerlessRuntimeResource
+ * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_Update_MinimumSet_Gen.json
  */
-async function serverlessRuntimesCreateOrUpdateMin() {
+async function serverlessRuntimesUpdateMin() {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
   const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
-  const organizationName = "-4Z__7";
-  const serverlessRuntimeName = "J";
-  const resource = {};
+  const organizationName = "_f--";
+  const serverlessRuntimeName = "8Zr__";
+  const properties = {};
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
-  const result = await client.serverlessRuntimes.beginCreateOrUpdateAndWait(
+  const result = await client.serverlessRuntimes.update(
     resourceGroupName,
     organizationName,
     serverlessRuntimeName,
-    resource,
+    properties,
   );
   console.log(result);
 }
 
 async function main() {
-  serverlessRuntimesCreateOrUpdate();
-  serverlessRuntimesCreateOrUpdateMin();
+  serverlessRuntimesUpdate();
+  serverlessRuntimesUpdateMin();
 }
 
 main().catch(console.error);
