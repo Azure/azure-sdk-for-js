@@ -1504,6 +1504,7 @@ describe(
           .length.should.oneOf([n, n + 1]);
       });
 
+      // All partitions get owned by one process
       it("should ensure that all the processors reach a steady-state where all partitions are being processed (GreedyLoadBalancingStrategy)", async function () {
         const processorByName: Dictionary<EventProcessor> = {};
         const partitionIds = await producerClient.getPartitionIds();
@@ -1545,7 +1546,6 @@ describe(
             },
           );
           processorByName[processorName].start();
-          await delay(12000);
         }
 
         await loopUntil({
@@ -1569,13 +1569,11 @@ describe(
           await processorByName[processor].stop();
         }
 
-        for (const ownership of partitionOwnership) {
-          if (!partitionOwnershipMap.has(ownership.ownerId)) {
-            partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
+        for (const { ownerId, partitionId } of partitionOwnership) {
+          if (!partitionOwnershipMap.has(ownerId)) {
+            partitionOwnershipMap.set(ownerId, [partitionId]);
           } else {
-            const arr = partitionOwnershipMap.get(ownership.ownerId);
-            arr!.push(ownership.partitionId);
-            partitionOwnershipMap.set(ownership.ownerId, arr!);
+            partitionOwnershipMap.get(ownerId)?.push(partitionId);
           }
         }
 
