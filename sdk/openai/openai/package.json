@@ -10,28 +10,34 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
+        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     },
     "./types": {
       "browser": {
+        "source": "./src/types/index.ts",
         "types": "./dist/browser/types/index.d.ts",
         "default": "./dist/browser/types/index.js"
       },
       "import": {
+        "source": "./src/types/index.ts",
         "types": "./dist/esm/types/index.d.ts",
         "default": "./dist/esm/types/index.js"
       },
       "require": {
+        "source": "./src/types/index.ts",
         "types": "./dist/commonjs/types/index.d.ts",
         "default": "./dist/commonjs/types/index.js"
       }
@@ -134,5 +140,6 @@
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
     }
   },
-  "type": "module"
+  "type": "module",
+  "module": "./dist/esm/index.js"
 }
