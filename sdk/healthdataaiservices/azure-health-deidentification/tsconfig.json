@@ -3,10 +3,10 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "paths": {
-    "@azure/health-deidentification": ["src/index"]
+    "rootDir": ".",
+    "paths": {
+      "@azure/health-deidentification": ["./src/index"]
+    }
   },
   "include": [
     "./src/**/*.ts",
