@@ -92,19 +92,6 @@ const openai = new AzureOpenAI({
 });
 ```
 
-#### Using an API Key from OpenAI
-
-To instead configure the client to connect to OpenAI's service, please use the `OpenAI` client from `openai` library and provide an API key from OpenAI's
-developer portal. Once you have an API key, you can set the value as environment variable `OPENAI_API_KEY` to authenticate the client as follows:
-
-```typescript
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: process.env['OPENAI_API_KEY'], 
-});
-```
-
 ## Key concepts
 
 The main concept to understand is that this is not a standalone library, but to be used in conjunction with `openai` library.

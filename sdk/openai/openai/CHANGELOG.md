@@ -1,14 +1,10 @@
 # Release History
 
-## 2.0.0-beta.1 (Unreleased)
-
-### Features Added
+## 2.0.0-beta.1 (2024-07-18)
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- The `OpenAIClient` is deprecated. If you are using `@azure/openai` version 1.x, please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/openai/openai/MIGRATION.md) for more detailed instructions.
 
 ## 1.0.0-beta.12 (2024-04-01)
 
