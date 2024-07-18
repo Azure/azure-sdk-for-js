@@ -35,6 +35,7 @@ describe("Analyze Tests", () => {
           headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
           uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint/" }],
         });
+
         client = await createClient(recorder, credential.credential());
       });
 
