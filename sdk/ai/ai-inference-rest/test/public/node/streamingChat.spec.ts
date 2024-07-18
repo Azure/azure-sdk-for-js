@@ -13,7 +13,7 @@ describe("chat test suite", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = await createModelClient(recorder);
+    client = await createModelClient("completions", recorder);
   });
 
   afterEach(async () => {
@@ -24,12 +24,12 @@ describe("chat test suite", () => {
     const response = await client.path("/chat/completions").post({
       body: {
         messages: [
-            {role: "user", content: "How many feet are in a mile?"},
+          { role: "user", content: "How many feet are in a mile?" },
         ],
         stream: true
       }
     })
-    .asNodeStream();
+      .asNodeStream();
 
     assert.equal(response.status, "200");
     const stream = response.body;
