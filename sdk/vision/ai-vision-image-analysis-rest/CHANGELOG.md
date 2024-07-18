@@ -3,6 +3,7 @@
 ## 1.0.0-beta.3 (Unreleased)
 
 ### Features Added
+Added EntraID support to client.
 
 ### Breaking Changes
 

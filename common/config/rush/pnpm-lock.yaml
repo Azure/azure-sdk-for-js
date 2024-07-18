@@ -1565,6 +1565,10 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/functions@3.2.0:
+    resolution: {integrity: sha512-HbE7iORnYcjLzKNf5mIQRJQDTsVxhoXHRWEZ6KWdGh4e7+F9xTloiBicavbSoVmlAYivenIVpryHanVwsQaHUw==}
+    dev: false
+
   /@azure/functions@3.5.1:
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
     dependencies:
@@ -1573,26 +1577,13 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@azure/identity@4.3.0-beta.1:
-    resolution: {integrity: sha512-Qk+TZfz/XWYheiH3KlT9dtNweuTmPEqmSJjppOVnYkVam/fcNGb5yX1DnEyrxNQSKGVPpraATCCmTUwiXkm/4A==}
-    engines: {node: '>=18.0.0'}
+  /@azure/functions@4.5.0:
+    resolution: {integrity: sha512-WNCiOHMQEZpezxgThD3o2McKEjUEljtQBvdw4X4oE5714eTw76h33kIj0660ZJGEnxYSx4dx18oAbg5kLMs9iQ==}
+    engines: {node: '>=18.0'}
     dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-rest-pipeline': 1.16.2
-      '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.1
-      '@azure/logger': 1.1.3
-      '@azure/msal-browser': 3.19.1
-      '@azure/msal-node': 2.11.1
-      events: 3.3.0
-      jws: 4.0.0
-      open: 8.4.2
-      stoppable: 1.1.0
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
+      cookie: 0.6.0
+      long: 4.0.0
+      undici: 5.28.4
     dev: false
 
   /@azure/identity@4.4.0:
@@ -2297,6 +2288,11 @@ packages:
   /@eslint/js@9.2.0:
     resolution: {integrity: sha512-ESiIudvhoYni+MdsI8oD7skpprZ89qKocwRM2KEvhhBJ9nl5MRh7BXU5GTod7Mdygq+AUl+QzId6iWJKR/wABA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    dev: false
+
+  /@fastify/busboy@2.1.1:
+    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
+    engines: {node: '>=14'}
     dev: false
 
   /@grpc/grpc-js@1.11.1:
@@ -10585,6 +10581,13 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+    dev: false
+
+  /undici@5.28.4:
+    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
+    engines: {node: '>=14.0'}
+    dependencies:
+      '@fastify/busboy': 2.1.1
     dev: false
 
   /undici@6.19.2:
@@ -20467,13 +20470,13 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-XV+FZUXgfgiywCxyJSefBXqigxTLEkVHW+h0irW4H9z7S+iPv4caQaO/kIkfBFYopwQjXWbQUEr7nF4fs0zXhg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-zyu8AiqGLwZWuEpTuodQDLMu+auXoDcDC2rLYtEysykv5r2j1ORxUZofNqNOlwQxfOzrMHBNYj5Vv9GrLNNAKA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
       '@_ts/max': /typescript@5.5.3
       '@_ts/min': /typescript@4.2.4
-      '@azure/identity': 4.3.0-beta.1
+      '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@rollup/plugin-commonjs': 25.0.8(rollup@4.18.1)
       '@rollup/plugin-inject': 5.0.5(rollup@4.18.1)
@@ -21531,7 +21534,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-jVWB4WdEoerBE/u+77QWBTr8TB7CuWuX+r+wUkt+jDG9KIXwU8Mw0SoIfmyvXCzaV7J29ErM3/aE/agm5nVLSQ==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-grpGgq6DaV5Th3+vUY231FirRbXpXtT4FT+xqZx0t3Spy02t0owEcnfbmfn6dGpYj3QWtDmuwWWoSYrB5fZOzA==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -22104,12 +22107,14 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-tChNiDon2MYYlxBWmaYxZVJ6PAhG3TH4AKxOR9IivrOFmOvFcTNRog9JzJXKoimdRKkN7w1mATmdEKI5TZFyCw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-lMoB2O2cVNo9+d1t79HPofu6VGjpr5HQ2JloulvDCQ2WQ8cdckvDW4K6uaad7tcVjwSpKtLkuBmSY9oGGiYKcA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
-      '@azure/functions': 3.5.1
-      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@azure/functions': 4.5.0
+      '@azure/functions-old': /@azure/functions@3.5.1
+      '@azure/functions3': /@azure/functions@3.2.0
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.52.1

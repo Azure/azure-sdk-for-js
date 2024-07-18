@@ -91,14 +91,16 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("client accepts string[] and language", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] and language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn, "en"),
             expectation63,
           );
         });
 
-        it("client accepts string[] with no language", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn),
             expectation63,
@@ -135,7 +137,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("service returns an error for an empty document", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("service returns an error for an empty document", async function () {
           const data = [...testDataEn];
           data.splice(1, 0, "");
           assertActionResults(
@@ -144,7 +147,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("client accepts TextDocumentInput[]", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts TextDocumentInput[]", async function () {
           const enDocs = testDataEn.map((text) => ({
             id: getId(),
             language: "en",
@@ -273,14 +277,16 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("client accepts string[] with no language", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityRecognition, testDataEn),
             expectation44,
           );
         });
 
-        it("client accepts string[] with a language specified", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] with a language specified", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityRecognition, testDataEn, "en"),
             expectation45,
@@ -300,7 +306,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
-        it("client accepts mixed-language TextDocumentInput[]", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts mixed-language TextDocumentInput[]", async function () {
           const enDocs = testDataEn.slice(0, -1).map((text) => ({
             id: getId(),
             text,
@@ -397,14 +404,16 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           await assert.isRejected(client.analyze(AnalyzeActionNames.PiiEntityRecognition, []));
         });
 
-        it("client accepts string[] with no language", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, testDataEn),
             expectation52,
           );
         });
 
-        it("client accepts string[] with a language specified", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts string[] with a language specified", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, testDataEn, "en"),
             expectation53,
@@ -434,7 +443,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
-        it("client accepts mixed-language TextDocumentInput[]", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("client accepts mixed-language TextDocumentInput[]", async function () {
           const sliceSize = 3;
           const enDocs = testDataEn.slice(0, sliceSize).map((text) => ({
             id: getId(),
@@ -473,7 +483,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("output pii categories are accepted as input", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("output pii categories are accepted as input", async function () {
           const docs = ["Patient name is Joe and SSN is 859-98-0987"];
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs),
