@@ -1,7 +1,8 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/eventgrid-system-events"
       ServiceDirectory: eventgrid
+      UseFederatedAuth: true

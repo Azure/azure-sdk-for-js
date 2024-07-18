@@ -1,14 +1,30 @@
 # Release History
 
-## 4.3.1 (Unreleased)
+## 4.5.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.5.0-beta.1 (2024-07-17)
+
+### Other Changes
+
+- `ManagedIdentityCredential` migrated to use [MSAL](https://www.npmjs.com/package/@azure/msal-node) for handling the majority of the managed identity implementation. [#30172](https://github.com/Azure/azure-sdk-for-js/pull/30172)
+
+## 4.4.0 (2024-07-16)
 
 ### Features Added
 
 - `OnBehalfOfCredential` now supports taking clientAssertion callback `getAssertion`. [#29711](https://github.com/Azure/azure-sdk-for-js/pull/29711)
 
-### Breaking Changes
-
 ### Bugs Fixed
+
+- Fixed an issue where cross-tenant federation did not honor the request's tenant ID. [#30266](https://github.com/Azure/azure-sdk-for-js/pull/30266)
 
 ### Other Changes
 

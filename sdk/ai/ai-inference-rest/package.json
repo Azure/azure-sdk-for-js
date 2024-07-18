@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-inference",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Inference API for Azure-supported AI models",
   "exports": {
     "./package.json": "./package.json",
@@ -107,8 +107,8 @@
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "tshy": "^1.11.1",
-    "typescript": "~5.4.5",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vitest": "^1.3.1"
   },
   "scripts": {
@@ -140,5 +140,6 @@
     "productSlugs": [
       "azure"
     ]
-  }
+  },
+  "module": "./dist/esm/index.js"
 }

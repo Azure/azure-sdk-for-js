@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';

@@ -404,6 +404,48 @@ const response = await client.path("/chat/completions").post({
 console.log(`Chatbot: ${response.choices[0].message?.content}`);
 ```
 
+### Text Embeddings example
+
+This example demonstrates how to get text embeddings with Entra ID authentication. 
+
+```javascript
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const endpoint = "<your_model_endpoint>";
+const credential = new DefaultAzureCredential();
+
+async function main(){
+  const client = ModelClient(endpoint, credential);
+  const response = await client.path("/embeddings").post({
+    body: {
+      input: ["first phrase", "second phrase", "third phrase"]
+    }
+  });
+
+  if (isUnexpected(response)) {
+    throw response.body.error;
+  }
+  for (const data of response.body.data) {
+    console.log(`data length: ${data.length}, [${data[0]}, ${data[1]}, ..., ${data[data.length - 2]}, ${data[data.length - 1]}]`);
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+The length of the embedding vector depends on the model, but you should see something like this:
+
+```text
+data: length=1024, [0.0013399124, -0.01576233, ..., 0.007843018, 0.000238657]
+data: length=1024, [0.036590576, -0.0059547424, ..., 0.011405945, 0.004863739]
+data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
+```
+
+To generate embeddings for additional phrases, simply call `client.path("/embeddings").post` multiple times using the same `client`.
+
 ## Troubleshooting
 
 ### Logging
