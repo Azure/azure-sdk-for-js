@@ -8,8 +8,6 @@ import {
   ChatCompletionsOutput,
   ModelClient,
   ChatCompletionsFunctionToolCallOutput,
-  GetChatCompletionsBodyParam,
-  GetChatCompletionsHeaders,
   isUnexpected
 } from "../../src/index.js";
 
@@ -33,61 +31,63 @@ describe("chat test suite", () => {
   });
 
   it("chat regression test", async function () {
-    const headers = { "extra-parameters": "allow" }; 
+    const headers = { "extra-parameters": "allow" };
     const body = {
-        messages: [
-          { role: "user", content: "How many feet are in a mile?" },
-        ],
-        frequency_penalty: 1,
-        stream: false, 
-        presence_penalty: 1,
-        temperature: 1,
-        top_p: 1,
-        max_tokens: 1,
-        stop: ["<stop>"],
-        seed: 1,
-        model: "foo"
-        /*
-        response_format?: ChatCompletionsResponseFormat;
-        tools: Array<ChatCompletionsToolDefinition>;
-        tool_choice:
-        | ChatCompletionsToolSelectionPreset
-        | ChatCompletionsNamedToolSelection;
-        */
+      messages: [
+        { role: "user", content: "How many feet are in a mile?" },
+      ],
+      frequency_penalty: 1,
+      stream: false,
+      presence_penalty: 1,
+      temperature: 1,
+      top_p: 1,
+      max_tokens: 1,
+      stop: ["<stop>"],
+      seed: 1,
+      model: "foo",
+      response_format: "foo"
+      /*
+      tools: Array<ChatCompletionsToolDefinition>;
+      tool_choice:
+      | ChatCompletionsToolSelectionPreset
+      | ChatCompletionsNamedToolSelection;
+      */
     }
     const response = await client.path("/chat/completions").post({
       headers,
       body
     });
-    const responseHeaders = response.headers as GetChatCompletionsHeaders;
+    const responseHeaders = response.request.headers.toJSON();
     assert.isDefined(responseHeaders);
     assert.isDefined(responseHeaders["extra-parameters"]);
     assert.isTrue(responseHeaders["extra-parameters"] == headers["extra-parameters"]);
 
-    const request = response.request as GetChatCompletionsBodyParam;
+    const request = response.request;
     assert.isDefined(request);
 
-    const reqBody = request.body;
+    const reqBody = request.body as string;
     assert.isDefined(reqBody);
+    const json = JSON.parse(reqBody);
 
-    assert.isDefined(reqBody?.messages);
-    assert.isNotEmpty(reqBody?.messages);
-    assert.isTrue(reqBody?.frequency_penalty == body.frequency_penalty);
-    assert.isTrue(reqBody?.stream == body.stream);
-    assert.isTrue(reqBody?.presence_penalty == body.presence_penalty);
-    assert.isTrue(reqBody?.temperature == body.temperature);
-    assert.isTrue(reqBody?.top_p == body.top_p);
-    assert.isTrue(reqBody?.max_tokens == body.max_tokens);
-    assert.isDefined(reqBody?.stop);
-    assert.isArray(reqBody?.stop);
-    assert.isNotEmpty(reqBody?.stop);
+    assert.isDefined(json["messages"]);
+    assert.isNotEmpty(json["messages"]);
+    assert.isTrue(json["frequency_penalty"] == body.frequency_penalty);
+    assert.isTrue(json["stream"] == body.stream);
+    assert.isTrue(json["presence_penalty"] == body.presence_penalty);
+    assert.isTrue(json["temperature"] == body.temperature);
+    assert.isTrue(json["top_p"] == body.top_p);
+    assert.isTrue(json["max_tokens"] == body.max_tokens);
+    assert.isDefined(json["stop"]);
+    assert.isArray(json["stop"]);
+    assert.isNotEmpty(json["stop"]);
 
-    if (reqBody?.stop) {
-      assert.isDefined(reqBody?.stop[0]);
-      assert.isTrue(reqBody?.stop[0] == body.stop[0]);
+    if (json["stop"]) {
+      assert.isDefined(json["stop"][0]);
+      assert.isTrue(json["stop"][0] == body.stop[0]);
     }
-    assert.isTrue(reqBody?.seed == body.seed);
-    assert.isTrue(reqBody?.model == body.model);
+    assert.isTrue(json["seed"] == body.seed);
+    assert.isTrue(json["model"] == body.model);
+    assert.isTrue(json["response_format"] == body.response_format);
   },
     {
       timeout: 50000
