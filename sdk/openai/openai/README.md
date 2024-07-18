@@ -73,7 +73,7 @@ const openai = new AzureOpenAI({ azureADTokenProvider });
 
 ### (⚠️ Highly Discouraged) API Key
 
-API keys are not recommended for production use because they are less secure than other authentication methods. However, if you are using an API key to authenticate `OpenAIClient` or `AssistantsClient`, an `AzureKeyCredential`, use the [Azure Portal][azure_portal] to browse to your OpenAI resource and retrieve an API key, or use the [Azure CLI][azure_cli] snippet below:
+API keys are not recommended for production use because they are less secure than other authentication methods. However, if you are using an API key, use the [Azure Portal][azure_portal] to browse to your OpenAI resource and retrieve an API key, or use the [Azure CLI][azure_cli] snippet below:
 
 **Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
 
@@ -81,11 +81,15 @@ API keys are not recommended for production use because they are less secure tha
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
-Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
+Once you have an API key and endpoint, you can authenticate `AzureOpenAI` with an API key by setting the `AZURE_OPENAI_API_KEY` environment variable or as setting the `apiKey` string property in the options object when creating the `AzureOpenAI` client.
+
 
 ```typescript
-import { AzureKeyCredential } from "@azure/openai";
-const apiKey = new AzureKeyCredential("your API key");
+import AzureOpenAI from 'openai';
+
+const openai = new AzureOpenAI({
+  apiKey: process.env['AZURE_OPENAI_API_KEY'], 
+});
 ```
 
 #### Using an API Key from OpenAI
@@ -97,7 +101,7 @@ developer portal. Once you have an API key, you can set the value as environment
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
-  apiKey: process.env['OPENAI_API_KEY'], // This is the default and can be omitted
+  apiKey: process.env['OPENAI_API_KEY'], 
 });
 ```
 
