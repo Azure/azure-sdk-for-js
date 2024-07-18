@@ -16,9 +16,7 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
-  removeCentralSanitizers: [
-    "AZSDK3493",
-  ]
+  removeCentralSanitizers: ["AZSDK3493"],
 };
 
 /**

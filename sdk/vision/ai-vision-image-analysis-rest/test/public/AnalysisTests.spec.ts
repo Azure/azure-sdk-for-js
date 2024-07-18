@@ -18,8 +18,11 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const credentials = [
-  { credential: () => new AzureKeyCredential(assertEnvironmentVariable("VISION_KEY")), title: "AzureKeyCredential" },
-  { credential: () => createTestCredential(), title: "TokenCredential" }
+  {
+    credential: () => new AzureKeyCredential(assertEnvironmentVariable("VISION_KEY")),
+    title: "AzureKeyCredential",
+  },
+  { credential: () => createTestCredential(), title: "TokenCredential" },
 ];
 
 describe("Analyze Tests", () => {
@@ -269,7 +272,9 @@ describe("Analyze Tests", () => {
         assert.isNotNull(captionResult);
         assert.isAbove(captionResult.confidence, 0);
         assert.isBelow(captionResult.confidence, 1);
-        assert.isTrue(captionResult.text.toLowerCase().includes(genderNeutral ? "person" : "woman"));
+        assert.isTrue(
+          captionResult.text.toLowerCase().includes(genderNeutral ? "person" : "woman"),
+        );
         assert.isTrue(captionResult.text.toLowerCase().includes("table"));
         assert.isTrue(captionResult.text.toLowerCase().includes("laptop"));
       }
@@ -312,9 +317,9 @@ describe("Analyze Tests", () => {
           assert.isNotNull(oneObject.boundingBox);
           assert.isTrue(
             oneObject.boundingBox.x > 0 ||
-            oneObject.boundingBox.y > 0 ||
-            oneObject.boundingBox.h > 0 ||
-            oneObject.boundingBox.w > 0,
+              oneObject.boundingBox.y > 0 ||
+              oneObject.boundingBox.h > 0 ||
+              oneObject.boundingBox.w > 0,
           );
           assert.isNotNull(oneObject.tags);
           for (const oneTag of oneObject.tags) {
@@ -325,8 +330,9 @@ describe("Analyze Tests", () => {
         }
 
         assert.isAtLeast(
-          objectsResult.values.filter((v) => v.tags.filter((t) => t.name.toLowerCase() === "person"))
-            .length,
+          objectsResult.values.filter((v) =>
+            v.tags.filter((t) => t.name.toLowerCase() === "person"),
+          ).length,
           0,
         );
       }
