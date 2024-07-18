@@ -1515,6 +1515,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /eng/                  @ckairen @mikeharder @weshaggard @benbp
 /eng/common/           @Azure/azure-sdk-eng
 /.github/workflows/    @Azure/azure-sdk-eng
+/eng/ignore-links.txt  @Azure/azure-sdk-js-dev
 
 ###########
 # Config
@@ -1540,10 +1541,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
-/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-for-js-core
+/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-for-js
 /tsconfig.json @mikeharder @ckairen @jeremymeng @deyaaeldeen
-/**/tsconfig.json @jeremymeng @deyaaeldeen
-/**/tsconfig.strict.json @deyaaeldeen
+/**/tsconfig.json @jeremymeng @deyaaeldeen @Azure/azure-sdk-for-js-core
 /.scripts/ @mikeharder @ckairen
 /vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 /vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
