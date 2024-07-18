@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import { ImageUrl } from "./models";
+import { VisualFeatures, ImageUrl } from "./models.js";
 
 export interface AnalyzeFromImageDataBodyParam {
   /**
@@ -10,7 +10,11 @@ export interface AnalyzeFromImageDataBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AnalyzeFromImageDataQueryParamProperties {
@@ -19,7 +23,7 @@ export interface AnalyzeFromImageDataQueryParamProperties {
    * Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects, SmartCrops, and People.
    * At least one visual feature must be specified.
    */
-  features: string[];
+  features: VisualFeatures[];
   /**
    * The desired language for result generation (a two-letter language code).
    * If this option is not specified, the default value 'en' is used (English).
@@ -74,7 +78,7 @@ export interface AnalyzeFromUrlQueryParamProperties {
    * Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects, SmartCrops, and People.
    * At least one visual feature must be specified.
    */
-  features: string[];
+  features: VisualFeatures[];
   /**
    * The desired language for result generation (a two-letter language code).
    * If this option is not specified, the default value 'en' is used (English).

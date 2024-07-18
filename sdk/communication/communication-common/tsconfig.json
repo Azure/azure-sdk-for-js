@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types"

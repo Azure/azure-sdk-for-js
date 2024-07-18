@@ -26,11 +26,12 @@ const allProdTags = client.listConfigurationSettings({
 See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts) for more information now how to use this feature.
 - Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
 
-### Breaking Changes
+
+## 1.6.1 (2024-07-11)
 
 ### Bugs Fixed
 
-### Other Changes
+- Parse the correct `etag` for the corresponding page in the `listConfigurationSettings` method.
 
 ## 1.6.0 (2024-04-09)
 
