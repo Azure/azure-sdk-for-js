@@ -1515,7 +1515,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /eng/                  @ckairen @mikeharder @weshaggard @benbp
 /eng/common/           @Azure/azure-sdk-eng
 /.github/workflows/    @Azure/azure-sdk-eng
-/eng/ignore-links.txt  @Azure/azure-sdk-js-dev
+/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 
 ###########
 # Config
