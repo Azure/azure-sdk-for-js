@@ -4,7 +4,6 @@
     "module": "commonjs",
     "outDir": "./dist",
     "declarationDir": "./types",
-    "downlevelIteration": true,
     "sourceMap": true,
     "strict": true,
     "declaration": true,
