@@ -31,7 +31,8 @@ import {
   Request,
   Trace,
   KnownCollectionConfigurationErrorType,
-  KeyValuePairString
+  KeyValuePairString,
+  DerivedMetricInfo,
 } from "../../generated";
 import {
   getCloudRole,
@@ -55,6 +56,7 @@ import {
   validateTelemetryType,
   checkCustomMetricProjection,
   validateFilters,
+  DuplicateMetricIdError,
 } from "./filtering";
 
 const POST_INTERVAL = 1000;
@@ -124,6 +126,7 @@ export class LiveMetrics {
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
   private errors: CollectionConfigurationError[] = [];
+  private validDerivedMetrics: Map<string, DerivedMetricInfo> = new Map();
   // implementation note: add configuration info or some list representation of filters
 
   /**
@@ -161,6 +164,7 @@ export class LiveMetrics {
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
+      getErrorsFn: this.getErrors.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
     };
     this.quickpulseExporter = new QuickpulseMetricExporter(exporterOptions);
@@ -355,6 +359,8 @@ export class LiveMetrics {
    */
   public deactivateMetrics() {
     this.documents = [];
+    this.errors = [];
+    this.validDerivedMetrics.clear();
     this.meterProvider?.shutdown();
     this.meterProvider = undefined;
   }
@@ -377,10 +383,13 @@ export class LiveMetrics {
     return this.documents;
   }
 
+  public getErrors(): CollectionConfigurationError[] {
+    return this.errors;
+  }
+
   private addDocument(document: DocumentIngress) {
     if (document) {
       // Limit risk of memory leak by limiting doc length to something manageable
-      // implementation note: Do I need to modify this limit?
       if (this.documents.length > 20) {
         this.documents.shift(); // Remove oldest document
       }
@@ -616,13 +625,17 @@ export class LiveMetrics {
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse) {
     this.etag = response.xMsQpsConfigurationEtag || "";
     this.quickpulseExporter.setEtag(this.etag);
+    this.errors = [];
+    this.validDerivedMetrics.clear();
     response.metrics.forEach((derivedMetricInfo) => {
-      // implementation note: duplicate metric id handling here
       try {
         validateTelemetryType(derivedMetricInfo);
         checkCustomMetricProjection(derivedMetricInfo);
         validateFilters(derivedMetricInfo);
-        // implementation note: add valid metric id, filter expression, to some structure
+        if (this.validDerivedMetrics.has(derivedMetricInfo.id)) {
+          throw new DuplicateMetricIdError(`This metric id is a duplicate id; will use the first instance of this id: ${derivedMetricInfo.id}`);
+        }
+        this.validDerivedMetrics.set(derivedMetricInfo.id, derivedMetricInfo);
       } catch (error) {
         let configError: CollectionConfigurationError = {
           collectionConfigurationErrorType: "",
@@ -632,10 +645,13 @@ export class LiveMetrics {
         };
         if (error instanceof TelemetryTypeError) {
           configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
-          configError.message = error.message;
-          configError.fullException = error.stack || "";
         } else if (error instanceof UnexpectedFilterCreateError) {
           configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.FilterFailureToCreateUnexpected;
+        } else if (error instanceof DuplicateMetricIdError) {
+          configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.MetricDuplicateIds;
+        }
+
+        if (error instanceof Error) {
           configError.message = error.message;
           configError.fullException = error.stack || "";
         }

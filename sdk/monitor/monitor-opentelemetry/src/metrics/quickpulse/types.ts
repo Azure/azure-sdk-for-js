@@ -3,7 +3,10 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { MonitoringDataPoint, PublishResponse } from "../../generated";
-import { DocumentIngress } from "../../generated";
+import {
+  DocumentIngress,
+  CollectionConfigurationError
+} from "../../generated";
 
 /**
  * Quickpulse Exporter Options
@@ -24,6 +27,8 @@ export interface QuickpulseExporterOptions {
   postCallback: (response: PublishResponse | undefined) => void;
 
   getDocumentsFn: () => DocumentIngress[];
+
+  getErrorsFn: () => CollectionConfigurationError[];
 }
 
 export enum QuickPulseOpenTelemetryMetricNames {

@@ -13,6 +13,7 @@ import {
   RemoteDependency,
   Request,
   Trace,
+  CollectionConfigurationError
 } from "../../generated";
 import { Attributes, SpanKind } from "@opentelemetry/api";
 import {
@@ -144,6 +145,7 @@ export function resourceMetricsToQuickpulseDataPoint(
   metrics: ResourceMetrics,
   baseMonitoringDataPoint: MonitoringDataPoint,
   documents: DocumentIngress[],
+  errors: CollectionConfigurationError[]
 ): MonitoringDataPoint[] {
   let metricPoints: MetricPoint[] = [];
   metrics.scopeMetrics.forEach((scopeMetric) => {
@@ -205,6 +207,7 @@ export function resourceMetricsToQuickpulseDataPoint(
     timestamp: new Date(),
     metrics: metricPoints,
     documents: documents,
+    collectionConfigurationErrors: errors,
   };
   return [quickpulseDataPoint];
 }

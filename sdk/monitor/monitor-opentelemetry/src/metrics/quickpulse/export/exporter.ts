@@ -15,6 +15,7 @@ import {
   MonitoringDataPoint,
   PublishOptionalParams,
   PublishResponse,
+  CollectionConfigurationError,
 } from "../../../generated";
 import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils";
 
@@ -28,6 +29,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
   private etag: string;
+  private getErrorsFn: () => CollectionConfigurationError[];
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
@@ -44,6 +46,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     this.postCallback = options.postCallback;
     this.getDocumentsFn = options.getDocumentsFn;
     this.baseMonitoringDataPoint = options.baseMonitoringDataPoint;
+    this.getErrorsFn = options.getErrorsFn;
     this.etag = "";
     diag.debug("QuickpulseMetricExporter was successfully setup");
   }
@@ -63,6 +66,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
         metrics,
         this.baseMonitoringDataPoint,
         this.getDocumentsFn(),
+        this.getErrorsFn(),
       ),
       transmissionTime: getTransmissionTime(),
       configurationEtag: this.etag,

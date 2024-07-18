@@ -35,6 +35,13 @@ export class UnexpectedFilterCreateError extends Error {
   }
 }
 
+export class DuplicateMetricIdError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "DuplicateMetricIdError";
+  }
+}
+
 enum KnownRequestColumns {
   Url = "Url",
   Duration = "Duration",
@@ -125,7 +132,7 @@ function validatePredicateAndComparand(filter: FilterInfo): void {
     throw new UnexpectedFilterCreateError('A filter must have a comparand.');
   } else if (filter.fieldName === "*" && !(filter.predicate === KnownPredicateType.Contains || filter.predicate === KnownPredicateType.DoesNotContain)) {
     throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '*'`);
-  } else if (filter.fieldName === KnownDependencyColumns.ResultCode || filter.fieldName === KnownRequestColumns.ResponseCode || KnownDependencyColumns.Duration) {
+  } else if (filter.fieldName === KnownDependencyColumns.ResultCode || filter.fieldName === KnownRequestColumns.ResponseCode || filter.fieldName === KnownDependencyColumns.Duration) {
     if (filter.predicate === KnownPredicateType.Contains || filter.predicate === KnownPredicateType.DoesNotContain) {
       throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'`);
     }
