@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
  *
  * @summary Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersSetLegalHold.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersSetLegalHold.json
  */
 async function setLegalHoldContainers() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function setLegalHoldContainers() {
     resourceGroupName,
     accountName,
     containerName,
-    legalHold
+    legalHold,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function setLegalHoldContainers() {
  * This sample demonstrates how to Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
  *
  * @summary Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersSetLegalHoldAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersSetLegalHoldAllowProtectedAppendWritesAll.json
  */
 async function setLegalHoldContainersWithAllowProtectedAppendWritesAll() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function setLegalHoldContainersWithAllowProtectedAppendWritesAll() {
   const containerName = "container8723";
   const legalHold: LegalHold = {
     allowProtectedAppendWritesAll: true,
-    tags: ["tag1", "tag2", "tag3"]
+    tags: ["tag1", "tag2", "tag3"],
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -60,7 +60,7 @@ async function setLegalHoldContainersWithAllowProtectedAppendWritesAll() {
     resourceGroupName,
     accountName,
     containerName,
-    legalHold
+    legalHold,
   );
   console.log(result);
 }

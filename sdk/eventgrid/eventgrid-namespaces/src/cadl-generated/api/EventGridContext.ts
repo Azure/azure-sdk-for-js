@@ -6,16 +6,19 @@ import { ClientOptions } from "@azure-rest/core-client";
 import { EventGridContext } from "../rest/index";
 import getClient from "../rest/index";
 
-export interface EventGridClientOptions extends ClientOptions {}
+export interface EventGridClientOptions extends ClientOptions {
+  /** The API version to use for this operation. */
+  apiVersion?: string;
+}
 
 export { EventGridContext } from "../rest/index";
 
 /** Azure Messaging EventGrid Client */
 export function createEventGrid(
-  endpoint: string,
+  endpointParam: string,
   credential: KeyCredential | TokenCredential,
   options: EventGridClientOptions = {},
 ): EventGridContext {
-  const clientContext = getClient(endpoint, credential, options);
+  const clientContext = getClient(endpointParam, credential, options);
   return clientContext;
 }

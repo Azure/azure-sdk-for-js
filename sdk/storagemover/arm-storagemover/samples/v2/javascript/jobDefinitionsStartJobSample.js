@@ -13,10 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Requests an Agent to start a new instance of this Job Definition, generating a new Job Run resource.
+ * This sample demonstrates how to Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution.
  *
- * @summary Requests an Agent to start a new instance of this Job Definition, generating a new Job Run resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobDefinitions_StartJob.json
+ * @summary Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution.
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_StartJob.json
  */
 async function jobDefinitionsStartJob() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function jobDefinitionsStartJob() {
     resourceGroupName,
     storageMoverName,
     projectName,
-    jobDefinitionName
+    jobDefinitionName,
   );
   console.log(result);
 }

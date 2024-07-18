@@ -13,6 +13,7 @@ export * from "./mobileNetworks";
 export * from "./operations";
 export * from "./packetCaptures";
 export * from "./packetCoreControlPlanes";
+export * from "./routingInfo";
 export * from "./packetCoreControlPlaneVersions";
 export * from "./packetCoreDataPlanes";
 export * from "./services";

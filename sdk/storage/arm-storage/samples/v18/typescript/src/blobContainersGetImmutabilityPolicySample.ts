@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the existing immutability policy along with the corresponding ETag in response headers and body.
  *
  * @summary Gets the existing immutability policy along with the corresponding ETag in response headers and body.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersGetImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersGetImmutabilityPolicy.json
  */
 async function getImmutabilityPolicy() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getImmutabilityPolicy() {
   const result = await client.blobContainers.getImmutabilityPolicy(
     resourceGroupName,
     accountName,
-    containerName
+    containerName,
   );
   console.log(result);
 }

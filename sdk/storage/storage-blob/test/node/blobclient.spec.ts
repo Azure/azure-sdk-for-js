@@ -946,6 +946,33 @@ describe("BlobClient Node.js only", () => {
     });
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
+
+  // [Copy source error code] Feature is pending on service side, skip the case for now.
+  it.skip("syncCopyFromURL - should fail with copy source error message", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const newBlobClient = containerClient.getBlockBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
+    );
+
+    const sourceUrl = await blockBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("d"),
+      expiresOn: tmr,
+    });
+
+    try {
+      await newBlobClient.syncCopyFromURL(sourceUrl);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthorizationPermissionMismatch");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "This request is not authorized to perform this operation using this permission.",
+      );
+    }
+  });
 });
 
 describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {

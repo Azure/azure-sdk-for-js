@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure-tools/test-utils";
-import { JsonSerializer } from "../../src";
+import { JsonSchemaSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError";
@@ -13,7 +13,7 @@ import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
 
 describe("Error scenarios", function () {
-  let serializer: JsonSerializer;
+  let serializer: JsonSchemaSerializer;
   let registry: SchemaRegistry;
   let recorder: Recorder;
 

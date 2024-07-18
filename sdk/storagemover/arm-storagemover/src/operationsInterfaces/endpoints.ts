@@ -18,7 +18,7 @@ import {
   EndpointBaseUpdateParameters,
   EndpointsUpdateOptionalParams,
   EndpointsUpdateResponse,
-  EndpointsDeleteOptionalParams
+  EndpointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Endpoints {
   list(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<Endpoint>;
   /**
    * Gets an Endpoint resource.
@@ -46,7 +46,7 @@ export interface Endpoints {
     resourceGroupName: string,
     storageMoverName: string,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse>;
   /**
    * Creates or updates an Endpoint resource, which represents a data transfer source or destination.
@@ -61,7 +61,7 @@ export interface Endpoints {
     storageMoverName: string,
     endpointName: string,
     endpoint: Endpoint,
-    options?: EndpointsCreateOrUpdateOptionalParams
+    options?: EndpointsCreateOrUpdateOptionalParams,
   ): Promise<EndpointsCreateOrUpdateResponse>;
   /**
    * Updates properties for an Endpoint resource. Properties not specified in the request body will be
@@ -77,7 +77,7 @@ export interface Endpoints {
     storageMoverName: string,
     endpointName: string,
     endpoint: EndpointBaseUpdateParameters,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse>;
   /**
    * Deletes an Endpoint resource.
@@ -90,7 +90,7 @@ export interface Endpoints {
     resourceGroupName: string,
     storageMoverName: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Endpoint resource.
@@ -103,6 +103,6 @@ export interface Endpoints {
     resourceGroupName: string,
     storageMoverName: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

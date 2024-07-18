@@ -256,6 +256,12 @@ describe("Library/Config", () => {
       assert.ok(typeof config.samplingRatio === "number");
     });
 
+    it("should accept zero sampling ratio", () => {
+      const config = new InternalConfig();
+      config.samplingRatio = 0;
+      assert.strictEqual(config.samplingRatio, 0);
+    });
+
     it("instrumentation key validation-valid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
       const config = new InternalConfig();
@@ -403,14 +409,13 @@ describe("OpenTelemetry Resource", () => {
       "test-region",
     );
     assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.FAAS_NAME],
-      "test-site",
-    );
-    assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.FAAS_MAX_MEMORY],
       "512",
     );
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.FAAS_VERSION], "~3");
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
+      "test-site",
+    );
   });
 
   it("Azure VM resource attributes", async () => {
@@ -645,5 +650,5 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.24.0",
+  "telemetry.sdk.version": "1.25.1",
 };

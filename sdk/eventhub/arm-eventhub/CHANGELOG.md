@@ -12,7 +12,7 @@
 
 ## 5.2.0-beta.1 (2023-04-12)
     
-**Features**
+### Features Added
 
   - Added operation group ApplicationGroupOperations
   - Added operation group NetworkSecurityPerimeterConfigurationOperations
@@ -76,7 +76,7 @@
     
 ## 5.1.0 (2022-11-22)
     
-**Features**
+### Features Added
 
   - Added Interface ArmDisasterRecovery
   - Added Interface AuthorizationRule
@@ -91,7 +91,7 @@
     
 ## 5.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 

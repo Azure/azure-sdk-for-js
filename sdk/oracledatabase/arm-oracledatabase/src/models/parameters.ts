@@ -16,6 +16,7 @@ import {
   AutonomousDatabaseUpdate as AutonomousDatabaseUpdateMapper,
   PeerDbDetails as PeerDbDetailsMapper,
   GenerateAutonomousDatabaseWalletDetails as GenerateAutonomousDatabaseWalletDetailsMapper,
+  RestoreAutonomousDatabaseDetails as RestoreAutonomousDatabaseDetailsMapper,
   CloudExadataInfrastructure as CloudExadataInfrastructureMapper,
   CloudExadataInfrastructureUpdate as CloudExadataInfrastructureUpdateMapper,
   CloudVmCluster as CloudVmClusterMapper,
@@ -57,7 +58,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01-preview",
+    defaultValue: "2023-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -108,6 +109,7 @@ export const autonomousdatabasename: OperationURLParameter = {
   parameterPath: "autonomousdatabasename",
   mapper: {
     constraints: {
+      Pattern: new RegExp(".*"),
       MaxLength: 30,
       MinLength: 1,
     },
@@ -151,9 +153,17 @@ export const body1: OperationParameter = {
   mapper: GenerateAutonomousDatabaseWalletDetailsMapper,
 };
 
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: RestoreAutonomousDatabaseDetailsMapper,
+};
+
 export const cloudexadatainfrastructurename: OperationURLParameter = {
   parameterPath: "cloudexadatainfrastructurename",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "cloudexadatainfrastructurename",
     required: true,
     type: {
@@ -175,6 +185,9 @@ export const properties1: OperationParameter = {
 export const cloudvmclustername: OperationURLParameter = {
   parameterPath: "cloudvmclustername",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "cloudvmclustername",
     required: true,
     type: {
@@ -193,12 +206,12 @@ export const properties2: OperationParameter = {
   mapper: CloudVmClusterUpdateMapper,
 };
 
-export const body2: OperationParameter = {
+export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: AddRemoveDbNodeMapper,
 };
 
-export const body3: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: "body",
   mapper: PrivateIpAddressesFilterMapper,
 };
@@ -220,6 +233,9 @@ export const location: OperationURLParameter = {
 export const adbscharsetname: OperationURLParameter = {
   parameterPath: "adbscharsetname",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "adbscharsetname",
     required: true,
     type: {
@@ -231,6 +247,9 @@ export const adbscharsetname: OperationURLParameter = {
 export const adbsncharsetname: OperationURLParameter = {
   parameterPath: "adbsncharsetname",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "adbsncharsetname",
     required: true,
     type: {
@@ -242,6 +261,9 @@ export const adbsncharsetname: OperationURLParameter = {
 export const autonomousdbversionsname: OperationURLParameter = {
   parameterPath: "autonomousdbversionsname",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "autonomousdbversionsname",
     required: true,
     type: {
@@ -253,6 +275,9 @@ export const autonomousdbversionsname: OperationURLParameter = {
 export const dbsystemshapename: OperationURLParameter = {
   parameterPath: "dbsystemshapename",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "dbsystemshapename",
     required: true,
     type: {
@@ -265,6 +290,7 @@ export const dnsprivateviewocid: OperationURLParameter = {
   parameterPath: "dnsprivateviewocid",
   mapper: {
     constraints: {
+      Pattern: new RegExp(".*"),
       MaxLength: 255,
       MinLength: 1,
     },
@@ -279,6 +305,9 @@ export const dnsprivateviewocid: OperationURLParameter = {
 export const dnsprivatezonename: OperationURLParameter = {
   parameterPath: "dnsprivatezonename",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "dnsprivatezonename",
     required: true,
     type: {
@@ -290,7 +319,24 @@ export const dnsprivatezonename: OperationURLParameter = {
 export const giversionname: OperationURLParameter = {
   parameterPath: "giversionname",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "giversionname",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const systemversionname: OperationURLParameter = {
+  parameterPath: "systemversionname",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
+    serializedName: "systemversionname",
     required: true,
     type: {
       name: "String",
@@ -311,6 +357,9 @@ export const properties3: OperationParameter = {
 export const adbbackupid: OperationURLParameter = {
   parameterPath: "adbbackupid",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "adbbackupid",
     required: true,
     type: {
@@ -333,6 +382,7 @@ export const dbserverocid: OperationURLParameter = {
   parameterPath: "dbserverocid",
   mapper: {
     constraints: {
+      Pattern: new RegExp(".*"),
       MaxLength: 255,
       MinLength: 1,
     },
@@ -348,6 +398,7 @@ export const dbnodeocid: OperationURLParameter = {
   parameterPath: "dbnodeocid",
   mapper: {
     constraints: {
+      Pattern: new RegExp(".*"),
       MaxLength: 255,
       MinLength: 1,
     },
@@ -359,7 +410,7 @@ export const dbnodeocid: OperationURLParameter = {
   },
 };
 
-export const body4: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: "body",
   mapper: DbNodeActionMapper,
 };
@@ -368,6 +419,7 @@ export const virtualnetworkaddressname: OperationURLParameter = {
   parameterPath: "virtualnetworkaddressname",
   mapper: {
     constraints: {
+      Pattern: new RegExp(".*"),
       MaxLength: 63,
       MinLength: 1,
     },

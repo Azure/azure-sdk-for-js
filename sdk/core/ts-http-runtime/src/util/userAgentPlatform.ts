@@ -22,14 +22,16 @@ export function getHeaderName(): string {
 /**
  * @internal
  */
-export function setPlatformSpecificData(map: Map<string, string>): void {
-  const versions = process.versions as ExtendedPlatformVersions;
-  if (versions.bun) {
-    map.set("Bun", versions.bun);
-  } else if (versions.deno) {
-    map.set("Deno", versions.deno);
-  } else if (versions.node) {
-    map.set("Node", versions.node);
+export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
+  if (process && process.versions) {
+    const versions = process.versions as ExtendedPlatformVersions;
+    if (versions.bun) {
+      map.set("Bun", versions.bun);
+    } else if (versions.deno) {
+      map.set("Deno", versions.deno);
+    } else if (versions.node) {
+      map.set("Node", versions.node);
+    }
   }
 
   map.set("OS", `(${os.arch()}-${os.type()}-${os.release()})`);

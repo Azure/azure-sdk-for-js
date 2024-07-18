@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an Agent resource.
  *
  * @summary Deletes an Agent resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Agents_Delete.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_Delete.json
  */
 async function agentsDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function agentsDelete() {
   const result = await client.agents.beginDeleteAndWait(
     resourceGroupName,
     storageMoverName,
-    agentName
+    agentName,
   );
   console.log(result);
 }

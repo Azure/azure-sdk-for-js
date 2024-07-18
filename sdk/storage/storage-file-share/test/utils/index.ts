@@ -17,6 +17,7 @@ import {
   generateAccountSASQueryParameters,
   SASProtocol,
   ShareClientConfig,
+  ShareClientOptions,
 } from "../../src";
 import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
@@ -31,7 +32,7 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  config?: ShareClientConfig,
+  config?: ShareClientOptions,
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
@@ -46,7 +47,7 @@ export function getGenericBSU(
   }
 
   const credentials = new StorageSharedKeyCredential(accountName, accountKey);
-  const pipeline = newPipeline(credentials);
+  const pipeline = newPipeline(credentials, config);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
   const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
   configureStorageClient(recorder, client);
@@ -81,7 +82,7 @@ export function getTokenBSU(
   return client;
 }
 
-export function getBSU(recorder: Recorder, config?: ShareClientConfig): ShareServiceClient {
+export function getBSU(recorder: Recorder, config?: ShareClientOptions): ShareServiceClient {
   return getGenericBSU(recorder, "", "", config);
 }
 
@@ -196,7 +197,7 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
   const sas = generateAccountSASQueryParameters(
     {
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: AccountSASPermissions.parse("rwdlacup"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),

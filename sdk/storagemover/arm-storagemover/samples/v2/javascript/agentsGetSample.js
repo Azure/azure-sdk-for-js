@@ -16,9 +16,27 @@ require("dotenv").config();
  * This sample demonstrates how to Gets an Agent resource.
  *
  * @summary Gets an Agent resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Agents_Get.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_Get_MaximumSet.json
  */
-async function agentsGet() {
+async function agentsGetMaximumSet() {
+  const subscriptionId =
+    process.env["STORAGEMOVER_SUBSCRIPTION_ID"] || "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
+  const resourceGroupName = process.env["STORAGEMOVER_RESOURCE_GROUP"] || "examples-rg";
+  const storageMoverName = "examples-storageMoverName";
+  const agentName = "examples-agentName";
+  const credential = new DefaultAzureCredential();
+  const client = new StorageMoverClient(credential, subscriptionId);
+  const result = await client.agents.get(resourceGroupName, storageMoverName, agentName);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets an Agent resource.
+ *
+ * @summary Gets an Agent resource.
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_Get_MinimumSet.json
+ */
+async function agentsGetMinimumSet() {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] || "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
   const resourceGroupName = process.env["STORAGEMOVER_RESOURCE_GROUP"] || "examples-rg";
@@ -31,7 +49,8 @@ async function agentsGet() {
 }
 
 async function main() {
-  agentsGet();
+  agentsGetMaximumSet();
+  agentsGetMinimumSet();
 }
 
 main().catch(console.error);

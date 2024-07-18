@@ -17,7 +17,7 @@ import {
   QueueUpdateResponse,
   QueueGetOptionalParams,
   QueueGetResponse,
-  QueueDeleteOptionalParams
+  QueueDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Queue {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: QueueListOptionalParams
+    options?: QueueListOptionalParams,
   ): PagedAsyncIterableIterator<ListQueue>;
   /**
    * Creates a new queue with the specified queue name, under the specified account.
@@ -55,7 +55,7 @@ export interface Queue {
     accountName: string,
     queueName: string,
     queue: StorageQueue,
-    options?: QueueCreateOptionalParams
+    options?: QueueCreateOptionalParams,
   ): Promise<QueueCreateResponse>;
   /**
    * Creates a new queue with the specified queue name, under the specified account.
@@ -75,7 +75,7 @@ export interface Queue {
     accountName: string,
     queueName: string,
     queue: StorageQueue,
-    options?: QueueUpdateOptionalParams
+    options?: QueueUpdateOptionalParams,
   ): Promise<QueueUpdateResponse>;
   /**
    * Gets the queue with the specified queue name, under the specified account if it exists.
@@ -93,7 +93,7 @@ export interface Queue {
     resourceGroupName: string,
     accountName: string,
     queueName: string,
-    options?: QueueGetOptionalParams
+    options?: QueueGetOptionalParams,
   ): Promise<QueueGetResponse>;
   /**
    * Deletes the queue with the specified queue name, under the specified account if it exists.
@@ -111,6 +111,6 @@ export interface Queue {
     resourceGroupName: string,
     accountName: string,
     queueName: string,
-    options?: QueueDeleteOptionalParams
+    options?: QueueDeleteOptionalParams,
   ): Promise<void>;
 }

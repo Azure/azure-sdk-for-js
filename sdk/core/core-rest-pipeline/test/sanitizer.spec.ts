@@ -14,6 +14,15 @@ describe("Sanitizer", function () {
     assert.strictEqual(result, expected);
   });
 
+  it("Ignores url of empty string", function () {
+    const expected = `{
+  "url": ""
+}`;
+    const sanitizer = new Sanitizer();
+    const result = sanitizer.sanitize({ url: "" });
+    assert.strictEqual(result, expected);
+  });
+
   it("Handles recursive data structures", function () {
     const recursive: { a: number; b: unknown } = {
       a: 42,
