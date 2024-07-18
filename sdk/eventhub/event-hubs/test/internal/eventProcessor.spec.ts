@@ -32,7 +32,7 @@ import { delay, MessagingError } from "@azure/core-amqp";
 import { isLatestPosition } from "../../src/eventPosition.js";
 import { loggerForTest } from "../utils/logHelpers.js";
 import { getRandomName } from "../../src/util/utils.js";
-import { randomUUID } from "@azure/core-util";
+import { isNodeLike, randomUUID } from "@azure/core-util";
 import { should } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
@@ -1545,7 +1545,9 @@ describe(
             },
           );
           processorByName[processorName].start();
-          await delay(1);
+          if (isNodeLike) {
+            await delay(12000);
+          }
         }
 
         await loopUntil({

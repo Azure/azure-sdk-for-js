@@ -105,8 +105,8 @@ async function insertPackageJson(
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
   testPackageJson.type = packageJsonContents.type;
   if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
-    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest --no-test-proxy";
-    testPackageJson.scripts["integration-test:browser"] = "tshy && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy";
+    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest --no-test-proxy -- -c ../vitest.config.ts";
+    testPackageJson.scripts["integration-test:browser"] = "tshy && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy -- -c vitest.browser.config.ts";
     testPackageJson.scripts["build"] = "echo skipped.";
   }
 
@@ -268,21 +268,6 @@ async function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath,
   fs.copyFileSync(sourcePath, destPath);
 }
 
-function copyFileToChildDir(parentPath, childPath, fileName) {
-  const sourcePath = path.join(parentPath, fileName);
-  const destPath = path.join(parentPath, childPath, fileName);
-  console.log(`copying file from ${sourcePath} to ${destPath}`);
-  fs.copyFileSync(sourcePath, destPath);
-
-}
-
-function copyVitestConfig(targetPackagePath, testFolder) {
-  const vitestNodeJSConfigFileName = "vitest.config.ts";
-  const vitestBrowserConfigFileName = "vitest.browser.config.ts";
-  copyFileToChildDir(targetPackagePath, testFolder, vitestNodeJSConfigFileName);
-  copyFileToChildDir(targetPackagePath, testFolder, vitestBrowserConfigFileName);
-}
-
 async function insertTsConfigJson(targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   let tsConfigJson = await packageUtils.readFileJson("./templates/tsconfig.json");
@@ -410,9 +395,6 @@ async function main(argv) {
     testFolder,
   );
   await insertTsConfigJson(targetPackagePath, testFolder);
-  if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
-    copyVitestConfig(targetPackagePath, testFolder);
-  }
   if (dryRun) {
     console.log("Dry run only, no changes");
     return;
