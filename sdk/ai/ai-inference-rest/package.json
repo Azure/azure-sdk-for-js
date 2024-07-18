@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-inference",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Inference API for Azure-supported AI models",
   "exports": {
     "./package.json": "./package.json",

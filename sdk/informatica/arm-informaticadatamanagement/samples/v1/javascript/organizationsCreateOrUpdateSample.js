@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  InformaticaOrganizationResource,
-  InformaticaDataManagement,
-} from "@azure/arm-informaticadatamanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { InformaticaDataManagement } = require("@azure/arm-informaticadatamanagement");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a InformaticaOrganizationResource
@@ -25,12 +20,10 @@ dotenv.config();
  */
 async function organizationsCreateOrUpdate() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
-    "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName =
-    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "C";
-  const resource: InformaticaOrganizationResource = {
+  const resource = {
     location: "pamjoudtssthlbhrnfjidr",
     properties: {
       companyDetails: {
@@ -45,7 +38,7 @@ async function organizationsCreateOrUpdate() {
         informaticaRegion: "zfqodqpbeflhedypiijdkc",
         organizationId: "wtdmhlwhkvgqdumaehgfgiqcxgnqpx",
         organizationName: "nomzbvwe",
-        singleSignOnUrl: "espcbzjhtmgwfdkckhqk",
+        singleSignOnUrl: "https://contoso.com/singlesignon",
       },
       linkOrganization: { token: "jjfouhoqpumjvrdsfbimgcy" },
       marketplaceDetails: {
@@ -92,12 +85,10 @@ async function organizationsCreateOrUpdate() {
  */
 async function organizationsCreateOrUpdateMin() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
-    "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName =
-    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "n6v";
-  const resource: InformaticaOrganizationResource = {
+  const resource = {
     location: "pamjoudtssthlbhrnfjidr",
   };
   const credential = new DefaultAzureCredential();
