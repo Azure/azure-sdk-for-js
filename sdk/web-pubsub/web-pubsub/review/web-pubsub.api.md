@@ -20,15 +20,12 @@ export interface ClientTokenResponse {
 }
 
 // @public
-export type ClientType = "default" | "mqtt";
-
-// @public
 export interface GenerateClientTokenOptions extends OperationOptions {
-    clientType?: ClientType;
     expirationTimeInMinutes?: number;
     groups?: string[];
     roles?: string[];
     userId?: string;
+    webPubSubClientAccess?: WebPubSubClientAccess;
 }
 
 // @public
@@ -160,6 +157,9 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 
 // @public (undocumented)
 export type Permission = "joinLeaveGroup" | "sendToGroup";
+
+// @public
+export type WebPubSubClientAccess = "default" | "mqtt";
 
 // @public (undocumented)
 export interface WebPubSubGroup {
