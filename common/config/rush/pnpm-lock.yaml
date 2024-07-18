@@ -11500,7 +11500,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-BvQNtblG5Ekhs4ZmiHUKiLU49L8op9tVOwJSCaZP52jhMBqNAmZFWQ4QTz6uAdbd8nqlTdtL932Xer59Dap9PA==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-RZajZdzu6j7X9C4dVf2rYkuHno03Yvc/IQ/LP5vklugnFc74kluhXdEY6F2aoWK+b0Vh4K9YP0E9IG/yryJMOw==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -11712,7 +11712,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-lE4wXAnj0Mor6PbzOzScLSTW5+5SDmHqwKt0JS9rHHZhPe8d51icfxYeWVu+lZ/MlnkeML+JpKbFAOkEZ0guvw==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-KhEaRw6EXf2LMmw6rbuaep9/G4kKWATXsA5czScbTOkJ3bQKOACslWN3zynn+puHpuyIeANMVovQaNH8oRd1xg==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -20470,7 +20470,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-zyu8AiqGLwZWuEpTuodQDLMu+auXoDcDC2rLYtEysykv5r2j1ORxUZofNqNOlwQxfOzrMHBNYj5Vv9GrLNNAKA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-O1cZp7GtlB1mn0+P7fLBFJR6QEQPOVXiqOrlFxH8BqbywEw9FKWUzaJCu/9KFxCCiB8r6x6llDoigzvVAf7VHg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -21534,7 +21534,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-grpGgq6DaV5Th3+vUY231FirRbXpXtT4FT+xqZx0t3Spy02t0owEcnfbmfn6dGpYj3QWtDmuwWWoSYrB5fZOzA==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-pWjY8TL477Mm/3eAxkC5KAU25uz4lTnE7PiLd6xOZPUYMWmfMKES4RDf87ahJwncCd/2KR4ZdAyySdAFTuH/hA==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -22114,7 +22114,7 @@ packages:
       '@azure/functions': 4.5.0
       '@azure/functions-old': /@azure/functions@3.5.1
       '@azure/functions3': /@azure/functions@3.2.0
-      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.52.1

@@ -51,7 +51,7 @@ export const cliCredentialInternals = {
     if (tenantId) {
       tenantSection = ["--tenant", tenantId];
     }
-    console.log("CALLED getAzureCliAccessToken");
+    console.log("CALLED getAzureCliAccessToken from source code");
     return new Promise((resolve, reject) => {
       try {
         child_process.execFile(
@@ -99,7 +99,7 @@ export class AzureCliCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureCliCredentialOptions) {
-    console.log("CALLED AzureCliCredential ctor.");
+    console.log("CALLED AzureCliCredential ctor from source code.");
     if (options?.tenantId) {
       checkTenantId(logger, options?.tenantId);
       this.tenantId = options?.tenantId;
