@@ -233,7 +233,7 @@ export class LiveMetrics {
     }
     // Turn on live metrics active collection for statsbeat
     if (!this.statsbeatOptionsUpdated) {
-      getInstance().setStatsbeatFeatures({ liveMetrics: true });
+      getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
     this.lastCpus = os.cpus();

@@ -14,7 +14,8 @@ import {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
-  StatsbeatOptions,
+  StatsbeatFeatures,
+  StatsbeatInstrumentations,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 import { setSdkPrefix } from "./metrics/quickpulse/utils";
@@ -39,7 +40,7 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentations();
-  const statsbeatOptions: StatsbeatOptions = {
+  const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
     mongoDb: config.instrumentationOptions?.mongoDb?.enabled,
@@ -48,12 +49,13 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
     winston: config.instrumentationOptions?.winston?.enabled,
-    // Features
-    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
-    aadHandling: !!config.azureMonitorExporterOptions?.credential,
-    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
   };
-  getInstance().setStatsbeatFeatures(statsbeatOptions);
+  const statsbeatFeatures: StatsbeatFeatures = {
+      browserSdkLoader: config.browserSdkLoaderOptions.enabled,
+      aadHandling: !!config.azureMonitorExporterOptions?.credential,
+      diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+  }
+  getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 
   if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);

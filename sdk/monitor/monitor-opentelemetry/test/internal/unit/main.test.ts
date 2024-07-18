@@ -179,45 +179,41 @@ describe("Main functions", () => {
     assert.strictEqual(instrumentations, 31);
   });
 
-// <<<<<<< HEAD
-//   it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", () => {
-// =======
-//   it("should set shim feature in statsbeat if env var is populated", () => {
-//     getInstance()["initializedByShim"] = true;
-//     let config: AzureMonitorOpenTelemetryOptions = {
-//       azureMonitorExporterOptions: {
-//         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-//       },
-//     };
-//     useAzureMonitor(config);
-//     let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-//     const features = Number(output["feature"]);
-//     assert.ok(features & StatsbeatFeature.SHIM, `SHIM is not set ${features}`);
-//   });
+  it("should set shim feature in statsbeat if env var is populated", () => {
+    getInstance()["initializedByShim"] = true;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.ok(features & StatsbeatFeature.SHIM, `SHIM is not set ${features}`);
+  });
 
-//   it("should use statsbeat features if already available", () => {
-//     const env = <{ [id: string]: string }>{};
-//     let current = 0;
-//     current |= StatsbeatFeature.AAD_HANDLING;
-//     current |= StatsbeatFeature.DISK_RETRY;
-//     current |= StatsbeatFeature.LIVE_METRICS;
-//     env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
-//     process.env = env;
-// >>>>>>> main
-  //   let config: AzureMonitorOpenTelemetryOptions = {
-  //     azureMonitorExporterOptions: {
-  //       connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-  //     },
-  //   };
-  //   useAzureMonitor(config);
-  //   registerInstrumentations({
-  //     instrumentations: [new FsInstrumentation()],
-  //   });
-  //   let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-  //   const instrumentations = Number(output["instrumentation"]);
-  //   assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
-  //   assert.strictEqual(instrumentations, StatsbeatInstrumentation.FS);
-  // });
+  it("should use statsbeat features if already available", () => {
+    const env = <{ [id: string]: string }>{};
+    let current = 0;
+    current |= StatsbeatFeature.AAD_HANDLING;
+    current |= StatsbeatFeature.DISK_RETRY;
+    current |= StatsbeatFeature.LIVE_METRICS;
+    env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const numberOutput = Number(output["feature"]);
+    assert.ok(numberOutput & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING not set");
+    assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
+    assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
+    assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
+    assert.ok(numberOutput & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
+  });
 
   it("should capture the app service SDK prefix correctly", () => {
     const os = getOsPrefix();

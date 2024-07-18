@@ -16,14 +16,12 @@ export function patchOpenTelemetryInstrumentations(): void {
     const originalModuleDefinition = autoLoaderUtils.enableInstrumentations;
 
     // Parses the enabled instrumentations and then ammends the statsbeat instrumentation environment variable
-    // Careful not to run multiple stringifies here as it's just wasteful
     autoLoaderUtils.enableInstrumentations = function (instrumentations: Instrumentation[]) {
       const statsbeatOptions: StatsbeatEnvironmentConfig = JSON.parse(
         process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || emptyStatsbeatConfig
       );
       let updatedStatsbeat = {};
       for (let i = 0; i < instrumentations.length; i++) {
-          console.log(instrumentations[i].instrumentationName);
           updatedStatsbeat = {
             instrumentation: (statsbeatOptions.instrumentation |= StatsbeatInstrumentationMap.get(instrumentations[i].instrumentationName) || 0),
             feature: statsbeatOptions.feature,
