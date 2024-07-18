@@ -30,6 +30,8 @@ import {
   RemoteDependency,
   Request,
   Trace,
+  KnownCollectionConfigurationErrorType,
+  KeyValuePairString
 } from "../../generated";
 import {
   getCloudRole,
@@ -52,6 +54,7 @@ import {
   UnexpectedFilterCreateError,
   validateTelemetryType,
   checkCustomMetricProjection,
+  validateFilters,
 } from "./filtering";
 
 const POST_INTERVAL = 1000;
@@ -218,23 +221,7 @@ export class LiveMetrics {
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
 
       if (response.xMsQpsConfigurationEtag && this.etag !== response.xMsQpsConfigurationEtag) {
-        this.etag = response.xMsQpsConfigurationEtag;
-        this.quickpulseExporter.setEtag(this.etag);
-        response.metrics.forEach((derivedMetricInfo) => {
-          // implementation note: duplicate metric id handling here
-          try {
-            validateTelemetryType(derivedMetricInfo);
-            checkCustomMetricProjection(derivedMetricInfo);
-            // implementation note: add valid metric id, filter expression, to some structure
-          } catch (error) {
-            if (error instanceof TelemetryTypeError) {
-
-            } else if (error instanceof UnexpectedFilterCreateError) {
-
-            }
-          }
-
-        });
+        this.updateConfiguration(response);
       }
 
       // If collecting was stoped
@@ -624,6 +611,42 @@ export class LiveMetrics {
       observableResult.observe(value);
     }
     this.lastCpus = cpus;
+  }
+
+  private updateConfiguration(response: PublishResponse | IsSubscribedResponse) {
+    this.etag = response.xMsQpsConfigurationEtag || "";
+    this.quickpulseExporter.setEtag(this.etag);
+    response.metrics.forEach((derivedMetricInfo) => {
+      // implementation note: duplicate metric id handling here
+      try {
+        validateTelemetryType(derivedMetricInfo);
+        checkCustomMetricProjection(derivedMetricInfo);
+        validateFilters(derivedMetricInfo);
+        // implementation note: add valid metric id, filter expression, to some structure
+      } catch (error) {
+        let configError: CollectionConfigurationError = {
+          collectionConfigurationErrorType: "",
+          message: "",
+          fullException: "",
+          data: [],
+        };
+        if (error instanceof TelemetryTypeError) {
+          configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
+          configError.message = error.message;
+          configError.fullException = error.stack || "";
+        } else if (error instanceof UnexpectedFilterCreateError) {
+          configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.FilterFailureToCreateUnexpected;
+          configError.message = error.message;
+          configError.fullException = error.stack || "";
+        }
+        const data: KeyValuePairString[] = [];
+        data.push({ key: "MetricId", value: derivedMetricInfo.id });
+        data.push({ key: "ETag", value: this.etag });
+        configError.data = data;
+        this.errors.push(configError);
+      }
+
+    });
   }
 
 }
