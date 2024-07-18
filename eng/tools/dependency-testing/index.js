@@ -105,8 +105,8 @@ async function insertPackageJson(
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
   testPackageJson.type = packageJsonContents.type;
   if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
-    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest --no-test-proxy -- -c ../vitest.config.ts";
-    testPackageJson.scripts["integration-test:browser"] = "tshy && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy -- -c vitest.browser.config.ts";
+    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest --no-test-proxy -- -c ../../vitest.config.ts";
+    testPackageJson.scripts["integration-test:browser"] = "tshy && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy -- -c ../../vitest.browser.config.ts";
     testPackageJson.scripts["build"] = "echo skipped.";
   }
 
