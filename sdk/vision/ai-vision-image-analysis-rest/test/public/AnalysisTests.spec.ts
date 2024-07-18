@@ -17,12 +17,9 @@ import { createClient } from "./utils/clientMethods";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-const key = assertEnvironmentVariable("VISION_KEY");
-const KeyCredential = new AzureKeyCredential(key);
-
 const credentials = [
-  { credential: KeyCredential, title: "AzureKeyCredential" },
-  { credential: createTestCredential(), title: "TokenCredential" }
+  { credential: () => new AzureKeyCredential(assertEnvironmentVariable("VISION_KEY")), title: "AzureKeyCredential" },
+  { credential: () => createTestCredential(), title: "TokenCredential" }
 ];
 
 describe("Analyze Tests", () => {
@@ -33,12 +30,12 @@ describe("Analyze Tests", () => {
 
       beforeEach(async function (this: Context) {
         recorder = await createRecorder(this);
-        
+
         recorder.addSanitizers({
           headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
           uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint/" }],
         });
-        client = await createClient(recorder, credential.credential);
+        client = await createClient(recorder, credential.credential());
       });
 
       afterEach(async function () {
