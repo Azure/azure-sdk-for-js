@@ -504,7 +504,7 @@ describe("Blob Checkpoint Store", function (): void {
         checkpoint.consumerGroup.should.equal("testConsumerGroup");
         checkpoint.eventHubName.should.equal("testEventHub");
         checkpoint.sequenceNumber!.should.equal(100 + i);
-        checkpoint.offset!.should.equal(1023 + i);
+        checkpoint.offset!.should.equal(`${1023 + i}`);
 
         // now update it
         checkpoint.offset = addToOffset(checkpoint.offset, 1);
@@ -530,7 +530,7 @@ describe("Blob Checkpoint Store", function (): void {
         checkpoint.consumerGroup.should.equal("testConsumerGroup");
         checkpoint.eventHubName.should.equal("testEventHub");
         checkpoint.sequenceNumber!.should.equal(100 + i + 1);
-        checkpoint.offset!.should.equal(1023 + i + 1);
+        checkpoint.offset!.should.equal(`${1023 + i + 1}`);
       }
     });
 
@@ -783,7 +783,7 @@ describe("Blob Checkpoint Store", function (): void {
 
     checkpoints.length.should.equal(1);
     checkpoints[0].sequenceNumber.should.equal(0);
-    checkpoints[0].offset.should.equal(0);
+    checkpoints[0].offset.should.equal("0");
     checkpoints[0].partitionId.should.equal("0");
   });
 

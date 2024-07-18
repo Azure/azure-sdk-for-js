@@ -121,7 +121,7 @@ describe("DevCenter Environments Operations Test", () => {
       environmentDefinitions.push(environmentDefinition);
     }
 
-    expect(environmentDefinitions.length).to.equal(3);
+    expect(environmentDefinitions.length).to.equal(8);
   });
 
   it("List environments within a project", async function () {

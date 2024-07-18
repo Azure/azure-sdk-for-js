@@ -60,6 +60,7 @@ export {
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
+  CompositePath,
   ComputedProperty,
   VectorEmbeddingPolicy,
   VectorIndex,

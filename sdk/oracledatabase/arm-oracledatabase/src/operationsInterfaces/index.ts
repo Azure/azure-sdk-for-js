@@ -17,6 +17,7 @@ export * from "./dbSystemShapes";
 export * from "./dnsPrivateViews";
 export * from "./dnsPrivateZones";
 export * from "./giVersions";
+export * from "./systemVersions";
 export * from "./oracleSubscriptions";
 export * from "./autonomousDatabaseBackups";
 export * from "./dbServers";

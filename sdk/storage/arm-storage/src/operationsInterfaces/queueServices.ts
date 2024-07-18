@@ -13,7 +13,7 @@ import {
   QueueServicesSetServicePropertiesOptionalParams,
   QueueServicesSetServicePropertiesResponse,
   QueueServicesGetServicePropertiesOptionalParams,
-  QueueServicesGetServicePropertiesResponse
+  QueueServicesGetServicePropertiesResponse,
 } from "../models";
 
 /** Interface representing a QueueServices. */
@@ -30,7 +30,7 @@ export interface QueueServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: QueueServicesListOptionalParams
+    options?: QueueServicesListOptionalParams,
   ): Promise<QueueServicesListResponse>;
   /**
    * Sets the properties of a storage account’s Queue service, including properties for Storage Analytics
@@ -48,7 +48,7 @@ export interface QueueServices {
     resourceGroupName: string,
     accountName: string,
     parameters: QueueServiceProperties,
-    options?: QueueServicesSetServicePropertiesOptionalParams
+    options?: QueueServicesSetServicePropertiesOptionalParams,
   ): Promise<QueueServicesSetServicePropertiesResponse>;
   /**
    * Gets the properties of a storage account’s Queue service, including properties for Storage Analytics
@@ -63,6 +63,6 @@ export interface QueueServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: QueueServicesGetServicePropertiesOptionalParams
+    options?: QueueServicesGetServicePropertiesOptionalParams,
   ): Promise<QueueServicesGetServicePropertiesResponse>;
 }

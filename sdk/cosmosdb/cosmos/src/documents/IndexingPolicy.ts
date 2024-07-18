@@ -13,6 +13,8 @@ export interface IndexingPolicy {
   spatialIndexes?: SpatialIndex[];
   /** An array of {@link VectorIndex} represents the vector index paths to be included for indexing. */
   vectorIndexes?: VectorIndex[];
+  /** An array of {@link CompositeIndexes} representing composite indexes to be included. */
+  compositeIndexes?: CompositePath[][];
 }
 
 /* The target data type of a spatial path */
@@ -83,4 +85,14 @@ export enum VectorIndexType {
    * Represents quantizedFlat index type.
    */
   QuantizedFlat = "quantizedFlat",
+}
+
+/**
+ * Represents a composite path in the indexing policy.
+ */
+export interface CompositePath {
+  /** The path in the JSON document to include in the composite index. */
+  path: string;
+  /** The order of the composite index, either "ascending" or "descending". */
+  order: "ascending" | "descending";
 }

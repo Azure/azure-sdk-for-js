@@ -144,10 +144,18 @@ export interface ImageTemplateVmProfile {
 
 /** Virtual Network configuration. */
 export interface VirtualNetworkConfig {
-  /** Resource id of a pre-existing subnet. */
+  /** Resource id of a pre-existing subnet on which the build VM and validation VM will be deployed */
   subnetId?: string;
-  /** Size of the proxy virtual machine used to pass traffic to the build VM and validation VM. Omit or specify empty string to use the default (Standard_A1_v2). */
+  /** Resource id of a pre-existing subnet on which Azure Container Instance will be deployed for Isolated Builds. This field may be specified only if `subnetId` is also specified and must be on the same Virtual Network as the subnet specified in `subnetId`. */
+  containerInstanceSubnetId?: string;
+  /** Size of the proxy virtual machine used to pass traffic to the build VM and validation VM. This must not be specified if `containerInstanceSubnetId` is specified because no proxy virtual machine is deployed in that case. Omit or specify empty string to use the default (Standard_A1_v2). */
   proxyVmSize?: string;
+}
+
+/** Indicates if the image template needs to be built on create/update */
+export interface ImageTemplateAutoRun {
+  /** Enabling this field will trigger an automatic build on image template creation or update. */
+  state?: AutoRunState;
 }
 
 /** Identity for the image template. */
@@ -275,6 +283,8 @@ export interface ImageTemplateUpdateParameters {
 export interface ImageTemplateUpdateParametersProperties {
   /** The distribution targets where the image output needs to go to. */
   distribute?: ImageTemplateDistributorUnion[];
+  /** Describes how virtual machine is set up to build images */
+  vmProfile?: ImageTemplateVmProfile;
 }
 
 /** The result of List run outputs operation */
@@ -655,6 +665,10 @@ export interface ImageTemplate extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exactStagingResourceGroup?: string;
+  /** Indicates whether or not to automatically run the image template build on template creation or update. */
+  autoRun?: ImageTemplateAutoRun;
+  /** Tags that will be applied to the resource group and/or resources created by the service. */
+  managedResourceTags?: { [propertyName: string]: string };
 }
 
 /** Represents an output that was created by running an image template. */
@@ -703,7 +717,7 @@ export enum KnownOnBuildError {
   /** Cleanup */
   Cleanup = "cleanup",
   /** Abort */
-  Abort = "abort"
+  Abort = "abort",
 }
 
 /**
@@ -747,7 +761,7 @@ export enum KnownProvisioningErrorCode {
   /** ServerError */
   ServerError = "ServerError",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -782,7 +796,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -804,7 +818,7 @@ export enum KnownSharedImageStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
 }
 
 /**
@@ -843,6 +857,8 @@ export type RunSubState =
   | "Optimizing"
   | "Validating"
   | "Distributing";
+/** Defines values for AutoRunState. */
+export type AutoRunState = "Enabled" | "Disabled";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "UserAssigned" | "None";
 
@@ -858,7 +874,8 @@ export interface VirtualMachineImageTemplatesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type VirtualMachineImageTemplatesListByResourceGroupResponse = ImageTemplateListResult;
+export type VirtualMachineImageTemplatesListByResourceGroupResponse =
+  ImageTemplateListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineImageTemplatesCreateOrUpdateOptionalParams
@@ -901,7 +918,8 @@ export interface VirtualMachineImageTemplatesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type VirtualMachineImageTemplatesDeleteResponse = VirtualMachineImageTemplatesDeleteHeaders;
+export type VirtualMachineImageTemplatesDeleteResponse =
+  VirtualMachineImageTemplatesDeleteHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineImageTemplatesRunOptionalParams
@@ -926,7 +944,8 @@ export interface VirtualMachineImageTemplatesListRunOutputsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRunOutputs operation. */
-export type VirtualMachineImageTemplatesListRunOutputsResponse = RunOutputCollection;
+export type VirtualMachineImageTemplatesListRunOutputsResponse =
+  RunOutputCollection;
 
 /** Optional parameters. */
 export interface VirtualMachineImageTemplatesGetRunOutputOptionalParams
@@ -940,21 +959,24 @@ export interface VirtualMachineImageTemplatesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineImageTemplatesListNextResponse = ImageTemplateListResult;
+export type VirtualMachineImageTemplatesListNextResponse =
+  ImageTemplateListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineImageTemplatesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualMachineImageTemplatesListByResourceGroupNextResponse = ImageTemplateListResult;
+export type VirtualMachineImageTemplatesListByResourceGroupNextResponse =
+  ImageTemplateListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineImageTemplatesListRunOutputsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRunOutputsNext operation. */
-export type VirtualMachineImageTemplatesListRunOutputsNextResponse = RunOutputCollection;
+export type VirtualMachineImageTemplatesListRunOutputsNextResponse =
+  RunOutputCollection;
 
 /** Optional parameters. */
 export interface TriggersListByImageTemplateOptionalParams

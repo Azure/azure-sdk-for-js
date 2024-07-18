@@ -37,7 +37,6 @@ const mockAccountName = "fakestorageaccount";
 // const mockMDAccountName = "md-fakestorageaccount";
 // const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
-const mockTenantId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
@@ -58,9 +57,6 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     // ACCOUNT_TOKEN: `${mockAccountKey}`,
-    AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockTenantId}`,
-    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     // MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     // MD_ACCOUNT_KEY: `${mockAccountKey}`,
     // MD_ACCOUNT_SAS: `${mockSas}`,
@@ -116,9 +112,6 @@ export const recorderEnvSetupWithCopySource: RecorderStartOptions = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     // ACCOUNT_TOKEN: `${mockAccountKey}`,
-    AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockAccountKey}`,
-    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     // MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     // MD_ACCOUNT_KEY: `${mockAccountKey}`,
     // MD_ACCOUNT_SAS: `${mockSas}`,

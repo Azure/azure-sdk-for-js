@@ -11,63 +11,39 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkloadNetwork,
   WorkloadNetworksListOptionalParams,
-  WorkloadNetworkSegment,
-  WorkloadNetworksListSegmentsOptionalParams,
   WorkloadNetworkDhcp,
   WorkloadNetworksListDhcpOptionalParams,
-  WorkloadNetworkGateway,
-  WorkloadNetworksListGatewaysOptionalParams,
-  WorkloadNetworkPortMirroring,
-  WorkloadNetworksListPortMirroringOptionalParams,
-  WorkloadNetworkVMGroup,
-  WorkloadNetworksListVMGroupsOptionalParams,
-  WorkloadNetworkVirtualMachine,
-  WorkloadNetworksListVirtualMachinesOptionalParams,
   WorkloadNetworkDnsService,
   WorkloadNetworksListDnsServicesOptionalParams,
   WorkloadNetworkDnsZone,
   WorkloadNetworksListDnsZonesOptionalParams,
+  WorkloadNetworkGateway,
+  WorkloadNetworksListGatewaysOptionalParams,
+  WorkloadNetworkPortMirroring,
+  WorkloadNetworksListPortMirroringOptionalParams,
   WorkloadNetworkPublicIP,
   WorkloadNetworksListPublicIPsOptionalParams,
-  WorkloadNetworkName,
+  WorkloadNetworkSegment,
+  WorkloadNetworksListSegmentsOptionalParams,
+  WorkloadNetworkVirtualMachine,
+  WorkloadNetworksListVirtualMachinesOptionalParams,
+  WorkloadNetworkVMGroup,
+  WorkloadNetworksListVMGroupsOptionalParams,
   WorkloadNetworksGetOptionalParams,
   WorkloadNetworksGetResponse,
-  WorkloadNetworksGetSegmentOptionalParams,
-  WorkloadNetworksGetSegmentResponse,
-  WorkloadNetworksCreateSegmentsOptionalParams,
-  WorkloadNetworksCreateSegmentsResponse,
-  WorkloadNetworksUpdateSegmentsOptionalParams,
-  WorkloadNetworksUpdateSegmentsResponse,
-  WorkloadNetworksDeleteSegmentOptionalParams,
   WorkloadNetworksGetDhcpOptionalParams,
   WorkloadNetworksGetDhcpResponse,
   WorkloadNetworksCreateDhcpOptionalParams,
   WorkloadNetworksCreateDhcpResponse,
+  WorkloadNetworkDhcpUpdate,
   WorkloadNetworksUpdateDhcpOptionalParams,
   WorkloadNetworksUpdateDhcpResponse,
   WorkloadNetworksDeleteDhcpOptionalParams,
-  WorkloadNetworksGetGatewayOptionalParams,
-  WorkloadNetworksGetGatewayResponse,
-  WorkloadNetworksGetPortMirroringOptionalParams,
-  WorkloadNetworksGetPortMirroringResponse,
-  WorkloadNetworksCreatePortMirroringOptionalParams,
-  WorkloadNetworksCreatePortMirroringResponse,
-  WorkloadNetworksUpdatePortMirroringOptionalParams,
-  WorkloadNetworksUpdatePortMirroringResponse,
-  WorkloadNetworksDeletePortMirroringOptionalParams,
-  WorkloadNetworksGetVMGroupOptionalParams,
-  WorkloadNetworksGetVMGroupResponse,
-  WorkloadNetworksCreateVMGroupOptionalParams,
-  WorkloadNetworksCreateVMGroupResponse,
-  WorkloadNetworksUpdateVMGroupOptionalParams,
-  WorkloadNetworksUpdateVMGroupResponse,
-  WorkloadNetworksDeleteVMGroupOptionalParams,
-  WorkloadNetworksGetVirtualMachineOptionalParams,
-  WorkloadNetworksGetVirtualMachineResponse,
   WorkloadNetworksGetDnsServiceOptionalParams,
   WorkloadNetworksGetDnsServiceResponse,
   WorkloadNetworksCreateDnsServiceOptionalParams,
   WorkloadNetworksCreateDnsServiceResponse,
+  WorkloadNetworkDnsServiceUpdate,
   WorkloadNetworksUpdateDnsServiceOptionalParams,
   WorkloadNetworksUpdateDnsServiceResponse,
   WorkloadNetworksDeleteDnsServiceOptionalParams,
@@ -75,21 +51,50 @@ import {
   WorkloadNetworksGetDnsZoneResponse,
   WorkloadNetworksCreateDnsZoneOptionalParams,
   WorkloadNetworksCreateDnsZoneResponse,
+  WorkloadNetworkDnsZoneUpdate,
   WorkloadNetworksUpdateDnsZoneOptionalParams,
   WorkloadNetworksUpdateDnsZoneResponse,
   WorkloadNetworksDeleteDnsZoneOptionalParams,
+  WorkloadNetworksGetGatewayOptionalParams,
+  WorkloadNetworksGetGatewayResponse,
+  WorkloadNetworksGetPortMirroringOptionalParams,
+  WorkloadNetworksGetPortMirroringResponse,
+  WorkloadNetworksCreatePortMirroringOptionalParams,
+  WorkloadNetworksCreatePortMirroringResponse,
+  WorkloadNetworkPortMirroringUpdate,
+  WorkloadNetworksUpdatePortMirroringOptionalParams,
+  WorkloadNetworksUpdatePortMirroringResponse,
+  WorkloadNetworksDeletePortMirroringOptionalParams,
   WorkloadNetworksGetPublicIPOptionalParams,
   WorkloadNetworksGetPublicIPResponse,
   WorkloadNetworksCreatePublicIPOptionalParams,
   WorkloadNetworksCreatePublicIPResponse,
-  WorkloadNetworksDeletePublicIPOptionalParams
+  WorkloadNetworksDeletePublicIPOptionalParams,
+  WorkloadNetworksGetSegmentOptionalParams,
+  WorkloadNetworksGetSegmentResponse,
+  WorkloadNetworksCreateSegmentsOptionalParams,
+  WorkloadNetworksCreateSegmentsResponse,
+  WorkloadNetworkSegmentUpdate,
+  WorkloadNetworksUpdateSegmentsOptionalParams,
+  WorkloadNetworksUpdateSegmentsResponse,
+  WorkloadNetworksDeleteSegmentOptionalParams,
+  WorkloadNetworksGetVirtualMachineOptionalParams,
+  WorkloadNetworksGetVirtualMachineResponse,
+  WorkloadNetworksGetVMGroupOptionalParams,
+  WorkloadNetworksGetVMGroupResponse,
+  WorkloadNetworksCreateVMGroupOptionalParams,
+  WorkloadNetworksCreateVMGroupResponse,
+  WorkloadNetworkVMGroupUpdate,
+  WorkloadNetworksUpdateVMGroupOptionalParams,
+  WorkloadNetworksUpdateVMGroupResponse,
+  WorkloadNetworksDeleteVMGroupOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkloadNetworks. */
 export interface WorkloadNetworks {
   /**
-   * List of workload networks in a private cloud.
+   * List WorkloadNetwork resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -97,21 +102,10 @@ export interface WorkloadNetworks {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListOptionalParams
+    options?: WorkloadNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetwork>;
   /**
-   * List of segments in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  listSegments(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListSegmentsOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkSegment>;
-  /**
-   * List dhcp in a private cloud workload network.
+   * List WorkloadNetworkDhcp resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -119,54 +113,10 @@ export interface WorkloadNetworks {
   listDhcp(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDhcpOptionalParams
+    options?: WorkloadNetworksListDhcpOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
   /**
-   * List of gateways in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  listGateways(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListGatewaysOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkGateway>;
-  /**
-   * List of port mirroring profiles in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  listPortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListPortMirroringOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
-  /**
-   * List of vm groups in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  listVMGroups(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVMGroupsOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
-  /**
-   * List of virtual machines in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  listVirtualMachines(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVirtualMachinesOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
-  /**
-   * List of DNS services in a private cloud workload network.
+   * List WorkloadNetworkDnsService resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -174,10 +124,10 @@ export interface WorkloadNetworks {
   listDnsServices(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsServicesOptionalParams
+    options?: WorkloadNetworksListDnsServicesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
   /**
-   * List of DNS zones in a private cloud workload network.
+   * List WorkloadNetworkDnsZone resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -185,10 +135,32 @@ export interface WorkloadNetworks {
   listDnsZones(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsZonesOptionalParams
+    options?: WorkloadNetworksListDnsZonesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
   /**
-   * List of Public IP Blocks in a private cloud workload network.
+   * List WorkloadNetworkGateway resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  listGateways(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListGatewaysOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkGateway>;
+  /**
+   * List WorkloadNetworkPortMirroring resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  listPortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListPortMirroringOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
+  /**
+   * List WorkloadNetworkPublicIP resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -196,134 +168,56 @@ export interface WorkloadNetworks {
   listPublicIPs(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListPublicIPsOptionalParams
+    options?: WorkloadNetworksListPublicIPsOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
   /**
-   * Get a private cloud workload network.
+   * List WorkloadNetworkSegment resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param workloadNetworkName Name for the workload network in the private cloud
+   * @param options The options parameters.
+   */
+  listSegments(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListSegmentsOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkSegment>;
+  /**
+   * List WorkloadNetworkVirtualMachine resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  listVirtualMachines(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVirtualMachinesOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
+  /**
+   * List WorkloadNetworkVMGroup resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  listVMGroups(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVMGroupsOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
+  /**
+   * Get a WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    workloadNetworkName: WorkloadNetworkName,
-    options?: WorkloadNetworksGetOptionalParams
+    options?: WorkloadNetworksGetOptionalParams,
   ): Promise<WorkloadNetworksGetResponse>;
   /**
-   * Get a segment by id in a private cloud workload network.
+   * Get a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param options The options parameters.
-   */
-  getSegment(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    options?: WorkloadNetworksGetSegmentOptionalParams
-  ): Promise<WorkloadNetworksGetSegmentResponse>;
-  /**
-   * Create a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  beginCreateSegments(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksCreateSegmentsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkloadNetworksCreateSegmentsResponse>,
-      WorkloadNetworksCreateSegmentsResponse
-    >
-  >;
-  /**
-   * Create a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  beginCreateSegmentsAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksCreateSegmentsOptionalParams
-  ): Promise<WorkloadNetworksCreateSegmentsResponse>;
-  /**
-   * Create or update a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  beginUpdateSegments(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksUpdateSegmentsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkloadNetworksUpdateSegmentsResponse>,
-      WorkloadNetworksUpdateSegmentsResponse
-    >
-  >;
-  /**
-   * Create or update a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  beginUpdateSegmentsAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksUpdateSegmentsOptionalParams
-  ): Promise<WorkloadNetworksUpdateSegmentsResponse>;
-  /**
-   * Delete a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param options The options parameters.
-   */
-  beginDeleteSegment(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    options?: WorkloadNetworksDeleteSegmentOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param options The options parameters.
-   */
-  beginDeleteSegmentAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    options?: WorkloadNetworksDeleteSegmentOptionalParams
-  ): Promise<void>;
-  /**
-   * Get dhcp by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
+   * @param dhcpId The ID of the DHCP configuration
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -331,14 +225,14 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     dhcpId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksGetDhcpOptionalParams
+    options?: WorkloadNetworksGetDhcpOptionalParams,
   ): Promise<WorkloadNetworksGetDhcpResponse>;
   /**
-   * Create dhcp by id in a private cloud workload network.
+   * Create a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateDhcp(
@@ -346,7 +240,7 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksCreateDhcpOptionalParams
+    options?: WorkloadNetworksCreateDhcpOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadNetworksCreateDhcpResponse>,
@@ -354,11 +248,11 @@ export interface WorkloadNetworks {
     >
   >;
   /**
-   * Create dhcp by id in a private cloud workload network.
+   * Create a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateDhcpAndWait(
@@ -366,22 +260,22 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksCreateDhcpOptionalParams
+    options?: WorkloadNetworksCreateDhcpOptionalParams,
   ): Promise<WorkloadNetworksCreateDhcpResponse>;
   /**
-   * Create or update dhcp by id in a private cloud workload network.
+   * Update a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateDhcp(
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksUpdateDhcpOptionalParams
+    workloadNetworkDhcp: WorkloadNetworkDhcpUpdate,
+    options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadNetworksUpdateDhcpResponse>,
@@ -389,316 +283,65 @@ export interface WorkloadNetworks {
     >
   >;
   /**
-   * Create or update dhcp by id in a private cloud workload network.
+   * Update a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateDhcpAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksUpdateDhcpOptionalParams
+    workloadNetworkDhcp: WorkloadNetworkDhcpUpdate,
+    options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<WorkloadNetworksUpdateDhcpResponse>;
   /**
-   * Delete dhcp by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
+   * @param dhcpId The ID of the DHCP configuration
    * @param options The options parameters.
    */
   beginDeleteDhcp(
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    options?: WorkloadNetworksDeleteDhcpOptionalParams
+    options?: WorkloadNetworksDeleteDhcpOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete dhcp by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
+   * @param dhcpId The ID of the DHCP configuration
    * @param options The options parameters.
    */
   beginDeleteDhcpAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    options?: WorkloadNetworksDeleteDhcpOptionalParams
+    options?: WorkloadNetworksDeleteDhcpOptionalParams,
   ): Promise<void>;
   /**
-   * Get a gateway by id in a private cloud workload network.
+   * Get a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param gatewayId NSX Gateway identifier. Generally the same as the Gateway's display name
-   * @param options The options parameters.
-   */
-  getGateway(
-    resourceGroupName: string,
-    privateCloudName: string,
-    gatewayId: string,
-    options?: WorkloadNetworksGetGatewayOptionalParams
-  ): Promise<WorkloadNetworksGetGatewayResponse>;
-  /**
-   * Get a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param options The options parameters.
-   */
-  getPortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    options?: WorkloadNetworksGetPortMirroringOptionalParams
-  ): Promise<WorkloadNetworksGetPortMirroringResponse>;
-  /**
-   * Create a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  beginCreatePortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksCreatePortMirroringOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkloadNetworksCreatePortMirroringResponse>,
-      WorkloadNetworksCreatePortMirroringResponse
-    >
-  >;
-  /**
-   * Create a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  beginCreatePortMirroringAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksCreatePortMirroringOptionalParams
-  ): Promise<WorkloadNetworksCreatePortMirroringResponse>;
-  /**
-   * Create or update a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  beginUpdatePortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksUpdatePortMirroringOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkloadNetworksUpdatePortMirroringResponse>,
-      WorkloadNetworksUpdatePortMirroringResponse
-    >
-  >;
-  /**
-   * Create or update a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  beginUpdatePortMirroringAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksUpdatePortMirroringOptionalParams
-  ): Promise<WorkloadNetworksUpdatePortMirroringResponse>;
-  /**
-   * Delete a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginDeletePortMirroring(
-    resourceGroupName: string,
-    portMirroringId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeletePortMirroringOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginDeletePortMirroringAndWait(
-    resourceGroupName: string,
-    portMirroringId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeletePortMirroringOptionalParams
-  ): Promise<void>;
-  /**
-   * Get a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param options The options parameters.
-   */
-  getVMGroup(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    options?: WorkloadNetworksGetVMGroupOptionalParams
-  ): Promise<WorkloadNetworksGetVMGroupResponse>;
-  /**
-   * Create a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  beginCreateVMGroup(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksCreateVMGroupOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkloadNetworksCreateVMGroupResponse>,
-      WorkloadNetworksCreateVMGroupResponse
-    >
-  >;
-  /**
-   * Create a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  beginCreateVMGroupAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksCreateVMGroupOptionalParams
-  ): Promise<WorkloadNetworksCreateVMGroupResponse>;
-  /**
-   * Create or update a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  beginUpdateVMGroup(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksUpdateVMGroupOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkloadNetworksUpdateVMGroupResponse>,
-      WorkloadNetworksUpdateVMGroupResponse
-    >
-  >;
-  /**
-   * Create or update a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  beginUpdateVMGroupAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksUpdateVMGroupOptionalParams
-  ): Promise<WorkloadNetworksUpdateVMGroupResponse>;
-  /**
-   * Delete a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginDeleteVMGroup(
-    resourceGroupName: string,
-    vmGroupId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeleteVMGroupOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  beginDeleteVMGroupAndWait(
-    resourceGroupName: string,
-    vmGroupId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeleteVMGroupOptionalParams
-  ): Promise<void>;
-  /**
-   * Get a virtual machine by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param virtualMachineId Virtual Machine identifier
-   * @param options The options parameters.
-   */
-  getVirtualMachine(
-    resourceGroupName: string,
-    privateCloudName: string,
-    virtualMachineId: string,
-    options?: WorkloadNetworksGetVirtualMachineOptionalParams
-  ): Promise<WorkloadNetworksGetVirtualMachineResponse>;
-  /**
-   * Get a DNS service by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
+   * @param dnsServiceId ID of the DNS service.
    * @param options The options parameters.
    */
   getDnsService(
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    options?: WorkloadNetworksGetDnsServiceOptionalParams
+    options?: WorkloadNetworksGetDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksGetDnsServiceResponse>;
   /**
-   * Create a DNS service by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateDnsService(
@@ -706,7 +349,7 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksCreateDnsServiceOptionalParams
+    options?: WorkloadNetworksCreateDnsServiceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadNetworksCreateDnsServiceResponse>,
@@ -714,11 +357,11 @@ export interface WorkloadNetworks {
     >
   >;
   /**
-   * Create a DNS service by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateDnsServiceAndWait(
@@ -726,22 +369,22 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksCreateDnsServiceOptionalParams
+    options?: WorkloadNetworksCreateDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksCreateDnsServiceResponse>;
   /**
-   * Create or update a DNS service by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateDnsService(
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksUpdateDnsServiceOptionalParams
+    workloadNetworkDnsService: WorkloadNetworkDnsServiceUpdate,
+    options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadNetworksUpdateDnsServiceResponse>,
@@ -749,24 +392,24 @@ export interface WorkloadNetworks {
     >
   >;
   /**
-   * Create or update a DNS service by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateDnsServiceAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksUpdateDnsServiceOptionalParams
+    workloadNetworkDnsService: WorkloadNetworkDnsServiceUpdate,
+    options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsServiceResponse>;
   /**
-   * Delete a DNS service by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
+   * @param dnsServiceId ID of the DNS service.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -774,12 +417,12 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     dnsServiceId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsServiceOptionalParams
+    options?: WorkloadNetworksDeleteDnsServiceOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a DNS service by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
+   * @param dnsServiceId ID of the DNS service.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -787,27 +430,27 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     dnsServiceId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsServiceOptionalParams
+    options?: WorkloadNetworksDeleteDnsServiceOptionalParams,
   ): Promise<void>;
   /**
-   * Get a DNS zone by id in a private cloud workload network.
+   * Get a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
+   * @param dnsZoneId ID of the DNS zone.
    * @param options The options parameters.
    */
   getDnsZone(
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    options?: WorkloadNetworksGetDnsZoneOptionalParams
+    options?: WorkloadNetworksGetDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksGetDnsZoneResponse>;
   /**
-   * Create a DNS zone by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateDnsZone(
@@ -815,7 +458,7 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksCreateDnsZoneOptionalParams
+    options?: WorkloadNetworksCreateDnsZoneOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadNetworksCreateDnsZoneResponse>,
@@ -823,11 +466,11 @@ export interface WorkloadNetworks {
     >
   >;
   /**
-   * Create a DNS zone by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateDnsZoneAndWait(
@@ -835,22 +478,22 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksCreateDnsZoneOptionalParams
+    options?: WorkloadNetworksCreateDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksCreateDnsZoneResponse>;
   /**
-   * Create or update a DNS zone by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateDnsZone(
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksUpdateDnsZoneOptionalParams
+    workloadNetworkDnsZone: WorkloadNetworkDnsZoneUpdate,
+    options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadNetworksUpdateDnsZoneResponse>,
@@ -858,24 +501,24 @@ export interface WorkloadNetworks {
     >
   >;
   /**
-   * Create or update a DNS zone by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateDnsZoneAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksUpdateDnsZoneOptionalParams
+    workloadNetworkDnsZone: WorkloadNetworkDnsZoneUpdate,
+    options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsZoneResponse>;
   /**
-   * Delete a DNS zone by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
+   * @param dnsZoneId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -883,12 +526,12 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     dnsZoneId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsZoneOptionalParams
+    options?: WorkloadNetworksDeleteDnsZoneOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a DNS zone by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
+   * @param dnsZoneId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -896,29 +539,149 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     dnsZoneId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsZoneOptionalParams
+    options?: WorkloadNetworksDeleteDnsZoneOptionalParams,
   ): Promise<void>;
   /**
-   * Get a Public IP Block by id in a private cloud workload network.
+   * Get a WorkloadNetworkGateway
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
+   * @param gatewayId The ID of the NSX Gateway
+   * @param options The options parameters.
+   */
+  getGateway(
+    resourceGroupName: string,
+    privateCloudName: string,
+    gatewayId: string,
+    options?: WorkloadNetworksGetGatewayOptionalParams,
+  ): Promise<WorkloadNetworksGetGatewayResponse>;
+  /**
+   * Get a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param options The options parameters.
+   */
+  getPortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    options?: WorkloadNetworksGetPortMirroringOptionalParams,
+  ): Promise<WorkloadNetworksGetPortMirroringResponse>;
+  /**
+   * Create a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreatePortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
+    options?: WorkloadNetworksCreatePortMirroringOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreatePortMirroringResponse>,
+      WorkloadNetworksCreatePortMirroringResponse
+    >
+  >;
+  /**
+   * Create a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreatePortMirroringAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
+    options?: WorkloadNetworksCreatePortMirroringOptionalParams,
+  ): Promise<WorkloadNetworksCreatePortMirroringResponse>;
+  /**
+   * Update a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdatePortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroringUpdate,
+    options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdatePortMirroringResponse>,
+      WorkloadNetworksUpdatePortMirroringResponse
+    >
+  >;
+  /**
+   * Update a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdatePortMirroringAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroringUpdate,
+    options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
+  ): Promise<WorkloadNetworksUpdatePortMirroringResponse>;
+  /**
+   * Delete a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginDeletePortMirroring(
+    resourceGroupName: string,
+    portMirroringId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeletePortMirroringOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginDeletePortMirroringAndWait(
+    resourceGroupName: string,
+    portMirroringId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeletePortMirroringOptionalParams,
+  ): Promise<void>;
+  /**
+   * Get a WorkloadNetworkPublicIP
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param publicIPId ID of the DNS zone.
    * @param options The options parameters.
    */
   getPublicIP(
     resourceGroupName: string,
     privateCloudName: string,
     publicIPId: string,
-    options?: WorkloadNetworksGetPublicIPOptionalParams
+    options?: WorkloadNetworksGetPublicIPOptionalParams,
   ): Promise<WorkloadNetworksGetPublicIPResponse>;
   /**
-   * Create a Public IP Block by id in a private cloud workload network.
+   * Create a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
-   * @param workloadNetworkPublicIP NSX Public IP Block
+   * @param publicIPId ID of the DNS zone.
+   * @param workloadNetworkPublicIP Resource create parameters.
    * @param options The options parameters.
    */
   beginCreatePublicIP(
@@ -926,7 +689,7 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     publicIPId: string,
     workloadNetworkPublicIP: WorkloadNetworkPublicIP,
-    options?: WorkloadNetworksCreatePublicIPOptionalParams
+    options?: WorkloadNetworksCreatePublicIPOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadNetworksCreatePublicIPResponse>,
@@ -934,12 +697,11 @@ export interface WorkloadNetworks {
     >
   >;
   /**
-   * Create a Public IP Block by id in a private cloud workload network.
+   * Create a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
-   * @param workloadNetworkPublicIP NSX Public IP Block
+   * @param publicIPId ID of the DNS zone.
+   * @param workloadNetworkPublicIP Resource create parameters.
    * @param options The options parameters.
    */
   beginCreatePublicIPAndWait(
@@ -947,13 +709,12 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     publicIPId: string,
     workloadNetworkPublicIP: WorkloadNetworkPublicIP,
-    options?: WorkloadNetworksCreatePublicIPOptionalParams
+    options?: WorkloadNetworksCreatePublicIPOptionalParams,
   ): Promise<WorkloadNetworksCreatePublicIPResponse>;
   /**
-   * Delete a Public IP Block by id in a private cloud workload network.
+   * Delete a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
+   * @param publicIPId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -961,13 +722,12 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     publicIPId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeletePublicIPOptionalParams
+    options?: WorkloadNetworksDeletePublicIPOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a Public IP Block by id in a private cloud workload network.
+   * Delete a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
+   * @param publicIPId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -975,6 +735,237 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     publicIPId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeletePublicIPOptionalParams
+    options?: WorkloadNetworksDeletePublicIPOptionalParams,
+  ): Promise<void>;
+  /**
+   * Get a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param options The options parameters.
+   */
+  getSegment(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    options?: WorkloadNetworksGetSegmentOptionalParams,
+  ): Promise<WorkloadNetworksGetSegmentResponse>;
+  /**
+   * Create a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreateSegments(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegment,
+    options?: WorkloadNetworksCreateSegmentsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateSegmentsResponse>,
+      WorkloadNetworksCreateSegmentsResponse
+    >
+  >;
+  /**
+   * Create a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreateSegmentsAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegment,
+    options?: WorkloadNetworksCreateSegmentsOptionalParams,
+  ): Promise<WorkloadNetworksCreateSegmentsResponse>;
+  /**
+   * Update a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateSegments(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegmentUpdate,
+    options?: WorkloadNetworksUpdateSegmentsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateSegmentsResponse>,
+      WorkloadNetworksUpdateSegmentsResponse
+    >
+  >;
+  /**
+   * Update a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateSegmentsAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegmentUpdate,
+    options?: WorkloadNetworksUpdateSegmentsOptionalParams,
+  ): Promise<WorkloadNetworksUpdateSegmentsResponse>;
+  /**
+   * Delete a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param options The options parameters.
+   */
+  beginDeleteSegment(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    options?: WorkloadNetworksDeleteSegmentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param options The options parameters.
+   */
+  beginDeleteSegmentAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    options?: WorkloadNetworksDeleteSegmentOptionalParams,
+  ): Promise<void>;
+  /**
+   * Get a WorkloadNetworkVirtualMachine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param virtualMachineId ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  getVirtualMachine(
+    resourceGroupName: string,
+    privateCloudName: string,
+    virtualMachineId: string,
+    options?: WorkloadNetworksGetVirtualMachineOptionalParams,
+  ): Promise<WorkloadNetworksGetVirtualMachineResponse>;
+  /**
+   * Get a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param options The options parameters.
+   */
+  getVMGroup(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    options?: WorkloadNetworksGetVMGroupOptionalParams,
+  ): Promise<WorkloadNetworksGetVMGroupResponse>;
+  /**
+   * Create a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreateVMGroup(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
+    options?: WorkloadNetworksCreateVMGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateVMGroupResponse>,
+      WorkloadNetworksCreateVMGroupResponse
+    >
+  >;
+  /**
+   * Create a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreateVMGroupAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
+    options?: WorkloadNetworksCreateVMGroupOptionalParams,
+  ): Promise<WorkloadNetworksCreateVMGroupResponse>;
+  /**
+   * Update a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateVMGroup(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroupUpdate,
+    options?: WorkloadNetworksUpdateVMGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateVMGroupResponse>,
+      WorkloadNetworksUpdateVMGroupResponse
+    >
+  >;
+  /**
+   * Update a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateVMGroupAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroupUpdate,
+    options?: WorkloadNetworksUpdateVMGroupOptionalParams,
+  ): Promise<WorkloadNetworksUpdateVMGroupResponse>;
+  /**
+   * Delete a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmGroupId ID of the VM group.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginDeleteVMGroup(
+    resourceGroupName: string,
+    vmGroupId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeleteVMGroupOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmGroupId ID of the VM group.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  beginDeleteVMGroupAndWait(
+    resourceGroupName: string,
+    vmGroupId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeleteVMGroupOptionalParams,
   ): Promise<void>;
 }

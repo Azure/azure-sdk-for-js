@@ -52,6 +52,14 @@ export async function authenticate(
         },
       ],
     },
+    removeCentralSanitizers: [
+      // Setting "name" is not a secret
+      "AZSDK3493",
+      // Role definition ID is not a secret
+      "AZSDK3430",
+      // Principal ID is not a secret in this context
+      "AZSDK3444",
+    ],
   };
 
   await recorder.start(recorderStartOptions);

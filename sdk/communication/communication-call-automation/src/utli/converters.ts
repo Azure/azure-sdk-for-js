@@ -40,6 +40,9 @@ function extractKind(
   if (identifierModel.microsoftTeamsUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser;
   }
+  if (identifierModel.microsoftTeamsApp !== undefined) {
+    return KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp;
+  }
   return KnownCommunicationIdentifierModelKind.Unknown;
 }
 

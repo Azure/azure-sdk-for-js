@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { Platform } = await import("react-native");
+import { Platform } from "react-native";
 
 /**
  * Returns information about the platform this function is being run on.

@@ -1,16 +1,30 @@
 # Release History
 
-## 1.5.1 Unreleased
+## 1.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Live Metrics instrumentation key should be set when env var is used to set the connection string.
+
+### Other Changes
+
+## 1.6.0 (2024-06-13)
 
 ### Bugs Fixed
 
 - Setting the sampling ratio to 0 now correctly applies the value instead of defaulting to 1.
 - Fixed standard metrics reported success/failure status for dependencies/requests.
+- 3xx level response codes on request telemetry is no longer counted as a request failure in standard metrics.
 
 ### Other Changes
 
 - Add support for tracking Application Insights shim usage to statsbeat.
 - Live Metrics is enabled by default.
+- Update to the latest OpenTelemetry dependencies.
 
 ## 1.5.0 (2024-05-10)
 

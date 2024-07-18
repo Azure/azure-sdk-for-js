@@ -12,7 +12,7 @@ import {
   createRule,
   getVerifiers,
   stripPath,
-  usesTshy,
+  isEsmPackage,
 } from "../utils";
 
 //------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ export default createRule({
     if (stripPath(context.filename) !== "package.json") {
       return {};
     }
-    if (usesTshy(context.filename)) {
+    if (isEsmPackage(context.filename)) {
       return {};
     }
     return {
