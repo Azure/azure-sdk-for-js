@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container, ContainerDefinition } from "../../../src";
+import { Container, ContainerDefinition, IndexingMode } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
 import { QueryIterator } from "../../../src";
 import { SqlQuerySpec } from "../../../src";
 import { FeedOptions } from "../../../src";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { expect } from "chai";
 
 describe("Aggregate Query", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -176,7 +177,7 @@ describe("Aggregate Query", function (this: Suite) {
 
   it("SELECT VALUE AVG with ORDER BY", async function () {
     await executeQueryAndValidateResults(
-      "SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
+      "SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key, r.field",
       [average],
     );
   });
@@ -283,5 +284,66 @@ describe("Aggregate Query", function (this: Suite) {
     });
     const response = await queryIterator.fetchAll();
     assert(response.resources.length === 0);
+  });
+
+  it("should execute ORDER BY query with order on multiple fields when composite Index defined", async () => {
+    const containerDefinitionWithCompositeIndex: ContainerDefinition = {
+      id: "containerWithCompositeIndexingPolicy",
+      indexingPolicy: {
+        automatic: true,
+        indexingMode: IndexingMode.consistent,
+        includedPaths: [
+          {
+            path: "/*",
+          },
+        ],
+        excludedPaths: [
+          {
+            path: '/"systemMetadata"/*',
+          },
+        ],
+        compositeIndexes: [
+          [
+            { path: "/key", order: "ascending" },
+            { path: "/field", order: "ascending" },
+          ],
+        ],
+      },
+    };
+
+    const containerWithCompositeIndexDef = await getTestContainer(
+      "Validate multiple fields order by query",
+      undefined,
+      containerDefinitionWithCompositeIndex,
+    );
+
+    containerWithCompositeIndexDef.items.create({ id: "1", pk: "1", key: "1", field: "4" });
+    containerWithCompositeIndexDef.items.create({ id: "2", pk: "1", key: "2", field: "3" });
+    containerWithCompositeIndexDef.items.create({ id: "3", pk: "1", key: "3", field: "2" });
+    containerWithCompositeIndexDef.items.create({ id: "4", pk: "1", key: "4", field: "1" });
+    const queryIterator1 = containerWithCompositeIndexDef.items.query(
+      "SELECT * FROM r ORDER BY r.key, r.field",
+    );
+    const response = await queryIterator1.fetchAll();
+    assert(response.resources.length === 4);
+    try {
+      const queryIterator2 = containerWithCompositeIndexDef.items.query(
+        "SELECT * FROM r ORDER BY r.key DESC, r.field ASC",
+      );
+      await queryIterator2.fetchAll();
+      // If the fetch succeeds unexpectedly, fail the test
+      expect.fail("Expected composite index not found error, but the fetch succeeded");
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message.includes(
+          "The order by query does not have a corresponding composite index that it can be served from.",
+        )
+      ) {
+        // If the fetch fails as expected, pass the test
+      } else {
+        expect.fail(`Unexpected error: ${error.message}`);
+      }
+    }
   });
 });

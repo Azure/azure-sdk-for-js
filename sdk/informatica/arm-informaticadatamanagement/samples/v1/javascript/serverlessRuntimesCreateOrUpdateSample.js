@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  InformaticaServerlessRuntimeResource,
-  InformaticaDataManagement,
-} from "@azure/arm-informaticadatamanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { InformaticaDataManagement } = require("@azure/arm-informaticadatamanagement");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a InformaticaServerlessRuntimeResource
@@ -25,13 +20,11 @@ dotenv.config();
  */
 async function serverlessRuntimesCreateOrUpdate() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
-    "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName =
-    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "__C";
   const serverlessRuntimeName = "0j-__";
-  const resource: InformaticaServerlessRuntimeResource = {
+  const resource = {
     properties: {
       description: "mqkaenjmxakvzrwmirelmhgiedto",
       advancedCustomProperties: [{ key: "qcmc", value: "unraxmnohdmvutt" }],
@@ -77,8 +70,10 @@ async function serverlessRuntimesCreateOrUpdate() {
       },
       serverlessRuntimeNetworkProfile: {
         networkInterfaceConfiguration: {
-          subnetId: "s",
-          vnetId: "uaqjvtubxccjs",
+          subnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Networks/virtualNetworks/test-vnet/subnets/subnet1",
+          vnetId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
           vnetResourceGuid: "5328d299-1462-4be0-bef1-303a28e556a0",
         },
       },
@@ -106,13 +101,11 @@ async function serverlessRuntimesCreateOrUpdate() {
  */
 async function serverlessRuntimesCreateOrUpdateMin() {
   const subscriptionId =
-    process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
-    "3599DA28-E346-4D9F-811E-189C0445F0FE";
-  const resourceGroupName =
-    process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
+    process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
+  const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
   const organizationName = "-4Z__7";
   const serverlessRuntimeName = "J";
-  const resource: InformaticaServerlessRuntimeResource = {};
+  const resource = {};
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
   const result = await client.serverlessRuntimes.beginCreateOrUpdateAndWait(

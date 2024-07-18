@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-informaticadatamanagement-js-beta",
+  "name": "@azure-samples/arm-informaticadatamanagement-js",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for JavaScript (Beta)",
+  "description": " client library samples for JavaScript",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/informatica/arm-informaticadatamanagement",
   "dependencies": {
-    "@azure/arm-informaticadatamanagement": "next",
+    "@azure/arm-informaticadatamanagement": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.0.1"
   }
 }
