@@ -1573,6 +1573,15 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /@azure/functions@4.5.0:
+    resolution: {integrity: sha512-WNCiOHMQEZpezxgThD3o2McKEjUEljtQBvdw4X4oE5714eTw76h33kIj0660ZJGEnxYSx4dx18oAbg5kLMs9iQ==}
+    engines: {node: '>=18.0'}
+    dependencies:
+      cookie: 0.6.0
+      long: 4.0.0
+      undici: 5.28.4
+    dev: false
+
   /@azure/identity@4.3.0:
     resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
     engines: {node: '>=18.0.0'}
@@ -2275,6 +2284,11 @@ packages:
   /@eslint/js@9.2.0:
     resolution: {integrity: sha512-ESiIudvhoYni+MdsI8oD7skpprZ89qKocwRM2KEvhhBJ9nl5MRh7BXU5GTod7Mdygq+AUl+QzId6iWJKR/wABA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    dev: false
+
+  /@fastify/busboy@2.1.1:
+    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
+    engines: {node: '>=14'}
     dev: false
 
   /@grpc/grpc-js@1.10.10:
@@ -10709,6 +10723,13 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: false
 
+  /undici@5.28.4:
+    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
+    engines: {node: '>=14.0'}
+    dependencies:
+      '@fastify/busboy': 2.1.1
+    dev: false
+
   /undici@6.19.2:
     resolution: {integrity: sha512-JfjKqIauur3Q6biAtHJ564e3bWa8VvT+7cSiOJHFbX4Erv6CLGDpg8z+Fmg/1OI/47RA+GI2QZaF48SSaLvyBA==}
     engines: {node: '>=18.17'}
@@ -11633,7 +11654,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-Eqo2ikUozFhY8ayN6k0ZpbDtRdF3vBis0Lu8HCIFifljTPOdNrvgO6JHX7/RzqA8Orvxw+oqaUjcaZ34xZlz8w==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-ooMFB1pe6WJfa5jS/3XBX9YHGkTJfyQNF/UlHC53fXfVdJWzXW8tBjSRLnED1Yku77BTjhdKeriofcFLTjFTQw==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -11845,7 +11866,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-Ar0mojNUHtfxo/ZE2MfKDh8wVCPDwvWUc7EQkzFp8hCGzzg63x/eRD3N2cDkKiVKKunpZZp6lK1FbtWGbsG6hA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-RfsIkCfgHRHkEAVRGEEBlsIiylIQQ5mpNUDA3+BDTsMLDtyjPGn96CActkXEW5C8oM/DfbWZnw4BP0tRJXZq3Q==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -22248,11 +22269,12 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-fPXNMFeMx9ooFKB7MFNiiWzW73qFSpFUqsbXG9eYQFCNXKlPmAWuS87RO/XSq2aVLkagu0h73otokYJ7Pz3AJg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-P7azSGkbVn9P7AmA4j4WKRk1arxAOUwB+IdlTsHUP8WG8CgXeKIeuZi/C1Ydbt7JHbWoRwMUDQjOZAYZoRWEXA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
-      '@azure/functions': 3.5.1
+      '@azure/functions': 4.5.0
+      '@azure/functions-old': /@azure/functions@3.5.1
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
