@@ -14,17 +14,19 @@ param (
     [string] $TestApplicationSecret
 )
 
-$storageAccountName = $DeploymentOutputs['STORAGE_ACCOUNT_NAME']
-$containerName = $DeploymentOutputs['STORAGE_CONTAINER_NAME']
-$deIdServiceEndpoint = $DeploymentOutputs['DEID_SERVICE_ENDPOINT']
-$testMode = "playback"
+# Retrieve the connection string from environment variables
+$resourceGroup = $DeploymentOutputs['HEALTHDATAAISERVICES_RESOURCE_GROUP']
+$endpoint = $DeploymentOutputs['HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT']
+$storageAccountName = $DeploymentOutputs['HEALTHDATAAISERVICES_STORAGE_ACCOUNT_NAME']
+$containerName = $DeploymentOutputs['HEALTHDATAAISERVICES_STORAGE_CONTAINER_NAME']
+$testMode = "live"
 
 # Set the local folder path to upload
 $localFolderPath = "test\public\data\example_patient_1"
 
 # Check if the connection string is present
 if ([string]::IsNullOrWhiteSpace($storageAccountName)) {
-    Write-Host "Error: Azure Storage connection string not found in environment variables."
+    Write-Host "Error: Azure Storage Name string not found in environment variables."
     exit 1
 }
 
@@ -33,6 +35,16 @@ Import-Module Az.Storage
 
 # Connect to the storage account
 $storageContext = New-AzStorageContext -StorageAccountName $storageAccountName -UseConnectedAccount
+
+# FIXME Remove once vpn team fixes the network acl issue
+$networkRuleSet = New-Object -TypeName Microsoft.Azure.Commands.Management.Storage.Models.PSNetworkRuleSet
+$networkRuleSet.DefaultAction = "Allow"
+Set-AzStorageAccount -ResourceGroupName $resourceGroup -Name $storageAccountName -NetworkRuleSet $networkRuleSet
+
+# Sleep for 15 seconds to allow the network rule to take effect
+Write-Host "[Fix] Temporary sleep to allow network rule to take effect."
+Start-Sleep -Seconds 30
+
 Get-AzStorageContainer -Name $containerName -Context $storageContext
 
 # Upload the folder and its contents to the container
@@ -51,20 +63,13 @@ Get-ChildItem -Path $localFolderPath -Recurse | ForEach-Object {
 
 Write-Host "Folder '$localFolderPath' uploaded to container '$containerName' successfully."
 
-# Generate a SAS token for the container using User delegation key
-$storageAccountSasUri = New-AzStorageContainerSASToken -Context $storageContext `
-    -Name $containerName `
-    -Permission racwl `
-    -StartTime (Get-Date) `
-    -ExpiryTime (Get-Date).AddHours(24) `
-    -FullUri
-
-$deIdServiceEndpoint = $deIdServiceEndpoint -replace '^https://', ''
+$endpoint = $endpoint -replace '^https://', ''
 # Create the content for the .env file
 $content = @"
-DEID_SERVICE_ENDPOINT=$deIdServiceEndpoint
+DEID_SERVICE_ENDPOINT=$endpoint
 TEST_MODE=$testMode
-STORAGE_ACCOUNT_SAS_URI=$storageAccountSasUri
+STORAGE_ACCOUNT_NAME=$storageAccountName
+STORAGE_CONTAINER_NAME=$containerName
 "@
 
 # Specify the path for the .env file

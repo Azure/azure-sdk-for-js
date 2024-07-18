@@ -151,16 +151,16 @@ export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & Re
 
 // @public
 export interface DeidentificationContent {
-    dataType: DocumentDataType;
+    dataType?: DocumentDataType;
     inputText: string;
-    operation: OperationType;
+    operation?: OperationType;
     redactionFormat?: string;
 }
 
 // @public
 export interface DeidentificationJob {
-    dataType: DocumentDataType;
-    operation: OperationType;
+    dataType?: DocumentDataType;
+    operation?: OperationType;
     redactionFormat?: string;
     sourceLocation: SourceStorageLocation;
     targetLocation: TargetStorageLocation;
@@ -169,11 +169,11 @@ export interface DeidentificationJob {
 // @public
 export interface DeidentificationJobOutput {
     readonly createdAt: string;
-    dataType: DocumentDataTypeOutput;
+    dataType?: DocumentDataTypeOutput;
     readonly error?: ErrorModel;
     readonly lastUpdatedAt: string;
     readonly name: string;
-    operation: OperationTypeOutput;
+    operation?: OperationTypeOutput;
     redactionFormat?: string;
     sourceLocation: SourceStorageLocationOutput;
     readonly startedAt?: string;
@@ -609,14 +609,14 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 
 // @public
 export interface SourceStorageLocation {
-    extensions: string[];
+    extensions?: string[];
     location: string;
     prefix: string;
 }
 
 // @public
 export interface SourceStorageLocationOutput {
-    extensions: string[];
+    extensions?: string[];
     location: string;
     prefix: string;
 }

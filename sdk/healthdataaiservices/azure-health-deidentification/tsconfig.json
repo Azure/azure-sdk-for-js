@@ -5,5 +5,15 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "test/**/*.ts", "./test/**/*.ts"]
+  "paths": {
+    "@azure/health-deidentification": ["src/index"]
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts"
+  ]
 }

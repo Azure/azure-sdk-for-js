@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
+import {
+  createRecordedDeidentificationClient,
+  createRecorder,
+  getStorageAccountLocation,
+  getTestEnvironment,
+} from "./utils/recordedClient.js";
 import { beforeEach, afterEach, it, describe } from "vitest";
 import { DeidServicesClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { DeidentificationJob } from "../../src/models.js";
 import { DeidentificationJobOutput, DocumentDetailsOutput } from "../../src/outputModels.js";
 import { assert } from "@azure-tools/test-utils";
-import {
-  Recorder,
-  assertEnvironmentVariable,
-  isPlaybackMode,
-  isRecordMode,
-} from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { ErrorResponse } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { paginate } from "../../src/paginateHelper.js";
@@ -28,7 +28,7 @@ const TEST_TIMEOUT_MS: number = 200000;
 const fakeServiceEndpoint = "example.com";
 const replaceableVariables: Record<string, string> = {
   DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
-  STORAGE_ACCOUNT_SAS_URI:
+  STORAGE_ACCOUNT_LOCATION:
     "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
 };
 
@@ -42,18 +42,10 @@ const generateJobName = (testName?: string): string => {
 
 const OUTPUT_FOLDER = "_output";
 
-// Note: To ensure playback mode functions correctly, it's essential that both `rushx test:node` and `rushx test:browser` utilize identical recordings.
-// Follow these steps to achieve consistent recordings across tests:
-// 1. Update all instances of `jobName`.
-// 2. Execute `rushx test:node` in record mode to capture the new test recording.
-// 3. Once again, update all instances of `jobName`.
-// 4. Execute `rushx test:browser` in record mode to align the browser test recordings with those of the node.
-// 5. Ensure the same `jobId` is used in both browser and node recordings, identifiable by the string pattern `js-sdk-job-recorded-**`.
-//    To accomplish this, you may need to edit the files located at `sdk\healthdataaiservices\azure-health-deidentification\recordings\browsers\batch\recording_*.json`.
-
 describe("Batch", () => {
   let recorder: Recorder;
   let client: DeidServicesClient;
+  const environment = getTestEnvironment();
 
   beforeEach(async function (context) {
     recorder = await createRecorder(context);
@@ -62,7 +54,7 @@ describe("Batch", () => {
       sanitizerOptions: {
         bodyKeySanitizers: [
           {
-            value: replaceableVariables.STORAGE_ACCOUNT_SAS_URI,
+            value: replaceableVariables.STORAGE_ACCOUNT_LOCATION,
             jsonPath: "$..location",
             regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
           },
@@ -82,20 +74,25 @@ describe("Batch", () => {
     await recorder.stop();
   });
 
-  // Note: When your re-run recording you need to update jobName to avoid conflict with existing job
+  // Note: When your re-run recording you need to update jobName to avoid conflict with existing job "environment" is either node or browser depending on the test mode
   it(
     "CreateJob returns expected",
     async function () {
-      const jobName = generateJobName("001g");
+      const jobName = generateJobName(`001-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
-        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountLocation = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
+        : getStorageAccountLocation();
+
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
-        sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
-        targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
+        sourceLocation: {
+          location: storageAccountLocation,
+          prefix: inputPrefix,
+          extensions: ["*"],
+        },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
       };
 
       const jobOutput = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -119,8 +116,8 @@ describe("Batch", () => {
         "Job sourceLocation prefix should match",
       );
       assert.isTrue(
-        storageAccountSASUri.includes("blob.core.windows.net"),
-        "Storage account SAS URI should contain 'blob.core.windows.net'",
+        storageAccountLocation.includes("blob.core.windows.net"),
+        "Storage account location should contain 'blob.core.windows.net'",
       );
       assert.equal(
         OUTPUT_FOLDER,
@@ -128,8 +125,8 @@ describe("Batch", () => {
         "Job targetLocation prefix should match",
       );
       assert.isTrue(
-        storageAccountSASUri.includes("blob.core.windows.net"),
-        "Storage account SAS URI should contain 'blob.core.windows.net'",
+        storageAccountLocation.includes("blob.core.windows.net"),
+        "Storage account location should contain 'blob.core.windows.net'",
       );
     },
     TEST_TIMEOUT_MS,
@@ -138,17 +135,21 @@ describe("Batch", () => {
   it(
     "CreateThenList returns expected",
     async function () {
-      const jobName = generateJobName("002g");
+      const jobName = generateJobName(`002-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
-        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountLocation = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
+        : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
-        sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
-        targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
+        sourceLocation: {
+          location: storageAccountLocation,
+          prefix: inputPrefix,
+          extensions: ["*"],
+        },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -179,8 +180,8 @@ describe("Batch", () => {
         "Job sourceLocation prefix should match",
       );
       assert.isTrue(
-        storageAccountSASUri.includes("blob.core.windows.net"),
-        "Storage account SAS URI should contain 'blob.core.windows.net'",
+        storageAccountLocation.includes("blob.core.windows.net"),
+        "Storage account location should contain 'blob.core.windows.net'",
       );
       assert.equal(
         OUTPUT_FOLDER,
@@ -188,8 +189,8 @@ describe("Batch", () => {
         "Job targetLocation prefix should match",
       );
       assert.isTrue(
-        storageAccountSASUri.includes("blob.core.windows.net"),
-        "Storage account SAS URI should contain 'blob.core.windows.net",
+        storageAccountLocation.includes("blob.core.windows.net"),
+        "Storage account location should contain 'blob.core.windows.net",
       );
     },
     TEST_TIMEOUT_MS,
@@ -198,16 +199,21 @@ describe("Batch", () => {
   it(
     "JobE2E wait until success",
     async function () {
-      const jobName = generateJobName("003g");
+      const jobName = generateJobName(`003-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
-        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountLocation = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
+        : getStorageAccountLocation();
+
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
-        sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
-        targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
+        sourceLocation: {
+          location: storageAccountLocation,
+          prefix: inputPrefix,
+          extensions: ["*"],
+        },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -268,16 +274,21 @@ describe("Batch", () => {
   it(
     "JobE2E cancel job then delete it deletes job",
     async function () {
-      const jobName = generateJobName("004g");
+      const jobName = generateJobName(`004-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_SAS_URI
-        : assertEnvironmentVariable("STORAGE_ACCOUNT_SAS_URI");
+      const storageAccountLocation = isPlaybackMode()
+        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
+        : getStorageAccountLocation();
+
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
-        sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
-        targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
+        sourceLocation: {
+          location: storageAccountLocation,
+          prefix: inputPrefix,
+          extensions: ["*"],
+        },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });
@@ -303,15 +314,19 @@ describe("Batch", () => {
   it(
     "JobE2E cannot access storage create job returns 404",
     async function () {
-      const jobName = generateJobName("005g");
+      const jobName = generateJobName(`005-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountSASUri = "FAKE_STORAGE_ACCOUNT";
+      const storageAccountLocation = "FAKE_STORAGE_ACCOUNT";
 
       const job: DeidentificationJob = {
         dataType: "Plaintext",
         operation: "Surrogate",
-        sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
-        targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
+        sourceLocation: {
+          location: storageAccountLocation,
+          prefix: inputPrefix,
+          extensions: ["*"],
+        },
+        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });

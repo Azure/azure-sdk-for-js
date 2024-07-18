@@ -17,7 +17,8 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const serviceEndpoint =
     process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
-  const storageAccountSASUri = process.env["STORAGE_ACCOUNT_SAS_URI"] || "defaultSasUri";
+  const storageLocation = `https://${process.env["STORAGE_ACCOUNT_NAME"]}.blob.core.windows.net/${process.env["STORAGE_CONTAINER_NAME"]}`;
+  const location = storageLocation || "defaultSasUri";
   const OUTPUT_FOLDER = "_output";
   const inputPrefix = "example_patient_1";
   const client = createClient(serviceEndpoint, credential);
@@ -26,8 +27,8 @@ export async function main(): Promise<void> {
   const job: DeidentificationJob = {
     dataType: "Plaintext",
     operation: "Surrogate",
-    sourceLocation: { location: storageAccountSASUri, prefix: inputPrefix, extensions: ["*"] },
-    targetLocation: { location: storageAccountSASUri, prefix: OUTPUT_FOLDER },
+    sourceLocation: { location, prefix: inputPrefix, extensions: ["*"] },
+    targetLocation: { location, prefix: OUTPUT_FOLDER },
   };
   const response = await client.path("/jobs/{name}", jobName).put({ body: job });
 
