@@ -52,7 +52,9 @@ export const stripPath = (pathOrFileName: string): string =>
  * @return true if the package has "type": "module"; false otherwise.
  */
 export function isEsmPackage(filePath: string): boolean {
-  const packageJsonPath = filePath.endsWith("package.json") ? filePath : path.join(path.dirname(filePath), "package.json");
+  const packageJsonPath = filePath.endsWith("package.json")
+    ? filePath
+    : path.join(path.dirname(filePath), "package.json");
   try {
     statSync(filePath);
     const packageJsonContent = readFileSync(packageJsonPath, "utf-8");

@@ -33,16 +33,16 @@
 /sdk/core/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
+/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-client-rest/ @joheredi @jeremymeng @deyaaeldeen @timovv
+/sdk/core/core-client-rest/ @joheredi @timovv @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-lro/ @deyaaeldeen @joheredi
+/sdk/core/core-lro/ @deyaaeldeen @joheredi @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @maorleger @jeremymeng @mpodwysocki
+/sdk/core/core-tracing/ @maorleger @mpodwysocki @Azure/azure-sdk-for-js-core
 
 # ServiceLabel: %Azure.Core
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
@@ -210,6 +210,9 @@
 # ServiceLabel: %DocumentTranslator
 # AzureSdkOwners: @joheredi
 
+# PRLabel: %Cognitive - Translator
+/sdk/translation/ai-translation-document-rest/ @hamshavathimunibyraiah
+
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
 /sdk/web-pubsub/ @vicancy
@@ -301,7 +304,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/maps/ @dubiety @andykao1213
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger @joheredi
+/sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
+
+# Managment API review files
+/sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 # Management Plane
 # PRLabel: %Mgmt
@@ -1506,8 +1512,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 ###########
 # Eng Sys
 ###########
-/eng/           @ckairen @mikeharder @weshaggard @benbp
-/eng/common/    @Azure/azure-sdk-eng
+/eng/                  @ckairen @mikeharder @weshaggard @benbp
+/eng/common/           @Azure/azure-sdk-eng
+/.github/workflows/    @Azure/azure-sdk-eng
 
 ###########
 # Config
@@ -1522,11 +1529,14 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 # Tools
 ###########
 
+# PRLabel: %EngSys
+/common/tools/ @Azure/azure-sdk-js-dev
+
 # PRLabel: %dev-tool
 /common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv
 
 # PRLabel: %eslint plugin
-/common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen @jeremymeng
+/common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
@@ -1535,6 +1545,8 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /**/tsconfig.json @jeremymeng @deyaaeldeen
 /**/tsconfig.strict.json @deyaaeldeen
 /.scripts/ @mikeharder @ckairen
+/vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
+/vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
