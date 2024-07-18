@@ -264,7 +264,6 @@ jobs:
             workingDirectory: $(PackagePath)
             scriptType: 'pscore'
             scriptLocation: 'inlineScript'
-            useGlobalConfig: true
             inlineScript: |
               Write-Host "Where is az CLI located"
               (Get-Command az).Path
