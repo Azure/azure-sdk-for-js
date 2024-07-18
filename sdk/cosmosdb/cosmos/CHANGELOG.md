@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Vector Search: This feature introduces vector indexes, vector embedding policy and vector queries to enable vector similarity search in JS SDK. [docs](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/vector-search)
+- Vector Search: This feature introduces vector indexes, vector embedding policy and vector queries to enable vector similarity search in JS SDK. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/vector-search)
 - All versions and deletes mode in change feed: The All versions and deletes mode is added in change feed mode which captures every version and every change (create, update, and delete) made to items. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
 - Bypassing integrated cache: The option to bypass integrated cache is now available in `RequestOptions`. [docs](https://learn.microsoft.com/azure/cosmos-db/integrated-cache#bypass-the-integrated-cache-preview)
 - Computed Properties: Support for adding Computed Properties in items is added. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/query/computed-properties?tabs=dotnet#creating-computed-properties)
