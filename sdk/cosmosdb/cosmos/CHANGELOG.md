@@ -4,18 +4,18 @@
 
 ### Features Added
 
-- Vector Search [#29393](https://github.com/Azure/azure-sdk-for-js/issues/29393)
-- All versions and delete mode in change feed [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
-- Bypassing integrated cache [#2257127](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2257127)
-- Computed Properties [#2472654](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2472654)
-- Composite Indexing [#21115](https://github.com/Azure/azure-sdk-for-js/issues/21115)
-- Correlated Activity Id [#2692245](https://msdata.visualstudio.com/CosmosDB/_workitems/edit/2692245)
-- Split/Merge proof for Bulk API [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
-- Improved samples
+- Vector Search: This feature introduces vector indexes, vector embedding policy and vector queries to enable vector similarity search in JS SDK. [docs](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/vector-search)
+- All versions and deletes mode in change feed: The All versions and deletes mode is added in change feed mode which captures every version and every change (create, update, and delete) made to items. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
+- Bypassing integrated cache: The option to bypass integrated cache is now available in `RequestOptions`. [docs](https://learn.microsoft.com/azure/cosmos-db/integrated-cache#bypass-the-integrated-cache-preview)
+- Computed Properties: Support for adding Computed Properties in items is added. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/query/computed-properties?tabs=dotnet#creating-computed-properties)
+- Composite Indexing:The JS SDK now supports including composite indexes in the indexing policy, improving query performance on multiple fields. [docs](https://learn.microsoft.com/azure/cosmos-db/index-overview#composite-indexes)
+- Correlated Activity Id: Correlated Activity Id is added in header of every query request on Items. This helps in troubleshooting by linking all requests for a query that involves multiple server interactions and partitions. Correlated Activity Id can be accessed through query response headers or `response.correlatedActivityId`.
+- Split/Merge proof for Bulk API: Earlier, whenever Bulk API encountered a partition merge or split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition splitting and merging. [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
+- Improved samples: The samples have been updated in this release, now organized into two folders: `v3` for features up to the v3 release, and `v4` for features up to the v4 release.
 
 #### Vector Search
 
-- This feature adds vector indexes, vector embedding policy and vector queries to enable vector similarity search in Cosmos DB JS SDK.
+- The following sample shows how to to create a container with vector embedding and indexing policies.
 
 ```js
 // define vector indexing policy
@@ -65,11 +65,9 @@ await database.containers.createIfNotExists(containerDefinition);
 
 #### Change Feed - All versions and deletes mode
 
-- The [All versions and delete mode](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
-  is added in change feed mode that captures every version and every change (create, update, and delete) made to items.
-- This mode is only supported with `ChangeFeedStartFrom.Now` and `ChangeFeedStartFrom.Continuation`.
+- The AllVersionsAndDeletes mode is only supported with `ChangeFeedStartFrom.Now` and `ChangeFeedStartFrom.Continuation`.
 
-To read from the change feed in all versions and deletes mode, include `changeFeedMode` in changeFeedIteratorOptions:
+- To read from the change feed in all versions and deletes mode, include `changeFeedMode` in changeFeedIteratorOptions:
 
 ```js
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
@@ -82,7 +80,7 @@ To read from the change feed in all versions and deletes mode, include `changeFe
 
 #### Bypassing Integrated Cache
 
-- The option for bypassing integrated cache is added in RequestOptions. [docs](https://learn.microsoft.com/azure/cosmos-db/integrated-cache#bypass-the-integrated-cache-preview)
+- Here is a sample showing how to enable `bypassIntegratedCache` in RequestOptions.
 
 ```js
   const options: RequestOptions = {bypassIntegratedCache: true};
@@ -91,8 +89,7 @@ To read from the change feed in all versions and deletes mode, include `changeFe
 
 #### Computed Properties
 
-- Adding [Computed Properties](https://learn.microsoft.com/azure/cosmos-db/nosql/query/computed-properties?tabs=dotnet#creating-computed-properties) in documents is now supported.
-  Here's an example of configuring computed properties for a container:
+- The following snippet configures computed properties for a container:
 
 ```js
     const computedProperties: ComputedProperty[] = [{
@@ -110,9 +107,7 @@ To read from the change feed in all versions and deletes mode, include `changeFe
 
 #### Composite Indexing
 
-- Support for including [Composite indexes](https://learn.microsoft.com/azure/cosmos-db/index-overview#composite-indexes) in the indexing policy is now available in JS SDK, enhancing query operation performance on multiple fields.
-
-Here's a sample of adding composite indexes for a container:
+- Here's a sample of adding composite indexes for a container:
 
 ```js
     const containerDefinition: ContainerDefinition = {
@@ -136,18 +131,6 @@ Here's a sample of adding composite indexes for a container:
     };
     await database.containers.create(containerDefinition);
 ```
-
-#### Correlated Activity Id
-
-- Correlated Activity Id is now added in header of every query request on Items. This helps in troubleshooting by linking all requests for a query that involves multiple server interactions and partitions. Correlated Activity Id can be accessed through query response headers or `response.correlatedActivityId`.
-
-#### Split/Merge proof for Bulk API
-
-- Earlier, whenever Bulk API encountered a partition merge or split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition splitting and merging.
-
-#### Improved samples
-
-- The samples have been updated in this release. We now have two sample folders: `v3` and `v4`. The `v3` folder contains samples for features of v3 release, and the `v4` folder includes samples for features of v4 releases.
 
 ### Breaking Changes
 
