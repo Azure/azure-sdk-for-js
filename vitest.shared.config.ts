@@ -5,9 +5,6 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    typecheck: {
-      enabled: true,
-    },
     testTimeout: 18000,
     typecheck: {
       enabled: true,

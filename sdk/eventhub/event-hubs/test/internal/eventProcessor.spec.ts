@@ -1545,6 +1545,7 @@ describe(
             },
           );
           processorByName[processorName].start();
+          await delay(1);
         }
 
         await loopUntil({

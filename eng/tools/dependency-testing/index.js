@@ -105,8 +105,8 @@ async function insertPackageJson(
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
   testPackageJson.type = packageJsonContents.type;
   if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
-    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts";
-    testPackageJson.scripts["integration-test:browser"] = "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
+    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest --no-test-proxy";
+    testPackageJson.scripts["integration-test:browser"] = "tshy && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy";
     testPackageJson.scripts["build"] = "echo skipped.";
   }
 
@@ -268,12 +268,19 @@ async function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath,
   fs.copyFileSync(sourcePath, destPath);
 }
 
-function copyVitestConfig(targetPackagePath, testFolder) {
-  const testPath = path.join(targetPackagePath, testFolder);
-  let vitestConfig = fs.readFileSync("./templates/vitest.dependency-test.config.ts");
+function copyFileToChildDir(parentPath, childPath, fileName) {
+  const sourcePath = path.join(parentPath, fileName);
+  const destPath = path.join(parentPath, childPath, fileName);
+  console.log(`copying file from ${sourcePath} to ${destPath}`);
+  fs.copyFileSync(sourcePath, destPath);
 
-  const vitestConfigPath = path.join(testPath, "vitest.dependency-test.config.ts");
-  fs.writeFileSync(vitestConfigPath, vitestConfig);
+}
+
+function copyVitestConfig(targetPackagePath, testFolder) {
+  const vitestNodeJSConfigFileName = "vitest.config.ts";
+  const vitestBrowserConfigFileName = "vitest.browser.config.ts";
+  copyFileToChildDir(targetPackagePath, testFolder, vitestNodeJSConfigFileName);
+  copyFileToChildDir(targetPackagePath, testFolder, vitestBrowserConfigFileName);
 }
 
 async function insertTsConfigJson(targetPackagePath, testFolder) {

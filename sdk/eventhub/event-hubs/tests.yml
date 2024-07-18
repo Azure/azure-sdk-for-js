@@ -7,7 +7,7 @@ extends:
       ServiceDirectory: eventhub
       UseFederatedAuth: true
       Clouds: 'Public,Canary'
-      TimeoutInMinutes: 90
+      TimeoutInMinutes: 120
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:
