@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an Alias(Disaster Recovery configuration)
  *
  * @summary Deletes an Alias(Disaster Recovery configuration)
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasDelete.json
  */
 async function ehAliasDelete() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function ehAliasDelete() {
   const result = await client.disasterRecoveryConfigs.delete(
     resourceGroupName,
     namespaceName,
-    alias
+    alias,
   );
   console.log(result);
 }

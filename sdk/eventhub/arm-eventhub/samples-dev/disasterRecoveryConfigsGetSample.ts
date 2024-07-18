@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
  *
  * @summary Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasGet.json
  */
 async function ehAliasGet() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function ehAliasGet() {
   const result = await client.disasterRecoveryConfigs.get(
     resourceGroupName,
     namespaceName,
-    alias
+    alias,
   );
   console.log(result);
 }

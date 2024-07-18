@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to Gets the available PrivateEndpointConnections within a namespace.
  *
  * @summary Gets the available PrivateEndpointConnections within a namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionList.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/PrivateEndPointConnectionList.json
  */
-async function nameSpaceCreate() {
+async function privateEndPointConnectionList() {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =
     process.env["EVENTHUB_RESOURCE_GROUP"] || "SDK-EventHub-4794";
@@ -30,7 +30,7 @@ async function nameSpaceCreate() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.list(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function nameSpaceCreate() {
 }
 
 async function main() {
-  nameSpaceCreate();
+  privateEndPointConnectionList();
 }
 
 main().catch(console.error);

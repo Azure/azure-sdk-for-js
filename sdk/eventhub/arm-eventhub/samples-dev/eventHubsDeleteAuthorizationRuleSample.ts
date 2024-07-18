@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an Event Hub AuthorizationRule.
  *
  * @summary Deletes an Event Hub AuthorizationRule.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubAuthorizationRuleDelete.json
  */
 async function eventHubAuthorizationRuleDelete() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function eventHubAuthorizationRuleDelete() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }

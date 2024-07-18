@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
  *
  * @summary Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceUpdate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceUpdate.json
  */
 async function namespacesUpdate() {
   const subscriptionId =
@@ -30,17 +30,18 @@ async function namespacesUpdate() {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/MicrosoftManagedIdentity/userAssignedIdentities/ud2": {}
-      }
+        "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/MicrosoftManagedIdentity/userAssignedIdentities/ud2":
+          {},
+      },
     },
-    location: "East US"
+    location: "East US",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.namespaces.update(
     resourceGroupName,
     namespaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

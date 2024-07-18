@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a new Event Hub as a nested resource within a Namespace.
  *
  * @summary Creates or updates a new Event Hub as a nested resource within a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubCreate.json
  */
 async function eventHubCreate() {
   const subscriptionId =
@@ -36,22 +36,28 @@ async function eventHubCreate() {
         archiveNameFormat:
           "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
         blobContainer: "container",
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud2",
+        },
         storageAccountResourceId:
-          "/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-Storage-SouthCentralUS/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage"
+          "/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-Storage-SouthCentralUS/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage",
       },
       enabled: true,
       encoding: "Avro",
       intervalInSeconds: 120,
-      sizeLimitInBytes: 10485763
+      sizeLimitInBytes: 10485763,
     },
     messageRetentionInDays: 4,
     partitionCount: 4,
     retentionDescription: {
-      cleanupPolicy: "Compaction",
+      cleanupPolicy: "Compact",
       retentionTimeInHours: 96,
-      tombstoneRetentionTimeInHours: 1
+      tombstoneRetentionTimeInHours: 1,
     },
-    status: "Active"
+    status: "Active",
+    userMetadata: "key",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
@@ -59,7 +65,7 @@ async function eventHubCreate() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

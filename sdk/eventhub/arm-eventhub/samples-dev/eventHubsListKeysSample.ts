@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the ACS and SAS connection strings for the Event Hub.
  *
  * @summary Gets the ACS and SAS connection strings for the Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleListKey.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubAuthorizationRuleListKey.json
  */
 async function eventHubAuthorizationRuleListKey() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function eventHubAuthorizationRuleListKey() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }

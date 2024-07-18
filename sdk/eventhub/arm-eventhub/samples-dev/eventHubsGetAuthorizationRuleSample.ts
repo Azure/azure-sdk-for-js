@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an AuthorizationRule for an Event Hub by rule name.
  *
  * @summary Gets an AuthorizationRule for an Event Hub by rule name.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubAuthorizationRuleGet.json
  */
 async function eventHubAuthorizationRuleGet() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function eventHubAuthorizationRuleGet() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }

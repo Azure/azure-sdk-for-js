@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all Alias(Disaster Recovery configurations)
  *
  * @summary Gets all Alias(Disaster Recovery configurations)
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasList.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasList.json
  */
 async function ehAliasList() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function ehAliasList() {
   const resArray = new Array();
   for await (let item of client.disasterRecoveryConfigs.list(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   )) {
     resArray.push(item);
   }

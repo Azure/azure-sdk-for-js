@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ApplicationGroup,
-  EventHubManagementClient
+  EventHubManagementClient,
 } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an ApplicationGroup for a Namespace.
  *
  * @summary Creates or updates an ApplicationGroup for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ApplicationGroup/ApplicationGroupCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ApplicationGroup/ApplicationGroupCreate.json
  */
 async function applicationGroupCreate() {
   const subscriptionId =
@@ -39,30 +39,31 @@ async function applicationGroupCreate() {
         name: "ThrottlingPolicy1",
         type: "ThrottlingPolicy",
         metricId: "IncomingMessages",
-        rateLimitThreshold: 7912
+        rateLimitThreshold: 7912,
       },
       {
         name: "ThrottlingPolicy2",
         type: "ThrottlingPolicy",
         metricId: "IncomingBytes",
-        rateLimitThreshold: 3951729
+        rateLimitThreshold: 3951729,
       },
       {
         name: "ThrottlingPolicy3",
         type: "ThrottlingPolicy",
         metricId: "OutgoingBytes",
-        rateLimitThreshold: 245175
-      }
-    ]
+        rateLimitThreshold: 245175,
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.applicationGroupOperations.createOrUpdateApplicationGroup(
-    resourceGroupName,
-    namespaceName,
-    applicationGroupName,
-    parameters
-  );
+  const result =
+    await client.applicationGroupOperations.createOrUpdateApplicationGroup(
+      resourceGroupName,
+      namespaceName,
+      applicationGroupName,
+      parameters,
+    );
   console.log(result);
 }
 

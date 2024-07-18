@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the Event Hubs in a Namespace.
  *
  * @summary Gets all the Event Hubs in a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubListByNameSpace.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubListByNameSpace.json
  */
 async function eventHubsListAll() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function eventHubsListAll() {
   const resArray = new Array();
   for await (let item of client.eventHubs.listByNamespace(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   )) {
     resArray.push(item);
   }

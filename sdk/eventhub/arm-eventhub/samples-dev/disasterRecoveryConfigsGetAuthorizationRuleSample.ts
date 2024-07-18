@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an AuthorizationRule for a Namespace by rule name.
  *
  * @summary Gets an AuthorizationRule for a Namespace by rule name.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleGet.json
  */
 async function nameSpaceAuthorizationRuleGet() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function nameSpaceAuthorizationRuleGet() {
     resourceGroupName,
     namespaceName,
     alias,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }

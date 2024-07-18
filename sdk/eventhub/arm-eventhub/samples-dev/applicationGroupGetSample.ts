@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an ApplicationGroup for a Namespace.
  *
  * @summary Gets an ApplicationGroup for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ApplicationGroup/ApplicationGroupGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ApplicationGroup/ApplicationGroupGet.json
  */
 async function applicationGroupGet() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function applicationGroupGet() {
   const result = await client.applicationGroupOperations.get(
     resourceGroupName,
     namespaceName,
-    applicationGroupName
+    applicationGroupName,
   );
   console.log(result);
 }

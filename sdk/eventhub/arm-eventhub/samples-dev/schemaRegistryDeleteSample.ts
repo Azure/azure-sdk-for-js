@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to
+ * This sample demonstrates how to Deletes an EventHub schema group.
  *
- * @summary
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/SchemaRegistry/SchemaRegistryDelete.json
+ * @summary Deletes an EventHub schema group.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/SchemaRegistry/SchemaRegistryDelete.json
  */
 async function schemaRegistryDelete() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function schemaRegistryDelete() {
   const result = await client.schemaRegistry.delete(
     resourceGroupName,
     namespaceName,
-    schemaGroupName
+    schemaGroupName,
   );
   console.log(result);
 }

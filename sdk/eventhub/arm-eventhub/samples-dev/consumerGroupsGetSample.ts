@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a description for the specified consumer group.
  *
  * @summary Gets a description for the specified consumer group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ConsumerGroup/EHConsumerGroupGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ConsumerGroup/EHConsumerGroupGet.json
  */
 async function consumerGroupGet() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function consumerGroupGet() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    consumerGroupName
+    consumerGroupName,
   );
   console.log(result);
 }

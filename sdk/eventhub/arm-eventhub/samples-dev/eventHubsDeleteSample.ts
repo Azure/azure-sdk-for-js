@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an Event Hub from the specified Namespace and resource group.
  *
  * @summary Deletes an Event Hub from the specified Namespace and resource group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubDelete.json
  */
 async function eventHubDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function eventHubDelete() {
   const result = await client.eventHubs.delete(
     resourceGroupName,
     namespaceName,
-    eventHubName
+    eventHubName,
   );
   console.log(result);
 }

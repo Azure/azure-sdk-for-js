@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update NetworkRuleSet for a Namespace.
  *
  * @summary Create or update NetworkRuleSet for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetCreate.json
  */
 async function nameSpaceNetworkRuleSetCreate() {
   const subscriptionId =
@@ -33,38 +33,35 @@ async function nameSpaceNetworkRuleSetCreate() {
       { action: "Allow", ipMask: "1.1.1.2" },
       { action: "Allow", ipMask: "1.1.1.3" },
       { action: "Allow", ipMask: "1.1.1.4" },
-      { action: "Allow", ipMask: "1.1.1.5" }
+      { action: "Allow", ipMask: "1.1.1.5" },
     ],
     virtualNetworkRules: [
       {
         ignoreMissingVnetServiceEndpoint: true,
         subnet: {
-          id:
-            "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2"
-        }
+          id: "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2",
+        },
       },
       {
         ignoreMissingVnetServiceEndpoint: false,
         subnet: {
-          id:
-            "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3"
-        }
+          id: "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3",
+        },
       },
       {
         ignoreMissingVnetServiceEndpoint: false,
         subnet: {
-          id:
-            "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6"
-        }
-      }
-    ]
+          id: "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6",
+        },
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.namespaces.createOrUpdateNetworkRuleSet(
     resourceGroupName,
     namespaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

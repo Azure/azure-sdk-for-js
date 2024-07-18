@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets list of current NetworkSecurityPerimeterConfiguration for Namespace
  *
  * @summary Gets list of current NetworkSecurityPerimeterConfiguration for Namespace
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/NetworkSecurityPerimeterConfigurationList.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/NetworkSecurityPerimeterConfigurationList.json
  */
 async function namspaceNetworkSecurityPerimeterConfigurationList() {
   const subscriptionId =
@@ -29,10 +29,11 @@ async function namspaceNetworkSecurityPerimeterConfigurationList() {
   const namespaceName = "sdk-Namespace-5828";
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.networkSecurityPerimeterConfigurationOperations.list(
-    resourceGroupName,
-    namespaceName
-  );
+  const result =
+    await client.networkSecurityPerimeterConfigurationOperations.list(
+      resourceGroupName,
+      namespaceName,
+    );
   console.log(result);
 }
 

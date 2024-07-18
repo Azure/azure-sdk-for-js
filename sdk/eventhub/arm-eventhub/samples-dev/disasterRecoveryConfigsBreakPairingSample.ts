@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to This operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
  *
  * @summary This operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasBreakPairing.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasBreakPairing.json
  */
 async function ehAliasBreakPairing() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function ehAliasBreakPairing() {
   const result = await client.disasterRecoveryConfigs.breakPairing(
     resourceGroupName,
     namespaceName,
-    alias
+    alias,
   );
   console.log(result);
 }

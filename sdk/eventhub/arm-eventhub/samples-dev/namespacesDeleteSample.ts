@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated resources under the namespace.
  *
  * @summary Deletes an existing namespace. This operation also removes all associated resources under the namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceDelete.json
  */
 async function nameSpaceDelete() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function nameSpaceDelete() {
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.namespaces.beginDeleteAndWait(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   );
   console.log(result);
 }

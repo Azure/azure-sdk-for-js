@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterQuotaConfigurationProperties,
-  EventHubManagementClient
+  EventHubManagementClient,
 } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Replace all specified Event Hubs Cluster settings with those contained in the request body. Leaves the settings not specified in the request body unmodified.
  *
  * @summary Replace all specified Event Hubs Cluster settings with those contained in the request body. Leaves the settings not specified in the request body unmodified.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClusterQuotaConfigurationPatch.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ClusterQuotaConfigurationPatch.json
  */
 async function clustersQuotasConfigurationPatch() {
   const subscriptionId =
@@ -33,15 +33,15 @@ async function clustersQuotasConfigurationPatch() {
   const parameters: ClusterQuotaConfigurationProperties = {
     settings: {
       eventhubPerNamespaceQuota: "20",
-      namespacesPerClusterQuota: "200"
-    }
+      namespacesPerClusterQuota: "200",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.configuration.patch(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

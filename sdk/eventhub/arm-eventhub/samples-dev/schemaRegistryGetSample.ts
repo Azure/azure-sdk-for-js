@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to
+ * This sample demonstrates how to Gets the details of an EventHub schema group.
  *
- * @summary
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/SchemaRegistry/SchemaRegistryGet.json
+ * @summary Gets the details of an EventHub schema group.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/SchemaRegistry/SchemaRegistryGet.json
  */
 async function schemaRegistryGet() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function schemaRegistryGet() {
   const result = await client.schemaRegistry.get(
     resourceGroupName,
     namespaceName,
-    schemaGroupName
+    schemaGroupName,
   );
   console.log(result);
 }

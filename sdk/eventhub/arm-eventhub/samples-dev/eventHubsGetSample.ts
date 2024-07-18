@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an Event Hubs description for the specified Event Hub.
  *
  * @summary Gets an Event Hubs description for the specified Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubGet.json
  */
 async function eventHubGet() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function eventHubGet() {
   const result = await client.eventHubs.get(
     resourceGroupName,
     namespaceName,
-    eventHubName
+    eventHubName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets lists of resources that supports Privatelinks.
  *
  * @summary Gets lists of resources that supports Privatelinks.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/PrivateLinkResourcesGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/PrivateLinkResourcesGet.json
  */
 async function nameSpacePrivateLinkResourcesGet() {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
@@ -29,7 +29,7 @@ async function nameSpacePrivateLinkResourcesGet() {
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.privateLinkResources.get(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   );
   console.log(result);
 }

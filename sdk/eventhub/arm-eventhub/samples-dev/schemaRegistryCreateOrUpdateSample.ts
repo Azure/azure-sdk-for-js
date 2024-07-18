@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to
+ * This sample demonstrates how to Creates or Updates an EventHub schema group.
  *
- * @summary
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/SchemaRegistry/SchemaRegistryCreate.json
+ * @summary Creates or Updates an EventHub schema group.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/SchemaRegistry/SchemaRegistryCreate.json
  */
 async function schemaRegistryCreate() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function schemaRegistryCreate() {
   const parameters: SchemaGroup = {
     groupProperties: {},
     schemaCompatibility: "Forward",
-    schemaType: "Avro"
+    schemaType: "Avro",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function schemaRegistryCreate() {
     resourceGroupName,
     namespaceName,
     schemaGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

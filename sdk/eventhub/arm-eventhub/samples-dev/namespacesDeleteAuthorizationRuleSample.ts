@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an AuthorizationRule for a Namespace.
  *
  * @summary Deletes an AuthorizationRule for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
  */
 async function nameSpaceAuthorizationRuleDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function nameSpaceAuthorizationRuleDelete() {
   const result = await client.namespaces.deleteAuthorizationRule(
     resourceGroupName,
     namespaceName,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }

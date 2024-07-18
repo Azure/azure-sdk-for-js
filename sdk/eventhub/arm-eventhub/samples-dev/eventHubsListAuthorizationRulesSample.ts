@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the authorization rules for an Event Hub.
  *
  * @summary Gets the authorization rules for an Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleListAll.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubAuthorizationRuleListAll.json
  */
 async function eventHubAuthorizationRuleListAll() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function eventHubAuthorizationRuleListAll() {
   for await (let item of client.eventHubs.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
-    eventHubName
+    eventHubName,
   )) {
     resArray.push(item);
   }

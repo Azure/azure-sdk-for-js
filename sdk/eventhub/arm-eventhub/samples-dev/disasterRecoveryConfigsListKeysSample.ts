@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the primary and secondary connection strings for the Namespace.
  *
  * @summary Gets the primary and secondary connection strings for the Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListKey.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListKey.json
  */
 async function nameSpaceAuthorizationRuleListKey() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function nameSpaceAuthorizationRuleListKey() {
     resourceGroupName,
     namespaceName,
     alias,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the available Event Hubs Clusters within an ARM resource group
  *
  * @summary Lists the available Event Hubs Clusters within an ARM resource group
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClustersListBySubscription.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ClustersListBySubscription.json
  */
 async function clustersListBySubscription() {
   const subscriptionId =

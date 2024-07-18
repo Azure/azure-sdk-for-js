@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the available Namespaces within a subscription, irrespective of the resource groups.
  *
  * @summary Lists all the available Namespaces within a subscription, irrespective of the resource groups.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceList.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceList.json
  */
 async function namespacesListBySubscription() {
   const subscriptionId =

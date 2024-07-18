@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the available Namespaces within a resource group.
  *
  * @summary Lists the available Namespaces within a resource group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceListByResourceGroup.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceListByResourceGroup.json
  */
 async function namespaceListByResourceGroup() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function namespaceListByResourceGroup() {
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.namespaces.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

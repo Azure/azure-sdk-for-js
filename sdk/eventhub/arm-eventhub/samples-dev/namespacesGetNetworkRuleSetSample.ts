@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets NetworkRuleSet for a Namespace.
  *
  * @summary Gets NetworkRuleSet for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetGet.json
  */
 async function nameSpaceNetworkRuleSetGet() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function nameSpaceNetworkRuleSetGet() {
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.namespaces.getNetworkRuleSet(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   );
   console.log(result);
 }

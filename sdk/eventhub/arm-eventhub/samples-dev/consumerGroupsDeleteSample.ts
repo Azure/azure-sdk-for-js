@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a consumer group from the specified Event Hub and resource group.
  *
  * @summary Deletes a consumer group from the specified Event Hub and resource group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ConsumerGroup/EHConsumerGroupDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ConsumerGroup/EHConsumerGroupDelete.json
  */
 async function consumerGroupDelete() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function consumerGroupDelete() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    consumerGroupName
+    consumerGroupName,
   );
   console.log(result);
 }

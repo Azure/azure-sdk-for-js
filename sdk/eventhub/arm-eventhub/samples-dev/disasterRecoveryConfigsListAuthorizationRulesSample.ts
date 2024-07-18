@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of authorization rules for a Namespace.
  *
  * @summary Gets a list of authorization rules for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListAll.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListAll.json
  */
 async function listAuthorizationRules() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listAuthorizationRules() {
   for await (let item of client.disasterRecoveryConfigs.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
-    alias
+    alias,
   )) {
     resArray.push(item);
   }

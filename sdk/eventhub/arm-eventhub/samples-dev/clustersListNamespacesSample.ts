@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster.
  *
  * @summary List all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ListNamespacesInClusterGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ListNamespacesInClusterGet.json
  */
 async function listNamespacesInCluster() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listNamespacesInCluster() {
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.clusters.listNamespaces(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

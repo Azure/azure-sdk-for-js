@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the description of the specified namespace.
  *
  * @summary Gets the description of the specified namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceGet.json
  */
 async function nameSpaceGet() {
   const subscriptionId =

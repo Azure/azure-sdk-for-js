@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the quantity of available pre-provisioned Event Hubs Clusters, indexed by Azure region.
  *
  * @summary List the quantity of available pre-provisioned Event Hubs Clusters, indexed by Azure region.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ListAvailableClustersGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ListAvailableClustersGet.json
  */
 async function listAvailableClusters() {
   const subscriptionId =

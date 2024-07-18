@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a description for the specified Private Endpoint Connection name.
  *
  * @summary Gets a description for the specified Private Endpoint Connection name.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/PrivateEndPointConnectionGet.json
  */
 async function nameSpacePrivateEndPointConnectionGet() {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
@@ -31,7 +31,7 @@ async function nameSpacePrivateEndPointConnectionGet() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     namespaceName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

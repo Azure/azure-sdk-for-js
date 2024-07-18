@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
  *
  * @summary Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ConsumerGroup/EHConsumerGroupListByEventHub.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ConsumerGroup/EHConsumerGroupListByEventHub.json
  */
 async function consumerGroupsListAll() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function consumerGroupsListAll() {
   for await (let item of client.consumerGroups.listByEventHub(
     resourceGroupName,
     namespaceName,
-    eventHubName
+    eventHubName,
   )) {
     resArray.push(item);
   }

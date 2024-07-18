@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
  *
  * @summary Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClusterPatch.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ClusterPatch.json
  */
 async function clusterPatch() {
   const subscriptionId =
@@ -29,14 +29,14 @@ async function clusterPatch() {
   const clusterName = "testCluster";
   const parameters: Cluster = {
     location: "South Central US",
-    tags: { tag3: "value3", tag4: "value4" }
+    tags: { tag3: "value3", tag4: "value4" },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

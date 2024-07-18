@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the resource description of the specified Event Hubs Cluster.
  *
  * @summary Gets the resource description of the specified Event Hubs Cluster.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClusterGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ClusterGet.json
  */
 async function clusterGet() {
   const subscriptionId =
