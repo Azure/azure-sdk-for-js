@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkVirtualAppliancePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualAppliancePut.json
  */
 async function createNetworkVirtualAppliance() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -48,6 +48,28 @@ async function createNetworkVirtualAppliance() {
       },
     ],
     location: "West US",
+    networkProfile: {
+      networkInterfaceConfigurations: [
+        {
+          nicType: "PublicNic",
+          properties: {
+            ipConfigurations: [
+              { name: "publicnicipconfig", properties: { primary: true } },
+              { name: "publicnicipconfig-2", properties: { primary: false } },
+            ],
+          },
+        },
+        {
+          nicType: "PrivateNic",
+          properties: {
+            ipConfigurations: [
+              { name: "privatenicipconfig", properties: { primary: true } },
+              { name: "privatenicipconfig-2", properties: { primary: false } },
+            ],
+          },
+        },
+      ],
+    },
     nvaSku: {
       bundledScaleUnit: "1",
       marketPlaceVersion: "12.1",
@@ -74,7 +96,7 @@ async function createNetworkVirtualAppliance() {
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance.
  *
  * @summary Creates or updates the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkVirtualApplianceSaaSPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceSaaSPut.json
  */
 async function createSaaSNetworkVirtualAppliance() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

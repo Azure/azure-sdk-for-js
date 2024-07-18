@@ -9,28 +9,35 @@ import {
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
 
-import { EventGridClient as EventGridNamespacesClient } from "../../../src";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { EventGridSenderClient, EventGridReceiverClient } from "../../../src";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 export interface RecordedV2Client {
-  client: EventGridNamespacesClient;
+  senderClient: EventGridSenderClient;
+  receiverClient: EventGridReceiverClient;
   recorder: Recorder;
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  EVENT_GRID_NAMESPACES_ENDPOINT: "https://endpoint",
-  EVENT_GRID_NAMESPACES_KEY: "api_key",
+  EVENT_GRID_NAMESPACES_ENDPOINT: "https://Sanitized",
+  EVENT_SUBSCRIPTION_NAME: "testsubscription1",
+  TOPIC_NAME: "testtopic1",
+  MAX_DELIVERY_COUNT: "10",
 };
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK4001", // url should not be over-sanitized, fake env setup handles it already
+  ],
 };
 
 export async function createRecordedClient(
   currentTest: Test | undefined,
   endpointEnv: string,
-  apiKeyEnv: string,
+  topicName: string,
+  subscriptionName: string,
   options: {
     additionalPolicies?: AdditionalPolicyConfig[];
   } = {},
@@ -39,9 +46,19 @@ export async function createRecordedClient(
   await recorder.start(recorderOptions);
 
   return {
-    client: new EventGridNamespacesClient(
+    senderClient: new EventGridSenderClient(
       assertEnvironmentVariable(endpointEnv),
-      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      createTestCredential(),
+      topicName,
+      recorder.configureClientOptions({
+        additionalPolicies: options.additionalPolicies,
+      }),
+    ),
+    receiverClient: new EventGridReceiverClient(
+      assertEnvironmentVariable(endpointEnv),
+      createTestCredential(),
+      topicName,
+      subscriptionName,
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,
       }),

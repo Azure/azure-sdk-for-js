@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobDefinitions_Update.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_Update.json
  */
 async function jobDefinitionsUpdate() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function jobDefinitionsUpdate() {
     storageMoverName,
     projectName,
     jobDefinitionName,
-    jobDefinition
+    jobDefinition,
   );
   console.log(result);
 }

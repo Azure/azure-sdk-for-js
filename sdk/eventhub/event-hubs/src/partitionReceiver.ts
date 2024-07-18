@@ -528,8 +528,9 @@ function createRheaOptions(
   if (typeof ownerLevel === "number") {
     rheaOptions.properties[Constants.attachEpoch] = types.wrap_long(ownerLevel);
   }
+  rheaOptions.desired_capabilities = [Constants.geoReplication];
   if (options.trackLastEnqueuedEventProperties) {
-    rheaOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
+    rheaOptions.desired_capabilities.push(Constants.enableReceiverRuntimeMetricName);
   }
   const filterClause = getEventPositionFilter(
     obj.checkpoint > -1 ? { sequenceNumber: obj.checkpoint } : eventPosition,

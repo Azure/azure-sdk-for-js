@@ -12,6 +12,7 @@ import {
   types,
 } from "rhea-promise";
 import {
+  Constants,
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
@@ -428,8 +429,9 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
+    srOptions.desired_capabilities = [Constants.geoReplication];
     if (this._isIdempotentProducer) {
-      srOptions.desired_capabilities = idempotentProducerAmqpPropertyNames.capability;
+      srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
       const idempotentProperties = generateIdempotentLinkProperties(
         this._userProvidedPublishingOptions,
         this._localPublishingProperties,

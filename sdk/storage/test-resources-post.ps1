@@ -12,8 +12,7 @@
 param (
   [hashtable] $DeploymentOutputs,
   [string] $TenantId,
-  [string] $TestApplicationId,
-  [string] $TestApplicationSecret
+  [string] $TestApplicationId
 )
 
 $storageAccountName = $DeploymentOutputs['ACCOUNT_NAME']

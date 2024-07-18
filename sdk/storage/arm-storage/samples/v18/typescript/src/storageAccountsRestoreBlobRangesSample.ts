@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BlobRestoreParameters,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Restore blobs in the specified blob ranges
  *
  * @summary Restore blobs in the specified blob ranges
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobRangesRestore.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobRangesRestore.json
  */
 async function blobRangesRestore() {
   const subscriptionId =
@@ -31,16 +31,16 @@ async function blobRangesRestore() {
   const parameters: BlobRestoreParameters = {
     blobRanges: [
       { endRange: "container/blobpath2", startRange: "container/blobpath1" },
-      { endRange: "", startRange: "container2/blobpath3" }
+      { endRange: "", startRange: "container2/blobpath3" },
     ],
-    timeToRestore: new Date("2019-04-20T15:30:00.0000000Z")
+    timeToRestore: new Date("2019-04-20T15:30:00.0000000Z"),
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.beginRestoreBlobRangesAndWait(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

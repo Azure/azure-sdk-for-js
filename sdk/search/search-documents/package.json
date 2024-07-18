@@ -125,7 +125,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "ts-node": "^10.0.0",

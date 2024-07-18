@@ -100,7 +100,6 @@ export default leafCommand(commandInfo, async (options) => {
         ...nodeBuiltins,
         ...Object.keys(info.packageJson.dependencies),
         ...Object.keys(info.packageJson.devDependencies),
-        ...Object.keys(info.packageJson.peerDependencies ?? {}),
       ],
       preserveSymlinks: false,
       plugins: [nodeResolve(), sourcemaps()],

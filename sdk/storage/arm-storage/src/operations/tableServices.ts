@@ -18,7 +18,7 @@ import {
   TableServicesSetServicePropertiesOptionalParams,
   TableServicesSetServicePropertiesResponse,
   TableServicesGetServicePropertiesOptionalParams,
-  TableServicesGetServicePropertiesResponse
+  TableServicesGetServicePropertiesResponse,
 } from "../models";
 
 /** Class containing TableServices operations. */
@@ -45,11 +45,11 @@ export class TableServicesImpl implements TableServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: TableServicesListOptionalParams
+    options?: TableServicesListOptionalParams,
   ): Promise<TableServicesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -69,11 +69,11 @@ export class TableServicesImpl implements TableServices {
     resourceGroupName: string,
     accountName: string,
     parameters: TableServiceProperties,
-    options?: TableServicesSetServicePropertiesOptionalParams
+    options?: TableServicesSetServicePropertiesOptionalParams,
   ): Promise<TableServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      setServicePropertiesOperationSpec
+      setServicePropertiesOperationSpec,
     );
   }
 
@@ -90,11 +90,11 @@ export class TableServicesImpl implements TableServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: TableServicesGetServicePropertiesOptionalParams
+    options?: TableServicesGetServicePropertiesOptionalParams,
   ): Promise<TableServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getServicePropertiesOperationSpec
+      getServicePropertiesOperationSpec,
     );
   }
 }
@@ -102,72 +102,69 @@ export class TableServicesImpl implements TableServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListTableServices
+      bodyMapper: Mappers.ListTableServices,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/{tableServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/{tableServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TableServiceProperties
+      bodyMapper: Mappers.TableServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.tableServiceName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.tableServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/{tableServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/{tableServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TableServiceProperties
+      bodyMapper: Mappers.TableServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.tableServiceName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.tableServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

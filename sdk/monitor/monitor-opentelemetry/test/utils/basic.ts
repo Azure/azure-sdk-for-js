@@ -4,8 +4,12 @@
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
 import {
-  SemanticResourceAttributes,
-  SemanticAttributes,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMATTRS_EXCEPTION_TYPE,
+  SEMATTRS_EXCEPTION_MESSAGE,
+  SEMATTRS_EXCEPTION_STACKTRACE,
 } from "@opentelemetry/semantic-conventions";
 import { SeverityNumber, logs } from "@opentelemetry/api-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -191,9 +195,9 @@ export class TraceBasicScenario implements Scenario {
 export class MetricBasicScenario implements Scenario {
   prepare(): void {
     const testResource = new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: "my-helloworld-service",
-      [SemanticResourceAttributes.SERVICE_NAMESPACE]: "my-namespace",
-      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "my-instance",
+      [SEMRESATTRS_SERVICE_NAME]: "my-helloworld-service",
+      [SEMRESATTRS_SERVICE_NAMESPACE]: "my-namespace",
+      [SEMRESATTRS_SERVICE_INSTANCE_ID]: "my-instance",
     });
     useAzureMonitor({
       azureMonitorExporterOptions: {
@@ -399,9 +403,9 @@ export class LogBasicScenario implements Scenario {
     });
     // emit a exception record
     let attributes: any = [];
-    attributes[SemanticAttributes.EXCEPTION_TYPE] = "test exception type";
-    attributes[SemanticAttributes.EXCEPTION_MESSAGE] = "test exception message";
-    attributes[SemanticAttributes.EXCEPTION_STACKTRACE] = "test exception stack";
+    attributes[SEMATTRS_EXCEPTION_TYPE] = "test exception type";
+    attributes[SEMATTRS_EXCEPTION_MESSAGE] = "test exception message";
+    attributes[SEMATTRS_EXCEPTION_STACKTRACE] = "test exception stack";
     logger.emit({
       severityNumber: SeverityNumber.ERROR,
       severityText: "ERROR",

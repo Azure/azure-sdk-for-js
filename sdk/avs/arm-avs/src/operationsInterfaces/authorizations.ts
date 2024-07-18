@@ -15,14 +15,14 @@ import {
   AuthorizationsGetResponse,
   AuthorizationsCreateOrUpdateOptionalParams,
   AuthorizationsCreateOrUpdateResponse,
-  AuthorizationsDeleteOptionalParams
+  AuthorizationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Authorizations. */
 export interface Authorizations {
   /**
-   * List ExpressRoute Circuit Authorizations in a private cloud
+   * List ExpressRouteAuthorization resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -30,27 +30,27 @@ export interface Authorizations {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
+    options?: AuthorizationsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteAuthorization>;
   /**
-   * Get an ExpressRoute Circuit Authorization by name in a private cloud
+   * Get a ExpressRouteAuthorization
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param authorizationName Name of the ExpressRoute Circuit Authorization
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     authorizationName: string,
-    options?: AuthorizationsGetOptionalParams
+    options?: AuthorizationsGetOptionalParams,
   ): Promise<AuthorizationsGetResponse>;
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create a ExpressRouteAuthorization
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param privateCloudName Name of the private cloud
+   * @param authorizationName Name of the ExpressRoute Circuit Authorization
+   * @param authorization Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -58,7 +58,7 @@ export interface Authorizations {
     privateCloudName: string,
     authorizationName: string,
     authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
+    options?: AuthorizationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AuthorizationsCreateOrUpdateResponse>,
@@ -66,11 +66,11 @@ export interface Authorizations {
     >
   >;
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create a ExpressRouteAuthorization
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param privateCloudName Name of the private cloud
+   * @param authorizationName Name of the ExpressRoute Circuit Authorization
+   * @param authorization Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -78,32 +78,32 @@ export interface Authorizations {
     privateCloudName: string,
     authorizationName: string,
     authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
+    options?: AuthorizationsCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationsCreateOrUpdateResponse>;
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a ExpressRouteAuthorization
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param authorizationName Name of the ExpressRoute Circuit Authorization
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    options?: AuthorizationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a ExpressRouteAuthorization
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param authorizationName Name of the ExpressRoute Circuit Authorization
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    options?: AuthorizationsDeleteOptionalParams,
   ): Promise<void>;
 }

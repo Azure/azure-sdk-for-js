@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.23.0-beta.2";
+export const SDK_VERSION: string = "12.24.0-beta.2";
 export const SERVICE_VERSION: string = "2024-05-04";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
@@ -59,6 +59,7 @@ export const HeaderConstants = {
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
   X_MS_VERSION: "x-ms-version",
+  X_MS_CopySourceErrorCode: "x-ms-copy-source-error-code",
 };
 
 export const ETagNone = "";
@@ -167,6 +168,8 @@ export const StorageBlobLoggingAllowedHeaderNames = [
   "x-ms-source-if-unmodified-since",
   "x-ms-tag-count",
   "x-ms-encryption-key-sha256",
+  "x-ms-copy-source-error-code",
+  "x-ms-copy-source-status-code",
   "x-ms-if-tags",
   "x-ms-source-if-tags",
 ];

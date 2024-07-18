@@ -97,7 +97,7 @@ useAzureMonitor(options);
 | browserSdkLoaderOptions| Allow configuration of Web Instrumentations. | { enabled: false, connectionString: "" } |
 | resource       | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources) ||
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. |1|
-| enableLiveMetrics          | Enable/Disable Live Metrics. |false|
+| enableLiveMetrics          | Enable/Disable Live Metrics. |true|
 | enableStandardMetrics      | Enable/Disable Standard Metrics. |true|
 | logRecordProcessors        | Array of log record processors to register to the global logger provider. ||
 | spanProcessors             | Array of span processors to register to the global tracer provider. ||
@@ -377,7 +377,7 @@ and thus draw attention to them in relevant experiences including the failures b
 
 ```typescript
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
-import { trace } from "@opentelemetry/api";
+import { trace, Exception } from "@opentelemetry/api";
 
 useAzureMonitor();
 const tracer =  trace.getTracer("testMeter");
@@ -387,7 +387,7 @@ try{
     throw new Error("Test Error");
 }
 catch(error){
-    span.recordException(error);
+    span.recordException(error as Exception);
 }
 ```
 

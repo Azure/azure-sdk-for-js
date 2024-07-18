@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
 import { CancelOnProgress } from '@azure/core-lro';
@@ -409,6 +407,7 @@ export class BlobClient extends StorageClient {
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
+    getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
@@ -647,6 +646,25 @@ export interface BlobFlatListSegmentModel {
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: BlobSASPermissions;
 }
+
+// @public
+export interface BlobGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
+export interface BlobGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobGetAccountInfoResponse = WithResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>;
 
 // @public
 export interface BlobGetPropertiesHeaders {
@@ -1683,6 +1701,7 @@ export class ContainerClient extends StorageClient {
     findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
+    getAccountInfo(options?: ContainerGetAccountInfoOptions): Promise<ContainerGetAccountInfoResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobBatchClient(): BlobBatchClient;
     getBlobClient(blobName: string): BlobClient;
@@ -1819,6 +1838,25 @@ export type ContainerGetAccessPolicyResponse = WithResponse<{
 
 // @public
 export type ContainerGetAccessPolicyResponseModel = ContainerGetAccessPolicyHeaders & SignedIdentifierModel[];
+
+// @public
+export interface ContainerGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
+export interface ContainerGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ContainerGetAccountInfoResponse = WithResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>;
 
 // @public
 export interface ContainerGetPropertiesHeaders {

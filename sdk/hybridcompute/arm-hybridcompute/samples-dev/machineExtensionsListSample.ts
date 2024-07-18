@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get all extensions of a non-Azure machine
  *
  * @summary The operation to get all extensions of a non-Azure machine
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extension_List.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/extension/Extension_List.json
  */
 async function getAllMachineExtensionsList() {
   const subscriptionId =

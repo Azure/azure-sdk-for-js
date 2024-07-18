@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,17 @@
 
 ### Bugs Fixed
 
-- React-Native support for `zlib` via the `pako` package.
-
 ### Other Changes
+
+## 1.1.0 (2024-06-11)
+
+### Features Added
+
+- Added `audience` support for the logs ingestion client to specify the audience for the authentication token. This feature is necessary to use a sovereign cloud. Refer to [#27280](https://github.com/Azure/azure-sdk-for-js/issues/27280) for further details.
+
+### Bugs Fixed
+
+- React-Native support for `zlib` via the `pako` package.
 
 ## 1.0.0 (2023-02-15)
 

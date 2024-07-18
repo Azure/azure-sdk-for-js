@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { Scvmm } from "./scvmm";
+export { ScVmm } from "./scVmm";
 export * from "./operationsInterfaces";

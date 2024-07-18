@@ -38,6 +38,12 @@ export async function authenticate(
         },
       ],
     },
+    removeCentralSanitizers: [
+      // This sanitizer sanitizes the secret ID, but this ID has a specific format that is parsed by the SDK, and is not a secret
+      "AZSDK3430",
+      // The 'name' property exists in certificate contacts and is not a secret
+      "AZSDK3493",
+    ],
   };
 
   const recorder = new Recorder(that.currentTest);

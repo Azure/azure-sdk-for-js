@@ -32,6 +32,7 @@ import {
   getTokenCredential,
   getUniqueName,
   recorderEnvSetup,
+  SimpleTokenCredential,
   uriSanitizers,
 } from "../utils";
 import { isNode } from "@azure/core-util";
@@ -107,19 +108,34 @@ describe("FileClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("Bad audience should fail", async () => {
+  it("Bad audience should work", async () => {
     await fileClient.create(1024);
+    const token = await createTestCredential().getToken(
+      "https://badaudience.file.core.windows.net/.default",
+    );
+    const fileClientWithSimpleOAuthToken = new ShareFileClient(
+      fileClient.url,
+      new SimpleTokenCredential(token!.token, new Date(token!.expiresOnTimestamp)),
+      {
+        fileRequestIntent: "backup",
+      },
+    );
+
+    configureStorageClient(recorder, fileClientWithSimpleOAuthToken);
+    try {
+      await fileClientWithSimpleOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
     const fileClientWithOAuthToken = new ShareFileClient(fileClient.url, createTestCredential(), {
       audience: "https://badaudience.file.core.windows.net/.default",
       fileRequestIntent: "backup",
     });
     configureStorageClient(recorder, fileClientWithOAuthToken);
-    try {
-      await fileClientWithOAuthToken.exists();
-      assert.fail("Should fail with 403");
-    } catch (err) {
-      assert.strictEqual((err as any).statusCode, 403);
-    }
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("uploadData - large Buffer as data", async function () {
@@ -429,6 +445,81 @@ describe("FileClient Node.js only", () => {
 
     assert.equal(await bodyToString(range1, 512), "a".repeat(512));
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
+  });
+
+  // [Copy source error code] Feature is pending on service side, skip test case for now.
+  it.skip("uploadRangeFromURL - should fail with copy source error message", async function (this: Context) {
+    await fileClient.create(1024);
+
+    const fileContent = "a".repeat(512) + "b".repeat(512);
+    await fileClient.uploadRange(fileContent, 0, fileContent.length);
+
+    // Get a SAS for fileURL
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
+    const expiresOn = new Date(recorder.variable("now", new Date().toISOString()));
+    expiresOn.setDate(expiresOn.getDate() - 1);
+    const sas = generateFileSASQueryParameters(
+      {
+        expiresOn,
+        shareName,
+        filePath: `${dirName}/${fileName}`,
+        permissions: FileSASPermissions.parse("r"),
+      },
+      credential,
+    );
+
+    const fileName2 = recorder.variable("file2", getUniqueName("file2"));
+    const fileURL2 = dirClient.getFileClient(fileName2);
+
+    await fileURL2.create(1024);
+
+    try {
+      await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 0, 0, 512);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.deepEqual((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthenticationFailed");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.",
+      );
+    }
+  });
+
+  // [Copy source error code] Feature is pending on service side, skip the test case for now.
+  it.skip("startCopyFromURL - should fail with copy source error message", async function (this: Context) {
+    await fileClient.create(1024);
+
+    // Get a SAS for fileURL
+    const credential = fileClient["credential"] as StorageSharedKeyCredential;
+    const expiresOn = new Date(recorder.variable("now", new Date().toISOString()));
+    expiresOn.setDate(expiresOn.getDate() - 1);
+    const sas = generateFileSASQueryParameters(
+      {
+        expiresOn,
+        shareName,
+        filePath: `${dirName}/${fileName}`,
+        permissions: FileSASPermissions.parse("r"),
+      },
+      credential,
+    );
+
+    const fileName2 = recorder.variable("file2", getUniqueName("file2"));
+    const fileURL2 = dirClient.getFileClient(fileName2);
+
+    await fileURL2.create(1024);
+
+    try {
+      await fileURL2.startCopyFromURL(`${fileClient.url}?${sas}`);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.deepEqual((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthenticationFailed");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.",
+      );
+    }
   });
 
   it("should not decompress during downloading", async function () {

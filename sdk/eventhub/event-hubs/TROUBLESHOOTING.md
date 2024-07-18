@@ -106,7 +106,7 @@ To use web sockets, see the sample [websockets.js][publisheventswithwebsockets].
 
 #### Adding "Authentication=Managed Identity"
 
-To authenticate with Managed Identity, see the sample [usingAadAuth.js][publisheventswithazureidentity].
+To authenticate with Managed Identity, see the sample [receiveEvents.js][publisheventswithazureidentity].
 
 For more information about the `Azure.Identity` library, check out our [Authentication and the Azure SDK][authenticationandtheazuresdk] blog post.
 
@@ -244,7 +244,7 @@ When filing GitHub issues, the following details are requested:
 [iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/iothubConnectionString.js
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/migrationguide.md
 [publisheventstospecificpartition]: https://github.com/Azure/azure-sdk-for-js/blob/3a2686448200fd2e961b6edaa3bc99557cd32093/sdk/eventhub/event-hubs/samples/v5/javascript/sendEventsToSpecificPartition.js
-[publisheventswithazureidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/usingAadAuth.js
+[publisheventswithazureidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/receiveEvents.js
 [publisheventswithwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/websockets.js
 [support]: https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md
 

@@ -21,7 +21,7 @@ import {
   BlobInventoryPoliciesGetResponse,
   BlobInventoryPoliciesCreateOrUpdateOptionalParams,
   BlobInventoryPoliciesCreateOrUpdateResponse,
-  BlobInventoryPoliciesDeleteOptionalParams
+  BlobInventoryPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: BlobInventoryPoliciesListOptionalParams
+    options?: BlobInventoryPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<BlobInventoryPolicy> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -67,9 +67,9 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
     resourceGroupName: string,
     accountName: string,
     options?: BlobInventoryPoliciesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<BlobInventoryPolicy[]> {
     let result: BlobInventoryPoliciesListResponse;
     result = await this._list(resourceGroupName, accountName, options);
@@ -87,12 +87,12 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: BlobInventoryPoliciesListOptionalParams
+    options?: BlobInventoryPoliciesListOptionalParams,
   ): AsyncIterableIterator<BlobInventoryPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -113,11 +113,11 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
     resourceGroupName: string,
     accountName: string,
     blobInventoryPolicyName: BlobInventoryPolicyName,
-    options?: BlobInventoryPoliciesGetOptionalParams
+    options?: BlobInventoryPoliciesGetOptionalParams,
   ): Promise<BlobInventoryPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, blobInventoryPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -138,7 +138,7 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
     accountName: string,
     blobInventoryPolicyName: BlobInventoryPolicyName,
     properties: BlobInventoryPolicy,
-    options?: BlobInventoryPoliciesCreateOrUpdateOptionalParams
+    options?: BlobInventoryPoliciesCreateOrUpdateOptionalParams,
   ): Promise<BlobInventoryPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -146,9 +146,9 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
         accountName,
         blobInventoryPolicyName,
         properties,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
     resourceGroupName: string,
     accountName: string,
     blobInventoryPolicyName: BlobInventoryPolicyName,
-    options?: BlobInventoryPoliciesDeleteOptionalParams
+    options?: BlobInventoryPoliciesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, blobInventoryPolicyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -187,11 +187,11 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: BlobInventoryPoliciesListOptionalParams
+    options?: BlobInventoryPoliciesListOptionalParams,
   ): Promise<BlobInventoryPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -199,94 +199,90 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BlobInventoryPolicy
+      bodyMapper: Mappers.BlobInventoryPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.blobInventoryPolicyName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.blobInventoryPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BlobInventoryPolicy
+      bodyMapper: Mappers.BlobInventoryPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.blobInventoryPolicyName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.blobInventoryPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.blobInventoryPolicyName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.blobInventoryPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListBlobInventoryPolicy
+      bodyMapper: Mappers.ListBlobInventoryPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
