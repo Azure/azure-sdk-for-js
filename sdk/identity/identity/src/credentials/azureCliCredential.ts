@@ -13,7 +13,10 @@ import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scope
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
+import { setLogLevel } from "@azure/logger";
 import { tracingClient } from "../util/tracing";
+
+setLogLevel("verbose");
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
