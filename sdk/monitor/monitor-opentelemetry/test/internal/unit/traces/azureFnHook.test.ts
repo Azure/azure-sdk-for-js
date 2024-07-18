@@ -52,7 +52,7 @@ describe("Library/AzureFunctionsHook", () => {
       traceContext: {
         traceparent: "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01",
         tracestate: "",
-        attributes: {}
+        attributes: {},
       },
     };
 
@@ -61,7 +61,7 @@ describe("Library/AzureFunctionsHook", () => {
       traceContext: {
         traceParent: "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01",
         traceState: "",
-        attributes: {}
+        attributes: {},
       },
     };
 
@@ -77,9 +77,11 @@ describe("Library/AzureFunctionsHook", () => {
 
     type PreInvocationCallback = (context: PreInvocationContext) => void | Promise<void>;
 
-    for (const [testModelVersion, testInvocationContext] of [['3.x', v3Context], ['4.x', v4Context]]) {
+    for (const [testModelVersion, testInvocationContext] of [
+      ["3.x", v3Context],
+      ["4.x", v4Context],
+    ]) {
       it(`[${testModelVersion}] Pre Invokation Hook added if running in Azure Functions and context is propagated`, async () => {
-
         let preInvocationCallback: any;
         let preInvocationCalled = false;
 
@@ -90,7 +92,7 @@ describe("Library/AzureFunctionsHook", () => {
               registerHook(name: string, callback: PreInvocationCallback) {
                 if (name === "preInvocation") {
                   preInvocationCalled = true;
-                  preInvocationCallback = (callback);
+                  preInvocationCallback = callback;
                 }
               },
             };
@@ -119,12 +121,11 @@ describe("Library/AzureFunctionsHook", () => {
             );
             assert.ok((span as any)["_spanContext"]["spanId"]);
           },
-          invocationContext: testInvocationContext
+          invocationContext: testInvocationContext,
         };
 
         await preInvocationCallback(preInvocationContext);
         preInvocationContext.functionCallback(testInvocationContext);
-
       });
     }
   });

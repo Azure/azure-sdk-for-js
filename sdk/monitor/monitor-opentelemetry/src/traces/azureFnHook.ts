@@ -3,11 +3,7 @@
 
 import { Context as AzureFnV3Context } from "@azure/functions-old";
 import { InvocationContext as AzureFnV4Context } from "@azure/functions";
-import {
-  context,
-  propagation,
-  Context as OpenTelemetryContext,
-} from "@opentelemetry/api";
+import { context, propagation, Context as OpenTelemetryContext } from "@opentelemetry/api";
 import { Logger } from "../shared/logging";
 
 type AzureFnContext = AzureFnV3Context & AzureFnV4Context;
@@ -15,9 +11,9 @@ type AzureFnContext = AzureFnV3Context & AzureFnV4Context;
 type FunctionCallback = (context: unknown, ...inputs: unknown[]) => unknown;
 
 /**
-     * Context on a function that is about to be executed
-     * This object will be passed to all pre invocation hooks
-     */
+ * Context on a function that is about to be executed
+ * This object will be passed to all pre invocation hooks
+ */
 export interface PreInvocationContext {
   /**
    * The context object passed to the function
@@ -35,7 +31,6 @@ export interface PreInvocationContext {
    */
   functionCallback: FunctionCallback;
 }
-
 
 export class AzureFunctionsHook {
   private _functionsCoreModule: any;
