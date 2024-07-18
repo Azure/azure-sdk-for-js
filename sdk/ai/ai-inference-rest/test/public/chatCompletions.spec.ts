@@ -4,7 +4,14 @@
 import { createRecorder, createModelClient } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { ChatCompletionsOutput, ModelClient, ChatCompletionsFunctionToolCallOutput, isUnexpected } from "../../src/index.js";
+import {
+  ChatCompletionsOutput,
+  ModelClient,
+  ChatCompletionsFunctionToolCallOutput,
+  GetChatCompletionsBodyParam,
+  GetChatCompletionsHeaders,
+  isUnexpected
+} from "../../src/index.js";
 
 describe("chat test suite", () => {
   let recorder: Recorder;
@@ -24,6 +31,68 @@ describe("chat test suite", () => {
     assert.isNotNull(client.path);
     assert.isNotNull(client.pipeline);
   });
+
+  it("chat regression test", async function () {
+    const headers = { "extra-parameters": "allow" }; 
+    const body = {
+        messages: [
+          { role: "user", content: "How many feet are in a mile?" },
+        ],
+        frequency_penalty: 1,
+        stream: false, 
+        presence_penalty: 1,
+        temperature: 1,
+        top_p: 1,
+        max_tokens: 1,
+        stop: ["<stop>"],
+        seed: 1,
+        model: "foo"
+        /*
+        response_format?: ChatCompletionsResponseFormat;
+        tools: Array<ChatCompletionsToolDefinition>;
+        tool_choice:
+        | ChatCompletionsToolSelectionPreset
+        | ChatCompletionsNamedToolSelection;
+        */
+    }
+    const response = await client.path("/chat/completions").post({
+      headers,
+      body
+    });
+    const responseHeaders = response.headers as GetChatCompletionsHeaders;
+    assert.isDefined(responseHeaders);
+    assert.isDefined(responseHeaders["extra-parameters"]);
+    assert.isTrue(responseHeaders["extra-parameters"] == headers["extra-parameters"]);
+
+    const request = response.request as GetChatCompletionsBodyParam;
+    assert.isDefined(request);
+
+    const reqBody = request.body;
+    assert.isDefined(reqBody);
+
+    assert.isDefined(reqBody?.messages);
+    assert.isNotEmpty(reqBody?.messages);
+    assert.isTrue(reqBody?.frequency_penalty == body.frequency_penalty);
+    assert.isTrue(reqBody?.stream == body.stream);
+    assert.isTrue(reqBody?.presence_penalty == body.presence_penalty);
+    assert.isTrue(reqBody?.temperature == body.temperature);
+    assert.isTrue(reqBody?.top_p == body.top_p);
+    assert.isTrue(reqBody?.max_tokens == body.max_tokens);
+    assert.isDefined(reqBody?.stop);
+    assert.isArray(reqBody?.stop);
+    assert.isNotEmpty(reqBody?.stop);
+
+    if (reqBody?.stop) {
+      assert.isDefined(reqBody?.stop[0]);
+      assert.isTrue(reqBody?.stop[0] == body.stop[0]);
+    }
+    assert.isTrue(reqBody?.seed == body.seed);
+    assert.isTrue(reqBody?.model == body.model);
+  },
+    {
+      timeout: 50000
+    });
+
 
   it("simple chat test", async function () {
     const response = await client.path("/chat/completions").post({
