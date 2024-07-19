@@ -1,6 +1,6 @@
 {
    "dryRun": false,
-   "specFolder": "../azure-rest-api-specs",
+   "specFolder": "../test-azure-rest-api-specs",
    "headSha": "9f4e4966d2e5526fa12cc5e2c0f29344f9fc1986",
    "headRef": "refs/pull/29608/merge",
    "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
@@ -102,5 +102,5 @@
    "relatedReadmeMdFiles": [
      "specification/hdinsight/resource-manager/readme.md"
    ],
-   "relatedTypeSpecProjectFolder": "../test-azure-rest-api-specs/specification/mongocluster/DocumentDB.MongoCluster.Management"
+   "relatedTypeSpecProjectFolder": "specification/mongocluster/DocumentDB.MongoCluster.Management"
  }
