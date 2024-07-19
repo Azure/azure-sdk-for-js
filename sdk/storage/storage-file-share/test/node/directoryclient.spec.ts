@@ -3,7 +3,9 @@
 
 import { assert } from "chai";
 import {
+  SimpleTokenCredential,
   configureStorageClient,
+  getAccountName,
   getBSU,
   getUniqueName,
   recorderEnvSetup,
@@ -14,9 +16,11 @@ import {
   ShareDirectoryClient,
   StorageSharedKeyCredential,
   ShareClient,
+  getFileServiceAccountAudience,
 } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;
@@ -44,6 +48,67 @@ describe("DirectoryClient Node.js only", () => {
     await dirClient.delete();
     await shareClient.delete();
     await recorder.stop();
+  });
+
+  it("Default audience should work", async () => {
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      createTestCredential(),
+      { fileRequestIntent: "backup" },
+    );
+    configureStorageClient(recorder, dirClientWithOAuthToken);
+
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      createTestCredential(),
+      {
+        audience: getFileServiceAccountAudience(getAccountName()),
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, dirClientWithOAuthToken);
+
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bad audience should work", async () => {
+    const token = await createTestCredential().getToken(
+      "https://badaudience.file.core.windows.net/.default",
+    );
+    const dirClientWithSimpleOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      new SimpleTokenCredential(token!.token, new Date(token!.expiresOnTimestamp)),
+      {
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, dirClientWithSimpleOAuthToken);
+
+    try {
+      await dirClientWithSimpleOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      createTestCredential(),
+      {
+        audience: "https://badaudience.file.core.windows.net/.default",
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, dirClientWithOAuthToken);
+
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("can be created with a url and a credential", async () => {

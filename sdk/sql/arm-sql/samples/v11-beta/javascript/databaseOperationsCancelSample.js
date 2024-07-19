@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Cancels the asynchronous operation on the database.
  *
  * @summary Cancels the asynchronous operation on the database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/CancelDatabaseOperation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/CancelDatabaseOperation.json
  */
 async function cancelTheDatabaseManagementOperation() {
   const subscriptionId =

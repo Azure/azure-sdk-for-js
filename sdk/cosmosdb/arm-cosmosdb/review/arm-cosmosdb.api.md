@@ -41,7 +41,6 @@ export interface ARMProxyResource {
 // @public
 export interface ARMResourceProperties {
     readonly id?: string;
-    identity?: ManagedServiceIdentity;
     location?: string;
     readonly name?: string;
     tags?: {
@@ -66,9 +65,6 @@ export interface AuthenticationMethodLdapProperties {
     serviceUserPassword?: string;
 }
 
-// @public
-export type AutoReplicate = string;
-
 // @public (undocumented)
 export interface AutoscaleSettings {
     maxThroughput?: number;
@@ -84,15 +80,6 @@ export interface AutoscaleSettingsResource {
 // @public
 export interface AutoUpgradePolicyResource {
     throughputPolicy?: ThroughputPolicyResource;
-}
-
-// @public
-export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSourceSink {
-    component: "AzureBlobStorage";
-    // (undocumented)
-    containerName: string;
-    // (undocumented)
-    endpointUrl?: string;
 }
 
 // @public
@@ -126,36 +113,7 @@ export type BackupPolicyType = string;
 export type BackupPolicyUnion = BackupPolicy | PeriodicModeBackupPolicy | ContinuousModeBackupPolicy;
 
 // @public
-export interface BackupResource {
-    backupExpiryTimestamp?: Date;
-    backupId?: string;
-    backupStartTimestamp?: Date;
-    backupState?: BackupState;
-    backupStopTimestamp?: Date;
-}
-
-// @public (undocumented)
-export interface BackupSchedule {
-    cronExpression?: string;
-    retentionInHours?: number;
-    scheduleName?: string;
-}
-
-// @public
-export type BackupState = string;
-
-// @public
 export type BackupStorageRedundancy = string;
-
-// @public
-export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSourceSink {
-    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql";
-    // (undocumented)
-    remoteAccountName?: string;
-}
-
-// @public (undocumented)
-export type BaseCosmosDataTransferDataSourceSinkUnion = BaseCosmosDataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink;
 
 // @public
 export interface Capability {
@@ -196,19 +154,13 @@ export interface CassandraClusters {
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: CassandraClustersDeleteOptionalParams): Promise<void>;
     beginInvokeCommand(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandOptionalParams): Promise<SimplePollerLike<OperationState<CassandraClustersInvokeCommandResponse>, CassandraClustersInvokeCommandResponse>>;
     beginInvokeCommandAndWait(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandOptionalParams): Promise<CassandraClustersInvokeCommandResponse>;
-    beginInvokeCommandAsync(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandAsyncOptionalParams): Promise<SimplePollerLike<OperationState<CassandraClustersInvokeCommandAsyncResponse>, CassandraClustersInvokeCommandAsyncResponse>>;
-    beginInvokeCommandAsyncAndWait(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandAsyncOptionalParams): Promise<CassandraClustersInvokeCommandAsyncResponse>;
     beginStart(resourceGroupName: string, clusterName: string, options?: CassandraClustersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, clusterName: string, options?: CassandraClustersStartOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, clusterName: string, body: ClusterResource, options?: CassandraClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CassandraClustersUpdateResponse>, CassandraClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, body: ClusterResource, options?: CassandraClustersUpdateOptionalParams): Promise<CassandraClustersUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: CassandraClustersGetOptionalParams): Promise<CassandraClustersGetResponse>;
-    getBackup(resourceGroupName: string, clusterName: string, backupId: string, options?: CassandraClustersGetBackupOptionalParams): Promise<CassandraClustersGetBackupResponse>;
-    getCommandAsync(resourceGroupName: string, clusterName: string, commandId: string, options?: CassandraClustersGetCommandAsyncOptionalParams): Promise<CassandraClustersGetCommandAsyncResponse>;
-    listBackups(resourceGroupName: string, clusterName: string, options?: CassandraClustersListBackupsOptionalParams): PagedAsyncIterableIterator<BackupResource>;
     listByResourceGroup(resourceGroupName: string, options?: CassandraClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ClusterResource>;
     listBySubscription(options?: CassandraClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ClusterResource>;
-    listCommand(resourceGroupName: string, clusterName: string, options?: CassandraClustersListCommandOptionalParams): PagedAsyncIterableIterator<CommandPublicResource>;
     status(resourceGroupName: string, clusterName: string, options?: CassandraClustersStatusOptionalParams): Promise<CassandraClustersStatusResponse>;
 }
 
@@ -225,7 +177,6 @@ export type CassandraClustersCreateUpdateResponse = ClusterResource;
 export interface CassandraClustersDeallocateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
-    xMsForceDeallocate?: string;
 }
 
 // @public
@@ -235,40 +186,11 @@ export interface CassandraClustersDeleteOptionalParams extends coreClient.Operat
 }
 
 // @public
-export interface CassandraClustersGetBackupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CassandraClustersGetBackupResponse = BackupResource;
-
-// @public
-export interface CassandraClustersGetCommandAsyncOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CassandraClustersGetCommandAsyncResponse = ListCommands;
-
-// @public
 export interface CassandraClustersGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type CassandraClustersGetResponse = ClusterResource;
-
-// @public
-export interface CassandraClustersInvokeCommandAsyncHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CassandraClustersInvokeCommandAsyncOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CassandraClustersInvokeCommandAsyncResponse = CommandPublicResource;
 
 // @public
 export interface CassandraClustersInvokeCommandOptionalParams extends coreClient.OperationOptions {
@@ -278,13 +200,6 @@ export interface CassandraClustersInvokeCommandOptionalParams extends coreClient
 
 // @public
 export type CassandraClustersInvokeCommandResponse = CommandOutput;
-
-// @public
-export interface CassandraClustersListBackupsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CassandraClustersListBackupsResponse = ListBackups;
 
 // @public
 export interface CassandraClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
@@ -299,13 +214,6 @@ export interface CassandraClustersListBySubscriptionOptionalParams extends coreC
 
 // @public
 export type CassandraClustersListBySubscriptionResponse = ListClusters;
-
-// @public
-export interface CassandraClustersListCommandOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CassandraClustersListCommandResponse = ListCommands;
 
 // @public
 export interface CassandraClustersStartOptionalParams extends coreClient.OperationOptions {
@@ -430,14 +338,10 @@ export interface CassandraResources {
     beginCreateUpdateCassandraKeyspaceAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, createUpdateCassandraKeyspaceParameters: CassandraKeyspaceCreateUpdateParameters, options?: CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams): Promise<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>;
     beginCreateUpdateCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters, options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesCreateUpdateCassandraTableResponse>, CassandraResourcesCreateUpdateCassandraTableResponse>>;
     beginCreateUpdateCassandraTableAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters, options?: CassandraResourcesCreateUpdateCassandraTableOptionalParams): Promise<CassandraResourcesCreateUpdateCassandraTableResponse>;
-    beginCreateUpdateCassandraView(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters, options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesCreateUpdateCassandraViewResponse>, CassandraResourcesCreateUpdateCassandraViewResponse>>;
-    beginCreateUpdateCassandraViewAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters, options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams): Promise<CassandraResourcesCreateUpdateCassandraViewResponse>;
     beginDeleteCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesDeleteCassandraKeyspaceResponse>, CassandraResourcesDeleteCassandraKeyspaceResponse>>;
     beginDeleteCassandraKeyspaceAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesDeleteCassandraKeyspaceOptionalParams): Promise<CassandraResourcesDeleteCassandraKeyspaceResponse>;
     beginDeleteCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: CassandraResourcesDeleteCassandraTableOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesDeleteCassandraTableResponse>, CassandraResourcesDeleteCassandraTableResponse>>;
     beginDeleteCassandraTableAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: CassandraResourcesDeleteCassandraTableOptionalParams): Promise<CassandraResourcesDeleteCassandraTableResponse>;
-    beginDeleteCassandraView(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesDeleteCassandraViewOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteCassandraViewAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesDeleteCassandraViewOptionalParams): Promise<void>;
     beginMigrateCassandraKeyspaceToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>, CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>>;
     beginMigrateCassandraKeyspaceToAutoscaleAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams): Promise<CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>;
     beginMigrateCassandraKeyspaceToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>, CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>>;
@@ -446,25 +350,16 @@ export interface CassandraResources {
     beginMigrateCassandraTableToAutoscaleAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams): Promise<CassandraResourcesMigrateCassandraTableToAutoscaleResponse>;
     beginMigrateCassandraTableToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesMigrateCassandraTableToManualThroughputResponse>, CassandraResourcesMigrateCassandraTableToManualThroughputResponse>>;
     beginMigrateCassandraTableToManualThroughputAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams): Promise<CassandraResourcesMigrateCassandraTableToManualThroughputResponse>;
-    beginMigrateCassandraViewToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesMigrateCassandraViewToAutoscaleResponse>, CassandraResourcesMigrateCassandraViewToAutoscaleResponse>>;
-    beginMigrateCassandraViewToAutoscaleAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams): Promise<CassandraResourcesMigrateCassandraViewToAutoscaleResponse>;
-    beginMigrateCassandraViewToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesMigrateCassandraViewToManualThroughputResponse>, CassandraResourcesMigrateCassandraViewToManualThroughputResponse>>;
-    beginMigrateCassandraViewToManualThroughputAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams): Promise<CassandraResourcesMigrateCassandraViewToManualThroughputResponse>;
     beginUpdateCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse>, CassandraResourcesUpdateCassandraKeyspaceThroughputResponse>>;
     beginUpdateCassandraKeyspaceThroughputAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams): Promise<CassandraResourcesUpdateCassandraKeyspaceThroughputResponse>;
     beginUpdateCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesUpdateCassandraTableThroughputResponse>, CassandraResourcesUpdateCassandraTableThroughputResponse>>;
     beginUpdateCassandraTableThroughputAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: CassandraResourcesUpdateCassandraTableThroughputOptionalParams): Promise<CassandraResourcesUpdateCassandraTableThroughputResponse>;
-    beginUpdateCassandraViewThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams): Promise<SimplePollerLike<OperationState<CassandraResourcesUpdateCassandraViewThroughputResponse>, CassandraResourcesUpdateCassandraViewThroughputResponse>>;
-    beginUpdateCassandraViewThroughputAndWait(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams): Promise<CassandraResourcesUpdateCassandraViewThroughputResponse>;
     getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesGetCassandraKeyspaceOptionalParams): Promise<CassandraResourcesGetCassandraKeyspaceResponse>;
     getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams): Promise<CassandraResourcesGetCassandraKeyspaceThroughputResponse>;
     getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: CassandraResourcesGetCassandraTableOptionalParams): Promise<CassandraResourcesGetCassandraTableResponse>;
     getCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: CassandraResourcesGetCassandraTableThroughputOptionalParams): Promise<CassandraResourcesGetCassandraTableThroughputResponse>;
-    getCassandraView(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesGetCassandraViewOptionalParams): Promise<CassandraResourcesGetCassandraViewResponse>;
-    getCassandraViewThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, viewName: string, options?: CassandraResourcesGetCassandraViewThroughputOptionalParams): Promise<CassandraResourcesGetCassandraViewThroughputResponse>;
     listCassandraKeyspaces(resourceGroupName: string, accountName: string, options?: CassandraResourcesListCassandraKeyspacesOptionalParams): PagedAsyncIterableIterator<CassandraKeyspaceGetResults>;
     listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesListCassandraTablesOptionalParams): PagedAsyncIterableIterator<CassandraTableGetResults>;
-    listCassandraViews(resourceGroupName: string, accountName: string, keyspaceName: string, options?: CassandraResourcesListCassandraViewsOptionalParams): PagedAsyncIterableIterator<CassandraViewGetResults>;
 }
 
 // @public
@@ -498,21 +393,6 @@ export interface CassandraResourcesCreateUpdateCassandraTableOptionalParams exte
 export type CassandraResourcesCreateUpdateCassandraTableResponse = CassandraTableGetResults;
 
 // @public
-export interface CassandraResourcesCreateUpdateCassandraViewHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CassandraResourcesCreateUpdateCassandraViewOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CassandraResourcesCreateUpdateCassandraViewResponse = CassandraViewGetResults;
-
-// @public
 export interface CassandraResourcesDeleteCassandraKeyspaceHeaders {
     azureAsyncOperation?: string;
     location?: string;
@@ -543,18 +423,6 @@ export interface CassandraResourcesDeleteCassandraTableOptionalParams extends co
 export type CassandraResourcesDeleteCassandraTableResponse = CassandraResourcesDeleteCassandraTableHeaders;
 
 // @public
-export interface CassandraResourcesDeleteCassandraViewHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CassandraResourcesDeleteCassandraViewOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface CassandraResourcesGetCassandraKeyspaceOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -583,20 +451,6 @@ export interface CassandraResourcesGetCassandraTableThroughputOptionalParams ext
 export type CassandraResourcesGetCassandraTableThroughputResponse = ThroughputSettingsGetResults;
 
 // @public
-export interface CassandraResourcesGetCassandraViewOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CassandraResourcesGetCassandraViewResponse = CassandraViewGetResults;
-
-// @public
-export interface CassandraResourcesGetCassandraViewThroughputOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CassandraResourcesGetCassandraViewThroughputResponse = ThroughputSettingsGetResults;
-
-// @public
 export interface CassandraResourcesListCassandraKeyspacesOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -609,13 +463,6 @@ export interface CassandraResourcesListCassandraTablesOptionalParams extends cor
 
 // @public
 export type CassandraResourcesListCassandraTablesResponse = CassandraTableListResult;
-
-// @public
-export interface CassandraResourcesListCassandraViewsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CassandraResourcesListCassandraViewsResponse = CassandraViewListResult;
 
 // @public
 export interface CassandraResourcesMigrateCassandraKeyspaceToAutoscaleHeaders {
@@ -678,36 +525,6 @@ export interface CassandraResourcesMigrateCassandraTableToManualThroughputOption
 export type CassandraResourcesMigrateCassandraTableToManualThroughputResponse = ThroughputSettingsGetResults;
 
 // @public
-export interface CassandraResourcesMigrateCassandraViewToAutoscaleHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CassandraResourcesMigrateCassandraViewToAutoscaleResponse = ThroughputSettingsGetResults;
-
-// @public
-export interface CassandraResourcesMigrateCassandraViewToManualThroughputHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CassandraResourcesMigrateCassandraViewToManualThroughputResponse = ThroughputSettingsGetResults;
-
-// @public
 export interface CassandraResourcesUpdateCassandraKeyspaceThroughputHeaders {
     azureAsyncOperation?: string;
     location?: string;
@@ -736,21 +553,6 @@ export interface CassandraResourcesUpdateCassandraTableThroughputOptionalParams 
 
 // @public
 export type CassandraResourcesUpdateCassandraTableThroughputResponse = ThroughputSettingsGetResults;
-
-// @public
-export interface CassandraResourcesUpdateCassandraViewThroughputHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CassandraResourcesUpdateCassandraViewThroughputResponse = ThroughputSettingsGetResults;
 
 // @public
 export interface CassandraSchema {
@@ -794,58 +596,9 @@ export interface CassandraTableResource {
     schema?: CassandraSchema;
 }
 
-// @public
-export interface CassandraViewCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
-    resource: CassandraViewResource;
-}
-
-// @public (undocumented)
-export interface CassandraViewGetPropertiesOptions extends OptionsResource {
-}
-
-// @public (undocumented)
-export interface CassandraViewGetPropertiesResource extends CassandraViewResource, ExtendedResourceProperties {
-}
-
-// @public
-export interface CassandraViewGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: CassandraViewGetPropertiesOptions;
-    // (undocumented)
-    resource?: CassandraViewGetPropertiesResource;
-}
-
-// @public
-export interface CassandraViewListResult {
-    readonly value?: CassandraViewGetResults[];
-}
-
-// @public
-export interface CassandraViewResource {
-    id: string;
-    viewDefinition: string;
-}
-
 // @public (undocumented)
 export interface Certificate {
     pem?: string;
-}
-
-// @public
-export type CheckNameAvailabilityReason = string;
-
-// @public
-export interface CheckNameAvailabilityRequest {
-    name?: string;
-    type?: string;
-}
-
-// @public
-export interface CheckNameAvailabilityResponse {
-    message?: string;
-    nameAvailable?: boolean;
-    reason?: CheckNameAvailabilityReason;
 }
 
 // @public (undocumented)
@@ -909,18 +662,13 @@ export interface ClusterResource extends ManagedCassandraARMResourceProperties {
 // @public
 export interface ClusterResourceProperties {
     authenticationMethod?: AuthenticationMethod;
-    autoReplicate?: AutoReplicate;
     azureConnectionMethod?: AzureConnectionType;
-    backupSchedules?: BackupSchedule[];
     cassandraAuditLoggingEnabled?: boolean;
     cassandraVersion?: string;
     clientCertificates?: Certificate[];
     clusterNameOverride?: string;
-    clusterType?: ClusterType;
     deallocated?: boolean;
     delegatedManagementSubnetId?: string;
-    extensions?: string[];
-    externalDataCenters?: string[];
     externalGossipCertificates?: Certificate[];
     externalSeedNodes?: SeedNode[];
     readonly gossipCertificates?: Certificate[];
@@ -932,12 +680,8 @@ export interface ClusterResourceProperties {
     provisioningState?: ManagedCassandraProvisioningState;
     repairEnabled?: boolean;
     restoreFromBackupId?: string;
-    scheduledEventStrategy?: ScheduledEventStrategy;
     readonly seedNodes?: SeedNode[];
 }
-
-// @public
-export type ClusterType = string;
 
 // @public
 export interface Collection {
@@ -1026,29 +770,14 @@ export interface CommandOutput {
 
 // @public
 export interface CommandPostBody {
-    arguments?: Record<string, unknown>;
+    arguments?: {
+        [propertyName: string]: string;
+    };
     cassandraStopStart?: boolean;
     command: string;
     host: string;
-    readWrite?: boolean;
+    readwrite?: boolean;
 }
-
-// @public
-export interface CommandPublicResource {
-    arguments?: Record<string, unknown>;
-    cassandraStopStart?: boolean;
-    command?: string;
-    commandId?: string;
-    host?: string;
-    isAdmin?: boolean;
-    outputFile?: string;
-    readWrite?: boolean;
-    result?: string;
-    status?: CommandStatus;
-}
-
-// @public
-export type CommandStatus = string;
 
 // @public (undocumented)
 export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
@@ -1064,7 +793,6 @@ export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDa
     diskFreeKB?: number;
     diskUsedKB?: number;
     hostID?: string;
-    isLatestModel?: boolean;
     load?: string;
     memoryBuffersAndCachedKB?: number;
     memoryFreeKB?: number;
@@ -1118,12 +846,6 @@ export interface ConnectionError {
 export type ConnectionState = string;
 
 // @public
-export interface ConnectionString {
-    readonly connectionString?: string;
-    readonly description?: string;
-}
-
-// @public
 export type ConnectorOffer = string;
 
 // @public
@@ -1174,15 +896,6 @@ export interface CorsPolicy {
     maxAgeInSeconds?: number;
 }
 
-// @public
-export interface CosmosCassandraDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-    component: "CosmosDBCassandra";
-    // (undocumented)
-    keyspaceName: string;
-    // (undocumented)
-    tableName: string;
-}
-
 // @public (undocumented)
 export class CosmosDBManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -1211,15 +924,9 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     databaseAccounts: DatabaseAccounts;
     // (undocumented)
-    dataTransferJobs: DataTransferJobs;
-    // (undocumented)
-    graphResources: GraphResources;
-    // (undocumented)
     gremlinResources: GremlinResources;
     // (undocumented)
     locations: Locations;
-    // (undocumented)
-    mongoClusters: MongoClusters;
     // (undocumented)
     mongoDBResources: MongoDBResources;
     // (undocumented)
@@ -1272,14 +979,6 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     subscriptionId: string;
     // (undocumented)
     tableResources: TableResources;
-    // (undocumented)
-    throughputPool: ThroughputPool;
-    // (undocumented)
-    throughputPoolAccount: ThroughputPoolAccount;
-    // (undocumented)
-    throughputPoolAccounts: ThroughputPoolAccounts;
-    // (undocumented)
-    throughputPools: ThroughputPools;
 }
 
 // @public
@@ -1290,30 +989,7 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export interface CosmosMongoDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-    // (undocumented)
-    collectionName: string;
-    component: "CosmosDBMongo";
-    // (undocumented)
-    databaseName: string;
-}
-
-// @public
-export interface CosmosSqlDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-    component: "CosmosDBSql";
-    // (undocumented)
-    containerName: string;
-    // (undocumented)
-    databaseName: string;
-}
-
-// @public
 export type CreatedByType = string;
-
-// @public
-export interface CreateJobRequest extends ARMProxyResource {
-    properties: DataTransferJobProperties;
-}
 
 // @public
 export type CreateMode = string;
@@ -1353,8 +1029,6 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     customerManagedKeyStatus?: string;
     databaseAccountOfferType: "Standard";
     defaultIdentity?: string;
-    defaultPriorityLevel?: DefaultPriorityLevel;
-    diagnosticLogSettings?: DiagnosticLogSettings;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
     enableAnalyticalStorage?: boolean;
@@ -1362,11 +1036,9 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     enableBurstCapacity?: boolean;
     enableCassandraConnector?: boolean;
     enableFreeTier?: boolean;
-    enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
-    enablePerRegionPerPartitionAutoscale?: boolean;
-    enablePriorityBasedExecution?: boolean;
+    identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -1395,8 +1067,6 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     customerManagedKeyStatus?: string;
     readonly databaseAccountOfferType?: "Standard";
     defaultIdentity?: string;
-    defaultPriorityLevel?: DefaultPriorityLevel;
-    diagnosticLogSettings?: DiagnosticLogSettings;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
     readonly documentEndpoint?: string;
@@ -1405,12 +1075,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     enableBurstCapacity?: boolean;
     enableCassandraConnector?: boolean;
     enableFreeTier?: boolean;
-    enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
-    enablePerRegionPerPartitionAutoscale?: boolean;
-    enablePriorityBasedExecution?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
+    identity?: ManagedServiceIdentity;
     readonly instanceId?: string;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
@@ -1686,8 +1354,6 @@ export interface DatabaseAccountUpdateParameters {
     cors?: CorsPolicy[];
     customerManagedKeyStatus?: string;
     defaultIdentity?: string;
-    defaultPriorityLevel?: DefaultPriorityLevel;
-    diagnosticLogSettings?: DiagnosticLogSettings;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
     enableAnalyticalStorage?: boolean;
@@ -1695,11 +1361,8 @@ export interface DatabaseAccountUpdateParameters {
     enableBurstCapacity?: boolean;
     enableCassandraConnector?: boolean;
     enableFreeTier?: boolean;
-    enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
-    enablePerRegionPerPartitionAutoscale?: boolean;
-    enablePriorityBasedExecution?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
@@ -1771,129 +1434,17 @@ export interface DataCenterResourceProperties {
 }
 
 // @public
-export type DataTransferComponent = string;
-
-// @public
-export interface DataTransferDataSourceSink {
-    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql" | "AzureBlobStorage";
-}
-
-// @public (undocumented)
-export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | BaseCosmosDataTransferDataSourceSinkUnion | AzureBlobDataTransferDataSourceSink;
-
-// @public
-export interface DataTransferJobFeedResults {
-    readonly nextLink?: string;
-    readonly value?: DataTransferJobGetResults[];
-}
-
-// @public
-export interface DataTransferJobGetResults extends ARMProxyResource {
-    destination?: DataTransferDataSourceSinkUnion;
-    readonly duration?: string;
-    readonly error?: ErrorResponse;
-    readonly jobName?: string;
-    readonly lastUpdatedUtcTime?: Date;
-    mode?: DataTransferJobMode;
-    readonly processedCount?: number;
-    source?: DataTransferDataSourceSinkUnion;
-    readonly status?: string;
-    readonly totalCount?: number;
-    workerCount?: number;
-}
-
-// @public
-export type DataTransferJobMode = string;
-
-// @public
-export interface DataTransferJobProperties {
-    destination: DataTransferDataSourceSinkUnion;
-    readonly duration?: string;
-    readonly error?: ErrorResponse;
-    readonly jobName?: string;
-    readonly lastUpdatedUtcTime?: Date;
-    mode?: DataTransferJobMode;
-    readonly processedCount?: number;
-    source: DataTransferDataSourceSinkUnion;
-    readonly status?: string;
-    readonly totalCount?: number;
-    workerCount?: number;
-}
-
-// @public
-export interface DataTransferJobs {
-    cancel(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsCancelOptionalParams): Promise<DataTransferJobsCancelResponse>;
-    complete(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsCompleteOptionalParams): Promise<DataTransferJobsCompleteResponse>;
-    create(resourceGroupName: string, accountName: string, jobName: string, jobCreateParameters: CreateJobRequest, options?: DataTransferJobsCreateOptionalParams): Promise<DataTransferJobsCreateResponse>;
-    get(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsGetOptionalParams): Promise<DataTransferJobsGetResponse>;
-    listByDatabaseAccount(resourceGroupName: string, accountName: string, options?: DataTransferJobsListByDatabaseAccountOptionalParams): PagedAsyncIterableIterator<DataTransferJobGetResults>;
-    pause(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsPauseOptionalParams): Promise<DataTransferJobsPauseResponse>;
-    resume(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsResumeOptionalParams): Promise<DataTransferJobsResumeResponse>;
-}
-
-// @public
-export interface DataTransferJobsCancelOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsCancelResponse = DataTransferJobGetResults;
-
-// @public
-export interface DataTransferJobsCompleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsCompleteResponse = DataTransferJobGetResults;
-
-// @public
-export interface DataTransferJobsCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsCreateResponse = DataTransferJobGetResults;
-
-// @public
-export interface DataTransferJobsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsGetResponse = DataTransferJobGetResults;
-
-// @public
-export interface DataTransferJobsListByDatabaseAccountNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsListByDatabaseAccountNextResponse = DataTransferJobFeedResults;
-
-// @public
-export interface DataTransferJobsListByDatabaseAccountOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsListByDatabaseAccountResponse = DataTransferJobFeedResults;
-
-// @public
-export interface DataTransferJobsPauseOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsPauseResponse = DataTransferJobGetResults;
-
-// @public
-export interface DataTransferJobsResumeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataTransferJobsResumeResponse = DataTransferJobGetResults;
-
-// @public
 export interface DataTransferRegionalServiceResource extends RegionalServiceResource {
 }
 
 // @public
 export interface DataTransferServiceResource {
     properties?: DataTransferServiceResourceProperties;
+}
+
+// @public
+export interface DataTransferServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
+    serviceType: "DataTransfer";
 }
 
 // @public
@@ -1906,43 +1457,15 @@ export interface DataTransferServiceResourceProperties extends ServiceResourcePr
 export type DataType = string;
 
 // @public
+export type DedicatedGatewayType = string;
+
+// @public
 export type DefaultConsistencyLevel = "Eventual" | "Session" | "BoundedStaleness" | "Strong" | "ConsistentPrefix";
-
-// @public
-export type DefaultPriorityLevel = string;
-
-// @public
-export interface DiagnosticLogSettings {
-    enableFullTextQuery?: EnableFullTextQuery;
-}
-
-// @public
-export type EnableFullTextQuery = "None" | "True" | "False";
-
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
 
 // @public
 export interface ErrorResponse {
     code?: string;
     message?: string;
-}
-
-// @public
-export interface ErrorResponseAutoGenerated {
-    error?: ErrorDetail;
 }
 
 // @public (undocumented)
@@ -1970,19 +1493,6 @@ export interface FailoverPolicy {
 }
 
 // @public
-export interface FirewallRule extends ProxyResource {
-    endIpAddress: string;
-    readonly provisioningState?: ProvisioningState;
-    startIpAddress: string;
-}
-
-// @public
-export interface FirewallRuleListResult {
-    readonly nextLink?: string;
-    value?: FirewallRule[];
-}
-
-// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -1996,93 +1506,15 @@ export interface GraphAPIComputeServiceResource {
 }
 
 // @public
-export interface GraphAPIComputeServiceResourceProperties extends ServiceResourceProperties {
-    graphApiComputeEndpoint?: string;
-    readonly locations?: GraphAPIComputeRegionalServiceResource[];
+export interface GraphAPIComputeServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
     serviceType: "GraphAPICompute";
 }
 
 // @public
-export interface GraphResource {
-    id: string;
-}
-
-// @public
-export interface GraphResourceCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
-    resource: GraphResource;
-}
-
-// @public (undocumented)
-export interface GraphResourceGetPropertiesOptions extends OptionsResource {
-}
-
-// @public (undocumented)
-export interface GraphResourceGetPropertiesResource extends GraphResource {
-}
-
-// @public
-export interface GraphResourceGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: GraphResourceGetPropertiesOptions;
-    // (undocumented)
-    resource?: GraphResourceGetPropertiesResource;
-}
-
-// @public
-export interface GraphResources {
-    beginCreateUpdateGraph(resourceGroupName: string, accountName: string, graphName: string, createUpdateGraphParameters: GraphResourceCreateUpdateParameters, options?: GraphResourcesCreateUpdateGraphOptionalParams): Promise<SimplePollerLike<OperationState<GraphResourcesCreateUpdateGraphResponse>, GraphResourcesCreateUpdateGraphResponse>>;
-    beginCreateUpdateGraphAndWait(resourceGroupName: string, accountName: string, graphName: string, createUpdateGraphParameters: GraphResourceCreateUpdateParameters, options?: GraphResourcesCreateUpdateGraphOptionalParams): Promise<GraphResourcesCreateUpdateGraphResponse>;
-    beginDeleteGraphResource(resourceGroupName: string, accountName: string, graphName: string, options?: GraphResourcesDeleteGraphResourceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteGraphResourceAndWait(resourceGroupName: string, accountName: string, graphName: string, options?: GraphResourcesDeleteGraphResourceOptionalParams): Promise<void>;
-    getGraph(resourceGroupName: string, accountName: string, graphName: string, options?: GraphResourcesGetGraphOptionalParams): Promise<GraphResourcesGetGraphResponse>;
-    listGraphs(resourceGroupName: string, accountName: string, options?: GraphResourcesListGraphsOptionalParams): PagedAsyncIterableIterator<GraphResourceGetResults>;
-}
-
-// @public
-export interface GraphResourcesCreateUpdateGraphHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface GraphResourcesCreateUpdateGraphOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GraphResourcesCreateUpdateGraphResponse = GraphResourceGetResults;
-
-// @public
-export interface GraphResourcesDeleteGraphResourceHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface GraphResourcesDeleteGraphResourceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GraphResourcesGetGraphOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GraphResourcesGetGraphResponse = GraphResourceGetResults;
-
-// @public
-export interface GraphResourcesListGraphsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GraphResourcesListGraphsResponse = GraphResourcesListResult;
-
-// @public
-export interface GraphResourcesListResult {
-    readonly value?: GraphResourceGetResults[];
+export interface GraphAPIComputeServiceResourceProperties extends ServiceResourceProperties {
+    graphApiComputeEndpoint?: string;
+    readonly locations?: GraphAPIComputeRegionalServiceResource[];
+    serviceType: "GraphAPICompute";
 }
 
 // @public
@@ -2470,13 +1902,6 @@ export enum KnownAuthenticationMethod {
 }
 
 // @public
-export enum KnownAutoReplicate {
-    AllKeyspaces = "AllKeyspaces",
-    None = "None",
-    SystemKeyspaces = "SystemKeyspaces"
-}
-
-// @public
 export enum KnownAzureConnectionType {
     None = "None",
     VPN = "VPN"
@@ -2497,40 +1922,10 @@ export enum KnownBackupPolicyType {
 }
 
 // @public
-export enum KnownBackupState {
-    Failed = "Failed",
-    Initiated = "Initiated",
-    InProgress = "InProgress",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownBackupStorageRedundancy {
     Geo = "Geo",
     Local = "Local",
     Zone = "Zone"
-}
-
-// @public
-export enum KnownCheckNameAvailabilityReason {
-    AlreadyExists = "AlreadyExists",
-    Invalid = "Invalid"
-}
-
-// @public
-export enum KnownClusterType {
-    NonProduction = "NonProduction",
-    Production = "Production"
-}
-
-// @public
-export enum KnownCommandStatus {
-    Done = "Done",
-    Enqueue = "Enqueue",
-    Failed = "Failed",
-    Finished = "Finished",
-    Processing = "Processing",
-    Running = "Running"
 }
 
 // @public
@@ -2577,7 +1972,6 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownCreateMode {
     Default = "Default",
-    PointInTimeRestore = "PointInTimeRestore",
     Restore = "Restore"
 }
 
@@ -2586,20 +1980,6 @@ export enum KnownDatabaseAccountKind {
     GlobalDocumentDB = "GlobalDocumentDB",
     MongoDB = "MongoDB",
     Parse = "Parse"
-}
-
-// @public
-export enum KnownDataTransferComponent {
-    AzureBlobStorage = "AzureBlobStorage",
-    CosmosDBCassandra = "CosmosDBCassandra",
-    CosmosDBMongo = "CosmosDBMongo",
-    CosmosDBSql = "CosmosDBSql"
-}
-
-// @public
-export enum KnownDataTransferJobMode {
-    Offline = "Offline",
-    Online = "Online"
 }
 
 // @public
@@ -2613,9 +1993,9 @@ export enum KnownDataType {
 }
 
 // @public
-export enum KnownDefaultPriorityLevel {
-    High = "High",
-    Low = "Low"
+export enum KnownDedicatedGatewayType {
+    DistributedQuery = "DistributedQuery",
+    IntegratedCache = "IntegratedCache"
 }
 
 // @public
@@ -2672,22 +2052,6 @@ export enum KnownMinimalTlsVersion {
 }
 
 // @public
-export enum KnownMongoClusterStatus {
-    Dropping = "Dropping",
-    Provisioning = "Provisioning",
-    Ready = "Ready",
-    Starting = "Starting",
-    Stopped = "Stopped",
-    Stopping = "Stopping",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownNodeKind {
-    Shard = "Shard"
-}
-
-// @public
 export enum KnownNodeState {
     Joining = "Joining",
     Leaving = "Leaving",
@@ -2734,16 +2098,6 @@ export enum KnownPrimaryAggregationType {
 }
 
 // @public
-export enum KnownProvisioningState {
-    Canceled = "Canceled",
-    Dropping = "Dropping",
-    Failed = "Failed",
-    InProgress = "InProgress",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled",
@@ -2756,16 +2110,11 @@ export enum KnownRestoreMode {
 }
 
 // @public
-export enum KnownScheduledEventStrategy {
-    Ignore = "Ignore",
-    StopAny = "StopAny",
-    StopByRack = "StopByRack"
-}
-
-// @public
 export enum KnownServerVersion {
+    Five0 = "5.0",
     Four0 = "4.0",
     Four2 = "4.2",
+    Six0 = "6.0",
     Three2 = "3.2",
     Three6 = "3.6"
 }
@@ -2805,22 +2154,11 @@ export enum KnownSpatialType {
 
 // @public
 export enum KnownStatus {
-    Canceled = "Canceled",
     Deleting = "Deleting",
-    Failed = "Failed",
     Initializing = "Initializing",
     InternallyReady = "InternallyReady",
     Online = "Online",
-    Succeeded = "Succeeded",
-    Uninitialized = "Uninitialized",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownThroughputPolicyType {
-    Custom = "custom",
-    Equal = "equal",
-    None = "none"
+    Uninitialized = "Uninitialized"
 }
 
 // @public
@@ -2863,23 +2201,8 @@ export enum KnownUnitType {
 }
 
 // @public
-export interface ListBackups {
-    readonly value?: BackupResource[];
-}
-
-// @public
 export interface ListClusters {
     value?: ClusterResource[];
-}
-
-// @public
-export interface ListCommands {
-    readonly value?: CommandPublicResource[];
-}
-
-// @public
-export interface ListConnectionStringsResult {
-    readonly connectionStrings?: ConnectionString[];
 }
 
 // @public
@@ -2986,13 +2309,6 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
-export interface MaterializedViewDefinition {
-    definition: string;
-    sourceCollectionId: string;
-    readonly sourceCollectionRid?: string;
-}
-
-// @public
 export interface MaterializedViewsBuilderRegionalServiceResource extends RegionalServiceResource {
 }
 
@@ -3002,14 +2318,14 @@ export interface MaterializedViewsBuilderServiceResource {
 }
 
 // @public
-export interface MaterializedViewsBuilderServiceResourceProperties extends ServiceResourceProperties {
-    readonly locations?: MaterializedViewsBuilderRegionalServiceResource[];
+export interface MaterializedViewsBuilderServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
     serviceType: "MaterializedViewsBuilder";
 }
 
 // @public
-export interface MergeParameters {
-    isDryRun?: boolean;
+export interface MaterializedViewsBuilderServiceResourceProperties extends ServiceResourceProperties {
+    readonly locations?: MaterializedViewsBuilderRegionalServiceResource[];
+    serviceType: "MaterializedViewsBuilder";
 }
 
 // @public
@@ -3065,206 +2381,6 @@ export interface MetricValue {
 
 // @public
 export type MinimalTlsVersion = string;
-
-// @public
-export interface MongoCluster extends TrackedResource {
-    administratorLogin?: string;
-    administratorLoginPassword?: string;
-    readonly clusterStatus?: MongoClusterStatus;
-    readonly connectionString?: string;
-    createMode?: CreateMode;
-    readonly earliestRestoreTime?: string;
-    nodeGroupSpecs?: NodeGroupSpec[];
-    readonly provisioningState?: ProvisioningState;
-    restoreParameters?: MongoClusterRestoreParameters;
-    serverVersion?: string;
-}
-
-// @public
-export interface MongoClusterListResult {
-    readonly nextLink?: string;
-    value?: MongoCluster[];
-}
-
-// @public
-export interface MongoClusterRestoreParameters {
-    pointInTimeUTC?: Date;
-    sourceResourceId?: string;
-}
-
-// @public
-export interface MongoClusters {
-    beginCreateOrUpdate(resourceGroupName: string, mongoClusterName: string, parameters: MongoCluster, options?: MongoClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MongoClustersCreateOrUpdateResponse>, MongoClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, mongoClusterName: string, parameters: MongoCluster, options?: MongoClustersCreateOrUpdateOptionalParams): Promise<MongoClustersCreateOrUpdateResponse>;
-    beginCreateOrUpdateFirewallRule(resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, parameters: FirewallRule, options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams): Promise<SimplePollerLike<OperationState<MongoClustersCreateOrUpdateFirewallRuleResponse>, MongoClustersCreateOrUpdateFirewallRuleResponse>>;
-    beginCreateOrUpdateFirewallRuleAndWait(resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, parameters: FirewallRule, options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams): Promise<MongoClustersCreateOrUpdateFirewallRuleResponse>;
-    beginDelete(resourceGroupName: string, mongoClusterName: string, options?: MongoClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MongoClustersDeleteResponse>, MongoClustersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, mongoClusterName: string, options?: MongoClustersDeleteOptionalParams): Promise<MongoClustersDeleteResponse>;
-    beginDeleteFirewallRule(resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: MongoClustersDeleteFirewallRuleOptionalParams): Promise<SimplePollerLike<OperationState<MongoClustersDeleteFirewallRuleResponse>, MongoClustersDeleteFirewallRuleResponse>>;
-    beginDeleteFirewallRuleAndWait(resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: MongoClustersDeleteFirewallRuleOptionalParams): Promise<MongoClustersDeleteFirewallRuleResponse>;
-    beginUpdate(resourceGroupName: string, mongoClusterName: string, parameters: MongoClusterUpdate, options?: MongoClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MongoClustersUpdateResponse>, MongoClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, mongoClusterName: string, parameters: MongoClusterUpdate, options?: MongoClustersUpdateOptionalParams): Promise<MongoClustersUpdateResponse>;
-    checkNameAvailability(location: string, parameters: CheckNameAvailabilityRequest, options?: MongoClustersCheckNameAvailabilityOptionalParams): Promise<MongoClustersCheckNameAvailabilityResponse>;
-    get(resourceGroupName: string, mongoClusterName: string, options?: MongoClustersGetOptionalParams): Promise<MongoClustersGetResponse>;
-    getFirewallRule(resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: MongoClustersGetFirewallRuleOptionalParams): Promise<MongoClustersGetFirewallRuleResponse>;
-    list(options?: MongoClustersListOptionalParams): PagedAsyncIterableIterator<MongoCluster>;
-    listByResourceGroup(resourceGroupName: string, options?: MongoClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MongoCluster>;
-    listConnectionStrings(resourceGroupName: string, mongoClusterName: string, options?: MongoClustersListConnectionStringsOptionalParams): Promise<MongoClustersListConnectionStringsResponse>;
-    listFirewallRules(resourceGroupName: string, mongoClusterName: string, options?: MongoClustersListFirewallRulesOptionalParams): PagedAsyncIterableIterator<FirewallRule>;
-}
-
-// @public
-export interface MongoClustersCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
-
-// @public
-export interface MongoClustersCreateOrUpdateFirewallRuleOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoClustersCreateOrUpdateFirewallRuleResponse = FirewallRule;
-
-// @public
-export interface MongoClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoClustersCreateOrUpdateResponse = MongoCluster;
-
-// @public
-export interface MongoClustersDeleteFirewallRuleHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface MongoClustersDeleteFirewallRuleOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoClustersDeleteFirewallRuleResponse = MongoClustersDeleteFirewallRuleHeaders;
-
-// @public
-export interface MongoClustersDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface MongoClustersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoClustersDeleteResponse = MongoClustersDeleteHeaders;
-
-// @public
-export interface MongoClustersGetFirewallRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersGetFirewallRuleResponse = FirewallRule;
-
-// @public
-export interface MongoClustersGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersGetResponse = MongoCluster;
-
-// @public
-export interface MongoClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersListByResourceGroupNextResponse = MongoClusterListResult;
-
-// @public
-export interface MongoClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersListByResourceGroupResponse = MongoClusterListResult;
-
-// @public
-export interface MongoClustersListConnectionStringsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersListConnectionStringsResponse = ListConnectionStringsResult;
-
-// @public
-export interface MongoClustersListFirewallRulesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersListFirewallRulesNextResponse = FirewallRuleListResult;
-
-// @public
-export interface MongoClustersListFirewallRulesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersListFirewallRulesResponse = FirewallRuleListResult;
-
-// @public
-export interface MongoClustersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersListNextResponse = MongoClusterListResult;
-
-// @public
-export interface MongoClustersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MongoClustersListResponse = MongoClusterListResult;
-
-// @public
-export type MongoClusterStatus = string;
-
-// @public
-export interface MongoClustersUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface MongoClustersUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoClustersUpdateResponse = MongoCluster;
-
-// @public
-export interface MongoClusterUpdate {
-    administratorLogin?: string;
-    administratorLoginPassword?: string;
-    readonly clusterStatus?: MongoClusterStatus;
-    readonly connectionString?: string;
-    createMode?: CreateMode;
-    readonly earliestRestoreTime?: string;
-    nodeGroupSpecs?: NodeGroupSpec[];
-    readonly provisioningState?: ProvisioningState;
-    restoreParameters?: MongoClusterRestoreParameters;
-    serverVersion?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
 
 // @public
 export interface MongoDBCollectionCreateUpdateParameters extends ARMResourceProperties {
@@ -3357,8 +2473,6 @@ export interface MongoDBResources {
     beginDeleteMongoRoleDefinitionAndWait(mongoRoleDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams): Promise<void>;
     beginDeleteMongoUserDefinition(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteMongoUserDefinitionAndWait(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams): Promise<void>;
-    beginListMongoDBCollectionPartitionMerge(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, mergeParameters: MergeParameters, options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>, MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>>;
-    beginListMongoDBCollectionPartitionMergeAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, mergeParameters: MergeParameters, options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>;
     beginMigrateMongoDBCollectionToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>, MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>>;
     beginMigrateMongoDBCollectionToAutoscaleAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams): Promise<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>;
     beginMigrateMongoDBCollectionToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>, MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>>;
@@ -3367,16 +2481,6 @@ export interface MongoDBResources {
     beginMigrateMongoDBDatabaseToAutoscaleAndWait(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams): Promise<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>;
     beginMigrateMongoDBDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>, MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>>;
     beginMigrateMongoDBDatabaseToManualThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams): Promise<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>;
-    beginMongoDBContainerRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>, MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>>;
-    beginMongoDBContainerRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>;
-    beginMongoDBContainerRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>, MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>>;
-    beginMongoDBContainerRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>;
-    beginMongoDBDatabasePartitionMerge(resourceGroupName: string, accountName: string, databaseName: string, mergeParameters: MergeParameters, options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>, MongoDBResourcesMongoDBDatabasePartitionMergeResponse>>;
-    beginMongoDBDatabasePartitionMergeAndWait(resourceGroupName: string, accountName: string, databaseName: string, mergeParameters: MergeParameters, options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams): Promise<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>;
-    beginMongoDBDatabaseRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>, MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>>;
-    beginMongoDBDatabaseRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>;
-    beginMongoDBDatabaseRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>, MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>>;
-    beginMongoDBDatabaseRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams): Promise<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>;
     beginRetrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, location: ContinuousBackupRestoreLocation, options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesRetrieveContinuousBackupInformationResponse>, MongoDBResourcesRetrieveContinuousBackupInformationResponse>>;
     beginRetrieveContinuousBackupInformationAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, location: ContinuousBackupRestoreLocation, options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse>;
     beginUpdateMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams): Promise<SimplePollerLike<OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>, MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>>;
@@ -3528,21 +2632,6 @@ export interface MongoDBResourcesGetMongoUserDefinitionOptionalParams extends co
 export type MongoDBResourcesGetMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
 
 // @public
-export interface MongoDBResourcesListMongoDBCollectionPartitionMergeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoDBResourcesListMongoDBCollectionPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
-
-// @public
 export interface MongoDBResourcesListMongoDBCollectionsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -3629,81 +2718,6 @@ export interface MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptiona
 
 // @public
 export type MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse = ThroughputSettingsGetResults;
-
-// @public
-export interface MongoDBResourcesMongoDBContainerRedistributeThroughputHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoDBResourcesMongoDBContainerRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
-
-// @public
-export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
-
-// @public
-export interface MongoDBResourcesMongoDBDatabasePartitionMergeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoDBResourcesMongoDBDatabasePartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
-
-// @public
-export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
-
-// @public
-export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
 
 // @public
 export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams extends coreClient.OperationOptions {
@@ -3814,22 +2828,6 @@ export interface MongoUserDefinitionListResult {
 
 // @public
 export type NetworkAclBypass = "None" | "AzureServices";
-
-// @public
-export interface NodeGroupProperties {
-    diskSizeGB?: number;
-    enableHa?: boolean;
-    sku?: string;
-}
-
-// @public
-export interface NodeGroupSpec extends NodeGroupProperties {
-    kind?: NodeKind;
-    nodeCount?: number;
-}
-
-// @public
-export type NodeKind = string;
 
 // @public
 export type NodeState = string;
@@ -4103,42 +3101,6 @@ export interface Permission {
 }
 
 // @public
-export interface PhysicalPartitionId {
-    id: string;
-}
-
-// @public
-export interface PhysicalPartitionStorageInfo {
-    readonly id?: string;
-    readonly storageInKB?: number;
-}
-
-// @public
-export interface PhysicalPartitionStorageInfoCollection {
-    readonly physicalPartitionStorageInfoCollection?: PhysicalPartitionStorageInfo[];
-}
-
-// @public
-export interface PhysicalPartitionThroughputInfoProperties {
-    physicalPartitionThroughputInfo?: PhysicalPartitionThroughputInfoResource[];
-}
-
-// @public
-export interface PhysicalPartitionThroughputInfoResource {
-    id: string;
-    throughput?: number;
-}
-
-// @public
-export interface PhysicalPartitionThroughputInfoResult extends ARMResourceProperties {
-    resource?: PhysicalPartitionThroughputInfoResultPropertiesResource;
-}
-
-// @public
-export interface PhysicalPartitionThroughputInfoResultPropertiesResource extends PhysicalPartitionThroughputInfoProperties {
-}
-
-// @public
 export type PrimaryAggregationType = string;
 
 // @public
@@ -4250,26 +3212,11 @@ export interface PrivilegeResource {
 }
 
 // @public
-export type ProvisioningState = string;
-
-// @public
 export interface ProxyResource extends Resource {
 }
 
 // @public
 export type PublicNetworkAccess = string;
-
-// @public
-export interface RedistributeThroughputParameters extends ARMResourceProperties {
-    resource: RedistributeThroughputPropertiesResource;
-}
-
-// @public
-export interface RedistributeThroughputPropertiesResource {
-    sourcePhysicalPartitionThroughputInfo: PhysicalPartitionThroughputInfoResource[];
-    targetPhysicalPartitionThroughputInfo: PhysicalPartitionThroughputInfoResource[];
-    throughputPolicy: ThroughputPolicyType;
-}
 
 // @public
 export interface RegionalServiceResource {
@@ -4287,7 +3234,6 @@ export interface RegionForOnlineOffline {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -4748,7 +3694,6 @@ export interface RestoreParameters extends RestoreParametersBase {
     databasesToRestore?: DatabaseRestoreResource[];
     gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
     restoreMode?: RestoreMode;
-    sourceBackupLocation?: string;
     tablesToRestore?: string[];
 }
 
@@ -4756,17 +3701,6 @@ export interface RestoreParameters extends RestoreParametersBase {
 export interface RestoreParametersBase {
     restoreSource?: string;
     restoreTimestampInUtc?: Date;
-    restoreWithTtlDisabled?: boolean;
-}
-
-// @public
-export interface RetrieveThroughputParameters extends ARMResourceProperties {
-    resource: RetrieveThroughputPropertiesResource;
-}
-
-// @public
-export interface RetrieveThroughputPropertiesResource {
-    physicalPartitionIds: PhysicalPartitionId[];
 }
 
 // @public
@@ -4777,9 +3711,6 @@ export interface Role {
 
 // @public
 export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
-
-// @public
-export type ScheduledEventStrategy = string;
 
 // @public (undocumented)
 export interface SeedNode {
@@ -4797,6 +3728,12 @@ export interface Service {
     beginDeleteAndWait(resourceGroupName: string, accountName: string, serviceName: string, options?: ServiceDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, serviceName: string, options?: ServiceGetOptionalParams): Promise<ServiceGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: ServiceListOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
+}
+
+// @public
+export interface ServiceCreateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -4841,10 +3778,18 @@ export interface ServiceResource extends ARMProxyResource {
 
 // @public
 export interface ServiceResourceCreateUpdateParameters {
+    properties?: ServiceResourceCreateUpdatePropertiesUnion;
+}
+
+// @public
+export interface ServiceResourceCreateUpdateProperties {
     instanceCount?: number;
     instanceSize?: ServiceSize;
-    serviceType?: ServiceType;
+    serviceType: "DataTransfer" | "SqlDedicatedGateway" | "GraphAPICompute" | "MaterializedViewsBuilder";
 }
+
+// @public (undocumented)
+export type ServiceResourceCreateUpdatePropertiesUnion = ServiceResourceCreateUpdateProperties | DataTransferServiceResourceCreateUpdateProperties | SqlDedicatedGatewayServiceResourceCreateUpdateProperties | GraphAPIComputeServiceResourceCreateUpdateProperties | MaterializedViewsBuilderServiceResourceCreateUpdateProperties;
 
 // @public
 export interface ServiceResourceListResult {
@@ -4919,7 +3864,6 @@ export interface SqlContainerResource {
     defaultTtl?: number;
     id: string;
     indexingPolicy?: IndexingPolicy;
-    materializedViewDefinition?: MaterializedViewDefinition;
     partitionKey?: ContainerPartitionKey;
     restoreParameters?: ResourceRestoreParameters;
     uniqueKeyPolicy?: UniqueKeyPolicy;
@@ -4972,7 +3916,14 @@ export interface SqlDedicatedGatewayServiceResource {
 }
 
 // @public
+export interface SqlDedicatedGatewayServiceResourceCreateUpdateProperties extends ServiceResourceCreateUpdateProperties {
+    dedicatedGatewayType?: DedicatedGatewayType;
+    serviceType: "SqlDedicatedGateway";
+}
+
+// @public
 export interface SqlDedicatedGatewayServiceResourceProperties extends ServiceResourceProperties {
+    dedicatedGatewayType?: DedicatedGatewayType;
     readonly locations?: SqlDedicatedGatewayRegionalServiceResource[];
     serviceType: "SqlDedicatedGateway";
     sqlDedicatedGatewayEndpoint?: string;
@@ -5010,8 +3961,6 @@ export interface SqlResources {
     beginDeleteSqlTriggerAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options?: SqlResourcesDeleteSqlTriggerOptionalParams): Promise<SqlResourcesDeleteSqlTriggerResponse>;
     beginDeleteSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesDeleteSqlUserDefinedFunctionResponse>, SqlResourcesDeleteSqlUserDefinedFunctionResponse>>;
     beginDeleteSqlUserDefinedFunctionAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams): Promise<SqlResourcesDeleteSqlUserDefinedFunctionResponse>;
-    beginListSqlContainerPartitionMerge(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, mergeParameters: MergeParameters, options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesListSqlContainerPartitionMergeResponse>, SqlResourcesListSqlContainerPartitionMergeResponse>>;
-    beginListSqlContainerPartitionMergeAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, mergeParameters: MergeParameters, options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams): Promise<SqlResourcesListSqlContainerPartitionMergeResponse>;
     beginMigrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesMigrateSqlContainerToAutoscaleResponse>, SqlResourcesMigrateSqlContainerToAutoscaleResponse>>;
     beginMigrateSqlContainerToAutoscaleAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams): Promise<SqlResourcesMigrateSqlContainerToAutoscaleResponse>;
     beginMigrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesMigrateSqlContainerToManualThroughputResponse>, SqlResourcesMigrateSqlContainerToManualThroughputResponse>>;
@@ -5022,16 +3971,6 @@ export interface SqlResources {
     beginMigrateSqlDatabaseToManualThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams): Promise<SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>;
     beginRetrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: ContinuousBackupRestoreLocation, options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesRetrieveContinuousBackupInformationResponse>, SqlResourcesRetrieveContinuousBackupInformationResponse>>;
     beginRetrieveContinuousBackupInformationAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: ContinuousBackupRestoreLocation, options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<SqlResourcesRetrieveContinuousBackupInformationResponse>;
-    beginSqlContainerRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesSqlContainerRedistributeThroughputResponse>, SqlResourcesSqlContainerRedistributeThroughputResponse>>;
-    beginSqlContainerRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse>;
-    beginSqlContainerRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>, SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>>;
-    beginSqlContainerRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>;
-    beginSqlDatabasePartitionMerge(resourceGroupName: string, accountName: string, databaseName: string, mergeParameters: MergeParameters, options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesSqlDatabasePartitionMergeResponse>, SqlResourcesSqlDatabasePartitionMergeResponse>>;
-    beginSqlDatabasePartitionMergeAndWait(resourceGroupName: string, accountName: string, databaseName: string, mergeParameters: MergeParameters, options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams): Promise<SqlResourcesSqlDatabasePartitionMergeResponse>;
-    beginSqlDatabaseRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>, SqlResourcesSqlDatabaseRedistributeThroughputResponse>>;
-    beginSqlDatabaseRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse>;
-    beginSqlDatabaseRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>, SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>>;
-    beginSqlDatabaseRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>;
     beginUpdateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesUpdateSqlContainerThroughputResponse>, SqlResourcesUpdateSqlContainerThroughputResponse>>;
     beginUpdateSqlContainerThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams): Promise<SqlResourcesUpdateSqlContainerThroughputResponse>;
     beginUpdateSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams): Promise<SimplePollerLike<OperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>, SqlResourcesUpdateSqlDatabaseThroughputResponse>>;
@@ -5329,21 +4268,6 @@ export interface SqlResourcesListClientEncryptionKeysOptionalParams extends core
 export type SqlResourcesListClientEncryptionKeysResponse = ClientEncryptionKeysListResult;
 
 // @public
-export interface SqlResourcesListSqlContainerPartitionMergeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SqlResourcesListSqlContainerPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
-
-// @public
 export interface SqlResourcesListSqlContainersOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -5460,81 +4384,6 @@ export interface SqlResourcesRetrieveContinuousBackupInformationOptionalParams e
 
 // @public
 export type SqlResourcesRetrieveContinuousBackupInformationResponse = BackupInformation;
-
-// @public
-export interface SqlResourcesSqlContainerRedistributeThroughputHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SqlResourcesSqlContainerRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
-
-// @public
-export interface SqlResourcesSqlContainerRetrieveThroughputDistributionHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SqlResourcesSqlContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
-
-// @public
-export interface SqlResourcesSqlDatabasePartitionMergeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface SqlResourcesSqlDatabasePartitionMergeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SqlResourcesSqlDatabasePartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
-
-// @public
-export interface SqlResourcesSqlDatabaseRedistributeThroughputHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SqlResourcesSqlDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
-
-// @public
-export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
 
 // @public
 export interface SqlResourcesUpdateSqlContainerThroughputHeaders {
@@ -5866,201 +4715,6 @@ export interface ThroughputPolicyResource {
     isEnabled?: boolean;
 }
 
-// @public
-export type ThroughputPolicyType = string;
-
-// @public
-export interface ThroughputPool {
-    beginCreateOrUpdate(resourceGroupName: string, throughputPoolName: string, body: ThroughputPoolResource, options?: ThroughputPoolCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolCreateOrUpdateResponse>, ThroughputPoolCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, throughputPoolName: string, body: ThroughputPoolResource, options?: ThroughputPoolCreateOrUpdateOptionalParams): Promise<ThroughputPoolCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolDeleteResponse>, ThroughputPoolDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolDeleteOptionalParams): Promise<ThroughputPoolDeleteResponse>;
-    beginUpdate(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolUpdateResponse>, ThroughputPoolUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolUpdateOptionalParams): Promise<ThroughputPoolUpdateResponse>;
-    get(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolGetOptionalParams): Promise<ThroughputPoolGetResponse>;
-}
-
-// @public
-export interface ThroughputPoolAccount {
-    beginCreate(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, body: ThroughputPoolAccountResource, options?: ThroughputPoolAccountCreateOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolAccountCreateResponse>, ThroughputPoolAccountCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, body: ThroughputPoolAccountResource, options?: ThroughputPoolAccountCreateOptionalParams): Promise<ThroughputPoolAccountCreateResponse>;
-    beginDelete(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, options?: ThroughputPoolAccountDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolAccountDeleteResponse>, ThroughputPoolAccountDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, options?: ThroughputPoolAccountDeleteOptionalParams): Promise<ThroughputPoolAccountDeleteResponse>;
-    get(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, options?: ThroughputPoolAccountGetOptionalParams): Promise<ThroughputPoolAccountGetResponse>;
-}
-
-// @public
-export interface ThroughputPoolAccountCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ThroughputPoolAccountCreateParameters {
-    accountLocation?: string;
-    accountResourceIdentifier?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type ThroughputPoolAccountCreateResponse = ThroughputPoolAccountResource;
-
-// @public
-export interface ThroughputPoolAccountDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ThroughputPoolAccountDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ThroughputPoolAccountDeleteResponse = ThroughputPoolAccountDeleteHeaders;
-
-// @public
-export interface ThroughputPoolAccountGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolAccountGetResponse = ThroughputPoolAccountResource;
-
-// @public
-export interface ThroughputPoolAccountResource extends ProxyResource {
-    readonly accountInstanceId?: string;
-    accountLocation?: string;
-    accountResourceIdentifier?: string;
-    provisioningState?: Status;
-}
-
-// @public
-export interface ThroughputPoolAccounts {
-    list(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolAccountsListOptionalParams): PagedAsyncIterableIterator<ThroughputPoolAccountResource>;
-}
-
-// @public
-export interface ThroughputPoolAccountsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolAccountsListNextResponse = ThroughputPoolAccountsListResult;
-
-// @public
-export interface ThroughputPoolAccountsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolAccountsListResponse = ThroughputPoolAccountsListResult;
-
-// @public
-export interface ThroughputPoolAccountsListResult {
-    readonly nextLink?: string;
-    readonly value?: ThroughputPoolAccountResource[];
-}
-
-// @public
-export interface ThroughputPoolCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ThroughputPoolCreateOrUpdateResponse = ThroughputPoolResource;
-
-// @public
-export interface ThroughputPoolDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ThroughputPoolDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ThroughputPoolDeleteResponse = ThroughputPoolDeleteHeaders;
-
-// @public
-export interface ThroughputPoolGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolGetResponse = ThroughputPoolResource;
-
-// @public
-export interface ThroughputPoolResource extends TrackedResource {
-    maxThroughput?: number;
-    provisioningState?: Status;
-}
-
-// @public
-export interface ThroughputPools {
-    list(options?: ThroughputPoolsListOptionalParams): PagedAsyncIterableIterator<ThroughputPoolResource>;
-    listByResourceGroup(resourceGroupName: string, options?: ThroughputPoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ThroughputPoolResource>;
-}
-
-// @public
-export interface ThroughputPoolsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolsListByResourceGroupNextResponse = ThroughputPoolsListResult;
-
-// @public
-export interface ThroughputPoolsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolsListByResourceGroupResponse = ThroughputPoolsListResult;
-
-// @public
-export interface ThroughputPoolsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolsListNextResponse = ThroughputPoolsListResult;
-
-// @public
-export interface ThroughputPoolsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ThroughputPoolsListResponse = ThroughputPoolsListResult;
-
-// @public
-export interface ThroughputPoolsListResult {
-    readonly nextLink?: string;
-    readonly value?: ThroughputPoolResource[];
-}
-
-// @public
-export interface ThroughputPoolUpdate {
-    maxThroughput?: number;
-    provisioningState?: Status;
-}
-
-// @public
-export interface ThroughputPoolUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ThroughputPoolUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: ThroughputPoolUpdate;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ThroughputPoolUpdateResponse = ThroughputPoolResource;
-
 // @public (undocumented)
 export interface ThroughputSettingsGetPropertiesResource extends ThroughputSettingsResource, ExtendedResourceProperties {
 }
@@ -6084,14 +4738,6 @@ export interface ThroughputSettingsResource {
 // @public
 export interface ThroughputSettingsUpdateParameters extends ARMResourceProperties {
     resource: ThroughputSettingsResource;
-}
-
-// @public
-export interface TrackedResource extends Resource {
-    location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public

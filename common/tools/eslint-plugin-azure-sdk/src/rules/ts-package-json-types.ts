@@ -7,7 +7,7 @@
  */
 
 import { TSESTree } from "@typescript-eslint/utils";
-import { createRule, getVerifiers, stripPath } from "../utils";
+import { createRule, getVerifiers, stripPath, isEsmPackage } from "../utils";
 import { VerifierMessages, stripFileName } from "../utils/verifiers";
 
 //------------------------------------------------------------------------------
@@ -40,6 +40,9 @@ export default createRule({
     });
     const fileName = context.filename;
     if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    if (isEsmPackage(context.filename)) {
       return {};
     }
     return {

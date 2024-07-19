@@ -104,11 +104,21 @@ export function serializeToAtomXmlRequest(
  * @returns The notification details if any from the XML.
  */
 export async function parseXMLError(bodyText: string): Promise<string | undefined> {
+  if (!bodyText) {
+    return;
+  }
+
   let result: string | undefined;
-  const xmlError = await parseXML(bodyText, { includeRoot: true });
-  const detail = xmlError["Error"]["Detail"];
-  if (isDefined(detail)) {
-    return detail;
+  try {
+    const xmlError = await parseXML(bodyText, { includeRoot: true });
+    if (
+      Object.hasOwnProperty.call(xmlError, "Error") &&
+      Object.hasOwnProperty.call(xmlError["Error"], "Detail")
+    ) {
+      return xmlError["Error"]["Detail"];
+    }
+  } catch (err) {
+    // nothing to do
   }
 
   return result;

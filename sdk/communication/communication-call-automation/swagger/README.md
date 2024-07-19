@@ -95,3 +95,19 @@ directive:
   transform: >
     $["x-ms-client-name"] = "subscribedResultStates";
 ```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ExternalStorage"
+  transform: >
+    $["x-ms-client-name"] = "RecordingStorage";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.StartCallRecordingRequest.properties.externalStorage"
+  transform: >
+    $["x-ms-client-name"] = "recordingStorage";
+```

@@ -25,7 +25,7 @@ describe(`ShortCodesClient - lists Short Codes`, function () {
     for await (const shortCode of client.listShortCodes()) {
       assert.isNotNull(shortCode.value);
     }
-  }).timeout(20000);
+  }).timeout(30000);
 
   it("can list all acquired short codes, by Page", async function () {
     const pages = client.listShortCodes().byPage();
@@ -35,5 +35,5 @@ describe(`ShortCodesClient - lists Short Codes`, function () {
         assert.isNotNull(shortCode.value);
       }
     }
-  }).timeout(20000);
+  }).timeout(30000);
 });

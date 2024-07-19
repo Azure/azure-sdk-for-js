@@ -181,6 +181,15 @@ export async function delay<T>(
 }
 
 /**
+ * Checks if an address is localhost.
+ * @param address - The address to check.
+ * @returns true if the address is localhost, false otherwise.
+ */
+export function isLoopbackAddress(address: string): boolean {
+  return /^(.*:\/\/)?(127\.[\d.]+|[0:]+1|localhost)/.test(address.toLowerCase());
+}
+
+/**
  * @internal
  *
  * Generates a random number between the given interval

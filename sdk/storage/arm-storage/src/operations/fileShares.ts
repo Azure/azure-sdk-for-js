@@ -30,7 +30,7 @@ import {
   FileSharesRestoreOptionalParams,
   FileSharesLeaseOptionalParams,
   FileSharesLeaseResponse,
-  FileSharesListNextResponse
+  FileSharesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class FileSharesImpl implements FileShares {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: FileSharesListOptionalParams
+    options?: FileSharesListOptionalParams,
   ): PagedAsyncIterableIterator<FileShareItem> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -76,9 +76,9 @@ export class FileSharesImpl implements FileShares {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class FileSharesImpl implements FileShares {
     resourceGroupName: string,
     accountName: string,
     options?: FileSharesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FileShareItem[]> {
     let result: FileSharesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class FileSharesImpl implements FileShares {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class FileSharesImpl implements FileShares {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: FileSharesListOptionalParams
+    options?: FileSharesListOptionalParams,
   ): AsyncIterableIterator<FileShareItem> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class FileSharesImpl implements FileShares {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: FileSharesListOptionalParams
+    options?: FileSharesListOptionalParams,
   ): Promise<FileSharesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -165,11 +165,11 @@ export class FileSharesImpl implements FileShares {
     accountName: string,
     shareName: string,
     fileShare: FileShare,
-    options?: FileSharesCreateOptionalParams
+    options?: FileSharesCreateOptionalParams,
   ): Promise<FileSharesCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, shareName, fileShare, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -192,11 +192,11 @@ export class FileSharesImpl implements FileShares {
     accountName: string,
     shareName: string,
     fileShare: FileShare,
-    options?: FileSharesUpdateOptionalParams
+    options?: FileSharesUpdateOptionalParams,
   ): Promise<FileSharesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, shareName, fileShare, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -216,11 +216,11 @@ export class FileSharesImpl implements FileShares {
     resourceGroupName: string,
     accountName: string,
     shareName: string,
-    options?: FileSharesGetOptionalParams
+    options?: FileSharesGetOptionalParams,
   ): Promise<FileSharesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, shareName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -240,11 +240,11 @@ export class FileSharesImpl implements FileShares {
     resourceGroupName: string,
     accountName: string,
     shareName: string,
-    options?: FileSharesDeleteOptionalParams
+    options?: FileSharesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, shareName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -266,11 +266,11 @@ export class FileSharesImpl implements FileShares {
     accountName: string,
     shareName: string,
     deletedShare: DeletedShare,
-    options?: FileSharesRestoreOptionalParams
+    options?: FileSharesRestoreOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, shareName, deletedShare, options },
-      restoreOperationSpec
+      restoreOperationSpec,
     );
   }
 
@@ -291,11 +291,11 @@ export class FileSharesImpl implements FileShares {
     resourceGroupName: string,
     accountName: string,
     shareName: string,
-    options?: FileSharesLeaseOptionalParams
+    options?: FileSharesLeaseOptionalParams,
   ): Promise<FileSharesLeaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, shareName, options },
-      leaseOperationSpec
+      leaseOperationSpec,
     );
   }
 
@@ -313,11 +313,11 @@ export class FileSharesImpl implements FileShares {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: FileSharesListNextOptionalParams
+    options?: FileSharesListNextOptionalParams,
   ): Promise<FileSharesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -325,201 +325,194 @@ export class FileSharesImpl implements FileShares {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileShareItems
+      bodyMapper: Mappers.FileShareItems,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
+    Parameters.maxpagesize,
     Parameters.filter,
-    Parameters.maxpagesize1,
-    Parameters.expand2
+    Parameters.expand,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FileShare
+      bodyMapper: Mappers.FileShare,
     },
     201: {
-      bodyMapper: Mappers.FileShare
+      bodyMapper: Mappers.FileShare,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.fileShare,
-  queryParameters: [Parameters.apiVersion, Parameters.expand2],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.shareName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.FileShare
+      bodyMapper: Mappers.FileShare,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.fileShare,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.shareName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileShare
+      bodyMapper: Mappers.FileShare,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand2],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.shareName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.xMsSnapshot],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.include2],
+  queryParameters: [Parameters.apiVersion, Parameters.include1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.shareName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.xMsSnapshot],
-  serializer
+  serializer,
 };
 const restoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/restore",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/restore",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.deletedShare,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.shareName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const leaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/lease",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/lease",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.LeaseShareResponse,
-      headersMapper: Mappers.FileSharesLeaseHeaders
+      headersMapper: Mappers.FileSharesLeaseHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.shareName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.shareName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.xMsSnapshot
+    Parameters.xMsSnapshot,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileShareItems
+      bodyMapper: Mappers.FileShareItems,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.nextLink
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

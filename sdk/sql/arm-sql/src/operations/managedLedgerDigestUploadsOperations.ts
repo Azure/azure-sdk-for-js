@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -31,13 +31,14 @@ import {
   ManagedLedgerDigestUploadsCreateOrUpdateResponse,
   ManagedLedgerDigestUploadsDisableOptionalParams,
   ManagedLedgerDigestUploadsDisableResponse,
-  ManagedLedgerDigestUploadsListByDatabaseNextResponse
+  ManagedLedgerDigestUploadsListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedLedgerDigestUploadsOperations operations. */
 export class ManagedLedgerDigestUploadsOperationsImpl
-  implements ManagedLedgerDigestUploadsOperations {
+  implements ManagedLedgerDigestUploadsOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -60,13 +61,13 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams
+    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedLedgerDigestUploads> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class ManagedLedgerDigestUploadsOperationsImpl
           managedInstanceName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +96,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     managedInstanceName: string,
     databaseName: string,
     options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedLedgerDigestUploads[]> {
     let result: ManagedLedgerDigestUploadsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +105,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         resourceGroupName,
         managedInstanceName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +118,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         managedInstanceName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,13 +131,13 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams
+    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<ManagedLedgerDigestUploads> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,11 +155,11 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams
+    options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -176,7 +177,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     managedInstanceName: string,
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
-    options?: ManagedLedgerDigestUploadsGetOptionalParams
+    options?: ManagedLedgerDigestUploadsGetOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -184,9 +185,9 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         managedInstanceName,
         databaseName,
         ledgerDigestUploads,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -206,7 +207,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
     parameters: ManagedLedgerDigestUploads,
-    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedLedgerDigestUploadsCreateOrUpdateResponse>,
@@ -215,21 +216,20 @@ export class ManagedLedgerDigestUploadsOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedLedgerDigestUploadsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -238,8 +238,8 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -247,8 +247,8 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -260,16 +260,16 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         databaseName,
         ledgerDigestUploads,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedLedgerDigestUploadsCreateOrUpdateResponse,
       OperationState<ManagedLedgerDigestUploadsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -291,7 +291,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
     parameters: ManagedLedgerDigestUploads,
-    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -299,7 +299,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
       databaseName,
       ledgerDigestUploads,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -319,7 +319,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     managedInstanceName: string,
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
-    options?: ManagedLedgerDigestUploadsDisableOptionalParams
+    options?: ManagedLedgerDigestUploadsDisableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedLedgerDigestUploadsDisableResponse>,
@@ -328,21 +328,20 @@ export class ManagedLedgerDigestUploadsOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedLedgerDigestUploadsDisableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -351,8 +350,8 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -360,8 +359,8 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -372,16 +371,16 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         managedInstanceName,
         databaseName,
         ledgerDigestUploads,
-        options
+        options,
       },
-      spec: disableOperationSpec
+      spec: disableOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedLedgerDigestUploadsDisableResponse,
       OperationState<ManagedLedgerDigestUploadsDisableResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -402,14 +401,14 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     managedInstanceName: string,
     databaseName: string,
     ledgerDigestUploads: ManagedLedgerDigestUploadsName,
-    options?: ManagedLedgerDigestUploadsDisableOptionalParams
+    options?: ManagedLedgerDigestUploadsDisableOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsDisableResponse> {
     const poller = await this.beginDisable(
       resourceGroupName,
       managedInstanceName,
       databaseName,
       ledgerDigestUploads,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -428,7 +427,7 @@ export class ManagedLedgerDigestUploadsOperationsImpl
     managedInstanceName: string,
     databaseName: string,
     nextLink: string,
-    options?: ManagedLedgerDigestUploadsListByDatabaseNextOptionalParams
+    options?: ManagedLedgerDigestUploadsListByDatabaseNextOptionalParams,
   ): Promise<ManagedLedgerDigestUploadsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -436,9 +435,9 @@ export class ManagedLedgerDigestUploadsOperationsImpl
         managedInstanceName,
         databaseName,
         nextLink,
-        options
+        options,
       },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -446,35 +445,13 @@ export class ManagedLedgerDigestUploadsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploadsListResult
+      bodyMapper: Mappers.ManagedLedgerDigestUploadsListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.databaseName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -483,29 +460,48 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.ledgerDigestUploads1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.managedInstanceName,
+    Parameters.ledgerDigestUploads1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
     201: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
     202: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
     204: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters88,
   queryParameters: [Parameters.apiVersion2],
@@ -515,30 +511,29 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.ledgerDigestUploads1
+    Parameters.ledgerDigestUploads1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const disableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
     201: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
     202: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
     204: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploads
+      bodyMapper: Mappers.ManagedLedgerDigestUploads,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -547,19 +542,19 @@ const disableOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.ledgerDigestUploads1
+    Parameters.ledgerDigestUploads1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedLedgerDigestUploadsListResult
+      bodyMapper: Mappers.ManagedLedgerDigestUploadsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -567,8 +562,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

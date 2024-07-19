@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   TransparentDataEncryptionsGetResponse,
   TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   TransparentDataEncryptionsCreateOrUpdateResponse,
-  TransparentDataEncryptionsListByDatabaseNextResponse
+  TransparentDataEncryptionsListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TransparentDataEncryptions operations. */
 export class TransparentDataEncryptionsImpl
-  implements TransparentDataEncryptions {
+  implements TransparentDataEncryptions
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -59,13 +60,13 @@ export class TransparentDataEncryptionsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: TransparentDataEncryptionsListByDatabaseOptionalParams
+    options?: TransparentDataEncryptionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LogicalDatabaseTransparentDataEncryption> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +84,9 @@ export class TransparentDataEncryptionsImpl
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +95,7 @@ export class TransparentDataEncryptionsImpl
     serverName: string,
     databaseName: string,
     options?: TransparentDataEncryptionsListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LogicalDatabaseTransparentDataEncryption[]> {
     let result: TransparentDataEncryptionsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class TransparentDataEncryptionsImpl
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +117,7 @@ export class TransparentDataEncryptionsImpl
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +130,13 @@ export class TransparentDataEncryptionsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: TransparentDataEncryptionsListByDatabaseOptionalParams
+    options?: TransparentDataEncryptionsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<LogicalDatabaseTransparentDataEncryption> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,11 +155,11 @@ export class TransparentDataEncryptionsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: TransparentDataEncryptionsListByDatabaseOptionalParams
+    options?: TransparentDataEncryptionsListByDatabaseOptionalParams,
   ): Promise<TransparentDataEncryptionsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -177,11 +178,11 @@ export class TransparentDataEncryptionsImpl
     serverName: string,
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
-    options?: TransparentDataEncryptionsGetOptionalParams
+    options?: TransparentDataEncryptionsGetOptionalParams,
   ): Promise<TransparentDataEncryptionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, tdeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -201,7 +202,7 @@ export class TransparentDataEncryptionsImpl
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
     parameters: LogicalDatabaseTransparentDataEncryption,
-    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams
+    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TransparentDataEncryptionsCreateOrUpdateResponse>,
@@ -210,21 +211,20 @@ export class TransparentDataEncryptionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TransparentDataEncryptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -233,8 +233,8 @@ export class TransparentDataEncryptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -242,8 +242,8 @@ export class TransparentDataEncryptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -255,9 +255,9 @@ export class TransparentDataEncryptionsImpl
         databaseName,
         tdeName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       TransparentDataEncryptionsCreateOrUpdateResponse,
@@ -265,7 +265,7 @@ export class TransparentDataEncryptionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -287,7 +287,7 @@ export class TransparentDataEncryptionsImpl
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
     parameters: LogicalDatabaseTransparentDataEncryption,
-    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams
+    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   ): Promise<TransparentDataEncryptionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -295,7 +295,7 @@ export class TransparentDataEncryptionsImpl
       databaseName,
       tdeName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -315,11 +315,11 @@ export class TransparentDataEncryptionsImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: TransparentDataEncryptionsListByDatabaseNextOptionalParams
+    options?: TransparentDataEncryptionsListByDatabaseNextOptionalParams,
   ): Promise<TransparentDataEncryptionsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -327,35 +327,13 @@ export class TransparentDataEncryptionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryptionListResult
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryptionListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -364,29 +342,48 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.tdeName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.tdeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption,
     },
     201: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption,
     },
     202: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption,
     },
     204: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryption,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.parameters91,
   queryParameters: [Parameters.apiVersion2],
@@ -396,20 +393,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.tdeName
+    Parameters.tdeName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryptionListResult
+      bodyMapper: Mappers.LogicalDatabaseTransparentDataEncryptionListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -417,8 +414,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

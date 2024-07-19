@@ -11,7 +11,7 @@ import {
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
   DataMaskingPoliciesCreateOrUpdateResponse,
   DataMaskingPoliciesGetOptionalParams,
-  DataMaskingPoliciesGetResponse
+  DataMaskingPoliciesGetResponse,
 } from "../models";
 
 /** Interface representing a DataMaskingPolicies. */
@@ -30,7 +30,7 @@ export interface DataMaskingPolicies {
     serverName: string,
     databaseName: string,
     parameters: DataMaskingPolicy,
-    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams
+    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DataMaskingPoliciesCreateOrUpdateResponse>;
   /**
    * Gets a database data masking policy.
@@ -44,6 +44,6 @@ export interface DataMaskingPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataMaskingPoliciesGetOptionalParams
+    options?: DataMaskingPoliciesGetOptionalParams,
   ): Promise<DataMaskingPoliciesGetResponse>;
 }

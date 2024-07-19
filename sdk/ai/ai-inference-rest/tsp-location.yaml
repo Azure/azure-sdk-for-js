@@ -1,0 +1,4 @@
+directory: specification/ai/ModelClient
+commit: dda6da8f130c3e2de43451fd820f1d2db74979e1 
+repo: Azure/azure-rest-api-specs
+additionalDirectories:

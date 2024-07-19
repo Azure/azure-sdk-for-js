@@ -31,7 +31,7 @@ async function listFailoverGroup() {
   const resArray = new Array();
   for await (let item of client.instanceFailoverGroups.listByLocation(
     resourceGroupName,
-    locationName
+    locationName,
   )) {
     resArray.push(item);
   }

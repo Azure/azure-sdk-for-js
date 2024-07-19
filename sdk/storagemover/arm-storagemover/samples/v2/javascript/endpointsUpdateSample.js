@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_AzureStorageBlobContainer.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_AzureStorageBlobContainer.json
  */
 async function endpointsUpdateAzureStorageBlobContainer() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function endpointsUpdateAzureStorageBlobContainer() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function endpointsUpdateAzureStorageBlobContainer() {
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_AzureStorageSmbFileShare.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_AzureStorageSmbFileShare.json
  */
 async function endpointsUpdateAzureStorageSmbFileShare() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function endpointsUpdateAzureStorageSmbFileShare() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -74,7 +74,7 @@ async function endpointsUpdateAzureStorageSmbFileShare() {
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_NfsMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_NfsMount.json
  */
 async function endpointsUpdateNfsMount() {
   const subscriptionId =
@@ -94,7 +94,7 @@ async function endpointsUpdateNfsMount() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }
@@ -103,7 +103,7 @@ async function endpointsUpdateNfsMount() {
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Endpoints_Update_SmbMount.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_SmbMount.json
  */
 async function endpointsUpdateSmbMount() {
   const subscriptionId =
@@ -130,7 +130,7 @@ async function endpointsUpdateSmbMount() {
     resourceGroupName,
     storageMoverName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }

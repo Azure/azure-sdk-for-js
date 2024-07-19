@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
@@ -190,6 +188,7 @@ export interface ConnectionConfig {
     port?: number;
     sharedAccessKey: string;
     sharedAccessKeyName: string;
+    useDevelopmentEmulator?: boolean;
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
     webSocketEndpointPath?: string;
@@ -259,6 +258,7 @@ export const Constants: {
     readonly partitionId: "partitionId";
     readonly readOperation: "READ";
     readonly TLS: "tls";
+    readonly TCP: "tcp";
     readonly establishConnection: "establishConnection";
     readonly defaultConsumerGroup: "$default";
     readonly eventHub: "eventhub";
@@ -274,6 +274,7 @@ export const Constants: {
     readonly attachEpoch: "com.microsoft:epoch";
     readonly receiverIdentifierName: "com.microsoft:receiver-name";
     readonly enableReceiverRuntimeMetricName: "com.microsoft:enable-receiver-runtime-metric";
+    readonly geoReplication: "com.microsoft:georeplication";
     readonly timespan: "com.microsoft:timespan";
     readonly uri: "com.microsoft:uri";
     readonly dateTimeOffset: "com.microsoft:datetime-offset";

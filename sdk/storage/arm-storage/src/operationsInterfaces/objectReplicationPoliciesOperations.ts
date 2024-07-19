@@ -14,7 +14,7 @@ import {
   ObjectReplicationPoliciesGetResponse,
   ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ObjectReplicationPoliciesCreateOrUpdateResponse,
-  ObjectReplicationPoliciesDeleteOptionalParams
+  ObjectReplicationPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ObjectReplicationPoliciesOperations {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<ObjectReplicationPolicy>;
   /**
    * Get the object replication policy of the storage account by policy ID.
@@ -51,7 +51,7 @@ export interface ObjectReplicationPoliciesOperations {
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesGetOptionalParams
+    options?: ObjectReplicationPoliciesGetOptionalParams,
   ): Promise<ObjectReplicationPoliciesGetResponse>;
   /**
    * Create or update the object replication policy of the storage account.
@@ -73,7 +73,7 @@ export interface ObjectReplicationPoliciesOperations {
     accountName: string,
     objectReplicationPolicyId: string,
     properties: ObjectReplicationPolicy,
-    options?: ObjectReplicationPoliciesCreateOrUpdateOptionalParams
+    options?: ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ObjectReplicationPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes the object replication policy associated with the specified storage account.
@@ -92,6 +92,6 @@ export interface ObjectReplicationPoliciesOperations {
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesDeleteOptionalParams
+    options?: ObjectReplicationPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

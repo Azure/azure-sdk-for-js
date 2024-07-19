@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.23.0-beta.2",
+  "version": "12.24.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-file-share/src/index.js",
@@ -9,6 +9,7 @@
     "./dist-esm/storage-file-share/src/index.js": "./dist-esm/storage-file-share/src/index.browser.js",
     "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.browser.js",
     "./dist-esm/storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.js": "./dist-esm/storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.browser.js",
+    "./dist-esm/storage-blob/src/policies/StorageCorrectContentLengthPolicy.js": "./dist-esm/storage-blob/src/policies/StorageCorrectContentLengthPolicy.browser.js",
     "./dist-esm/storage-file-share/src/utils/utils.node.js": "./dist-esm/storage-file-share/src/utils/utils.browser.js",
     "./dist-esm/storage-file-share/test/utils/index.js": "./dist-esm/storage-file-share/test/utils/index.browser.js",
     "./dist-esm/storage-file-share/src/FileDownloadResponse.js": "./dist-esm/storage-file-share/src/FileDownloadResponse.browser.js",
@@ -48,7 +49,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo skipped",
+    "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -81,7 +82,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/storageClientContext.ts",
+        "path": "src/generated/src/storageClient.ts",
         "prefix": "packageVersion"
       },
       {
@@ -128,11 +129,11 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/storage-blob": "^12.23.0-beta.2",
+    "@azure/storage-blob": "^12.23.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-perf": "^1.0.0",
@@ -157,13 +158,13 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "util": "^0.12.1"
   }
 }

@@ -59,7 +59,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
@@ -81,8 +81,8 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
-    "typescript": "~5.4.5",
+    "nyc": "^17.0.0",
+    "typescript": "~5.5.3",
     "rimraf": "^5.0.5",
     "ts-node": "^10.0.0"
   },

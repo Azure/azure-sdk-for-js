@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { IncomingMessage } from "http";
+import { IncomingMessage } from "node:http";
 
 function isJsonObject(obj: any): boolean {
   return obj && typeof obj === "object" && !Array.isArray(obj);

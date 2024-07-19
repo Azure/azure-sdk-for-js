@@ -1084,6 +1084,11 @@ export interface SendDtmfTonesFailed {
 
 export interface MediaStreamingFailed {
   /**
+   * Indicates the index of the failed play source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedPlaySourceIndex?: number;
+  /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */

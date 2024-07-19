@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("help test", () => {
+describe("help test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HelpRP;
@@ -89,4 +89,7 @@ describe.skip("help test", () => {
     assert.notEqual(resArray.length, 0)
   });
 
+  it("discoverySolutionNLPSubscriptionScope post test", async function () {
+    const res = await client.discoverySolutionNLP.discoverSolutionsBySubscription(subscriptionId, { discoverSolutionRequest: { issueSummary: "how to retrieve certs from deleted keyvault." } });
+  });
 })

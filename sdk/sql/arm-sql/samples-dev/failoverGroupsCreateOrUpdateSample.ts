@@ -30,19 +30,18 @@ async function createFailoverGroup() {
   const parameters: FailoverGroup = {
     databases: [
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1",
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2",
     ],
     partnerServers: [
       {
-        id:
-          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server"
-      }
+        id: "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-secondary-server",
+      },
     ],
     readOnlyEndpoint: { failoverPolicy: "Disabled" },
     readWriteEndpoint: {
       failoverPolicy: "Automatic",
-      failoverWithDataLossGracePeriodMinutes: 480
-    }
+      failoverWithDataLossGracePeriodMinutes: 480,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -50,7 +49,7 @@ async function createFailoverGroup() {
     resourceGroupName,
     serverName,
     failoverGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

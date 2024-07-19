@@ -20,7 +20,7 @@ create jobs. This method returns the list of jobs when the operation is complete
  * @summary Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
 or failed. You can refer to the OperationStatus enum for all the possible states of an operation. Some operations
 create jobs. This method returns the list of jobs when the operation is complete.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/ProtectedItem_Delete_OperationStatus.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ProtectedItem_Delete_OperationStatus.json
  */
 async function getProtectedItemDeleteOperationStatus() {
   const subscriptionId =

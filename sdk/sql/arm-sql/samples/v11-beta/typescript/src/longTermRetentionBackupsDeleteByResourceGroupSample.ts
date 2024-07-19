@@ -33,13 +33,14 @@ async function deleteTheLongTermRetentionBackup() {
     "55555555-6666-7777-8888-999999999999;131637960820000000;Archive";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.longTermRetentionBackups.beginDeleteByResourceGroupAndWait(
-    resourceGroupName,
-    locationName,
-    longTermRetentionServerName,
-    longTermRetentionDatabaseName,
-    backupName
-  );
+  const result =
+    await client.longTermRetentionBackups.beginDeleteByResourceGroupAndWait(
+      resourceGroupName,
+      locationName,
+      longTermRetentionServerName,
+      longTermRetentionDatabaseName,
+      backupName,
+    );
   console.log(result);
 }
 

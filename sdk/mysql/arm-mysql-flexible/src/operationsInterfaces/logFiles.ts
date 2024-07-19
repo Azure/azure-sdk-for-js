@@ -21,6 +21,6 @@ export interface LogFiles {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LogFilesListByServerOptionalParams
+    options?: LogFilesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LogFile>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a configuration of a server.
  *
  * @summary Updates a configuration of a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationUpdate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationUpdate.json
  */
 async function updateAUserConfiguration() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function updateAUserConfiguration() {
     resourceGroupName,
     serverName,
     configurationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

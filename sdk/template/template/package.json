@@ -95,7 +95,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^1.5.3",
@@ -107,8 +107,8 @@
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "tshy": "^1.14.0",
-    "typescript": "~5.4.5",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vitest": "^1.5.3"
   },
   "tshy": {
@@ -123,28 +123,34 @@
     "esmDialects": [
       "browser",
       "react-native"
-    ]
+    ],
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "browser": {
+        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
+        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     }
   },
-  "type": "module"
+  "type": "module",
+  "module": "./dist/esm/index.js"
 }

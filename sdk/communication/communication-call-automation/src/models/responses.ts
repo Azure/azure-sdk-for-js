@@ -69,7 +69,7 @@ export interface MuteParticipantResult {
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
   recordingId: string;
-  recordingKind: RecordingKind;
+  recordingKind: string;
   recordingState: RecordingState;
 }
 

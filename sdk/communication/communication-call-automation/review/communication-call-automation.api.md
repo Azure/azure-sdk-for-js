@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
@@ -696,7 +697,7 @@ export interface RecordingStateResult {
     // Warning: (ae-forgotten-export) The symbol "RecordingKind_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    recordingKind: RecordingKind_2;
+    recordingKind: string;
     // (undocumented)
     recordingState: RecordingState;
 }

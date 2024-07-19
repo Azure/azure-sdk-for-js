@@ -6,17 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  SnapshotResource,
+  SnapshotListOptionalParams,
   SnapshotGetOptionalParams,
   SnapshotGetResponse,
   SnapshotDownloadRequest,
   SnapshotDownloadOptionalParams,
-  SnapshotDownloadResponse
+  SnapshotDownloadResponse,
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Snapshot. */
 export interface Snapshot {
+  /**
+   * Get the AppComplianceAutomation snapshot list.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  list(
+    reportName: string,
+    options?: SnapshotListOptionalParams,
+  ): PagedAsyncIterableIterator<SnapshotResource>;
   /**
    * Get the AppComplianceAutomation snapshot and its properties.
    * @param reportName Report Name.
@@ -26,23 +39,23 @@ export interface Snapshot {
   get(
     reportName: string,
     snapshotName: string,
-    options?: SnapshotGetOptionalParams
+    options?: SnapshotGetOptionalParams,
   ): Promise<SnapshotGetResponse>;
   /**
    * Download compliance needs from snapshot, like: Compliance Report, Resource List.
    * @param reportName Report Name.
    * @param snapshotName Snapshot Name.
-   * @param parameters Parameters for the query operation
+   * @param body Parameters for the query operation
    * @param options The options parameters.
    */
   beginDownload(
     reportName: string,
     snapshotName: string,
-    parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    body: SnapshotDownloadRequest,
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotDownloadResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotDownloadResponse>,
       SnapshotDownloadResponse
     >
   >;
@@ -50,13 +63,13 @@ export interface Snapshot {
    * Download compliance needs from snapshot, like: Compliance Report, Resource List.
    * @param reportName Report Name.
    * @param snapshotName Snapshot Name.
-   * @param parameters Parameters for the query operation
+   * @param body Parameters for the query operation
    * @param options The options parameters.
    */
   beginDownloadAndWait(
     reportName: string,
     snapshotName: string,
-    parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    body: SnapshotDownloadRequest,
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<SnapshotDownloadResponse>;
 }

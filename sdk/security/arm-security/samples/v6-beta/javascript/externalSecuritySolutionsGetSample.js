@@ -30,7 +30,7 @@ async function getExternalSecuritySolution() {
   const result = await client.externalSecuritySolutions.get(
     resourceGroupName,
     ascLocation,
-    externalSecuritySolutionsName
+    externalSecuritySolutionsName,
   );
   console.log(result);
 }
