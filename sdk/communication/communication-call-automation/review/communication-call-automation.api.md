@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
@@ -694,8 +693,6 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "
 export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingKind_2" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     recordingKind: string;
     // (undocumented)
@@ -987,6 +984,8 @@ export interface RestRecordingStateChanged {
     callConnectionId?: string;
     correlationId?: string;
     readonly recordingId?: string;
+    // Warning: (ae-forgotten-export) The symbol "RecordingKind_2" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     recordingKind?: RecordingKind_2;
     serverCallId?: string;

@@ -3,7 +3,7 @@
 
 import { CallConnection } from "../callConnection";
 import { CallConnectionProperties, CallParticipant } from "./models";
-import { RecordingState, RecordingKind } from "../generated/src";
+import { RecordingState } from "../generated/src";
 
 /**
  * The interface used as parent of [action]CallResult
