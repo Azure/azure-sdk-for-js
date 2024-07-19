@@ -81,7 +81,8 @@
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "tsx": "^4.7.1",
-    "typescript": "~5.5.3"
+    "typescript": "~5.5.3",
+    "@opentelemetry/instrumentation-fs": "^0.14.0"
   },
   "dependencies": {
     "@azure/core-client": "^1.0.0",

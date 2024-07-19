@@ -2637,6 +2637,19 @@ packages:
       - supports-color
     dev: false
 
+  /@opentelemetry/instrumentation-fs@0.14.0(@opentelemetry/api@1.9.0):
+    resolution: {integrity: sha512-pVc8P5AgliC1DphyyBUgsxXlm2XaPH4BpYvt7rAZDMIqUpRk8gs19SioABtKqqxvFzg5jPtgJfJsdxq0Y+maLw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.25.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.52.1(@opentelemetry/api@1.9.0)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@opentelemetry/instrumentation-http@0.52.1(@opentelemetry/api@1.9.0):
     resolution: {integrity: sha512-dG/aevWhaP+7OLv4BQQSEKMJv8GyeOp3Wxl31NHqE8xo9/fYMfEljiZphUHIfyg4gnZ9swMyWjfOQs5GUQe54Q==}
     engines: {node: '>=14'}
@@ -11500,7 +11513,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-BvQNtblG5Ekhs4ZmiHUKiLU49L8op9tVOwJSCaZP52jhMBqNAmZFWQ4QTz6uAdbd8nqlTdtL932Xer59Dap9PA==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-RZajZdzu6j7X9C4dVf2rYkuHno03Yvc/IQ/LP5vklugnFc74kluhXdEY6F2aoWK+b0Vh4K9YP0E9IG/yryJMOw==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -11712,7 +11725,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-lE4wXAnj0Mor6PbzOzScLSTW5+5SDmHqwKt0JS9rHHZhPe8d51icfxYeWVu+lZ/MlnkeML+JpKbFAOkEZ0guvw==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-KhEaRw6EXf2LMmw6rbuaep9/G4kKWATXsA5czScbTOkJ3bQKOACslWN3zynn+puHpuyIeANMVovQaNH8oRd1xg==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -22107,20 +22120,21 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-lMoB2O2cVNo9+d1t79HPofu6VGjpr5HQ2JloulvDCQ2WQ8cdckvDW4K6uaad7tcVjwSpKtLkuBmSY9oGGiYKcA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-5IFArrMnw60UEflevXakBwPspcuO2guIwS1SBcex415ZbEtDdXP+0iw/EXClq9xambiRVtLxPX0UcSCOikfoHw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/functions': 4.5.0
       '@azure/functions-old': /@azure/functions@3.5.1
       '@azure/functions3': /@azure/functions@3.2.0
-      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.52.1
       '@opentelemetry/core': 1.25.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.52.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-bunyan': 0.40.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-fs': 0.14.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-http': 0.52.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-mongodb': 0.46.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-mysql': 0.40.0(@opentelemetry/api@1.9.0)
