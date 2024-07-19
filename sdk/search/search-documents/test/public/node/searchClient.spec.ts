@@ -11,8 +11,6 @@ import {
   AutocompleteResult,
   AzureKeyCredential,
   IndexDocumentsBatch,
-  KnownQueryLanguage,
-  KnownSpeller,
   SearchClient,
   SearchIndex,
   SearchIndexClient,
@@ -81,7 +79,7 @@ describe("SearchClient", function (this: Suite) {
         indexName: TEST_INDEX_NAME,
         openAIClient,
       } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+      await createIndex(indexClient, TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await populateIndex(searchClient, openAIClient);
     });
@@ -433,7 +431,7 @@ describe("SearchClient", function (this: Suite) {
         indexName: TEST_INDEX_NAME,
         openAIClient,
       } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await populateIndex(searchClient, openAIClient);
     });
@@ -449,8 +447,6 @@ describe("SearchClient", function (this: Suite) {
         skip: 0,
         top: 5,
         includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownSpeller.Lexicon,
       });
       assert.equal(searchResults.count, 6);
     });
@@ -460,7 +456,6 @@ describe("SearchClient", function (this: Suite) {
         skip: 0,
         top: 5,
         includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
           configurationName:
@@ -471,56 +466,8 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(searchResults.count, 1);
     });
 
-    it("search with document debug info", async function () {
-      const searchResults = await searchClient.search("luxury", {
-        queryLanguage: KnownQueryLanguage.EnUs,
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-          errorMode: "fail",
-          debugMode: "semantic",
-        },
-      });
-      for await (const result of searchResults.results) {
-        assert.deepEqual(
-          [
-            {
-              semantic: {
-                contentFields: [
-                  {
-                    name: "description",
-                    state: "used",
-                  },
-                ],
-                keywordFields: [
-                  {
-                    name: "tags",
-                    state: "used",
-                  },
-                ],
-                rerankerInput: {
-                  content:
-                    "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                  keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-                  title: "Fancy Stay",
-                },
-                titleField: {
-                  name: "hotelName",
-                  state: "used",
-                },
-              },
-            },
-          ],
-          result.documentDebugInfo,
-        );
-      }
-    });
-
     it("search with answers", async function () {
       const searchResults = await searchClient.search("What are the most luxurious hotels?", {
-        queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
           configurationName:
@@ -541,7 +488,6 @@ describe("SearchClient", function (this: Suite) {
 
     it("search with semantic error handling", async function () {
       const searchResults = await searchClient.search("luxury", {
-        queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
           configurationName:
@@ -653,7 +599,6 @@ describe("SearchClient", function (this: Suite) {
               vector: embedding,
               kNearestNeighborsCount: 3,
               fields: ["compressedVectorDescription"],
-              oversampling: 2,
             },
           ],
         },

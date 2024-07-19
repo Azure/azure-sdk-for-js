@@ -1,203 +1,102 @@
 # Release History
 
-## 12.1.0-beta.2 (2024-05-20)
+## 12.0.0 (2023-11-13)
+
+### Features Added
+
+- Added support for vector search
+- Added support for semantic search and reranking
+- New `SearchIndexerSkill`s
+  - `EntityLinkingSkill`
+  - `EntityRecognitionSkillV3`
+  - `PIIDetectionSkill`
+  - `SentimentSkillV3`
 
 ### Breaking Changes
 
-- Fixed an incorrect enum variant in `KnownVectorQueryKind` [#29601](https://github.com/Azure/azure-sdk-for-js/pull/29601)
-
-### Bugs Fixed
-
-- Fixed serialization performance on large payloads [#29597](https://github.com/Azure/azure-sdk-for-js/pull/29597)
-
-### Features Added
-
-- Enhance vector search support for image data [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
-  - `AIServicesVisionVectorizer` leverages your Azure AI Vision deployment to generate embeddings from image data or text provided at query ime
-  - `VisionVectorizeSkill` allows for indexers to do the same
-  - Vector queries now have the ability to accept an image in the form of a URL or base64 encoded string
-- Add support for enrichment of search results with your own ML model [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
-  - `AzureMachineLearningVectorizer` leverages your Azure AI Studio model deployment to generate embeddings for text provided at query time
-- Add support for search indexers to use OneLake as a data source [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
-- Add support for search score and vector similarity to be used as a threshold on the results of vector queries [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
-- Add support for hybrid search [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
-
-## 12.1.0-beta.1 (2024-02-06)
-
-### Breaking Changes
-
-- Refactor in alignment with v12 [#28576](https://github.com/Azure/azure-sdk-for-js/pull/28576)
-  - Replace or replace the following types/properties
-    - Use `ExhaustiveKnnAlgorithmConfiguration` in place of
-      - `ExhaustiveKnnVectorSearchAlgorithmConfiguration`
-    - Use `HnswAlgorithmConfiguration` in place of
-      - `HnswVectorSearchAlgorithmConfiguration`
-    - Use `PIIDetectionSkill.categories` in place of
-      - `PIIDetectionSkill.piiCategories`
-    - Use `QueryAnswer` in place of
-      - `Answers`
-      - `AnswersOption`
-      - `QueryAnswerType`
-    - Use `QueryAnswerResult` in place of
-      - `AnswerResult`
-    - Use `QueryCaption` in place of
-      - `Captions`
-        - `QueryCaptionType`
-    - Use `QueryCaptionResult` in place of
-      - `CaptionResult`
-    - Use `SearchRequestOptions.VectorSearchOptions.filterMode` in place of
-      - `SearchRequestOptions.vectorFilterMode`
-    - Use `SearchRequestOptions.VectorSearchOptions.queries` in place of
-      - `SearchRequestOptions.vectorQueries`
-    - Use `SearchRequestOptions.semanticSearchOptions.answers` in place of
-      - `SearchRequestOptions.answers`
-    - Use `SearchRequestOptions.semanticSearchOptions.captions` in place of
-      - `SearchRequestOptions.captions`
-    - Use `SearchRequestOptions.semanticSearchOptions.configurationName` in place of
-      - `SearchRequestOptions.semanticConfiguration`
-    - Use `SearchRequestOptions.semanticSearchOptions.debugMode` in place of
-      - `SearchRequestOptions.debugMode`
-    - Use `SearchRequestOptions.semanticSearchOptions.errorMode` in place of
-      - `SearchRequestOptions.semanticErrorHandlingMode`
-    - Use `SearchRequestOptions.semanticSearchOptions.maxWaitInMilliseconds` in place of
-      - `SearchRequestOptions.semanticMaxWaitInMilliseconds`
-    - Use `SearchRequestOptions.semanticSearchOptions.semanticFields` in place of
-      - `SearchRequestOptions.semanticFields`
-    - Use `SearchRequestOptions.semanticSearchOptions.semanticQuery` in place of
-      - `SearchRequestOptions.semanticQuery`
-    - Use `SemanticErrorMode` in place of
-      - `SemanticErrorHandlingMode`
-    - Use `SemanticErrorReason` in place of
-      - `SemanticPartialResponseReason`
-    - Use `SemanticPrioritizedFields` in place of
-      - `PrioritizedFields`
-    - Use `SemanticSearch` in place of
-      - `SemanticSettings`
-    - Use `SemanticSearchResultsType` in place of
-      - `SemanticPartialResponseType`
-    - Use `SimpleField.vectorSearchProfileName` in place of
-      - `SimpleField.vectorSearchProfile`
-    - Use `VectorSearchProfile.algorithmConfigurationName` in place of
-      - `VectorSearchProfile.algorithm`
-  - Narrow some enum property types to the respective string literal union
-    - `BlobIndexerDataToExtract`
-    - `BlobIndexerImageAction`
-    - `BlobIndexerParsingMode`
-    - `BlobIndexerPDFTextRotationAlgorithm`
-    - `CustomEntityLookupSkillLanguage`
-    - `EntityCategory`
-    - `EntityRecognitionSkillLanguage`
-    - `ImageAnalysisSkillLanguage`
-    - `ImageDetail`
-    - `IndexerExecutionEnvironment`
-    - `KeyPhraseExtractionSkillLanguage`
-    - `OcrSkillLanguage`
-    - `RegexFlags`
-    - `SearchIndexerDataSourceType`
-    - `SentimentSkillLanguage`
-    - `SplitSkillLanguage`
-    - `TextSplitMode`
-    - `TextTranslationSkillLanguage`
-    - `VisualFeature`
-  - Remove `KnownLexicalAnalyzerName` as a duplicate of `KnownAnalyzerNames`
-  - Remove `KnownCharFilterName` as a duplicate of `KnownCharFilterNames`
-  - Remove `KnownTokenFilterName` as a duplicate of `KnownTokenFilterNames`
-  - Remove `SearchRequest` as a duplicate of `SearchRequestOptions`
-
-### Features Added
-
-- Add vector compression [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
-  - Service-side scalar quantization of your vector data
-  - Optional reranking with full-precision vectors
-  - Optional oversampling of documents when reranking compressed vectors
-- Add `Edm.Half`, `Edm.Int16`, and `Edm.SByte` vector spaces [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
-- Add non-persistent vector usage through `SimpleField.stored` [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
-- Expose the internal HTTP pipeline to allow users to send raw requests with it
-
-## 12.0.0-beta.4 (2023-10-11)
-
-### Features Added
-
-- Added support for text based vector queries backed by a vectorizer [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-- Added exhaustive k-nearest neighbors search algorithm for vector search [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-- Added `SearchOptions.semanticQuery`, which allows for using an independent text query for semantic search features [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-- Added support for `AzureOpenAIEmbeddingSkill`, which generates text embeddings through the Azure OpenAI service. [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-- Added `SearchIndexerSkillset.IndexProjections`, which specifies additional projections to secondary search indexes. [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-
-### Breaking Changes
-
-- `SearchOptions.vector` has been abstracted into `SearchOptions.vectorQueries` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-- `SearchField.vectorSearchConfiguration` has been abstracted into `SearchField.vectorSearchProfile` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-- `VectorSearch.algorithmConfiguration` has been renamed to `VectorSearch.algorithms` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
-
-## 12.0.0-beta.3 (2023-08-10)
-
-### Features Added
-
-- Add multi-vector search. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
-
-### Breaking Changes
-
-- Change vector option `SearchOptions.vector` to array of vectors option
-  `SearchOptions.vectors`. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
-
-## 12.0.0-beta.2 (2023-07-11)
-
-### Features Added
-
-- Add vector search. [#26069](https://github.com/Azure/azure-sdk-for-js/pull/26069)
-
-### Bugs Fixed
-
-- Fix compiler errors when using `SearchClient` without defined model. [#25999](https://github.com/Azure/azure-sdk-for-js/pull/25999)
-- Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
-- Fix serializerOptions and onResponse options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
-
-## 12.0.0-beta.1 (2023-05-09)
-
-### Features Added
-
-- Enable `OcrSkill` and `ImageAnalysisSkill`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
-
-### Breaking Changes
-
-- Update `SearchIndexerDataNoneIdentity.odatatype`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
-- Fix `SearchClient.getDocument` returning documents that contain fields which were not selected [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-- Add type narrowing to returned documents [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-  - Add breaking type parameters to these types:
-    - `AutocompleteOptions`
-    - `AutocompleteRequest`
-    - `GetDocumentOptions`
-    - `SearchIterator`
-    - `SearchOptions`
-    - `SearchRequestOptions`
-    - `SuggestOptions`
-    - `SuggestRequest`
-
-### Bugs Fixed
-
-- Allow nested field names to be specified in `select` and `searchFields` options [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-  - Affects these types:
-    - `AutocompleteRequest`
-    - `SearchRequestOptions`
-    - `SuggestRequest`
-- Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
-- Fix ISO8601 deserialization [#25801](https://github.com/Azure/azure-sdk-for-js/pull/25801)
+- Minor type changes
+  - All nullable optional properties can no longer be assigned `null`. Use `undefined` instead.
+  - Updated specific property types for enhanced precision, replacing `any` with more defined types.
+- Narrowed some enum property types to the respective string literal union
+  - `BlobIndexerDataToExtract`
+  - `BlobIndexerImageAction`
+  - `BlobIndexerParsingMode`
+  - `BlobIndexerPDFTextRotationAlgorithm`
+  - `CustomEntityLookupSkillLanguage`
+  - `EntityCategory`
+  - `EntityRecognitionSkillLanguage`
+  - `ImageAnalysisSkillLanguage`
+  - `ImageDetail`
+  - `IndexerExecutionEnvironment`
+  - `KeyPhraseExtractionSkillLanguage`
+  - `OcrSkillLanguage`
+  - `RegexFlags`
+  - `SearchIndexerDataSourceType`
+  - `SentimentSkillLanguage`
+  - `SplitSkillLanguage`
+  - `TextSplitMode`
+  - `TextTranslationSkillLanguage`
+  - `VisualFeature`
+- Removed `KnownLexicalAnalyzerName` as a duplicate of `KnownAnalyzerNames`
+- Removed `KnownCharFilterName` as a duplicate of `KnownCharFilterNames`
+- Removed `KnownTokenFilterName` as a duplicate of `KnownTokenFilterNames`
+- Removed `SearchRequest` as a duplicate of `SearchRequestOptions`
+- Added type narrowing for response types based on `select`ed fields
+- For types that are generic on a model type, the model type is now constrained to extend `object`
 
 ### Other Changes
 
-- Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+- Deprecated `apiVersion` in favor of `serviceVersion` in clients:
+  - `SearchClient`
+  - `SearchIndexClient`
+  - `SearchIndexerClient`
 
-  - Affects these types:
-    - `IndexDocumentsClient`
-    - `SearchClient`
-    - `SearchDocumentsPageResult`
-    - `SearchDocumentsResult`
-    - `SearchIndexClient.getSearchClient`
-    - `SearchIndexingBufferedSender`
-    - `SearchResult`
-    - `SuggestDocumentsResult`
-    - `SuggestResult`
+### Note
+
+- This GA release introduces bug fixes, convenience improvements, and select features from prior beta releases. Except for the features listed in these release notes, no preview features are being pulled into this release.
+
+## 11.3.3 (2023-09-27)
+
+### Bugs Fixed
+
+- Fix some `SearchIndex` fields being improperly serialized.[#27238](https://github.com/Azure/azure-sdk-for-js/pull/27238)
+
+## 11.3.2 (2023-06-06)
+
+### Bugs Fixed
+
+- Fix ISO8601 deserialization. [#25802](https://github.com/Azure/azure-sdk-for-js/pull/25802)
+- Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
+- Fix `serializerOptions` and `onResponse` options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
+- Fix discarded user-defined `onResponse` callback. [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+- Fix type error on `select` statement with nested fields. [#26407](https://github.com/Azure/azure-sdk-for-js/pull/26407)
+
+### Other Changes
+
+- Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
+
+## 11.3.1 (2022-11-18)
+
+### Bugs Fixed
+
+- Addressed an issue where `similarity` settings on indexes wouldn't populate correctly. See [#23811](https://github.com/Azure/azure-sdk-for-js/issues/23811)
+
+## 11.3.0 (2022-09-06)
+
+### Features Added
+
+- Enabled national cloud support for Azure Search SDK. Please refer [#22887](https://github.com/Azure/azure-sdk-for-js/pull/22887) for further details.
+- Support for TokenCredential has been added. With this addition, the Search SDK supports authentication via AAD.
+
+### Bugs Fixed
+
+- Converted the complex fields correctly within the Search Fields. Please refer [#16489](https://github.com/Azure/azure-sdk-for-js/issues/16489) for more details.
+- Fixed the typos `anayzerName` to `analyzerName` in `convertFieldsToPublic` method of `serviceUtils.ts`.
+- Fixed the issue with the presence of recursive structure while uploading documents. Please refer [#15656](https://github.com/Azure/azure-sdk-for-js/issues/15656) for further details.
+
+### Note
+
+- This GA release includes AAD with multi-cloud support and all the bug fixes since the last [11.2.0](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1120-2021-06-08) GA release. Other preview features and breaking changes from the [11.3.0-beta.1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta1-2021-07-07) to [11.3.0-beta.8](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta8-unreleased) releases are not included in this GA release.
 
 - Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 

@@ -6,48 +6,29 @@ import {
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
 } from "./generated/data/models";
 import {
-  AIServicesVisionVectorizer as GeneratedAIServicesVisionVectorizer,
-  AMLParameters as GeneratedAMLParameters,
-  AMLVectorizer as GeneratedAMLVectorizer,
-  AzureMachineLearningSkill,
-  AzureOpenAIVectorizer as GeneratedAzureOpenAIVectorizer,
   BM25Similarity,
   ClassicSimilarity,
   CognitiveServicesAccountKey,
   CognitiveServicesAccountUnion,
-  ConditionalSkill,
   CustomAnalyzer as BaseCustomAnalyzer,
-  CustomVectorizer as GeneratedCustomVectorizer,
   DataChangeDetectionPolicyUnion,
   DataDeletionDetectionPolicyUnion,
   DefaultCognitiveServicesAccount,
-  DocumentExtractionSkill,
-  EntityLinkingSkill,
-  EntityRecognitionSkillV3,
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HighWaterMarkChangeDetectionPolicy,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
-  LanguageDetectionSkill,
   LexicalAnalyzerUnion,
   LexicalTokenizerUnion,
   LuceneStandardAnalyzer,
-  MergeSkill,
   PatternAnalyzer as GeneratedPatternAnalyzer,
   PatternTokenizer,
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
   SearchIndexer as GeneratedSearchIndexer,
-  SearchIndexerCache as GeneratedSearchIndexerCache,
-  SearchIndexerDataIdentityUnion,
-  SearchIndexerDataNoneIdentity,
   SearchIndexerDataSource as GeneratedSearchIndexerDataSourceConnection,
-  SearchIndexerDataUserAssignedIdentity,
-  SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
   SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
   SearchIndexerSkillUnion,
   SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
-  SentimentSkillV3,
-  ShaperSkill,
   SimilarityUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
@@ -56,143 +37,75 @@ import {
   TokenFilterUnion,
   VectorSearch as GeneratedVectorSearch,
   VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
-  VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
 } from "./generated/service/models";
+import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
 import {
   BlobIndexerDataToExtract,
   BlobIndexerImageAction,
   BlobIndexerParsingMode,
   BlobIndexerPDFTextRotationAlgorithm,
-  IndexerExecutionEnvironment,
-  RegexFlags,
-  SearchIndexerDataSourceType,
-  VectorSearchAlgorithmMetric,
-} from "./generatedStringLiteralUnions";
-import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
-import { logger } from "./logger";
-import {
-  AIServicesVisionVectorizer,
-  AzureMachineLearningVectorizer,
-  AzureMachineLearningVectorizerParameters,
-  AzureOpenAIVectorizer,
   CharFilter,
   CognitiveServicesAccount,
   ComplexField,
-  CustomEntityLookupSkill,
-  CustomVectorizer,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
-  EntityRecognitionSkill,
-  ImageAnalysisSkill,
+  IndexerExecutionEnvironment,
   IndexingParameters,
   IndexingParametersConfiguration,
   isComplexField,
-  KeyAuthAzureMachineLearningVectorizerParameters,
-  KeyPhraseExtractionSkill,
   LexicalAnalyzer,
-  LexicalNormalizer,
   LexicalTokenizer,
-  NoAuthAzureMachineLearningVectorizerParameters,
-  OcrSkill,
   PatternAnalyzer,
-  PIIDetectionSkill,
+  RegexFlags,
   ScoringProfile,
   SearchField,
   SearchFieldDataType,
   SearchIndex,
   SearchIndexer,
-  SearchIndexerCache,
-  SearchIndexerDataIdentity,
   SearchIndexerDataSourceConnection,
-  SearchIndexerIndexProjections,
-  SearchIndexerKnowledgeStore,
+  SearchIndexerDataSourceType,
   SearchIndexerSkill,
   SearchIndexerSkillset,
   SearchResourceEncryptionKey,
-  SentimentSkill,
   SimilarityAlgorithm,
   SimpleField,
-  SplitSkill,
   SynonymMap,
-  TextTranslationSkill,
-  TokenAuthAzureMachineLearningVectorizerParameters,
   TokenFilter,
   VectorSearch,
   VectorSearchAlgorithmConfiguration,
-  VectorSearchVectorizer,
-  WebApiSkill,
+  VectorSearchAlgorithmMetric,
 } from "./serviceModels";
 
-export const defaultServiceVersion = "2024-05-01-Preview";
+export const defaultServiceVersion = "2023-11-01";
+
+const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
+  "#Microsoft.Skills.Custom.WebApiSkill": true,
+  "#Microsoft.Skills.Text.CustomEntityLookupSkill": true,
+  "#Microsoft.Skills.Text.EntityRecognitionSkill": true,
+  "#Microsoft.Skills.Text.KeyPhraseExtractionSkill": true,
+  "#Microsoft.Skills.Text.LanguageDetectionSkill": true,
+  "#Microsoft.Skills.Text.MergeSkill": true,
+  "#Microsoft.Skills.Text.PIIDetectionSkill": true,
+  "#Microsoft.Skills.Text.SentimentSkill": true,
+  "#Microsoft.Skills.Text.SplitSkill": true,
+  "#Microsoft.Skills.Text.TranslationSkill": true,
+  "#Microsoft.Skills.Text.V3.EntityLinkingSkill": true,
+  "#Microsoft.Skills.Text.V3.EntityRecognitionSkill": true,
+  "#Microsoft.Skills.Text.V3.SentimentSkill": true,
+  "#Microsoft.Skills.Util.ConditionalSkill": true,
+  "#Microsoft.Skills.Util.DocumentExtractionSkill": true,
+  "#Microsoft.Skills.Util.ShaperSkill": true,
+  "#Microsoft.Skills.Vision.ImageAnalysisSkill": true,
+  "#Microsoft.Skills.Vision.OcrSkill": true,
+};
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
     return skills;
   }
 
-  const result: SearchIndexerSkill[] = [];
-  for (const skill of skills) {
-    switch (skill.odatatype) {
-      case "#Microsoft.Skills.Util.ConditionalSkill":
-        result.push(skill as ConditionalSkill);
-        break;
-      case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
-        result.push(skill as KeyPhraseExtractionSkill);
-        break;
-      case "#Microsoft.Skills.Vision.OcrSkill":
-        result.push(skill as OcrSkill);
-        break;
-      case "#Microsoft.Skills.Vision.ImageAnalysisSkill":
-        result.push(skill as ImageAnalysisSkill);
-        break;
-      case "#Microsoft.Skills.Text.LanguageDetectionSkill":
-        result.push(skill as LanguageDetectionSkill);
-        break;
-      case "#Microsoft.Skills.Util.ShaperSkill":
-        result.push(skill as ShaperSkill);
-        break;
-      case "#Microsoft.Skills.Text.MergeSkill":
-        result.push(skill as MergeSkill);
-        break;
-      case "#Microsoft.Skills.Text.EntityRecognitionSkill":
-        result.push(skill as EntityRecognitionSkill);
-        break;
-      case "#Microsoft.Skills.Text.SentimentSkill":
-        result.push(skill as SentimentSkill);
-        break;
-      case "#Microsoft.Skills.Text.SplitSkill":
-        result.push(skill as SplitSkill);
-        break;
-      case "#Microsoft.Skills.Text.PIIDetectionSkill":
-        result.push(skill as PIIDetectionSkill);
-        break;
-      case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
-        result.push(skill as EntityRecognitionSkillV3);
-        break;
-      case "#Microsoft.Skills.Text.V3.EntityLinkingSkill":
-        result.push(skill as EntityLinkingSkill);
-        break;
-      case "#Microsoft.Skills.Text.V3.SentimentSkill":
-        result.push(skill as SentimentSkillV3);
-        break;
-      case "#Microsoft.Skills.Text.TranslationSkill":
-        result.push(skill as TextTranslationSkill);
-        break;
-      case "#Microsoft.Skills.Custom.WebApiSkill":
-        result.push(skill as WebApiSkill);
-        break;
-      case "#Microsoft.Skills.Text.CustomEntityLookupSkill":
-        result.push(skill as CustomEntityLookupSkill);
-        break;
-      case "#Microsoft.Skills.Util.DocumentExtractionSkill":
-        result.push(skill as DocumentExtractionSkill);
-        break;
-      case "#Microsoft.Skills.Custom.AmlSkill":
-        result.push(skill as AzureMachineLearningSkill);
-        break;
-    }
-  }
-  return result;
+  // This validation has already GAed
+  return skills.filter((skill): skill is SearchIndexerSkill => knownSkills[skill.odatatype]);
 }
 
 export function convertCognitiveServicesAccountToGenerated(
@@ -314,8 +227,7 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       const type: SearchFieldDataType = field.type as SearchFieldDataType;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
 
-      const { retrievable, analyzer, searchAnalyzer, indexAnalyzer, normalizer, ...restField } =
-        field;
+      const { retrievable, analyzer, searchAnalyzer, indexAnalyzer, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
 
       const result: SimpleField = {
@@ -325,7 +237,6 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         analyzerName: analyzer,
         searchAnalyzerName: searchAnalyzer,
         indexAnalyzerName: indexAnalyzer,
-        normalizerName: normalizer,
         synonymMapNames,
       };
       return result;
@@ -339,7 +250,7 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
       return {
         name: field.name,
         type: field.type,
-        fields: convertFieldsToGenerated(field.fields),
+        fields: field.fields ? convertFieldsToGenerated(field.fields) : field.fields,
       };
     } else {
       const { hidden, ...restField } = field;
@@ -356,7 +267,6 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
         searchAnalyzer: field.searchAnalyzerName,
         indexAnalyzer: field.indexAnalyzerName,
         synonymMaps: field.synonymMapNames,
-        normalizer: field.normalizerName,
       };
     }
   });
@@ -441,7 +351,6 @@ function convertEncryptionKeyToPublic(
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
     vaultUrl: encryptionKey.vaultUri,
-    identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity),
   };
 
   if (encryptionKey.accessCredentials) {
@@ -463,7 +372,6 @@ function convertEncryptionKeyToGenerated(
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
     vaultUri: encryptionKey.vaultUrl,
-    identity: encryptionKey.identity,
   };
 
   if (encryptionKey.applicationId) {
@@ -488,117 +396,12 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
     charFilters: generatedIndex.charFilters as CharFilter[],
-    normalizers: generatedIndex.normalizers as LexicalNormalizer[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity),
     semanticSearch: generatedIndex.semanticSearch,
     vectorSearch: generatedVectorSearchToPublicVectorSearch(generatedIndex.vectorSearch),
   };
-}
-
-export function generatedVectorSearchVectorizerToPublicVectorizer(): undefined;
-export function generatedVectorSearchVectorizerToPublicVectorizer(
-  generatedVectorizer: GeneratedVectorSearchVectorizer,
-): VectorSearchVectorizer;
-export function generatedVectorSearchVectorizerToPublicVectorizer(
-  generatedVectorizer?: GeneratedVectorSearchVectorizer,
-): VectorSearchVectorizer | undefined {
-  if (!generatedVectorizer) {
-    return generatedVectorizer;
-  }
-
-  switch (generatedVectorizer.kind) {
-    case "azureOpenAI": {
-      const { azureOpenAIParameters } = generatedVectorizer as GeneratedAzureOpenAIVectorizer;
-      const authIdentity = convertSearchIndexerDataIdentityToPublic(
-        azureOpenAIParameters?.authIdentity,
-      );
-      const vectorizer: AzureOpenAIVectorizer = {
-        ...(generatedVectorizer as GeneratedAzureOpenAIVectorizer),
-        azureOpenAIParameters: { ...azureOpenAIParameters, authIdentity },
-      };
-      return vectorizer;
-    }
-    case "customWebApi": {
-      const { customWebApiParameters } = generatedVectorizer as GeneratedCustomVectorizer;
-      const authIdentity = convertSearchIndexerDataIdentityToPublic(
-        customWebApiParameters?.authIdentity,
-      );
-      const vectorizer: CustomVectorizer = {
-        ...(generatedVectorizer as GeneratedCustomVectorizer),
-        customVectorizerParameters: { ...customWebApiParameters, authIdentity },
-      };
-      return vectorizer;
-    }
-    case "aiServicesVision": {
-      const generatedVisionVectorizer = generatedVectorizer as GeneratedAIServicesVisionVectorizer;
-      const { aIServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
-      const aIServicesVisionParameters = generatedParameters
-        ? {
-            ...generatedParameters,
-            modelVersion: generatedParameters.modelVersion ?? undefined,
-            resourceUri: generatedParameters.resourceUri,
-            authIdentity: convertSearchIndexerDataIdentityToPublic(
-              generatedParameters.authIdentity,
-            ),
-          }
-        : undefined;
-      const vectorizer: AIServicesVisionVectorizer = {
-        ...generatedVisionVectorizer,
-        aIServicesVisionParameters,
-      };
-      return vectorizer;
-    }
-    case "aml": {
-      const generatedAMLVectorizer = generatedVectorizer as GeneratedAMLVectorizer;
-
-      const vectorizer: AzureMachineLearningVectorizer = {
-        ...generatedAMLVectorizer,
-        amlParameters:
-          generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
-            generatedAMLVectorizer.aMLParameters,
-          ),
-      };
-
-      return vectorizer;
-    }
-  }
-  logger.warning(`Unsupported vectorizer kind: ${(generatedVectorizer as any).kind}`);
-  return generatedVectorizer as any;
-}
-
-function generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLearningVectorizerParameters(
-  aMLParameters?: GeneratedAMLParameters,
-): AzureMachineLearningVectorizerParameters | undefined {
-  if (!aMLParameters) {
-    return aMLParameters;
-  }
-
-  const { resourceId, authenticationKey, scoringUri } = aMLParameters;
-  // Sensitive to case order
-  switch (true) {
-    case resourceId !== undefined && resourceId !== null: {
-      return {
-        ...aMLParameters,
-        authKind: "token",
-      } as TokenAuthAzureMachineLearningVectorizerParameters;
-    }
-    case authenticationKey !== undefined && authenticationKey !== null: {
-      return {
-        ...aMLParameters,
-        authKind: "key",
-      } as KeyAuthAzureMachineLearningVectorizerParameters;
-    }
-    case scoringUri !== undefined && scoringUri !== null: {
-      return {
-        ...aMLParameters,
-        authKind: "none",
-      } as NoAuthAzureMachineLearningVectorizerParameters;
-    }
-  }
-  logger.warning("Unknown AML parameter kind");
-  return aMLParameters as any;
 }
 
 export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(): undefined;
@@ -638,7 +441,6 @@ export function generatedVectorSearchToPublicVectorSearch(
     algorithms: vectorSearch.algorithms?.map(
       generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration,
     ),
-    vectorizers: vectorSearch.vectorizers?.map(generatedVectorSearchVectorizerToPublicVectorizer),
   };
 }
 
@@ -653,7 +455,6 @@ export function generatedSearchResultToPublicSearchResult<
         _highlights: highlights,
         _rerankerScore: rerankerScore,
         _captions: captions,
-        documentDebugInfo: documentDebugInfo,
         ...restProps
       } = result;
       const obj = {
@@ -661,7 +462,6 @@ export function generatedSearchResultToPublicSearchResult<
         highlights,
         rerankerScore,
         captions,
-        documentDebugInfo,
         document: restProps,
       };
       return obj as SearchResult<TModel, TFields>;
@@ -710,21 +510,12 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
 export function generatedSkillsetToPublicSkillset(
   generatedSkillset: GeneratedSearchIndexerSkillset,
 ): SearchIndexerSkillset {
-  const {
-    skills,
-    cognitiveServicesAccount,
-    knowledgeStore,
-    encryptionKey,
-    indexProjections,
-    ...props
-  } = generatedSkillset;
+  const { skills, cognitiveServicesAccount, encryptionKey, ...props } = generatedSkillset;
   return {
     ...props,
     skills: convertSkillsToPublic(skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(cognitiveServicesAccount),
-    knowledgeStore: convertKnowledgeStoreToPublic(knowledgeStore),
     encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
-    indexProjections: indexProjections as SearchIndexerIndexProjections,
   };
 }
 
@@ -813,7 +604,6 @@ export function generatedSearchIndexerToPublicSearchIndexer(
     ...indexer,
     parameters,
     encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
-    cache: convertSearchIndexerCacheToPublic(indexer.cache),
   };
 }
 
@@ -828,7 +618,6 @@ export function publicDataSourceToGeneratedDataSource(
       connectionString: dataSource.connectionString,
     },
     container: dataSource.container,
-    identity: dataSource.identity,
     etag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
@@ -845,7 +634,6 @@ export function generatedDataSourceToPublicDataSource(
     type: dataSource.type as SearchIndexerDataSourceType,
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
-    identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
     etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy,
@@ -855,20 +643,6 @@ export function generatedDataSourceToPublicDataSource(
     ),
     encryptionKey: convertEncryptionKeyToPublic(dataSource.encryptionKey),
   };
-}
-
-export function convertSearchIndexerDataIdentityToPublic(
-  searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion,
-): SearchIndexerDataIdentity | undefined {
-  if (!searchIndexerDataIdentity) {
-    return searchIndexerDataIdentity;
-  }
-
-  if (searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.DataNoneIdentity") {
-    return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
-  } else {
-    return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;
-  }
 }
 
 export function convertDataChangeDetectionPolicyToPublic(
@@ -907,30 +681,4 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   // in order to be inclusive of the maximum value after we take the floor.
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
-}
-
-function convertKnowledgeStoreToPublic(
-  knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined,
-): SearchIndexerKnowledgeStore | undefined {
-  if (!knowledgeStore) {
-    return knowledgeStore;
-  }
-
-  return {
-    ...knowledgeStore,
-    identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity),
-  };
-}
-
-export function convertSearchIndexerCacheToPublic(
-  cache?: GeneratedSearchIndexerCache,
-): SearchIndexerCache | undefined {
-  if (!cache) {
-    return cache;
-  }
-
-  return {
-    ...cache,
-    identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
-  };
 }

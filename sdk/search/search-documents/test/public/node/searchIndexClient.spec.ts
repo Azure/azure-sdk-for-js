@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { assert } from "chai";
 import { Context, Suite } from "mocha";
 import {
   AzureKeyCredential,
-  AzureOpenAIVectorizer,
   SearchIndex,
   SearchIndexClient,
   SynonymMap,
@@ -303,19 +302,10 @@ describe("SearchIndexClient", function (this: Suite) {
         kind: "hnsw",
         parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
       };
-      const vectorizer: AzureOpenAIVectorizer = {
-        kind: "azureOpenAI",
-        name: "vectorizer",
-        azureOpenAIParameters: {
-          deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-          resourceUri: env.AZURE_OPENAI_ENDPOINT,
-          modelName: "text-embedding-ada-002",
-        },
-      };
+
       const profile: VectorSearchProfile = {
         name: "profile",
         algorithmConfigurationName: algorithm.name,
-        vectorizer: vectorizer.name,
       };
 
       let index: SearchIndex = {
@@ -336,7 +326,6 @@ describe("SearchIndexClient", function (this: Suite) {
         ],
         vectorSearch: {
           algorithms: [algorithm],
-          vectorizers: [vectorizer],
           profiles: [profile],
         },
       };
@@ -344,7 +333,6 @@ describe("SearchIndexClient", function (this: Suite) {
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(indexName);
         assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
-        assert.deepEqual(index.vectorSearch?.vectorizers?.[0].name, vectorizer.name);
         assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
       } finally {
         await indexClient.deleteIndex(index);

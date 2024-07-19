@@ -21,7 +21,7 @@ import {
   DataSourcesListOptionalParams,
   DataSourcesListResponse,
   DataSourcesCreateOptionalParams,
-  DataSourcesCreateResponse,
+  DataSourcesCreateResponse
 } from "../models";
 
 /** Class containing DataSources operations. */
@@ -45,11 +45,11 @@ export class DataSourcesImpl implements DataSources {
   createOrUpdate(
     dataSourceName: string,
     dataSource: SearchIndexerDataSource,
-    options?: DataSourcesCreateOrUpdateOptionalParams,
+    options?: DataSourcesCreateOrUpdateOptionalParams
   ): Promise<DataSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { dataSourceName, dataSource, options },
-      createOrUpdateOperationSpec,
+      createOrUpdateOperationSpec
     );
   }
 
@@ -60,11 +60,11 @@ export class DataSourcesImpl implements DataSources {
    */
   delete(
     dataSourceName: string,
-    options?: DataSourcesDeleteOptionalParams,
+    options?: DataSourcesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { dataSourceName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -75,11 +75,11 @@ export class DataSourcesImpl implements DataSources {
    */
   get(
     dataSourceName: string,
-    options?: DataSourcesGetOptionalParams,
+    options?: DataSourcesGetOptionalParams
   ): Promise<DataSourcesGetResponse> {
     return this.client.sendOperationRequest(
       { dataSourceName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -88,7 +88,7 @@ export class DataSourcesImpl implements DataSources {
    * @param options The options parameters.
    */
   list(
-    options?: DataSourcesListOptionalParams,
+    options?: DataSourcesListOptionalParams
   ): Promise<DataSourcesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -100,11 +100,11 @@ export class DataSourcesImpl implements DataSources {
    */
   create(
     dataSource: SearchIndexerDataSource,
-    options?: DataSourcesCreateOptionalParams,
+    options?: DataSourcesCreateOptionalParams
   ): Promise<DataSourcesCreateResponse> {
     return this.client.sendOperationRequest(
       { dataSource, options },
-      createOperationSpec,
+      createOperationSpec
     );
   }
 }
@@ -116,30 +116,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchIndexerDataSource,
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     201: {
-      bodyMapper: Mappers.SearchIndexerDataSource,
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.SearchError
+    }
   },
   requestBody: Parameters.dataSource,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipIndexerResetRequirementForCache,
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.prefer,
+    Parameters.prefer
   ],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/datasources('{dataSourceName}')",
@@ -148,65 +145,65 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.SearchError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch,
+    Parameters.ifNoneMatch
   ],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/datasources('{dataSourceName}')",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchIndexerDataSource,
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.SearchError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/datasources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListDataSourcesResult,
+      bodyMapper: Mappers.ListDataSourcesResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.SearchError
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.select],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/datasources",
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.SearchIndexerDataSource,
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.SearchError
+    }
   },
   requestBody: Parameters.dataSource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };

@@ -10,20 +10,17 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import { DocumentsImpl } from "./operations";
 import { Documents } from "./operationsInterfaces";
-import {
-  ApiVersion20240501Preview,
-  SearchClientOptionalParams,
-} from "./models";
+import { ApiVersion20231101, SearchClientOptionalParams } from "./models";
 
 /** @internal */
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   indexName: string;
-  apiVersion: ApiVersion20240501Preview;
+  apiVersion: ApiVersion20231101;
 
   /**
    * Initializes a new instance of the SearchClient class.
@@ -35,8 +32,8 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20240501Preview,
-    options?: SearchClientOptionalParams,
+    apiVersion: ApiVersion20231101,
+    options?: SearchClientOptionalParams
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
@@ -53,10 +50,10 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: SearchClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8",
+      requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.1.0-beta.2`;
+    const packageDetails = `azsdk-js-search-documents/12.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -66,12 +63,12 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix,
+        userAgentPrefix
       },
       endpoint:
         options.endpoint ??
         options.baseUri ??
-        "{endpoint}/indexes('{indexName}')",
+        "{endpoint}/indexes('{indexName}')"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -91,7 +88,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest,
+        next: SendRequest
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -105,7 +102,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      },
+      }
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

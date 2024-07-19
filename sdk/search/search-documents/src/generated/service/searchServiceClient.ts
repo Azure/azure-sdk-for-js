@@ -11,37 +11,35 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import {
   DataSourcesImpl,
   IndexersImpl,
   SkillsetsImpl,
   SynonymMapsImpl,
-  IndexesImpl,
-  AliasesImpl,
+  IndexesImpl
 } from "./operations";
 import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
-  Indexes,
-  Aliases,
+  Indexes
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20240501Preview,
+  ApiVersion20231101,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
-  GetServiceStatisticsResponse,
+  GetServiceStatisticsResponse
 } from "./models";
 
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20240501Preview;
+  apiVersion: ApiVersion20231101;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -51,8 +49,8 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20240501Preview,
-    options?: SearchServiceClientOptionalParams,
+    apiVersion: ApiVersion20231101,
+    options?: SearchServiceClientOptionalParams
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
@@ -66,10 +64,10 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: SearchServiceClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8",
+      requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.1.0-beta.2`;
+    const packageDetails = `azsdk-js-search-documents/12.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -79,9 +77,9 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix,
+        userAgentPrefix
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -92,7 +90,6 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     this.skillsets = new SkillsetsImpl(this);
     this.synonymMaps = new SynonymMapsImpl(this);
     this.indexes = new IndexesImpl(this);
-    this.aliases = new AliasesImpl(this);
     this.addCustomApiVersionPolicy(apiVersion);
   }
 
@@ -105,7 +102,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest,
+        next: SendRequest
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -119,7 +116,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      },
+      }
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -129,11 +126,11 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   getServiceStatistics(
-    options?: GetServiceStatisticsOptionalParams,
+    options?: GetServiceStatisticsOptionalParams
   ): Promise<GetServiceStatisticsResponse> {
     return this.sendOperationRequest(
       { options },
-      getServiceStatisticsOperationSpec,
+      getServiceStatisticsOperationSpec
     );
   }
 
@@ -142,7 +139,6 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   skillsets: Skillsets;
   synonymMaps: SynonymMaps;
   indexes: Indexes;
-  aliases: Aliases;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -152,14 +148,14 @@ const getServiceStatisticsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceStatistics,
+      bodyMapper: Mappers.ServiceStatistics
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.SearchError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

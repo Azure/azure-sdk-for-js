@@ -92,14 +92,6 @@ async function main(): Promise<void> {
             kNearestNeighborsCount: 3,
             vector: luxuryQueryVector,
           },
-          // The index can be configured with a vectorizer to generate text embeddings
-          // from a text query
-          {
-            kind: "text",
-            fields: ["descriptionVectorFr"],
-            kNearestNeighborsCount: 3,
-            text: "What are the most luxurious hotels?",
-          },
         ],
       },
     });

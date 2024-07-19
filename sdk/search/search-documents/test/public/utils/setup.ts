@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { computeSha256Hash, delay, isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
 import { assert } from "chai";
@@ -14,35 +14,13 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
   VectorSearchAlgorithmConfiguration,
-  VectorSearchCompressionConfiguration,
-  VectorSearchVectorizer,
 } from "../../../src";
 import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(
-  client: SearchIndexClient,
-  name: string,
-  serviceVersion: string,
-): Promise<SearchIndex> {
-  const isPreview = serviceVersion.toLowerCase().includes("preview");
-
-  const vectorizers: VectorSearchVectorizer[] = [
-    {
-      kind: "azureOpenAI",
-      name: "vector-search-vectorizer",
-      azureOpenAIParameters: {
-        deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
-        resourceUri: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
-        modelName: "text-embedding-ada-002",
-      },
-    },
-  ];
-  await Promise.all(vectorizers.map(renameUniquelyInPlace));
-  const [azureOpenAiVectorizerName] = vectorizers.map((v) => v.name);
-
+export async function createIndex(client: SearchIndexClient, name: string): Promise<SearchIndex> {
   const algorithmConfigurations: VectorSearchAlgorithmConfiguration[] = [
     {
       name: "vector-search-algorithm-configuration",
@@ -59,37 +37,18 @@ export async function createIndex(
   const [hnswAlgorithmConfigurationName, exhaustiveKnnAlgorithmConfigurationName] =
     algorithmConfigurations.map((c) => c.name);
 
-  const compressionConfigurations: VectorSearchCompressionConfiguration[] = [
-    {
-      name: "vector-search-compression-configuration",
-      kind: "scalarQuantization",
-      parameters: { quantizedDataType: "int8" },
-      rerankWithOriginalVectors: true,
-    },
-  ];
-  await Promise.all(compressionConfigurations.map(renameUniquelyInPlace));
-  const [scalarQuantizationCompressionConfigurationName] = compressionConfigurations.map(
-    (c) => c.name,
-  );
-
   const vectorSearchProfiles = [
     {
       name: "vector-search-profile",
-      vectorizer: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: exhaustiveKnnAlgorithmConfigurationName,
     },
     {
       name: "vector-search-profile",
-      vectorizer: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: hnswAlgorithmConfigurationName,
-      compressionConfigurationName: isPreview
-        ? scalarQuantizationCompressionConfigurationName
-        : undefined,
     },
   ];
   await Promise.all(vectorSearchProfiles.map(renameUniquelyInPlace));
-  const [azureOpenAiVectorSearchProfileName, azureOpenAiCompressedVectorSearchProfileName] =
-    vectorSearchProfiles.map((p) => p.name);
+  const [azureOpenAiVectorSearchProfileName] = vectorSearchProfiles.map((p) => p.name);
 
   const vectorFields: SearchField[] = [
     {
@@ -99,15 +58,6 @@ export async function createIndex(
       vectorSearchDimensions: 1536,
       hidden: true,
       vectorSearchProfileName: azureOpenAiVectorSearchProfileName,
-    },
-    {
-      type: "Collection(Edm.Half)",
-      name: "compressedVectorDescription",
-      searchable: true,
-      hidden: true,
-      vectorSearchDimensions: 1536,
-      vectorSearchProfileName: azureOpenAiCompressedVectorSearchProfileName,
-      stored: false,
     },
   ];
 
@@ -323,8 +273,6 @@ export async function createIndex(
     },
     vectorSearch: {
       algorithms: algorithmConfigurations,
-      vectorizers: isPreview ? vectorizers : undefined,
-      compressions: isPreview ? compressionConfigurations : undefined,
       profiles: vectorSearchProfiles,
     },
     semanticSearch: {
