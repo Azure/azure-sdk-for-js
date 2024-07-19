@@ -19,6 +19,47 @@ describe("embeddings test suite", () => {
     await recorder.stop();
   });
 
+  it("embeddings regression test", async function () {
+    const headers = { "extra-parameters": "allow" };
+    const body = {
+      input: ["first phrase"],
+      dimensions: 1,
+      encoding_format: "foo",
+      input_type: "foo",
+      model: "foo"
+    };
+    const response = await client.path("/embeddings").post({
+      headers,
+      body
+    });
+    const responseHeaders = response.request.headers.toJSON();
+    assert.isDefined(responseHeaders);
+    assert.isDefined(responseHeaders["extra-parameters"]);
+    assert.isTrue(responseHeaders["extra-parameters"] == headers["extra-parameters"]);
+
+    const request = response.request;
+    assert.isDefined(request);
+
+    const reqBody = request.body as string;
+    assert.isDefined(reqBody);
+    const json = JSON.parse(reqBody);
+    assert.isDefined(json["input"]);
+    assert.isArray(json["input"]);
+    assert.isNotEmpty(json["input"]);
+
+    if (json["input"]) {
+      assert.isDefined(json["input"][0]);
+      assert.isTrue(json["input"][0] == body.input[0]);
+    }
+    assert.isTrue(json["dimensions"] == body.dimensions);
+    assert.isTrue(json["model"] == body.model);
+    assert.isTrue(json["encoding_format"] == body.encoding_format);
+    assert.isTrue(json["input_type"] == body.input_type);
+  },
+    {
+      timeout: 50000
+    });
+
   it("simple embeddings test", async function () {
     const response = await client.path("/embeddings").post({
       body: {
