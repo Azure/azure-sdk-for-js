@@ -158,13 +158,13 @@ export class Sanitizer {
    * Returns a version of the given pipeline request where the headers and request URL have been sanitized.
    */
   public sanitizePipelineRequest(request: PipelineRequest): PipelineRequest {
-    const sanitizedHeaders = createHttpHeaders(
+    const sanitizedHeaders = request.headers && createHttpHeaders(
       this.sanitizeHeaders(request.headers.toJSON({ preserveCase: true })) as RawHttpHeaders,
     );
 
     return {
       ...request,
-      url: this.sanitizeUrl(request.url),
+      url: request.url && this.sanitizeUrl(request.url),
       headers: sanitizedHeaders,
     };
   }
@@ -174,7 +174,7 @@ export class Sanitizer {
    */
   public sanitizePipelineResponse(response: PipelineResponse): PipelineResponse {
     const sanitizedRequest = this.sanitizePipelineRequest(response.request);
-    const sanitizedHeaders = createHttpHeaders(
+    const sanitizedHeaders = response.headers && createHttpHeaders(
       this.sanitizeHeaders(response.headers.toJSON({ preserveCase: true })) as RawHttpHeaders,
     );
 
