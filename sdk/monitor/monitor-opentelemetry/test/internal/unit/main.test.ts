@@ -15,8 +15,6 @@ import { StatsbeatFeature, StatsbeatInstrumentation } from "../../../src/types";
 import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
-import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { FsInstrumentation } from "@opentelemetry/instrumentation-fs";
 import { getInstance } from "../../../src/utils/statsbeat";
 
 describe("Main functions", () => {
