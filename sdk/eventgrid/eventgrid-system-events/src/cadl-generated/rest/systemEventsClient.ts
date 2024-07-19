@@ -16,7 +16,7 @@ export default function createClient(
 ): SystemEventsContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
 
-  const userAgentInfo = `azsdk-js-eventgrid-system-events-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-eventgrid-system-events-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -34,6 +34,11 @@ export default function createClient(
   const client = getClient(endpointUrl, options) as SystemEventsContext;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
+  if (options.apiVersion) {
+    logger.warning(
+      "This client does not support client api-version, please change it at the operation level",
+    );
+  }
 
   return client;
 }
