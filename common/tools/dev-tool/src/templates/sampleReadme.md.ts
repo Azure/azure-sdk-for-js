@@ -115,6 +115,9 @@ function table(info: SampleReadmeConfiguration) {
     const fileName = info.useTypeScript
       ? relativeSourcePath
       : relativeSourcePath.replace(/\.ts$/, ".js");
+    if (summary && summary.includes("|")) {
+      summary = summary.replace(/\|/g, "\\|");
+    }
     return `| [${fileName}][${sampleLinkTag(relativeSourcePath)}] | ${summary} |`;
   });
 

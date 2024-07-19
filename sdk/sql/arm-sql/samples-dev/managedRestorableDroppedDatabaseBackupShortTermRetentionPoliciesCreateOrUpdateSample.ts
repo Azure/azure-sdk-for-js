@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedBackupShortTermRetentionPolicy,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,17 +33,18 @@ async function updateTheShortTermRetentionPolicyForTheRestorableDroppedDatabase(
   const restorableDroppedDatabaseId = "testdb,131403269876900000";
   const policyName = "default";
   const parameters: ManagedBackupShortTermRetentionPolicy = {
-    retentionDays: 14
+    retentionDays: 14,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    restorableDroppedDatabaseId,
-    policyName,
-    parameters
-  );
+  const result =
+    await client.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      restorableDroppedDatabaseId,
+      policyName,
+      parameters,
+    );
   console.log(result);
 }
 

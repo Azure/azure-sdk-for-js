@@ -67,6 +67,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.connectionString = super.getConnectionString(options.endpointUrl);
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this.connectionString,
+      disableOfflineStorage: options.disableOfflineStorage,
     };
 
     this.setFeatures();

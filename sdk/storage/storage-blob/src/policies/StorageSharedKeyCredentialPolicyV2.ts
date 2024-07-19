@@ -10,6 +10,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
+import { compareHeader } from "../utils/SharedKeyComparator";
 
 /**
  * The programmatic identifier of the storageSharedKeyCredentialPolicy.
@@ -116,7 +117,7 @@ export function storageSharedKeyCredentialPolicy(
     }
 
     headersArray.sort((a, b): number => {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      return compareHeader(a.name.toLowerCase(), b.name.toLowerCase());
     });
 
     // Remove duplicate headers

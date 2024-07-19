@@ -9,6 +9,7 @@ import {
   InteractiveBrowserCredential,
   InteractiveBrowserCredentialNodeOptions,
 } from "@azure/identity";
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -20,13 +21,13 @@ async function main(): Promise<void> {
   const credential = new InteractiveBrowserCredential({
     clientId,
     tenantId,
-    browserCustomizationOptions:{
-      successMessage: "Authentication Completed. You can close the browser."
-    }
+    browserCustomizationOptions: {
+      successMessage: "Authentication Completed. You can close the browser.",
+    },
   } as InteractiveBrowserCredentialNodeOptions);
 
   const token = await credential.getToken("https://storage.azure.com/.default");
-  console.log(`Token: ${token}`);
+  console.log("InteractiveBrowserCredential: Successfully got a token with expiry time:", token.expiresOnTimestamp);
 }
 
 main().catch((err) => {

@@ -18,7 +18,7 @@ import {
   SynapseLinkWorkspacesListByDatabaseNextOptionalParams,
   SynapseLinkWorkspacesListByDatabaseOptionalParams,
   SynapseLinkWorkspacesListByDatabaseResponse,
-  SynapseLinkWorkspacesListByDatabaseNextResponse
+  SynapseLinkWorkspacesListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,13 +46,13 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams
+    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SynapseLinkWorkspace> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
     serverName: string,
     databaseName: string,
     options?: SynapseLinkWorkspacesListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SynapseLinkWorkspace[]> {
     let result: SynapseLinkWorkspacesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,13 +116,13 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams
+    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams,
   ): AsyncIterableIterator<SynapseLinkWorkspace> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams
+    options?: SynapseLinkWorkspacesListByDatabaseOptionalParams,
   ): Promise<SynapseLinkWorkspacesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: SynapseLinkWorkspacesListByDatabaseNextOptionalParams
+    options?: SynapseLinkWorkspacesListByDatabaseNextOptionalParams,
   ): Promise<SynapseLinkWorkspacesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -174,34 +174,33 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/linkWorkspaces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/linkWorkspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SynapseLinkWorkspaceListResult
+      bodyMapper: Mappers.SynapseLinkWorkspaceListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SynapseLinkWorkspaceListResult
+      bodyMapper: Mappers.SynapseLinkWorkspaceListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -209,8 +208,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

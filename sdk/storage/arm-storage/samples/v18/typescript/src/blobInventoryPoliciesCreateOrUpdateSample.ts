@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BlobInventoryPolicy,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountSetBlobInventoryPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountSetBlobInventoryPolicy.json
  */
 async function storageAccountSetBlobInventoryPolicy() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function storageAccountSetBlobInventoryPolicy() {
               creationTime: { lastNDays: 1000 },
               includeBlobVersions: true,
               includeSnapshots: true,
-              prefixMatch: ["inventoryprefix1", "inventoryprefix2"]
+              prefixMatch: ["inventoryprefix1", "inventoryprefix2"],
             },
             objectType: "Blob",
             schedule: "Daily",
@@ -59,11 +59,11 @@ async function storageAccountSetBlobInventoryPolicy() {
               "Snapshot",
               "VersionId",
               "IsCurrentVersion",
-              "Metadata"
-            ]
+              "Metadata",
+            ],
           },
           destination: "container1",
-          enabled: true
+          enabled: true,
         },
         {
           name: "inventoryPolicyRule2",
@@ -80,14 +80,14 @@ async function storageAccountSetBlobInventoryPolicy() {
               "LeaseDuration",
               "PublicAccess",
               "HasImmutabilityPolicy",
-              "HasLegalHold"
-            ]
+              "HasLegalHold",
+            ],
           },
           destination: "container2",
-          enabled: true
-        }
-      ]
-    }
+          enabled: true,
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -95,7 +95,7 @@ async function storageAccountSetBlobInventoryPolicy() {
     resourceGroupName,
     accountName,
     blobInventoryPolicyName,
-    properties
+    properties,
   );
   console.log(result);
 }
@@ -104,7 +104,7 @@ async function storageAccountSetBlobInventoryPolicy() {
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount() {
   const subscriptionId =
@@ -127,7 +127,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
               includeBlobVersions: true,
               includeDeleted: true,
               includeSnapshots: true,
-              prefixMatch: ["inventoryprefix1", "inventoryprefix2"]
+              prefixMatch: ["inventoryprefix1", "inventoryprefix2"],
             },
             objectType: "Blob",
             schedule: "Daily",
@@ -152,11 +152,11 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
               "DeletionId",
               "Deleted",
               "DeletedTime",
-              "RemainingRetentionDays"
-            ]
+              "RemainingRetentionDays",
+            ],
           },
           destination: "container1",
-          enabled: true
+          enabled: true,
         },
         {
           name: "inventoryPolicyRule2",
@@ -181,14 +181,14 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
               "Deleted",
               "Version",
               "DeletedTime",
-              "RemainingRetentionDays"
-            ]
+              "RemainingRetentionDays",
+            ],
           },
           destination: "container2",
-          enabled: true
-        }
-      ]
-    }
+          enabled: true,
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -196,7 +196,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
     resourceGroupName,
     accountName,
     blobInventoryPolicyName,
-    properties
+    properties,
   );
   console.log(result);
 }
@@ -205,7 +205,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount() {
   const subscriptionId =
@@ -228,7 +228,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForN
               includeBlobVersions: true,
               includeDeleted: true,
               includeSnapshots: true,
-              prefixMatch: ["inventoryprefix1", "inventoryprefix2"]
+              prefixMatch: ["inventoryprefix1", "inventoryprefix2"],
             },
             objectType: "Blob",
             schedule: "Daily",
@@ -252,11 +252,11 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForN
               "CacheControl",
               "Metadata",
               "Deleted",
-              "RemainingRetentionDays"
-            ]
+              "RemainingRetentionDays",
+            ],
           },
           destination: "container1",
-          enabled: true
+          enabled: true,
         },
         {
           name: "inventoryPolicyRule2",
@@ -281,14 +281,14 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForN
               "Deleted",
               "Version",
               "DeletedTime",
-              "RemainingRetentionDays"
-            ]
+              "RemainingRetentionDays",
+            ],
           },
           destination: "container2",
-          enabled: true
-        }
-      ]
-    }
+          enabled: true,
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -296,7 +296,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForN
     resourceGroupName,
     accountName,
     blobInventoryPolicyName,
-    properties
+    properties,
   );
   console.log(result);
 }

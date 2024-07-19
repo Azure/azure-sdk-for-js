@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about all public IP addresses on a cloud service level.
  *
  * @summary Gets information about all public IP addresses on a cloud service level.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/CloudServicePublicIpListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/CloudServicePublicIpListAll.json
  */
 async function listVmssPublicIP() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

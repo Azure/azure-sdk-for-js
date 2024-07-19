@@ -72,6 +72,14 @@ describe("ImageBuilder test", () => {
     await recorder.stop();
   });
 
+  it.only("operations list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("create parameter for virtualMachineImageTemplates test", async function () {
     //create a userAssignedIdentities
     const msiCreate = await msi_client.userAssignedIdentities.createOrUpdate(resourceGroup, msiName, { location: location });

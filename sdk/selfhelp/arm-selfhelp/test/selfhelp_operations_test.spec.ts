@@ -91,6 +91,6 @@ describe("help test", () => {
   });
 
   it("discoverySolutionNLPSubscriptionScope post test", async function () {
-    const res = await client.discoverySolutionNLPSubscriptionScope.post(subscriptionId, { discoverSolutionRequest: { issueSummary: "how to retrieve certs from deleted keyvault." } });
+    const res = await client.discoverySolutionNLP.discoverSolutionsBySubscription(subscriptionId, { discoverSolutionRequest: { issueSummary: "how to retrieve certs from deleted keyvault." } });
   });
 })

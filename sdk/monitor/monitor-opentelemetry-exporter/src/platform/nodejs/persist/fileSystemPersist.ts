@@ -82,8 +82,14 @@ export class FileSystemPersist implements PersistentStorage {
       diag.debug("Pushing value to persistent storage", value.toString());
       return this._storeToDisk(JSON.stringify(value));
     }
+    // Only return a false promise if the SDK isn't set to disable offline storage
+    if (!this._options?.disableOfflineStorage) {
+      return new Promise((resolve) => {
+        resolve(false);
+      });
+    }
     return new Promise((resolve) => {
-      resolve(false);
+      resolve(true);
     });
   }
 

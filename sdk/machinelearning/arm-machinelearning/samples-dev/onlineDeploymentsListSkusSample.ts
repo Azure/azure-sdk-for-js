@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   OnlineDeploymentsListSkusOptionalParams,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List Inference Endpoint Deployment Skus.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/listSkus.json
  */
 async function listKubernetesOnlineDeploymentSkus() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
@@ -36,14 +42,12 @@ async function listKubernetesOnlineDeploymentSkus() {
     workspaceName,
     endpointName,
     deploymentName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-listKubernetesOnlineDeploymentSkus().catch(console.error);
 
 /**
  * This sample demonstrates how to List Inference Endpoint Deployment Skus.
@@ -52,8 +56,11 @@ listKubernetesOnlineDeploymentSkus().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/listSkus.json
  */
 async function listManagedOnlineDeploymentSkus() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
@@ -67,11 +74,16 @@ async function listManagedOnlineDeploymentSkus() {
     workspaceName,
     endpointName,
     deploymentName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listManagedOnlineDeploymentSkus().catch(console.error);
+async function main() {
+  listKubernetesOnlineDeploymentSkus();
+  listManagedOnlineDeploymentSkus();
+}
+
+main().catch(console.error);

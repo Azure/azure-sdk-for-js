@@ -9,7 +9,7 @@
 import {
   GitHubAccessTokenRequest,
   WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams,
-  WorkspaceGitRepoManagementGetGitHubAccessTokenResponse
+  WorkspaceGitRepoManagementGetGitHubAccessTokenResponse,
 } from "../models";
 
 /** Interface representing a WorkspaceGitRepoManagement. */
@@ -21,6 +21,6 @@ export interface WorkspaceGitRepoManagement {
    */
   getGitHubAccessToken(
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
-    options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
+    options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams,
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
 }

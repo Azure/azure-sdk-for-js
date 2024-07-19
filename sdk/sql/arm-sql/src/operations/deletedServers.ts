@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   DeletedServersRecoverOptionalParams,
   DeletedServersRecoverResponse,
   DeletedServersListNextResponse,
-  DeletedServersListByLocationNextResponse
+  DeletedServersListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export class DeletedServersImpl implements DeletedServers {
    * @param options The options parameters.
    */
   public list(
-    options?: DeletedServersListOptionalParams
+    options?: DeletedServersListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedServer> {
     const iter = this.listPagingAll(options);
     return {
@@ -68,13 +68,13 @@ export class DeletedServersImpl implements DeletedServers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DeletedServersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedServer[]> {
     let result: DeletedServersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   private async *listPagingAll(
-    options?: DeletedServersListOptionalParams
+    options?: DeletedServersListOptionalParams,
   ): AsyncIterableIterator<DeletedServer> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -109,7 +109,7 @@ export class DeletedServersImpl implements DeletedServers {
    */
   public listByLocation(
     locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+    options?: DeletedServersListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<DeletedServer> {
     const iter = this.listByLocationPagingAll(locationName, options);
     return {
@@ -124,14 +124,14 @@ export class DeletedServersImpl implements DeletedServers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listByLocationPagingPage(
     locationName: string,
     options?: DeletedServersListByLocationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedServer[]> {
     let result: DeletedServersListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -146,7 +146,7 @@ export class DeletedServersImpl implements DeletedServers {
       result = await this._listByLocationNext(
         locationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -157,11 +157,11 @@ export class DeletedServersImpl implements DeletedServers {
 
   private async *listByLocationPagingAll(
     locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+    options?: DeletedServersListByLocationOptionalParams,
   ): AsyncIterableIterator<DeletedServer> {
     for await (const page of this.listByLocationPagingPage(
       locationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -172,7 +172,7 @@ export class DeletedServersImpl implements DeletedServers {
    * @param options The options parameters.
    */
   private _list(
-    options?: DeletedServersListOptionalParams
+    options?: DeletedServersListOptionalParams,
   ): Promise<DeletedServersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -186,11 +186,11 @@ export class DeletedServersImpl implements DeletedServers {
   get(
     locationName: string,
     deletedServerName: string,
-    options?: DeletedServersGetOptionalParams
+    options?: DeletedServersGetOptionalParams,
   ): Promise<DeletedServersGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, deletedServerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -201,11 +201,11 @@ export class DeletedServersImpl implements DeletedServers {
    */
   private _listByLocation(
     locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+    options?: DeletedServersListByLocationOptionalParams,
   ): Promise<DeletedServersListByLocationResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 
@@ -218,7 +218,7 @@ export class DeletedServersImpl implements DeletedServers {
   async beginRecover(
     locationName: string,
     deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
+    options?: DeletedServersRecoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeletedServersRecoverResponse>,
@@ -227,21 +227,20 @@ export class DeletedServersImpl implements DeletedServers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeletedServersRecoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -250,8 +249,8 @@ export class DeletedServersImpl implements DeletedServers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -259,22 +258,22 @@ export class DeletedServersImpl implements DeletedServers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { locationName, deletedServerName, options },
-      spec: recoverOperationSpec
+      spec: recoverOperationSpec,
     });
     const poller = await createHttpPoller<
       DeletedServersRecoverResponse,
       OperationState<DeletedServersRecoverResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -289,12 +288,12 @@ export class DeletedServersImpl implements DeletedServers {
   async beginRecoverAndWait(
     locationName: string,
     deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
+    options?: DeletedServersRecoverOptionalParams,
   ): Promise<DeletedServersRecoverResponse> {
     const poller = await this.beginRecover(
       locationName,
       deletedServerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -306,11 +305,11 @@ export class DeletedServersImpl implements DeletedServers {
    */
   private _listNext(
     nextLink: string,
-    options?: DeletedServersListNextOptionalParams
+    options?: DeletedServersListNextOptionalParams,
   ): Promise<DeletedServersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -323,11 +322,11 @@ export class DeletedServersImpl implements DeletedServers {
   private _listByLocationNext(
     locationName: string,
     nextLink: string,
-    options?: DeletedServersListByLocationNextOptionalParams
+    options?: DeletedServersListByLocationNextOptionalParams,
   ): Promise<DeletedServersListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listByLocationNextOperationSpec
+      listByLocationNextOperationSpec,
     );
   }
 }
@@ -335,120 +334,116 @@ export class DeletedServersImpl implements DeletedServers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/deletedServers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/deletedServers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServerListResult
+      bodyMapper: Mappers.DeletedServerListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServer
+      bodyMapper: Mappers.DeletedServer,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.deletedServerName
+    Parameters.deletedServerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServerListResult
+      bodyMapper: Mappers.DeletedServerListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const recoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}/recover",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}/recover",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServer
+      bodyMapper: Mappers.DeletedServer,
     },
     201: {
-      bodyMapper: Mappers.DeletedServer
+      bodyMapper: Mappers.DeletedServer,
     },
     202: {
-      bodyMapper: Mappers.DeletedServer
+      bodyMapper: Mappers.DeletedServer,
     },
     204: {
-      bodyMapper: Mappers.DeletedServer
+      bodyMapper: Mappers.DeletedServer,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.deletedServerName
+    Parameters.deletedServerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServerListResult
+      bodyMapper: Mappers.DeletedServerListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServerListResult
+      bodyMapper: Mappers.DeletedServerListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

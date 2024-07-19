@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a security rule in the specified network security group.
  *
  * @summary Creates or updates a security rule in the specified network security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkSecurityGroupRuleCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkSecurityGroupRuleCreate.json
  */
 async function createSecurityRule() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

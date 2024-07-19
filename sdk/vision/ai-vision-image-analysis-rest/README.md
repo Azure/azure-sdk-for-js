@@ -76,19 +76,40 @@ The `ImageAnalysisClient` is the primary interface for developers interacting wi
 
 ### Authenticate the client
 
-Here's an example of how to create an `ImageAnalysisClient` instance using a key-based authentication and an Azure Active Directory authentication.
+Here's an example of how to create an `ImageAnalysisClient` instance using a key-based authentication.
 
 
-```javascript Snippet:ImageAnalysisAuthKey
-const { ImageAnalysisClient, KeyCredential } = require("@azure-rest/ai-image-analysis");
+```javascript Snippet:const endpoint = "<your_endpoint>";
+const key = "<your_key>";
+const credential = new AzureKeyCredential(key);
+
+const client = new ImageAnalysisClient(endpoint, credential);
+
+const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
+const { AzureKeyCredential } = require('@azure/core-auth');
 
 const endpoint = "<your_endpoint>";
 const key = "<your_key>";
-const credential = new KeyCredential(key);
+const credential = new AzureKeyCredential(key);
 
 const client = new ImageAnalysisClient(endpoint, credential);
 ```
 
+#### Create ImageAnalysisClient with a Microsoft Entra ID Credential
+
+Client subscription key authentication is used in most of the examples in this getting started guide, but you can also authenticate with Microsoft Entra ID (formerly Azure Active Directory) using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][azure_identity_dac] provider shown below,
+or other credential providers provided with the Azure SDK, please install the Azure.Identity package:
+
+```
+npm install @azure/identity
+```
+
+```javascript Snippet:ImageAnalysisEntraIDAuth
+const endpoint = "<your_endpoint>";
+const credential = new DefaultAzureCredential();
+
+const client = new ImageAnalysisClient(endpoint, credential);
+```
 ### Analyze an image from URL
 
 The following example demonstrates how to analyze an image using the Image Analysis client library for JavaScript.

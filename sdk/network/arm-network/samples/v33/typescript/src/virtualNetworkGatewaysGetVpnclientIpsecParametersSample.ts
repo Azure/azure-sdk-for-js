@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
  *
  * @summary The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayGetVpnClientIpsecParameters.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewayGetVpnClientIpsecParameters.json
  */
 async function getVirtualNetworkGatewayVpnClientIpsecParameters() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

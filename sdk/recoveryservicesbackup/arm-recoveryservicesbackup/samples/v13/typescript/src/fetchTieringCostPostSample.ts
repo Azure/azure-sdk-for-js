@@ -13,7 +13,7 @@ import {
   FetchTieringCostSavingsInfoForPolicyRequest,
   FetchTieringCostSavingsInfoForProtectedItemRequest,
   FetchTieringCostSavingsInfoForVaultRequest,
-  RecoveryServicesBackupClient
+  RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/TieringCost/FetchTieringCostForRehydrate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForRehydrate.json
  */
 async function getTheRehydrationCostForRecoveryPoint() {
   const subscriptionId =
@@ -43,14 +43,14 @@ async function getTheRehydrationCostForRecoveryPoint() {
     recoveryPointId: "1222343434",
     rehydrationPriority: "High",
     sourceTierType: "ArchivedRP",
-    targetTierType: "HardenedRP"
+    targetTierType: "HardenedRP",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.fetchTieringCost.beginPostAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/TieringCost/FetchTieringCostForPolicy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForPolicy.json
  */
 async function getTheTieringSavingsCostInfoForPolicy() {
   const subscriptionId =
@@ -74,14 +74,14 @@ async function getTheTieringSavingsCostInfoForPolicy() {
     objectType: "FetchTieringCostSavingsInfoForPolicyRequest",
     policyName: "monthly",
     sourceTierType: "HardenedRP",
-    targetTierType: "ArchivedRP"
+    targetTierType: "ArchivedRP",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.fetchTieringCost.beginPostAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -92,7 +92,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/TieringCost/FetchTieringCostForProtectedItem.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForProtectedItem.json
  */
 async function getTheTieringSavingsCostInfoForProtectedItem() {
   const subscriptionId =
@@ -107,14 +107,14 @@ async function getTheTieringSavingsCostInfoForProtectedItem() {
     objectType: "FetchTieringCostSavingsInfoForProtectedItemRequest",
     protectedItemName: "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1",
     sourceTierType: "HardenedRP",
-    targetTierType: "ArchivedRP"
+    targetTierType: "ArchivedRP",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.fetchTieringCost.beginPostAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -125,7 +125,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/TieringCost/FetchTieringCostForVault.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForVault.json
  */
 async function getTheTieringSavingsCostInfoForVault() {
   const subscriptionId =
@@ -137,14 +137,14 @@ async function getTheTieringSavingsCostInfoForVault() {
   const parameters: FetchTieringCostSavingsInfoForVaultRequest = {
     objectType: "FetchTieringCostSavingsInfoForVaultRequest",
     sourceTierType: "HardenedRP",
-    targetTierType: "ArchivedRP"
+    targetTierType: "ArchivedRP",
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const result = await client.fetchTieringCost.beginPostAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

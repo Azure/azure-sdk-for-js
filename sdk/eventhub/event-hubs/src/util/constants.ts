@@ -6,7 +6,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/event-hubs",
-  version: "5.12.0",
+  version: "5.13.0-beta.3",
 };
 
 /**

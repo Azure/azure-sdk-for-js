@@ -11,6 +11,7 @@ export {
   arrayToString,
   getVerifiers,
   stripPath,
+  isEsmPackage,
   VerifierMessages,
   type VerifierMessageIds,
 } from "./verifiers";

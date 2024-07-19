@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
@@ -276,6 +274,7 @@ export const Constants: {
     readonly attachEpoch: "com.microsoft:epoch";
     readonly receiverIdentifierName: "com.microsoft:receiver-name";
     readonly enableReceiverRuntimeMetricName: "com.microsoft:enable-receiver-runtime-metric";
+    readonly geoReplication: "com.microsoft:georeplication";
     readonly timespan: "com.microsoft:timespan";
     readonly uri: "com.microsoft:uri";
     readonly dateTimeOffset: "com.microsoft:datetime-offset";
@@ -426,9 +425,6 @@ export enum ErrorNameConditionMapper {
     UnattachedHandleError = "amqp:session:unattached-handle",// Retryable
     UnauthorizedError = "amqp:unauthorized-access"
 }
-
-// @public
-export function isLoopbackAddress(address: string): boolean;
 
 // @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
