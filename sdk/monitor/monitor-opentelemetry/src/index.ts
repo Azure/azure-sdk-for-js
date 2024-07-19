@@ -49,15 +49,11 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
     winston: config.instrumentationOptions?.winston?.enabled,
-    // Features
-    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
-    aadHandling: !!config.azureMonitorExporterOptions?.credential,
-    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
   };
   const statsbeatFeatures: StatsbeatFeatures = {
-    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
-    aadHandling: !!config.azureMonitorExporterOptions?.credential,
-    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+      browserSdkLoader: config.browserSdkLoaderOptions.enabled,
+      aadHandling: !!config.azureMonitorExporterOptions?.credential,
+      diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
   }
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 

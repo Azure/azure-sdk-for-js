@@ -16,6 +16,8 @@ import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat";
+import { MySQLInstrumentation } from "@opentelemetry/instrumentation-mysql";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -320,5 +322,32 @@ describe("Main functions", () => {
     Object.keys(resource).forEach((attr) => {
       assert.ok(!attr.includes("process"));
     });
+  });
+
+  it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        azureSdk: { enabled: false },
+        http: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+        bunyan: { enabled: false },
+        winston: { enabled: false },
+      },
+    };
+    useAzureMonitor(config);
+    registerInstrumentations({
+      instrumentations: [new MySQLInstrumentation()],
+    });
+    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MySQL not set");
+    // assert.strictEqual(instrumentations, StatsbeatInstrumentation.FS);
   });
 });
