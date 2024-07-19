@@ -109,10 +109,11 @@ class StatsbeatConfiguration {
 
     // Create feature bit map
     let featureBitMap = StatsbeatFeature.NONE;
-    this.currentStatsbeatFeatures.distro = true;
 
     if (this.initializedByShim) {
       this.currentStatsbeatFeatures.shim = true;
+    } else {
+      this.currentStatsbeatFeatures.distro = true;
     }
 
     if (statsbeatFeatures.liveMetrics) {
