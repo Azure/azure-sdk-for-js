@@ -1,10 +1,12 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 4.1.0 (Unreleased)
 
-### Features Added
+### Features Added  
 - Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items.
+- Added support for Vector embedding and Vector Indexes.
 - Added support for MakeList and MakeSet query aggregators
+
 
 ### Breaking Changes
 

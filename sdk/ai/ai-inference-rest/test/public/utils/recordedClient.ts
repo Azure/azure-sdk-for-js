@@ -7,17 +7,15 @@ import {
   VitestTestContext,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
 import createClient, { ModelClient } from "../../../src/index.js";
 import { DeploymentType } from "../types.js";
 
 const envSetupForPlayback: Record<string, string> = {
-  AZURE_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/gpt-4o/",
-  AZURE_EMBEDDINGS_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/text-embedding-ada-002/",
-  SUBSCRIPTION_ID: "azure_subscription_id",
-  AZURE_CLIENT_SECRET: "azureclientsecret",
-  AZURE_EMBEDDINGS_CLIENT_SECRET: "azureembeddingsclientsecret"
+  AZURE_AAD_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/gpt-4o/",
+  AZURE_EMBEDDINGS_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/text-embedding-3-small/",
+  SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -35,21 +33,12 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   return recorder;
 }
 
-function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
-  endpoint: string;
-  apiKey: string;
-} {
+function getEndpointFromResourceType(resourceType: DeploymentType): string {
   switch (resourceType) {
     case "embeddings":
-      return {
-        endpoint: assertEnvironmentVariable("AZURE_EMBEDDINGS_ENDPOINT"),
-        apiKey: assertEnvironmentVariable("AZURE_EMBEDDINGS_CLIENT_SECRET"),
-      };
+      return assertEnvironmentVariable("AZURE_EMBEDDINGS_ENDPOINT");
     case "completions":
-      return {
-        endpoint: assertEnvironmentVariable("AZURE_ENDPOINT"),
-        apiKey: assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
-      };
+      return assertEnvironmentVariable("AZURE_AAD_ENDPOINT");
   }
 }
 
@@ -58,7 +47,5 @@ export async function createModelClient(
   recorder?: Recorder,
   options?: ClientOptions,
 ): Promise<ModelClient> {
-  const { endpoint, apiKey } = getEndpointAndAPIKeyFromResourceType(resourceType);
-  const credential = new AzureKeyCredential(apiKey);
-  return createClient(endpoint, credential, recorder?.configureClientOptions(options ?? {}));
+  return createClient(getEndpointFromResourceType(resourceType), createTestCredential(), recorder?.configureClientOptions(options ?? { credentials: { scopes: ["https://cognitiveservices.azure.com/.default"] } }));
 }

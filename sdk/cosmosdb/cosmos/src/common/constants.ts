@@ -261,6 +261,7 @@ export const Constants = {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF",
   },
+
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
@@ -475,4 +476,19 @@ export enum SasTokenPermissionKind {
   TriggerRead = PermissionScopeValues.ScopeTriggerReadValue,
   TriggerReplace = PermissionScopeValues.ScopeTriggerReplaceValue,
   TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue,
+}
+
+export enum QueryFeature {
+  NonValueAggregate = "NonValueAggregate",
+  Aggregate = "Aggregate",
+  Distinct = "Distinct",
+  MultipleOrderBy = "MultipleOrderBy",
+  OffsetAndLimit = "OffsetAndLimit",
+  OrderBy = "OrderBy",
+  Top = "Top",
+  CompositeAggregate = "CompositeAggregate",
+  GroupBy = "GroupBy",
+  MultipleAggregates = "MultipleAggregates",
+  NonStreamingOrderBy = "NonStreamingOrderBy",
+  ListAndSetAggregate = "ListAndSetAggregate",
 }

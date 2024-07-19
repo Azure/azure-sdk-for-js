@@ -45,6 +45,10 @@ export interface QueryInfo {
   rewrittenQuery?: any;
   distinctType: string;
   hasSelectValue: boolean;
+  /**
+   * determines whether the query is of non streaming orderby type.
+   */
+  hasNonStreamingOrderBy: boolean;
 }
 
 export type GroupByExpressions = string[];

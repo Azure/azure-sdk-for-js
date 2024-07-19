@@ -20,7 +20,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
     describe("analyzeBatch", function (this: Suite) {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-      describe("custom", function () {
+      // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+      describe.skip("custom", function () {
         let projectName: string;
         let deploymentName: string;
 

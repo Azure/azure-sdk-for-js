@@ -4,27 +4,33 @@
 /**
  * Displays the critical results of the Radiology Insights request.
  */
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
 
-const dotenv = require("dotenv");
-const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
-  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
-const { AzureKeyCredential } = require("@azure/core-auth");
+import AzureHealthInsightsClient, {
+  ClinicalDocumentTypeEnum,
+  CreateJobParameters,
+  RadiologyInsightsJobOutput,
+  getLongRunningPoller,
+  isUnexpected
+} from "@azure-rest/health-insights-radiologyinsights";
 
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["AZURE_HEALTH_INSIGHTS_KEY"] || "";
-const endpoint = process.env["AZURE_HEALTH_INSIGHTS_ENDPOINT"] || "";
+
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+const clientID = process.env["MANAGED_IDENTITY_CLIENT_ID"] || "";
 
 /**
     * Print the critical result inference
  */
 
-function printResults(radiologyInsightsResult) {
+function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult) => {
+      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
             if (inference.kind === "criticalResult") {
@@ -37,17 +43,15 @@ function printResults(radiologyInsightsResult) {
       });
     }
   } else {
-    const errors = radiologyInsightsResult.errors;
-    if (errors) {
-      for (const error of errors) {
-        console.log(error.code, ":", error.message);
-      }
+    const error = radiologyInsightsResult.error;
+    if (error) {
+      console.log(error.code, ":", error.message);
     }
   }
 }
 
 // Create request body for radiology insights
-function createRequestBody() {
+function createRequestBody(): CreateJobParameters {
 
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
@@ -74,8 +78,8 @@ function createRequestBody() {
   };
 
   const authorData = {
-    "id": "authorid1",
-    "name": "authorname1"
+    id: "authorid1",
+    fullName: "authorname1",
   };
 
   const orderedProceduresData = {
@@ -90,46 +94,48 @@ function createRequestBody() {
 
   const content = {
     sourceType: "inline",
-    value: "CLINICAL HISTORY:   "
-      + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-      + "\r\n "
-      + "\r\nCOMPARISON:   "
-      + "\r\nRight upper quadrant sonographic performed 1 day prior."
-      + "\r\n "
-      + "\r\nTECHNIQUE:   "
-      + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-      + "\r\nand spectral waveform analysis of the ovaries."
-      + "\r\n "
-      + "\r\nFINDINGS:   "
-      + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-      + "\r\nendometrial echo complex within physiologic normal limits. The "
-      + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-      + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-      + "\r\n "
-      + "\r\nIMPRESSION:   "
-      + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-      + "\r\n\nA new US pelvis within the next 6 months is recommended."
-      + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-      + "\r\n"
+    value: `CLINICAL HISTORY:
+    20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+    
+    COMPARISON:
+    Right upper quadrant sonographic performed 1 day prior.
+    
+    TECHNIQUE:
+    Transabdominal grayscale pelvic sonography with duplex color Doppler
+    and spectral waveform analysis of the ovaries.
+    
+    FINDINGS:
+    The uterus is unremarkable given the transabdominal technique with
+    endometrial echo complex within physiologic normal limits. The
+    ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
+    left measuring 2.8 x 1.5 x 1.9 cm.
+    
+    On duplex imaging, Doppler signal is symmetric.
+    
+    IMPRESSION:
+    1. Normal pelvic sonography. Findings of testicular torsion.
+    A new US pelvis within the next 6 months is recommended.
+
+    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
   };
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdDateTime: new Date("2021-06-01T00:00:00.000"),
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
     orderedProceduresAsCsv: "US PELVIS COMPLETE"
   };
 
 
   const patientData = {
     id: "Samantha Jones",
-    info: patientInfo,
+    details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData]
   };
@@ -172,30 +178,40 @@ function createRequestBody() {
   };
 
   // create RI Data
-  const radiologyInsightsData = {
-    patients: [patientData],
-    configuration: configuration
+  const RadiologyInsightsJob = {
+    jobData: {
+      patients: [patientData],
+      configuration: configuration,
+    }
   };
 
-  const radiologyInsightsParameter = {
-    body: radiologyInsightsData
+  const param = {
+    body: RadiologyInsightsJob,
   };
 
-  return {
-    body: radiologyInsightsData
-  } 
+}
 
-}  
+export async function main() {
+  //Create Managed Identity Credential
+  const credential = new DefaultAzureCredential(
+    clientID ? { managedIdentityClientId: clientID } : undefined,
+  );
+  const tokenResponse = await credential.getToken('https://cognitiveservices.azure.com/.default');
+  logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
 
-async function main() {
-  const credential = new AzureKeyCredential(apiKey);
-  const client = new AzureHealthInsightsClient(endpoint, credential);
-
+  const client = AzureHealthInsightsClient(endpoint, credential);
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
-  const initialResponse = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+  const dateString = Date.now();
+  const jobID = "jobId-" + dateString;
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter, {
+    headers: {
+      'Authorization': `Bearer ${tokenResponse?.token}`,
+      'Content-Type': 'application/json'
+    },
+  });
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
@@ -203,7 +219,7 @@ async function main() {
   const RadiologyInsightsResult = await poller.pollUntilDone();
   if (isUnexpected(RadiologyInsightsResult)) {
     throw RadiologyInsightsResult;
-  }  
+  }
   const resultBody = RadiologyInsightsResult.body;
   printResults(resultBody);
 }
@@ -211,5 +227,3 @@ async function main() {
 main().catch((err) => {
   console.error("The critical result encountered an error:", err);
 });
-
-module.exports = { main };
