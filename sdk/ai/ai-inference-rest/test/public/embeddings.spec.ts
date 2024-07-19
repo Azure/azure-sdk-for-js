@@ -4,7 +4,7 @@
 import { createRecorder, createModelClient } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { ModelClient, isUnexpected, EmbeddingsResultOutput } from "../../src/index.js";
+import { ModelClient, GetEmbeddingsBodyParam, isUnexpected, EmbeddingsResultOutput } from "../../src/index.js";
 
 describe("embeddings test suite", () => {
   let recorder: Recorder;
@@ -21,16 +21,21 @@ describe("embeddings test suite", () => {
 
   it("embeddings regression test", async function () {
     const headers = { "extra-parameters": "allow" };
-    const body = {
-      input: ["first phrase"],
-      dimensions: 1,
-      encoding_format: "foo",
-      input_type: "foo",
-      model: "foo"
-    };
+    const embeddingParams = {
+      body: {
+        input: ["first phrase"],
+        dimensions: 1,
+        encoding_format: "foo",
+        input_type: "foo",
+        model: "foo"
+      }
+    } as GetEmbeddingsBodyParam;
+
+    assert.isDefined(embeddingParams);
+
     const response = await client.path("/embeddings").post({
       headers,
-      body
+      body: embeddingParams.body
     });
     const responseHeaders = response.request.headers.toJSON();
     assert.isDefined(responseHeaders);
@@ -49,12 +54,12 @@ describe("embeddings test suite", () => {
 
     if (json["input"]) {
       assert.isDefined(json["input"][0]);
-      assert.isTrue(json["input"][0] == body.input[0]);
+      assert.isTrue(json["input"][0] == embeddingParams.body?.input[0]);
     }
-    assert.isTrue(json["dimensions"] == body.dimensions);
-    assert.isTrue(json["model"] == body.model);
-    assert.isTrue(json["encoding_format"] == body.encoding_format);
-    assert.isTrue(json["input_type"] == body.input_type);
+    assert.isTrue(json["dimensions"] == embeddingParams.body?.dimensions);
+    assert.isTrue(json["model"] == embeddingParams.body?.model);
+    assert.isTrue(json["encoding_format"] == embeddingParams.body?.encoding_format);
+    assert.isTrue(json["input_type"] == embeddingParams.body?.input_type);
   },
     {
       timeout: 50000
