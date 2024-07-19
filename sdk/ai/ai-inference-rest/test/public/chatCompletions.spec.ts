@@ -8,6 +8,8 @@ import {
   ChatCompletionsOutput,
   ModelClient,
   ChatCompletionsFunctionToolCallOutput,
+  ChatMessageContentItem,
+  ChatMessageImageContentItem,
   isUnexpected
 } from "../../src/index.js";
 
@@ -31,10 +33,13 @@ describe("chat test suite", () => {
   });
 
   it("chat regression test", async function () {
+    const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
     const headers = { "extra-parameters": "allow" };
     const body = {
       messages: [
+        { role: "system", content: "You are a helpful assistant." },
         { role: "user", content: "How many feet are in a mile?" },
+        { role: "user", content: [{ type: "image_url", image_url: { url, detail: "auto" } } ]},
       ],
       frequency_penalty: 1,
       stream: false,
@@ -66,7 +71,26 @@ describe("chat test suite", () => {
     const json = JSON.parse(reqBody);
 
     assert.isDefined(json["messages"]);
-    assert.isNotEmpty(json["messages"]);
+    if (json["messages"]) {
+      assert.isNotEmpty(json["messages"]);
+      assert.isDefined(json["messages"][0]);
+      assert.isTrue(json["messages"][0]["role"] == body.messages[0].role);
+      assert.isTrue(json["messages"][0]["content"] == body.messages[0].content);
+      assert.isTrue(json["messages"][1]["role"] == body.messages[1].role);
+      assert.isTrue(json["messages"][1]["content"] == body.messages[1].content);
+      assert.isTrue(json["messages"][2]["role"] == body.messages[2].role);
+
+      const contentArray = json["messages"][2]["content"];
+      assert.isDefined(contentArray);
+      assert.isNotEmpty(contentArray);
+      if (contentArray) {
+        const sourceArray = body.messages[2].content as Array<ChatMessageContentItem>;
+        assert.isTrue(contentArray[0].type == sourceArray[0].type);
+        const imageUrlItem = sourceArray[0] as ChatMessageImageContentItem;
+        assert.isTrue(contentArray[0].image_url.url == imageUrlItem.image_url.url);
+        assert.isTrue(contentArray[0].image_url.detail == imageUrlItem.image_url.detail);
+      }
+    }
     assert.isTrue(json["frequency_penalty"] == body.frequency_penalty);
     assert.isTrue(json["stream"] == body.stream);
     assert.isTrue(json["presence_penalty"] == body.presence_penalty);
