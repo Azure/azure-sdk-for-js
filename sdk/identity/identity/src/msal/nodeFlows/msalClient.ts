@@ -30,14 +30,6 @@ import open from "open";
 import { resolveTenantId } from "../../util/tenantIdUtils";
 
 /**
- * A call to open(), but mockable
- * @internal
- */
-export const interactiveBrowserMockable = {
-  open,
-};
-
-/**
  * The default logger used if no logger was passed in by the credential.
  */
 const msalLogger = credentialLogger("MsalClient");
@@ -248,6 +240,14 @@ export interface MsalClientOptions {
    */
   authenticationRecord?: AuthenticationRecord;
 }
+
+/**
+ * A call to open(), but mockable
+ * @internal
+ */
+export const interactiveBrowserMockable = {
+  open,
+};
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).

@@ -9,9 +9,7 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup
 import { Recorder, env } from "@azure-tools/test-recorder";
 
 import { ClientCertificateCredential } from "../../../src";
-import { ConfidentialClientApplication } from "@azure/msal-node";
 import { Context } from "mocha";
-import Sinon from "sinon";
 import { assert } from "chai";
 import { parseCertificate } from "../../../src/credentials/clientCertificateCredential";
 
@@ -19,7 +17,6 @@ const ASSET_PATH = "assets";
 
 describe("ClientCertificateCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
-  let doGetTokenSpy: Sinon.SinonSpy;
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
@@ -28,12 +25,6 @@ describe("ClientCertificateCredential (internal)", function () {
     recorder = setup.recorder;
 
     await recorder.setMatcher("BodilessMatcher");
-
-    // MsalClientSecret calls to this method underneath.
-    doGetTokenSpy = setup.sandbox.spy(
-      ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential",
-    );
   });
 
   afterEach(async function () {
