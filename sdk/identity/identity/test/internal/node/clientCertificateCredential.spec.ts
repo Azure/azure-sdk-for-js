@@ -13,6 +13,7 @@ import { ConfidentialClientApplication } from "@azure/msal-node";
 import { Context } from "mocha";
 import Sinon from "sinon";
 import { assert } from "chai";
+import { parseCertificate } from "../../../src/credentials/clientCertificateCredential";
 
 const ASSET_PATH = "assets";
 
@@ -33,14 +34,13 @@ describe("ClientCertificateCredential (internal)", function () {
       ConfidentialClientApplication.prototype,
       "acquireTokenByClientCredential",
     );
-    console.log(doGetTokenSpy);
   });
+
   afterEach(async function () {
     await cleanup();
   });
 
   const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
-  console.log("certificatePath", certificatePath);
   const scope = "https://vault.azure.net/.default";
 
   it("Should throw if the parameteres are not correctly specified", async function () {
@@ -146,26 +146,26 @@ describe("ClientCertificateCredential (internal)", function () {
     );
   });
 
-  // describe("parseCertificate", function () {
-  //   it("includes the x5c value when sendCertificateChain is true", async function () {
-  //     const result = await parseCertificate(
-  //       {
-  //         certificatePath,
-  //       },
-  //       true,
-  //     );
-  //     assert.isNotEmpty(result.x5c);
-  //     assert.strictEqual(result.x5c, result.certificateContents);
-  //   });
+  describe("parseCertificate", function () {
+    it("includes the x5c value when sendCertificateChain is true", async function () {
+      const result = await parseCertificate(
+        {
+          certificatePath,
+        },
+        true,
+      );
+      assert.isNotEmpty(result.x5c);
+      assert.strictEqual(result.x5c, result.certificateContents);
+    });
 
-  //   it("omits the x5c value when sendCertificateChain is false", async function () {
-  //     const result = await parseCertificate(
-  //       {
-  //         certificatePath,
-  //       },
-  //       false,
-  //     );
-  //     assert.isUndefined(result.x5c);
-  //   });
-  // });
+    it("omits the x5c value when sendCertificateChain is false", async function () {
+      const result = await parseCertificate(
+        {
+          certificatePath,
+        },
+        false,
+      );
+      assert.isUndefined(result.x5c);
+    });
+  });
 });
