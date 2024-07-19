@@ -45,13 +45,9 @@ describe("chat test suite", () => {
       stop: ["<stop>"],
       seed: 1,
       model: "foo",
-      response_format: "foo"
-      /*
-      tools: Array<ChatCompletionsToolDefinition>;
-      tool_choice:
-      | ChatCompletionsToolSelectionPreset
-      | ChatCompletionsNamedToolSelection;
-      */
+      response_format: "foo",
+      tool_choice: "auto",
+      tools: [ { type: "function", function: { name: "foo", description: "bar" } } ]
     }
     const response = await client.path("/chat/completions").post({
       headers,
@@ -88,6 +84,16 @@ describe("chat test suite", () => {
     assert.isTrue(json["seed"] == body.seed);
     assert.isTrue(json["model"] == body.model);
     assert.isTrue(json["response_format"] == body.response_format);
+    assert.isTrue(json["tool_choice"] == body.tool_choice);
+    assert.isDefined(json["tools"]);
+    assert.isArray(json["tools"]);
+    assert.isNotEmpty(json["tools"]);
+    if (json["tools"]) {
+      assert.isDefined(json["tools"][0]);
+      assert.isTrue(json["tools"][0].type == body.tools[0].type);
+      assert.isTrue(json["tools"][0].function.name == body.tools[0].function.name);
+      assert.isTrue(json["tools"][0].function.description == body.tools[0].function.description);
+    }
   },
     {
       timeout: 50000
