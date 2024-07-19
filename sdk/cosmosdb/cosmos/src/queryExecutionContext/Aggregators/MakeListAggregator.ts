@@ -9,7 +9,7 @@ export class MakeListAggregator implements Aggregator {
   constructor() {
     this.value = [];
   }
-  public aggregate(other: any): void {
+  public aggregate(other: any[]): void {
     if (Array.isArray(other)) {
       this.value.push(...other);
     }

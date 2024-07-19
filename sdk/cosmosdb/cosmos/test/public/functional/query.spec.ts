@@ -314,13 +314,13 @@ describe("Queries", function (this: Suite) {
         });
         await container.items.create({ id: "doc1", prop1: ["value1", "value2"] });
         await container.items.create({ id: "doc2", prop1: [] });
-        await container.items.create({ id: "doc3", prop1: "value1" });
+        await container.items.create({ id: "doc3", prop1: "value3" });
         const queryIterator = container.items.query(
           "SELECT VALUE MAKELIST (c.prop1) FROM c where IS_STRING(c.prop1)",
         );
         const { resources: ages } = await queryIterator.fetchAll();
         assert.equal(ages.length, 1);
-        assert.deepEqual(ages[0], [["value1"]]);
+        assert.deepEqual(ages[0], ["value3"]);
       });
     });
 
@@ -334,7 +334,7 @@ describe("Queries", function (this: Suite) {
         );
         const { resources: ages } = await queryIterator.fetchAll();
         assert.equal(ages.length, 1);
-        assert.deepEqual(ages[0], new Set(["value1", "value2", "value3"]));
+        assert.deepEqual(ages[0], ["value1", "value2", "value3"]);
       });
 
       it("returns all documents for query iterator with makeSet with multipartitioned container", async function () {
@@ -348,7 +348,7 @@ describe("Queries", function (this: Suite) {
         const queryIterator = container.items.query("SELECT VALUE MAKESET (c.prop1) FROM c");
         const { resources: ages } = await queryIterator.fetchAll();
         assert.equal(ages.length, 1);
-        assert.deepEqual(ages[0], new Set(["value1", "value2", "value3"]));
+        assert.deepEqual(ages[0], ["value1", "value2", "value3"]);
       });
     });
   });

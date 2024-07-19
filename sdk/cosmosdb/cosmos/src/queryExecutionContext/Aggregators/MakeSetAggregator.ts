@@ -15,9 +15,9 @@ export class MakeSetAggregator implements Aggregator {
 
   /**
    * Aggregates the values from another set into the current set.
-   * @param other The set to aggregate.
+   * @param other - The set to aggregate.
    */
-  public aggregate(other: Set<any>): void {
+  public aggregate(other: any[]): void {
     other.forEach((item) => {
       this.value.add(item);
     });
