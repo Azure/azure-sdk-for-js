@@ -3,9 +3,9 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { CancerProfilingRestClient, getLongRunningPoller } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient";
 
 const patientInfo = {
   sex: "FEMALE",
