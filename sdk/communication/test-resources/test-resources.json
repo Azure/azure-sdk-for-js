@@ -34,12 +34,6 @@
       "metadata": {
         "description": "The application client id used to run tests."
       }
-    },
-    "testApplicationSecret": {
-      "type": "String",
-      "metadata": {
-        "description": "The application client secret used to run tests."
-      }
     }
   },
   "variables": {
@@ -68,18 +62,6 @@
     }
   ],
   "outputs": {
-    "AZURE_TENANT_ID": {
-      "type": "String",
-      "value": "[parameters('tenantId')]"
-    },
-    "AZURE_CLIENT_ID": {
-      "type": "String",
-      "value": "[parameters('testApplicationId')]"
-    },
-    "AZURE_CLIENT_SECRET": {
-      "type": "String",
-      "value": "[parameters('testApplicationSecret')]"
-    },
     "COMMUNICATION_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2023-03-31').primaryConnectionString]"
