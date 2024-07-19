@@ -24,8 +24,7 @@ export default function createClient(
   credentials: TokenCredential | KeyCredential,
   { apiVersion = "2023-10-01", ...options }: ImageAnalysisClientOptions = {},
 ): ImageAnalysisClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpointParam}/computervision`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/computervision`;
   const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -40,18 +39,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://cognitiveservices.azure.com/.default",
-      ],
-      apiKeyHeaderName:
-        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as ImageAnalysisClient;
+  const client = getClient(endpointUrl, credentials, options) as ImageAnalysisClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
