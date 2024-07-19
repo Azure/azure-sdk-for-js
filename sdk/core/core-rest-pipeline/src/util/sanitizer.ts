@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { type UnknownObject, isObject } from "@azure/core-util";
+import { PipelineRequest, PipelineResponse, RawHttpHeaders } from "../interfaces.js";
+import { createHttpHeaders } from "../httpHeaders.js";
 
 /**
  * @internal
@@ -150,6 +152,37 @@ export class Sanitizer {
     }
 
     return url.toString();
+  }
+
+  /**
+   * Returns a version of the given pipeline request where the headers and request URL have been sanitized.
+   */
+  public sanitizePipelineRequest(request: PipelineRequest): PipelineRequest {
+    const sanitizedHeaders = createHttpHeaders(
+      this.sanitizeHeaders(request.headers.toJSON({ preserveCase: true })) as RawHttpHeaders,
+    );
+
+    return {
+      ...request,
+      url: this.sanitizeUrl(request.url),
+      headers: sanitizedHeaders,
+    };
+  }
+
+  /**
+   * Returns a version of the given pipeline response where the response headers, request headers, and request URL have been sanitized.
+   */
+  public sanitizePipelineResponse(response: PipelineResponse): PipelineResponse {
+    const sanitizedRequest = this.sanitizePipelineRequest(response.request);
+    const sanitizedHeaders = createHttpHeaders(
+      this.sanitizeHeaders(response.headers.toJSON({ preserveCase: true })) as RawHttpHeaders,
+    );
+
+    return {
+      ...response,
+      headers: sanitizedHeaders,
+      request: sanitizedRequest,
+    };
   }
 
   private sanitizeHeaders(obj: UnknownObject): UnknownObject {

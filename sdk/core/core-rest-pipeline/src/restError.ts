@@ -72,8 +72,8 @@ export class RestError extends Error {
     this.name = "RestError";
     this.code = options.code;
     this.statusCode = options.statusCode;
-    this.request = options.request;
-    this.response = options.response;
+    this.request = options.request && errorSanitizer.sanitizePipelineRequest(options.request);
+    this.response = options.response && errorSanitizer.sanitizePipelineResponse(options.response);
 
     Object.setPrototypeOf(this, RestError.prototype);
   }

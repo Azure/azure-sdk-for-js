@@ -3,6 +3,11 @@
 
 import { assert, describe, it } from "vitest";
 import { Sanitizer } from "../src/util/sanitizer.js";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 
 describe("Sanitizer", function () {
   it("Redacts query parameters in url properties", function () {
@@ -36,5 +41,51 @@ describe("Sanitizer", function () {
     const sanitizer = new Sanitizer();
     const result = sanitizer.sanitize(recursive);
     assert.strictEqual(result, expected);
+  });
+
+  it("Sanitizes a PipelineRequest", function () {
+    const request = createPipelineRequest({
+      url: "http://example.com/foo?api-version=123&secret=42",
+      headers: createHttpHeaders({
+        "secret-header": "remove-me",
+      }),
+      body: "aaa",
+    });
+
+    const sanitizer = new Sanitizer();
+    const sanitizedRequest = sanitizer.sanitizePipelineRequest(request);
+    assert.equal(sanitizedRequest.url, "http://example.com/foo?api-version=123&secret=REDACTED");
+    assert.deepEqual(sanitizedRequest.headers, createHttpHeaders({ "secret-header": "REDACTED" }));
+  });
+
+  it("Sanitizes a PipelineResponse", function () {
+    const request = createPipelineRequest({
+      url: "http://example.com/foo?api-version=123&secret=42",
+      headers: createHttpHeaders({
+        "secret-header": "remove-me",
+      }),
+      body: "aaa",
+    });
+
+    const response: PipelineResponse = {
+      request,
+      headers: createHttpHeaders({
+        "secret-header": "remove",
+      }),
+      status: 200,
+    };
+
+    const sanitizer = new Sanitizer();
+    const sanitizedResponse = sanitizer.sanitizePipelineResponse(response);
+
+    assert.equal(
+      sanitizedResponse.request.url,
+      "http://example.com/foo?api-version=123&secret=REDACTED",
+    );
+    assert.deepEqual(
+      sanitizedResponse.request.headers,
+      createHttpHeaders({ "secret-header": "REDACTED" }),
+    );
+    assert.deepEqual(sanitizedResponse.headers, createHttpHeaders({ "secret-header": "REDACTED" }));
   });
 });
