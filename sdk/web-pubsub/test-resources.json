@@ -95,18 +95,6 @@
     }
   ],
   "outputs": {
-    "AZURE_TENANT_ID": {
-      "type": "string",
-      "value": "[parameters('tenantId')]"
-    },
-    "AZURE_CLIENT_ID": {
-      "type": "string",
-      "value": "[parameters('testApplicationId')]"
-    },
-    "AZURE_CLIENT_SECRET": {
-      "type": "string",
-      "value": "[parameters('testApplicationSecret')]"
-    },
     "WPS_CONNECTION_STRING": {
       "type": "string",
       "value": "[listkeys(variables('webpubsubResourceId'), '2021-10-01').primaryConnectionString]"
