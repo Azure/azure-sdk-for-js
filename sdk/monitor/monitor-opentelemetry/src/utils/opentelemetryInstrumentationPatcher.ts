@@ -32,6 +32,6 @@ export function patchOpenTelemetryInstrumentations(): void {
     }
   }
   catch (e) {
-      console.log(e);
+    // Fail silently if the module is not found
   }
 }
