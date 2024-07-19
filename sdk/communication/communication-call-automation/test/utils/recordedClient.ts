@@ -63,19 +63,19 @@ const envSetupForPlayback: Record<string, string> = {
 
 const fakeToken = generateToken();
 const dispatcherEndpoint: string = !isPlaybackMode()
-  ? env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  ? (env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["DISPATCHER_ENDPOINT"];
 const serviceBusConnectionString: string = !isPlaybackMode()
-  ? env["SERVICEBUS_STRING"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  ? (env["SERVICEBUS_STRING"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["SERVICEBUS_STRING"];
 export const fileSourceUrl: string = !isPlaybackMode()
-  ? env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["FILE_SOURCE_URL"];
 export const transportUrl: string = !isPlaybackMode()
-  ? env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"]
+  ? (env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"])
   : envSetupForPlayback["TRANSPORT_URL"];
 export const cognitiveServiceEndpoint: string = !isPlaybackMode()
-  ? env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"]
+  ? (env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"])
   : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<

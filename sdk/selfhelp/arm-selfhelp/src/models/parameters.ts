@@ -246,7 +246,8 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid",
+      name: "String",
     },
   },
+  skipEncoding: true,
 };

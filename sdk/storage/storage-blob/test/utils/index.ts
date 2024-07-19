@@ -296,7 +296,10 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
   const sas = generateAccountSASQueryParameters(
     {
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
       permissions: AccountSASPermissions.parse("rwdlacupi"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),

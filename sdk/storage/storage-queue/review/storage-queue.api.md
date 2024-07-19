@@ -162,6 +162,9 @@ export interface GeoReplication {
 // @public
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
+// @public
+export function getQueueServiceAccountAudience(storageAccountName: string): string;
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -496,6 +499,7 @@ export interface QueueItem {
 
 // @public
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -505,6 +509,7 @@ export type QueuePeekMessagesResponse = WithResponse<{
 
 // @public
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -536,6 +541,7 @@ export interface QueueSASSignatureValues {
 
 // @public
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -799,12 +805,17 @@ export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
-    audience?: string | string[];
+    audience?: string;
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
     retryOptions?: StorageRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
+}
+
+// @public
+export enum StorageQueueAudience {
+    StorageOAuthScopes = "https://storage.azure.com/.default"
 }
 
 // @public

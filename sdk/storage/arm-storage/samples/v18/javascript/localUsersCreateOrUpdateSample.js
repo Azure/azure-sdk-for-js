@@ -13,10 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Create or update the properties of a local user associated with the storage account
+ * This sample demonstrates how to Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
- * @summary Create or update the properties of a local user associated with the storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/LocalUserCreate.json
+ * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserCreate.json
  */
 async function createLocalUser() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -24,6 +24,8 @@ async function createLocalUser() {
   const accountName = "sto2527";
   const username = "user1";
   const properties = {
+    allowAclAuthorization: true,
+    groupId: 2000,
     hasSshPassword: true,
     homeDirectory: "homedirectory",
     permissionScopes: [
@@ -38,27 +40,25 @@ async function createLocalUser() {
     resourceGroupName,
     accountName,
     username,
-    properties
+    properties,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update the properties of a local user associated with the storage account
+ * This sample demonstrates how to Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  *
- * @summary Create or update the properties of a local user associated with the storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/LocalUserUpdate.json
+ * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserCreateNFSv3Enabled.json
  */
-async function updateLocalUser() {
+async function createNfSv3EnabledLocalUser() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const username = "user1";
   const properties = {
-    hasSharedKey: false,
-    hasSshKey: false,
-    hasSshPassword: false,
-    homeDirectory: "homedirectory2",
+    extendedGroups: [1001, 1005, 2005],
+    isNFSv3Enabled: true,
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -66,13 +66,46 @@ async function updateLocalUser() {
     resourceGroupName,
     accountName,
     username,
-    properties
+    properties,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
+ *
+ * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserUpdate.json
+ */
+async function updateLocalUser() {
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
+  const accountName = "sto2527";
+  const username = "user1";
+  const properties = {
+    allowAclAuthorization: false,
+    extendedGroups: [1001, 1005, 2005],
+    groupId: 3000,
+    hasSharedKey: false,
+    hasSshKey: false,
+    hasSshPassword: false,
+    homeDirectory: "homedirectory2",
+    isNFSv3Enabled: true,
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.localUsersOperations.createOrUpdate(
+    resourceGroupName,
+    accountName,
+    username,
+    properties,
   );
   console.log(result);
 }
 
 async function main() {
   createLocalUser();
+  createNfSv3EnabledLocalUser();
   updateLocalUser();
 }
 

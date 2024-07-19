@@ -3,7 +3,12 @@
 import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
-import { CpkInfo, FileSystemEncryptionScope, PathPermissions } from "../models";
+import {
+  CpkInfo,
+  FileSystemEncryptionScope,
+  PathAccessControlItem,
+  PathPermissions,
+} from "../models";
 
 import {
   DevelopmentConnectionString,
@@ -14,7 +19,7 @@ import {
 } from "./constants";
 import { HttpResponse } from "@azure/storage-blob";
 import { HttpHeadersLike } from "@azure/core-http-compat";
-import { toPermissions } from "../transforms";
+import { toAcl, toPermissions } from "../transforms";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -641,12 +646,14 @@ export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  acl: PathAccessControlItem[];
   _response: HttpResponse & {
     parsedHeaders: {
       encryptionContext?: string;
       owner?: string;
       group?: string;
       permissions?: PathPermissions;
+      acl: PathAccessControlItem[];
     };
   };
 }
@@ -676,11 +683,13 @@ export function ParsePathGetPropertiesExtraHeaderValues(
   response.owner = ParseHeaderValue(rawResponse, "x-ms-owner");
   response.group = ParseHeaderValue(rawResponse, "x-ms-group");
   response.permissions = toPermissions(ParseHeaderValue(rawResponse, "x-ms-permissions"));
+  response.acl = toAcl(ParseHeaderValue(rawResponse, "x-ms-acl"));
   if (response._response?.parsedHeaders) {
     response._response.parsedHeaders.encryptionContext = response.encryptionContext;
     response._response.parsedHeaders.owner = response.owner;
     response._response.parsedHeaders.group = response.group;
     response._response.parsedHeaders.permissions = response.permissions;
+    response._response.parsedHeaders.acl = response.acl;
   }
   return response;
 }

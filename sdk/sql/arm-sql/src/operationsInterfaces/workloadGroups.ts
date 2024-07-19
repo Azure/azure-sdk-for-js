@@ -15,7 +15,7 @@ import {
   WorkloadGroupsGetResponse,
   WorkloadGroupsCreateOrUpdateOptionalParams,
   WorkloadGroupsCreateOrUpdateResponse,
-  WorkloadGroupsDeleteOptionalParams
+  WorkloadGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface WorkloadGroups {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: WorkloadGroupsListByDatabaseOptionalParams
+    options?: WorkloadGroupsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadGroup>;
   /**
    * Gets a workload group
@@ -49,7 +49,7 @@ export interface WorkloadGroups {
     serverName: string,
     databaseName: string,
     workloadGroupName: string,
-    options?: WorkloadGroupsGetOptionalParams
+    options?: WorkloadGroupsGetOptionalParams,
   ): Promise<WorkloadGroupsGetResponse>;
   /**
    * Creates or updates a workload group.
@@ -67,7 +67,7 @@ export interface WorkloadGroups {
     databaseName: string,
     workloadGroupName: string,
     parameters: WorkloadGroup,
-    options?: WorkloadGroupsCreateOrUpdateOptionalParams
+    options?: WorkloadGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadGroupsCreateOrUpdateResponse>,
@@ -90,7 +90,7 @@ export interface WorkloadGroups {
     databaseName: string,
     workloadGroupName: string,
     parameters: WorkloadGroup,
-    options?: WorkloadGroupsCreateOrUpdateOptionalParams
+    options?: WorkloadGroupsCreateOrUpdateOptionalParams,
   ): Promise<WorkloadGroupsCreateOrUpdateResponse>;
   /**
    * Deletes a workload group.
@@ -106,7 +106,7 @@ export interface WorkloadGroups {
     serverName: string,
     databaseName: string,
     workloadGroupName: string,
-    options?: WorkloadGroupsDeleteOptionalParams
+    options?: WorkloadGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workload group.
@@ -122,6 +122,6 @@ export interface WorkloadGroups {
     serverName: string,
     databaseName: string,
     workloadGroupName: string,
-    options?: WorkloadGroupsDeleteOptionalParams
+    options?: WorkloadGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

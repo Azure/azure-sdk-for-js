@@ -3,17 +3,17 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureMachineLearningWorkspaces.",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/core-lro": "^2.2.0",
+    "@azure/core-lro": "^2.5.4",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
-    "@azure/core-client": "^1.6.1",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.8.0",
+    "@azure/core-client": "^1.7.0",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.14.0",
     "tslib": "^2.2.0"
   },
   "keywords": [
@@ -30,22 +30,23 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "uglify-js": "^3.4.9",
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.0",
+    "dotenv": "^16.0.0",
+    "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-credential": "^1.1.0",
     "mocha": "^10.0.0",
+    "@types/mocha": "^10.0.0",
+    "tsx": "^4.7.1",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@types/node": "^18.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "ts-node": "^10.0.0",
-    "@types/mocha": "^10.0.0"
+    "ts-node": "^10.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
@@ -77,7 +78,6 @@
     "pack": "npm pack 2>&1",
     "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
-    "audit": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",
     "build:browser": "echo skipped",
@@ -106,6 +106,7 @@
     ]
   },
   "autoPublish": true,
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

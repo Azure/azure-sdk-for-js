@@ -16,7 +16,7 @@ import { DeploymentStacksClient } from "../deploymentStacksClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -51,9 +51,15 @@ import {
   DeploymentStacksExportTemplateAtSubscriptionResponse,
   DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
   DeploymentStacksExportTemplateAtManagementGroupResponse,
+  DeploymentStacksValidateStackAtResourceGroupOptionalParams,
+  DeploymentStacksValidateStackAtResourceGroupResponse,
+  DeploymentStacksValidateStackAtSubscriptionOptionalParams,
+  DeploymentStacksValidateStackAtSubscriptionResponse,
+  DeploymentStacksValidateStackAtManagementGroupOptionalParams,
+  DeploymentStacksValidateStackAtManagementGroupResponse,
   DeploymentStacksListAtResourceGroupNextResponse,
   DeploymentStacksListAtSubscriptionNextResponse,
-  DeploymentStacksListAtManagementGroupNextResponse
+  DeploymentStacksListAtManagementGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,13 +76,13 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   }
 
   /**
-   * Lists all the Deployment Stacks within the specified resource group.
+   * Lists all the Deployment stacks within the specified Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listAtResourceGroup(
     resourceGroupName: string,
-    options?: DeploymentStacksListAtResourceGroupOptionalParams
+    options?: DeploymentStacksListAtResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentStack> {
     const iter = this.listAtResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -93,16 +99,16 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         return this.listAtResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listAtResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DeploymentStacksListAtResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeploymentStack[]> {
     let result: DeploymentStacksListAtResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -117,7 +123,7 @@ export class DeploymentStacksImpl implements DeploymentStacks {
       result = await this._listAtResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -128,22 +134,22 @@ export class DeploymentStacksImpl implements DeploymentStacks {
 
   private async *listAtResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DeploymentStacksListAtResourceGroupOptionalParams
+    options?: DeploymentStacksListAtResourceGroupOptionalParams,
   ): AsyncIterableIterator<DeploymentStack> {
     for await (const page of this.listAtResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists all the Deployment Stacks within the specified subscription.
+   * Lists all the Deployment stacks within the specified Subscription.
    * @param options The options parameters.
    */
   public listAtSubscription(
-    options?: DeploymentStacksListAtSubscriptionOptionalParams
+    options?: DeploymentStacksListAtSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentStack> {
     const iter = this.listAtSubscriptionPagingAll(options);
     return {
@@ -158,13 +164,13 @@ export class DeploymentStacksImpl implements DeploymentStacks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAtSubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAtSubscriptionPagingPage(
     options?: DeploymentStacksListAtSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeploymentStack[]> {
     let result: DeploymentStacksListAtSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -185,7 +191,7 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   }
 
   private async *listAtSubscriptionPagingAll(
-    options?: DeploymentStacksListAtSubscriptionOptionalParams
+    options?: DeploymentStacksListAtSubscriptionOptionalParams,
   ): AsyncIterableIterator<DeploymentStack> {
     for await (const page of this.listAtSubscriptionPagingPage(options)) {
       yield* page;
@@ -193,17 +199,17 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   }
 
   /**
-   * Lists all the Deployment Stacks within the specified management group.
-   * @param managementGroupId Management Group.
+   * Lists all the Deployment stacks within the specified Management Group.
+   * @param managementGroupId Management Group id.
    * @param options The options parameters.
    */
   public listAtManagementGroup(
     managementGroupId: string,
-    options?: DeploymentStacksListAtManagementGroupOptionalParams
+    options?: DeploymentStacksListAtManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentStack> {
     const iter = this.listAtManagementGroupPagingAll(
       managementGroupId,
-      options
+      options,
     );
     return {
       next() {
@@ -219,16 +225,16 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         return this.listAtManagementGroupPagingPage(
           managementGroupId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listAtManagementGroupPagingPage(
     managementGroupId: string,
     options?: DeploymentStacksListAtManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeploymentStack[]> {
     let result: DeploymentStacksListAtManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -243,7 +249,7 @@ export class DeploymentStacksImpl implements DeploymentStacks {
       result = await this._listAtManagementGroupNext(
         managementGroupId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -254,71 +260,71 @@ export class DeploymentStacksImpl implements DeploymentStacks {
 
   private async *listAtManagementGroupPagingAll(
     managementGroupId: string,
-    options?: DeploymentStacksListAtManagementGroupOptionalParams
+    options?: DeploymentStacksListAtManagementGroupOptionalParams,
   ): AsyncIterableIterator<DeploymentStack> {
     for await (const page of this.listAtManagementGroupPagingPage(
       managementGroupId,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists all the Deployment Stacks within the specified resource group.
+   * Lists all the Deployment stacks within the specified Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listAtResourceGroup(
     resourceGroupName: string,
-    options?: DeploymentStacksListAtResourceGroupOptionalParams
+    options?: DeploymentStacksListAtResourceGroupOptionalParams,
   ): Promise<DeploymentStacksListAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listAtResourceGroupOperationSpec
+      listAtResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Lists all the Deployment Stacks within the specified subscription.
+   * Lists all the Deployment stacks within the specified Subscription.
    * @param options The options parameters.
    */
   private _listAtSubscription(
-    options?: DeploymentStacksListAtSubscriptionOptionalParams
+    options?: DeploymentStacksListAtSubscriptionOptionalParams,
   ): Promise<DeploymentStacksListAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listAtSubscriptionOperationSpec
+      listAtSubscriptionOperationSpec,
     );
   }
 
   /**
-   * Lists all the Deployment Stacks within the specified management group.
-   * @param managementGroupId Management Group.
+   * Lists all the Deployment stacks within the specified Management Group.
+   * @param managementGroupId Management Group id.
    * @param options The options parameters.
    */
   private _listAtManagementGroup(
     managementGroupId: string,
-    options?: DeploymentStacksListAtManagementGroupOptionalParams
+    options?: DeploymentStacksListAtManagementGroupOptionalParams,
   ): Promise<DeploymentStacksListAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, options },
-      listAtManagementGroupOperationSpec
+      listAtManagementGroupOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>,
@@ -327,21 +333,20 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentStacksCreateOrUpdateAtResourceGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -350,8 +355,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -359,8 +364,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -370,9 +375,9 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         resourceGroupName,
         deploymentStackName,
         deploymentStack,
-        options
+        options,
       },
-      spec: createOrUpdateAtResourceGroupOperationSpec
+      spec: createOrUpdateAtResourceGroupOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentStacksCreateOrUpdateAtResourceGroupResponse,
@@ -380,36 +385,36 @@ export class DeploymentStacksImpl implements DeploymentStacks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAtResourceGroupAndWait(
     resourceGroupName: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<DeploymentStacksCreateOrUpdateAtResourceGroupResponse> {
     const poller = await this.beginCreateOrUpdateAtResourceGroup(
       resourceGroupName,
       deploymentStackName,
       deploymentStack,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a Deployment Stack with a given name.
+   * Gets a Deployment stack with a given name at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -417,17 +422,17 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   getAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksGetAtResourceGroupOptionalParams
+    options?: DeploymentStacksGetAtResourceGroupOptionalParams,
   ): Promise<DeploymentStacksGetAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentStackName, options },
-      getAtResourceGroupOperationSpec
+      getAtResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Resource Group scope. When operation completes, status code
+   * 200 returned without content.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -435,25 +440,24 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   async beginDeleteAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams
+    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -462,8 +466,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -471,28 +475,28 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, deploymentStackName, options },
-      spec: deleteAtResourceGroupOperationSpec
+      spec: deleteAtResourceGroupOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Resource Group scope. When operation completes, status code
+   * 200 returned without content.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -500,26 +504,26 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   async beginDeleteAtResourceGroupAndWait(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams
+    options?: DeploymentStacksDeleteAtResourceGroupOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteAtResourceGroup(
       resourceGroupName,
       deploymentStackName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAtSubscription(
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>,
@@ -528,21 +532,20 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentStacksCreateOrUpdateAtSubscriptionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -551,8 +554,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -560,15 +563,15 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { deploymentStackName, deploymentStack, options },
-      spec: createOrUpdateAtSubscriptionOperationSpec
+      spec: createOrUpdateAtSubscriptionOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentStacksCreateOrUpdateAtSubscriptionResponse,
@@ -576,73 +579,72 @@ export class DeploymentStacksImpl implements DeploymentStacks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a Deployment Stack.
+   * Creates or updates a Deployment stack at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAtSubscriptionAndWait(
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<DeploymentStacksCreateOrUpdateAtSubscriptionResponse> {
     const poller = await this.beginCreateOrUpdateAtSubscription(
       deploymentStackName,
       deploymentStack,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a Deployment Stack with a given name.
+   * Gets a Deployment stack with a given name at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   getAtSubscription(
     deploymentStackName: string,
-    options?: DeploymentStacksGetAtSubscriptionOptionalParams
+    options?: DeploymentStacksGetAtSubscriptionOptionalParams,
   ): Promise<DeploymentStacksGetAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { deploymentStackName, options },
-      getAtSubscriptionOperationSpec
+      getAtSubscriptionOperationSpec,
     );
   }
 
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Subscription scope. When operation completes, status code 200
+   * returned without content.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   async beginDeleteAtSubscription(
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams
+    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -651,8 +653,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -660,54 +662,54 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { deploymentStackName, options },
-      spec: deleteAtSubscriptionOperationSpec
+      spec: deleteAtSubscriptionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
+   * Deletes a Deployment stack by name at Subscription scope. When operation completes, status code 200
+   * returned without content.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   async beginDeleteAtSubscriptionAndWait(
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams
+    options?: DeploymentStacksDeleteAtSubscriptionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteAtSubscription(
       deploymentStackName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Creates or updates a Deployment Stack.
-   * @param managementGroupId Management Group.
+   * Creates or updates a Deployment stack at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>,
@@ -716,21 +718,20 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentStacksCreateOrUpdateAtManagementGroupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -739,8 +740,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -748,8 +749,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -759,9 +760,9 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         managementGroupId,
         deploymentStackName,
         deploymentStack,
-        options
+        options,
       },
-      spec: createOrUpdateAtManagementGroupOperationSpec
+      spec: createOrUpdateAtManagementGroupOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentStacksCreateOrUpdateAtManagementGroupResponse,
@@ -769,80 +770,79 @@ export class DeploymentStacksImpl implements DeploymentStacks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a Deployment Stack.
-   * @param managementGroupId Management Group.
+   * Creates or updates a Deployment stack at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
-   * @param deploymentStack Deployment Stack supplied to the operation.
+   * @param deploymentStack Deployment stack supplied to the operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAtManagementGroupAndWait(
     managementGroupId: string,
     deploymentStackName: string,
     deploymentStack: DeploymentStack,
-    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
+    options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,
   ): Promise<DeploymentStacksCreateOrUpdateAtManagementGroupResponse> {
     const poller = await this.beginCreateOrUpdateAtManagementGroup(
       managementGroupId,
       deploymentStackName,
       deploymentStack,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a Deployment Stack with a given name.
-   * @param managementGroupId Management Group.
+   * Gets a Deployment stack with a given name at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   getAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksGetAtManagementGroupOptionalParams
+    options?: DeploymentStacksGetAtManagementGroupOptionalParams,
   ): Promise<DeploymentStacksGetAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, deploymentStackName, options },
-      getAtManagementGroupOperationSpec
+      getAtManagementGroupOperationSpec,
     );
   }
 
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
-   * @param managementGroupId Management Group.
+   * Deletes a Deployment stack by name at Management Group scope. When operation completes, status code
+   * 200 returned without content.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   async beginDeleteAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams
+    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -851,8 +851,8 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -860,47 +860,47 @@ export class DeploymentStacksImpl implements DeploymentStacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { managementGroupId, deploymentStackName, options },
-      spec: deleteAtManagementGroupOperationSpec
+      spec: deleteAtManagementGroupOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a Deployment Stack by name. When operation completes, status code 200 returned without
-   * content.
-   * @param managementGroupId Management Group.
+   * Deletes a Deployment stack by name at Management Group scope. When operation completes, status code
+   * 200 returned without content.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   async beginDeleteAtManagementGroupAndWait(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams
+    options?: DeploymentStacksDeleteAtManagementGroupOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteAtManagementGroup(
       managementGroupId,
       deploymentStackName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Exports the template used to create the deployment stack.
+   * Exports the template used to create the Deployment stack at Resource Group scope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
@@ -908,44 +908,340 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   exportTemplateAtResourceGroup(
     resourceGroupName: string,
     deploymentStackName: string,
-    options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams
+    options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams,
   ): Promise<DeploymentStacksExportTemplateAtResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentStackName, options },
-      exportTemplateAtResourceGroupOperationSpec
+      exportTemplateAtResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Exports the template used to create the deployment stack.
+   * Exports the template used to create the Deployment stack at Subscription scope.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   exportTemplateAtSubscription(
     deploymentStackName: string,
-    options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams
+    options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams,
   ): Promise<DeploymentStacksExportTemplateAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { deploymentStackName, options },
-      exportTemplateAtSubscriptionOperationSpec
+      exportTemplateAtSubscriptionOperationSpec,
     );
   }
 
   /**
-   * Exports the template used to create the deployment stack.
-   * @param managementGroupId Management Group.
+   * Exports the template used to create the Deployment stack at Management Group scope.
+   * @param managementGroupId Management Group id.
    * @param deploymentStackName Name of the deployment stack.
    * @param options The options parameters.
    */
   exportTemplateAtManagementGroup(
     managementGroupId: string,
     deploymentStackName: string,
-    options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams
+    options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
   ): Promise<DeploymentStacksExportTemplateAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, deploymentStackName, options },
-      exportTemplateAtManagementGroupOperationSpec
+      exportTemplateAtManagementGroupOperationSpec,
     );
+  }
+
+  /**
+   * Runs preflight validation on the Resource Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  async beginValidateStackAtResourceGroup(
+    resourceGroupName: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentStacksValidateStackAtResourceGroupResponse>,
+      DeploymentStacksValidateStackAtResourceGroupResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DeploymentStacksValidateStackAtResourceGroupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        deploymentStackName,
+        deploymentStack,
+        options,
+      },
+      spec: validateStackAtResourceGroupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DeploymentStacksValidateStackAtResourceGroupResponse,
+      OperationState<DeploymentStacksValidateStackAtResourceGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Runs preflight validation on the Resource Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  async beginValidateStackAtResourceGroupAndWait(
+    resourceGroupName: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams,
+  ): Promise<DeploymentStacksValidateStackAtResourceGroupResponse> {
+    const poller = await this.beginValidateStackAtResourceGroup(
+      resourceGroupName,
+      deploymentStackName,
+      deploymentStack,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Runs preflight validation on the Subscription scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  async beginValidateStackAtSubscription(
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentStacksValidateStackAtSubscriptionResponse>,
+      DeploymentStacksValidateStackAtSubscriptionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DeploymentStacksValidateStackAtSubscriptionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deploymentStackName, deploymentStack, options },
+      spec: validateStackAtSubscriptionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DeploymentStacksValidateStackAtSubscriptionResponse,
+      OperationState<DeploymentStacksValidateStackAtSubscriptionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Runs preflight validation on the Subscription scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  async beginValidateStackAtSubscriptionAndWait(
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams,
+  ): Promise<DeploymentStacksValidateStackAtSubscriptionResponse> {
+    const poller = await this.beginValidateStackAtSubscription(
+      deploymentStackName,
+      deploymentStack,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Runs preflight validation on the Management Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param managementGroupId Management Group id.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  async beginValidateStackAtManagementGroup(
+    managementGroupId: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentStacksValidateStackAtManagementGroupResponse>,
+      DeploymentStacksValidateStackAtManagementGroupResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DeploymentStacksValidateStackAtManagementGroupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        managementGroupId,
+        deploymentStackName,
+        deploymentStack,
+        options,
+      },
+      spec: validateStackAtManagementGroupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DeploymentStacksValidateStackAtManagementGroupResponse,
+      OperationState<DeploymentStacksValidateStackAtManagementGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Runs preflight validation on the Management Group scoped Deployment stack template to verify its
+   * acceptance to Azure Resource Manager.
+   * @param managementGroupId Management Group id.
+   * @param deploymentStackName Name of the deployment stack.
+   * @param deploymentStack Deployment stack to validate.
+   * @param options The options parameters.
+   */
+  async beginValidateStackAtManagementGroupAndWait(
+    managementGroupId: string,
+    deploymentStackName: string,
+    deploymentStack: DeploymentStack,
+    options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams,
+  ): Promise<DeploymentStacksValidateStackAtManagementGroupResponse> {
+    const poller = await this.beginValidateStackAtManagementGroup(
+      managementGroupId,
+      deploymentStackName,
+      deploymentStack,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -957,11 +1253,11 @@ export class DeploymentStacksImpl implements DeploymentStacks {
   private _listAtResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DeploymentStacksListAtResourceGroupNextOptionalParams
+    options?: DeploymentStacksListAtResourceGroupNextOptionalParams,
   ): Promise<DeploymentStacksListAtResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listAtResourceGroupNextOperationSpec
+      listAtResourceGroupNextOperationSpec,
     );
   }
 
@@ -972,28 +1268,28 @@ export class DeploymentStacksImpl implements DeploymentStacks {
    */
   private _listAtSubscriptionNext(
     nextLink: string,
-    options?: DeploymentStacksListAtSubscriptionNextOptionalParams
+    options?: DeploymentStacksListAtSubscriptionNextOptionalParams,
   ): Promise<DeploymentStacksListAtSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAtSubscriptionNextOperationSpec
+      listAtSubscriptionNextOperationSpec,
     );
   }
 
   /**
    * ListAtManagementGroupNext
-   * @param managementGroupId Management Group.
+   * @param managementGroupId Management Group id.
    * @param nextLink The nextLink from the previous successful call to the ListAtManagementGroup method.
    * @param options The options parameters.
    */
   private _listAtManagementGroupNext(
     managementGroupId: string,
     nextLink: string,
-    options?: DeploymentStacksListAtManagementGroupNextOptionalParams
+    options?: DeploymentStacksListAtManagementGroupNextOptionalParams,
   ): Promise<DeploymentStacksListAtManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, nextLink, options },
-      listAtManagementGroupNextOperationSpec
+      listAtManagementGroupNextOperationSpec,
     );
   }
 }
@@ -1001,80 +1297,76 @@ export class DeploymentStacksImpl implements DeploymentStacks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackListResult
+      bodyMapper: Mappers.DeploymentStackListResult,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackListResult
+      bodyMapper: Mappers.DeploymentStackListResult,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackListResult
+      bodyMapper: Mappers.DeploymentStackListResult,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStack
+      bodyMapper: Mappers.DeploymentStack,
     },
     201: {
-      bodyMapper: Mappers.DeploymentStack
+      bodyMapper: Mappers.DeploymentStack,
     },
     202: {
-      bodyMapper: Mappers.DeploymentStack
+      bodyMapper: Mappers.DeploymentStack,
     },
     204: {
-      bodyMapper: Mappers.DeploymentStack
+      bodyMapper: Mappers.DeploymentStack,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   requestBody: Parameters.deploymentStack,
   queryParameters: [Parameters.apiVersion],
@@ -1082,37 +1374,35 @@ const createOrUpdateAtResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deploymentStackName
+    Parameters.deploymentStackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStack
+      bodyMapper: Mappers.DeploymentStack,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deploymentStackName
+    Parameters.deploymentStackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1120,301 +1410,391 @@ const deleteAtResourceGroupOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.unmanageActionResources,
-    Parameters.unmanageActionResourceGroups
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deploymentStackName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentStack
+      bodyMapper: Mappers.DeploymentStacksError,
     },
-    201: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    202: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    204: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
-  },
-  requestBody: Parameters.deploymentStack,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.deploymentStackName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.deploymentStackName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.unmanageActionResources,
-    Parameters.unmanageActionResourceGroups
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.deploymentStackName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    201: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    202: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    204: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
-  },
-  requestBody: Parameters.deploymentStack,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.deploymentStackName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentStack
-    },
-    default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.deploymentStackName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.unmanageActionResources,
     Parameters.unmanageActionResourceGroups,
-    Parameters.unmanageActionManagementGroups
+    Parameters.unmanageActionManagementGroups,
+    Parameters.bypassStackOutOfSyncError,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateAtSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    202: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    204: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  requestBody: Parameters.deploymentStack,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getAtSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteAtSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.unmanageActionResources,
+    Parameters.unmanageActionResourceGroups,
+    Parameters.unmanageActionManagementGroups,
+    Parameters.bypassStackOutOfSyncError,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    202: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    204: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  requestBody: Parameters.deploymentStack,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.managementGroupId,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentStack,
+    },
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.managementGroupId,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.unmanageActionResources,
+    Parameters.unmanageActionResourceGroups,
+    Parameters.unmanageActionManagementGroups,
+    Parameters.bypassStackOutOfSyncError,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupId,
-    Parameters.deploymentStackName
+    Parameters.deploymentStackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const exportTemplateAtResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/exportTemplate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/exportTemplate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackTemplateDefinition
+      bodyMapper: Mappers.DeploymentStackTemplateDefinition,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deploymentStackName
+    Parameters.deploymentStackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const exportTemplateAtSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/exportTemplate",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/exportTemplate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackTemplateDefinition
+      bodyMapper: Mappers.DeploymentStackTemplateDefinition,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.deploymentStackName
+    Parameters.deploymentStackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const exportTemplateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/exportTemplate",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/exportTemplate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackTemplateDefinition
+      bodyMapper: Mappers.DeploymentStackTemplateDefinition,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupId,
-    Parameters.deploymentStackName
+    Parameters.deploymentStackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const validateStackAtResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    202: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    204: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  requestBody: Parameters.deploymentStack,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const validateStackAtSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    202: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    204: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  requestBody: Parameters.deploymentStack,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const validateStackAtManagementGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    202: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    204: {
+      bodyMapper: Mappers.DeploymentStackValidateResult,
+    },
+    default: {
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
+  },
+  requestBody: Parameters.deploymentStack,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.managementGroupId,
+    Parameters.deploymentStackName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listAtResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackListResult
+      bodyMapper: Mappers.DeploymentStackListResult,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAtSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackListResult
+      bodyMapper: Mappers.DeploymentStackListResult,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAtManagementGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStackListResult
+      bodyMapper: Mappers.DeploymentStackListResult,
     },
     default: {
-      bodyMapper: Mappers.DeploymentStacksError
-    }
+      bodyMapper: Mappers.DeploymentStacksError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

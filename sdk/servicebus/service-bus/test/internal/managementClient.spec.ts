@@ -29,7 +29,10 @@ describe("ManagementClient unit tests", () => {
 
       chai.assert.fail("_makeManagementRequest should have failed");
     } catch (error: any) {
-      chai.assert.equal(error.message, "The management request timed out. Please try again later.");
+      chai.assert.equal(
+        error.message,
+        "The initialization of management client timed out. Please try again later.",
+      );
     }
     await mgmtClient.close();
   });

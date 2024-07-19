@@ -14,15 +14,13 @@ export * from "./sas/FileSystemSASPermissions";
 export * from "./sas/SASQueryParameters";
 export * from "./models";
 export * from "./utils/DataLakeAclChangeFailedError";
-
 export {
-  BlobServiceProperties as DataLakeServiceProperties,
-  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
   Pipeline,
+  PipelineLike,
+  PipelineOptions,
+  isPipelineLike,
   newPipeline,
-  CommonOptions,
   StoragePipelineOptions,
-  BaseRequestPolicy,
   RequestPolicyFactory,
   RequestPolicy,
   RequestPolicyOptions,
@@ -32,18 +30,26 @@ export {
   HttpRequestBody,
   IHttpClient,
   StorageOAuthScopes,
+  ServiceClientOptions,
+} from "./Pipeline";
+export {
   AnonymousCredential,
-  Credential,
-  StorageSharedKeyCredential,
   AnonymousCredentialPolicy,
+  BaseRequestPolicy,
   CredentialPolicy,
-  StorageBrowserPolicy,
-  StorageBrowserPolicyFactory,
+  Credential,
   StorageRetryOptions,
   StorageRetryPolicy,
+  StorageRetryPolicyType,
   StorageRetryPolicyFactory,
+  StorageBrowserPolicy,
+  StorageBrowserPolicyFactory,
+  StorageSharedKeyCredential,
   StorageSharedKeyCredentialPolicy,
+  BlobServiceProperties as DataLakeServiceProperties,
+  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
+export { CommonOptions } from "./StorageClient";
 
 export { SasIPRange } from "./sas/SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";

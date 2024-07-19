@@ -15,7 +15,7 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   BackupManagementUsage,
   BackupUsageSummariesListOptionalParams,
-  BackupUsageSummariesListResponse
+  BackupUsageSummariesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
   public list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupUsageSummariesListOptionalParams
+    options?: BackupUsageSummariesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupManagementUsage> {
     const iter = this.listPagingAll(vaultName, resourceGroupName, options);
     return {
@@ -59,9 +59,9 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
           vaultName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -69,7 +69,7 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
     vaultName: string,
     resourceGroupName: string,
     options?: BackupUsageSummariesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<BackupManagementUsage[]> {
     let result: BackupUsageSummariesListResponse;
     result = await this._list(vaultName, resourceGroupName, options);
@@ -79,12 +79,12 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
   private async *listPagingAll(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupUsageSummariesListOptionalParams
+    options?: BackupUsageSummariesListOptionalParams,
   ): AsyncIterableIterator<BackupManagementUsage> {
     for await (const page of this.listPagingPage(
       vaultName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -100,11 +100,11 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
   private _list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupUsageSummariesListOptionalParams
+    options?: BackupUsageSummariesListOptionalParams,
   ): Promise<BackupUsageSummariesListResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -112,25 +112,24 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupManagementUsageList
-    }
+      bodyMapper: Mappers.BackupManagementUsageList,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

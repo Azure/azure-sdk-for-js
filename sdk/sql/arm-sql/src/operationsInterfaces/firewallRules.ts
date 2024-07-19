@@ -17,7 +17,7 @@ import {
   FirewallRulesDeleteOptionalParams,
   FirewallRuleList,
   FirewallRulesReplaceOptionalParams,
-  FirewallRulesReplaceResponse
+  FirewallRulesReplaceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface FirewallRules {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: FirewallRulesListByServerOptionalParams
+    options?: FirewallRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<FirewallRule>;
   /**
    * Gets a firewall rule.
@@ -47,7 +47,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse>;
   /**
    * Creates or updates a firewall rule.
@@ -63,7 +63,7 @@ export interface FirewallRules {
     serverName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse>;
   /**
    * Deletes a firewall rule.
@@ -77,7 +77,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Replaces all firewall rules on the server.
@@ -91,6 +91,6 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     parameters: FirewallRuleList,
-    options?: FirewallRulesReplaceOptionalParams
+    options?: FirewallRulesReplaceOptionalParams,
   ): Promise<FirewallRulesReplaceResponse>;
 }

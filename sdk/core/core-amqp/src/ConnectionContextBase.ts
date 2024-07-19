@@ -177,11 +177,11 @@ export const ConnectionContextBase = {
     }
 
     const connectionOptions: ConnectionOptions = {
-      transport: Constants.TLS,
+      transport: (parameters.config.useDevelopmentEmulator ? Constants.TCP : Constants.TLS) as any,
       host: parameters.config.host,
       hostname: parameters.config.amqpHostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,
-      port: parameters.config.port ?? 5671,
+      port: parameters.config.port ?? (parameters.config.useDevelopmentEmulator ? 5672 : 5671),
       reconnect: false,
       properties: {
         product: parameters.connectionProperties.product,

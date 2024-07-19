@@ -5,6 +5,7 @@ import { assert } from "chai";
 import * as zlib from "zlib";
 
 import {
+  SimpleTokenCredential,
   base64encode,
   bodyToString,
   configureBlobStorageClient,
@@ -26,6 +27,9 @@ import {
   BlobServiceClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
+  getBlobServiceAccountAudience,
+  SASProtocol,
+  AnonymousCredential,
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -34,6 +38,7 @@ import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
 import { Context } from "mocha";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;
@@ -63,7 +68,111 @@ describe("BlockBlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("upload with Readable stream body and default parameters", async function () {
+  it("Upload special content should work", async () => {
+    const content =
+      "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
+
+    await blockBlobClient.upload(content, content.length);
+
+    const result = await blockBlobClient.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
+
+  it("Upload special content with OAuth should work", async () => {
+    const content =
+      "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
+
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, blockBlobClientWithOAuthToken);
+    await blockBlobClientWithOAuthToken.upload(content, content.length);
+
+    const result = await blockBlobClientWithOAuthToken.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
+
+  it("Upload special content with SAS token should work", async () => {
+    const content =
+      "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%";
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sasURL = await blockBlobClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+    });
+    const blobClientWithSAS = new BlockBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+
+    await blobClientWithSAS.upload(content, content.length);
+
+    const result = await blobClientWithSAS.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
+
+  it("Default audience should work", async () => {
+    await blockBlobClient.upload("Hello", 5);
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, blockBlobClientWithOAuthToken);
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await blockBlobClient.upload("Hello", 5);
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      createTestCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      },
+    );
+    configureBlobStorageClient(recorder, blockBlobClientWithOAuthToken);
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    await blockBlobClient.upload("Hello", 5);
+
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default",
+    );
+    assert.isNotNull(authToken);
+    const blockBlobClientWithPlainOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      new SimpleTokenCredential(authToken!.token),
+    );
+    configureBlobStorageClient(recorder, blockBlobClientWithPlainOAuthToken);
+
+    try {
+      await blockBlobClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      createTestCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      },
+    );
+    configureBlobStorageClient(recorder, blockBlobClientWithOAuthToken);
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("upload with Readable stream body and default parameters", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const bodyBuffer = Buffer.from(body);
 
@@ -546,6 +655,60 @@ describe("syncUploadFromURL", () => {
     // Validate tags set correctly
     const getTagsRes = await blockBlobClient.getTags();
     assert.deepStrictEqual(getTagsRes.tags, tags);
+  });
+
+  // [Copy source error code] Feature is pending on service side, skip the case for now.
+  it.skip("syncUploadFromURL - should fail with copy source error message", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const newBlobClient = containerClient.getBlockBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
+    );
+
+    const sourceUrl = await blockBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("d"),
+      expiresOn: tmr,
+    });
+
+    try {
+      await newBlobClient.syncUploadFromURL(sourceUrl);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthorizationPermissionMismatch");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "This request is not authorized to perform this operation using this permission.",
+      );
+    }
+  });
+
+  // [Copy source error code] Feature is pending on service side, skip the case for now.
+  it.skip("stageBlockFromURL - should fail with copy source error message", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const newBlobClient = containerClient.getBlockBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
+    );
+
+    const sourceUrl = await blockBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("d"),
+      expiresOn: tmr,
+    });
+
+    try {
+      await newBlobClient.stageBlockFromURL(base64encode("1"), sourceUrl);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthorizationPermissionMismatch");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "This request is not authorized to perform this operation using this permission.",
+      );
+    }
   });
 
   it("copySourceBlobProperties = false", async () => {

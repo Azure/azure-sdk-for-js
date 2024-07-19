@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a virtual network tags.
  *
  * @summary Updates a virtual network tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkUpdateTags.json
  */
 async function updateVirtualNetworkTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

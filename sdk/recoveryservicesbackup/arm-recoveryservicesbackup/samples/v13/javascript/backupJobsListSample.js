@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/ListJobs.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ListJobs.json
  */
 async function listAllJobs() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function listAllJobs() {
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/ListJobsWithAllSupportedFilters.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ListJobsWithAllSupportedFilters.json
  */
 async function listJobsWithFilters() {
   const subscriptionId =
@@ -59,7 +59,7 @@ async function listJobsWithFilters() {
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/Common/ListJobsWithStartTimeAndEndTimeFilters.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ListJobsWithStartTimeAndEndTimeFilters.json
  */
 async function listJobsWithTimeFilter() {
   const subscriptionId =

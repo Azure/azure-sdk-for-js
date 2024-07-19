@@ -14,12 +14,13 @@ import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleS
 import {
   NameAvailabilityRequest,
   CheckNameAvailabilityWithoutLocationExecuteOptionalParams,
-  CheckNameAvailabilityWithoutLocationExecuteResponse
+  CheckNameAvailabilityWithoutLocationExecuteResponse,
 } from "../models";
 
 /** Class containing CheckNameAvailabilityWithoutLocation operations. */
 export class CheckNameAvailabilityWithoutLocationImpl
-  implements CheckNameAvailabilityWithoutLocation {
+  implements CheckNameAvailabilityWithoutLocation
+{
   private readonly client: MySQLManagementFlexibleServerClient;
 
   /**
@@ -37,11 +38,11 @@ export class CheckNameAvailabilityWithoutLocationImpl
    */
   execute(
     nameAvailabilityRequest: NameAvailabilityRequest,
-    options?: CheckNameAvailabilityWithoutLocationExecuteOptionalParams
+    options?: CheckNameAvailabilityWithoutLocationExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityWithoutLocationExecuteResponse> {
     return this.client.sendOperationRequest(
       { nameAvailabilityRequest, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 }
@@ -49,21 +50,20 @@ export class CheckNameAvailabilityWithoutLocationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailability
+      bodyMapper: Mappers.NameAvailability,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.nameAvailabilityRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

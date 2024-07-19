@@ -1054,6 +1054,13 @@ describe("ContainerClient", () => {
       assert.deepStrictEqual(blob.tagValue, "");
     }
   });
+
+  it("getAccountInfo", async function () {
+    const accountInfo = await containerClient.getAccountInfo();
+    assert.ok(accountInfo.accountKind);
+    assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
+  });
 });
 
 describe("ContainerClient - Verify Name Properties", () => {

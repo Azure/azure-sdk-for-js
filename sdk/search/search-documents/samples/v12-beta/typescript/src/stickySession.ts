@@ -6,12 +6,8 @@
  * single replica.
  */
 
-import {
-    AzureKeyCredential,
-    odata,
-    SearchClient,
-    SearchIndexClient
-} from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+import { odata, SearchClient, SearchIndexClient } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 import { createIndex, delay, WAIT_TIME } from "./setup";
 
@@ -31,18 +27,15 @@ dotenv.config();
  * for more information.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-3";
 
 async function main(): Promise<void> {
-  if (!endpoint || !apiKey) {
-    console.error(
-      "Be sure to set valid values for `endpoint` and `apiKey` with proper authorization.",
-    );
+  if (!endpoint) {
+    console.error("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
   const searchClient: SearchClient<Hotel> = indexClient.getSearchClient<Hotel>(TEST_INDEX_NAME);
 

@@ -229,7 +229,7 @@ export class SearchIndexClient {
   private async *listAliasesPage(
     options: ListAliasesOptions = {},
   ): AsyncIterableIterator<SearchIndexAlias[]> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listAliases", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listAliases", options);
     try {
       const result = await this.client.aliases.list(updatedOptions);
       yield result.aliases;
@@ -606,7 +606,7 @@ export class SearchIndexClient {
     alias: SearchIndexAlias,
     options: CreateOrUpdateAliasOptions = {},
   ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-createOrUpdateAlias", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateAlias", options);
     try {
       const etag = options.onlyIfUnchanged ? alias.etag : undefined;
 
@@ -635,7 +635,7 @@ export class SearchIndexClient {
     alias: SearchIndexAlias,
     options: CreateAliasOptions = {},
   ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-createAlias", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createAlias", options);
     try {
       const result = await this.client.aliases.create(alias, updatedOptions);
       return result;
@@ -660,7 +660,7 @@ export class SearchIndexClient {
     alias: string | SearchIndexAlias,
     options: DeleteAliasOptions = {},
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteAlias", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteAlias", options);
     try {
       const aliasName: string = typeof alias === "string" ? alias : alias.name;
       const etag =
@@ -690,7 +690,7 @@ export class SearchIndexClient {
     aliasName: string,
     options: GetAliasOptions = {},
   ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-getAlias", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getAlias", options);
     try {
       const result = await this.client.aliases.get(aliasName, updatedOptions);
       return result;

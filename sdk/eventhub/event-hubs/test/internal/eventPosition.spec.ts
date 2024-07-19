@@ -13,7 +13,7 @@ testWithServiceTypes(() => {
     describe("happy", function (): void {
       it("should create from an offset with inclusive false", function (done: Mocha.Done): void {
         const result = "amqp.annotation.x-opt-offset > '1234'";
-        const pos = { offset: 1234 };
+        const pos = { offset: "1234" };
         result.should.equal(getEventPositionFilter(pos));
         done();
       });
@@ -82,7 +82,7 @@ testWithServiceTypes(() => {
       });
       it("throws error when event position is passed with both offset and sequence number set", () => {
         const test = function (): void {
-          validateEventPositions({ offset: 123, sequenceNumber: 456 });
+          validateEventPositions({ offset: "123", sequenceNumber: 456 });
         };
         test.should.throw(
           TypeError,
@@ -91,7 +91,7 @@ testWithServiceTypes(() => {
       });
       it("throws error when event position is passed with both offset and enqueuedOn set", () => {
         const test = function (): void {
-          validateEventPositions({ offset: 123, enqueuedOn: 456 });
+          validateEventPositions({ offset: "123", enqueuedOn: 456 });
         };
         test.should.throw(
           TypeError,
@@ -109,7 +109,7 @@ testWithServiceTypes(() => {
       });
       it("throws error when empty object is passed in event position map", () => {
         const test = function (): void {
-          validateEventPositions({ "1": {}, "2": { offset: 123 } });
+          validateEventPositions({ "1": {}, "2": { offset: "123" } });
         };
         test.should.throw(
           TypeError,
@@ -119,8 +119,8 @@ testWithServiceTypes(() => {
       it("throws error when event position map is passed with both offset and sequence number set", () => {
         const test = function (): void {
           validateEventPositions({
-            "1": { offset: 123, sequenceNumber: 456 },
-            "2": { offset: 123 },
+            "1": { offset: "123", sequenceNumber: 456 },
+            "2": { offset: "123" },
           });
         };
         test.should.throw(
@@ -130,7 +130,10 @@ testWithServiceTypes(() => {
       });
       it("throws error when event position map is passed with both offset and enqueuedOn set", () => {
         const test = function (): void {
-          validateEventPositions({ "1": { offset: 123, enqueuedOn: 456 }, "2": { offset: 123 } });
+          validateEventPositions({
+            "1": { offset: "123", enqueuedOn: 456 },
+            "2": { offset: "123" },
+          });
         };
         test.should.throw(
           TypeError,
@@ -141,7 +144,7 @@ testWithServiceTypes(() => {
         const test = function (): void {
           validateEventPositions({
             "1": { sequenceNumber: 123, enqueuedOn: 456 },
-            "2": { offset: 123 },
+            "2": { offset: "123" },
           });
         };
         test.should.throw(

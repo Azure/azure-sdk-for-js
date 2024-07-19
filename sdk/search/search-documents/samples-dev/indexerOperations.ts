@@ -5,18 +5,13 @@
  * @summary Demonstrates the Indexer Operations.
  */
 
-import {
-  AzureKeyCredential,
-  SearchIndexer,
-  SearchIndexerClient,
-  SearchIndexerStatus,
-} from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SearchIndexer, SearchIndexerClient, SearchIndexerStatus } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const dataSourceName = process.env.DATA_SOURCE_NAME || "";
 const targetIndexName = process.env.TARGET_INDEX_NAME || "";
 
@@ -102,11 +97,11 @@ async function runIndexer(indexerName: string, client: SearchIndexerClient): Pro
 
 async function main(): Promise<void> {
   console.log(`Running Indexer Operations Sample....`);
-  if (!endpoint || !apiKey || !dataSourceName || !targetIndexName) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint || !dataSourceName || !targetIndexName) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
   try {
     await createIndexer(TEST_INDEXER_NAME, client);
     await getAndUpdateIndexer(TEST_INDEXER_NAME, client);

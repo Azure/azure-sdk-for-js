@@ -15,7 +15,7 @@ import {
   ServerCommunicationLinksGetOptionalParams,
   ServerCommunicationLinksGetResponse,
   ServerCommunicationLinksCreateOrUpdateOptionalParams,
-  ServerCommunicationLinksCreateOrUpdateResponse
+  ServerCommunicationLinksCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ServerCommunicationLinks {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
+    options?: ServerCommunicationLinksListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerCommunicationLink>;
   /**
    * Deletes a server communication link.
@@ -45,7 +45,7 @@ export interface ServerCommunicationLinks {
     resourceGroupName: string,
     serverName: string,
     communicationLinkName: string,
-    options?: ServerCommunicationLinksDeleteOptionalParams
+    options?: ServerCommunicationLinksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a server communication link.
@@ -59,7 +59,7 @@ export interface ServerCommunicationLinks {
     resourceGroupName: string,
     serverName: string,
     communicationLinkName: string,
-    options?: ServerCommunicationLinksGetOptionalParams
+    options?: ServerCommunicationLinksGetOptionalParams,
   ): Promise<ServerCommunicationLinksGetResponse>;
   /**
    * Creates a server communication link.
@@ -75,7 +75,7 @@ export interface ServerCommunicationLinks {
     serverName: string,
     communicationLinkName: string,
     parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
+    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
@@ -96,6 +96,6 @@ export interface ServerCommunicationLinks {
     serverName: string,
     communicationLinkName: string,
     parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
+    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams,
   ): Promise<ServerCommunicationLinksCreateOrUpdateResponse>;
 }

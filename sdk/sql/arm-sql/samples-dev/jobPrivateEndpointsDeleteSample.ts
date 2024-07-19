@@ -34,7 +34,7 @@ async function deleteAPrivateEndpoint() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    privateEndpointName
+    privateEndpointName,
   );
   console.log(result);
 }

@@ -31,7 +31,7 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline, isPipelineLike } from "./Pipeline";
 import { StorageClient, CommonOptions, getStorageClientContext } from "./StorageClient";
 import {
   appendToURLPath,
@@ -199,7 +199,13 @@ export interface MessagesEnqueueOptionalParams extends CommonOptions {
 /**
  * Options to configure {@link QueueClient.sendMessage} operation
  */
-export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
+export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /** Optional parameters. */
 export interface MessagesDequeueOptionalParams extends CommonOptions {
@@ -216,7 +222,13 @@ export interface MessagesDequeueOptionalParams extends CommonOptions {
 /**
  * Options to configure {@link QueueClient.receiveMessages} operation
  */
-export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
+export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /** Optional parameters. */
 export interface MessagesPeekOptionalParams extends CommonOptions {
@@ -231,7 +243,13 @@ export interface MessagesPeekOptionalParams extends CommonOptions {
 /**
  * Options to configure {@link QueueClient.peekMessages} operation
  */
-export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
+export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
@@ -478,7 +496,7 @@ export class QueueClient extends StorageClient {
     options = options || {};
     let pipeline: Pipeline;
     let url: string;
-    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrQueueName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;

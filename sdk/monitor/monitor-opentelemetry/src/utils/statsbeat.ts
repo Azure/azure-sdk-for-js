@@ -14,6 +14,24 @@ let instance: StatsbeatConfiguration;
 class StatsbeatConfiguration {
   // Initial Statsbeat options
   private currentStatsbeatOptions: StatsbeatOptions = {};
+  private initializedByShim = false;
+
+  constructor() {
+    // Check for shim initialization upon construction
+    try {
+      if (
+        JSON.parse(process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || "{}").feature &
+        StatsbeatFeature.SHIM
+      ) {
+        this.initializedByShim = true;
+      }
+    } catch (error) {
+      InternalLogger.getInstance().error(
+        "Failed to parse statsbeat config environment variable.",
+        error,
+      );
+    }
+  }
 
   public setStatsbeatFeatures = (statsbeatOptions: StatsbeatOptions) => {
     // Merge old statsbeat options with new statsbeat options overriding any common properties
@@ -38,6 +56,9 @@ class StatsbeatConfiguration {
     if (statsbeatOptions.bunyan === true) {
       instrumentationBitMap |= StatsbeatInstrumentation.BUNYAN;
     }
+    if (statsbeatOptions.winston === true) {
+      instrumentationBitMap |= StatsbeatInstrumentation.WINSTON;
+    }
 
     let featureBitMap = StatsbeatFeature.NONE;
     featureBitMap |= StatsbeatFeature.DISTRO;
@@ -48,6 +69,10 @@ class StatsbeatConfiguration {
     // Determines if the customer has activated the Live Metrics feature
     if (statsbeatOptions.liveMetrics === true) {
       featureBitMap |= StatsbeatFeature.LIVE_METRICS;
+    }
+
+    if (this.initializedByShim) {
+      featureBitMap |= StatsbeatFeature.SHIM;
     }
 
     try {

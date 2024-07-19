@@ -40,7 +40,7 @@ async function getsTheSensitivityLabelOfAGivenColumnInAManagedDatabase() {
     schemaName,
     tableName,
     columnName,
-    sensitivityLabelSource
+    sensitivityLabelSource,
   );
   console.log(result);
 }
