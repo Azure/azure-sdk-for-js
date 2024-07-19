@@ -86,6 +86,7 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
   return dimensions;
 }
 
+// Get metric dependency target, avoiding high cardinality
 export function getDependencyTarget(attributes: Attributes): string {
   if (!attributes) {
     return "";
