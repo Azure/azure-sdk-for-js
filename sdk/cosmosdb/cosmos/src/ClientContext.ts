@@ -273,7 +273,6 @@ export class ClientContext {
     request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
     request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
       options.disableNonStreamingOrderByQuery,
-      process.env.DISABLE_LIST_AND_SET_AGGREGATE === "true",
     );
 
     if (typeof query === "string") {

@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 import { QueryFeature } from "../common";
 
-export function supportedQueryFeaturesBuilder(
-  disableNonStreamingOrderByQuery?: boolean,
-  disableListAndSetAggregate?: boolean,
-): string {
+export function supportedQueryFeaturesBuilder(disableNonStreamingOrderByQuery?: boolean): string {
+  const disableListAndSetAggregate = process.env.DISABLE_LIST_AND_SET_AGGREGATE === "true";
   if (disableNonStreamingOrderByQuery && disableListAndSetAggregate) {
     return Object.keys(QueryFeature)
       .filter(
