@@ -17,12 +17,12 @@ import { createClient } from "./utils/clientMethods";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-const key = assertEnvironmentVariable("VISION_KEY");
-const KeyCredential = new AzureKeyCredential(key);
-
 const credentials = [
-  { credential: KeyCredential, title: "AzureKeyCredential" },
-  { credential: createTestCredential(), title: "TokenCredential" }
+  {
+    credential: () => new AzureKeyCredential(assertEnvironmentVariable("VISION_KEY")),
+    title: "AzureKeyCredential",
+  },
+  { credential: () => createTestCredential(), title: "TokenCredential" },
 ];
 
 describe("Analyze Tests", () => {
@@ -33,12 +33,13 @@ describe("Analyze Tests", () => {
 
       beforeEach(async function (this: Context) {
         recorder = await createRecorder(this);
-        
+
         recorder.addSanitizers({
           headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
           uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint/" }],
         });
-        client = await createClient(recorder, credential.credential);
+
+        client = await createClient(recorder, credential.credential());
       });
 
       afterEach(async function () {
@@ -271,7 +272,9 @@ describe("Analyze Tests", () => {
         assert.isNotNull(captionResult);
         assert.isAbove(captionResult.confidence, 0);
         assert.isBelow(captionResult.confidence, 1);
-        assert.isTrue(captionResult.text.toLowerCase().includes(genderNeutral ? "person" : "woman"));
+        assert.isTrue(
+          captionResult.text.toLowerCase().includes(genderNeutral ? "person" : "woman"),
+        );
         assert.isTrue(captionResult.text.toLowerCase().includes("table"));
         assert.isTrue(captionResult.text.toLowerCase().includes("laptop"));
       }
@@ -314,9 +317,9 @@ describe("Analyze Tests", () => {
           assert.isNotNull(oneObject.boundingBox);
           assert.isTrue(
             oneObject.boundingBox.x > 0 ||
-            oneObject.boundingBox.y > 0 ||
-            oneObject.boundingBox.h > 0 ||
-            oneObject.boundingBox.w > 0,
+              oneObject.boundingBox.y > 0 ||
+              oneObject.boundingBox.h > 0 ||
+              oneObject.boundingBox.w > 0,
           );
           assert.isNotNull(oneObject.tags);
           for (const oneTag of oneObject.tags) {
@@ -327,8 +330,9 @@ describe("Analyze Tests", () => {
         }
 
         assert.isAtLeast(
-          objectsResult.values.filter((v) => v.tags.filter((t) => t.name.toLowerCase() === "person"))
-            .length,
+          objectsResult.values.filter((v) =>
+            v.tags.filter((t) => t.name.toLowerCase() === "person"),
+          ).length,
           0,
         );
       }
