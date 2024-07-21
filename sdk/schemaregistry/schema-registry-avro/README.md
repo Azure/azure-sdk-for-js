@@ -69,7 +69,7 @@ const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { AvroSerializer } = require("@azure/schema-registry-avro");
 
 const client = new SchemaRegistryClient(
-  "<fully qualified namespace>",
+  "<fully qualified namespace with protocol>",
   new DefaultAzureCredential()
 );
 const serializer = new AvroSerializer(client, {
