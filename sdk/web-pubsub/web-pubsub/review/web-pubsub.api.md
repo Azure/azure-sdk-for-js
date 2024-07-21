@@ -25,7 +25,7 @@ export interface GenerateClientTokenOptions extends OperationOptions {
     groups?: string[];
     roles?: string[];
     userId?: string;
-    webPubSubClientAccess?: WebPubSubClientAccess;
+    webPubSubClientProtocol?: WebPubSubClientProtocol;
 }
 
 // @public
@@ -159,7 +159,7 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 // @public
-export type WebPubSubClientAccess = "default" | "mqtt";
+export type WebPubSubClientProtocol = "default" | "mqtt";
 
 // @public (undocumented)
 export interface WebPubSubGroup {
