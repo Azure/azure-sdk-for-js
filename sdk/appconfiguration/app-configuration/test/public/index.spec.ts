@@ -907,8 +907,19 @@ describe("AppConfigurationClient", () => {
         pageCount++;
         etags.push(page.etag ?? "");
       }
-      // 2 full page and 1 empty pages
       assert.equal(pageCount, 3);
+
+      // Assert page not changes using the same etags
+      iterator = client.listConfigurationSettings({ keyFilter: key, pageEtags: etags }).byPage();
+
+      let response = await iterator.next();
+      assertPage(response.value, 0, 304);
+
+      response = await iterator.next();
+      assertPage(response.value, 0, 304);
+
+      response = await iterator.next();
+      assertPage(response.value, 0, 304);
 
       // This number is arbitrarily chosen to add new setting to the 3rd page
       const additionalNumberOfLabels = 50;
@@ -918,7 +929,7 @@ describe("AppConfigurationClient", () => {
       iterator = client.listConfigurationSettings({ keyFilter: key, pageEtags: etags }).byPage();
 
       // First page no change
-      let response = await iterator.next();
+      response = await iterator.next();
       assertPage(response.value, 0, 304);
 
       // Second page: full settings with change

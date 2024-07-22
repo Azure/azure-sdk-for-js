@@ -56,7 +56,7 @@ testWithServiceTypes(() => {
       // });
 
       it("should create from an offset from start", function (done: Mocha.Done): void {
-        const result = "amqp.annotation.x-opt-offset > '-1:-1'";
+        const result = "amqp.annotation.x-opt-offset > '-1'";
         const pos = earliestEventPosition;
         result.should.equal(getEventPositionFilter(pos));
         done();
