@@ -9,6 +9,7 @@
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import "@azure/openai/types";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -20,12 +21,12 @@ const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search end
 const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
 
 export async function main() {
-  console.log("== Bring Your Own Data Sample ==");
+  console.log("== On Your Data Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2024-04-01-preview";
+  const apiVersion = "2024-05-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     stream: true,
@@ -38,20 +39,18 @@ export async function main() {
     ],
     max_tokens: 128,
     model: "",
-    ...({
-      data_sources: [
-        {
-          type: "azure_search",
-          parameters: {
-            endpoint: azureSearchEndpoint,
-            index_name: azureSearchIndexName,
-            authentication: {
-              type: "system_assigned_managed_identity",
-            },
+    data_sources: [
+      {
+        type: "azure_search",
+        parameters: {
+          endpoint: azureSearchEndpoint,
+          index_name: azureSearchIndexName,
+          authentication: {
+            type: "system_assigned_managed_identity",
           },
         },
-      ],
-    } as Record<string, any>),
+      },
+    ],
   });
 
   for await (const event of events) {
