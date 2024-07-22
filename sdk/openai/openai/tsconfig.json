@@ -4,7 +4,6 @@
     "paths": { "@azure/openai": ["./src/index.js"] },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["esnext", "dom"],
     "rootDir": "."
   },
   "exclude": ["./samples/**/*.ts"],
