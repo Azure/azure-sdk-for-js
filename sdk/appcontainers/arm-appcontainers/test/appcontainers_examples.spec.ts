@@ -63,6 +63,14 @@ describe("AppContainer test", () => {
     await recorder.stop();
   });
 
+  it.only("operations list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("managedEnvironments create test", async function () {
     environmentEnvelope = {
       location: "East US",
