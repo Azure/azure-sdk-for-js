@@ -22284,7 +22284,7 @@ packages:
     dev: false
 
   file:projects/openai-1.tgz:
-    resolution: {integrity: sha512-Y8mPud7yfcgHKa3CZ+siR57Mo8CrRBakGfj9QFBKj/gLppmzujKqJH1jEXwHP241bBlYbJ5EfTQBFZ3Ua3oHGA==, tarball: file:projects/openai-1.tgz}
+    resolution: {integrity: sha512-PMY2aVU+Od1BxGQaLgtF72PmamuXZS9TUvkIhVJhoKQEc6pB1JmnbM15Lk/kk3xBz7amXCGvoeO7xQI9L6I1Kg==, tarball: file:projects/openai-1.tgz}
     name: '@rush-temp/openai-1'
     version: 0.0.0
     dependencies:
@@ -22318,6 +22318,7 @@ packages:
       puppeteer: 22.13.0(typescript@5.5.3)
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.4.5
     transitivePeerDependencies:
