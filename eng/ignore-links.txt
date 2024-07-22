@@ -27,3 +27,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-devopsinfrastructure?view=a
 https://docs.microsoft.com/javascript/api/@azure/arm-informaticadatamanagement?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview
