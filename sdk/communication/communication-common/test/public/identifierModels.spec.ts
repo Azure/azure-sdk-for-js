@@ -41,6 +41,20 @@ describe("Identifier models", function () {
     assertRawId(
       {
         communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      },
+      "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+    );
+    assertRawId(
+      {
+        communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      },
+      "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+    );
+    assertRawId(
+      {
+        communicationUserId:
           "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130",
       },
       "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130",
@@ -162,6 +176,22 @@ describe("Identifier models", function () {
     const assertIdentifier = (rawId: string, expectedIdentifier: CommunicationIdentifierKind) =>
       assert.deepStrictEqual(createIdentifierFromRawId(rawId), expectedIdentifier);
 
+    assertIdentifier(
+      "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      {
+        communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        kind: "communicationUser",
+      },
+    );
+    assertIdentifier(
+      "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      {
+        communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        kind: "communicationUser",
+      },
+    );
     assertIdentifier(
       "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130",
       {
@@ -305,6 +335,12 @@ describe("Identifier models", function () {
     const assertRoundtrip = (rawId: string) =>
       assert.strictEqual(getIdentifierRawId(createIdentifierFromRawId(rawId)), rawId);
 
+    assertRoundtrip(
+      "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+    );
+    assertRoundtrip(
+      "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+    );
     assertRoundtrip(
       "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130",
     );

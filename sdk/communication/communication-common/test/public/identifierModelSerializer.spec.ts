@@ -50,6 +50,30 @@ describe("Identifier model serializer", function () {
     assertSerialize(
       {
         communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      },
+      {
+        rawId: "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        communicationUser: {
+          id: "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        },
+      },
+    );
+    assertSerialize(
+      {
+        communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      },
+      {
+        rawId: "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        communicationUser: {
+          id: "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        },
+      },
+    );
+    assertSerialize(
+      {
+        communicationUserId:
           "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
       {
@@ -148,6 +172,30 @@ describe("Identifier model serializer", function () {
   });
 
   it("can deserialize", function () {
+    assertDeserialize(
+      {
+        communicationUser: {
+          id: "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        },
+      },
+      {
+        kind: "communicationUser",
+        communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      },
+    );
+    assertDeserialize(
+      {
+        communicationUser: {
+          id: "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+        },
+      },
+      {
+        kind: "communicationUser",
+        communicationUserId:
+          "8:acs:52a5e676-39a3-4f45-a8ed-5a162dbbd7eb_ext_cdc5aeea-15c5-4db6-b079-fcadd2505dc2_cab309e5-a2e7-4ac8-b04e-5fadc3aa90fa",
+      },
+    );
     assertDeserialize(
       {
         communicationUser: {
