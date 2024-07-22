@@ -12,35 +12,35 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { Scvmm } from "../scvmm";
+import { ScVmm } from "../scVmm";
 import {
-  ResourceProviderOperation,
+  Operation,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
-  OperationsListNextResponse
+  OperationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: Scvmm;
+  private readonly client: ScVmm;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: Scvmm) {
+  constructor(client: ScVmm) {
     this.client = client;
   }
 
   /**
-   * Returns list of all operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<ResourceProviderOperation> {
+    options?: OperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -54,14 +54,14 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ResourceProviderOperation[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -81,19 +81,19 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<ResourceProviderOperation> {
+    options?: OperationsListOptionalParams,
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Returns list of all operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
+    options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,29 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceProviderOperationList
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceProviderOperationList
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
  *
  * @summary Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersLockImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersLockImmutabilityPolicy.json
  */
 async function lockImmutabilityPolicy() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function lockImmutabilityPolicy() {
     resourceGroupName,
     accountName,
     containerName,
-    ifMatch
+    ifMatch,
   );
   console.log(result);
 }

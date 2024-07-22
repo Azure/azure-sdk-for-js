@@ -5,3 +5,4 @@ extends:
     parameters:
       PackageName: "@azure/schema-registry-avro"
       ServiceDirectory: schemaregistry
+      UseFederatedAuth: true

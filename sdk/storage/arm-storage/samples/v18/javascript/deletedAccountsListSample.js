@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists deleted accounts under the subscription.
  *
  * @summary Lists deleted accounts under the subscription.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/DeletedAccountList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedAccountList.json
  */
 async function deletedAccountList() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

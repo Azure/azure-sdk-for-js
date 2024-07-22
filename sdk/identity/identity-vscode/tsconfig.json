@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "target": "es6",
     "lib": ["DOM"],

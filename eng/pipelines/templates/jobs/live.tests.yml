@@ -82,7 +82,11 @@ jobs:
           parameters:
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
             SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
-            EnvVars: ${{ parameters.EnvVars }}
+            EnvVars:
+              Pool: $(Pool)
+              ${{ insert }}: ${{ parameters.EnvVars }}
+            ${{ if parameters.UseFederatedAuth }}:
+              SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
         - ${{ if parameters.TestResourceDirectories }}:
           - ${{ each directory in parameters.TestResourceDirectories }}:
@@ -220,6 +224,7 @@ jobs:
               $account = (Get-AzContext).Account
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+              Update-AzConfig -DisplayBreakingChangeWarning $false
 
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE
@@ -272,7 +277,7 @@ jobs:
             TEST_MODE: "live"
             # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
             # so "execute samples" step correctly picks up Powershell credential.
-            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost" 
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
             SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
@@ -308,7 +313,7 @@ jobs:
             TEST_MODE: "live"
             # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
             # so "execute samples" step correctly picks up Powershell credential.
-            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost" 
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
@@ -321,11 +326,15 @@ jobs:
               parameters:
                 ServiceDirectory: "${{ directory }}"
                 SubscriptionConfiguration: $(SubscriptionConfiguration)
+                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/remove-test-resources.yml
             parameters:
               ServiceDirectory: "${{ parameters.ServiceDirectory }}"
               SubscriptionConfiguration: $(SubscriptionConfiguration)
+              UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+              ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"

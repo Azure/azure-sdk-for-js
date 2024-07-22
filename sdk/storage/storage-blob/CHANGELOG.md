@@ -1,14 +1,14 @@
 # Release History
 
-## 12.24.0-beta.2 (Unreleased)
+## 12.24.0 (2024-07-18)
 
 ### Features Added
 
-### Breaking Changes
+- Includes all features released in 12.24.0-beta.1.
 
 ### Bugs Fixed
 
-### Other Changes
+- Correct content-length header with request body length. (#30138)
 
 ## 12.24.0-beta.1 (2024-06-13)
 

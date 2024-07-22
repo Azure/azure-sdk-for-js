@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -122,7 +122,7 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   },
   "//sampleConfiguration": {
     "skip": [

@@ -1,15 +1,34 @@
 # Release History
-
-## 16.0.0-beta.9 (Unreleased)
-
+    
+## 16.0.0 (2024-06-24)
+    
 ### Features Added
+
+  - Added Interface DataTransferServiceResourceCreateUpdateProperties
+  - Added Interface GraphAPIComputeServiceResourceCreateUpdateProperties
+  - Added Interface MaterializedViewsBuilderServiceResourceCreateUpdateProperties
+  - Added Interface ServiceResourceCreateUpdateProperties
+  - Added Interface SqlDedicatedGatewayServiceResourceCreateUpdateProperties
+  - Added Type Alias AzureConnectionType
+  - Added Type Alias DedicatedGatewayType
+  - Added Type Alias ServiceResourceCreateUpdatePropertiesUnion
+  - Interface ClusterResourceProperties has a new optional parameter azureConnectionMethod
+  - Interface ClusterResourceProperties has a new optional parameter privateLinkResourceId
+  - Interface DataCenterResourceProperties has a new optional parameter privateEndpointIpAddress
+  - Interface ServiceResourceCreateUpdateParameters has a new optional parameter properties
+  - Interface SqlDedicatedGatewayServiceResourceProperties has a new optional parameter dedicatedGatewayType
+  - Added Enum KnownAzureConnectionType
+  - Added Enum KnownDedicatedGatewayType
+  - Enum KnownServerVersion has a new value Five0
+  - Enum KnownServerVersion has a new value Six0
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ServiceResourceCreateUpdateParameters no longer has parameter instanceCount
+  - Interface ServiceResourceCreateUpdateParameters no longer has parameter instanceSize
+  - Interface ServiceResourceCreateUpdateParameters no longer has parameter serviceType
+    
+    
 ## 16.0.0-beta.8 (2024-06-17)
 Compared with version 15.6.0
     

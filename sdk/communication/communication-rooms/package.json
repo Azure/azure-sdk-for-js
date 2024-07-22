@@ -54,10 +54,10 @@
     "karma-env-preprocessor": "^0.1.1",
     "mkdirp": "^3.0.1",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms/",

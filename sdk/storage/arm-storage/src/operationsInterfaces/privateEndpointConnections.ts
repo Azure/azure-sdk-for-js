@@ -14,7 +14,7 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsPutOptionalParams,
   PrivateEndpointConnectionsPutResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the storage account.
@@ -49,7 +49,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     accountName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection associated with the storage account.
@@ -68,7 +68,7 @@ export interface PrivateEndpointConnections {
     accountName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
+    options?: PrivateEndpointConnectionsPutOptionalParams,
   ): Promise<PrivateEndpointConnectionsPutResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the storage account.
@@ -85,6 +85,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     accountName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

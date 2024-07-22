@@ -1,6 +1,6 @@
 # Release History
 
-## 5.13.0-beta.2 (Unreleased)
+## 5.13.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,15 @@
 
 ### Bugs Fixed
 
+- Revert the change to the definition of the earliest event position.
+
 ### Other Changes
+
+## 5.13.0-beta.2 (2024-06-27)
+
+### Bugs Fixed
+
+- Fix the definition of the earliest event position.
 
 ## 5.13.0-beta.1 (2024-06-06)
 

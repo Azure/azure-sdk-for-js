@@ -59,7 +59,7 @@
     "express": "^4.19.2",
     "fs-extra": "^11.2.0",
     "minimist": "^1.2.8",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "rollup": "^4.0.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.9.3",
@@ -68,7 +68,7 @@
     "ts-morph": "^23.0.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.2.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "yaml": "^2.3.4"
   },
   "devDependencies": {

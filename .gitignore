@@ -185,6 +185,7 @@ _recordings
 sdk/template/template-dpg/src/src
 
 # tshy
+.tshy
 .tshy-build-tmp
 .tshy-build
 

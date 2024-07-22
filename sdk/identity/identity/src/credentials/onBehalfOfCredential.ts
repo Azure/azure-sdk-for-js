@@ -3,6 +3,7 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
+  OnBehalfOfCredentialAssertionOptions,
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
@@ -36,6 +37,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   private certificatePath?: string;
   private clientSecret?: string;
   private userAssertionToken: string;
+  private clientAssertion?: () => Promise<string>;
 
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
@@ -90,25 +92,59 @@ export class OnBehalfOfCredential implements TokenCredential {
       CredentialPersistenceOptions,
   );
 
+  /**
+   * Creates an instance of the {@link OnBehalfOfCredential} with the details
+   * needed to authenticate against Microsoft Entra ID with a client `getAssertion`
+   * and an user assertion.
+   *
+   * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
+   *
+   * ```ts
+   * const tokenCredential = new OnBehalfOfCredential({
+   *   tenantId,
+   *   clientId,
+   *   getAssertion: () => { return Promise.resolve("my-jwt")},
+   *   userAssertionToken: "access-token"
+   * });
+   * const client = new KeyClient("vault-url", tokenCredential);
+   *
+   * await client.getKey("key-name");
+   * ```
+   *
+   * @param options - Optional parameters, generally common across credentials.
+   */
+  constructor(
+    options: OnBehalfOfCredentialAssertionOptions &
+      MultiTenantTokenCredentialOptions &
+      CredentialPersistenceOptions,
+  );
+
   constructor(options: OnBehalfOfCredentialOptions) {
     const { clientSecret } = options as OnBehalfOfCredentialSecretOptions;
     const { certificatePath, sendCertificateChain } =
       options as OnBehalfOfCredentialCertificateOptions;
+    const { getAssertion } = options as OnBehalfOfCredentialAssertionOptions;
     const {
       tenantId,
       clientId,
       userAssertionToken,
       additionallyAllowedTenants: additionallyAllowedTenantIds,
     } = options;
-    if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
+    if (
+      !tenantId ||
+      !clientId ||
+      !(clientSecret || certificatePath || getAssertion) ||
+      !userAssertionToken
+    ) {
       throw new Error(
-        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`,
+        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath or getAssertion) and userAssertionToken are required parameters.`,
       );
     }
     this.certificatePath = certificatePath;
     this.clientSecret = clientSecret;
     this.userAssertionToken = userAssertionToken;
     this.sendCertificateChain = sendCertificateChain;
+    this.clientAssertion = getAssertion;
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
@@ -155,9 +191,18 @@ export class OnBehalfOfCredential implements TokenCredential {
           this.clientSecret,
           options,
         );
+      } else if (this.clientAssertion) {
+        return this.msalClient.getTokenOnBehalfOf(
+          arrayScopes,
+          this.userAssertionToken,
+          this.clientAssertion,
+          options,
+        );
       } else {
-        // this is a bug, as the constructor should have thrown an error if neither clientSecret nor certificatePath were provided
-        throw new Error("Expected either clientSecret or certificatePath to be defined.");
+        // this is an invalid scenario and is a bug, as the constructor should have thrown an error if neither clientSecret nor certificatePath nor clientAssertion were provided
+        throw new Error(
+          "Expected either clientSecret or certificatePath or clientAssertion to be defined.",
+        );
       }
     });
   }
