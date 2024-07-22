@@ -3800,7 +3800,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.41
     dev: false
     optional: true
 
