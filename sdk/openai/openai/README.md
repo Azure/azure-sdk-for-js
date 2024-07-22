@@ -1,50 +1,20 @@
-# Azure OpenAI client library for JavaScript
+# Azure OpenAI library for TypeScript
 
-The Azure OpenAI client library for JavaScript is an adaptation of OpenAI's REST APIs that provides an idiomatic interface
-and rich integration with the rest of the Azure SDK ecosystem. It can connect to Azure OpenAI resources *or* to the
-non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure OpenAI development.
+The [Azure OpenAI Service][service_overview] provides access to advanced AI models for conversational, content creation, and data grounding use cases. The Azure OpenAI library for TypeScript is a companion to the official [OpenAI client library for JavaScript][openai_pkg]. The Azure OpenAI library provides additional strongly typed support for request and response models specific to Azure OpenAI scenarios.
 
-Use the client library for Azure OpenAI to:
+#### **_Migrating from @azure/openai version 1 advisory_ ⚠️**
 
-* [Create a chat completion with ChatGPT][stream_chat_completion_sample]
-* [Create a vector embedding for text][get_embeddings_sample]
-* [Use your own data with Azure OpenAI][byod_sample]
-* [Generate images][get_images_sample]
-* [Transcribe and Translate audio files][transcribe_audio_sample]
-* [Create a legacy completion for text][get_completions_sample]
-
-Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
-
-Checkout the following examples:
-
-- [Multiple Completions](#generate-multiple-completions-with-subscription-key)
-- [Chatbot](#generate-chatbot-response)
-- [Summarize Text](#summarize-text-with-completion)
-- [Use Chat Tools](#use-chat-tools)
-- [Generate Images](#generate-images-with-dall-e-image-generation-models)
-- [Analyze Business Data](#analyze-business-data)
-- [Transcribe and Translate audio files](#transcribe-and-translate-audio-files)
-- [Chat with images using gpt-4-vision-preview](#chat-with-images-using-gpt-4-vision-preview)
+Checkout the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/feature/openai-v2/sdk/openai/openai/MIGRATION.md) for detailed instructions on how to update your application code from version 1.x of the Azure OpenAI client library to the `openai` library.
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/openai)
-- [API reference documentation](https://aka.ms/openai-js-api)
-- [Product documentation](https://learn.microsoft.com/azure/cognitive-services/openai)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples/v1-beta)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/openai-readme)
+- [Product documentation][service_overview]
+- [Samples][samples_folder]
 
 ## Getting started
-
-```javascript
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
-
-const client = new OpenAIClient(
-  "https://<resource name>.openai.azure.com/", 
-  new AzureKeyCredential("<Azure API key>")
-);
-const { id, created, choices, usage } = await client.getCompletions("<deployment ID>", ["YOUR PROMPT HERE"]);
-```
 
 ### Currently supported environments
 
@@ -54,468 +24,237 @@ const { id, created, choices, usage } = await client.getCompletions("<deployment
 ### Prerequisites
 
 If you'd like to use an Azure OpenAI resource, you must have an [Azure subscription](https://azure.microsoft.com/free/dotnet/)
-and [Azure OpenAI access](https://learn.microsoft.com/azure/cognitive-services/openai/overview#how-do-i-get-access-to-azure-openai).
-This will allow you to create an Azure OpenAI resource and get both a connection URL as well as API keys. For more
-information, see [Quickstart: Get started generating text using Azure OpenAI Service](https://learn.microsoft.com/azure/cognitive-services/openai/quickstart).
+and [Azure OpenAI access](https://learn.microsoft.com/azure/cognitive-services/openai/overview#how-do-i-get-access-to-azure-openai). For more information, see [Quickstart: Get started generating text using Azure OpenAI Service](https://learn.microsoft.com/azure/cognitive-services/openai/quickstart).
 
-If you'd like to use the Azure OpenAI JS client library to connect to non-Azure OpenAI, you'll need an API key
-from a developer account at https://platform.openai.com/.
+### Install both `openai` and `@azure/openai`
 
-### Install the `@azure/openai` package
-
-Install the Azure OpenAI client client library for JavaScript with `npm`:
+Install the Azure OpenAI client library and the OpenAI library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/openai
+npm install openai @azure/openai
 ```
 
-### Create and authenticate a `OpenAIClient`
+### Create and authenticate a `AzureOpenAI`
 
-To configure a client for use with Azure OpenAI, provide a valid endpoint URI to an Azure OpenAI resource
-along with a corresponding key credential, token credential, or Azure identity credential that's authorized to use the
-Azure OpenAI resource. To instead configure the client to connect to OpenAI's service, provide an API key from OpenAI's
-developer portal.
+There are several ways to authenticate with the Azure OpenAI service and the recommended way is to use Microsoft Entra ID for secure, keyless authentication via the [Azure Identity library][azure_identity]. To get started:
 
-#### Using an API Key from Azure
+1. Install the [Azure Identity package](https://www.npmjs.com/package/@azure/identity):
 
-Use the [Azure Portal][azure_portal] to browse to your OpenAI resource and retrieve an API key, or use the [Azure CLI][azure_cli] snippet below:
+    ```bash
+    npm install @azure/identity
+    ```
 
-**Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
+2. Create a token provider by calling the `getBearerTokenProvider` with the desired credential type. For example, [DefaultAzureCredential][azure_identity_dac]:
 
-```PowerShell
-az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
-```
+    ```js
+    import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
-Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
+    const credential = new DefaultAzureCredential();
+    const scope = "https://cognitiveservices.azure.com/.default";
+    const azureADTokenProvider = getBearerTokenProvider(credential, scope);
+    ```
 
-```javascript
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+3. Create the client by passing in the token provider:
 
-const client = new OpenAIClient("<endpoint>", new AzureKeyCredential("<API key>"));
-```
+    ```js
+    import { AzureOpenAI } from "openai";
 
-#### Using an Azure Active Directory Credential
+    const deployment = "Your deployment name";
+    const apiVersion = "2024-05-01-preview";
+    const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+    ```
 
-Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
-or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
-
-```bash
-npm install @azure/identity
-```
-
-You will also need to [register a new AAD application][register_aad_app] and grant access to OpenAI by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
-
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
-
-```javascript
-const { OpenAIClient } = require("@azure/openai");
-const { DefaultAzureCredential } = require("@azure/identity");
-
-const client = new OpenAIClient("<endpoint>", new DefaultAzureCredential());
-```
-
-#### Using an API Key from OpenAI
-
-To instead configure the client to connect to OpenAI's service, provide an API key from OpenAI's
-developer portal. Once you have an API key, you can use the `OpenAIKeyCredential` class to authenticate the client as follows:
-
-```javascript
-const { OpenAIClient, OpenAIKeyCredential } = require("@azure/openai");
-
-const client = new OpenAIClient(new OpenAIKeyCredential("<API key>"));
-```
+Grant access to your Azure OpenAI resource to your trusted entities by following instructions in [How to configure Azure OpenAI Service with Microsoft Entra ID authentication](https://learn.microsoft.com/azure/ai-services/openai/how-to/managed-identity).
 
 ## Key concepts
 
-The main concept to understand is [Completions][azure_openai_completions_docs]. Briefly explained, completions provides its functionality in the form of a text prompt, which by using a specific [model](https://learn.microsoft.com/azure/cognitive-services/openai/concepts/models), will then attempt to match the context and patterns, providing an output text. The following code snippet provides a rough overview:
+### Assistants
 
-```javascript
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+See [OpenAI's Assistants API overview](https://platform.openai.com/docs/assistants/overview).
 
-async function main(){
-  const client = new OpenAIClient(
-  "https://your-azure-openai-resource.com/",
-  new AzureKeyCredential("your-azure-openai-resource-api-key"));
+### Audio transcription/translation and text-to-speech generation
 
-  const { choices } = await client.getCompletions(
-    "text-davinci-003", // assumes a matching model deployment or model name
-    ["Hello, world!"]);
+See [OpenAI Capabilities: Speech to text](https://platform.openai.com/docs/guides/speech-to-text/speech-to-text).
 
-  for (const choice of choices) {
-    console.log(choice.text);
-  }
-}
+### Batch
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-```
+See [OpenAI's Batch API guide](https://platform.openai.com/docs/guides/batch).
+
+### Chat completion
+
+Chat models take a list of messages as input and return a model-generated message as output. Although the chat format is
+designed to make multi-turn conversations easy, it's also useful for single-turn tasks without any conversation.
+
+See [OpenAI Capabilities: Chat completion](https://platform.openai.com/docs/guides/text-generation/chat-completions-api).
+
+### Image generation
+
+See [OpenAI Capabilities: Image generation](https://platform.openai.com/docs/guides/images/introduction).
+
+### Files
+
+See [OpenAI's Files API reference](https://platform.openai.com/docs/api-reference/files).
+
+### Text embeddings
+
+See [OpenAI Capabilities: Embeddings](https://platform.openai.com/docs/guides/embeddings/embeddings).
 
 ## Examples
 
-You can familiarize yourself with different APIs using [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples/v1-beta).
-
-### Generate Chatbot Response
-
-This example authenticates using a DefaultAzureCredential, then generates chat responses to input chat question and messages.
-
-```javascript
-const { OpenAIClient } = require("@azure/openai");
-const { DefaultAzureCredential } = require("@azure/identity");
-
-async function main(){
-  const endpoint = "https://myaccount.openai.azure.com/";
-  const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
-
-  const deploymentId = "gpt-35-turbo";
-
-  const messages = [
-    { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-    { role: "user", content: "Can you help me?" },
-    { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-    { role: "user", content: "What's the best way to train a parrot?" },
-  ];
-
-  console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
-
-  const events = await client.streamChatCompletions(deploymentId, messages, { maxTokens: 128 });
-  for await (const event of events) {
-    for (const choice of event.choices) {
-      const delta = choice.delta?.content;
-      if (delta !== undefined) {
-        console.log(`Chatbot: ${delta}`);
-      }
-    }
-  }
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-```
-
-### Generate Multiple Completions With Subscription Key
-
-This example generates text responses to input prompts using an Azure subscription key
-
-```javascript
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
-
-async function main(){
-  // Replace with your Azure OpenAI key
-  const key = "YOUR_AZURE_OPENAI_KEY";
-  const endpoint = "https://myaccount.openai.azure.com/";
-  const client = new OpenAIClient(endpoint, new AzureKeyCredential(key));
-
-  const examplePrompts = [
-    "How are you today?",
-    "What is Azure OpenAI?",
-    "Why do children love dinosaurs?",
-    "Generate a proof of Euler's identity",
-    "Describe in single words only the good things that come into your mind about your mother.",
-  ];
-
-  const deploymentName = "text-davinci-003";
-
-  let promptIndex = 0;
-  const { choices } = await client.getCompletions(deploymentName, examplePrompts);
-  for (const choice of choices) {
-    const completion = choice.text;
-    console.log(`Input: ${examplePrompts[promptIndex++]}`);
-    console.log(`Chatbot: ${completion}`);
-  }
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-```
-
-### Summarize Text with Completion
-
-This example generates a summarization of the given input prompt.
-
-```javascript
-const { OpenAIClient } = require("@azure/openai");
-const { DefaultAzureCredential } = require("@azure/identity")
-
-async function main(){
-  const endpoint = "https://myaccount.openai.azure.com/";
-  const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
-
-  const textToSummarize = `
-    Two independent experiments reported their results this morning at CERN, Europe's high-energy physics laboratory near Geneva in Switzerland. Both show convincing evidence of a new boson particle weighing around 125 gigaelectronvolts, which so far fits predictions of the Higgs previously made by theoretical physicists.
-
-    ""As a layman I would say: 'I think we have it'. Would you agree?"" Rolf-Dieter Heuer, CERN's director-general, asked the packed auditorium. The physicists assembled there burst into applause.
-  :`;
-
-  const summarizationPrompt = [`
-    Summarize the following text.
-
-    Text:
-    """"""
-    ${textToSummarize}
-    """"""
-
-    Summary:
-  `];
-
-  console.log(`Input: ${summarizationPrompt}`);
-
-  const deploymentName = "text-davinci-003";
-
-  const { choices } = await client.getCompletions(deploymentName, summarizationPrompt, {
-    maxTokens: 64
-  });
-  const completion = choices[0].text;
-  console.log(`Summarization: ${completion}`);
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-```
-
-### Use chat tools
-
-**Tools** extend chat completions by allowing an assistant to invoke defined functions and other capabilities in the
-process of fulfilling a chat completions request. To use chat tools, start by defining a function tool:
-
-```js
-const getCurrentWeather = {
-    name: "get_current_weather",
-    description: "Get the current weather in a given location",
-    parameters: {
-      type: "object",
-      properties: {
-        location: {
-          type: "string",
-          description: "The city and state, e.g. San Francisco, CA",
-        },
-        unit: {
-          type: "string",
-          enum: ["celsius", "fahrenheit"],
-        },
-      },
-      required: ["location"],
-    },
-  };
-```
-
-With the tool defined, include that new definition in the options for a chat completions request:
-
-```js
-const deploymentName = "gpt-35-turbo-1106";
-const messages = [{ role: "user", content: "What is the weather like in Boston?" }];
-const options = {
-    tools: [
-      {
-        type: "function",
-        function: getCurrentWeather,
-      },
-    ],
-  };
-const events = client.getChatCompletions(deploymentId, messages, options);
-```
-
-When the assistant decides that one or more tools should be used, the response message includes one or more "tool
-calls" that must all be resolved via "tool messages" on the subsequent request. This resolution of tool calls into
-new request messages can be thought of as a sort of "callback" for chat completions.
-
-```js
-// Purely for convenience and clarity, this function handles tool call responses.
-function applyToolCall({ function: call, id }) {
-    if (call.name === "get_current_weather") {
-      const { location, unit } = JSON.parse(call.arguments);
-      // In a real application, this would be a call to a weather API with location and unit parameters
-      return {
-        role: "tool",
-        content: `The weather in ${location} is 72 degrees ${unit} and sunny.`,
-        toolCallId: id,
-      }
-    }
-    throw new Error(`Unknown tool call: ${call.name}`);
-}
-```
-
-To provide tool call resolutions to the assistant to allow the request to continue, provide all prior historical
-context -- including the original system and user messages, the response from the assistant that included the tool
-calls, and the tool messages that resolved each of those tools -- when making a subsequent request.
-
-```js
-const choice = result.choices[0];
-const responseMessage = choice.message;
-if (responseMessage?.role === "assistant") {
-  const requestedToolCalls = responseMessage?.toolCalls;
-  if (requestedToolCalls?.length) {
-    const toolCallResolutionMessages = [
-      ...messages,
-      responseMessage,
-      ...requestedToolCalls.map(applyToolCall),
-    ];
-    const result = await client.getChatCompletions(deploymentName, toolCallResolutionMessages);
-    // continue handling the response as normal
-  }
-}
-```
-
-### Generate images with DALL-E image generation models
-
-This example generates batch images from a given input prompt.
-
-```js
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
-
-async function main() {
-  const endpoint = "https://myaccount.openai.azure.com/";
-  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-
-  const deploymentName = "dalle-3";
-  const prompt = "a monkey eating a banana";
-  const size = "1024x1024";
-  const n = 1;
-  
-  const results = await client.getImages(deploymentName, prompt, { n, size });
-
-  for (const image of results.data) {
-    console.log(`Image generation result URL: ${image.url}`);
-  }
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-```
+This section provides examples of using the features of the Azure OpenAI Service. For additional examples, checkout the [samples folder][samples_folder].
 
 ### Analyze Business Data
 
-This example generates chat responses to input chat questions about your business data. The business data is provided through an Azure Cognitive Search index. To learn more about how to setup an Azure Cognitive Search index as a data source, see [Quickstart: Chat with Azure OpenAI models using your own data][msdocs_quickstart_byod].
+This TypeScript example generates chat responses to input chat questions about your business data. The business data is provided through an Azure Cognitive Search index. To learn more about how to setup an Azure Cognitive Search index as a data source, see Quickstart: [Chat with Azure OpenAI models using your own data][oyd].
 
+```ts
+import { AzureOpenAI } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import "@azure/openai/types";
 
-```javascript
-const { OpenAIClient } = require("@azure/openai");
-const { DefaultAzureCredential } = require("@azure/identity");
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// Azure OpenAI resource. You can find this in the Azure portal.
+import "dotenv/config";
 
-async function main(){
-  const endpoint = "https://myaccount.openai.azure.com/";
-  const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
+// Your Azure Cognitive Search endpoint, and index name
+const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search endpoint>";
+const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
 
-  const deploymentId = "gpt-35-turbo";
+export async function main() {
+  console.log("== Azure On Your Data Sample ==");
 
-  const messages = [
-    { role: "user", content: "What's the most common customer feedback about our product?" },
-  ];
-
-  console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
-
-  const events = await client.streamChatCompletions(deploymentId, messages, { 
-    maxTokens: 128,
-    azureExtensionOptions: {
-      extensions: [
-        {
-          type: "azure_search",
-          endpoint: "<Azure Search endpoint>",
-          indexName: "<Azure Search index name>",
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
+  const deployment = "gpt-4-1106-preview";
+  const apiVersion = "2024-05-01-preview";
+  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const events = await client.chat.completions.create({
+    stream: true,
+    messages: [
+      {
+        role: "user",
+        content:
+          "What's the most common feedback we received from our customers about the product?",
+      },
+    ],
+    max_tokens: 128,
+    model: "",
+    data_sources: [
+      {
+        type: "azure_search",
+        parameters: {
+          endpoint: azureSearchEndpoint,
+          index_name: azureSearchIndexName,
           authentication: {
-            type: "api_key",
-            key: "<Azure Search admin key>",
+            type: "system_assigned_managed_identity",
           },
         },
-      ],
-    },
+      },
+    ],
   });
+
   for await (const event of events) {
     for (const choice of event.choices) {
-      const delta = choice.delta?.content;
-      if (delta !== undefined) {
-        console.log(`Chatbot: ${delta}`);
+      console.log(choice.delta?.content);
+    }
+  }
+}
+
+main();
+```
+
+### Content-filtered Chat Completions
+
+Azure OpenAI Service includes a content filtering system that works alongside core models. This system detects and takes action on specific categories of potentially harmful content in both input prompts and output completions. This example shows how to access those content filtering results.
+
+```ts
+import { AzureOpenAI } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import "@azure/openai/types";
+
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// OpenAI resource. You can find this in the Azure portal.
+import "dotenv/config";
+
+async function main() {
+  console.log("== Streaming Chat Completions Sample ==");
+
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
+  const deployment = "gpt-35-turbo";
+  const apiVersion = "2024-05-01-preview";
+  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const events = await client.chat.completions.create({
+    messages: [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ],
+    model: "",
+    max_tokens: 128,
+    stream: true,
+  });
+
+  for await (const event of events) {
+    for (const choice of event.choices) {
+      console.log(`Chunk: ${choice.delta?.content}`);
+      const filterResults = choice.content_filter_results;
+      if (!filterResults) {
+        continue;
+      }
+      if (filterResults.error) {
+        console.log(
+          `\tContent filter ran into an error ${filterResults.error.code}: ${filterResults.error.message}`,
+        );
+      } else {
+        const { hate, sexual, selfHarm, violence } = filterResults;
+        console.log(
+          `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
+        );
+        console.log(
+          `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
+        );
+        console.log(
+          `\tSelf-harm category is filtered: ${selfHarm?.filtered}, with ${selfHarm?.severity} severity`,
+        );
+        console.log(
+          `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
+        );
       }
     }
   }
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+main();
 ```
 
-### Transcribe and translate audio files
-
-The speech to text and translation capabilities of Azure OpenAI can be used to transcribe and translate a wide variety of audio file formats. The following example shows how to use the `getAudioTranscription` method to transcribe audio into the language the audio is in. You can also translate and transcribe the audio into English using the `getAudioTranslation` method.
-
-The audio file can be loaded into memory using the NodeJS file system APIs. In the browser, the file can be loaded using the `FileReader` API and the output of `arrayBuffer` instance method can be passed to the `getAudioTranscription` method.
-
-```js
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
-const fs = require("fs/promises");
-
-async function main() {
-  console.log("== Transcribe Audio Sample ==");
-
-  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentName = "whisper";
-  const audio = await fs.readFile("< path to an audio file >");
-  const result = await client.getAudioTranscription(deploymentName, audio);
-
-  console.log(`Transcription: ${result.text}`);
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-```
-
-### Chat with images using gpt-4-vision-preview
-
-The `gpt-4-vision-preview` model allows you to use images as input components into chat completions.
-
-To do this, provide distinct content items on the user message(s) for the chat completions request:
-
-```js
-const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
-const deploymentName = "gpt-4-1106-preview";
-const messages: ChatRequestMessage[] = [{role: "user", content: [{
-  type: "image_url",
-  imageUrl: {
-    url,
-    detail: "auto"
-  }
-}]}];
-```
-
-Chat Completions will then proceed as usual, though the model may report the more informative `finish_details` in lieu
-of `finish_reason`:
-
-```js
-const result = await client.getChatCompletions(deploymentName, messages);
-console.log(`Chatbot: ${result.choices[0].message?.content}`);
-```
+## Next steps
 
 ## Troubleshooting
 
-### Logging
+Refer to the official [OpenAI client library for JavaScript][openai_pkg_readme].
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+## Contributing
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+See the [OpenAI CONTRIBUTING.md][openai_contrib] for details on building, testing, and contributing to this library.
 
-setLogLevel("info");
-```
+This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit [cla.microsoft.com][cla].
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct]. For more information, see the [Code of Conduct FAQ][code_of_conduct_faq] or contact [opencode@microsoft.com][email_opencode] with any additional questions or comments.
 
 <!-- LINKS -->
-[get_completions_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
-[stream_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletions.js
-[byod_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
-[get_images_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
-[transcribe_audio_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/audioTranscription.ts
-[get_embeddings_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/getEmbeddings.ts
-[azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
-[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_portal]: https://portal.azure.com
-[msdocs_quickstart_byod]: https://learn.microsoft.com/azure/ai-services/openai/use-your-data-quickstart
+[openai_pkg]: https://www.npmjs.com/package/openai
+[service_overview]: https://azure.microsoft.com/products/ai-services/openai-service
+[azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
+[azure_identity_dac]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
+[oyd]: https://learn.microsoft.com/azure/ai-services/openai/use-your-data-quickstart
+[samples_folder]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples
+[openai_pkg_readme]: https://github.com/openai/openai-node/blob/master/README.md
+[cla]: https://cla.microsoft.com
+[openai_contrib]: https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md
+[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
+[code_of_conduct_faq]: https://opensource.microsoft.com/codeofconduct/faq/
+[email_opencode]: mailto:opencode@microsoft.com
