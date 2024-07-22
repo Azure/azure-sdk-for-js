@@ -266,6 +266,14 @@ export type RawTestStep = {
   count: number;
 };
 
+export type IBackOffOptions = {
+  numOfAttempts: number;
+  retry: (e: any, attemptNumber: number) => boolean | Promise<boolean>;
+  jitter: JitterType;
+};
+
+export type JitterType = "full" | "none";
+
 // Playwright OSS Types
 
 export interface FullConfig {

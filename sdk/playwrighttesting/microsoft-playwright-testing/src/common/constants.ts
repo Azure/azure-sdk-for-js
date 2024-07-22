@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { JitterType } from "./types";
+
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
   SCOPE: "https://management.core.windows.net/.default",
@@ -95,3 +97,12 @@ export class Constants {
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
 }
+
+export const BackoffConstants = {
+  MAX_DELAY: Infinity,
+  NUMBER_OF_ATTEMPTS: 10,
+  RETRY: (): boolean => true,
+  JITTER: "none" as JitterType,
+  TIME_MULTIPLE: 2,
+  STARTING_DELAY: 100,
+};

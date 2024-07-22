@@ -4,7 +4,7 @@
 import type { FullResult } from "@playwright/test/reporter";
 import { AxiosResponse } from "axios";
 import Debug from "debug";
-import { backOff } from "exponential-backoff";
+import { backOff } from "../common/backoff";
 import { Constants } from "../common/constants";
 import { EnvironmentVariables } from "../common/environmentVariables";
 import { HttpService } from "../common/httpService";

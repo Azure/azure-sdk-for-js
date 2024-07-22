@@ -3,7 +3,7 @@
 
 import { BlockBlobClient } from "@azure/storage-blob";
 import Debug from "debug";
-import { backOff } from "exponential-backoff";
+import { backOff } from "../common/backoff";
 import fs from "fs";
 import { Constants } from "../common/constants";
 import ReporterUtils from "./reporterUtils";
