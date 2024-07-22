@@ -99,6 +99,14 @@ describe("Redis test", () => {
     const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
   }
 
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("Redis create test", async function () {
     //create network resource
     await createVirtualNetwork(resourceGroupName, location, networkName, subnetName);
