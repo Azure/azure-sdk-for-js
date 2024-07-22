@@ -12,7 +12,7 @@ Key links:
 - [Package (NPM)](https://www.npmjs.com/package/@azure/openai)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/openai-readme)
 - [Product documentation][service_overview]
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples)
+- [Samples][samples_folder]
 
 ## Getting started
 
@@ -251,7 +251,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct][code_of_con
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
 [azure_identity_dac]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
 [oyd]: https://learn.microsoft.com/azure/ai-services/openai/use-your-data-quickstart
-[samples_folder]: https://github.com/Azure/azure-sdk-for-js/tree/feature/openai-v2/sdk/openai/openai/samples
+[samples_folder]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples
 [openai_pkg_readme]: https://github.com/openai/openai-node/blob/master/README.md
 [cla]: https://cla.microsoft.com
 [openai_contrib]: https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md
