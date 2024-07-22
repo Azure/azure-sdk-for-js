@@ -125,7 +125,7 @@
     "typescript": "~5.4.5"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.6.3"
   },
   "//sampleConfiguration": {
     "productName": "Azure OpenAI",

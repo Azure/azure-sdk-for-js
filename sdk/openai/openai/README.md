@@ -1,6 +1,6 @@
 # Azure OpenAI library for TypeScript
 
-The [Azure OpenAI Service][service_overview] provides access to advanced AI models for conversational, content creation, and data grounding use cases. The Azure OpenAI library for TypeScript is a companion is a companion to the official [OpenAI client library for JavaScript][openai_pkg]. The Azure OpenAI library provides additional strongly typed support for request and response models specific to Azure OpenAI scenarios.
+The [Azure OpenAI Service][service_overview] provides access to advanced AI models for conversational, content creation, and data grounding use cases. The Azure OpenAI library for TypeScript is a companion to the official [OpenAI client library for JavaScript][openai_pkg]. The Azure OpenAI library provides additional strongly typed support for request and response models specific to Azure OpenAI scenarios.
 
 #### **_Migrating from @azure/openai version 1 advisory_ ⚠️**
 
@@ -113,7 +113,7 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 import "@azure/openai/types";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
+// Azure OpenAI resource. You can find this in the Azure portal.
 import "dotenv/config";
 
 // Your Azure Cognitive Search endpoint, and index name
@@ -165,7 +165,7 @@ main();
 
 ### Content-filtered Chat Completions
 
-Azure OpenAI Service includes a content filtering system that works alongside core models.This system detects and takes action on specific categories of potentially harmful content in both input prompts and output completions. This example shows how to access those content filtering results.
+Azure OpenAI Service includes a content filtering system that works alongside core models. This system detects and takes action on specific categories of potentially harmful content in both input prompts and output completions. This example shows how to access those content filtering results.
 
 ```ts
 import { AzureOpenAI } from "openai";
