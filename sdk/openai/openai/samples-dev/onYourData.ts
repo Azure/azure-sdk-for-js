@@ -22,12 +22,12 @@ const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search end
 const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
 
 export async function main() {
-  console.log("== Bring Your Own Data Sample ==");
+  console.log("== On Your Data Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2024-04-01-preview";
+  const apiVersion = "2024-05-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     stream: true,

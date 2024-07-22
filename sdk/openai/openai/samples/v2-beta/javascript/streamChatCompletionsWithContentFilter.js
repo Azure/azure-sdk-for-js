@@ -9,6 +9,7 @@
 
 const { AzureOpenAI } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
+require("@azure/openai/types");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -21,7 +22,7 @@ async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-04-01-preview";
+  const apiVersion = "2024-05-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     messages: [
@@ -47,7 +48,7 @@ async function main() {
           `\tContent filter ran into an error ${filterResults.error.code}: ${filterResults.error.message}`,
         );
       } else {
-        const { hate, sexual, selfHarm, violence } = filterResults;
+        const { hate, sexual, self_harm, violence } = filterResults;
         console.log(
           `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
         );
@@ -55,7 +56,7 @@ async function main() {
           `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
         );
         console.log(
-          `\tSelf-harm category is filtered: ${selfHarm?.filtered}, with ${selfHarm?.severity} severity`,
+          `\tSelf-harm category is filtered: ${self_harm?.filtered}, with ${self_harm?.severity} severity`,
         );
         console.log(
           `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
