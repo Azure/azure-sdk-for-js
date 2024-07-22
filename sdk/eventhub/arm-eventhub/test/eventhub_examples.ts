@@ -103,6 +103,14 @@ describe("Eventhub test", () => {
     console.log(storageaccount);
   }
 
+  it.only("operations list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("namespaces create test", async function () {
     await createVirtualNetwork();
     await storageAccounts_beginCreateAndWait();
