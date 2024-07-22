@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import colors from "colors/safe";
 import prompts, { PromptObject } from "prompts";
 import fs from "fs";
 import { Extensions, Languages, Messages } from "./constants";
@@ -51,7 +50,7 @@ export class PlaywrightServiceInitialize {
     // eslint-disable-next-line no-return-await
     if (!response.confirmationForExit) return await this.checkIfServiceConfigCanBeAdded();
 
-    console.log(colors.yellow(Messages.SETUP_PROCESS_EXIT_MESSAGE));
+    console.log(Messages.SETUP_PROCESS_EXIT_MESSAGE);
     return false;
   };
 
@@ -76,10 +75,10 @@ export class PlaywrightServiceInitialize {
     console.log();
 
     console.log(`\nTo run playwrights tests using Playwright Service\n`);
-    console.log(`\t${colors.cyan(`${runCommand}`)}\n`);
+    console.log(`\t${runCommand}\n`);
 
     console.log(`\nTo run playwrights tests using Playwright Service with high parallelism\n`);
-    console.log(`\t${colors.cyan(`${runCommandParallelWorkers}`)}\n`);
+    console.log(`\t${runCommandParallelWorkers}\n`);
     console.log();
 
     console.log("Playwright Service Portal - https://playwright.microsoft.com/");
@@ -99,9 +98,7 @@ export class PlaywrightServiceInitialize {
     const serviceConfigFile = this.getServiceConfigFileName();
     const serviceConfigFileContent = this.getServiceConfigContent();
     await fs.promises.writeFile(serviceConfigFile, serviceConfigFileContent);
-    console.log(
-      `${colors.green("Success! ")} Created service configuration file - ${serviceConfigFile}`,
-    );
+    console.log(`Success! Created service configuration file - ${serviceConfigFile}`);
   };
 
   private getServiceConfigContent = (): string => {
