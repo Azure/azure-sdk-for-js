@@ -1211,7 +1211,7 @@ describe("Call Media Client Live Tests", function () {
       .playToAll(playMultipleTextSources, { operationContext: "multipleTextSourceContext" });
 
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
-    assert.isDefined(playCompletedEvent);    
+    assert.isDefined(playCompletedEvent);
   }).timeout(60000);
 
   it("Play multiple text sources with play", async function () {
@@ -1655,7 +1655,7 @@ describe("Call Media Client Live Tests", function () {
       endSilenceTimeoutInSeconds: 1,
       playPrompts: playMultipleTextSources,
       kind: "callMediaRecognizeSpeechOptions",
-      initialSilenceTimeoutInSeconds: 5
+      initialSilenceTimeoutInSeconds: 5,
     };
 
     await callConnection
@@ -1677,7 +1677,7 @@ describe("Call Media Client Live Tests", function () {
       endSilenceTimeoutInSeconds: 1,
       playPrompts: multiplePlaySources,
       kind: "callMediaRecognizeSpeechOptions",
-      initialSilenceTimeoutInSeconds: 5
+      initialSilenceTimeoutInSeconds: 5,
     };
 
     await callConnection
@@ -1699,7 +1699,7 @@ describe("Call Media Client Live Tests", function () {
       endSilenceTimeoutInSeconds: 1,
       playPrompts: multiplePrompts,
       kind: "callMediaRecognizeSpeechOptions",
-      initialSilenceTimeoutInSeconds: 5
+      initialSilenceTimeoutInSeconds: 5,
     };
 
     await callConnection
@@ -1897,7 +1897,7 @@ describe("Call Media Client Live Tests", function () {
     await callConnection
       .getCallMedia()
       .startRecognizing(receiverPhoneUser, recognizeSpeechOrDtmfOptionsTextSource);
-      console.log("callMediaRecognizeSpeechOrDtmfOptions");
+    console.log("callMediaRecognizeSpeechOrDtmfOptions");
     const recognizeFailedEventToTextSource = await waitForEvent(
       "RecognizeFailed",
       callConnectionId,
@@ -2118,17 +2118,28 @@ describe("Call Media Client Live Tests", function () {
         : "";
 
       await answerCallConnection.getCallMedia().startTranscription();
-      const transcriptionStarted = await waitForEvent("TranscriptionStarted", answerCallConnectionId, 8000);
+      const transcriptionStarted = await waitForEvent(
+        "TranscriptionStarted",
+        answerCallConnectionId,
+        8000,
+      );
       assert.isDefined(transcriptionStarted);
 
       await answerCallConnection.getCallMedia().stopTranscription();
-      const transcriptionStopped = waitForEvent("TranscriptionStopped", answerCallConnectionId, 8000);
+      const transcriptionStopped = waitForEvent(
+        "TranscriptionStopped",
+        answerCallConnectionId,
+        8000,
+      );
       assert.isDefined(transcriptionStopped);
 
       await answerCallConnection.hangUp(true);
-      const callDisconnectedEvent = await waitForEvent("CallDisconnected", answerCallConnectionId, 8000);
+      const callDisconnectedEvent = await waitForEvent(
+        "CallDisconnected",
+        answerCallConnectionId,
+        8000,
+      );
       assert.isDefined(callDisconnectedEvent);
     }
-    
   }).timeout(60000);
 });
