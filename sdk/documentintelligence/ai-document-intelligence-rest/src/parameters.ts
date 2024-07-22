@@ -10,7 +10,6 @@ import {
   AnalyzeOutputOption,
   AnalyzeDocumentRequest,
   AnalyzeBatchDocumentsRequest,
-  DocumentModelDetails,
   BuildDocumentModelRequest,
   ComposeDocumentModelRequest,
   AuthorizeCopyRequest,
@@ -258,34 +257,6 @@ export interface GetModelHeaderParam {
 }
 
 export type GetModelParameters = GetModelHeaderParam & RequestParameters;
-
-export interface PatchModelHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-/** The resource instance. */
-export type DocumentModelDetailsResourceMergeAndPatch =
-  Partial<DocumentModelDetails>;
-
-export interface PatchModelBodyParam {
-  /** The resource instance. */
-  body: DocumentModelDetailsResourceMergeAndPatch;
-}
-
-export interface PatchModelHeaderParam {
-  headers?: RawHttpHeadersInput & PatchModelHeaders;
-}
-
-export interface PatchModelMediaTypesParam {
-  /** This request has a JSON Merge Patch body. */
-  contentType: "application/merge-patch+json";
-}
-
-export type PatchModelParameters = PatchModelHeaderParam &
-  PatchModelMediaTypesParam &
-  PatchModelBodyParam &
-  RequestParameters;
 
 export interface BuildModelBodyParam {
   /** Build request parameters. */

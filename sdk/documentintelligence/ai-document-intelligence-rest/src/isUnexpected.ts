@@ -37,8 +37,6 @@ import {
   AnalyzeBatchDocumentsDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
-  PatchModel200Response,
-  PatchModelDefaultResponse,
   DeleteModel204Response,
   DeleteModelDefaultResponse,
   BuildModel202Response,
@@ -92,7 +90,6 @@ const responseMap: Record<string, string[]> = {
   "GET /documentModels/{modelId}:analyzeBatch": ["200", "202"],
   "POST /documentModels/{modelId}:analyzeBatch": ["202"],
   "GET /documentModels/{modelId}": ["200"],
-  "PATCH /documentModels/{modelId}": ["200"],
   "DELETE /documentModels/{modelId}": ["204"],
   "GET /documentModels:build": ["200", "202"],
   "POST /documentModels:build": ["202"],
@@ -186,9 +183,6 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetModel200Response | GetModelDefaultResponse,
 ): response is GetModelDefaultResponse;
-export function isUnexpected(
-  response: PatchModel200Response | PatchModelDefaultResponse,
-): response is PatchModelDefaultResponse;
 export function isUnexpected(
   response: DeleteModel204Response | DeleteModelDefaultResponse,
 ): response is DeleteModelDefaultResponse;
@@ -294,8 +288,6 @@ export function isUnexpected(
     | AnalyzeBatchDocumentsDefaultResponse
     | GetModel200Response
     | GetModelDefaultResponse
-    | PatchModel200Response
-    | PatchModelDefaultResponse
     | DeleteModel204Response
     | DeleteModelDefaultResponse
     | BuildModel202Response
@@ -350,7 +342,6 @@ export function isUnexpected(
   | GetAnalyzeBatchResultDefaultResponse
   | AnalyzeBatchDocumentsDefaultResponse
   | GetModelDefaultResponse
-  | PatchModelDefaultResponse
   | DeleteModelDefaultResponse
   | BuildModelDefaultResponse
   | ComposeModelDefaultResponse

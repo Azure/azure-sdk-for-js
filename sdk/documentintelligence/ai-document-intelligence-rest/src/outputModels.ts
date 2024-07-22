@@ -276,8 +276,6 @@ export interface AnalyzeResultOutput {
   tables?: Array<DocumentTableOutput>;
   /** Extracted figures. */
   figures?: Array<DocumentFigureOutput>;
-  /** Extracted lists. */
-  lists?: Array<DocumentListOutput>;
   /** Extracted sections. */
   sections?: Array<DocumentSectionOutput>;
   /** Extracted key-value pairs. */
@@ -541,28 +539,6 @@ export interface DocumentFigureOutput {
   footnotes?: Array<DocumentFootnoteOutput>;
   /** Figure ID. */
   id?: string;
-}
-
-/** An object representing a list in the document. */
-export interface DocumentListOutput {
-  /** Location of the list in the reading order concatenated content. */
-  spans: Array<DocumentSpanOutput>;
-  /** Items in the list. */
-  items: Array<DocumentListItemOutput>;
-}
-
-/** An object representing a list item in the document. */
-export interface DocumentListItemOutput {
-  /** Level of the list item (1-indexed). */
-  level: number;
-  /** Content of the list item. */
-  content: string;
-  /** Bounding regions covering the list item. */
-  boundingRegions?: Array<BoundingRegionOutput>;
-  /** Location of the list item in the reading order concatenated content. */
-  spans: Array<DocumentSpanOutput>;
-  /** Child elements of the list item. */
-  elements?: string[];
 }
 
 /** An object representing a section in the document. */

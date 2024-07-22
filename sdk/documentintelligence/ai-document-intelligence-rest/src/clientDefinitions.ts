@@ -18,7 +18,6 @@ import {
   GetAnalyzeBatchResultParameters,
   AnalyzeBatchDocumentsParameters,
   GetModelParameters,
-  PatchModelParameters,
   DeleteModelParameters,
   BuildModelParameters,
   ComposeModelParameters,
@@ -68,8 +67,6 @@ import {
   AnalyzeBatchDocumentsDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
-  PatchModel200Response,
-  PatchModelDefaultResponse,
   DeleteModel204Response,
   DeleteModelDefaultResponse,
   BuildModel202Response,
@@ -229,10 +226,6 @@ export interface GetModel {
   get(
     options?: GetModelParameters,
   ): StreamableMethod<GetModel200Response | GetModelDefaultResponse>;
-  /** Updates document model information. */
-  patch(
-    options: PatchModelParameters,
-  ): StreamableMethod<PatchModel200Response | PatchModelDefaultResponse>;
   /** Deletes document model. */
   delete(
     options?: DeleteModelParameters,
@@ -401,7 +394,7 @@ export interface Routes {
     path: "/documentModels/{modelId}:analyzeBatch",
     modelId: string,
   ): AnalyzeBatchDocuments;
-  /** Resource for '/documentModels/\{modelId\}' has methods for the following verbs: get, patch, delete */
+  /** Resource for '/documentModels/\{modelId\}' has methods for the following verbs: get, delete */
   (path: "/documentModels/{modelId}", modelId: string): GetModel;
   /** Resource for '/documentModels:build' has methods for the following verbs: post */
   (path: "/documentModels:build"): BuildModel;

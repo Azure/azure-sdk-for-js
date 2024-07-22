@@ -304,23 +304,6 @@ export interface GetModelDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
-export interface PatchModel200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-/** The request has succeeded. */
-export interface PatchModel200Response extends HttpResponse {
-  status: "200";
-  body: DocumentModelDetailsOutput;
-  headers: RawHttpHeaders & PatchModel200Headers;
-}
-
-export interface PatchModelDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
 export interface BuildModel202Headers {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   "retry-after"?: number;

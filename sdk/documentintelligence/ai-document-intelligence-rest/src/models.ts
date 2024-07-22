@@ -1,16 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** Document model info. */
-export interface DocumentModelDetails {
-  /** Unique document model name. */
-  modelId: string;
-  /** Document model description. */
-  description?: string;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
-}
-
 /** Azure Blob Storage content. */
 export interface AzureBlobContentSource {
   /** Azure Blob Storage container URL. */
@@ -25,42 +15,6 @@ export interface AzureBlobFileListContentSource {
   containerUrl: string;
   /** Path to a JSONL file within the container specifying a subset of documents. */
   fileList: string;
-}
-
-/** Document type info. */
-export interface DocumentTypeDetails {
-  /** Document model description. */
-  description?: string;
-  /** Custom document model build mode. */
-  buildMode?: DocumentBuildMode;
-  /** Description of the document semantic schema using a JSON Schema style syntax. */
-  fieldSchema: Record<string, DocumentFieldSchema>;
-  /** Estimated confidence for each field. */
-  fieldConfidence?: Record<string, number>;
-}
-
-/** Description of the field semantic schema using a JSON Schema style syntax. */
-export interface DocumentFieldSchema {
-  /** Semantic data type of the field value. */
-  type: DocumentFieldType;
-  /** Field description. */
-  description?: string;
-  /** Example field content. */
-  example?: string;
-  /** Field type schema of each array element. */
-  items?: DocumentFieldSchema;
-  /** Named sub-fields of the object field. */
-  properties?: Record<string, DocumentFieldSchema>;
-}
-
-/** The error object. */
-export interface Warning {
-  /** One of a server-defined set of warning codes. */
-  code: string;
-  /** A human-readable representation of the warning. */
-  message: string;
-  /** The target of the error. */
-  target?: string;
 }
 
 /** Classifier document type info. */
@@ -255,8 +209,6 @@ export interface ClassifierCopyAuthorization {
 
 /** Alias for DocumentBuildMode */
 export type DocumentBuildMode = string;
-/** Alias for DocumentFieldType */
-export type DocumentFieldType = string;
 /** Alias for ContentSourceKind */
 export type ContentSourceKind = string;
 /** Alias for StringIndexType */
