@@ -57,7 +57,7 @@ describe("DataProtection test", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-
+  // no operation list api for dataprotection
   it("backupVaults create test", async function () {
     const res = await client.backupVaults.beginCreateOrUpdateAndWait(
       resourceGroup,
