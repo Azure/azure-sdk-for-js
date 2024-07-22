@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Client,
-  createRestError,
-  PathUncheckedResponse,
-} from "@azure-rest/core-client";
+import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import {
   BuildPagedAsyncIteratorOptions,
@@ -72,9 +68,7 @@ function getPagedAsyncIterator<
 >(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(
-    pagedResult,
-  );
+  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(pagedResult);
   return {
     next() {
       return iter.next();
@@ -93,11 +87,7 @@ function getPagedAsyncIterator<
   };
 }
 
-async function* getItemAsyncIterator<
-  TElement,
-  TPage,
-  TPageSettings extends PageSettings,
->(
+async function* getItemAsyncIterator<TElement, TPage, TPageSettings extends PageSettings>(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult);
@@ -106,20 +96,14 @@ async function* getItemAsyncIterator<
   }
 }
 
-async function* getPageAsyncIterator<
-  TElement,
-  TPage,
-  TPageSettings extends PageSettings,
->(
+async function* getPageAsyncIterator<TElement, TPage, TPageSettings extends PageSettings>(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
   options: {
     pageLink?: string;
   } = {},
 ): AsyncIterableIterator<ContinuablePage<TElement, TPage>> {
   const { pageLink } = options;
-  let response = await pagedResult.getPage(
-    pageLink ?? pagedResult.firstPageLink,
-  );
+  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink);
   if (!response) {
     return;
   }
@@ -147,11 +131,7 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
 
   const nextLink = (body as Record<string, unknown>)[nextLinkName];
 
-  if (
-    typeof nextLink !== "string" &&
-    typeof nextLink !== "undefined" &&
-    nextLink !== null
-  ) {
+  if (typeof nextLink !== "string" && typeof nextLink !== "undefined" && nextLink !== null) {
     throw new RestError(
       `Body Property ${nextLinkName} should be a string or undefined or null but got ${typeof nextLink}`,
     );

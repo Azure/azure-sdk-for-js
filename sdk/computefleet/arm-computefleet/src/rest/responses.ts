@@ -148,8 +148,7 @@ export interface ListVirtualMachineScaleSets200Response extends HttpResponse {
   body: VirtualMachineScaleSetListResultOutput;
 }
 
-export interface ListVirtualMachineScaleSetsDefaultResponse
-  extends HttpResponse {
+export interface ListVirtualMachineScaleSetsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

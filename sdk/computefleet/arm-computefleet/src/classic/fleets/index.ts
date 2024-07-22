@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzureFleetContext } from "../../api/azureFleetContext.js";
-import {
-  Fleet,
-  FleetUpdate,
-  VirtualMachineScaleSetListResult,
-} from "../../models/models.js";
+import { Fleet, FleetUpdate, VirtualMachineScaleSetListResult } from "../../models/models.js";
 import {
   get,
   createOrUpdate,
@@ -80,64 +76,33 @@ export interface FleetsOperations {
 
 export function getFleets(context: AzureFleetContext, subscriptionId: string) {
   return {
-    get: (
-      resourceGroupName: string,
-      fleetName: string,
-      options?: FleetsGetOptionalParams,
-    ) => get(context, subscriptionId, resourceGroupName, fleetName, options),
+    get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) =>
+      get(context, subscriptionId, resourceGroupName, fleetName, options),
     createOrUpdate: (
       resourceGroupName: string,
       fleetName: string,
       resource: Fleet,
       options?: FleetsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        fleetName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, subscriptionId, resourceGroupName, fleetName, resource, options),
     update: (
       resourceGroupName: string,
       fleetName: string,
       properties: FleetUpdate,
       options?: FleetsUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        fleetName,
-        properties,
-        options,
-      ),
-    delete: (
-      resourceGroupName: string,
-      fleetName: string,
-      options?: FleetsDeleteOptionalParams,
-    ) =>
+    ) => update(context, subscriptionId, resourceGroupName, fleetName, properties, options),
+    delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) =>
       $delete(context, subscriptionId, resourceGroupName, fleetName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: FleetsListByResourceGroupOptionalParams,
-    ) =>
-      listByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) => listByResourceGroup(context, subscriptionId, resourceGroupName, options),
     listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) =>
       listBySubscription(context, subscriptionId, options),
     listVirtualMachineScaleSets: (
       resourceGroupName: string,
       name: string,
       options?: FleetsListVirtualMachineScaleSetsOptionalParams,
-    ) =>
-      listVirtualMachineScaleSets(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options,
-      ),
+    ) => listVirtualMachineScaleSets(context, subscriptionId, resourceGroupName, name, options),
   };
 }
 

@@ -170,6 +170,8 @@ export interface FleetProperties {
     readonly provisioningState?: ProvisioningState;
     regularPriorityProfile?: RegularPriorityProfile;
     spotPriorityProfile?: SpotPriorityProfile;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
     vmSizesProfile: VmSizeProfile[];
 }
 
@@ -228,15 +230,6 @@ export interface ImageReference {
 export interface InnerError {
     errorDetail?: string;
     exceptionType?: string;
-}
-
-// @public
-export interface InstanceViewStatus {
-    code?: string;
-    displayStatus?: string;
-    level?: StatusLevelTypes;
-    message?: string;
-    time?: Date;
 }
 
 // @public
@@ -453,13 +446,6 @@ export enum KnownSpotAllocationStrategy {
 }
 
 // @public
-export enum KnownStatusLevelTypes {
-    Error = "Error",
-    Info = "Info",
-    Warning = "Warning"
-}
-
-// @public
 export enum KnownStorageAccountTypes {
     Premium_LRS = "Premium_LRS",
     Premium_ZRS = "Premium_ZRS",
@@ -527,7 +513,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity> | null;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 // @public
@@ -536,7 +522,7 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface ManagedServiceIdentityUpdate {
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity> | null;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 // @public
@@ -557,7 +543,7 @@ export type OperatingSystemTypes = string;
 // @public
 export interface Operation {
     actionType?: ActionType;
-    display?: OperationDisplay;
+    readonly display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -565,10 +551,10 @@ export interface Operation {
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
@@ -679,8 +665,9 @@ export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityPostureReference {
-    excludeExtensions?: VirtualMachineExtension[];
+    excludeExtensions?: string[];
     id?: string;
+    isOverridable?: boolean;
 }
 
 // @public
@@ -726,9 +713,6 @@ export interface SshPublicKey {
     keyData?: string;
     path?: string;
 }
-
-// @public
-export type StatusLevelTypes = string;
 
 // @public
 export type StorageAccountTypes = string;
@@ -790,42 +774,6 @@ export type Versions = "2023-11-01-preview" | "2024-05-01-preview";
 // @public
 export interface VirtualHardDisk {
     uri?: string;
-}
-
-// @public
-export interface VirtualMachineExtension {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    properties?: VirtualMachineExtensionProperties;
-    tags?: Record<string, string>;
-    readonly type?: string;
-}
-
-// @public
-export interface VirtualMachineExtensionInstanceView {
-    name?: string;
-    statuses?: InstanceViewStatus[];
-    substatuses?: InstanceViewStatus[];
-    type?: string;
-    typeHandlerVersion?: string;
-}
-
-// @public
-export interface VirtualMachineExtensionProperties {
-    autoUpgradeMinorVersion?: boolean;
-    enableAutomaticUpgrade?: boolean;
-    forceUpdateTag?: string;
-    instanceView?: VirtualMachineExtensionInstanceView;
-    protectedSettings?: Record<string, any>;
-    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
-    provisionAfterExtensions?: string[];
-    readonly provisioningState?: string;
-    publisher?: string;
-    settings?: Record<string, any>;
-    suppressFailures?: boolean;
-    type?: string;
-    typeHandlerVersion?: string;
 }
 
 // @public

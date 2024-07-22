@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export {
-  AzureFleetClient,
-  AzureFleetClientOptions,
-} from "./azureFleetClient.js";
+export { AzureFleetClient, AzureFleetClientOptionalParams } from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Resource,
@@ -137,12 +134,6 @@ export {
   VMSizeProperties,
   ServiceArtifactReference,
   SecurityPostureReference,
-  VirtualMachineExtension,
-  VirtualMachineExtensionProperties,
-  VirtualMachineExtensionInstanceView,
-  InstanceViewStatus,
-  KnownStatusLevelTypes,
-  StatusLevelTypes,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,

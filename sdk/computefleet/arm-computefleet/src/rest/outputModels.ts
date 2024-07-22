@@ -10,23 +10,31 @@ export interface OperationOutput {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplayOutput;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly display?: OperationDisplayOutput;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   *
+   * Possible values: "user", "system", "user,system"
+   */
   readonly origin?: OriginOutput;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  /**
+   * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   *
+   * Possible values: "Internal"
+   */
   actionType?: ActionTypeOutput;
 }
 
 /** Localized display information for and operation. */
 export interface OperationDisplayOutput {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  readonly provider?: string;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  readonly resource?: string;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  readonly operation?: string;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  readonly description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
@@ -71,7 +79,11 @@ export interface FleetOutput extends TrackedResourceOutput {
 
 /** Details of the Compute Fleet. */
 export interface FleetPropertiesOutput {
-  /** The status of the last operation. */
+  /**
+   * The status of the last operation.
+   *
+   * Possible values: "Creating", "Updating", "Deleting", "Migrating"
+   */
   readonly provisioningState?: ProvisioningStateOutput;
   /** Configuration Options for Spot instances in Compute Fleet. */
   spotPriorityProfile?: SpotPriorityProfileOutput;
@@ -81,6 +93,10 @@ export interface FleetPropertiesOutput {
   vmSizesProfile: Array<VmSizeProfileOutput>;
   /** Compute Profile to use for running user's workloads. */
   computeProfile: ComputeProfileOutput;
+  /** Specifies the time at which the Compute Fleet is created. */
+  readonly timeCreated?: string;
+  /** Specifies the ID which uniquely identifies a Compute Fleet. */
+  readonly uniqueId?: string;
 }
 
 /** Configuration Options for Spot instances in Compute Fleet. */
@@ -91,9 +107,17 @@ export interface SpotPriorityProfileOutput {
   minCapacity?: number;
   /** Price per hour of each Spot VM will never exceed this. */
   maxPricePerVM?: number;
-  /** Eviction Policy to follow when evicting Spot VMs. */
+  /**
+   * Eviction Policy to follow when evicting Spot VMs.
+   *
+   * Possible values: "Delete", "Deallocate"
+   */
   evictionPolicy?: EvictionPolicyOutput;
-  /** Allocation strategy to follow when determining the VM sizes distribution for Spot VMs. */
+  /**
+   * Allocation strategy to follow when determining the VM sizes distribution for Spot VMs.
+   *
+   * Possible values: "PriceCapacityOptimized", "LowestPrice", "CapacityOptimized"
+   */
   allocationStrategy?: SpotAllocationStrategyOutput;
   /**
    * Flag to enable/disable continuous goal seeking for the desired capacity and restoration of evicted Spot VMs.
@@ -110,7 +134,11 @@ export interface RegularPriorityProfileOutput {
   capacity?: number;
   /** Minimum capacity to achieve which cannot be updated. If we will not be able to "guarantee" minimum capacity, we will reject the request in the sync path itself. */
   minCapacity?: number;
-  /** Allocation strategy to follow when determining the VM sizes distribution for Regular VMs. */
+  /**
+   * Allocation strategy to follow when determining the VM sizes distribution for Regular VMs.
+   *
+   * Possible values: "LowestPrice", "Prioritized"
+   */
   allocationStrategy?: RegularPriorityAllocationStrategyOutput;
 }
 
@@ -163,7 +191,7 @@ export interface BaseVirtualMachineProfileOutput {
    * scale set.
    */
   securityProfile?: SecurityProfileOutput;
-  /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
+  /** Specifies the boot diagnostic settings state. */
   diagnosticsProfile?: DiagnosticsProfileOutput;
   /**
    * Specifies a collection of settings for extensions installed on virtual machines
@@ -218,7 +246,7 @@ export interface BaseVirtualMachineProfileOutput {
    * Specifies the time in which this VM profile for the Virtual Machine Scale Set
    * was created. Minimum API version for this property is 2023-09-01. This value
    * will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile
-   * with minimum api-version 2023-09-01.
+   * with minimum api-version 2023-09-01. Examples: "2024-07-01T00:00:01.1234567+00:00"
    */
   readonly timeCreated?: string;
 }
@@ -351,6 +379,8 @@ export interface AdditionalUnattendContentOutput {
   /**
    * Specifies the name of the setting to which the content applies. Possible values
    * are: FirstLogonCommands and AutoLogon.
+   *
+   * Possible values: "AutoLogon", "FirstLogonCommands"
    */
   settingName?: SettingNamesOutput;
   /**
@@ -375,6 +405,8 @@ export interface PatchSettingsOutput {
    * must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will
    * automatically updated by the platform. The properties provisionVMAgent and
    * WindowsConfiguration.enableAutomaticUpdates must be true
+   *
+   * Possible values: "Manual", "AutomaticByOS", "AutomaticByPlatform"
    */
   patchMode?: WindowsVMGuestPatchModeOutput;
   /**
@@ -389,6 +421,8 @@ export interface PatchSettingsOutput {
    * control the timing of patch assessments on a virtual machine.<br /><br />
    * **AutomaticByPlatform** - The platform will trigger periodic patch assessments.
    * The property provisionVMAgent must be true.
+   *
+   * Possible values: "ImageDefault", "AutomaticByPlatform"
    */
   assessmentMode?: WindowsPatchAssessmentModeOutput;
   /**
@@ -406,6 +440,8 @@ export interface WindowsVMGuestPatchAutomaticByPlatformSettingsOutput {
   /**
    * Specifies the reboot setting for all AutomaticByPlatform patch installation
    * operations.
+   *
+   * Possible values: "Unknown", "IfRequired", "Never", "Always"
    */
   rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSettingOutput;
   /** Enables customer to schedule patching without accidental upgrades */
@@ -423,6 +459,8 @@ export interface WinRMListenerOutput {
   /**
    * Specifies the protocol of WinRM listener. Possible values are: **http,**
    * **https.**
+   *
+   * Possible values: "Http", "Https"
    */
   protocol?: ProtocolTypesOutput;
   /**
@@ -504,6 +542,8 @@ export interface LinuxPatchSettingsOutput {
    * virtual machine's default patching configuration is used. <br /><br />
    * **AutomaticByPlatform** - The virtual machine will be automatically updated by
    * the platform. The property provisionVMAgent must be true
+   *
+   * Possible values: "ImageDefault", "AutomaticByPlatform"
    */
   patchMode?: LinuxVMGuestPatchModeOutput;
   /**
@@ -512,6 +552,8 @@ export interface LinuxPatchSettingsOutput {
    * control the timing of patch assessments on a virtual machine. <br /><br />
    * **AutomaticByPlatform** - The platform will trigger periodic patch assessments.
    * The property provisionVMAgent must be true.
+   *
+   * Possible values: "ImageDefault", "AutomaticByPlatform"
    */
   assessmentMode?: LinuxPatchAssessmentModeOutput;
   /**
@@ -529,6 +571,8 @@ export interface LinuxVMGuestPatchAutomaticByPlatformSettingsOutput {
   /**
    * Specifies the reboot setting for all AutomaticByPlatform patch installation
    * operations.
+   *
+   * Possible values: "Unknown", "IfRequired", "Never", "Always"
    */
   rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSettingOutput;
   /** Enables customer to schedule patching without accidental upgrades */
@@ -608,7 +652,11 @@ export interface VirtualMachineScaleSetStorageProfileOutput {
    * machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
    */
   dataDisks?: Array<VirtualMachineScaleSetDataDiskOutput>;
-  /** Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01 */
+  /**
+   * Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
+   *
+   * Possible values: "SCSI", "NVMe"
+   */
   diskControllerType?: DiskControllerTypesOutput;
 }
 
@@ -670,6 +718,8 @@ export interface VirtualMachineScaleSetOSDiskOutput {
    * Specifies the caching requirements. Possible values are: **None,**
    * **ReadOnly,** **ReadWrite.** The default values are: **None for Standard
    * storage. ReadOnly for Premium storage.**
+   *
+   * Possible values: "None", "ReadOnly", "ReadWrite"
    */
   caching?: CachingTypesOutput;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
@@ -680,6 +730,8 @@ export interface VirtualMachineScaleSetOSDiskOutput {
    * to create the virtual machine. If you are using a platform image, you also use
    * the imageReference element described above. If you are using a marketplace
    * image, you  also use the plan element previously described.
+   *
+   * Possible values: "FromImage", "Empty", "Attach", "Copy", "Restore"
    */
   createOption: DiskCreateOptionTypesOutput;
   /**
@@ -698,6 +750,8 @@ export interface VirtualMachineScaleSetOSDiskOutput {
    * This property allows you to specify the type of the OS that is included in the
    * disk if creating a VM from user-image or a specialized VHD. Possible values
    * are: **Windows,** **Linux.**
+   *
+   * Possible values: "Windows", "Linux"
    */
   osType?: OperatingSystemTypesOutput;
   /** Specifies information about the unmanaged user image to base the scale set on. */
@@ -718,6 +772,8 @@ export interface VirtualMachineScaleSetOSDiskOutput {
    * default value is set to **Delete**. For an Ephemeral OS Disk, the default value
    * is set to **Delete**. User cannot change the delete option for Ephemeral OS
    * Disk.
+   *
+   * Possible values: "Delete", "Detach"
    */
   deleteOption?: DiskDeleteOptionTypesOutput;
 }
@@ -728,7 +784,11 @@ export interface VirtualMachineScaleSetOSDiskOutput {
  * specified for managed disk.
  */
 export interface DiffDiskSettingsOutput {
-  /** Specifies the ephemeral disk settings for operating system disk. */
+  /**
+   * Specifies the ephemeral disk settings for operating system disk.
+   *
+   * Possible values: "Local"
+   */
   option?: DiffDiskOptionsOutput;
   /**
    * Specifies the ephemeral disk placement for operating system disk. Possible
@@ -738,6 +798,8 @@ export interface DiffDiskSettingsOutput {
    * https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at
    * https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM
    * sizes exposes a cache disk.
+   *
+   * Possible values: "CacheDisk", "ResourceDisk", "NvmeDisk"
    */
   placement?: DiffDiskPlacementOutput;
 }
@@ -753,6 +815,8 @@ export interface VirtualMachineScaleSetManagedDiskParametersOutput {
   /**
    * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can
    * only be used with data disks, it cannot be used with OS Disk.
+   *
+   * Possible values: "Standard_LRS", "Premium_LRS", "StandardSSD_LRS", "UltraSSD_LRS", "Premium_ZRS", "StandardSSD_ZRS", "PremiumV2_LRS"
    */
   storageAccountType?: StorageAccountTypesOutput;
   /**
@@ -786,6 +850,8 @@ export interface VMDiskSecurityProfileOutput {
    * blob, VMGuestStateOnly for encryption of just the VMGuestState blob, and
    * NonPersistedTPM for not persisting firmware state in the VMGuestState blob..
    * **Note:** It can be set for only Confidential VMs.
+   *
+   * Possible values: "VMGuestStateOnly", "DiskWithVMGuestState", "NonPersistedTPM"
    */
   securityEncryptionType?: SecurityEncryptionTypesOutput;
   /**
@@ -810,11 +876,17 @@ export interface VirtualMachineScaleSetDataDiskOutput {
    * Specifies the caching requirements. Possible values are: **None,**
    * **ReadOnly,** **ReadWrite.** The default values are: **None for Standard
    * storage. ReadOnly for Premium storage.**
+   *
+   * Possible values: "None", "ReadOnly", "ReadWrite"
    */
   caching?: CachingTypesOutput;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
   writeAcceleratorEnabled?: boolean;
-  /** The create option. */
+  /**
+   * The create option.
+   *
+   * Possible values: "FromImage", "Empty", "Attach", "Copy", "Restore"
+   */
   createOption: DiskCreateOptionTypesOutput;
   /**
    * Specifies the size of an empty data disk in gigabytes. This element can be used
@@ -844,6 +916,8 @@ export interface VirtualMachineScaleSetDataDiskOutput {
    * data disk is deleted when the VMSS Flex VM is deleted.<br><br> **Detach** If
    * this value is used, the data disk is retained after VMSS Flex VM is
    * deleted.<br><br> The default value is set to **Delete**.
+   *
+   * Possible values: "Delete", "Detach"
    */
   deleteOption?: DiskDeleteOptionTypesOutput;
 }
@@ -862,6 +936,8 @@ export interface VirtualMachineScaleSetNetworkProfileOutput {
    * specifies the Microsoft.Network API version used when creating networking
    * resources in the Network Interface Configurations for Virtual Machine Scale Set
    * with orchestration mode 'Flexible'
+   *
+   * Possible values: "2020-11-01"
    */
   networkApiVersion?: NetworkApiVersionOutput;
 }
@@ -904,16 +980,24 @@ export interface VirtualMachineScaleSetNetworkConfigurationPropertiesOutput {
   ipConfigurations: Array<VirtualMachineScaleSetIPConfigurationOutput>;
   /** Whether IP forwarding enabled on this NIC. */
   enableIPForwarding?: boolean;
-  /** Specify what happens to the network interface when the VM is deleted */
+  /**
+   * Specify what happens to the network interface when the VM is deleted
+   *
+   * Possible values: "Delete", "Detach"
+   */
   deleteOption?: DeleteOptionsOutput;
   /**
    * Specifies whether the Auxiliary mode is enabled for the Network Interface
    * resource.
+   *
+   * Possible values: "None", "AcceleratedConnections", "Floating"
    */
   auxiliaryMode?: NetworkInterfaceAuxiliaryModeOutput;
   /**
    * Specifies whether the Auxiliary sku is enabled for the Network Interface
    * resource.
+   *
+   * Possible values: "None", "A1", "A2", "A4", "A8"
    */
   auxiliarySku?: NetworkInterfaceAuxiliarySkuOutput;
 }
@@ -953,6 +1037,8 @@ export interface VirtualMachineScaleSetIPConfigurationPropertiesOutput {
    * Available from Api-Version 2017-03-30 onwards, it represents whether the
    * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible
    * values are: 'IPv4' and 'IPv6'.
+   *
+   * Possible values: "IPv4", "IPv6"
    */
   privateIPAddressVersion?: IPVersionOutput;
   /**
@@ -1014,9 +1100,15 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesOut
    * Available from Api-Version 2019-07-01 onwards, it represents whether the
    * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible
    * values are: 'IPv4' and 'IPv6'.
+   *
+   * Possible values: "IPv4", "IPv6"
    */
   publicIPAddressVersion?: IPVersionOutput;
-  /** Specify what happens to the public IP when the VM is deleted */
+  /**
+   * Specify what happens to the public IP when the VM is deleted
+   *
+   * Possible values: "Delete", "Detach"
+   */
   deleteOption?: DeleteOptionsOutput;
 }
 
@@ -1033,6 +1125,8 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsOu
    * that generated according to the policy from domain name label scope and vm
    * index will be the domain name labels of the PublicIPAddress resources that will
    * be created
+   *
+   * Possible values: "TenantReuse", "SubscriptionReuse", "ResourceGroupReuse", "NoReuse"
    */
   domainNameLabelScope?: DomainNameLabelScopeTypesOutput;
 }
@@ -1050,9 +1144,17 @@ export interface VirtualMachineScaleSetIpTagOutput {
  * Flexible.
  */
 export interface PublicIPAddressSkuOutput {
-  /** Specify public IP sku name */
+  /**
+   * Specify public IP sku name
+   *
+   * Possible values: "Basic", "Standard"
+   */
   name?: PublicIPAddressSkuNameOutput;
-  /** Specify public IP sku tier */
+  /**
+   * Specify public IP sku tier
+   *
+   * Possible values: "Regional", "Global"
+   */
   tier?: PublicIPAddressSkuTierOutput;
 }
 
@@ -1078,6 +1180,8 @@ export interface SecurityProfileOutput {
    * Specifies the SecurityType of the virtual machine. It has to be set to any
    * specified value to enable UefiSettings. The default behavior is: UefiSettings
    * will not be enabled unless this property is set.
+   *
+   * Possible values: "TrustedLaunch", "ConfidentialVM"
    */
   securityType?: SecurityTypesOutput;
   /**
@@ -1133,6 +1237,8 @@ export interface ProxyAgentSettingsOutput {
    * ProxyAgent will start to audit or monitor but not enforce access control over
    * requests to host endpoints in Audit mode, while in Enforce mode it will enforce
    * access control. The default value is Enforce mode.
+   *
+   * Possible values: "Audit", "Enforce"
    */
   mode?: ModeOutput;
   /**
@@ -1396,107 +1502,12 @@ export interface SecurityPostureReferenceOutput {
    */
   id?: string;
   /**
-   * List of virtual machine extensions to exclude when applying the Security
-   * Posture.
+   * List of virtual machine extension names to exclude when applying the security
+   * posture.
    */
-  excludeExtensions?: Array<VirtualMachineExtensionOutput>;
-}
-
-/** Describes a Virtual Machine Extension. */
-export interface VirtualMachineExtensionOutput {
-  /** Resource location */
-  location?: string;
-  /** Resource Id */
-  readonly id?: string;
-  /** Resource name */
-  readonly name?: string;
-  /** Resource type */
-  readonly type?: string;
-  /** Resource tags */
-  tags?: Record<string, string>;
-  /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionPropertiesOutput;
-}
-
-/** Describes the properties of a Virtual Machine Extension. */
-export interface VirtualMachineExtensionPropertiesOutput {
-  /**
-   * How the extension handler should be forced to update even if the extension
-   * configuration has not changed.
-   */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /**
-   * Indicates whether the extension should use a newer minor version if one is
-   * available at deployment time. Once deployed, however, the extension will not
-   * upgrade minor versions unless redeployed, even with this property set to true.
-   */
-  autoUpgradeMinorVersion?: boolean;
-  /**
-   * Indicates whether the extension should be automatically upgraded by the
-   * platform if there is a newer version of the extension available.
-   */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: Record<string, any>;
-  /**
-   * The extension can contain either protectedSettings or
-   * protectedSettingsFromKeyVault or no protected settings at all.
-   */
-  protectedSettings?: Record<string, any>;
-  /** The provisioning state, which only appears in the response. */
-  readonly provisioningState?: string;
-  /** The virtual machine extension instance view. */
-  instanceView?: VirtualMachineExtensionInstanceViewOutput;
-  /**
-   * Indicates whether failures stemming from the extension will be suppressed
-   * (Operational failures such as not connecting to the VM will not be suppressed
-   * regardless of this value). The default is false.
-   */
-  suppressFailures?: boolean;
-  /**
-   * The extensions protected settings that are passed by reference, and consumed
-   * from key vault
-   */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
-  /**
-   * Collection of extension names after which this extension needs to be
-   * provisioned.
-   */
-  provisionAfterExtensions?: string[];
-}
-
-/** The instance view of a virtual machine extension. */
-export interface VirtualMachineExtensionInstanceViewOutput {
-  /** The virtual machine extension name. */
-  name?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** The resource status information. */
-  substatuses?: Array<InstanceViewStatusOutput>;
-  /** The resource status information. */
-  statuses?: Array<InstanceViewStatusOutput>;
-}
-
-/** Instance view status. */
-export interface InstanceViewStatusOutput {
-  /** The status code. */
-  code?: string;
-  /** The level code. */
-  level?: StatusLevelTypesOutput;
-  /** The short localizable label for the status. */
-  displayStatus?: string;
-  /** The detailed status message, including for alerts and error messages. */
-  message?: string;
-  /** The time of the status. */
-  time?: string;
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -1505,10 +1516,14 @@ export interface ManagedServiceIdentityOutput {
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
-  /** The type of managed identity assigned to this resource. */
+  /**
+   * The type of managed identity assigned to this resource.
+   *
+   * Possible values: "None", "SystemAssigned", "UserAssigned", "SystemAssigned,UserAssigned"
+   */
   type: ManagedServiceIdentityTypeOutput;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentityOutput> | null;
+  userAssignedIdentities?: Record<string, UserAssignedIdentityOutput | null>;
 }
 
 /** User assigned identity properties */
@@ -1557,13 +1572,21 @@ export interface ResourceOutput {
 export interface SystemDataOutput {
   /** The identity that created the resource. */
   createdBy?: string;
-  /** The type of identity that created the resource. */
+  /**
+   * The type of identity that created the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   createdByType?: CreatedByTypeOutput;
   /** The timestamp of resource creation (UTC). */
   createdAt?: string;
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
+  /**
+   * The type of identity that last modified the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   lastModifiedByType?: CreatedByTypeOutput;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
@@ -1611,7 +1634,11 @@ export interface PrivateEndpointConnectionPropertiesOutput {
   privateEndpoint?: PrivateEndpointOutput;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
-  /** The provisioning state of the private endpoint connection resource. */
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   *
+   * Possible values: "Succeeded", "Creating", "Deleting", "Failed"
+   */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningStateOutput;
 }
 
@@ -1623,7 +1650,11 @@ export interface PrivateEndpointOutput {
 
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionStateOutput {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+   *
+   * Possible values: "Pending", "Approved", "Rejected"
+   */
   status?: PrivateEndpointServiceConnectionStatusOutput;
   /** The reason for approval/rejection of the connection. */
   description?: string;
@@ -1632,8 +1663,7 @@ export interface PrivateLinkServiceConnectionStateOutput {
 }
 
 /** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
-export interface ResourceModelWithAllowedPropertySetOutput
-  extends TrackedResourceOutput {
+export interface ResourceModelWithAllowedPropertySetOutput extends TrackedResourceOutput {
   /**
    * The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource.
    * If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.
@@ -1696,7 +1726,11 @@ export interface VirtualMachineScaleSetOutput {
   readonly id: string;
   /** Type of the virtualMachineScaleSet */
   readonly type?: string;
-  /** This represents the operationStatus of the VMSS in response to the last operation that was performed on it by Azure Fleet resource. */
+  /**
+   * This represents the operationStatus of the VMSS in response to the last operation that was performed on it by Azure Fleet resource.
+   *
+   * Possible values: "Creating", "Updating", "Deleting", "Migrating"
+   */
   readonly operationStatus: ProvisioningStateOutput;
   /** Error Information when `operationStatus` is `Failed` */
   readonly error?: ApiErrorOutput;
@@ -1804,8 +1838,6 @@ export type NetworkApiVersionOutput = string;
 export type SecurityTypesOutput = string;
 /** Alias for ModeOutput */
 export type ModeOutput = string;
-/** Alias for StatusLevelTypesOutput */
-export type StatusLevelTypesOutput = string;
 /** Alias for ManagedServiceIdentityTypeOutput */
 export type ManagedServiceIdentityTypeOutput = string;
 /** Alias for CreatedByTypeOutput */

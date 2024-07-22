@@ -67,10 +67,6 @@ import {
   VMSizeProperties as VMSizePropertiesRest,
   ServiceArtifactReference as ServiceArtifactReferenceRest,
   SecurityPostureReference as SecurityPostureReferenceRest,
-  VirtualMachineExtension as VirtualMachineExtensionRest,
-  VirtualMachineExtensionProperties as VirtualMachineExtensionPropertiesRest,
-  VirtualMachineExtensionInstanceView as VirtualMachineExtensionInstanceViewRest,
-  InstanceViewStatus as InstanceViewStatusRest,
   ManagedServiceIdentity as ManagedServiceIdentityRest,
   Plan as PlanRest,
   FleetUpdate as FleetUpdateRest,
@@ -142,9 +138,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(
-  item: TrackedResource,
-): TrackedResourceRest {
+export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -167,13 +161,9 @@ export function fleetSerializer(item: Fleet): FleetRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
-    properties: !item.properties
-      ? item.properties
-      : fleetPropertiesSerializer(item.properties),
+    properties: !item.properties ? item.properties : fleetPropertiesSerializer(item.properties),
     zones: item["zones"],
-    identity: !item.identity
-      ? item.identity
-      : managedServiceIdentitySerializer(item.identity),
+    identity: !item.identity ? item.identity : managedServiceIdentitySerializer(item.identity),
     plan: !item.plan ? item.plan : planSerializer(item.plan),
   };
 }
@@ -190,11 +180,13 @@ export interface FleetProperties {
   vmSizesProfile: VmSizeProfile[];
   /** Compute Profile to use for running user's workloads. */
   computeProfile: ComputeProfile;
+  /** Specifies the time at which the Compute Fleet is created. */
+  readonly timeCreated?: Date;
+  /** Specifies the ID which uniquely identifies a Compute Fleet. */
+  readonly uniqueId?: string;
 }
 
-export function fleetPropertiesSerializer(
-  item: FleetProperties,
-): FleetPropertiesRest {
+export function fleetPropertiesSerializer(item: FleetProperties): FleetPropertiesRest {
   return {
     spotPriorityProfile: !item.spotPriorityProfile
       ? item.spotPriorityProfile
@@ -249,9 +241,7 @@ export interface SpotPriorityProfile {
   maintain?: boolean;
 }
 
-export function spotPriorityProfileSerializer(
-  item: SpotPriorityProfile,
-): SpotPriorityProfileRest {
+export function spotPriorityProfileSerializer(item: SpotPriorityProfile): SpotPriorityProfileRest {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -350,9 +340,7 @@ export interface VmSizeProfile {
   rank?: number;
 }
 
-export function vmSizeProfileSerializer(
-  item: VmSizeProfile,
-): VmSizeProfileRest {
+export function vmSizeProfileSerializer(item: VmSizeProfile): VmSizeProfileRest {
   return {
     name: item["name"],
     rank: item["rank"],
@@ -378,13 +366,9 @@ export interface ComputeProfile {
   platformFaultDomainCount?: number;
 }
 
-export function computeProfileSerializer(
-  item: ComputeProfile,
-): ComputeProfileRest {
+export function computeProfileSerializer(item: ComputeProfile): ComputeProfileRest {
   return {
-    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(
-      item.baseVirtualMachineProfile,
-    ),
+    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(item.baseVirtualMachineProfile),
     computeApiVersion: item["computeApiVersion"],
     platformFaultDomainCount: item["platformFaultDomainCount"],
   };
@@ -409,7 +393,7 @@ export interface BaseVirtualMachineProfile {
    * scale set.
    */
   securityProfile?: SecurityProfile;
-  /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
+  /** Specifies the boot diagnostic settings state. */
   diagnosticsProfile?: DiagnosticsProfile;
   /**
    * Specifies a collection of settings for extensions installed on virtual machines
@@ -464,7 +448,7 @@ export interface BaseVirtualMachineProfile {
    * Specifies the time in which this VM profile for the Virtual Machine Scale Set
    * was created. Minimum API version for this property is 2023-09-01. This value
    * will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile
-   * with minimum api-version 2023-09-01.
+   * with minimum api-version 2023-09-01. Examples: "2024-07-01T00:00:01.1234567+00:00"
    */
   readonly timeCreated?: Date;
 }
@@ -659,9 +643,7 @@ export function windowsConfigurationSerializer(
     additionalUnattendContent:
       item["additionalUnattendContent"] === undefined
         ? item["additionalUnattendContent"]
-        : item["additionalUnattendContent"].map(
-            additionalUnattendContentSerializer,
-          ),
+        : item["additionalUnattendContent"].map(additionalUnattendContentSerializer),
     patchSettings: !item.patchSettings
       ? item.patchSettings
       : patchSettingsSerializer(item.patchSettings),
@@ -763,18 +745,14 @@ export interface PatchSettings {
   automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function patchSettingsSerializer(
-  item: PatchSettings,
-): PatchSettingsRest {
+export function patchSettingsSerializer(item: PatchSettings): PatchSettingsRest {
   return {
     patchMode: item["patchMode"],
     enableHotpatching: item["enableHotpatching"],
     assessmentMode: item["assessmentMode"],
     automaticByPlatformSettings: !item.automaticByPlatformSettings
       ? item.automaticByPlatformSettings
-      : windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
-          item.automaticByPlatformSettings,
-        ),
+      : windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(item.automaticByPlatformSettings),
   };
 }
 
@@ -838,8 +816,7 @@ export function windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
 ): WindowsVMGuestPatchAutomaticByPlatformSettingsRest {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -873,9 +850,7 @@ export interface WinRMConfiguration {
   listeners?: WinRMListener[];
 }
 
-export function winRMConfigurationSerializer(
-  item: WinRMConfiguration,
-): WinRMConfigurationRest {
+export function winRMConfigurationSerializer(item: WinRMConfiguration): WinRMConfigurationRest {
   return {
     listeners:
       item["listeners"] === undefined
@@ -909,9 +884,7 @@ export interface WinRMListener {
   certificateUrl?: string;
 }
 
-export function winRMListenerSerializer(
-  item: WinRMListener,
-): WinRMListenerRest {
+export function winRMListenerSerializer(item: WinRMListener): WinRMListenerRest {
   return {
     protocol: item["protocol"],
     certificateUrl: item["certificateUrl"],
@@ -963,9 +936,7 @@ export interface LinuxConfiguration {
   enableVMAgentPlatformUpdates?: boolean;
 }
 
-export function linuxConfigurationSerializer(
-  item: LinuxConfiguration,
-): LinuxConfigurationRest {
+export function linuxConfigurationSerializer(item: LinuxConfiguration): LinuxConfigurationRest {
   return {
     disablePasswordAuthentication: item["disablePasswordAuthentication"],
     ssh: !item.ssh ? item.ssh : sshConfigurationSerializer(item.ssh),
@@ -983,9 +954,7 @@ export interface SshConfiguration {
   publicKeys?: SshPublicKey[];
 }
 
-export function sshConfigurationSerializer(
-  item: SshConfiguration,
-): SshConfigurationRest {
+export function sshConfigurationSerializer(item: SshConfiguration): SshConfigurationRest {
   return {
     publicKeys:
       item["publicKeys"] === undefined
@@ -1047,17 +1016,13 @@ export interface LinuxPatchSettings {
   automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function linuxPatchSettingsSerializer(
-  item: LinuxPatchSettings,
-): LinuxPatchSettingsRest {
+export function linuxPatchSettingsSerializer(item: LinuxPatchSettings): LinuxPatchSettingsRest {
   return {
     patchMode: item["patchMode"],
     assessmentMode: item["assessmentMode"],
     automaticByPlatformSettings: !item.automaticByPlatformSettings
       ? item.automaticByPlatformSettings
-      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
-          item.automaticByPlatformSettings,
-        ),
+      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(item.automaticByPlatformSettings),
   };
 }
 
@@ -1122,8 +1087,7 @@ export function linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
 ): LinuxVMGuestPatchAutomaticByPlatformSettingsRest {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -1163,13 +1127,9 @@ export interface VaultSecretGroup {
   vaultCertificates?: VaultCertificate[];
 }
 
-export function vaultSecretGroupSerializer(
-  item: VaultSecretGroup,
-): VaultSecretGroupRest {
+export function vaultSecretGroupSerializer(item: VaultSecretGroup): VaultSecretGroupRest {
   return {
-    sourceVault: !item.sourceVault
-      ? item.sourceVault
-      : subResourceSerializer(item.sourceVault),
+    sourceVault: !item.sourceVault ? item.sourceVault : subResourceSerializer(item.sourceVault),
     vaultCertificates:
       item["vaultCertificates"] === undefined
         ? item["vaultCertificates"]
@@ -1222,9 +1182,7 @@ export interface VaultCertificate {
   certificateStore?: string;
 }
 
-export function vaultCertificateSerializer(
-  item: VaultCertificate,
-): VaultCertificateRest {
+export function vaultCertificateSerializer(item: VaultCertificate): VaultCertificateRest {
   return {
     certificateUrl: item["certificateUrl"],
     certificateStore: item["certificateStore"],
@@ -1265,9 +1223,7 @@ export function virtualMachineScaleSetStorageProfileSerializer(
     imageReference: !item.imageReference
       ? item.imageReference
       : imageReferenceSerializer(item.imageReference),
-    osDisk: !item.osDisk
-      ? item.osDisk
-      : virtualMachineScaleSetOSDiskSerializer(item.osDisk),
+    osDisk: !item.osDisk ? item.osDisk : virtualMachineScaleSetOSDiskSerializer(item.osDisk),
     dataDisks:
       item["dataDisks"] === undefined
         ? item["dataDisks"]
@@ -1326,9 +1282,7 @@ export interface ImageReference {
   communityGalleryImageId?: string;
 }
 
-export function imageReferenceSerializer(
-  item: ImageReference,
-): ImageReferenceRest {
+export function imageReferenceSerializer(item: ImageReference): ImageReferenceRest {
   return {
     id: item["id"],
     publisher: item["publisher"],
@@ -1490,9 +1444,7 @@ export interface DiffDiskSettings {
   placement?: DiffDiskPlacement;
 }
 
-export function diffDiskSettingsSerializer(
-  item: DiffDiskSettings,
-): DiffDiskSettingsRest {
+export function diffDiskSettingsSerializer(item: DiffDiskSettings): DiffDiskSettingsRest {
   return {
     option: item["option"],
     placement: item["placement"],
@@ -1569,9 +1521,7 @@ export interface VirtualHardDisk {
   uri?: string;
 }
 
-export function virtualHardDiskSerializer(
-  item: VirtualHardDisk,
-): VirtualHardDiskRest {
+export function virtualHardDiskSerializer(item: VirtualHardDisk): VirtualHardDiskRest {
   return {
     uri: item["uri"],
   };
@@ -1886,9 +1836,7 @@ export interface ApiEntityReference {
   id?: string;
 }
 
-export function apiEntityReferenceSerializer(
-  item: ApiEntityReference,
-): ApiEntityReferenceRest {
+export function apiEntityReferenceSerializer(item: ApiEntityReference): ApiEntityReferenceRest {
   return {
     id: item["id"],
   };
@@ -1909,9 +1857,7 @@ export function virtualMachineScaleSetNetworkConfigurationSerializer(
     name: item["name"],
     properties: !item.properties
       ? item.properties
-      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
-          item.properties,
-        ),
+      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(item.properties),
   };
 }
 
@@ -1963,12 +1909,8 @@ export function virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
       : subResourceSerializer(item.networkSecurityGroup),
     dnsSettings: !item.dnsSettings
       ? item.dnsSettings
-      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(
-          item.dnsSettings,
-        ),
-    ipConfigurations: item["ipConfigurations"].map(
-      virtualMachineScaleSetIPConfigurationSerializer,
-    ),
+      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(item.dnsSettings),
+    ipConfigurations: item["ipConfigurations"].map(virtualMachineScaleSetIPConfigurationSerializer),
     enableIPForwarding: item["enableIPForwarding"],
     deleteOption: item["deleteOption"],
     auxiliaryMode: item["auxiliaryMode"],
@@ -2008,9 +1950,7 @@ export function virtualMachineScaleSetIPConfigurationSerializer(
     name: item["name"],
     properties: !item.properties
       ? item.properties
-      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(
-          item.properties,
-        ),
+      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(item.properties),
   };
 }
 
@@ -2061,9 +2001,7 @@ export function virtualMachineScaleSetIPConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetIPConfigurationProperties,
 ): VirtualMachineScaleSetIPConfigurationPropertiesRest {
   return {
-    subnet: !item.subnet
-      ? item.subnet
-      : apiEntityReferenceSerializer(item.subnet),
+    subnet: !item.subnet ? item.subnet : apiEntityReferenceSerializer(item.subnet),
     primary: item["primary"],
     publicIPAddressConfiguration: !item.publicIPAddressConfiguration
       ? item.publicIPAddressConfiguration
@@ -2074,9 +2012,7 @@ export function virtualMachineScaleSetIPConfigurationPropertiesSerializer(
     applicationGatewayBackendAddressPools:
       item["applicationGatewayBackendAddressPools"] === undefined
         ? item["applicationGatewayBackendAddressPools"]
-        : item["applicationGatewayBackendAddressPools"].map(
-            subResourceSerializer,
-          ),
+        : item["applicationGatewayBackendAddressPools"].map(subResourceSerializer),
     applicationSecurityGroups:
       item["applicationSecurityGroups"] === undefined
         ? item["applicationSecurityGroups"]
@@ -2118,9 +2054,7 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
     name: item["name"],
     properties: !item.properties
       ? item.properties
-      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(
-          item.properties,
-        ),
+      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(item.properties),
     sku: !item.sku ? item.sku : publicIPAddressSkuSerializer(item.sku),
   };
 }
@@ -2155,9 +2089,7 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSeri
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
     dnsSettings: !item.dnsSettings
       ? item.dnsSettings
-      : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(
-          item.dnsSettings,
-        ),
+      : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(item.dnsSettings),
     ipTags:
       item["ipTags"] === undefined
         ? item["ipTags"]
@@ -2289,9 +2221,7 @@ export interface PublicIPAddressSku {
   tier?: PublicIPAddressSkuTier;
 }
 
-export function publicIPAddressSkuSerializer(
-  item: PublicIPAddressSku,
-): PublicIPAddressSkuRest {
+export function publicIPAddressSkuSerializer(item: PublicIPAddressSku): PublicIPAddressSkuRest {
   return {
     name: item["name"],
     tier: item["tier"],
@@ -2437,9 +2367,7 @@ export interface SecurityProfile {
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
-export function securityProfileSerializer(
-  item: SecurityProfile,
-): SecurityProfileRest {
+export function securityProfileSerializer(item: SecurityProfile): SecurityProfileRest {
   return {
     uefiSettings: !item.uefiSettings
       ? item.uefiSettings
@@ -2508,9 +2436,7 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-export function encryptionIdentitySerializer(
-  item: EncryptionIdentity,
-): EncryptionIdentityRest {
+export function encryptionIdentitySerializer(item: EncryptionIdentity): EncryptionIdentityRest {
   return {
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
   };
@@ -2540,9 +2466,7 @@ export interface ProxyAgentSettings {
   keyIncarnationId?: number;
 }
 
-export function proxyAgentSettingsSerializer(
-  item: ProxyAgentSettings,
-): ProxyAgentSettingsRest {
+export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): ProxyAgentSettingsRest {
   return {
     enabled: item["enabled"],
     mode: item["mode"],
@@ -2583,9 +2507,7 @@ export interface DiagnosticsProfile {
   bootDiagnostics?: BootDiagnostics;
 }
 
-export function diagnosticsProfileSerializer(
-  item: DiagnosticsProfile,
-): DiagnosticsProfileRest {
+export function diagnosticsProfileSerializer(item: DiagnosticsProfile): DiagnosticsProfileRest {
   return {
     bootDiagnostics: !item.bootDiagnostics
       ? item.bootDiagnostics
@@ -2610,9 +2532,7 @@ export interface BootDiagnostics {
   storageUri?: string;
 }
 
-export function bootDiagnosticsSerializer(
-  item: BootDiagnostics,
-): BootDiagnosticsRest {
+export function bootDiagnosticsSerializer(item: BootDiagnostics): BootDiagnosticsRest {
   return {
     enabled: item["enabled"],
     storageUri: item["storageUri"],
@@ -2729,9 +2649,7 @@ export function virtualMachineScaleSetExtensionPropertiesSerializer(
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
-    settings: !item.settings
-      ? item.settings
-      : (serializeRecord(item.settings as any) as any),
+    settings: !item.settings ? item.settings : (serializeRecord(item.settings as any) as any),
     protectedSettings: !item.protectedSettings
       ? item.protectedSettings
       : (serializeRecord(item.protectedSettings as any) as any),
@@ -2774,9 +2692,7 @@ export function scheduledEventsProfileSerializer(
   return {
     terminateNotificationProfile: !item.terminateNotificationProfile
       ? item.terminateNotificationProfile
-      : terminateNotificationProfileSerializer(
-          item.terminateNotificationProfile,
-        ),
+      : terminateNotificationProfileSerializer(item.terminateNotificationProfile),
     osImageNotificationProfile: !item.osImageNotificationProfile
       ? item.osImageNotificationProfile
       : oSImageNotificationProfileSerializer(item.osImageNotificationProfile),
@@ -2857,9 +2773,7 @@ export interface ApplicationProfile {
   galleryApplications?: VMGalleryApplication[];
 }
 
-export function applicationProfileSerializer(
-  item: ApplicationProfile,
-): ApplicationProfileRest {
+export function applicationProfileSerializer(item: ApplicationProfile): ApplicationProfileRest {
   return {
     galleryApplications:
       item["galleryApplications"] === undefined
@@ -2953,9 +2867,7 @@ export interface VMSizeProperties {
   vCPUsPerCore?: number;
 }
 
-export function vMSizePropertiesSerializer(
-  item: VMSizeProperties,
-): VMSizePropertiesRest {
+export function vMSizePropertiesSerializer(item: VMSizeProperties): VMSizePropertiesRest {
   return {
     vCPUsAvailable: item["vCPUsAvailable"],
     vCPUsPerCore: item["vCPUsPerCore"],
@@ -2994,10 +2906,12 @@ export interface SecurityPostureReference {
    */
   id?: string;
   /**
-   * List of virtual machine extensions to exclude when applying the Security
-   * Posture.
+   * List of virtual machine extension names to exclude when applying the security
+   * posture.
    */
-  excludeExtensions?: VirtualMachineExtension[];
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
 }
 
 export function securityPostureReferenceSerializer(
@@ -3005,199 +2919,10 @@ export function securityPostureReferenceSerializer(
 ): SecurityPostureReferenceRest {
   return {
     id: item["id"],
-    excludeExtensions:
-      item["excludeExtensions"] === undefined
-        ? item["excludeExtensions"]
-        : item["excludeExtensions"].map(virtualMachineExtensionSerializer),
+    excludeExtensions: item["excludeExtensions"],
+    isOverridable: item["isOverridable"],
   };
 }
-
-/** Describes a Virtual Machine Extension. */
-export interface VirtualMachineExtension {
-  /** Resource location */
-  location?: string;
-  /** Resource Id */
-  readonly id?: string;
-  /** Resource name */
-  readonly name?: string;
-  /** Resource type */
-  readonly type?: string;
-  /** Resource tags */
-  tags?: Record<string, string>;
-  /** Describes the properties of a Virtual Machine Extension. */
-  properties?: VirtualMachineExtensionProperties;
-}
-
-export function virtualMachineExtensionSerializer(
-  item: VirtualMachineExtension,
-): VirtualMachineExtensionRest {
-  return {
-    location: item["location"],
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    properties: !item.properties
-      ? item.properties
-      : virtualMachineExtensionPropertiesSerializer(item.properties),
-  };
-}
-
-/** Describes the properties of a Virtual Machine Extension. */
-export interface VirtualMachineExtensionProperties {
-  /**
-   * How the extension handler should be forced to update even if the extension
-   * configuration has not changed.
-   */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /**
-   * Indicates whether the extension should use a newer minor version if one is
-   * available at deployment time. Once deployed, however, the extension will not
-   * upgrade minor versions unless redeployed, even with this property set to true.
-   */
-  autoUpgradeMinorVersion?: boolean;
-  /**
-   * Indicates whether the extension should be automatically upgraded by the
-   * platform if there is a newer version of the extension available.
-   */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: Record<string, any>;
-  /**
-   * The extension can contain either protectedSettings or
-   * protectedSettingsFromKeyVault or no protected settings at all.
-   */
-  protectedSettings?: Record<string, any>;
-  /** The provisioning state, which only appears in the response. */
-  readonly provisioningState?: string;
-  /** The virtual machine extension instance view. */
-  instanceView?: VirtualMachineExtensionInstanceView;
-  /**
-   * Indicates whether failures stemming from the extension will be suppressed
-   * (Operational failures such as not connecting to the VM will not be suppressed
-   * regardless of this value). The default is false.
-   */
-  suppressFailures?: boolean;
-  /**
-   * The extensions protected settings that are passed by reference, and consumed
-   * from key vault
-   */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
-  /**
-   * Collection of extension names after which this extension needs to be
-   * provisioned.
-   */
-  provisionAfterExtensions?: string[];
-}
-
-export function virtualMachineExtensionPropertiesSerializer(
-  item: VirtualMachineExtensionProperties,
-): VirtualMachineExtensionPropertiesRest {
-  return {
-    forceUpdateTag: item["forceUpdateTag"],
-    publisher: item["publisher"],
-    type: item["type"],
-    typeHandlerVersion: item["typeHandlerVersion"],
-    autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
-    enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
-    settings: !item.settings
-      ? item.settings
-      : (serializeRecord(item.settings as any) as any),
-    protectedSettings: !item.protectedSettings
-      ? item.protectedSettings
-      : (serializeRecord(item.protectedSettings as any) as any),
-    instanceView: !item.instanceView
-      ? item.instanceView
-      : virtualMachineExtensionInstanceViewSerializer(item.instanceView),
-    suppressFailures: item["suppressFailures"],
-    protectedSettingsFromKeyVault: !item.protectedSettingsFromKeyVault
-      ? item.protectedSettingsFromKeyVault
-      : keyVaultSecretReferenceSerializer(item.protectedSettingsFromKeyVault),
-    provisionAfterExtensions: item["provisionAfterExtensions"],
-  };
-}
-
-/** The instance view of a virtual machine extension. */
-export interface VirtualMachineExtensionInstanceView {
-  /** The virtual machine extension name. */
-  name?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** The resource status information. */
-  substatuses?: InstanceViewStatus[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-export function virtualMachineExtensionInstanceViewSerializer(
-  item: VirtualMachineExtensionInstanceView,
-): VirtualMachineExtensionInstanceViewRest {
-  return {
-    name: item["name"],
-    type: item["type"],
-    typeHandlerVersion: item["typeHandlerVersion"],
-    substatuses:
-      item["substatuses"] === undefined
-        ? item["substatuses"]
-        : item["substatuses"].map(instanceViewStatusSerializer),
-    statuses:
-      item["statuses"] === undefined
-        ? item["statuses"]
-        : item["statuses"].map(instanceViewStatusSerializer),
-  };
-}
-
-/** Instance view status. */
-export interface InstanceViewStatus {
-  /** The status code. */
-  code?: string;
-  /** The level code. */
-  level?: StatusLevelTypes;
-  /** The short localizable label for the status. */
-  displayStatus?: string;
-  /** The detailed status message, including for alerts and error messages. */
-  message?: string;
-  /** The time of the status. */
-  time?: Date;
-}
-
-export function instanceViewStatusSerializer(
-  item: InstanceViewStatus,
-): InstanceViewStatusRest {
-  return {
-    code: item["code"],
-    level: item["level"],
-    displayStatus: item["displayStatus"],
-    message: item["message"],
-    time: item["time"]?.toISOString(),
-  };
-}
-
-/** Known values of {@link StatusLevelTypes} that the service accepts. */
-export enum KnownStatusLevelTypes {
-  /** Info */
-  Info = "Info",
-  /** Warning */
-  Warning = "Warning",
-  /** Error */
-  Error = "Error",
-}
-
-/**
- * The level code. \
- * {@link KnownStatusLevelTypes} can be used interchangeably with StatusLevelTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Info** \
- * **Warning** \
- * **Error**
- */
-export type StatusLevelTypes = string;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
@@ -3208,7 +2933,7 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity> | null;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 export function managedServiceIdentitySerializer(
@@ -3332,9 +3057,7 @@ export function fleetUpdateSerializer(item: FleetUpdate): FleetUpdateRest {
       ? item.identity
       : managedServiceIdentityUpdateSerializer(item.identity),
     plan: !item.plan ? item.plan : resourcePlanUpdateSerializer(item.plan),
-    properties: !item.properties
-      ? item.properties
-      : fleetPropertiesSerializer(item.properties),
+    properties: !item.properties ? item.properties : fleetPropertiesSerializer(item.properties),
   };
 }
 
@@ -3343,7 +3066,7 @@ export interface ManagedServiceIdentityUpdate {
   /** The type of managed identity assigned to this resource. */
   type?: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity> | null;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 export function managedServiceIdentityUpdateSerializer(
@@ -3374,9 +3097,7 @@ export interface ResourcePlanUpdate {
   version?: string;
 }
 
-export function resourcePlanUpdateSerializer(
-  item: ResourcePlanUpdate,
-): ResourcePlanUpdateRest {
+export function resourcePlanUpdateSerializer(item: ResourcePlanUpdate): ResourcePlanUpdateRest {
   return {
     name: item["name"],
     publisher: item["publisher"],
@@ -3464,7 +3185,7 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  readonly display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
@@ -3474,13 +3195,13 @@ export interface Operation {
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  readonly provider?: string;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  readonly resource?: string;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  readonly operation?: string;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  readonly description?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */

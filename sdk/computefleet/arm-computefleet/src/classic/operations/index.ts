@@ -10,9 +10,7 @@ import { OperationsListOptionalParams } from "../../models/options.js";
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
   /** List the operations for the provider */
-  list: (
-    options?: OperationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Operation>;
+  list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 export function getOperations(context: AzureFleetContext) {
@@ -21,9 +19,7 @@ export function getOperations(context: AzureFleetContext) {
   };
 }
 
-export function getOperationsOperations(
-  context: AzureFleetContext,
-): OperationsOperations {
+export function getOperationsOperations(context: AzureFleetContext): OperationsOperations {
   return {
     ...getOperations(context),
   };

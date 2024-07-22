@@ -34,20 +34,22 @@ export async function _listDeserialize(
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      name: p["name"],
-      isDataAction: p["isDataAction"],
-      display: !p.display
-        ? undefined
-        : {
-            provider: p.display?.["provider"],
-            resource: p.display?.["resource"],
-            operation: p.display?.["operation"],
-            description: p.display?.["description"],
-          },
-      origin: p["origin"],
-      actionType: p["actionType"],
-    })),
+    value: result.body["value"].map((p) => {
+      return {
+        name: p["name"],
+        isDataAction: p["isDataAction"],
+        display: !p.display
+          ? undefined
+          : {
+              provider: p.display?.["provider"],
+              resource: p.display?.["resource"],
+              operation: p.display?.["operation"],
+              description: p.display?.["description"],
+            },
+        origin: p["origin"],
+        actionType: p["actionType"],
+      };
+    }),
     nextLink: result.body["nextLink"],
   };
 }
@@ -57,10 +59,8 @@ export function list(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSend(context, options),
-    _listDeserialize,
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
+  return buildPagedAsyncIterator(context, () => _listSend(context, options), _listDeserialize, {
+    itemName: "value",
+    nextLinkName: "nextLink",
+  });
 }

@@ -12,8 +12,7 @@ export interface CreateOrUpdateBodyParam {
   body: Fleet;
 }
 
-export type CreateOrUpdateParameters = CreateOrUpdateBodyParam &
-  RequestParameters;
+export type CreateOrUpdateParameters = CreateOrUpdateBodyParam & RequestParameters;
 
 export interface UpdateBodyParam {
   /** The resource properties to be updated. */

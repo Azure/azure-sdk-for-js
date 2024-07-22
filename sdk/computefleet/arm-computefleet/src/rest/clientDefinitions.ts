@@ -36,54 +36,40 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface List {
   /** List the operations for the provider */
-  get(
-    options?: ListParameters,
-  ): StreamableMethod<List200Response | ListDefaultResponse>;
+  get(options?: ListParameters): StreamableMethod<List200Response | ListDefaultResponse>;
 }
 
 export interface Get {
   /** Get a Fleet */
-  get(
-    options?: GetParameters,
-  ): StreamableMethod<Get200Response | GetDefaultResponse>;
+  get(options?: GetParameters): StreamableMethod<Get200Response | GetDefaultResponse>;
   /** Create a Fleet */
   put(
     options: CreateOrUpdateParameters,
   ): StreamableMethod<
-    | CreateOrUpdate200Response
-    | CreateOrUpdate201Response
-    | CreateOrUpdateDefaultResponse
+    CreateOrUpdate200Response | CreateOrUpdate201Response | CreateOrUpdateDefaultResponse
   >;
   /** Update a Fleet */
   patch(
     options: UpdateParameters,
-  ): StreamableMethod<
-    Update200Response | Update202Response | UpdateDefaultResponse
-  >;
+  ): StreamableMethod<Update200Response | Update202Response | UpdateDefaultResponse>;
   /** Delete a Fleet */
   delete(
     options?: DeleteParameters,
-  ): StreamableMethod<
-    Delete202Response | Delete204Response | DeleteDefaultResponse
-  >;
+  ): StreamableMethod<Delete202Response | Delete204Response | DeleteDefaultResponse>;
 }
 
 export interface ListByResourceGroup {
   /** List Fleet resources by resource group */
   get(
     options?: ListByResourceGroupParameters,
-  ): StreamableMethod<
-    ListByResourceGroup200Response | ListByResourceGroupDefaultResponse
-  >;
+  ): StreamableMethod<ListByResourceGroup200Response | ListByResourceGroupDefaultResponse>;
 }
 
 export interface ListBySubscription {
   /** List Fleet resources by subscription ID */
   get(
     options?: ListBySubscriptionParameters,
-  ): StreamableMethod<
-    ListBySubscription200Response | ListBySubscriptionDefaultResponse
-  >;
+  ): StreamableMethod<ListBySubscription200Response | ListBySubscriptionDefaultResponse>;
 }
 
 export interface ListVirtualMachineScaleSets {
@@ -91,8 +77,7 @@ export interface ListVirtualMachineScaleSets {
   get(
     options?: ListVirtualMachineScaleSetsParameters,
   ): StreamableMethod<
-    | ListVirtualMachineScaleSets200Response
-    | ListVirtualMachineScaleSetsDefaultResponse
+    ListVirtualMachineScaleSets200Response | ListVirtualMachineScaleSetsDefaultResponse
   >;
 }
 

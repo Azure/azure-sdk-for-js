@@ -13146,7 +13146,7 @@ packages:
     dev: false
 
   file:projects/arm-computefleet.tgz:
-    resolution: {integrity: sha512-eAcxW6YJ8tWUWNsJJboNWUHlBYaCCgm44cVlbn1xHdBjcZf7SN5jaZ7kPzYHPccTVM39eqXhjXY2XIIe5oXOnQ==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-TtTPTJEykkWU5vnsl+9+A5j2EgrYRlWdY+aWHApjKheP1VYZr+ePOI2dxb/56KQzKc54XvCiEk/yDPA1I86teA==, tarball: file:projects/arm-computefleet.tgz}
     name: '@rush-temp/arm-computefleet'
     version: 0.0.0
     dependencies:
@@ -13163,7 +13163,7 @@ packages:
       rimraf: 5.0.9
       tshy: 1.18.0
       tslib: 2.6.3
-      typescript: 5.4.5
+      typescript: 5.5.3
       vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'

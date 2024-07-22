@@ -14,7 +14,7 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AzureFleetClientOptions extends ClientOptions {
+export interface AzureFleetClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
@@ -24,7 +24,7 @@ export type AzureFleetContext = Client & {
 };
 
 // @public (undocumented)
-export function createAzureFleet(credential: TokenCredential, options?: AzureFleetClientOptions): AzureFleetContext;
+export function createAzureFleet(credential: TokenCredential, options?: AzureFleetClientOptionalParams): AzureFleetContext;
 
 // (No @packageDocumentation comment for this package)
 

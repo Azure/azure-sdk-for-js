@@ -132,12 +132,6 @@ export {
   VMSizeProperties,
   ServiceArtifactReference,
   SecurityPostureReference,
-  VirtualMachineExtension,
-  VirtualMachineExtensionProperties,
-  VirtualMachineExtensionInstanceView,
-  InstanceViewStatus,
-  KnownStatusLevelTypes,
-  StatusLevelTypes,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
@@ -173,8 +167,4 @@ export {
   FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
 } from "./options.js";
-export {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./pagingTypes.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes.js";

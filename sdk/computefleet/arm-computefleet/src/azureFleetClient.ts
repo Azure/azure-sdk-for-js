@@ -3,21 +3,15 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  getFleetsOperations,
-  FleetsOperations,
-} from "./classic/fleets/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { getFleetsOperations, FleetsOperations } from "./classic/fleets/index.js";
 import {
   createAzureFleet,
-  AzureFleetClientOptions,
+  AzureFleetClientOptionalParams,
   AzureFleetContext,
 } from "./api/index.js";
 
-export { AzureFleetClientOptions } from "./api/azureFleetContext.js";
+export { AzureFleetClientOptionalParams } from "./api/azureFleetContext.js";
 
 export class AzureFleetClient {
   private _client: AzureFleetContext;
@@ -27,7 +21,7 @@ export class AzureFleetClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: AzureFleetClientOptions = {},
+    options: AzureFleetClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
