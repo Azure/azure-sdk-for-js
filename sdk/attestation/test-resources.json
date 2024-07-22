@@ -23,9 +23,16 @@
     "locationShortName": {
       "type": "string",
       "defaultValue": ""
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
+    "contributorRole": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c')]",
     "isolatedTenantName": "[concat('js', concat(parameters('baseName'), 'iso'))]",
     "aadTenantName": "[concat('js', concat(parameters('baseName'), 'aad'))]",
     "isolatedUri": "[format('https://{0}.{1}.attest.azure.net', variables('isolatedTenantName'), parameters('locationShortName'))]",
@@ -55,6 +62,15 @@
       "name": "[variables('isolatedTenantName')]",
       "location": "[parameters('location')]",
       "properties": "[variables('PolicySigningCertificates')]"
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(resourceGroup().id, 'roleAssignment')]",
+      "properties": {
+        "roleDefinitionId": "[variables('contributorRole')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
     }
   ],
   "outputs": {
