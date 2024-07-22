@@ -13,7 +13,10 @@ import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scope
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
+import { setLogLevel } from "@azure/logger";
 import { tracingClient } from "../util/tracing";
+
+setLogLevel("verbose");
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -48,6 +51,7 @@ export const cliCredentialInternals = {
     if (tenantId) {
       tenantSection = ["--tenant", tenantId];
     }
+    console.log("CALLED getAzureCliAccessToken from source code");
     return new Promise((resolve, reject) => {
       try {
         child_process.execFile(
@@ -95,6 +99,7 @@ export class AzureCliCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureCliCredentialOptions) {
+    console.log("CALLED AzureCliCredential ctor from source code.");
     if (options?.tenantId) {
       checkTenantId(logger, options?.tenantId);
       this.tenantId = options?.tenantId;
