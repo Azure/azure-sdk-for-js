@@ -13,7 +13,7 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated";
-import { createTagsFromResource, hrTimeToDate } from "./common";
+import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
@@ -134,7 +134,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
           key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
-        properties[key] = log.attributes[key] as string;
+        properties[key] = serializeAttribute(log.attributes[key]);
       }
     }
   }
