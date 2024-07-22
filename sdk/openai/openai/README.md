@@ -56,13 +56,13 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
 
 3. Create the client by passing in the token provider:
 
-```js
-import { AzureOpenAI } from "openai";
+    ```js
+    import { AzureOpenAI } from "openai";
 
-const deployment = "Your deployment name";
-const apiVersion = "2024-05-01-preview";
-const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-```
+    const deployment = "Your deployment name";
+    const apiVersion = "2024-05-01-preview";
+    const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+    ```
 
 Grant access to your Azure OpenAI resource to your trusted entities by following instructions in [How to configure Azure OpenAI Service with Microsoft Entra ID authentication](https://learn.microsoft.com/azure/ai-services/openai/how-to/managed-identity).
 
