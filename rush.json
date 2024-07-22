@@ -381,11 +381,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/openai",
-      "projectFolder": "sdk/openai/openai-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"

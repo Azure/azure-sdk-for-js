@@ -998,9 +998,6 @@ dependencies:
   '@rush-temp/openai':
     specifier: file:./projects/openai.tgz
     version: file:projects/openai.tgz
-  '@rush-temp/openai-1':
-    specifier: file:./projects/openai-1.tgz
-    version: file:projects/openai-1.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk':
     specifier: file:./projects/opentelemetry-instrumentation-azure-sdk.tgz
     version: file:projects/opentelemetry-instrumentation-azure-sdk.tgz
@@ -22305,68 +22302,30 @@ packages:
       - webdriverio
     dev: false
 
-  file:projects/openai-1.tgz:
-    resolution: {integrity: sha512-WQ1ze+YAdruGNZnh7HdgXQfiggl4X/lMPLrflhmDLDJJHd8IFBG4RPgN0lgm7MQnu4qj/jCgczd00D/lbs671g==, tarball: file:projects/openai-1.tgz}
-    name: '@rush-temp/openai-1'
-    version: 0.0.0
-    dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.2.0
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
-      '@azure/identity': 4.4.0
-      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
-      '@types/mocha': 10.0.7
-      '@types/node': 18.19.40
-      builtin-modules: 3.3.0
-      cross-env: 7.0.3
-      dotenv: 16.4.5
-      eslint: 8.57.0
-      karma: 6.4.3(debug@4.3.5)
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-edge-launcher: 0.4.2(karma@6.4.3)
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-json-preprocessor: 0.3.3(karma@6.4.3)
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1(karma@6.4.3)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.3)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.6.0
-      nyc: 17.0.0
-      openai: 4.52.7
-      puppeteer: 22.13.0(typescript@5.5.3)
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
-      tshy: 1.18.0
-      tslib: 2.6.3
-      typescript: 5.4.5
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-hfjSqU0PVUz4N6GgVUsLpJeA0IzDq6DmrVJf5526aDFr5PapDGZ+Eoqg/rlfnwU/ZY43hB5qt5+O4MfI4xEObA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-3WCcCkqs7ypCVcgWWp40JAf4wh7d5xzfKKKZHrgshKvPWTdQBNlvaNVm41WPCZJmOJf3pHHfjBZaya34SnWXVQ==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@types/node': 18.19.40
       autorest: 3.7.1
       cross-env: 7.0.3
       dotenv: 16.4.5
+      eslint: 8.57.0
       mkdirp: 3.0.1
-      rimraf: 5.0.9
+      openai: 4.52.7
+      rimraf: 3.0.2
       source-map-support: 0.5.21
+      tshy: 1.18.0
       tslib: 2.6.3
-      typescript: 5.5.3
+      typescript: 5.4.5
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
