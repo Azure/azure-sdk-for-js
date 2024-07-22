@@ -62,9 +62,7 @@ const serviceEndpoint =
 const client = createClient(serviceEndpoint, credential);
 
 const content: DeidentificationContent = {
-  dataType: "Plaintext",
-  inputText: "Hello John!",
-  operation: "Surrogate",
+  inputText: "Hello John!"
 };
 
 const response = await client.path("/deid").post({ body: content });

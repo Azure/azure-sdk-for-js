@@ -2,13 +2,10 @@
 // Licensed under the MIT license.
 
 /**
- * @summary This sample demonstrates how to create a `DeidentificationClient` and then deidentify a `string`
+ * @summary This sample demonstrates how to list jobs and iterate over them in a for loop.
  */
 
-import createClient, {
-  DeidentificationContent,
-  isUnexpected,
-} from "@azure-rest/health-deidentification";
+import createClient, { isUnexpected, paginate } from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -19,17 +16,19 @@ export async function main(): Promise<void> {
     process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
   const client = createClient(serviceEndpoint, credential);
 
-  const content: DeidentificationContent = {
-    inputText: "Hello John!",
-  };
-
-  const response = await client.path("/deid").post({ body: content });
+  const response = await client.path("/jobs").get();
 
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 
-  console.log(response.body.outputText); // Hello, Tom!
+  const items = [];
+  const iter = paginate(client, response);
+  for await (const item of iter) {
+    items.push(item);
+  }
+
+  console.log(items); // items will contain all the jobs
 }
 
 main().catch((err) => {
