@@ -16137,6 +16137,9 @@ packages:
       - supports-color
     dev: false
 
+      '@microsoft/api-extractor': 7.47.2(@types/node@18.19.41)
+      '@types/node': 18.19.41
+      vitest: 1.6.0(@types/node@18.19.41)(@vitest/browser@1.6.0)
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-iIVKSMObhPtllgldBh5d9PvGgh+4/0POUj8UdtW1VsK6bUAx+UtzTjsv2FjIMZ/0nuKBA0NQ678rKS5dppppbw==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
