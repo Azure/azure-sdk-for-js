@@ -97,7 +97,7 @@ export function getDependencyTarget(attributes: Attributes): string {
   if (peerService) {
     return String(peerService);
   } else if (hostPort && netPeerName) {
-    return String(netPeerName) + String(hostPort);
+    return `${netPeerName}:${hostPort}`;
   } else if (netPeerName) {
     return String(netPeerName);
   }
