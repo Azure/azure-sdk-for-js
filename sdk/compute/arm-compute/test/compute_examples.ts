@@ -129,6 +129,14 @@ describe("Compute test", () => {
     );
   }
 
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("availabilitySets create test", async function () {
     const res = await client.availabilitySets.createOrUpdate(resourceGroupName, availabilitySetName, {
       platformFaultDomainCount: 2,
