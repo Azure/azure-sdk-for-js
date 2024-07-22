@@ -20,7 +20,7 @@ import {
 } from "@azure-rest/core-client";
 import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
 
-export function _privateLinksListByMongoClusterSend(
+export function _listByMongoClusterSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -42,7 +42,7 @@ export function _privateLinksListByMongoClusterSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _privateLinksListByMongoClusterDeserialize(
+export async function _listByMongoClusterDeserialize(
   result:
     | PrivateLinksListByMongoCluster200Response
     | PrivateLinksListByMongoClusterDefaultResponse,
@@ -85,7 +85,7 @@ export async function _privateLinksListByMongoClusterDeserialize(
 }
 
 /** list private links on the given resource */
-export function privateLinksListByMongoCluster(
+export function listByMongoCluster(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -97,14 +97,14 @@ export function privateLinksListByMongoCluster(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _privateLinksListByMongoClusterSend(
+      _listByMongoClusterSend(
         context,
         subscriptionId,
         resourceGroupName,
         mongoClusterName,
         options,
       ),
-    _privateLinksListByMongoClusterDeserialize,
+    _listByMongoClusterDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

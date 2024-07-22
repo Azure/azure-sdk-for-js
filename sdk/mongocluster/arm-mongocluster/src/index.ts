@@ -3,7 +3,7 @@
 
 export {
   MongoClusterManagementClient,
-  MongoClusterManagementClientOptionalParams,
+  MongoClusterManagementClientOptions,
 } from "./mongoClusterManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {

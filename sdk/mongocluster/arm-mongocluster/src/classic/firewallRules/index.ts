@@ -4,10 +4,10 @@
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { FirewallRule } from "../../models/models.js";
 import {
-  firewallRulesGet,
-  firewallRulesCreateOrUpdate,
-  firewallRulesDelete,
-  firewallRulesListByMongoCluster,
+  get,
+  createOrUpdate,
+  $delete,
+  listByMongoCluster,
 } from "../../api/firewallRules/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -36,6 +36,11 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<FirewallRule>, FirewallRule>;
   /** Deletes a mongo cluster firewall rule. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -61,7 +66,7 @@ export function getFirewallRules(
       firewallRuleName: string,
       options?: FirewallRulesGetOptionalParams,
     ) =>
-      firewallRulesGet(
+      get(
         context,
         subscriptionId,
         resourceGroupName,
@@ -76,7 +81,7 @@ export function getFirewallRules(
       resource: FirewallRule,
       options?: FirewallRulesCreateOrUpdateOptionalParams,
     ) =>
-      firewallRulesCreateOrUpdate(
+      createOrUpdate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -91,7 +96,7 @@ export function getFirewallRules(
       firewallRuleName: string,
       options?: FirewallRulesDeleteOptionalParams,
     ) =>
-      firewallRulesDelete(
+      $delete(
         context,
         subscriptionId,
         resourceGroupName,
@@ -104,7 +109,7 @@ export function getFirewallRules(
       mongoClusterName: string,
       options?: FirewallRulesListByMongoClusterOptionalParams,
     ) =>
-      firewallRulesListByMongoCluster(
+      listByMongoCluster(
         context,
         subscriptionId,
         resourceGroupName,
