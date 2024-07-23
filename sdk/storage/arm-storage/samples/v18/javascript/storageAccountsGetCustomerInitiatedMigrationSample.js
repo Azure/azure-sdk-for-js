@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
  *
  * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountGetMigrationFailed.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetMigrationFailed.json
  */
 async function storageAccountGetMigrationFailed() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -28,7 +28,7 @@ async function storageAccountGetMigrationFailed() {
   const result = await client.storageAccounts.getCustomerInitiatedMigration(
     resourceGroupName,
     accountName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function storageAccountGetMigrationFailed() {
  * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
  *
  * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountGetMigrationInProgress.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetMigrationInProgress.json
  */
 async function storageAccountGetMigrationInProgress() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -49,7 +49,7 @@ async function storageAccountGetMigrationInProgress() {
   const result = await client.storageAccounts.getCustomerInitiatedMigration(
     resourceGroupName,
     accountName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }

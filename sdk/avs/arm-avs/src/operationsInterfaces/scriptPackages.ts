@@ -11,14 +11,14 @@ import {
   ScriptPackage,
   ScriptPackagesListOptionalParams,
   ScriptPackagesGetOptionalParams,
-  ScriptPackagesGetResponse
+  ScriptPackagesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScriptPackages. */
 export interface ScriptPackages {
   /**
-   * List script packages available to run on the private cloud
+   * List ScriptPackage resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -26,19 +26,19 @@ export interface ScriptPackages {
   list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptPackagesListOptionalParams
+    options?: ScriptPackagesListOptionalParams,
   ): PagedAsyncIterableIterator<ScriptPackage>;
   /**
-   * Get a script package available to run on a private cloud
+   * Get a ScriptPackage
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package in the private cloud
+   * @param scriptPackageName Name of the script package.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
-    options?: ScriptPackagesGetOptionalParams
+    options?: ScriptPackagesGetOptionalParams,
   ): Promise<ScriptPackagesGetResponse>;
 }

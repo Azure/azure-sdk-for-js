@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ErrorModel } from "@azure-rest/core-client";
+import type { ErrorModel } from "@azure-rest/core-client";
 
 /** Information about content filtering evaluated against generated model output. */
 export interface ContentFilterResultsForChoiceOutput {

@@ -16,7 +16,7 @@ import { StorageManagementClient } from "../storageManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -63,7 +63,7 @@ import {
   StorageAccountsRestoreBlobRangesResponse,
   StorageAccountsRevokeUserDelegationKeysOptionalParams,
   StorageAccountsListNextResponse,
-  StorageAccountsListByResourceGroupNextResponse
+  StorageAccountsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -85,7 +85,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * @param options The options parameters.
    */
   public list(
-    options?: StorageAccountsListOptionalParams
+    options?: StorageAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<StorageAccount> {
     const iter = this.listPagingAll(options);
     return {
@@ -100,13 +100,13 @@ export class StorageAccountsImpl implements StorageAccounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: StorageAccountsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageAccount[]> {
     let result: StorageAccountsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -127,7 +127,7 @@ export class StorageAccountsImpl implements StorageAccounts {
   }
 
   private async *listPagingAll(
-    options?: StorageAccountsListOptionalParams
+    options?: StorageAccountsListOptionalParams,
   ): AsyncIterableIterator<StorageAccount> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -143,7 +143,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageAccountsListByResourceGroupOptionalParams
+    options?: StorageAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<StorageAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -160,16 +160,16 @@ export class StorageAccountsImpl implements StorageAccounts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: StorageAccountsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageAccount[]> {
     let result: StorageAccountsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -184,7 +184,7 @@ export class StorageAccountsImpl implements StorageAccounts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -195,11 +195,11 @@ export class StorageAccountsImpl implements StorageAccounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: StorageAccountsListByResourceGroupOptionalParams
+    options?: StorageAccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<StorageAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -214,11 +214,11 @@ export class StorageAccountsImpl implements StorageAccounts {
    */
   checkNameAvailability(
     accountName: StorageAccountCheckNameAvailabilityParameters,
-    options?: StorageAccountsCheckNameAvailabilityOptionalParams
+    options?: StorageAccountsCheckNameAvailabilityOptionalParams,
   ): Promise<StorageAccountsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { accountName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -239,7 +239,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: StorageAccountCreateParameters,
-    options?: StorageAccountsCreateOptionalParams
+    options?: StorageAccountsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageAccountsCreateResponse>,
@@ -248,21 +248,20 @@ export class StorageAccountsImpl implements StorageAccounts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StorageAccountsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -271,8 +270,8 @@ export class StorageAccountsImpl implements StorageAccounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -280,22 +279,22 @@ export class StorageAccountsImpl implements StorageAccounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       StorageAccountsCreateResponse,
       OperationState<StorageAccountsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -318,13 +317,13 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: StorageAccountCreateParameters,
-    options?: StorageAccountsCreateOptionalParams
+    options?: StorageAccountsCreateOptionalParams,
   ): Promise<StorageAccountsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -341,11 +340,11 @@ export class StorageAccountsImpl implements StorageAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsDeleteOptionalParams
+    options?: StorageAccountsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -362,11 +361,11 @@ export class StorageAccountsImpl implements StorageAccounts {
   getProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsGetPropertiesOptionalParams
+    options?: StorageAccountsGetPropertiesOptionalParams,
   ): Promise<StorageAccountsGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
@@ -390,11 +389,11 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: StorageAccountUpdateParameters,
-    options?: StorageAccountsUpdateOptionalParams
+    options?: StorageAccountsUpdateOptionalParams,
   ): Promise<StorageAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -404,7 +403,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * @param options The options parameters.
    */
   private _list(
-    options?: StorageAccountsListOptionalParams
+    options?: StorageAccountsListOptionalParams,
   ): Promise<StorageAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -418,11 +417,11 @@ export class StorageAccountsImpl implements StorageAccounts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageAccountsListByResourceGroupOptionalParams
+    options?: StorageAccountsListByResourceGroupOptionalParams,
   ): Promise<StorageAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -439,11 +438,11 @@ export class StorageAccountsImpl implements StorageAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsListKeysOptionalParams
+    options?: StorageAccountsListKeysOptionalParams,
   ): Promise<StorageAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -462,11 +461,11 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerateKey: StorageAccountRegenerateKeyParameters,
-    options?: StorageAccountsRegenerateKeyOptionalParams
+    options?: StorageAccountsRegenerateKeyOptionalParams,
   ): Promise<StorageAccountsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, regenerateKey, options },
-      regenerateKeyOperationSpec
+      regenerateKeyOperationSpec,
     );
   }
 
@@ -484,11 +483,11 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: AccountSasParameters,
-    options?: StorageAccountsListAccountSASOptionalParams
+    options?: StorageAccountsListAccountSASOptionalParams,
   ): Promise<StorageAccountsListAccountSASResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      listAccountSASOperationSpec
+      listAccountSASOperationSpec,
     );
   }
 
@@ -506,11 +505,11 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: ServiceSasParameters,
-    options?: StorageAccountsListServiceSASOptionalParams
+    options?: StorageAccountsListServiceSASOptionalParams,
   ): Promise<StorageAccountsListServiceSASResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      listServiceSASOperationSpec
+      listServiceSASOperationSpec,
     );
   }
 
@@ -535,25 +534,24 @@ export class StorageAccountsImpl implements StorageAccounts {
   async beginFailover(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsFailoverOptionalParams
+    options?: StorageAccountsFailoverOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -562,8 +560,8 @@ export class StorageAccountsImpl implements StorageAccounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -571,20 +569,20 @@ export class StorageAccountsImpl implements StorageAccounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, options },
-      spec: failoverOperationSpec
+      spec: failoverOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -611,12 +609,12 @@ export class StorageAccountsImpl implements StorageAccounts {
   async beginFailoverAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsFailoverOptionalParams
+    options?: StorageAccountsFailoverOptionalParams,
   ): Promise<void> {
     const poller = await this.beginFailover(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -638,25 +636,24 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     requestType: string,
-    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -665,8 +662,8 @@ export class StorageAccountsImpl implements StorageAccounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -674,20 +671,20 @@ export class StorageAccountsImpl implements StorageAccounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, requestType, options },
-      spec: hierarchicalNamespaceMigrationOperationSpec
+      spec: hierarchicalNamespaceMigrationOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -710,13 +707,13 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     requestType: string,
-    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
   ): Promise<void> {
     const poller = await this.beginHierarchicalNamespaceMigration(
       resourceGroupName,
       accountName,
       requestType,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -733,25 +730,24 @@ export class StorageAccountsImpl implements StorageAccounts {
   async beginAbortHierarchicalNamespaceMigration(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -760,8 +756,8 @@ export class StorageAccountsImpl implements StorageAccounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -769,20 +765,20 @@ export class StorageAccountsImpl implements StorageAccounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, options },
-      spec: abortHierarchicalNamespaceMigrationOperationSpec
+      spec: abortHierarchicalNamespaceMigrationOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -800,12 +796,12 @@ export class StorageAccountsImpl implements StorageAccounts {
   async beginAbortHierarchicalNamespaceMigrationAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
   ): Promise<void> {
     const poller = await this.beginAbortHierarchicalNamespaceMigration(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -827,25 +823,24 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: StorageAccountMigration,
-    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -854,8 +849,8 @@ export class StorageAccountsImpl implements StorageAccounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -863,20 +858,20 @@ export class StorageAccountsImpl implements StorageAccounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, parameters, options },
-      spec: customerInitiatedMigrationOperationSpec
+      spec: customerInitiatedMigrationOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -899,13 +894,13 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: StorageAccountMigration,
-    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCustomerInitiatedMigration(
       resourceGroupName,
       accountName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -924,11 +919,11 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     migrationName: MigrationName,
-    options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams
+    options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
   ): Promise<StorageAccountsGetCustomerInitiatedMigrationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, migrationName, options },
-      getCustomerInitiatedMigrationOperationSpec
+      getCustomerInitiatedMigrationOperationSpec,
     );
   }
 
@@ -946,7 +941,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: BlobRestoreParameters,
-    options?: StorageAccountsRestoreBlobRangesOptionalParams
+    options?: StorageAccountsRestoreBlobRangesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageAccountsRestoreBlobRangesResponse>,
@@ -955,21 +950,20 @@ export class StorageAccountsImpl implements StorageAccounts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StorageAccountsRestoreBlobRangesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -978,8 +972,8 @@ export class StorageAccountsImpl implements StorageAccounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -987,15 +981,15 @@ export class StorageAccountsImpl implements StorageAccounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, parameters, options },
-      spec: restoreBlobRangesOperationSpec
+      spec: restoreBlobRangesOperationSpec,
     });
     const poller = await createHttpPoller<
       StorageAccountsRestoreBlobRangesResponse,
@@ -1003,7 +997,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1023,13 +1017,13 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     parameters: BlobRestoreParameters,
-    options?: StorageAccountsRestoreBlobRangesOptionalParams
+    options?: StorageAccountsRestoreBlobRangesOptionalParams,
   ): Promise<StorageAccountsRestoreBlobRangesResponse> {
     const poller = await this.beginRestoreBlobRanges(
       resourceGroupName,
       accountName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1046,11 +1040,11 @@ export class StorageAccountsImpl implements StorageAccounts {
   revokeUserDelegationKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsRevokeUserDelegationKeysOptionalParams
+    options?: StorageAccountsRevokeUserDelegationKeysOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      revokeUserDelegationKeysOperationSpec
+      revokeUserDelegationKeysOperationSpec,
     );
   }
 
@@ -1061,11 +1055,11 @@ export class StorageAccountsImpl implements StorageAccounts {
    */
   private _listNext(
     nextLink: string,
-    options?: StorageAccountsListNextOptionalParams
+    options?: StorageAccountsListNextOptionalParams,
   ): Promise<StorageAccountsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -1079,11 +1073,11 @@ export class StorageAccountsImpl implements StorageAccounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: StorageAccountsListByResourceGroupNextOptionalParams
+    options?: StorageAccountsListByResourceGroupNextOptionalParams,
   ): Promise<StorageAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -1091,236 +1085,223 @@ export class StorageAccountsImpl implements StorageAccounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
-    }
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
+    },
   },
-  requestBody: Parameters.accountName,
+  requestBody: Parameters.accountName1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccount
+      bodyMapper: Mappers.StorageAccount,
     },
     201: {
-      bodyMapper: Mappers.StorageAccount
+      bodyMapper: Mappers.StorageAccount,
     },
     202: {
-      bodyMapper: Mappers.StorageAccount
+      bodyMapper: Mappers.StorageAccount,
     },
     204: {
-      bodyMapper: Mappers.StorageAccount
-    }
+      bodyMapper: Mappers.StorageAccount,
+    },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
-  serializer
+  serializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccount
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccount
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName1
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListKeysResult
-    }
+      bodyMapper: Mappers.StorageAccount,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccount,
+    },
+  },
+  requestBody: Parameters.parameters7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountListResult,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountListResult,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccountListKeysResult
-    }
+      bodyMapper: Mappers.StorageAccountListKeysResult,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const regenerateKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountListKeysResult,
+    },
   },
   requestBody: Parameters.regenerateKey,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAccountSASOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListAccountSasResponse
-    }
+      bodyMapper: Mappers.ListAccountSasResponse,
+    },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listServiceSASOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListServiceSasResponse
-    }
+      bodyMapper: Mappers.ListServiceSasResponse,
+    },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const failoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion, Parameters.failoverType],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
-  serializer
+  serializer,
 };
 const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1328,22 +1309,22 @@ const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.requestType],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
+const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec =
+{
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1351,22 +1332,21 @@ const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1374,118 +1354,115 @@ const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getCustomerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/accountMigrations/{migrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/accountMigrations/{migrationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccountMigration
+      bodyMapper: Mappers.StorageAccountMigration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.migrationName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.migrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const restoreBlobRangesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BlobRestoreStatus
+      bodyMapper: Mappers.BlobRestoreStatus,
     },
     201: {
-      bodyMapper: Mappers.BlobRestoreStatus
+      bodyMapper: Mappers.BlobRestoreStatus,
     },
     202: {
-      bodyMapper: Mappers.BlobRestoreStatus
+      bodyMapper: Mappers.BlobRestoreStatus,
     },
     204: {
-      bodyMapper: Mappers.BlobRestoreStatus
-    }
+      bodyMapper: Mappers.BlobRestoreStatus,
+    },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const revokeUserDelegationKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys",
   httpMethod: "POST",
   responses: { 200: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName2
+    Parameters.subscriptionId,
+    Parameters.accountName2,
   ],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccountListResult
-    }
+      bodyMapper: Mappers.StorageAccountListResult,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccountListResult
-    }
+      bodyMapper: Mappers.StorageAccountListResult,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

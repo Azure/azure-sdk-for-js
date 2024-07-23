@@ -10,12 +10,14 @@ extends:
       Location: canadacentral
       MatrixFilters:
         - DependencyVersion=^$
+      CloudConfig:
+        Preview:
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+          ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFilePaths: 
+            - eng/common/TestResources/sub-config/AzurePublicMsft.json
       MatrixConfigs:
         - Name: Storage_live_test_base
           Path: sdk/storage/storage-blob/platform-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-      EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)

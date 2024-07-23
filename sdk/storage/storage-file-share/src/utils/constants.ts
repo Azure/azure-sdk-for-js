@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.23.0-beta.2";
-export const SERVICE_VERSION: string = "2024-05-04";
+export const SDK_VERSION: string = "12.24.1";
+export const SERVICE_VERSION: string = "2024-08-04";
 
 export const FILE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024 * 1024 * 1024; // 4TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB
@@ -49,6 +49,7 @@ export const HeaderConstants = {
   USER_AGENT: "User-Agent",
   X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
   X_MS_COPY_SOURCE: "x-ms-copy-source",
+  X_MS_CopySourceErrorCode: "x-ms-copy-source-error-code",
   X_MS_DATE: "x-ms-date",
 };
 
@@ -105,6 +106,8 @@ export const StorageFileLoggingAllowedHeaderNames = [
   "x-ms-content-length",
   "x-ms-content-md5",
   "x-ms-content-type",
+  "x-ms-copy-source-error-code",
+  "x-ms-copy-source-status-code",
   "x-ms-file-attributes",
   "x-ms-file-change-time",
   "x-ms-file-creation-time",

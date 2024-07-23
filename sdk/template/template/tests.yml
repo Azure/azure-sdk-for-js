@@ -6,8 +6,3 @@ extends:
   parameters:
     PackageName: "@azure/template"
     ServiceDirectory: template
-    EnvVars:
-      AZURE_CLIENT_ID: $(TEMPLATE_CLIENT_ID)
-      AZURE_CLIENT_SECRET: $(TEMPLATE_CLIENT_SECRET)
-      AZURE_TENANT_ID: $(TEMPLATE_TENANT_ID)
-      AZURE_SUBSCRIPTION_ID: $(TEMPLATE_SUBSCRIPTION_ID)

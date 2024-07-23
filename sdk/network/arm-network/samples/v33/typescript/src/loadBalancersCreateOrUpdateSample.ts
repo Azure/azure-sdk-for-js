@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreate.json
  */
 async function createLoadBalancer() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -97,7 +97,7 @@ async function createLoadBalancer() {
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateWithZones.json
  */
 async function createLoadBalancerWithFrontendIPInZone1() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -177,7 +177,7 @@ async function createLoadBalancerWithFrontendIPInZone1() {
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
  */
 async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -259,7 +259,7 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
  */
 async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -335,7 +335,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
  */
 async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -407,7 +407,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateGlobalTier.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateGlobalTier.json
  */
 async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -483,7 +483,7 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateStandardSku.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateStandardSku.json
  */
 async function createLoadBalancerWithStandardSku() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -562,7 +562,7 @@ async function createLoadBalancerWithStandardSku() {
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateWithSyncModePropertyOnPool.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateWithSyncModePropertyOnPool.json
  */
 async function createLoadBalancerWithSyncModePropertyOnPool() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -649,7 +649,7 @@ async function createLoadBalancerWithSyncModePropertyOnPool() {
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateWithInboundNatPool.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateWithInboundNatPool.json
  */
 async function createLoadBalancerWithInboundNatPool() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -705,7 +705,7 @@ async function createLoadBalancerWithInboundNatPool() {
  * This sample demonstrates how to Creates or updates a load balancer.
  *
  * @summary Creates or updates a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerCreateWithOutboundRules.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerCreateWithOutboundRules.json
  */
 async function createLoadBalancerWithOutboundRules() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

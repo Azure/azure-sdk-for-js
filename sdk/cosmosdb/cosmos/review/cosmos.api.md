@@ -4,9 +4,6 @@
 
 ```ts
 
-/// <reference lib="dom" />
-/// <reference lib="esnext.asynciterable" />
-
 import { AbortError } from '@azure/abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
@@ -327,6 +324,12 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public
+export interface CompositePath {
+    order: "ascending" | "descending";
+    path: string;
+}
+
 // @public (undocumented)
 export interface ComputedProperty {
     // (undocumented)
@@ -637,6 +640,7 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
+    vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 // Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
@@ -806,8 +810,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location_2[];
-    readonly writableLocations: Location_2[];
+    readonly readableLocations: Location[];
+    readonly writableLocations: Location[];
 }
 
 // @public (undocumented)
@@ -1045,6 +1049,7 @@ export interface FeedOptions extends SharedOptions {
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableNonStreamingOrderByQuery?: boolean;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
@@ -1053,6 +1058,7 @@ export interface FeedOptions extends SharedOptions {
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
+    vectorSearchBufferSize?: number;
 }
 
 // @public
@@ -1071,6 +1077,8 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
+    get correlatedActivityId(): string;
+    // (undocumented)
     readonly diagnostics: CosmosDiagnostics;
     // (undocumented)
     readonly hasMoreResults: boolean;
@@ -1087,6 +1095,7 @@ export class FeedResponse<TResource> {
 // @public (undocumented)
 export type GatewayStatistics = {
     activityId?: string;
+    correlatedActivityId?: string;
     startTimeUTCInMs: number;
     durationInMs: number;
     operationType?: OperationType;
@@ -1178,11 +1187,13 @@ export enum IndexingMode {
 export interface IndexingPolicy {
     // (undocumented)
     automatic?: boolean;
+    compositeIndexes?: CompositePath[][];
     excludedPaths?: IndexedPath[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
+    vectorIndexes?: VectorIndex[];
 }
 
 // @public
@@ -1263,7 +1274,7 @@ export interface JSONObject {
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
-interface Location_2 {
+export interface Location {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -1273,7 +1284,6 @@ interface Location_2 {
     // (undocumented)
     unavailable?: boolean;
 }
-export { Location_2 as Location }
 
 // @public
 export interface MetadataLookUpDiagnostic {
@@ -1592,7 +1602,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-class Permissions_2 {
+export class Permissions {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1602,16 +1612,14 @@ class Permissions_2 {
     // (undocumented)
     readonly user: User;
 }
-export { Permissions_2 as Permissions }
 
 // @public
-type Plugin_2<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
-export { Plugin_2 as Plugin }
+export type Plugin<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin_2<any>;
+    plugin: Plugin<any>;
 }
 
 // @public
@@ -1639,6 +1647,7 @@ export interface QueryInfo {
     groupByAliasToAggregateType: GroupByAliasToAggregateType;
     // (undocumented)
     groupByExpressions?: GroupByExpressions;
+    hasNonStreamingOrderBy: boolean;
     // (undocumented)
     hasSelectValue: boolean;
     // (undocumented)
@@ -1868,7 +1877,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-interface RequestInfo_2 {
+export interface RequestInfo {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -1880,7 +1889,6 @@ interface RequestInfo_2 {
     // (undocumented)
     verb: HTTPMethod;
 }
-export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -2361,7 +2369,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -2456,7 +2464,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions_2;
+    readonly permissions: Permissions;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;
@@ -2525,6 +2533,47 @@ export class Users {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
+}
+
+// @public
+export interface VectorEmbedding {
+    dataType: VectorEmbeddingDataType;
+    dimensions: number;
+    distanceFunction: VectorEmbeddingDistanceFunction;
+    path: string;
+}
+
+// @public
+export enum VectorEmbeddingDataType {
+    Float16 = "float16",
+    Float32 = "float32",
+    Int8 = "int8",
+    UInt8 = "uint8"
+}
+
+// @public
+export enum VectorEmbeddingDistanceFunction {
+    Cosine = "cosine",
+    DotProduct = "dotproduct",
+    Euclidean = "euclidean"
+}
+
+// @public
+export interface VectorEmbeddingPolicy {
+    vectorEmbeddings: VectorEmbedding[];
+}
+
+// @public
+export interface VectorIndex {
+    path: string;
+    type: VectorIndexType;
+}
+
+// @public
+export enum VectorIndexType {
+    DiskANN = "diskANN",
+    Flat = "flat",
+    QuantizedFlat = "quantizedFlat"
 }
 
 // (No @packageDocumentation comment for this package)

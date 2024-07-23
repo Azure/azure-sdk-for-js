@@ -27,6 +27,10 @@ import {
   MobileNetworksListByResourceGroupNextOptionalParams,
   MobileNetworksListByResourceGroupOptionalParams,
   MobileNetworksListByResourceGroupResponse,
+  SimGroup,
+  MobileNetworksListSimGroupsNextOptionalParams,
+  MobileNetworksListSimGroupsOptionalParams,
+  MobileNetworksListSimGroupsResponse,
   MobileNetworksDeleteOptionalParams,
   MobileNetworksGetOptionalParams,
   MobileNetworksGetResponse,
@@ -37,6 +41,7 @@ import {
   MobileNetworksUpdateTagsResponse,
   MobileNetworksListBySubscriptionNextResponse,
   MobileNetworksListByResourceGroupNextResponse,
+  MobileNetworksListSimGroupsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -169,6 +174,90 @@ export class MobileNetworksImpl implements MobileNetworks {
   ): AsyncIterableIterator<MobileNetwork> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets all the SIM groups assigned to a mobile network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param options The options parameters.
+   */
+  public listSimGroups(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    options?: MobileNetworksListSimGroupsOptionalParams,
+  ): PagedAsyncIterableIterator<SimGroup> {
+    const iter = this.listSimGroupsPagingAll(
+      resourceGroupName,
+      mobileNetworkName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSimGroupsPagingPage(
+          resourceGroupName,
+          mobileNetworkName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listSimGroupsPagingPage(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    options?: MobileNetworksListSimGroupsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SimGroup[]> {
+    let result: MobileNetworksListSimGroupsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSimGroups(
+        resourceGroupName,
+        mobileNetworkName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSimGroupsNext(
+        resourceGroupName,
+        mobileNetworkName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSimGroupsPagingAll(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    options?: MobileNetworksListSimGroupsOptionalParams,
+  ): AsyncIterableIterator<SimGroup> {
+    for await (const page of this.listSimGroupsPagingPage(
+      resourceGroupName,
+      mobileNetworkName,
       options,
     )) {
       yield* page;
@@ -417,6 +506,23 @@ export class MobileNetworksImpl implements MobileNetworks {
   }
 
   /**
+   * Gets all the SIM groups assigned to a mobile network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param options The options parameters.
+   */
+  private _listSimGroups(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    options?: MobileNetworksListSimGroupsOptionalParams,
+  ): Promise<MobileNetworksListSimGroupsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, mobileNetworkName, options },
+      listSimGroupsOperationSpec,
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -445,6 +551,25 @@ export class MobileNetworksImpl implements MobileNetworks {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListSimGroupsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param nextLink The nextLink from the previous successful call to the ListSimGroups method.
+   * @param options The options parameters.
+   */
+  private _listSimGroupsNext(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    nextLink: string,
+    options?: MobileNetworksListSimGroupsNextOptionalParams,
+  ): Promise<MobileNetworksListSimGroupsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, mobileNetworkName, nextLink, options },
+      listSimGroupsNextOperationSpec,
     );
   }
 }
@@ -585,6 +710,27 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const listSimGroupsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/listSimGroups",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SimGroupListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.mobileNetworkName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -620,6 +766,27 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSimGroupsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SimGroupListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

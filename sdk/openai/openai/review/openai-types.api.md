@@ -4,15 +4,15 @@
 
 ```ts
 
-import { ChatCompletion } from 'openai/resources/index';
-import { ChatCompletionChunk } from 'openai/resources/index';
-import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index';
-import { ChatCompletionCreateParamsStreaming } from 'openai/resources/index';
-import { ChatCompletionMessage } from 'openai/resources/index';
-import { Completion } from 'openai/resources/index';
-import { CompletionCreateParamsNonStreaming } from 'openai/resources/index';
-import { CompletionCreateParamsStreaming } from 'openai/resources/index';
-import { ErrorModel } from '@azure-rest/core-client';
+import type { ChatCompletion } from 'openai/resources/index';
+import type { ChatCompletionChunk } from 'openai/resources/index';
+import type { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/index';
+import type { ChatCompletionCreateParamsStreaming } from 'openai/resources/index';
+import type { ChatCompletionMessage } from 'openai/resources/index';
+import type { Completion } from 'openai/resources/index';
+import type { CompletionCreateParamsNonStreaming } from 'openai/resources/index';
+import type { CompletionCreateParamsStreaming } from 'openai/resources/index';
+import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export interface AzureChatEnhancementConfiguration {

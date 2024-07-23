@@ -83,6 +83,13 @@ export const StorageError: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authenticationErrorDetail: {
+        serializedName: "AuthenticationErrorDetail",
+        xmlName: "AuthenticationErrorDetail",
+        type: {
+          name: "String"
+        }
       }
     }
   }

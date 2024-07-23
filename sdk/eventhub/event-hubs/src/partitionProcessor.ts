@@ -48,7 +48,7 @@ export interface Checkpoint {
   /**
    * The offset of the event.
    */
-  offset: number;
+  offset: string;
 }
 
 /**

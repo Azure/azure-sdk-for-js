@@ -1,5 +1,5 @@
 {
-  "extends": "../../../../tsconfig.package",
+  "extends": "../../../../tsconfig",
   "compilerOptions": {
     "module": "CommonJS",
     "lib": ["ES6", "ESNext.AsyncIterable"],

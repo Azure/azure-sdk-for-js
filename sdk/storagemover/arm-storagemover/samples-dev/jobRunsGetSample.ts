@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Job Run resource.
  *
  * @summary Gets a Job Run resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobRuns_Get.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobRuns_Get.json
  */
 async function jobRunsGet() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function jobRunsGet() {
     storageMoverName,
     projectName,
     jobDefinitionName,
-    jobRunName
+    jobRunName,
   );
   console.log(result);
 }

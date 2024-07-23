@@ -3,7 +3,6 @@ mpodwysocki is not a public member of Azure.
 minhanh-phan is not a public member of Azure.
 anilba06 is not a public member of Azure.
 dpwatrous is not a public member of Azure.
-There are no owners defined for CODEOWNERS entry.
 danielav7 is not a public member of Azure.
 miguhern is not a public member of Azure.
 RoyHerrod is not a public member of Azure.
@@ -250,3 +249,8 @@ ccmixpdevs is an invalid user. Ensure the user exists, is public member of Azure
 ccmbpxpcrew is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 TiagoCrewGitHubIssues is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 ccmshowbackdevs is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+robece is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+axisc is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+jimmyca15 is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
+zhenlan is not a public member of Azure.
+

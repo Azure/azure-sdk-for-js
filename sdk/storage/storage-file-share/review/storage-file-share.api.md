@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
 import * as coreClient from '@azure/core-client';
@@ -1491,6 +1489,7 @@ export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    enableSnapshotVirtualDirectoryAccess?: boolean;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1715,6 +1714,7 @@ export interface ShareGetPropertiesHeaders {
     accessTierTransitionState?: string;
     date?: Date;
     enabledProtocols?: string;
+    enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1841,6 +1841,8 @@ export interface SharePropertiesInternal {
     deletedTime?: Date;
     // (undocumented)
     enabledProtocols?: string;
+    // (undocumented)
+    enableSnapshotVirtualDirectoryAccess?: boolean;
     // (undocumented)
     etag: string;
     // (undocumented)
@@ -2061,8 +2063,7 @@ export interface StorageRetryOptions {
 
 // @public
 export class StorageRetryPolicy extends BaseRequestPolicy {
-    // Warning: (ae-forgotten-export) The symbol "StorageRetryOptions_2" needs to be exported by the entry point index.d.ts
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions_2);
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
     protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
     sendRequest(request: WebResource): Promise<HttpOperationResponse>;
     protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;

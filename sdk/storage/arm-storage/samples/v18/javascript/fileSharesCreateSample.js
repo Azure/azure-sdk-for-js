@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesPut_NFS.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesPut_NFS.json
  */
 async function createNfsShares() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function createNfsShares() {
     resourceGroupName,
     accountName,
     shareName,
-    fileShare
+    fileShare,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function createNfsShares() {
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesPut.json
  */
 async function putShares() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -53,7 +53,7 @@ async function putShares() {
     resourceGroupName,
     accountName,
     shareName,
-    fileShare
+    fileShare,
   );
   console.log(result);
 }
@@ -62,7 +62,7 @@ async function putShares() {
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesPut_AccessTier.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesPut_AccessTier.json
  */
 async function putSharesWithAccessTier() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -76,7 +76,7 @@ async function putSharesWithAccessTier() {
     resourceGroupName,
     accountName,
     shareName,
-    fileShare
+    fileShare,
   );
   console.log(result);
 }

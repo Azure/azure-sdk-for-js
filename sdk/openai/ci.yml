@@ -26,5 +26,3 @@ extends:
     Artifacts:
       - name: azure-openai
         safeName: azureopenai
-      - name: azure-rest-openai
-        safeName: azurerestopenai

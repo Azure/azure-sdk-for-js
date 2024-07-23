@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   JobDefinitionUpdateParameters,
-  StorageMoverClient
+  StorageMoverClient,
 } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
  *
  * @summary Updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobDefinitions_Update.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_Update.json
  */
 async function jobDefinitionsUpdate() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function jobDefinitionsUpdate() {
   const jobDefinitionName = "examples-jobDefinitionName";
   const jobDefinition: JobDefinitionUpdateParameters = {
     description: "Updated Job Definition Description",
-    agentName: "updatedAgentName"
+    agentName: "updatedAgentName",
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function jobDefinitionsUpdate() {
     storageMoverName,
     projectName,
     jobDefinitionName,
-    jobDefinition
+    jobDefinition,
   );
   console.log(result);
 }

@@ -10,13 +10,9 @@ Key links:
 - [Package (npm)](https://www.npmjs.com/package/@azure/identity)
 - [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/identity)
 - [Microsoft Entra ID documentation](https://learn.microsoft.com/entra/identity)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples)
 
 ## Getting started
-
-### Migrate from v1 to v2 of @azure/identity
-
-If you're using v1 of `@azure/identity`, see the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) to update to v2.
 
 ### Currently supported environments
 
@@ -62,7 +58,7 @@ For advanced authentication workflows in the browser, we have a section where we
 
 ### Authenticate the client in development environment
 
-While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
+While we recommend using managed identity in your Azure-hosted application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
 
 #### Authenticate via the Azure Developer CLI
 
@@ -88,7 +84,7 @@ For systems without a default web browser, the `az login` command will use the d
 
 Applications using the `AzurePowerShellCredential`, whether directly or via the `DefaultAzureCredential`, can use the account connected to Azure PowerShell to authenticate calls in the application when running locally.
 
-To authenticate with [Azure PowerShell][azure_powershell] users can run the `Connect-AzAccount` cmdlet. By default, ike the Azure CLI, `Connect-AzAccount` will launch the default web browser to authenticate a user account.
+To authenticate with [Azure PowerShell][azure_powershell] users can run the `Connect-AzAccount` cmdlet. By default, like the Azure CLI, `Connect-AzAccount` will launch the default web browser to authenticate a user account.
 
 ![Azure PowerShell Account Sign In][azurepowershelllogin_image]
 
@@ -151,8 +147,8 @@ Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), 
 
 Azure Identity for JavaScript provides a plugin API that allows us to provide certain functionality through separate _plugin packages_. The `@azure/identity` package exports a top-level function (`useIdentityPlugin`) that can be used to enable a plugin. We provide two plugin packages:
 
-- [`@azure/identity-broker`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker), which provides brokered authentication support through a native broker, such as Web Account Manager.
-- [`@azure/identity-cache-persistence`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
+- [`@azure/identity-broker`](https://www.npmjs.com/package/@azure/identity-broker), which provides brokered authentication support through a native broker, such as Web Account Manager.
+- [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
 
 ## Examples
 

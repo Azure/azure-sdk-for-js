@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnConnectionStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnConnectionStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnConnectionWithFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -52,7 +52,7 @@ async function startPacketCaptureOnVpnConnectionWithFilter() {
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnConnectionStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

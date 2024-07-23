@@ -18,7 +18,7 @@ import {
   LocalUsersListKeysOptionalParams,
   LocalUsersListKeysResponse,
   LocalUsersRegeneratePasswordOptionalParams,
-  LocalUsersRegeneratePasswordResponse
+  LocalUsersRegeneratePasswordResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface LocalUsersOperations {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: LocalUsersListOptionalParams
+    options?: LocalUsersListOptionalParams,
   ): PagedAsyncIterableIterator<LocalUser>;
   /**
    * Get the local user of the storage account by username.
@@ -53,10 +53,11 @@ export interface LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersGetOptionalParams
+    options?: LocalUsersGetOptionalParams,
   ): Promise<LocalUsersGetResponse>;
   /**
-   * Create or update the properties of a local user associated with the storage account
+   * Create or update the properties of a local user associated with the storage account. Properties for
+   * NFSv3 enablement and extended groups cannot be set with other properties.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -72,7 +73,7 @@ export interface LocalUsersOperations {
     accountName: string,
     username: string,
     properties: LocalUser,
-    options?: LocalUsersCreateOrUpdateOptionalParams
+    options?: LocalUsersCreateOrUpdateOptionalParams,
   ): Promise<LocalUsersCreateOrUpdateResponse>;
   /**
    * Deletes the local user associated with the specified storage account.
@@ -89,7 +90,7 @@ export interface LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersDeleteOptionalParams
+    options?: LocalUsersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List SSH authorized keys and shared key of the local user.
@@ -106,7 +107,7 @@ export interface LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersListKeysOptionalParams
+    options?: LocalUsersListKeysOptionalParams,
   ): Promise<LocalUsersListKeysResponse>;
   /**
    * Regenerate the local user SSH password.
@@ -123,6 +124,6 @@ export interface LocalUsersOperations {
     resourceGroupName: string,
     accountName: string,
     username: string,
-    options?: LocalUsersRegeneratePasswordOptionalParams
+    options?: LocalUsersRegeneratePasswordOptionalParams,
   ): Promise<LocalUsersRegeneratePasswordResponse>;
 }

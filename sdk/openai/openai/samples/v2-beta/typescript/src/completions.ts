@@ -23,7 +23,7 @@ export async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "text-davinci-003";
-  const apiVersion = "2024-04-01-preview";
+  const apiVersion = "2024-05-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const result = await client.completions.create({ prompt, model: "", max_tokens: 128 });
 

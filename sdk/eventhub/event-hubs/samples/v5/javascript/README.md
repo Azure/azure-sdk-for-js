@@ -18,7 +18,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [sendEvents.js][sendevents]                                             | Demonstrates how to send events to an Event Hub.                                                                                                                                                                                                                                                                                         |
 | [sendEventsToSpecificPartition.js][sendeventstospecificpartition]       | Demonstrates how to send events to a specific partition in an Event Hub.                                                                                                                                                                                                                                                                 |
 | [receiveEvents.js][receiveevents]                                       | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hub.                                                                                                                                                                                                            |
-| [usingAadAuth.js][usingaadauth]                                         | Demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using service principal secrets.                                                                                                                                                                                                               |
 | [iothubConnectionString.js][iothubconnectionstring]                     | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.                                                                                                                                                                                              |
 | [iothubConnectionStringWebsockets.js][iothubconnectionstringwebsockets] | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets.                                                                                                                                                                             |
 | [useWithIotHub.js][usewithiothub]                                       | Demonstrates how to use the EventHubConsumerClient to receive messages from an IoT Hub.                                                                                                                                                                                                                                                  |
@@ -57,7 +56,7 @@ node sendBufferedEvents.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env EVENTHUB_CONNECTION_STRING="<eventhub connection string>" EVENTHUB_NAME="<eventhub name>" node sendBufferedEvents.js
+npx cross-env EVENTHUB_FQDN="<eventhub fqns>" EVENTHUB_NAME="<eventhub name>" node sendBufferedEvents.js
 ```
 
 ## Next Steps
@@ -68,7 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/sendEvents.js
 [sendeventstospecificpartition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/sendEventsToSpecificPartition.js
 [receiveevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/receiveEvents.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/usingAadAuth.js
 [iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/iothubConnectionString.js
 [iothubconnectionstringwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/iothubConnectionStringWebsockets.js
 [usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/useWithIotHub.js
