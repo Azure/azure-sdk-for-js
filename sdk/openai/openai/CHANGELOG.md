@@ -8,7 +8,7 @@
 
 ### Breaking Changes
 
-- `OpenAIClient` has been deleted. Follow the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/feature/openai-v2/sdk/openai/openai/MIGRATION.md) to use `AzureOpenAI` from the official [OpenAI client library for JavaScript](https://www.npmjs.com/package/openai) instead.
+- `OpenAIClient` has been deleted. Follow the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/MIGRATION.md) to use `AzureOpenAI` from the official [OpenAI client library for JavaScript](https://www.npmjs.com/package/openai) instead.
 
 ## 1.0.0-beta.12 (2024-04-01)
 
