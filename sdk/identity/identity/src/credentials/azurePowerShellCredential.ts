@@ -230,11 +230,11 @@ export async function parseJsonToken(
   result: string,
 ): Promise<{ Token: string; ExpiresOn: string }> {
   const jsonRegex = /{[^{}]*}/g;
-  let matches = result.match(jsonRegex);
+  const matches = result.match(jsonRegex);
   let resultWithoutToken = result;
   if (matches) {
     try {
-      for (let item of matches) {
+      for (const item of matches) {
         const jsonContent = JSON.parse(item);
         if (jsonContent?.Token) {
           resultWithoutToken = resultWithoutToken.replace(item, "");
