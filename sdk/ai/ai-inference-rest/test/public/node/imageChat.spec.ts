@@ -6,12 +6,14 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { ModelClient, isUnexpected, ChatCompletionsOutput } from "../../../src/index.js";
 import fs from 'fs';
+import path from 'path';
 
 function getImageDataUrl(imageFile: string, imageFormat: string): string {
   try {
-    const imageBuffer = fs.readFileSync(imageFile);
-    const imageBase64 = imageBuffer.toString('base64');
-    return `data:image/${imageFormat};base64,${imageBase64}`;
+    const imagePath = path.join("samples-dev", "example-data", imageFile);
+    const buffer = fs.readFileSync(imagePath);
+    const base64Image = buffer.toString("base64");
+    return `data:image/${imageFormat};base64,${base64Image}`;
   } catch (error) {
     console.error(`Could not read '${imageFile}'.`);
     console.error('Set the correct path to the image file before running this sample.');
