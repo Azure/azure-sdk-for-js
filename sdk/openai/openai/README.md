@@ -4,7 +4,7 @@ The [Azure OpenAI Service][service_overview] provides access to advanced AI mode
 
 #### **_Migrating from @azure/openai version 1 advisory_ ⚠️**
 
-Checkout the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/feature/openai-v2/sdk/openai/openai/MIGRATION.md) for detailed instructions on how to update your application code from version 1.x of the Azure OpenAI client library to the `openai` library.
+Checkout the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/MIGRATION.md) for detailed instructions on how to update your application code from version 1.x of the Azure OpenAI client library to the `openai` library.
 
 Key links:
 
