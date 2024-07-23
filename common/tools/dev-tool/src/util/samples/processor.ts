@@ -116,10 +116,13 @@ export async function processSources(
     const jsModuleText = await convert(sourceText, {
       fileName: source,
       transformers: {
-        before: [sourceProcessor],
+        before: [sourceProcessor, credentialTransformer],
         after: [createToCommonJsTransform(requireInScope)],
       },
     });
+
+    const sourceFile = ts.createSourceFile(source, sourceText, ts.ScriptTarget.Latest, true);
+    const tsModuleText = credentialTransformer(undefined)(sourceFile).getText();
 
     // Check the imports for any relative module imports (these could be util files), and compute a relative path to the
     // module from the source directory
@@ -136,6 +139,7 @@ export async function processSources(
       relativeSourcePath,
       text: sourceText,
       jsModuleText,
+      tsModuleText,
       summary,
       importedModules: accumulator.importedModules.filter(isDependency),
       usedEnvironmentVariables: accumulator.usedEnvironmentVariables,
@@ -396,3 +400,67 @@ function processExportDefault(
         );
   });
 }
+
+/**
+ * Transforms usages of createTestCredential to DefaultAzureCredential
+ *
+ * @param context The transformation context
+ * @returns A transformer that replaces the test credential import with the DefaultAzureCredential import
+ */
+const credentialTransformer: (
+  context: ts.TransformationContext | undefined,
+) => ts.Transformer<ts.SourceFile> = (context) => (sourceFile) => {
+  const visitor: ts.Visitor = (node) => {
+    if (ts.isImportDeclaration(node)) {
+      if (node.moduleSpecifier.getText() === '"@azure-tools/test-credential"') {
+        return ts.factory.createImportDeclaration(
+          node.modifiers,
+          ts.factory.createImportClause(
+            false,
+            undefined,
+            ts.factory.createNamedImports([
+              ts.factory.createImportSpecifier(
+                false,
+                undefined,
+                ts.factory.createIdentifier("DefaultAzureCredential"),
+              ),
+            ]),
+          ),
+
+          ts.factory.createStringLiteral("@azure/identity"),
+          node.attributes,
+        );
+      }
+    }
+
+    // Change usage in the function
+    if (ts.isVariableDeclaration(node)) {
+      if (
+        node.initializer &&
+        ts.isCallExpression(node.initializer) &&
+        ts.isIdentifier(node.initializer.expression) &&
+        node.initializer.expression.text === "createTestCredential"
+      ) {
+        return ts.factory.updateVariableDeclaration(
+          node,
+          node.name,
+          node.exclamationToken,
+          node.type,
+          ts.factory.createNewExpression(
+            ts.factory.createIdentifier("DefaultAzureCredential"),
+            undefined,
+            [],
+          ),
+        );
+      }
+    }
+
+    return ts.visitEachChild(node, visitor, context);
+  };
+
+  const visited = ts.visitNode(sourceFile, visitor);
+  if (!visited) {
+    throw new Error("Expect valid visited node");
+  }
+  return visited as ts.SourceFile;
+};

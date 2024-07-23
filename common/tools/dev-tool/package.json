@@ -45,6 +45,7 @@
     "@_ts/min": "npm:typescript@~4.2.4",
     "@_ts/max": "npm:typescript@latest",
     "@azure/identity": "^4.2.0",
+    "@azure-tools/test-credential": "^1.0.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-multi-entry": "^6.0.1",
