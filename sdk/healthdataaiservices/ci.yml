@@ -8,7 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/healthdataaiservices/azure-health-deidentification
+      - sdk/healthdataaiservices
 
 pr:
   branches:
@@ -19,7 +19,7 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/healthdataaiservices/azure-health-deidentification
+      - sdk/healthdataaiservices
 
 parameters:
   # Switch to canary to test canary 1es branch. 1es template validation will set this parameter
@@ -38,4 +38,4 @@ extends:
     ServiceDirectory: healthdataaiservices
     Artifacts:
       - name: azure-health-deidentification
-        safeName: azurehealthdeidentification
+        safeName: azureaihealthdataaiservices
