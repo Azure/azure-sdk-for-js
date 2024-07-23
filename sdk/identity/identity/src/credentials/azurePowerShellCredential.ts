@@ -166,16 +166,12 @@ export class AzurePowerShellCredential implements TokenCredential {
       ]);
 
       const result = results[1];
-      try {
-        return JSON.parse(result);
-      } catch (e: any) {
-        throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
-      }
+      await parseJsonToken(result);
     }
-
     throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);
   }
 
+  
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
@@ -226,3 +222,40 @@ export class AzurePowerShellCredential implements TokenCredential {
     });
   }
 }
+
+/**
+   * 
+   * @internal
+   */
+export async function parseJsonToken(result: string):Promise<{ Token: string; ExpiresOn: string }>
+{
+  const jsonPattern = /\{[\s\S]*\}/;
+  const matchAll = result.match(jsonPattern);
+  let remainingResult = result;
+  if(matchAll){
+    console.dir(matchAll)
+    try{      
+      for(const item of matchAll){
+        try{
+          const jsonContent = JSON.parse(item);
+          console.log(jsonContent)
+          if(jsonContent?.Token){
+          remainingResult = result.replace(jsonContent.toString(),"");
+          logger.getToken.warning(remainingResult);
+          return jsonContent;
+          }
+          console.log(item);
+        }
+        catch(e){
+          console.log(e);
+        }
+        }
+       
+    }
+    catch (e: any) {
+      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
+    }
+  }
+  throw new Error(`No access token found in the output. Redeived output: ${result}`);
+}
+
