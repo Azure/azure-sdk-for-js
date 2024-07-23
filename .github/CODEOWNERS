@@ -512,6 +512,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
