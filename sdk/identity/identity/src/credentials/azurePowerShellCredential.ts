@@ -171,7 +171,6 @@ export class AzurePowerShellCredential implements TokenCredential {
     throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);
   }
 
-  
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
@@ -224,38 +223,28 @@ export class AzurePowerShellCredential implements TokenCredential {
 }
 
 /**
-   * 
-   * @internal
-   */
-export async function parseJsonToken(result: string):Promise<{ Token: string; ExpiresOn: string }>
-{
-  const jsonPattern = /\{[\s\S]*\}/;
-  const matchAll = result.match(jsonPattern);
-  let remainingResult = result;
-  if(matchAll){
-    console.dir(matchAll)
-    try{      
-      for(const item of matchAll){
-        try{
-          const jsonContent = JSON.parse(item);
-          console.log(jsonContent)
-          if(jsonContent?.Token){
-          remainingResult = result.replace(jsonContent.toString(),"");
-          logger.getToken.warning(remainingResult);
+ *
+ * @internal
+ */
+export async function parseJsonToken(
+  result: string,
+): Promise<{ Token: string; ExpiresOn: string }> {
+  const jsonRegex = /{[^{}]*}/g;
+  let matches = result.match(jsonRegex);
+  let resultWithoutToken = result;
+  if (matches) {
+    try {
+      for (let item of matches) {
+        const jsonContent = JSON.parse(item);
+        if (jsonContent?.Token) {
+          resultWithoutToken = resultWithoutToken.replace(item, "");
+          logger.getToken.warning(resultWithoutToken);
           return jsonContent;
-          }
-          console.log(item);
         }
-        catch(e){
-          console.log(e);
-        }
-        }
-       
-    }
-    catch (e: any) {
+      }
+    } catch (e: any) {
       throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
     }
   }
-  throw new Error(`No access token found in the output. Redeived output: ${result}`);
+  throw new Error(`No access token found in the output. Received output: ${result}`);
 }
-
