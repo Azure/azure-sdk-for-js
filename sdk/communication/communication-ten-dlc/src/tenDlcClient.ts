@@ -106,6 +106,7 @@ export class TenDlcClient {
   public upsertUSCampaign(
     campaingId: string,
     options: CreateOrUpdateCampaignOptions = {
+      brandId: "",
       campaignDetails: {},
       messageDetails: {},
     },

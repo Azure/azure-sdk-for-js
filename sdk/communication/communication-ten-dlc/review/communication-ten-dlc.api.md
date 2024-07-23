@@ -78,6 +78,8 @@ export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalPara
 // @public
 export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
     // (undocumented)
+    brandId: string | undefined;
+    // (undocumented)
     campaignDetails: CampaignDetails | undefined;
     // (undocumented)
     messageDetails: MessageDetails | undefined;

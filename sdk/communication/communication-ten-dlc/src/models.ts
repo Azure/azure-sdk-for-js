@@ -27,6 +27,7 @@ export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalPara
  * Additional options for the Create or update campaign request.
  */
 export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
+  brandId: string | undefined;
   campaignDetails: CampaignDetails | undefined;
   messageDetails: MessageDetails | undefined;
 }
