@@ -5,8 +5,15 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
-import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isItemResourceValid,
+  ResourceType,
+  StatusCodes,
+  SubStatusCodes,
+} from "../../common";
+import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, Response } from "../../request";
@@ -25,7 +32,6 @@ import {
   splitBatchBasedOnBodySize,
   BulkOperationResponse,
 } from "../../utils/batch";
-import { readPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
@@ -45,6 +51,7 @@ import {
   withDiagnostics,
   addDignosticChild,
 } from "../../utils/diagnostics";
+import { readPartitionKeyDefinition } from "../ClientUtils";
 
 /**
  * @hidden
@@ -575,7 +582,7 @@ export class Items {
    *
    * Usage example:
    * ```typescript
-   * // partitionKey is required as a second argument to batch, but defaults to the default partition key
+   * // partitionKey is required as a second argument, but defaults to the expected partition key format in case of undefined partition key
    * const operations: OperationInput[] = [
    *    {
    *       operationType: "Create",
@@ -583,12 +590,11 @@ export class Items {
    *    },
    *    {
    *       operationType: "Upsert",
-   *       partitionKey: 'A',
    *       resourceBody: { id: "doc2", name: "other", key: "A" }
    *    }
    * ]
    *
-   * await database.container.items.batch(operations)
+   * await database.container.items.batch(operations, "A")
    * ```
    *
    * @param operations - List of operations. Limit 100
@@ -601,15 +607,7 @@ export class Items {
   ): Promise<Response<OperationResponse[]>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       operations.map((operation) => decorateBatchOperation(operation, options));
-
-      if (partitionKey === undefined) {
-        const partitionKeyDefinition = await readPartitionKeyDefinition(
-          diagnosticNode,
-          this.container,
-        );
-        partitionKey = undefinedPartitionKey(partitionKeyDefinition);
-      }
-
+      partitionKey = await setPartitionKeyIfUndefined(diagnosticNode, this.container, partitionKey);
       const path = getPathFromLink(this.container.url, ResourceType.item);
 
       if (operations.length > 100) {

@@ -3,13 +3,18 @@
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { parsePath } from "./common";
 import {
+  convertToInternalPartitionKey,
   NonePartitionKeyLiteral,
   NullPartitionKeyLiteral,
+  PartitionKey,
   PartitionKeyDefinition,
   PartitionKeyInternal,
   PrimitivePartitionKeyValue,
 } from "./documents";
 import { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
+import { Container } from "./client";
+import { readPartitionKeyDefinition } from "./client/ClientUtils";
+import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
 
 const logger: AzureLogger = createClientLogger("extractPartitionKey");
 
@@ -88,4 +93,19 @@ export function undefinedPartitionKey(
   } else {
     return partitionKeyDefinition?.paths.map(() => NonePartitionKeyLiteral);
   }
+}
+
+/**
+ * @hidden
+ */
+export async function setPartitionKeyIfUndefined(
+  diagnosticNode: DiagnosticNodeInternal,
+  container: Container,
+  partitionKey: PartitionKey,
+): Promise<PartitionKeyInternal> {
+  if (partitionKey === undefined) {
+    const partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, container);
+    partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+  }
+  return convertToInternalPartitionKey(partitionKey);
 }
