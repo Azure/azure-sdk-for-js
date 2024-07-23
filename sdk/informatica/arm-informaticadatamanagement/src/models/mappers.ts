@@ -334,7 +334,6 @@ export const MarketplaceDetails: coreClient.CompositeMapper = {
     modelProperties: {
       marketplaceSubscriptionId: {
         serializedName: "marketplaceSubscriptionId",
-        required: true,
         type: {
           name: "String",
         },
@@ -1046,7 +1045,7 @@ export const InfaServerlessFetchConfigProperties: coreClient.CompositeMapper = {
       tenantId: {
         serializedName: "tenantId",
         type: {
-          name: "String",
+          name: "Uuid",
         },
       },
       subscriptionId: {
