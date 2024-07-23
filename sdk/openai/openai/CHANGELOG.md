@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Adds subpath `@azure/openai/types` which exports types for Azure On Your Data and Azure content filtering. Checkout the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples) for examples of how to it.
+- Adds subpath `@azure/openai/types` which exports types for Azure On Your Data and Azure content filtering. Checkout the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples) for examples of how to import it.
 
 ### Breaking Changes
 
