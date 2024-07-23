@@ -212,15 +212,8 @@ jobs:
 
       # ===== BEGIN LIVE TEST RUNS =====
 
-      - task: AzurePowerShell@5
-        inputs:
-          azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
-          azurePowerShellVersion: LatestVersion
-          workingDirectory: $(PackagePath)
-          pwsh: true
-          ScriptType: InlineScript
-          Inline: |
-            Update-AzConfig -DisplayBreakingChangeWarning $false
+      - pwsh: |
+          Update-AzConfig -DisplayBreakingChangeWarning $false
         displayName: "Workaround https://github.com/Azure/azure-sdk-for-js/issues/30356"
 
       - ${{ if eq('true', parameters.UseFederatedAuth) }}:
