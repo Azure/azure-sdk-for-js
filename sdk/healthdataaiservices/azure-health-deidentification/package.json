@@ -75,10 +75,10 @@
     "@azure/core-lro": "~3.0.1",
     "@azure/abort-controller": "^2.0.0",
     "@azure-tools/test-utils": "^1.0.3",
-    "@azure/core-paging": "~1.6.3",
-    "loupe": "~3.1.1"
+    "@azure/core-paging": "~1.6.3"
   },
   "devDependencies": {
+    "loupe": "~3.1.1",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "eslint": "^8.55.0",
