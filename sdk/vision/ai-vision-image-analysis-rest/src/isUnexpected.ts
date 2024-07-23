@@ -3,8 +3,9 @@
 
 import {
   AnalyzeFromImageData200Response,
-  AnalyzeFromUrl200Response,
   AnalyzeFromImageDataDefaultResponse,
+  AnalyzeFromUrl200Response,
+  AnalyzeFromUrlDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -12,17 +13,18 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response:
-    | AnalyzeFromImageData200Response
-    | AnalyzeFromUrl200Response
-    | AnalyzeFromImageDataDefaultResponse,
+  response: AnalyzeFromImageData200Response | AnalyzeFromImageDataDefaultResponse,
 ): response is AnalyzeFromImageDataDefaultResponse;
+export function isUnexpected(
+  response: AnalyzeFromUrl200Response | AnalyzeFromUrlDefaultResponse,
+): response is AnalyzeFromUrlDefaultResponse;
 export function isUnexpected(
   response:
     | AnalyzeFromImageData200Response
+    | AnalyzeFromImageDataDefaultResponse
     | AnalyzeFromUrl200Response
-    | AnalyzeFromImageDataDefaultResponse,
-): response is AnalyzeFromImageDataDefaultResponse {
+    | AnalyzeFromUrlDefaultResponse,
+): response is AnalyzeFromImageDataDefaultResponse | AnalyzeFromUrlDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

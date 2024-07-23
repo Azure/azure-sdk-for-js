@@ -6,6 +6,7 @@
  */
 
 const { AzureDeveloperCliCredential, DefaultAzureCredential } = require("@azure/identity");
+
 require("dotenv").config();
 
 async function testDefaultCredential() {
@@ -13,7 +14,10 @@ async function testDefaultCredential() {
 
   try {
     const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
+    console.log(
+      "DefaultAzureCredential: Successfully got a token with expiry time:",
+      token.expiresOnTimestamp,
+    );
   } catch (err) {
     console.log("Error with DefaultAzureCredential:", err);
   }
@@ -26,7 +30,10 @@ async function testAzureDeveloperCliCredential() {
 
   try {
     const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
+    console.log(
+      "AzureDeveloperCliCredential: Successfully got a token with expiry time:",
+      token.expiresOnTimestamp,
+    );
   } catch (err) {
     console.log("Error with Credential:", err);
   }
