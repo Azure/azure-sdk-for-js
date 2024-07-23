@@ -19,7 +19,7 @@ async function main(): Promise<void> {
    * - Microsoft Entra ID authentication
    *
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
-   * Or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
+   * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
