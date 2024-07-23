@@ -132,16 +132,15 @@ describe("AzurePowerShellCredential", function () {
       await credential.getToken(scope);
     } catch (e: any) {
       error = e;
+      sandbox.restore();
     }
 
     assert.ok(error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
+      `Error: No access token found in the output. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
     );
-
-    sandbox.restore();
   });
 
   if (process.platform === "win32") {
@@ -162,16 +161,15 @@ describe("AzurePowerShellCredential", function () {
         await credential.getToken(scope);
       } catch (e: any) {
         error = e;
+        sandbox.restore();
       }
 
       assert.ok(error);
       assert.equal(error?.name, "CredentialUnavailableError");
       assert.equal(
         error?.message,
-        `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
+        `Error: No access token found in the output. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
       );
-
-      sandbox.restore();
     });
   }
 
@@ -193,10 +191,9 @@ describe("AzurePowerShellCredential", function () {
     const credential = new AzurePowerShellCredential();
 
     const token = await credential.getToken(scope);
+    sandbox.restore();
     assert.equal(token?.token, tokenResponse.Token);
     assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
-
-    sandbox.restore();
   });
 
   it("authenticates with tenantId on getToken", async function () {
@@ -217,10 +214,9 @@ describe("AzurePowerShellCredential", function () {
     const credential = new AzurePowerShellCredential();
 
     const token = await credential.getToken(scope, { tenantId: "TENANT-ID" } as GetTokenOptions);
+    sandbox.restore();
     assert.equal(token?.token, tokenResponse.Token);
     assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
-
-    sandbox.restore();
   });
 
   /**
