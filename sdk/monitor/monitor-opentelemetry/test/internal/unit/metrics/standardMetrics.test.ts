@@ -7,9 +7,8 @@ import { Attributes, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { Histogram } from "@opentelemetry/sdk-metrics";
 import {
   SEMATTRS_HTTP_STATUS_CODE,
-  SEMATTRS_HTTP_URL,
+  SEMATTRS_NET_HOST_PORT,
   SEMATTRS_HTTP_USER_AGENT,
-  SEMATTRS_NET_PEER_IP,
   SEMATTRS_NET_PEER_NAME,
   SEMATTRS_PEER_SERVICE,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
@@ -273,17 +272,17 @@ describe("#StandardMetricsHandler", () => {
     );
   });
 
-  it("should set depenedncy targets", () => {
+  it("should set dependency targets", () => {
     let attributes: Attributes;
 
-    attributes = { [SEMATTRS_HTTP_URL]: "http://testHttpHost" };
-    assert.strictEqual(getDependencyTarget(attributes), "http://testHttpHost");
+    attributes = { [SEMATTRS_PEER_SERVICE]: "TestService" };
+    assert.strictEqual(getDependencyTarget(attributes), "TestService");
 
-    attributes = { [SEMATTRS_NET_PEER_NAME]: "testNetPeerName" };
-    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerName");
+    attributes = { [SEMATTRS_NET_PEER_NAME]: "test.com" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com");
 
-    attributes = { [SEMATTRS_NET_PEER_IP]: "testNetPeerIp" };
-    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerIp");
+    attributes = { [SEMATTRS_NET_PEER_NAME]: "test.com", [SEMATTRS_NET_HOST_PORT]: "8080" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com:8080");
 
     attributes = { "unknown.attribute": "value" };
     assert.strictEqual(getDependencyTarget(attributes), "");
