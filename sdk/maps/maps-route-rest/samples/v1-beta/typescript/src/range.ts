@@ -16,14 +16,14 @@ async function main():Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
-   * - Azure Active Directory (Azure AD) authentication
+   * - Microsoft Entra ID authentication
    *
-   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for AAD auth,
+   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * Or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
-  /** Azure Active Directory (Azure AD) authentication */
+  /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   const client = MapsRoute(credential, mapsClientId);

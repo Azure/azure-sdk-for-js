@@ -11,7 +11,7 @@ dotenv.config();
  * @summary This sample demonstrates how to get the country code for an IP address using MapsGeolocation.
  */
 async function successfullyRetrieveCountryCodeFromIPAddress(): Promise<void> {
-  /** Use Azure AD authentication (Recommended) */
+  /** Use Microsoft Entra ID authentication (Recommended) */
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   const client = MapsGeolocation(credential, mapsClientId);

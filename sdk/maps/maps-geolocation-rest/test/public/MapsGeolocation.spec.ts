@@ -20,7 +20,7 @@ describe("Authentication", function () {
     await recorder.stop();
   });
 
-  it("should work with AAD authentication", async function () {
+  it("should work with Microsoft Entra ID authentication", async function () {
     /**
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.

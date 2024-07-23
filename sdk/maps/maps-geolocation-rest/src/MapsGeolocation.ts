@@ -81,7 +81,7 @@ export default function MapsGeolocation(
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
   /**
-   * maps service requires a header "ms-x-client-id", which is different from the standard AAD.
+   * maps service requires a header "ms-x-client-id", which is different from the standard Microsoft Entra ID.
    * So we need to do our own implementation.
    * This customized authentication is following by this guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md#custom-authentication
    */

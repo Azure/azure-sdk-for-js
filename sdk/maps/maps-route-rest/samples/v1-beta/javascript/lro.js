@@ -20,7 +20,7 @@ require("dotenv").config();
  *  - "/route/matrix/"
  */
 async function main() {
-  /** Use Azure AD authentication (Recommended) */
+  /** Use Microsoft Entra ID authentication (Recommended) */
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   const client = MapsRoute(credential, mapsClientId);
