@@ -1,4 +1,4 @@
-import { assert } from "@azure-tools/test-utils";
+import { assert } from "vitest";
 import { get } from "./utils.js";
 import { OpenAI } from "openai";
 import { getImageDimensionsFromResponse } from "./images.js";
@@ -14,15 +14,15 @@ import {
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
-  ErrorModel,
   AzureChatEnhancementConfiguration,
   AzureChatGroundingEnhancementConfiguration,
   AzureChatOCREnhancementConfiguration,
   ChatFinishDetailsOutput,
   StopFinishDetailsOutput,
-} from "../../../src/index.js";
+} from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import { ChatCompletionChunk, ChatCompletionTokenLogprob, CompletionChoice } from "openai/resources/index";
+import { ErrorModel } from "@azure-rest/core-client";
 
 export function assertChatCompletions(
   completions: OpenAI.Chat.Completions.ChatCompletion,

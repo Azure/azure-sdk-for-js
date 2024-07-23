@@ -3,9 +3,8 @@ trigger: none
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
   parameters:
-    PackageName: "@azure/openai-test"
+    PackageName: "@azure/openai"
     ServiceDirectory: openai
-    UseFederatedAuth: true
     EnvVars:
       AZURE_CLIENT_ID: $(python-openai-client-id)
       AZURE_TENANT_ID: $(python-openai-tenant-id)

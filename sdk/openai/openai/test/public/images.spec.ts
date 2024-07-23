@@ -3,7 +3,6 @@
 
 import { matrix } from "@azure-tools/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import {
   APIMatrix,
@@ -17,13 +16,14 @@ import {
 } from "./utils/utils.js";
 import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
 import OpenAI, { AzureOpenAI } from "openai";
+import { describe, beforeEach, it } from "vitest";
 
 describe("Images", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this.currentTest);
+  beforeEach(async function (context) {
+    recorder = await startRecorder(context);
     if (!deployments.length) {
       deployments = await getDeployments("dalle", recorder);
     }
@@ -35,7 +35,7 @@ describe("Images", function () {
         describe(`[${apiVersion}] Client`, () => {
           let client: AzureOpenAI | OpenAI;
 
-          beforeEach(async function (this: Context) {
+          beforeEach(async function () {
             client = createClient(authMethod, apiVersion, "dalle");
           });
 

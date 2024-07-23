@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
+import { matrix } from "@azure-tools/test-utils";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import { APIMatrix, APIVersion, AuthMethod, authTypes } from "./utils/utils.js";
 import { AzureOpenAI } from "openai";
@@ -27,8 +27,8 @@ describe("Completions", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this.currentTest);
+  beforeEach(async function (context) {
+    recorder = await startRecorder(context);
     if (!deployments.length) {
       deployments = await getDeployments("completions", recorder);
     }
@@ -44,7 +44,7 @@ describe("Completions", function () {
         describe(`[${apiVersion}] Client`, () => {
           let client: AzureOpenAI;
 
-          beforeEach(async function (this: Context) {
+          beforeEach(async function () {
             client = createClient(authMethod, apiVersion, "completions");
           });
 
@@ -388,7 +388,7 @@ describe("Completions", function () {
                 );
               });
 
-              it("bring your own data", async function (this: Context) {
+              it("bring your own data", async function () {
                 const dataSources = { data_sources: [createAzureSearchExtension()] };
                 updateWithSucceeded(
                   await withDeployments(

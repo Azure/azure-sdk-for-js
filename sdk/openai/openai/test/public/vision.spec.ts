@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
+import { matrix } from "@azure-tools/test-utils";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
 import { APIMatrix, APIVersion, AuthMethod, authTypes, getDeployments } from "./utils/utils.js";
@@ -13,8 +13,8 @@ describe("OpenAI", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this.currentTest);
+  beforeEach(async function (context) {
+    recorder = await startRecorder(context);
     if (!deployments.length) {
       deployments = await getDeployments("completions", recorder);
     }
@@ -30,7 +30,7 @@ describe("OpenAI", function () {
         describe(`[${apiVersion}] Client`, () => {
           let client: AzureOpenAI | OpenAI;
 
-          beforeEach(async function (this: Context) {
+          beforeEach(async function () {
             client = createClient(authMethod, apiVersion, "dalle");
           });
 

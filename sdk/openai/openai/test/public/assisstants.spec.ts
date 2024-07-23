@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { createClient, startRecorder } from "./utils/createClient.js";
-import { Context } from "mocha";
 import OpenAI, { AzureOpenAI } from "openai";
 import { APIVersion, AuthMethod, authTypes, latestAPIPreview } from "./utils/utils.js";
 import { AssistantTool } from "openai/resources/beta/assistants.mjs";
@@ -16,8 +16,8 @@ interface Metadata {
 describe("OpenAIAssistants", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this.currentTest);
+  beforeEach(async function (context) {
+    recorder = await startRecorder(context);
   });
 
   afterEach(async function () {
@@ -38,7 +38,7 @@ describe("OpenAIAssistants", () => {
           metadata: { foo: "bar" },
         };
 
-        beforeEach(async function (this: Context) {
+        beforeEach(async function () {
           client = createClient(authMethod, apiVersion, "dalle");
         });
 

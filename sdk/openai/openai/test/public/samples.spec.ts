@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
+import { matrix } from "@azure-tools/test-utils";
+import { assert, describe, it, afterEach, beforeEach } from "vitest";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import OpenAI, { AzureOpenAI } from "openai";
 import {
@@ -25,7 +25,7 @@ describe("README samples", () => {
   });
 
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
-  describe(`[${authMethod}] Client`, () => {
+    describe(`[${authMethod}] Client`, () => {
       describe(`Assistants`, function () {
         const codeAssistant = {
           tools: [{ type: "code_interpreter" }] as AssistantTool[],
@@ -36,13 +36,12 @@ describe("README samples", () => {
             "You are a personal math tutor. Write and run code to answer math questions.",
           metadata: { foo: "bar" },
         };
-        
-        beforeEach(async function (this: Context) {
-          recorder = new Recorder(this.currentTest);
-          recorder = await startRecorder(this.currentTest);
-          client = createClient(authMethod, latestAPIPreview , "dalle");
+
+        beforeEach(async function (context) {
+          recorder = await startRecorder(context);
+          client = createClient(authMethod, latestAPIPreview, "dalle");
         });
-        
+
         it("create and run code interpreter scenario", async function () {
           const assistant = await client.beta.assistants.create(codeAssistant);
           assertAssistantEquality(codeAssistant, assistant);
@@ -270,9 +269,8 @@ describe("README samples", () => {
       });
       matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
         describe(`[${apiVersion}] Completions`, function () {
-          beforeEach(async function (this: Context) {
-            recorder = new Recorder(this.currentTest);
-            recorder = await startRecorder(this.currentTest);
+          beforeEach(async function (context) {
+            recorder = await startRecorder(context);
             client = createClient(authMethod, apiVersion, "completions");
           });
 
@@ -431,9 +429,8 @@ describe("README samples", () => {
         });
 
         describe(`[${apiVersion}] Dall-E`, function () {
-          beforeEach(async function (this: Context) {
-            recorder = new Recorder(this.currentTest);
-            recorder = await startRecorder(this.currentTest);
+          beforeEach(async function (context) {
+            recorder = await startRecorder(context);
             client = createClient(authMethod, apiVersion, "dalle");
           });
 

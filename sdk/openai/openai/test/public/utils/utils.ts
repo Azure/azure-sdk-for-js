@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure-tools/test-utils";
+import { assert } from "vitest";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -69,7 +69,7 @@ export async function withDeployments<T>(
         error.type === "invalid_request_error" ||
         error.name === "AbortError"
       ) {
-        console.log(`Handled error: ${errorStr}`);
+        // console.log(`Handled error: ${errorStr}`);
         continue;
       }
       console.warn(`Error in deployment ${deployment}: ${errorStr}`);
@@ -116,7 +116,7 @@ async function listDeployments(
       deployments.push(deploymentName);
     }
   }
-  console.log(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
+  // console.log(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
   return deployments;
 }
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-import { assert, matrix } from "@azure-tools/test-utils";
+import { assert, describe, beforeEach, it } from "vitest";
+import { matrix } from "@azure-tools/test-utils";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import OpenAI, { AzureOpenAI } from "openai";
 import { createClient } from "./utils/createClient.js";
@@ -12,11 +12,11 @@ describe("AbortSignal", () => {
   let client: AzureOpenAI | OpenAI;
 
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (context) {
       // Streaming doesn't work in the record/playback because stream chunks are part of a single response
       // and the test-proxy just sends all of them at once.
       if (!isLiveMode()) {
-        this.skip();
+        context.skip();
       }
       client = createClient("AAD", apiVersion, "completions");
     });

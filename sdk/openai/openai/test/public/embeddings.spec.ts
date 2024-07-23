@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/createClient.js";
 import { APIMatrix, APIVersion, AuthMethod, authTypes, getDeployments } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
@@ -13,8 +13,8 @@ describe("Embeddings", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this.currentTest);
+  beforeEach(async function (context) {
+    recorder = await startRecorder(context);
     if (!deployments.length) {
       deployments = await getDeployments("completions", recorder);
     }
@@ -31,13 +31,13 @@ describe("Embeddings", function () {
           let client: AzureOpenAI | OpenAI;
           let deploymentName: string;
 
-          beforeEach(async function (this: Context) {
+          beforeEach(async function () {
             client = createClient(authMethod, apiVersion, "completions");
             deploymentName = "text-embedding-ada-002";
           });
 
           describe("getEmbeddings", function () {
-            it("embeddings test", async function () {
+            it.only("embeddings test", async function () {
               const prompt = ["This is text to be embedded"];
               const embeddings = await client.embeddings.create({
                 model: deploymentName,
