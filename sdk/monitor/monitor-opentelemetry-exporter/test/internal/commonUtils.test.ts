@@ -4,7 +4,7 @@ import os from "os";
 import * as assert from "assert";
 import { Resource } from "@opentelemetry/resources";
 import { Tags } from "../../src/types";
-import { createTagsFromResource } from "../../src/utils/common";
+import { createTagsFromResource, serializeAttribute } from "../../src/utils/common";
 
 describe("commonUtils.ts", () => {
   describe("#createTagsFromResource", () => {
@@ -95,6 +95,21 @@ describe("commonUtils.ts", () => {
       const resource = Resource.default();
       const tags: Tags = createTagsFromResource(resource);
       assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
+    });
+
+    it("should serialize attributes", async () => {
+      let attr = serializeAttribute("test");
+      assert.strictEqual(attr, "test");
+      attr = serializeAttribute(false);
+      assert.strictEqual(attr, "false");
+      attr = serializeAttribute("123");
+      assert.strictEqual(attr, "123");
+      attr = serializeAttribute({ test: "value" });
+      assert.strictEqual(attr, '{"test":"value"}');
+      attr = serializeAttribute(new Error("testError") as any);
+      assert.ok(attr.includes("stack: 'Error: testError"));
+      assert.ok(attr.includes("message: 'testError'"));
+      assert.ok(attr.includes("name: 'Error'"));
     });
   });
 });
