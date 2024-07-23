@@ -7,4 +7,3 @@ extends:
       ServiceDirectory: digitaltwins
       MatrixFilters:
         - TestType=^(?!sample).*
-      UseFederatedAuth: true
