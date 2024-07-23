@@ -6,6 +6,7 @@ import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
 import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
 import { ComputedProperty } from "../../documents/ComputedProperty";
+import { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -28,4 +29,6 @@ export interface ContainerDefinition {
   changeFeedPolicy?: ChangeFeedPolicy;
   /** The computed properties of the container */
   computedProperties?: ComputedProperty[];
+  /** The vector embedding policy information for storing items in a container. */
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
