@@ -1,6 +1,7 @@
 {
   "name": "@azure-rest/health-deidentification",
   "version": "1.0.0-beta.1",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/azure-health-deidentification",
   "description": "Health Deidentification Service",
   "engines": {
     "node": ">=18.0.0"
