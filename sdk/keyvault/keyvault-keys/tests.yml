@@ -7,7 +7,6 @@ extends:
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
-      UseFederatedAuth: true
       CloudConfig:
         Public:
           Location: 'eastus2'
