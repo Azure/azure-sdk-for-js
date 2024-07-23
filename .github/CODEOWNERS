@@ -554,7 +554,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
 
 # ServiceLabel: %Health Deidentification
-# PRLabel: %Mgmt
+# PRLabel: %Health Deidentification
 /sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
 
 # PRLabel: %Mgmt
