@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 20.1.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 20.1.0-beta.1 (2024-07-12)
 Compared with version 20.0.0
     
