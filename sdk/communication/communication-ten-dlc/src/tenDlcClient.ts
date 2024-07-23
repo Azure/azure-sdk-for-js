@@ -107,6 +107,7 @@ export class TenDlcClient {
     campaingId: string,
     options: CreateOrUpdateCampaignOptions = {
       campaignDetails: {},
+      messageDetails: {},
     },
   ): Promise<USCampaign> {
     const { span, updatedOptions } = tracingClient.startSpan(
