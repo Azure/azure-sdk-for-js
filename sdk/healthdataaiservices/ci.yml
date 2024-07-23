@@ -37,5 +37,5 @@ extends:
     oneESTemplateTag: ${{ parameters.oneESTemplateTag }}
     ServiceDirectory: healthdataaiservices
     Artifacts:
-      - name: azure-health-deidentification
-        safeName: azureaihealthdataaiservices
+      - name: azure-rest-health-deidentification
+        safeName: azureresthealthdeidentification
