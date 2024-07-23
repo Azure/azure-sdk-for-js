@@ -22,7 +22,7 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics"
  * @example Instantiate a client and create a new database
  * ```typescript
  * const client = new CosmosClient({endpoint: "<URL HERE>", key: "<KEY HERE>"});
- * await client.databases.create({id: "<datbase name here>"});
+ * await client.databases.create({id: "<database name here>"});
  * ```
  * @example Instantiate a client with custom Connection Policy
  * ```typescript
@@ -34,6 +34,14 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics"
  *    },
  * });
  * ```
+ * @example Instantiate a client using Managed Identity
+ * ```typescript
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * const credential = new DefaultAzureCredential(options);
+ * const client = new CosmosClient({
+ *   endpoint: "<URL HERE>",
+ *   aadCredentials: credential,
+ * });
  */
 export class CosmosClient {
   /**
