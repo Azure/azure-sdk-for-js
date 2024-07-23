@@ -1044,6 +1044,7 @@ export interface FeedOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    allowNonStreamingQueriesWithoutTopOrLimit?: boolean;
     bufferItems?: boolean;
     // @deprecated
     continuation?: string;
