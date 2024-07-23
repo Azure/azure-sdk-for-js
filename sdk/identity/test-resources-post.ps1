@@ -67,7 +67,7 @@ Write-Host "Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 $loginServer = az acr show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query loginServer -o tsv
 $image = "$loginServer/identity-aks-test-image"
-docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
+docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
 docker push $image
 Write-Host "Deployed image to ACR"
 
