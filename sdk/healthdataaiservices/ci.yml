@@ -38,4 +38,4 @@ extends:
     ServiceDirectory: healthdataaiservices
     Artifacts:
       - name: azure-health-deidentification
-        safeName: azureaihealthdataaiservices
+        safeName: azurehealthdeidentification
