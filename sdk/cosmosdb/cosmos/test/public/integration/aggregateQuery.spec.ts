@@ -154,7 +154,10 @@ describe("Aggregate Query", function (this: Suite) {
     query: string | SqlQuerySpec,
     expectedResults: any[],
   ): Promise<void> {
-    const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
+    const options: FeedOptions = {
+      maxDegreeOfParallelism: 2,
+      maxItemCount: 1,
+    };
 
     const queryIterator = container.items.query(query, options);
     const fetchAllRequestCharge = await validateFetchAll(queryIterator, expectedResults);
