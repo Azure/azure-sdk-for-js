@@ -70,15 +70,11 @@ export interface ContactInformation {
 export type ContentType = "TwoFactorAuthentication" | "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert";
 
 // @public
-export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalParams {
-    // (undocumented)
-    brandDetails: BrandDetails | undefined;
+export interface CreateOrUpdateBrandOptions extends TenDlcUpsertUSBrandOptionalParams {
 }
 
 // @public
-export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
-    // (undocumented)
-    campaignDetails: CampaignDetails | undefined;
+export interface CreateOrUpdateCampaignOptions extends TenDlcUpsertUSCampaignOptionalParams {
 }
 
 // @public
@@ -272,6 +268,32 @@ export interface TenDlcSubmitUSBrandOptionalParams extends coreClient.OperationO
 
 // @public
 export interface TenDlcSubmitUSCampaignOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TenDlcUpsertUSBrandOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    brandDetails?: BrandDetails;
+    costs?: TenDlcCost[];
+    reviewNotes?: ReviewNote[];
+    status?: BrandStatus;
+    statusUpdatedDate?: Date;
+    submissionDate?: Date;
+}
+
+// @public
+export interface TenDlcUpsertUSCampaignOptionalParams extends coreClient.OperationOptions {
+    brandId?: string;
+    // (undocumented)
+    campaignDetails?: CampaignDetails;
+    costs?: TenDlcCost[];
+    // (undocumented)
+    messageDetails?: MessageDetails;
+    phoneNumberCount?: number;
+    reviewNotes?: ReviewNote[];
+    status?: CampaignStatus;
+    statusUpdatedDate?: Date;
+    submissionDate?: Date;
 }
 
 // @public (undocumented)
