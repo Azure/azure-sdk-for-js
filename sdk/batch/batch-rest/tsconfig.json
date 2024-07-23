@@ -3,7 +3,15 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": { "@azure-rest/batch": ["./src/index"] }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "test/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }

@@ -2107,11 +2107,7 @@ export interface BatchNodeVMExtensionListResultOutput {
 /** Alias for CachingTypeOutput */
 export type CachingTypeOutput = string | "none" | "readonly" | "readwrite";
 /** Alias for StorageAccountTypeOutput */
-export type StorageAccountTypeOutput =
-  | string
-  | "standard_lrs"
-  | "premium_lrs"
-  | "standardssd_lrs";
+export type StorageAccountTypeOutput = string | "standard_lrs" | "premium_lrs" | "standardssd_lrs";
 /** Alias for ContainerTypeOutput */
 export type ContainerTypeOutput = string | "dockerCompatible" | "criCompatible";
 /** Alias for DiskEncryptionTargetOutput */
@@ -2148,11 +2144,7 @@ export type BatchNodeFillTypeOutput = string | "spread" | "pack";
 /** Alias for LoginModeOutput */
 export type LoginModeOutput = string | "batch" | "interactive";
 /** Alias for BatchNodeCommunicationModeOutput */
-export type BatchNodeCommunicationModeOutput =
-  | string
-  | "default"
-  | "classic"
-  | "simplified";
+export type BatchNodeCommunicationModeOutput = string | "default" | "classic" | "simplified";
 /** Alias for UpgradeModeOutput */
 export type UpgradeModeOutput = string | "automatic" | "manual" | "rolling";
 /** Alias for BatchPoolStateOutput */
@@ -2186,22 +2178,13 @@ export type AccessScopeOutput = string | "job";
 /** Alias for BatchPoolLifetimeOptionOutput */
 export type BatchPoolLifetimeOptionOutput = string | "jobschedule" | "job";
 /** Alias for OnAllBatchTasksCompleteOutput */
-export type OnAllBatchTasksCompleteOutput =
-  | string
-  | "noaction"
-  | "terminatejob";
+export type OnAllBatchTasksCompleteOutput = string | "noaction" | "terminatejob";
 /** Alias for OnBatchTaskFailureOutput */
-export type OnBatchTaskFailureOutput =
-  | string
-  | "noaction"
-  | "performexitoptionsjobaction";
+export type OnBatchTaskFailureOutput = string | "noaction" | "performexitoptionsjobaction";
 /** Alias for ErrorCategoryOutput */
 export type ErrorCategoryOutput = string | "usererror" | "servererror";
 /** Alias for BatchJobPreparationTaskStateOutput */
-export type BatchJobPreparationTaskStateOutput =
-  | string
-  | "running"
-  | "completed";
+export type BatchJobPreparationTaskStateOutput = string | "running" | "completed";
 /** Alias for BatchTaskExecutionResultOutput */
 export type BatchTaskExecutionResultOutput = string | "success" | "failure";
 /** Alias for BatchJobReleaseTaskStateOutput */
@@ -2219,24 +2202,11 @@ export type BatchJobActionOutput = string | "none" | "disable" | "terminate";
 /** Alias for DependencyActionOutput */
 export type DependencyActionOutput = string | "satisfy" | "block";
 /** Alias for BatchTaskStateOutput */
-export type BatchTaskStateOutput =
-  | string
-  | "active"
-  | "preparing"
-  | "running"
-  | "completed";
+export type BatchTaskStateOutput = string | "active" | "preparing" | "running" | "completed";
 /** Alias for BatchTaskAddStatusOutput */
-export type BatchTaskAddStatusOutput =
-  | string
-  | "success"
-  | "clienterror"
-  | "servererror";
+export type BatchTaskAddStatusOutput = string | "success" | "clienterror" | "servererror";
 /** Alias for BatchSubtaskStateOutput */
-export type BatchSubtaskStateOutput =
-  | string
-  | "preparing"
-  | "running"
-  | "completed";
+export type BatchSubtaskStateOutput = string | "preparing" | "running" | "completed";
 /** Alias for BatchNodeStateOutput */
 export type BatchNodeStateOutput =
   | string

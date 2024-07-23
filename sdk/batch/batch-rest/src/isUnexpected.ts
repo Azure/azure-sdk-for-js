@@ -223,9 +223,7 @@ export function isUnexpected(
   response: GetApplication200Response | GetApplicationDefaultResponse,
 ): response is GetApplicationDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListPoolUsageMetrics200Response
-    | ListPoolUsageMetricsDefaultResponse,
+  response: ListPoolUsageMetrics200Response | ListPoolUsageMetricsDefaultResponse,
 ): response is ListPoolUsageMetricsDefaultResponse;
 export function isUnexpected(
   response: CreatePool201Response | CreatePoolDefaultResponse,
@@ -237,10 +235,7 @@ export function isUnexpected(
   response: DeletePool202Response | DeletePoolDefaultResponse,
 ): response is DeletePoolDefaultResponse;
 export function isUnexpected(
-  response:
-    | PoolExists200Response
-    | PoolExists404Response
-    | PoolExistsDefaultResponse,
+  response: PoolExists200Response | PoolExists404Response | PoolExistsDefaultResponse,
 ): response is PoolExistsDefaultResponse;
 export function isUnexpected(
   response: GetPool200Response | GetPoolDefaultResponse,
@@ -249,17 +244,13 @@ export function isUnexpected(
   response: UpdatePool200Response | UpdatePoolDefaultResponse,
 ): response is UpdatePoolDefaultResponse;
 export function isUnexpected(
-  response:
-    | DisablePoolAutoScale200Response
-    | DisablePoolAutoScaleDefaultResponse,
+  response: DisablePoolAutoScale200Response | DisablePoolAutoScaleDefaultResponse,
 ): response is DisablePoolAutoScaleDefaultResponse;
 export function isUnexpected(
   response: EnablePoolAutoScale200Response | EnablePoolAutoScaleDefaultResponse,
 ): response is EnablePoolAutoScaleDefaultResponse;
 export function isUnexpected(
-  response:
-    | EvaluatePoolAutoScale200Response
-    | EvaluatePoolAutoScaleDefaultResponse,
+  response: EvaluatePoolAutoScale200Response | EvaluatePoolAutoScaleDefaultResponse,
 ): response is EvaluatePoolAutoScaleDefaultResponse;
 export function isUnexpected(
   response: ResizePool202Response | ResizePoolDefaultResponse,
@@ -268,9 +259,7 @@ export function isUnexpected(
   response: StopPoolResize202Response | StopPoolResizeDefaultResponse,
 ): response is StopPoolResizeDefaultResponse;
 export function isUnexpected(
-  response:
-    | ReplacePoolProperties204Response
-    | ReplacePoolPropertiesDefaultResponse,
+  response: ReplacePoolProperties204Response | ReplacePoolPropertiesDefaultResponse,
 ): response is ReplacePoolPropertiesDefaultResponse;
 export function isUnexpected(
   response: RemoveNodes202Response | RemoveNodesDefaultResponse,
@@ -309,9 +298,7 @@ export function isUnexpected(
   response: ListJobs200Response | ListJobsDefaultResponse,
 ): response is ListJobsDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListJobsFromSchedule200Response
-    | ListJobsFromScheduleDefaultResponse,
+  response: ListJobsFromSchedule200Response | ListJobsFromScheduleDefaultResponse,
 ): response is ListJobsFromScheduleDefaultResponse;
 export function isUnexpected(
   response:
@@ -346,9 +333,7 @@ export function isUnexpected(
   response: EnableJobSchedule204Response | EnableJobScheduleDefaultResponse,
 ): response is EnableJobScheduleDefaultResponse;
 export function isUnexpected(
-  response:
-    | TerminateJobSchedule202Response
-    | TerminateJobScheduleDefaultResponse,
+  response: TerminateJobSchedule202Response | TerminateJobScheduleDefaultResponse,
 ): response is TerminateJobScheduleDefaultResponse;
 export function isUnexpected(
   response: CreateJobSchedule201Response | CreateJobScheduleDefaultResponse,
@@ -363,9 +348,7 @@ export function isUnexpected(
   response: ListTasks200Response | ListTasksDefaultResponse,
 ): response is ListTasksDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateTaskCollection200Response
-    | CreateTaskCollectionDefaultResponse,
+  response: CreateTaskCollection200Response | CreateTaskCollectionDefaultResponse,
 ): response is CreateTaskCollectionDefaultResponse;
 export function isUnexpected(
   response: DeleteTask200Response | DeleteTaskDefaultResponse,
@@ -392,9 +375,7 @@ export function isUnexpected(
   response: GetTaskFile200Response | GetTaskFileDefaultResponse,
 ): response is GetTaskFileDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetTaskFileProperties200Response
-    | GetTaskFilePropertiesDefaultResponse,
+  response: GetTaskFileProperties200Response | GetTaskFilePropertiesDefaultResponse,
 ): response is GetTaskFilePropertiesDefaultResponse;
 export function isUnexpected(
   response: ListTaskFiles200Response | ListTaskFilesDefaultResponse,
@@ -415,19 +396,13 @@ export function isUnexpected(
   response: RebootNode202Response | RebootNodeDefaultResponse,
 ): response is RebootNodeDefaultResponse;
 export function isUnexpected(
-  response:
-    | DisableNodeScheduling200Response
-    | DisableNodeSchedulingDefaultResponse,
+  response: DisableNodeScheduling200Response | DisableNodeSchedulingDefaultResponse,
 ): response is DisableNodeSchedulingDefaultResponse;
 export function isUnexpected(
-  response:
-    | EnableNodeScheduling200Response
-    | EnableNodeSchedulingDefaultResponse,
+  response: EnableNodeScheduling200Response | EnableNodeSchedulingDefaultResponse,
 ): response is EnableNodeSchedulingDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetNodeRemoteLoginSettings200Response
-    | GetNodeRemoteLoginSettingsDefaultResponse,
+  response: GetNodeRemoteLoginSettings200Response | GetNodeRemoteLoginSettingsDefaultResponse,
 ): response is GetNodeRemoteLoginSettingsDefaultResponse;
 export function isUnexpected(
   response: UploadNodeLogs200Response | UploadNodeLogsDefaultResponse,
@@ -448,9 +423,7 @@ export function isUnexpected(
   response: GetNodeFile200Response | GetNodeFileDefaultResponse,
 ): response is GetNodeFileDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetNodeFileProperties200Response
-    | GetNodeFilePropertiesDefaultResponse,
+  response: GetNodeFileProperties200Response | GetNodeFilePropertiesDefaultResponse,
 ): response is GetNodeFilePropertiesDefaultResponse;
 export function isUnexpected(
   response: ListNodeFiles200Response | ListNodeFilesDefaultResponse,
@@ -699,24 +672,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

@@ -5451,6 +5451,11 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /dotenv@16.0.0:
+    resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
+    engines: {node: '>=12'}
+    dev: false
+
   /dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
@@ -10521,6 +10526,12 @@ packages:
 
   /typescript@5.5.3:
     resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19115,7 +19126,7 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-vnCykikEUqNG4AdNzIhZiDioYCcdhaNCcfcFEpHZQdo229KcOJgE/F9vdvtDsoyZLkQNErdx/xn9y6ZwTlGfhw==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-9IBCddn++bg6xtbIRDztOAaQOVKXEwi9zwkJ4BVu5yrVay9hLhEZWcb1Zb9YgD3T7ThkS4iMCWSaVtUEV3Ytlg==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
@@ -19126,7 +19137,7 @@ packages:
       '@types/node': 18.19.39
       '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
-      dotenv: 16.4.5
+      dotenv: 16.0.0
       eslint: 8.57.0
       loupe: 3.1.1
       mkdirp: 2.1.6
@@ -20495,7 +20506,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.5.3
+      '@_ts/max': /typescript@5.5.4
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)

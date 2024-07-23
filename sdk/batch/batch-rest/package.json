@@ -54,6 +54,13 @@
       }
     ]
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Batch provides Cloud-scale job scheduling and compute management.",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true
+  },
   "dependencies": {
     "@azure-rest/core-client": "^1.4.0",
     "@azure/core-auth": "^1.6.0",

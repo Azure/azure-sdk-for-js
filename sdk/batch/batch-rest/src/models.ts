@@ -1509,11 +1509,7 @@ export interface UploadBatchServiceLogsContent {
 /** Alias for CachingType */
 export type CachingType = string | "none" | "readonly" | "readwrite";
 /** Alias for StorageAccountType */
-export type StorageAccountType =
-  | string
-  | "standard_lrs"
-  | "premium_lrs"
-  | "standardssd_lrs";
+export type StorageAccountType = string | "standard_lrs" | "premium_lrs" | "standardssd_lrs";
 /** Alias for ContainerType */
 export type ContainerType = string | "dockerCompatible" | "criCompatible";
 /** Alias for DiskEncryptionTarget */
@@ -1537,10 +1533,7 @@ export type IpAddressProvisioningType =
   | "usermanaged"
   | "nopublicipaddresses";
 /** Alias for ContainerWorkingDirectory */
-export type ContainerWorkingDirectory =
-  | string
-  | "taskWorkingDirectory"
-  | "containerImageDefault";
+export type ContainerWorkingDirectory = string | "taskWorkingDirectory" | "containerImageDefault";
 /** Alias for AutoUserScope */
 export type AutoUserScope = string | "task" | "pool";
 /** Alias for ElevationLevel */
@@ -1550,11 +1543,7 @@ export type BatchNodeFillType = string | "spread" | "pack";
 /** Alias for LoginMode */
 export type LoginMode = string | "batch" | "interactive";
 /** Alias for BatchNodeCommunicationMode */
-export type BatchNodeCommunicationMode =
-  | string
-  | "default"
-  | "classic"
-  | "simplified";
+export type BatchNodeCommunicationMode = string | "default" | "classic" | "simplified";
 /** Alias for UpgradeMode */
 export type UpgradeMode = string | "automatic" | "manual" | "rolling";
 /** Alias for BatchNodeDeallocationOption */
@@ -1575,11 +1564,7 @@ export type BatchJobState =
   | "completed"
   | "deleting";
 /** Alias for OutputFileUploadCondition */
-export type OutputFileUploadCondition =
-  | string
-  | "tasksuccess"
-  | "taskfailure"
-  | "taskcompletion";
+export type OutputFileUploadCondition = string | "tasksuccess" | "taskfailure" | "taskcompletion";
 /** Alias for AccessScope */
 export type AccessScope = string | "job";
 /** Alias for BatchPoolLifetimeOption */
@@ -1587,10 +1572,7 @@ export type BatchPoolLifetimeOption = string | "jobschedule" | "job";
 /** Alias for OnAllBatchTasksComplete */
 export type OnAllBatchTasksComplete = string | "noaction" | "terminatejob";
 /** Alias for OnBatchTaskFailure */
-export type OnBatchTaskFailure =
-  | string
-  | "noaction"
-  | "performexitoptionsjobaction";
+export type OnBatchTaskFailure = string | "noaction" | "performexitoptionsjobaction";
 /** Alias for ErrorCategory */
 export type ErrorCategory = string | "usererror" | "servererror";
 /** Alias for DisableBatchJobOption */
@@ -1610,12 +1592,7 @@ export type BatchJobAction = string | "none" | "disable" | "terminate";
 /** Alias for DependencyAction */
 export type DependencyAction = string | "satisfy" | "block";
 /** Alias for BatchTaskState */
-export type BatchTaskState =
-  | string
-  | "active"
-  | "preparing"
-  | "running"
-  | "completed";
+export type BatchTaskState = string | "active" | "preparing" | "running" | "completed";
 /** Alias for BatchNodeRebootOption */
 export type BatchNodeRebootOption =
   | string
@@ -1624,8 +1601,4 @@ export type BatchNodeRebootOption =
   | "taskcompletion"
   | "retaineddata";
 /** Alias for BatchNodeDisableSchedulingOption */
-export type BatchNodeDisableSchedulingOption =
-  | string
-  | "requeue"
-  | "terminate"
-  | "taskcompletion";
+export type BatchNodeDisableSchedulingOption = string | "requeue" | "terminate" | "taskcompletion";

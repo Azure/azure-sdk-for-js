@@ -1,0 +1,42 @@
+{
+  "name": "@azure-samples/batch-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Batch provides Cloud-scale job scheduling and compute management. client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/batch/batch-rest"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch-rest",
+  "dependencies": {
+    "@azure-rest/batch": "next",
+    "dotenv": "latest",
+    "@azure/core-auth": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "~5.5.3",
+    "rimraf": "latest"
+  }
+}
