@@ -13,7 +13,7 @@ export interface AudioData {
   /** Audio streaming is silent.*/
   isSilent: boolean;
   /** The identified speaker based on participant raw ID. */
-  participant: CommunicationIdentifier;
+  participant: CommunicationIdentifier | undefined;
 }
 
 /**

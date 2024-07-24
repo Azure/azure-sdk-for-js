@@ -64,7 +64,10 @@ export function streamingData(
         data: jsonObject.audioData.data,
         timestamp: jsonObject.audioData.timestamp,
         isSilent: jsonObject.audioData.silent,
-        participant: createIdentifierFromRawId(jsonObject.audioData.participantRawID),
+        participant:
+          jsonObject.audioData.participantRawID !== undefined
+            ? createIdentifierFromRawId(jsonObject.audioData.participantRawID)
+            : undefined,
       };
       return audioData;
     }
