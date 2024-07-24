@@ -356,52 +356,6 @@ export const semanticQuery: OperationQueryParameter = {
   },
 };
 
-export const debug: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "debug"],
-  mapper: {
-    serializedName: "debug",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const queryLanguage: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "queryLanguage"],
-  mapper: {
-    serializedName: "queryLanguage",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const speller: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "speller"],
-  mapper: {
-    serializedName: "speller",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const semanticFields: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "semanticFields"],
-  mapper: {
-    serializedName: "semanticFields",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-  collectionFormat: "CSV",
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {

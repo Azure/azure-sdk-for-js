@@ -14,7 +14,7 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
   VectorSearchAlgorithmConfiguration,
-  VectorSearchCompressionConfiguration,
+  VectorSearchCompression,
   VectorSearchVectorizer,
 } from "../../../src";
 import { Hotel } from "./interfaces";
@@ -32,16 +32,16 @@ export async function createIndex(
   const vectorizers: VectorSearchVectorizer[] = [
     {
       kind: "azureOpenAI",
-      name: "vector-search-vectorizer",
-      azureOpenAIParameters: {
+      vectorizerName: "vector-search-vectorizer",
+      parameters: {
         deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
-        resourceUri: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
+        resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
         modelName: "text-embedding-ada-002",
       },
     },
   ];
-  await Promise.all(vectorizers.map(renameUniquelyInPlace));
-  const [azureOpenAiVectorizerName] = vectorizers.map((v) => v.name);
+  await Promise.all(vectorizers.map(renameUniquelyInPlace("vectorizerName")));
+  const [azureOpenAiVectorizerName] = vectorizers.map((v) => v.vectorizerName);
 
   const algorithmConfigurations: VectorSearchAlgorithmConfiguration[] = [
     {
@@ -55,21 +55,21 @@ export async function createIndex(
       parameters: { metric: "euclidean" },
     },
   ];
-  await Promise.all(algorithmConfigurations.map(renameUniquelyInPlace));
+  await Promise.all(algorithmConfigurations.map(renameUniquelyInPlace("name")));
   const [hnswAlgorithmConfigurationName, exhaustiveKnnAlgorithmConfigurationName] =
     algorithmConfigurations.map((c) => c.name);
 
-  const compressionConfigurations: VectorSearchCompressionConfiguration[] = [
+  const compressionConfigurations: VectorSearchCompression[] = [
     {
-      name: "vector-search-compression-configuration",
+      compressionName: "vector-search-compression-configuration",
       kind: "scalarQuantization",
       parameters: { quantizedDataType: "int8" },
       rerankWithOriginalVectors: true,
     },
   ];
-  await Promise.all(compressionConfigurations.map(renameUniquelyInPlace));
+  await Promise.all(compressionConfigurations.map(renameUniquelyInPlace("compressionName")));
   const [scalarQuantizationCompressionConfigurationName] = compressionConfigurations.map(
-    (c) => c.name,
+    (c) => c.compressionName,
   );
 
   const vectorSearchProfiles = [
@@ -87,7 +87,7 @@ export async function createIndex(
         : undefined,
     },
   ];
-  await Promise.all(vectorSearchProfiles.map(renameUniquelyInPlace));
+  await Promise.all(vectorSearchProfiles.map(renameUniquelyInPlace("name")));
   const [azureOpenAiVectorSearchProfileName, azureOpenAiCompressedVectorSearchProfileName] =
     vectorSearchProfiles.map((p) => p.name);
 
@@ -768,8 +768,12 @@ export function createRandomIndexName(): string {
   return `hotel-live-test-${Math.floor(Math.random() * 100000) + 1000000}`;
 }
 
-async function renameUniquelyInPlace(obj: { name: string }): Promise<void> {
-  const hash = await computeSha256Hash(JSON.stringify(obj), "hex");
-  const name = [obj.name, hash.toLowerCase()].join("-");
-  obj.name = name;
+function renameUniquelyInPlace<T extends string>(
+  prop: T,
+): (obj: Record<typeof prop, string>) => Promise<void> {
+  return async (obj) => {
+    const hash = await computeSha256Hash(JSON.stringify(obj), "hex");
+    const name = [obj[prop], hash.toLowerCase()].join("-");
+    obj[prop] = name;
+  };
 }

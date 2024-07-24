@@ -6,7 +6,7 @@
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { bearerTokenAuthenticationPolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { decode, encode } from "./base64";
 import {
   AutocompleteRequest,
@@ -19,7 +19,6 @@ import {
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./generated/data/models";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { SemanticErrorReason, SemanticSearchResultsType } from "./generatedStringLiteralUnions";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   AutocompleteOptions,
@@ -41,6 +40,8 @@ import {
   SearchResult,
   SelectArray,
   SelectFields,
+  SemanticErrorReason,
+  SemanticSearchResultsType,
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
@@ -115,11 +116,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private readonly client: GeneratedClient;
 
   /**
-   * A reference to the internal HTTP pipeline for use with raw requests
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
    * Creates an instance of SearchClient.
    *
    * Example usage:
@@ -192,7 +188,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       this.serviceVersion,
       internalClientPipelineOptions,
     );
-    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
@@ -322,19 +317,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       select,
       vectorSearchOptions,
       semanticSearchOptions,
-      hybridSearch,
       ...restOptions
     } = options as typeof options & { queryType: "semantic" };
 
-    const {
-      semanticFields,
-      configurationName,
-      errorMode,
-      answers,
-      captions,
-      debugMode,
-      ...restSemanticOptions
-    } = semanticSearchOptions ?? {};
+    const { configurationName, errorMode, answers, captions, ...restSemanticOptions } =
+      semanticSearchOptions ?? {};
     const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
 
     const fullOptions: GeneratedSearchRequest = {
@@ -343,7 +330,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       ...restOptions,
       ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields),
-      semanticFields: this.convertSemanticFields(semanticFields),
       select: this.convertSelect<TFields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
       includeTotalResultCount: includeTotalCount,
@@ -352,9 +338,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       captions: this.convertQueryCaptions(captions),
       semanticErrorHandling: errorMode,
       semanticConfigurationName: configurationName,
-      debug: debugMode,
       vectorFilterMode: filterMode,
-      hybridSearch: hybridSearch,
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
@@ -871,13 +855,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       return searchFields.join(",");
     }
     return searchFields;
-  }
-
-  private convertSemanticFields(semanticFields?: string[]): string | undefined {
-    if (semanticFields) {
-      return semanticFields.join(",");
-    }
-    return semanticFields;
   }
 
   private convertOrderBy(orderBy?: string[]): string | undefined {

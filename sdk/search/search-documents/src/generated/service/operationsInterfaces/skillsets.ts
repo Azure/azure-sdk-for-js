@@ -17,8 +17,6 @@ import {
   SkillsetsListResponse,
   SkillsetsCreateOptionalParams,
   SkillsetsCreateResponse,
-  SkillNames,
-  SkillsetsResetSkillsOptionalParams,
 } from "../models";
 
 /** Interface representing a Skillsets. */
@@ -66,15 +64,4 @@ export interface Skillsets {
     skillset: SearchIndexerSkillset,
     options?: SkillsetsCreateOptionalParams,
   ): Promise<SkillsetsCreateResponse>;
-  /**
-   * Reset an existing skillset in a search service.
-   * @param skillsetName The name of the skillset to reset.
-   * @param skillNames The names of skills to reset.
-   * @param options The options parameters.
-   */
-  resetSkills(
-    skillsetName: string,
-    skillNames: SkillNames,
-    options?: SkillsetsResetSkillsOptionalParams,
-  ): Promise<void>;
 }

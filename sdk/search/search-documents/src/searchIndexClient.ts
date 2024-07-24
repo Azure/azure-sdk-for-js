@@ -6,7 +6,7 @@
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { bearerTokenAuthenticationPolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -15,29 +15,22 @@ import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPoli
 import { KnownSearchAudience } from "./searchAudience";
 import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
 import {
-  AliasIterator,
   AnalyzeTextOptions,
-  CreateAliasOptions,
   CreateIndexOptions,
-  CreateOrUpdateAliasOptions,
   CreateOrUpdateIndexOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
-  DeleteAliasOptions,
   DeleteIndexOptions,
   DeleteSynonymMapOptions,
-  GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
-  ListAliasesOptions,
   ListIndexesOptions,
   ListSynonymMapsOptions,
   SearchIndex,
-  SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
   SynonymMap,
@@ -95,11 +88,6 @@ export class SearchIndexClient {
    * A reference to the auto-generated SearchServiceClient
    */
   private readonly client: GeneratedClient;
-
-  /**
-   * A reference to the internal HTTP pipeline for use with raw requests
-   */
-  public readonly pipeline: Pipeline;
 
   /**
    * Used to authenticate requests to the service.
@@ -162,7 +150,6 @@ export class SearchIndexClient {
       this.serviceVersion,
       internalClientPipelineOptions,
     );
-    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = this.options.audience
@@ -222,52 +209,6 @@ export class SearchIndexClient {
       },
       byPage: () => {
         return this.listIndexesPage(options);
-      },
-    };
-  }
-
-  private async *listAliasesPage(
-    options: ListAliasesOptions = {},
-  ): AsyncIterableIterator<SearchIndexAlias[]> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-listAliases", options);
-    try {
-      const result = await this.client.aliases.list(updatedOptions);
-      yield result.aliases;
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private async *listAliasesAll(
-    options: ListAliasesOptions = {},
-  ): AsyncIterableIterator<SearchIndexAlias> {
-    for await (const page of this.listAliasesPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists all aliases available for a search service.
-   * @param options - The options parameters.
-   */
-  public listAliases(options: ListAliasesOptions = {}): AliasIterator {
-    const iter = this.listAliasesAll(options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAliasesPage(options);
       },
     };
   }
@@ -586,114 +527,6 @@ export class SearchIndexClient {
         ...updatedOptions,
         ifMatch: etag,
       });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Creates a new search alias or updates an alias if it already exists.
-   * @param alias - The definition of the alias to create or update.
-   * @param options - The options parameters.
-   */
-  public async createOrUpdateAlias(
-    alias: SearchIndexAlias,
-    options: CreateOrUpdateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateAlias", options);
-    try {
-      const etag = options.onlyIfUnchanged ? alias.etag : undefined;
-
-      const result = await this.client.aliases.createOrUpdate(alias.name, alias, {
-        ...updatedOptions,
-        ifMatch: etag,
-      });
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Creates a new search alias.
-   * @param alias - The definition of the alias to create.
-   * @param options - The options parameters.
-   */
-  public async createAlias(
-    alias: SearchIndexAlias,
-    options: CreateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-createAlias", options);
-    try {
-      const result = await this.client.aliases.create(alias, updatedOptions);
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
-   * recovery option. The mapped index is untouched by this operation.
-   * @param alias - Alias/Name name of the alias to delete.
-   * @param options - The options parameters.
-   */
-  public async deleteAlias(
-    alias: string | SearchIndexAlias,
-    options: DeleteAliasOptions = {},
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteAlias", options);
-    try {
-      const aliasName: string = typeof alias === "string" ? alias : alias.name;
-      const etag =
-        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
-
-      await this.client.aliases.delete(aliasName, {
-        ...updatedOptions,
-        ifMatch: etag,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Retrieves an alias definition.
-   * @param aliasName - The name of the alias to retrieve.
-   * @param options - The options parameters.
-   */
-  public async getAlias(
-    aliasName: string,
-    options: GetAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-getAlias", options);
-    try {
-      const result = await this.client.aliases.get(aliasName, updatedOptions);
-      return result;
     } catch (e: any) {
       span.setStatus({
         status: "error",

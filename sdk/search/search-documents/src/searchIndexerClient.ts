@@ -4,7 +4,7 @@
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { bearerTokenAuthenticationPolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -28,9 +28,7 @@ import {
   ListDataSourceConnectionsOptions,
   ListIndexersOptions,
   ListSkillsetsOptions,
-  ResetDocumentsOptions,
   ResetIndexerOptions,
-  ResetSkillsOptions,
   RunIndexerOptions,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
@@ -91,11 +89,6 @@ export class SearchIndexerClient {
   private readonly client: GeneratedClient;
 
   /**
-   * A reference to the internal HTTP pipeline for use with raw requests
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
    * Creates an instance of SearchIndexerClient.
    *
    * Example usage:
@@ -144,7 +137,6 @@ export class SearchIndexerClient {
       this.serviceVersion,
       internalClientPipelineOptions,
     );
-    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
@@ -731,60 +723,6 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-runIndexer", options);
     try {
       await this.client.indexers.run(indexerName, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
-   * @param indexerName - The name of the indexer to reset documents for.
-   * @param options - Additional optional arguments.
-   */
-  public async resetDocuments(
-    indexerName: string,
-    options: ResetDocumentsOptions = {},
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetDocs", options);
-    try {
-      await this.client.indexers.resetDocs(indexerName, {
-        ...updatedOptions,
-        keysOrIds: {
-          documentKeys: updatedOptions.documentKeys,
-          datasourceDocumentIds: updatedOptions.datasourceDocumentIds,
-        },
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Reset an existing skillset in a search service.
-   * @param skillsetName - The name of the skillset to reset.
-   * @param skillNames - The names of skills to reset.
-   * @param options - The options parameters.
-   */
-  public async resetSkills(skillsetName: string, options: ResetSkillsOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetSkills", options);
-    try {
-      await this.client.skillsets.resetSkills(
-        skillsetName,
-        { skillNames: options.skillNames },
-        updatedOptions,
-      );
     } catch (e: any) {
       span.setStatus({
         status: "error",

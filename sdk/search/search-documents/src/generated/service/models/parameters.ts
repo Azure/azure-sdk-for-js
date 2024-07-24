@@ -13,14 +13,11 @@ import {
 } from "@azure/core-client";
 import {
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
-  DocumentKeysOrIds as DocumentKeysOrIdsMapper,
   SearchIndexer as SearchIndexerMapper,
   SearchIndexerSkillset as SearchIndexerSkillsetMapper,
-  SkillNames as SkillNamesMapper,
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
   AnalyzeRequest as AnalyzeRequestMapper,
-  SearchAlias as SearchAliasMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -118,16 +115,6 @@ export const apiVersion: OperationQueryParameter = {
   },
 };
 
-export const skipIndexerResetRequirementForCache: OperationQueryParameter = {
-  parameterPath: ["options", "skipIndexerResetRequirementForCache"],
-  mapper: {
-    serializedName: "ignoreResetRequirements",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
 export const select: OperationQueryParameter = {
   parameterPath: ["options", "select"],
   mapper: {
@@ -149,37 +136,10 @@ export const indexerName: OperationURLParameter = {
   },
 };
 
-export const keysOrIds: OperationParameter = {
-  parameterPath: ["options", "keysOrIds"],
-  mapper: DocumentKeysOrIdsMapper,
-};
-
-export const overwrite: OperationQueryParameter = {
-  parameterPath: ["options", "overwrite"],
-  mapper: {
-    defaultValue: false,
-    serializedName: "overwrite",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
 export const indexer: OperationParameter = {
   parameterPath: "indexer",
   mapper: SearchIndexerMapper,
 };
-
-export const disableCacheReprocessingChangeDetection: OperationQueryParameter =
-  {
-    parameterPath: ["options", "disableCacheReprocessingChangeDetection"],
-    mapper: {
-      serializedName: "disableCacheReprocessingChangeDetection",
-      type: {
-        name: "Boolean",
-      },
-    },
-  };
 
 export const skillset: OperationParameter = {
   parameterPath: "skillset",
@@ -195,11 +155,6 @@ export const skillsetName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const skillNames: OperationParameter = {
-  parameterPath: "skillNames",
-  mapper: SkillNamesMapper,
 };
 
 export const synonymMap: OperationParameter = {
@@ -247,20 +202,4 @@ export const allowIndexDowntime: OperationQueryParameter = {
 export const request: OperationParameter = {
   parameterPath: "request",
   mapper: AnalyzeRequestMapper,
-};
-
-export const alias: OperationParameter = {
-  parameterPath: "alias",
-  mapper: SearchAliasMapper,
-};
-
-export const aliasName: OperationURLParameter = {
-  parameterPath: "aliasName",
-  mapper: {
-    serializedName: "aliasName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };

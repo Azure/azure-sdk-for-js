@@ -22,8 +22,6 @@ import {
   SkillsetsListResponse,
   SkillsetsCreateOptionalParams,
   SkillsetsCreateResponse,
-  SkillNames,
-  SkillsetsResetSkillsOptionalParams,
 } from "../models";
 
 /** Class containing Skillsets operations. */
@@ -107,23 +105,6 @@ export class SkillsetsImpl implements Skillsets {
       createOperationSpec,
     );
   }
-
-  /**
-   * Reset an existing skillset in a search service.
-   * @param skillsetName The name of the skillset to reset.
-   * @param skillNames The names of skills to reset.
-   * @param options The options parameters.
-   */
-  resetSkills(
-    skillsetName: string,
-    skillNames: SkillNames,
-    options?: SkillsetsResetSkillsOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { skillsetName, skillNames, options },
-      resetSkillsOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -143,11 +124,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.skillset,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipIndexerResetRequirementForCache,
-    Parameters.disableCacheReprocessingChangeDetection,
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.skillsetName],
   headerParameters: [
     Parameters.contentType,
@@ -224,22 +201,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.skillset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const resetSkillsOperationSpec: coreClient.OperationSpec = {
-  path: "/skillsets('{skillsetName}')/search.resetskills",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.skillNames,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.skillsetName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,

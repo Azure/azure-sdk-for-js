@@ -159,20 +159,6 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
           className: "SearchRequest",
         },
       },
-      semanticPartialResponseReason: {
-        serializedName: "@search\\.semanticPartialResponseReason",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      semanticPartialResponseType: {
-        serializedName: "@search\\.semanticPartialResponseType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       results: {
         serializedName: "value",
         required: true,
@@ -189,6 +175,20 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "@odata\\.nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      semanticPartialResponseReason: {
+        serializedName: "@search\\.semanticPartialResponseReason",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      semanticPartialResponseType: {
+        serializedName: "@search\\.semanticPartialResponseType",
         readOnly: true,
         type: {
           name: "String",
@@ -352,10 +352,41 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      semanticQuery: {
-        serializedName: "semanticQuery",
+      searchText: {
+        serializedName: "search",
         type: {
           name: "String",
+        },
+      },
+      searchFields: {
+        serializedName: "searchFields",
+        type: {
+          name: "String",
+        },
+      },
+      searchMode: {
+        serializedName: "searchMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["any", "all"],
+        },
+      },
+      select: {
+        serializedName: "select",
+        type: {
+          name: "String",
+        },
+      },
+      skip: {
+        serializedName: "skip",
+        type: {
+          name: "Number",
+        },
+      },
+      top: {
+        serializedName: "top",
+        type: {
+          name: "Number",
         },
       },
       semanticConfigurationName: {
@@ -380,39 +411,8 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
-      debug: {
-        serializedName: "debug",
-        type: {
-          name: "String",
-        },
-      },
-      searchText: {
-        serializedName: "search",
-        type: {
-          name: "String",
-        },
-      },
-      searchFields: {
-        serializedName: "searchFields",
-        type: {
-          name: "String",
-        },
-      },
-      searchMode: {
-        serializedName: "searchMode",
-        type: {
-          name: "Enum",
-          allowedValues: ["any", "all"],
-        },
-      },
-      queryLanguage: {
-        serializedName: "queryLanguage",
-        type: {
-          name: "String",
-        },
-      },
-      speller: {
-        serializedName: "speller",
+      semanticQuery: {
+        serializedName: "semanticQuery",
         type: {
           name: "String",
         },
@@ -423,32 +423,8 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      select: {
-        serializedName: "select",
-        type: {
-          name: "String",
-        },
-      },
-      skip: {
-        serializedName: "skip",
-        type: {
-          name: "Number",
-        },
-      },
-      top: {
-        serializedName: "top",
-        type: {
-          name: "Number",
-        },
-      },
       captions: {
         serializedName: "captions",
-        type: {
-          name: "String",
-        },
-      },
-      semanticFields: {
-        serializedName: "semanticFields",
         type: {
           name: "String",
         },
@@ -469,13 +445,6 @@ export const SearchRequest: coreClient.CompositeMapper = {
         serializedName: "vectorFilterMode",
         type: {
           name: "String",
-        },
-      },
-      hybridSearch: {
-        serializedName: "hybridSearch",
-        type: {
-          name: "Composite",
-          className: "HybridSearch",
         },
       },
     },
@@ -529,55 +498,6 @@ export const VectorQuery: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
-      threshold: {
-        serializedName: "threshold",
-        type: {
-          name: "Composite",
-          className: "VectorThreshold",
-        },
-      },
-    },
-  },
-};
-
-export const VectorThreshold: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VectorThreshold",
-    uberParent: "VectorThreshold",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind",
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const HybridSearch: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HybridSearch",
-    modelProperties: {
-      maxTextRecallSize: {
-        serializedName: "maxTextRecallSize",
-        type: {
-          name: "Number",
-        },
-      },
-      countAndFacetMode: {
-        serializedName: "countAndFacetMode",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -628,20 +548,6 @@ export const SearchResult: coreClient.CompositeMapper = {
           },
         },
       },
-      documentDebugInfo: {
-        serializedName: "@search\\.documentDebugInfo",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentDebugInfo",
-            },
-          },
-        },
-      },
     },
   },
 };
@@ -663,124 +569,6 @@ export const QueryCaptionResult: coreClient.CompositeMapper = {
         serializedName: "highlights",
         readOnly: true,
         nullable: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const DocumentDebugInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentDebugInfo",
-    modelProperties: {
-      semantic: {
-        serializedName: "semantic",
-        type: {
-          name: "Composite",
-          className: "SemanticDebugInfo",
-        },
-      },
-    },
-  },
-};
-
-export const SemanticDebugInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SemanticDebugInfo",
-    modelProperties: {
-      titleField: {
-        serializedName: "titleField",
-        type: {
-          name: "Composite",
-          className: "QueryResultDocumentSemanticField",
-        },
-      },
-      contentFields: {
-        serializedName: "contentFields",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QueryResultDocumentSemanticField",
-            },
-          },
-        },
-      },
-      keywordFields: {
-        serializedName: "keywordFields",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QueryResultDocumentSemanticField",
-            },
-          },
-        },
-      },
-      rerankerInput: {
-        serializedName: "rerankerInput",
-        type: {
-          name: "Composite",
-          className: "QueryResultDocumentRerankerInput",
-        },
-      },
-    },
-  },
-};
-
-export const QueryResultDocumentSemanticField: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QueryResultDocumentSemanticField",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const QueryResultDocumentRerankerInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QueryResultDocumentRerankerInput",
-    modelProperties: {
-      title: {
-        serializedName: "title",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      content: {
-        serializedName: "content",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      keywords: {
-        serializedName: "keywords",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -1189,91 +977,8 @@ export const VectorizableTextQuery: coreClient.CompositeMapper = {
   },
 };
 
-export const VectorizableImageUrlQuery: coreClient.CompositeMapper = {
-  serializedName: "imageUrl",
-  type: {
-    name: "Composite",
-    className: "VectorizableImageUrlQuery",
-    uberParent: "VectorQuery",
-    polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...VectorQuery.type.modelProperties,
-      url: {
-        serializedName: "url",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const VectorizableImageBinaryQuery: coreClient.CompositeMapper = {
-  serializedName: "imageBinary",
-  type: {
-    name: "Composite",
-    className: "VectorizableImageBinaryQuery",
-    uberParent: "VectorQuery",
-    polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...VectorQuery.type.modelProperties,
-      base64Image: {
-        serializedName: "base64Image",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const VectorSimilarityThreshold: coreClient.CompositeMapper = {
-  serializedName: "vectorSimilarity",
-  type: {
-    name: "Composite",
-    className: "VectorSimilarityThreshold",
-    uberParent: "VectorThreshold",
-    polymorphicDiscriminator: VectorThreshold.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...VectorThreshold.type.modelProperties,
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
-export const SearchScoreThreshold: coreClient.CompositeMapper = {
-  serializedName: "searchScore",
-  type: {
-    name: "Composite",
-    className: "SearchScoreThreshold",
-    uberParent: "VectorThreshold",
-    polymorphicDiscriminator: VectorThreshold.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...VectorThreshold.type.modelProperties,
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
 export let discriminators = {
   VectorQuery: VectorQuery,
-  VectorThreshold: VectorThreshold,
   "VectorQuery.vector": VectorizedQuery,
   "VectorQuery.text": VectorizableTextQuery,
-  "VectorQuery.imageUrl": VectorizableImageUrlQuery,
-  "VectorQuery.imageBinary": VectorizableImageBinaryQuery,
-  "VectorThreshold.vectorSimilarity": VectorSimilarityThreshold,
-  "VectorThreshold.searchScore": SearchScoreThreshold,
 };

@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/5a1fe448805429403c38a2637ee32c82ba755530/specification/search/data-plane/Azure.Search/preview/2024-05-01-preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/dc27f9b32787533cd4d07fe0de5245f2f8354dbe/specification/search/data-plane/Azure.Search/stable/2024-07-01/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.22"
+  "@autorest/typescript": "6.0.23"
 core-http-compat-mode: true
-package-version: 12.1.0-beta.2
+package-version: 12.1.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -79,7 +79,7 @@ modelerfour:
       Text: $DO_NOT_NORMALIZE$_text
 ```
 
-### Preserve underscore prefix in some result type properties
+### Change score to \_score & highlights to \_highlights in result types
 
 ```yaml
 modelerfour:

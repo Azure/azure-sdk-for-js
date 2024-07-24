@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.1.0-beta.2",
+  "version": "12.1.0",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -130,7 +130,8 @@
     "sinon": "^17.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.3.3",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "type-plus": "^7.6.2"
   },
   "//sampleConfiguration": {
     "productName": "Azure Search Documents",
