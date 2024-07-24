@@ -80,7 +80,7 @@ export class RestError extends Error {
     // properties are marked as non-enumerable here. This prevents them showing up in the output of
     // JSON.stringify and console.log.
     Object.defineProperty(this, "request", { value: options.request, enumerable: false });
-    Object.defineProperty(this, "response", { value: options.response, enumerable: false });  
+    Object.defineProperty(this, "response", { value: options.response, enumerable: false });
 
     Object.setPrototypeOf(this, RestError.prototype);
   }
