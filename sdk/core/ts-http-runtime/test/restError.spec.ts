@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { describe, it, assert } from "vitest";
 import { PipelineRequest, PipelineResponse } from "../src/interfaces.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
