@@ -162,33 +162,33 @@ export async function _createOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  result = result as FirewallRulesCreateOrUpdateLogicalResponse;
+  const res = result as unknown as FirewallRulesCreateOrUpdateLogicalResponse;
   return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
+    id: res.body["id"],
+    name: res.body["name"],
+    type: res.body["type"],
+    systemData: !res.body.systemData
       ? undefined
       : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdBy: res.body.systemData?.["createdBy"],
+          createdByType: res.body.systemData?.["createdByType"],
           createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
+            res.body.systemData?.["createdAt"] !== undefined
+              ? new Date(res.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
+            res.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(res.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !result.body.properties
+    properties: !res.body.properties
       ? undefined
       : {
-          provisioningState: result.body.properties?.["provisioningState"],
-          startIpAddress: result.body.properties?.["startIpAddress"],
-          endIpAddress: result.body.properties?.["endIpAddress"],
+          provisioningState: res.body.properties?.["provisioningState"],
+          startIpAddress: res.body.properties?.["startIpAddress"],
+          endIpAddress: res.body.properties?.["endIpAddress"],
         },
   };
 }
@@ -254,7 +254,6 @@ export async function _$deleteDeserialize(
     throw createRestError(result);
   }
 
-  result = result as FirewallRulesDeleteLogicalResponse;
   return;
 }
 
@@ -319,34 +318,36 @@ export async function _listByMongoClusterDeserialize(
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      id: p["id"],
-      name: p["name"],
-      type: p["type"],
-      systemData: !p.systemData
-        ? undefined
-        : {
-            createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
-            createdAt:
-              p.systemData?.["createdAt"] !== undefined
-                ? new Date(p.systemData?.["createdAt"])
-                : undefined,
-            lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
-            lastModifiedAt:
-              p.systemData?.["lastModifiedAt"] !== undefined
-                ? new Date(p.systemData?.["lastModifiedAt"])
-                : undefined,
-          },
-      properties: !p.properties
-        ? undefined
-        : {
-            provisioningState: p.properties?.["provisioningState"],
-            startIpAddress: p.properties?.["startIpAddress"],
-            endIpAddress: p.properties?.["endIpAddress"],
-          },
-    })),
+    value: result.body["value"].map((p) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              provisioningState: p.properties?.["provisioningState"],
+              startIpAddress: p.properties?.["startIpAddress"],
+              endIpAddress: p.properties?.["endIpAddress"],
+            },
+      };
+    }),
     nextLink: result.body["nextLink"],
   };
 }

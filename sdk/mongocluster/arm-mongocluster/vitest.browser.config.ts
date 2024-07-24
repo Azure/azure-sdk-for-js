@@ -10,6 +10,9 @@ export default defineConfig({
   define: {
     "process.env": process.env,
   },
+  optimizeDeps: {
+    include: ["@azure/core-lro"],
+  },
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
@@ -32,6 +35,6 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage-browser",
     },
-    testTimeout: 2400000,
+    testTimeout: 1200000,
   },
 });

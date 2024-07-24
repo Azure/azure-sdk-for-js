@@ -7,7 +7,8 @@ import { DocumentDBContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
 
 /** Optional parameters for the client. */
-export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
+export interface MongoClusterManagementClientOptionalParams
+  extends ClientOptions {
   /** The API version to use for this operation. */
   apiVersion?: string;
 }

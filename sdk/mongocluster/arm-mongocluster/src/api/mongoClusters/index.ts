@@ -140,63 +140,67 @@ export async function _getDeserialize(
           nodeGroupSpecs:
             result.body.properties?.["nodeGroupSpecs"] === undefined
               ? result.body.properties?.["nodeGroupSpecs"]
-              : result.body.properties?.["nodeGroupSpecs"].map((p) => ({
-                  sku: p["sku"],
-                  diskSizeGB: p["diskSizeGB"],
-                  enableHa: p["enableHa"],
-                  kind: p["kind"],
-                  nodeCount: p["nodeCount"],
-                })),
+              : result.body.properties?.["nodeGroupSpecs"].map((p) => {
+                  return {
+                    sku: p["sku"],
+                    diskSizeGB: p["diskSizeGB"],
+                    enableHa: p["enableHa"],
+                    kind: p["kind"],
+                    nodeCount: p["nodeCount"],
+                  };
+                }),
           privateEndpointConnections:
             result.body.properties?.["privateEndpointConnections"] === undefined
               ? result.body.properties?.["privateEndpointConnections"]
               : result.body.properties?.["privateEndpointConnections"].map(
-                  (p) => ({
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "description"
-                              ],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "actionsRequired"
-                              ],
+                  (p) => {
+                    return {
+                      id: p["id"],
+                      name: p["name"],
+                      type: p["type"],
+                      systemData: !p.systemData
+                        ? undefined
+                        : {
+                            createdBy: p.systemData?.["createdBy"],
+                            createdByType: p.systemData?.["createdByType"],
+                            createdAt:
+                              p.systemData?.["createdAt"] !== undefined
+                                ? new Date(p.systemData?.["createdAt"])
+                                : undefined,
+                            lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                            lastModifiedByType:
+                              p.systemData?.["lastModifiedByType"],
+                            lastModifiedAt:
+                              p.systemData?.["lastModifiedAt"] !== undefined
+                                ? new Date(p.systemData?.["lastModifiedAt"])
+                                : undefined,
                           },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
-                        },
-                  }),
+                      properties: !p.properties
+                        ? undefined
+                        : {
+                            groupIds: p.properties?.["groupIds"],
+                            privateEndpoint: !p.properties?.privateEndpoint
+                              ? undefined
+                              : { id: p.properties?.privateEndpoint?.["id"] },
+                            privateLinkServiceConnectionState: {
+                              status:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "status"
+                                ],
+                              description:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "description"
+                                ],
+                              actionsRequired:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "actionsRequired"
+                                ],
+                            },
+                            provisioningState:
+                              p.properties?.["provisioningState"],
+                          },
+                    };
+                  },
                 ),
         },
   };
@@ -265,75 +269,74 @@ export async function _createOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  result = result as MongoClustersCreateOrUpdateLogicalResponse;
+  const res = result as unknown as MongoClustersCreateOrUpdateLogicalResponse;
   return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
+    tags: res.body["tags"],
+    location: res.body["location"],
+    id: res.body["id"],
+    name: res.body["name"],
+    type: res.body["type"],
+    systemData: !res.body.systemData
       ? undefined
       : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdBy: res.body.systemData?.["createdBy"],
+          createdByType: res.body.systemData?.["createdByType"],
           createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
+            res.body.systemData?.["createdAt"] !== undefined
+              ? new Date(res.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
+            res.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(res.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !result.body.properties
+    properties: !res.body.properties
       ? undefined
       : {
-          createMode: result.body.properties?.["createMode"],
-          restoreParameters: !result.body.properties?.restoreParameters
+          createMode: res.body.properties?.["createMode"],
+          restoreParameters: !res.body.properties?.restoreParameters
             ? undefined
             : {
                 pointInTimeUTC:
-                  result.body.properties?.restoreParameters?.[
-                    "pointInTimeUTC"
-                  ] !== undefined
+                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                  undefined
                     ? new Date(
-                        result.body.properties?.restoreParameters?.[
+                        res.body.properties?.restoreParameters?.[
                           "pointInTimeUTC"
                         ],
                       )
                     : undefined,
                 sourceResourceId:
-                  result.body.properties?.restoreParameters?.[
-                    "sourceResourceId"
-                  ],
+                  res.body.properties?.restoreParameters?.["sourceResourceId"],
               },
-          administratorLogin: result.body.properties?.["administratorLogin"],
+          administratorLogin: res.body.properties?.["administratorLogin"],
           administratorLoginPassword:
-            result.body.properties?.["administratorLoginPassword"],
-          serverVersion: result.body.properties?.["serverVersion"],
-          connectionString: result.body.properties?.["connectionString"],
-          earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          clusterStatus: result.body.properties?.["clusterStatus"],
-          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
+            res.body.properties?.["administratorLoginPassword"],
+          serverVersion: res.body.properties?.["serverVersion"],
+          connectionString: res.body.properties?.["connectionString"],
+          earliestRestoreTime: res.body.properties?.["earliestRestoreTime"],
+          provisioningState: res.body.properties?.["provisioningState"],
+          clusterStatus: res.body.properties?.["clusterStatus"],
+          publicNetworkAccess: res.body.properties?.["publicNetworkAccess"],
           nodeGroupSpecs:
-            result.body.properties?.["nodeGroupSpecs"] === undefined
-              ? result.body.properties?.["nodeGroupSpecs"]
-              : result.body.properties?.["nodeGroupSpecs"].map((p) => ({
-                  sku: p["sku"],
-                  diskSizeGB: p["diskSizeGB"],
-                  enableHa: p["enableHa"],
-                  kind: p["kind"],
-                  nodeCount: p["nodeCount"],
-                })),
+            res.body.properties?.["nodeGroupSpecs"] === undefined
+              ? res.body.properties?.["nodeGroupSpecs"]
+              : res.body.properties?.["nodeGroupSpecs"].map((p) => {
+                  return {
+                    sku: p["sku"],
+                    diskSizeGB: p["diskSizeGB"],
+                    enableHa: p["enableHa"],
+                    kind: p["kind"],
+                    nodeCount: p["nodeCount"],
+                  };
+                }),
           privateEndpointConnections:
-            result.body.properties?.["privateEndpointConnections"] === undefined
-              ? result.body.properties?.["privateEndpointConnections"]
-              : result.body.properties?.["privateEndpointConnections"].map(
-                  (p) => ({
+            res.body.properties?.["privateEndpointConnections"] === undefined
+              ? res.body.properties?.["privateEndpointConnections"]
+              : res.body.properties?.["privateEndpointConnections"].map((p) => {
+                  return {
                     id: p["id"],
                     name: p["name"],
                     type: p["type"],
@@ -378,8 +381,8 @@ export async function _createOrUpdateDeserialize(
                           provisioningState:
                             p.properties?.["provisioningState"],
                         },
-                  }),
-                ),
+                  };
+                }),
         },
   };
 }
@@ -452,75 +455,74 @@ export async function _updateDeserialize(
     throw createRestError(result);
   }
 
-  result = result as MongoClustersUpdateLogicalResponse;
+  const res = result as unknown as MongoClustersUpdateLogicalResponse;
   return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
+    tags: res.body["tags"],
+    location: res.body["location"],
+    id: res.body["id"],
+    name: res.body["name"],
+    type: res.body["type"],
+    systemData: !res.body.systemData
       ? undefined
       : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdBy: res.body.systemData?.["createdBy"],
+          createdByType: res.body.systemData?.["createdByType"],
           createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
+            res.body.systemData?.["createdAt"] !== undefined
+              ? new Date(res.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
+            res.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(res.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !result.body.properties
+    properties: !res.body.properties
       ? undefined
       : {
-          createMode: result.body.properties?.["createMode"],
-          restoreParameters: !result.body.properties?.restoreParameters
+          createMode: res.body.properties?.["createMode"],
+          restoreParameters: !res.body.properties?.restoreParameters
             ? undefined
             : {
                 pointInTimeUTC:
-                  result.body.properties?.restoreParameters?.[
-                    "pointInTimeUTC"
-                  ] !== undefined
+                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                  undefined
                     ? new Date(
-                        result.body.properties?.restoreParameters?.[
+                        res.body.properties?.restoreParameters?.[
                           "pointInTimeUTC"
                         ],
                       )
                     : undefined,
                 sourceResourceId:
-                  result.body.properties?.restoreParameters?.[
-                    "sourceResourceId"
-                  ],
+                  res.body.properties?.restoreParameters?.["sourceResourceId"],
               },
-          administratorLogin: result.body.properties?.["administratorLogin"],
+          administratorLogin: res.body.properties?.["administratorLogin"],
           administratorLoginPassword:
-            result.body.properties?.["administratorLoginPassword"],
-          serverVersion: result.body.properties?.["serverVersion"],
-          connectionString: result.body.properties?.["connectionString"],
-          earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          clusterStatus: result.body.properties?.["clusterStatus"],
-          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
+            res.body.properties?.["administratorLoginPassword"],
+          serverVersion: res.body.properties?.["serverVersion"],
+          connectionString: res.body.properties?.["connectionString"],
+          earliestRestoreTime: res.body.properties?.["earliestRestoreTime"],
+          provisioningState: res.body.properties?.["provisioningState"],
+          clusterStatus: res.body.properties?.["clusterStatus"],
+          publicNetworkAccess: res.body.properties?.["publicNetworkAccess"],
           nodeGroupSpecs:
-            result.body.properties?.["nodeGroupSpecs"] === undefined
-              ? result.body.properties?.["nodeGroupSpecs"]
-              : result.body.properties?.["nodeGroupSpecs"].map((p) => ({
-                  sku: p["sku"],
-                  diskSizeGB: p["diskSizeGB"],
-                  enableHa: p["enableHa"],
-                  kind: p["kind"],
-                  nodeCount: p["nodeCount"],
-                })),
+            res.body.properties?.["nodeGroupSpecs"] === undefined
+              ? res.body.properties?.["nodeGroupSpecs"]
+              : res.body.properties?.["nodeGroupSpecs"].map((p) => {
+                  return {
+                    sku: p["sku"],
+                    diskSizeGB: p["diskSizeGB"],
+                    enableHa: p["enableHa"],
+                    kind: p["kind"],
+                    nodeCount: p["nodeCount"],
+                  };
+                }),
           privateEndpointConnections:
-            result.body.properties?.["privateEndpointConnections"] === undefined
-              ? result.body.properties?.["privateEndpointConnections"]
-              : result.body.properties?.["privateEndpointConnections"].map(
-                  (p) => ({
+            res.body.properties?.["privateEndpointConnections"] === undefined
+              ? res.body.properties?.["privateEndpointConnections"]
+              : res.body.properties?.["privateEndpointConnections"].map((p) => {
+                  return {
                     id: p["id"],
                     name: p["name"],
                     type: p["type"],
@@ -565,8 +567,8 @@ export async function _updateDeserialize(
                           provisioningState:
                             p.properties?.["provisioningState"],
                         },
-                  }),
-                ),
+                  };
+                }),
         },
   };
 }
@@ -628,7 +630,6 @@ export async function _$deleteDeserialize(
     throw createRestError(result);
   }
 
-  result = result as MongoClustersDeleteLogicalResponse;
   return;
 }
 
@@ -689,115 +690,124 @@ export async function _listByResourceGroupDeserialize(
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      tags: p["tags"],
-      location: p["location"],
-      id: p["id"],
-      name: p["name"],
-      type: p["type"],
-      systemData: !p.systemData
-        ? undefined
-        : {
-            createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
-            createdAt:
-              p.systemData?.["createdAt"] !== undefined
-                ? new Date(p.systemData?.["createdAt"])
-                : undefined,
-            lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
-            lastModifiedAt:
-              p.systemData?.["lastModifiedAt"] !== undefined
-                ? new Date(p.systemData?.["lastModifiedAt"])
-                : undefined,
-          },
-      properties: !p.properties
-        ? undefined
-        : {
-            createMode: p.properties?.["createMode"],
-            restoreParameters: !p.properties?.restoreParameters
-              ? undefined
-              : {
-                  pointInTimeUTC:
-                    p.properties?.restoreParameters?.["pointInTimeUTC"] !==
-                    undefined
-                      ? new Date(
-                          p.properties?.restoreParameters?.["pointInTimeUTC"],
-                        )
-                      : undefined,
-                  sourceResourceId:
-                    p.properties?.restoreParameters?.["sourceResourceId"],
-                },
-            administratorLogin: p.properties?.["administratorLogin"],
-            administratorLoginPassword:
-              p.properties?.["administratorLoginPassword"],
-            serverVersion: p.properties?.["serverVersion"],
-            connectionString: p.properties?.["connectionString"],
-            earliestRestoreTime: p.properties?.["earliestRestoreTime"],
-            provisioningState: p.properties?.["provisioningState"],
-            clusterStatus: p.properties?.["clusterStatus"],
-            publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-            nodeGroupSpecs:
-              p.properties?.["nodeGroupSpecs"] === undefined
-                ? p.properties?.["nodeGroupSpecs"]
-                : p.properties?.["nodeGroupSpecs"].map((p) => ({
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  })),
-            privateEndpointConnections:
-              p.properties?.["privateEndpointConnections"] === undefined
-                ? p.properties?.["privateEndpointConnections"]
-                : p.properties?.["privateEndpointConnections"].map((p) => ({
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "description"
-                              ],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "actionsRequired"
-                              ],
-                          },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
-                        },
-                  })),
-          },
-    })),
+    value: result.body["value"].map((p) => {
+      return {
+        tags: p["tags"],
+        location: p["location"],
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              createMode: p.properties?.["createMode"],
+              restoreParameters: !p.properties?.restoreParameters
+                ? undefined
+                : {
+                    pointInTimeUTC:
+                      p.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                      undefined
+                        ? new Date(
+                            p.properties?.restoreParameters?.["pointInTimeUTC"],
+                          )
+                        : undefined,
+                    sourceResourceId:
+                      p.properties?.restoreParameters?.["sourceResourceId"],
+                  },
+              administratorLogin: p.properties?.["administratorLogin"],
+              administratorLoginPassword:
+                p.properties?.["administratorLoginPassword"],
+              serverVersion: p.properties?.["serverVersion"],
+              connectionString: p.properties?.["connectionString"],
+              earliestRestoreTime: p.properties?.["earliestRestoreTime"],
+              provisioningState: p.properties?.["provisioningState"],
+              clusterStatus: p.properties?.["clusterStatus"],
+              publicNetworkAccess: p.properties?.["publicNetworkAccess"],
+              nodeGroupSpecs:
+                p.properties?.["nodeGroupSpecs"] === undefined
+                  ? p.properties?.["nodeGroupSpecs"]
+                  : p.properties?.["nodeGroupSpecs"].map((p) => {
+                      return {
+                        sku: p["sku"],
+                        diskSizeGB: p["diskSizeGB"],
+                        enableHa: p["enableHa"],
+                        kind: p["kind"],
+                        nodeCount: p["nodeCount"],
+                      };
+                    }),
+              privateEndpointConnections:
+                p.properties?.["privateEndpointConnections"] === undefined
+                  ? p.properties?.["privateEndpointConnections"]
+                  : p.properties?.["privateEndpointConnections"].map((p) => {
+                      return {
+                        id: p["id"],
+                        name: p["name"],
+                        type: p["type"],
+                        systemData: !p.systemData
+                          ? undefined
+                          : {
+                              createdBy: p.systemData?.["createdBy"],
+                              createdByType: p.systemData?.["createdByType"],
+                              createdAt:
+                                p.systemData?.["createdAt"] !== undefined
+                                  ? new Date(p.systemData?.["createdAt"])
+                                  : undefined,
+                              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                              lastModifiedByType:
+                                p.systemData?.["lastModifiedByType"],
+                              lastModifiedAt:
+                                p.systemData?.["lastModifiedAt"] !== undefined
+                                  ? new Date(p.systemData?.["lastModifiedAt"])
+                                  : undefined,
+                            },
+                        properties: !p.properties
+                          ? undefined
+                          : {
+                              groupIds: p.properties?.["groupIds"],
+                              privateEndpoint: !p.properties?.privateEndpoint
+                                ? undefined
+                                : { id: p.properties?.privateEndpoint?.["id"] },
+                              privateLinkServiceConnectionState: {
+                                status:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "status"
+                                  ],
+                                description:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "description"
+                                  ],
+                                actionsRequired:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "actionsRequired"
+                                  ],
+                              },
+                              provisioningState:
+                                p.properties?.["provisioningState"],
+                            },
+                      };
+                    }),
+            },
+      };
+    }),
     nextLink: result.body["nextLink"],
   };
 }
@@ -848,115 +858,124 @@ export async function _listDeserialize(
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      tags: p["tags"],
-      location: p["location"],
-      id: p["id"],
-      name: p["name"],
-      type: p["type"],
-      systemData: !p.systemData
-        ? undefined
-        : {
-            createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
-            createdAt:
-              p.systemData?.["createdAt"] !== undefined
-                ? new Date(p.systemData?.["createdAt"])
-                : undefined,
-            lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
-            lastModifiedAt:
-              p.systemData?.["lastModifiedAt"] !== undefined
-                ? new Date(p.systemData?.["lastModifiedAt"])
-                : undefined,
-          },
-      properties: !p.properties
-        ? undefined
-        : {
-            createMode: p.properties?.["createMode"],
-            restoreParameters: !p.properties?.restoreParameters
-              ? undefined
-              : {
-                  pointInTimeUTC:
-                    p.properties?.restoreParameters?.["pointInTimeUTC"] !==
-                    undefined
-                      ? new Date(
-                          p.properties?.restoreParameters?.["pointInTimeUTC"],
-                        )
-                      : undefined,
-                  sourceResourceId:
-                    p.properties?.restoreParameters?.["sourceResourceId"],
-                },
-            administratorLogin: p.properties?.["administratorLogin"],
-            administratorLoginPassword:
-              p.properties?.["administratorLoginPassword"],
-            serverVersion: p.properties?.["serverVersion"],
-            connectionString: p.properties?.["connectionString"],
-            earliestRestoreTime: p.properties?.["earliestRestoreTime"],
-            provisioningState: p.properties?.["provisioningState"],
-            clusterStatus: p.properties?.["clusterStatus"],
-            publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-            nodeGroupSpecs:
-              p.properties?.["nodeGroupSpecs"] === undefined
-                ? p.properties?.["nodeGroupSpecs"]
-                : p.properties?.["nodeGroupSpecs"].map((p) => ({
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  })),
-            privateEndpointConnections:
-              p.properties?.["privateEndpointConnections"] === undefined
-                ? p.properties?.["privateEndpointConnections"]
-                : p.properties?.["privateEndpointConnections"].map((p) => ({
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType:
-                            p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "status"
-                              ],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "description"
-                              ],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState[
-                                "actionsRequired"
-                              ],
-                          },
-                          provisioningState:
-                            p.properties?.["provisioningState"],
-                        },
-                  })),
-          },
-    })),
+    value: result.body["value"].map((p) => {
+      return {
+        tags: p["tags"],
+        location: p["location"],
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              createMode: p.properties?.["createMode"],
+              restoreParameters: !p.properties?.restoreParameters
+                ? undefined
+                : {
+                    pointInTimeUTC:
+                      p.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                      undefined
+                        ? new Date(
+                            p.properties?.restoreParameters?.["pointInTimeUTC"],
+                          )
+                        : undefined,
+                    sourceResourceId:
+                      p.properties?.restoreParameters?.["sourceResourceId"],
+                  },
+              administratorLogin: p.properties?.["administratorLogin"],
+              administratorLoginPassword:
+                p.properties?.["administratorLoginPassword"],
+              serverVersion: p.properties?.["serverVersion"],
+              connectionString: p.properties?.["connectionString"],
+              earliestRestoreTime: p.properties?.["earliestRestoreTime"],
+              provisioningState: p.properties?.["provisioningState"],
+              clusterStatus: p.properties?.["clusterStatus"],
+              publicNetworkAccess: p.properties?.["publicNetworkAccess"],
+              nodeGroupSpecs:
+                p.properties?.["nodeGroupSpecs"] === undefined
+                  ? p.properties?.["nodeGroupSpecs"]
+                  : p.properties?.["nodeGroupSpecs"].map((p) => {
+                      return {
+                        sku: p["sku"],
+                        diskSizeGB: p["diskSizeGB"],
+                        enableHa: p["enableHa"],
+                        kind: p["kind"],
+                        nodeCount: p["nodeCount"],
+                      };
+                    }),
+              privateEndpointConnections:
+                p.properties?.["privateEndpointConnections"] === undefined
+                  ? p.properties?.["privateEndpointConnections"]
+                  : p.properties?.["privateEndpointConnections"].map((p) => {
+                      return {
+                        id: p["id"],
+                        name: p["name"],
+                        type: p["type"],
+                        systemData: !p.systemData
+                          ? undefined
+                          : {
+                              createdBy: p.systemData?.["createdBy"],
+                              createdByType: p.systemData?.["createdByType"],
+                              createdAt:
+                                p.systemData?.["createdAt"] !== undefined
+                                  ? new Date(p.systemData?.["createdAt"])
+                                  : undefined,
+                              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                              lastModifiedByType:
+                                p.systemData?.["lastModifiedByType"],
+                              lastModifiedAt:
+                                p.systemData?.["lastModifiedAt"] !== undefined
+                                  ? new Date(p.systemData?.["lastModifiedAt"])
+                                  : undefined,
+                            },
+                        properties: !p.properties
+                          ? undefined
+                          : {
+                              groupIds: p.properties?.["groupIds"],
+                              privateEndpoint: !p.properties?.privateEndpoint
+                                ? undefined
+                                : { id: p.properties?.privateEndpoint?.["id"] },
+                              privateLinkServiceConnectionState: {
+                                status:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "status"
+                                  ],
+                                description:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "description"
+                                  ],
+                                actionsRequired:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "actionsRequired"
+                                  ],
+                              },
+                              provisioningState:
+                                p.properties?.["provisioningState"],
+                            },
+                      };
+                    }),
+            },
+      };
+    }),
     nextLink: result.body["nextLink"],
   };
 }
@@ -1010,10 +1029,12 @@ export async function _listConnectionStringsDeserialize(
     connectionStrings:
       result.body["connectionStrings"] === undefined
         ? result.body["connectionStrings"]
-        : result.body["connectionStrings"].map((p) => ({
-            connectionString: p["connectionString"],
-            description: p["description"],
-          })),
+        : result.body["connectionStrings"].map((p) => {
+            return {
+              connectionString: p["connectionString"],
+              description: p["description"],
+            };
+          }),
   };
 }
 

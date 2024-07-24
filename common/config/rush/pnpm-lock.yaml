@@ -10479,14 +10479,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.5:
-    resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
+  /typescript@5.5.3:
+    resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript@5.5.3:
-    resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
+  /typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15932,7 +15932,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-aZgwLajGJ7Fd6zm+Y55wdY9st1HQwkfT22GaB7cKdUbiZudlAOrHWHHMTuNWguYl+jyogoGL80EYgFdAJaIF8Q==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-/cLeUepRbMs0ezBvsuTOe+l2nOdxsp2djmsNrD97n2KFxix9R8nE+W7jv0GHgm2bHYUZLN0WSI8trEPlXcgMVA==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
@@ -15949,7 +15949,7 @@ packages:
       rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.3
-      typescript: 5.4.5
+      typescript: 5.5.3
       vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20154,7 +20154,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.5.3
+      '@_ts/max': /typescript@5.5.4
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)

@@ -71,45 +71,50 @@ export async function _listByMongoClusterDeserialize(
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      id: p["id"],
-      name: p["name"],
-      type: p["type"],
-      systemData: !p.systemData
-        ? undefined
-        : {
-            createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
-            createdAt:
-              p.systemData?.["createdAt"] !== undefined
-                ? new Date(p.systemData?.["createdAt"])
-                : undefined,
-            lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
-            lastModifiedAt:
-              p.systemData?.["lastModifiedAt"] !== undefined
-                ? new Date(p.systemData?.["lastModifiedAt"])
-                : undefined,
-          },
-      properties: !p.properties
-        ? undefined
-        : {
-            groupIds: p.properties?.["groupIds"],
-            privateEndpoint: !p.properties?.privateEndpoint
-              ? undefined
-              : { id: p.properties?.privateEndpoint?.["id"] },
-            privateLinkServiceConnectionState: {
-              status: p.properties?.privateLinkServiceConnectionState["status"],
-              description:
-                p.properties?.privateLinkServiceConnectionState["description"],
-              actionsRequired:
-                p.properties?.privateLinkServiceConnectionState[
-                  "actionsRequired"
-                ],
+    value: result.body["value"].map((p) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
             },
-            provisioningState: p.properties?.["provisioningState"],
-          },
-    })),
+        properties: !p.properties
+          ? undefined
+          : {
+              groupIds: p.properties?.["groupIds"],
+              privateEndpoint: !p.properties?.privateEndpoint
+                ? undefined
+                : { id: p.properties?.privateEndpoint?.["id"] },
+              privateLinkServiceConnectionState: {
+                status:
+                  p.properties?.privateLinkServiceConnectionState["status"],
+                description:
+                  p.properties?.privateLinkServiceConnectionState[
+                    "description"
+                  ],
+                actionsRequired:
+                  p.properties?.privateLinkServiceConnectionState[
+                    "actionsRequired"
+                  ],
+              },
+              provisioningState: p.properties?.["provisioningState"],
+            },
+      };
+    }),
     nextLink: result.body["nextLink"],
   };
 }
@@ -283,49 +288,48 @@ export async function _createDeserialize(
     throw createRestError(result);
   }
 
-  result = result as PrivateEndpointConnectionsCreateLogicalResponse;
+  const res =
+    result as unknown as PrivateEndpointConnectionsCreateLogicalResponse;
   return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
+    id: res.body["id"],
+    name: res.body["name"],
+    type: res.body["type"],
+    systemData: !res.body.systemData
       ? undefined
       : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdBy: res.body.systemData?.["createdBy"],
+          createdByType: res.body.systemData?.["createdByType"],
           createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
+            res.body.systemData?.["createdAt"] !== undefined
+              ? new Date(res.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
+            res.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(res.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !result.body.properties
+    properties: !res.body.properties
       ? undefined
       : {
-          groupIds: result.body.properties?.["groupIds"],
-          privateEndpoint: !result.body.properties?.privateEndpoint
+          groupIds: res.body.properties?.["groupIds"],
+          privateEndpoint: !res.body.properties?.privateEndpoint
             ? undefined
-            : { id: result.body.properties?.privateEndpoint?.["id"] },
+            : { id: res.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
             status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
+              res.body.properties?.privateLinkServiceConnectionState["status"],
             description:
-              result.body.properties?.privateLinkServiceConnectionState[
+              res.body.properties?.privateLinkServiceConnectionState[
                 "description"
               ],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState[
+              res.body.properties?.privateLinkServiceConnectionState[
                 "actionsRequired"
               ],
           },
-          provisioningState: result.body.properties?.["provisioningState"],
+          provisioningState: res.body.properties?.["provisioningState"],
         },
   };
 }
@@ -401,7 +405,6 @@ export async function _$deleteDeserialize(
     throw createRestError(result);
   }
 
-  result = result as PrivateEndpointConnectionsDeleteLogicalResponse;
   return;
 }
 
