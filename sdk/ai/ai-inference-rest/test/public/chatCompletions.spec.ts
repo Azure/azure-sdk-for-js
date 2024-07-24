@@ -226,4 +226,51 @@ describe("chat test suite", () => {
       timeout: 50000
     });
 
+  it("multi-turn chat test", async function () {
+    const messages = [
+      { role: "system", content: "You are a helpful assistant" },
+      { role: "user", content: "How many feet are in a mile?" },
+    ];
+    let response = await client.path("/chat/completions").post({
+      body: { messages }
+    });
+
+    assert.isFalse(isUnexpected(response));
+
+    const completion = response.body as ChatCompletionsOutput;
+    assert.isDefined(completion);
+    assert.isNotEmpty(completion.choices);
+    assert.isDefined(completion.choices[0].message);
+    assert.isDefined(completion.choices[0].message.content);
+    
+    const assistantMessage = completion.choices[0].message.content as string;
+    assert.isTrue(assistantMessage.includes("280"));
+    messages.push({ role: "assistant", content: assistantMessage});
+    messages.push({ role: "user", content: "and how many yards?"});
+
+    response = await client.path("/chat/completions").post({
+      body: { messages }
+    });
+
+    assert.isFalse(isUnexpected(response));
+
+    const secondCompletion = response.body as ChatCompletionsOutput;
+    assert.isDefined(secondCompletion);
+    assert.isNotEmpty(secondCompletion.choices);
+    assert.isDefined(secondCompletion.choices[0].message);
+    assert.isDefined(secondCompletion.choices[0].message.content);
+
+    const yardsMessage = completion.choices[0].message.content as string;
+    assert.isTrue(yardsMessage.includes("760"));
+  },
+    {
+      timeout: 80000
+    });
+
+  it("chat auth error test", async function () {
+  },
+    {
+      timeout: 50000
+    });
+
 });
