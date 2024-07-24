@@ -285,9 +285,9 @@ describe("AzurePowerShellCredential", function () {
       Type: "Bearer",
     };
     const completeResponse = `Note : Go to https://aka.ms/azps-changewarnings for steps to suppress this breaking change warning, and other information on breaking changes in Azure PowerShell.
-{}
+{"afasf"}
 {
-"fsdf
+"fsdf": 
 {
   "Token": "token",
   "ExpiresOn": "2024-07-19T05:35:37+00:00",

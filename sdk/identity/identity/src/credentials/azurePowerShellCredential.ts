@@ -235,11 +235,15 @@ export async function parseJsonToken(
   if (matches) {
     try {
       for (const item of matches) {
-        const jsonContent = JSON.parse(item);
-        if (jsonContent?.Token) {
-          resultWithoutToken = resultWithoutToken.replace(item, "");
-          logger.getToken.warning(resultWithoutToken);
-          return jsonContent;
+        try {
+          const jsonContent = JSON.parse(item);
+          if (jsonContent?.Token) {
+            resultWithoutToken = resultWithoutToken.replace(item, "");
+            logger.getToken.warning(resultWithoutToken);
+            return jsonContent;
+          }
+        } catch (e) {
+          continue;
         }
       }
     } catch (e: any) {
