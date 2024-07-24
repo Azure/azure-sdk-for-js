@@ -38,6 +38,10 @@ const recorderOptions: RecorderStartOptions = {
       },
     ]
   },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -81,12 +85,12 @@ describe("Botservice test", () => {
       kind: "sdk",
       properties: {
         description: "The description of the bot",
-        developerAppInsightsApiKey: "w24iw5ocbhcig71su7ibaj63hey5ieaozeuwdv2r",
-        developerAppInsightKey: "59513bad-10a7-4d41-b4d0-b1c34c6af52a",
-        developerAppInsightsApplicationId: "cf03484e-3fdb-4b5e-9ad7-94bde32e5a2b",
+        developerAppInsightsApiKey: isPlaybackMode() ? "fakeKey" : "w24iw5ocbhcig71su7ibaj63hey5ieaozeuwdv2r",
+        developerAppInsightKey: isPlaybackMode() ? "fakeKey" : "59513bad-10a7-4d41-b4d0-b1c34c6af52a",
+        developerAppInsightsApplicationId: isPlaybackMode() ? "fakeKey" : "cf03484e-3fdb-4b5e-9ad7-94bde32e5a2b",
         displayName: "this is a test bot",
         endpoint: "https://bing.com/messages/",
-        msaAppId: "41a220b9-6571-4f0b-bbd2-43f1c1d82f51"
+        msaAppId: isPlaybackMode() ? "fakeKey" : "41a220b9-6571-4f0b-bbd2-43f1c1d82f51"
       },
       location: "global"
     });
