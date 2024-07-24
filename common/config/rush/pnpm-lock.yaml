@@ -479,9 +479,6 @@ dependencies:
   '@rush-temp/arm-mobilenetwork':
     specifier: file:./projects/arm-mobilenetwork.tgz
     version: file:projects/arm-mobilenetwork.tgz
-  '@rush-temp/arm-mongocluster':
-    specifier: file:./projects/arm-mongocluster.tgz
-    version: file:projects/arm-mongocluster.tgz
   '@rush-temp/arm-monitor':
     specifier: file:./projects/arm-monitor.tgz
     version: file:projects/arm-monitor.tgz
@@ -911,6 +908,9 @@ dependencies:
   '@rush-temp/functions-authentication-events':
     specifier: file:./projects/functions-authentication-events.tgz
     version: file:projects/functions-authentication-events.tgz
+  '@rush-temp/health-deidentification':
+    specifier: file:./projects/health-deidentification.tgz
+    version: file:projects/health-deidentification.tgz
   '@rush-temp/health-insights-cancerprofiling':
     specifier: file:./projects/health-insights-cancerprofiling.tgz
     version: file:projects/health-insights-cancerprofiling.tgz
@@ -16414,42 +16414,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-u22kNdMto8bx7fAnUfv1KssjOdwLOMppylXkBZa+rCpm4WdRodlnVF/mCXVjkXd8TupRqtekx9aISLVw2K9/Fg==, tarball: file:projects/arm-mongocluster.tgz}
-    name: '@rush-temp/arm-mongocluster'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 4.3.0
-      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
-      '@types/node': 18.19.39
-      '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
-      dotenv: 16.4.5
-      eslint: 8.57.0
-      mkdirp: 3.0.1
-      playwright: 1.45.1
-      prettier: 3.3.2
-      rimraf: 5.0.8
-      tshy: 1.18.0
-      tslib: 2.6.3
-      typescript: 5.4.5
-      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - webdriverio
-    dev: false
-
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-vqVU8FcJYyIkgypFpf97wUK6SVVl0LMYkmREj0Q7RuwXTSWxtowVzE2uT8Rd3IP0lxnlOcMsLDuVDFpOOYeo4g==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
@@ -21316,6 +21280,42 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/health-deidentification.tgz:
+    resolution: {integrity: sha512-zOrqicmLpHIlB5rcPkTwdhNdkSWRslP5zESj2zsS4FjvIdPpHtgbik/qkR1oq6CXYFHq0Tb+9F/ESxNmqLuiQA==, tarball: file:projects/health-deidentification.tgz}
+    name: '@rush-temp/health-deidentification'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.3.0
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@types/node': 18.19.39
+      '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      loupe: 3.1.1
+      mkdirp: 3.0.1
+      playwright: 1.45.1
+      rimraf: 5.0.8
+      tshy: 1.18.0
+      tslib: 2.6.3
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/health-insights-cancerprofiling.tgz:
