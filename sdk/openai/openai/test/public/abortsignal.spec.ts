@@ -3,7 +3,6 @@
 
 import { assert, describe, beforeEach, it } from "vitest";
 import { matrix } from "@azure-tools/test-utils";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import OpenAI, { AzureOpenAI } from "openai";
 import { createClient } from "./utils/createClient.js";
 import { APIMatrix, APIVersion } from "./utils/utils.js";
@@ -12,13 +11,8 @@ describe("AbortSignal", () => {
   let client: AzureOpenAI | OpenAI;
 
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    beforeEach(async function (context) {
-      // Streaming doesn't work in the record/playback because stream chunks are part of a single response
-      // and the test-proxy just sends all of them at once.
-      if (!isLiveMode()) {
-        context.skip();
-      }
-      client = createClient("AAD", apiVersion, "completions");
+    beforeEach(async function () {
+      client = createClient(apiVersion, "completions");
     });
 
     // TODO: Fix the tests

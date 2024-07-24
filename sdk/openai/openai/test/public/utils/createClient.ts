@@ -7,7 +7,7 @@ import {
   TestInfo,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { AzureClientOptions, AzureOpenAI } from "openai";
+import OpenAI, { AzureClientOptions, AzureOpenAI } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import {
   EnvironmentVariableNames,
@@ -15,7 +15,7 @@ import {
   EnvironmentVariableNamesForDalle,
   EnvironmentVariableNamesForWhisper,
 } from "./envVars.js";
-import { APIVersion, AuthMethod, DeploymentType } from "./utils.js";
+import { APIVersion, DeploymentType } from "./utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const scope = "https://cognitiveservices.azure.com/.default";
@@ -53,14 +53,14 @@ const environmentVariableNamesForResourceType = {
 };
 
 export function createClient(
-  authMethod: AuthMethod,
   apiVersion: APIVersion,
   resourceType: DeploymentType,
   clientOptions?: AzureClientOptions,
-): AzureOpenAI {
+): AzureOpenAI | OpenAI {
   const { endpoint } = getEndpointFromResourceType(resourceType);
-  switch (authMethod) {
-    case "AAD": {
+  switch (apiVersion) {
+    case APIVersion.Latest:
+    case APIVersion.Stable: {
       const credential = createTestCredential();
       return new AzureOpenAI({
         azureADTokenProvider: getBearerTokenProvider(credential, scope),
@@ -69,17 +69,11 @@ export function createClient(
         ...clientOptions,
       });
     }
-    case "DummyAPIKey": {
-      return new AzureOpenAI({
-        apiKey: clientOptions?.apiKey,
-        apiVersion,
-        endpoint,
-        dangerouslyAllowBrowser: true,
-        ...clientOptions,
-      });
+    case APIVersion.OpenAI: {
+      return new OpenAI();
     }
     default: {
-      throw Error(`Unsupported authentication method: ${authMethod}`);
+      throw Error(`Unsupported authentication method: ${apiVersion}`);
     }
   }
 }

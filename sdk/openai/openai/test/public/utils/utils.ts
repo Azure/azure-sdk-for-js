@@ -12,12 +12,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  Recorder,
-  assertEnvironmentVariable,
-  isLiveMode,
-  isRecordMode,
-} from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import {
   EnvironmentVariableNamesAzureCommon,
   EnvironmentVariableNamesForAzureSearch,
@@ -25,14 +20,17 @@ import {
   EnvironmentVariableNamesForDalle,
   EnvironmentVariableNamesForWhisper,
 } from "./envVars.js";
+import { logger } from "@azure/identity";
 
 export type AuthMethod = "AAD" | "DummyAPIKey";
 export type DeploymentType = "dalle" | "whisper" | "completions";
-export type APIVersion = "2024-05-01-preview" | "2024-02-01";
-
-export const latestAPIPreview = "2024-05-01-preview" as const;
-export const APIMatrix = ["2024-05-01-preview", "2024-02-01"] as const;
-export const authTypes = ["AAD"] as AuthMethod[];
+export enum APIVersion {
+  Latest = "2024-05-01-preview",
+  Stable = "2024-06-01",
+  OpenAI = "OpenAI",
+}
+export const latestAPIPreview = APIVersion.Latest;
+export const APIMatrix = [APIVersion.Latest, APIVersion.Stable];
 function toString(error: any): string {
   return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
 }
@@ -48,31 +46,35 @@ export async function withDeployments<T>(
   let i = 0;
   for (const deployment of deployments) {
     // FIXME: Skip this deployment for "calling function" tests
-    if (deployment === "gpt-35-turbo-0301"){
+    if (deployment === "gpt-35-turbo-0301") {
       continue;
     }
     try {
-      console.log(`[${++i}/${deployments.length}] testing with ${deployment}`);
+      logger.info(`[${++i}/${deployments.length}] testing with ${deployment}`);
       const res = await run(deployment);
-      if (!isRecordMode()) {
-        validate(res);
-      }
+      validate(res);
       succeeded.push(deployment);
     } catch (e) {
       const error = e as any;
       if (!e) continue;
       const errorStr = toString(error);
       if (
-        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "ModelDeprecated", "429", 400].includes(
-          error.code,
-        ) ||
+        [
+          "OperationNotSupported",
+          "model_not_found",
+          "rate_limit_exceeded",
+          "ModelDeprecated",
+          "429",
+          400,
+        ].includes(error.code) ||
         error.type === "invalid_request_error" ||
-        error.name === "AbortError"
+        error.name === "AbortError" ||
+        errorStr.includes("JSON parse failure")
       ) {
-        // console.log(`Handled error: ${errorStr}`);
+        logger.info(`Handled error: ${errorStr}`);
         continue;
       }
-      console.warn(`Error in deployment ${deployment}: ${errorStr}`);
+      logger.warning(`Error in deployment ${deployment}: ${errorStr}`);
       errors.push(errorStr);
     }
   }
@@ -80,21 +82,13 @@ export async function withDeployments<T>(
     throw new Error(`Errors list: ${errors.join("\n")}`);
   }
   assert.isNotEmpty(succeeded, "No deployments succeeded");
-  console.log(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
+  logger.info(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
   return succeeded;
 }
 
-export async function sendRequestWithRecorder(
-  request: PipelineRequest,
-  recorder: Recorder,
-): Promise<PipelineResponse> {
+export async function sendRequestWithRecorder(request: PipelineRequest): Promise<PipelineResponse> {
   const client = createDefaultHttpClient();
   const pipeline = createEmptyPipeline();
-  if (!isLiveMode()) {
-    for (const p of recorder.configureClientOptions({}).additionalPolicies ?? []) {
-      pipeline.addPolicy(p.policy);
-    }
-  }
   return pipeline.sendRequest(client, request);
 }
 
@@ -102,14 +96,9 @@ async function listDeployments(
   subId: string,
   rgName: string,
   accountName: string,
-  recorder: Recorder,
 ): Promise<string[]> {
   const deployments: string[] = [];
-  const mgmtClient = new CognitiveServicesManagementClient(
-    createTestCredential(),
-    subId,
-    recorder.configureClientOptions({}),
-  );
+  const mgmtClient = new CognitiveServicesManagementClient(createTestCredential(), subId);
   for await (const deployment of mgmtClient.deployments.list(rgName, accountName)) {
     const deploymentName = deployment.name;
     if (deploymentName) {
@@ -146,15 +135,11 @@ function getAccountNameFromResourceType(deploymentType: DeploymentType): string 
   }
 }
 
-export async function getDeployments(
-  deploymentType: DeploymentType,
-  recorder: Recorder,
-): Promise<string[]> {
+export async function getDeployments(deploymentType: DeploymentType): Promise<string[]> {
   return listDeployments(
     assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.SUBSCRIPTION_ID),
     assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.RESOURCE_GROUP),
     getAccountNameFromResourceType(deploymentType),
-    recorder,
   );
 }
 
@@ -166,14 +151,14 @@ export async function bufferAsyncIterable<T>(iter: AsyncIterable<T>): Promise<T[
   return result;
 }
 
-export async function get(url: string, recorder: Recorder): Promise<PipelineResponse> {
+export async function get(url: string): Promise<PipelineResponse> {
   const request = createPipelineRequest({
     url,
     method: "GET",
     headers: createHttpHeaders(),
     streamResponseStatusCodes: new Set([200]),
   });
-  return sendRequestWithRecorder(request, recorder);
+  return sendRequestWithRecorder(request);
 }
 
 // TODO: Update this once we add Azure specific feature tests

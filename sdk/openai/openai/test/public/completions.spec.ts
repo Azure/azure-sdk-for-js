@@ -2,17 +2,16 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure-tools/test-utils";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { createClient, startRecorder } from "./utils/createClient.js";
-import { APIMatrix, APIVersion, AuthMethod, authTypes } from "./utils/utils.js";
-import { AzureOpenAI } from "openai";
+import { assert, describe, beforeEach, it } from "vitest";
+import { createClient } from "./utils/createClient.js";
+import { APIMatrix, APIVersion } from "./utils/utils.js";
+import OpenAI, { AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
   assertChatCompletionsList,
   assertCompletions,
   assertCompletionsStream,
 } from "./utils/asserts.js";
-import { Recorder } from "@azure-tools/test-recorder";
 import {
   bufferAsyncIterable,
   createAzureSearchExtension,
@@ -22,59 +21,53 @@ import {
   withDeployments,
 } from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
+import "@azure/openai/types";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("Completions", function () {
-  let recorder: Recorder;
   let deployments: string[] = [];
 
-  beforeEach(async function (context) {
-    recorder = await startRecorder(context);
+  beforeEach(async function () {
     if (!deployments.length) {
-      deployments = await getDeployments("completions", recorder);
+      deployments = await getDeployments("completions");
     }
   });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
+    describe(`[${apiVersion}] Client`, () => {
+      let client: AzureOpenAI | OpenAI;
 
-  matrix([authTypes] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
-      matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-        describe(`[${apiVersion}] Client`, () => {
-          let client: AzureOpenAI;
+      beforeEach(async function () {
+        client = createClient(apiVersion, "completions");
+      });
 
-          beforeEach(async function () {
-            client = createClient(authMethod, apiVersion, "completions");
-          });
+      describe("completions", function () {
+        it("returns completions across all models", async function () {
+          const prompt = ["What is Azure OpenAI?"];
+          await withDeployments(
+            deployments,
+            (deploymentName) => client.completions.create({ model: deploymentName, prompt }),
+            assertCompletions,
+          );
+        });
+      });
 
-          describe("completions", function () {
-            it("returns completions across all models", async function () {
-              const prompt = ["What is Azure OpenAI?"];
-              await withDeployments(
-                deployments,
-                (deploymentName) => client.completions.create({ model: deploymentName, prompt }),
-                assertCompletions,
-              );
-            });
-          });
+      describe("completions stream", function () {
+        it("returns completions stream", async function () {
+          const prompt = ["This is Azure OpenAI?"];
+          await withDeployments(
+            deployments,
+            (deploymentName) =>
+              client.completions.create({ model: deploymentName, prompt, stream: true }),
+            // The API returns an empty choice in the first event for some
+            // reason. This should be fixed in the API.
+            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
+          );
+        });
 
-          describe("completions stream", function () {
-            it("returns completions stream", async function () {
-              const prompt = ["This is Azure OpenAI?"];
-              await withDeployments(
-                deployments,
-                (deploymentName) =>
-                  client.completions.create({ model: deploymentName, prompt, stream: true }),
-                // The API returns an empty choice in the first event for some
-                // reason. This should be fixed in the API.
-                (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
-              );
-            });
-
-            it("stream long completions", async function () {
-              const prompt = [
-                `##### Translate this code snippet into Python. Use Azure SDKs where possible.
+        it("stream long completions", async function () {
+          const prompt = [
+            `##### Translate this code snippet into Python. Use Azure SDKs where possible.
   \`\`\`
   using System.Threading.Tasks;
   using Microsoft.AspNetCore.Mvc;
@@ -128,385 +121,382 @@ describe("Completions", function () {
   
   \`\`\`
   `,
-              ];
-              await withDeployments(
-                deployments,
-                (deploymentName) =>
-                  client.completions.create(
-                    { model: deploymentName, prompt, stream: true, max_tokens: 2048 },
-                    { timeout: 10000 },
-                  ),
+          ];
+          await withDeployments(
+            deployments,
+            (deploymentName) =>
+              client.completions.create(
+                { model: deploymentName, prompt, stream: true, max_tokens: 2048 },
+                { timeout: 10000 },
+              ),
 
-                // The API returns an empty choice in the first event for some
-                // reason. This should be fixed in the API.
-                (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
-              );
-            });
+            // The API returns an empty choice in the first event for some
+            // reason. This should be fixed in the API.
+            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
+          );
+        });
+      });
+
+      describe("chat completions", function () {
+        const pirateMessages = [
+          {
+            role: "system",
+            content: "You are a helpful assistant. You will talk like a pirate.",
+          } as const,
+          { role: "user", content: "Can you help me?" } as const,
+          {
+            role: "assistant",
+            content: "Arrrr! Of course, me hearty! What can I do for ye?",
+          } as const,
+          { role: "user", content: "What's the best way to train a parrot?" } as const,
+        ];
+        const byodMessages = [
+          {
+            role: "user",
+            content:
+              "What's the most common feedback we received from our customers about the product?",
+          } as const,
+        ];
+        const getCurrentWeather = {
+          name: "get_current_weather",
+          description: "Get the current weather in a given location",
+          parameters: {
+            type: "object",
+            properties: {
+              location: {
+                type: "string",
+                description: "The city and state, e.g. San Francisco, CA",
+              },
+              unit: {
+                type: "string",
+                enum: ["celsius", "fahrenheit"],
+              },
+            },
+            required: ["location"],
+          },
+        };
+        const chatCompletionDeployments: string[] = [];
+
+        describe("getChatCompletions", function () {
+          it("returns completions across all models", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: pirateMessages,
+                  }),
+                assertChatCompletions,
+              ),
+              chatCompletionDeployments,
+            );
           });
 
-          describe("chat completions", function () {
-            const pirateMessages = [
-              {
-                role: "system",
-                content: "You are a helpful assistant. You will talk like a pirate.",
-              } as const,
-              { role: "user", content: "Can you help me?" } as const,
-              {
-                role: "assistant",
-                content: "Arrrr! Of course, me hearty! What can I do for ye?",
-              } as const,
-              { role: "user", content: "What's the best way to train a parrot?" } as const,
-            ];
-            const byodMessages = [
-              {
-                role: "user",
-                content:
-                  "What's the most common feedback we received from our customers about the product?",
-              } as const,
-            ];
-            const getCurrentWeather = {
-              name: "get_current_weather",
-              description: "Get the current weather in a given location",
+          // TODO: Model gpt-35-turbo-0301 returns weird answers
+          // "arguments": "# Let me implement the function get_current_weather for Boston\n# For this, I'm going to use the OpenWeatherMap API\n\nfrom requests import get\n\ndef get_current_weather(location, unit):\n    \n    url = f\"http://api.openweathermap.org/data/2.5/weather?q={location}&units={unit}&appid=YOUR_APP_ID\"\n    \n    response = get(url)\n    \n    if response.status_code == 200:\n        return response.json()\n    else:\n        return {'error': f'Could not get weather for {location}. Error {response.status_code}'}\n\n\nlocation = 'Boston,MA'\nunit = 'imperial'\n\nget_current_weather(location, unit)",
+          // "arguments": "{\n  \"location\": \"Boston, MA\"\n}",
+          it("calls functions", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                async (deploymentName) => {
+                  const weatherMessages: ChatCompletionMessageParam[] = [
+                    { role: "user", content: "What's the weather like in Boston?" },
+                  ];
+                  const result = await client.chat.completions.create({
+                    model: deploymentName,
+                    messages: weatherMessages,
+                    functions: [getCurrentWeather],
+                  });
+                  assertChatCompletions(result, { functions: true });
+                  const responseMessage = result.choices[0].message;
+                  if (!responseMessage?.function_call) {
+                    assert.fail("Undefined function call");
+                  }
+                  // add try catch block to handle the error
+                  try {
+                    const functionArgs = JSON.parse(
+                      (responseMessage.function_call as any).arguments,
+                    );
+                    weatherMessages.push(responseMessage);
+                    weatherMessages.push({
+                      role: "function",
+                      name: (responseMessage.function_call as any).name,
+                      content: JSON.stringify({
+                        location: functionArgs.location,
+                        temperature: "72",
+                        unit: functionArgs.unit,
+                        forecast: ["sunny", "windy"],
+                      }),
+                    });
+                  } catch {
+                    throw new RestError("JSON parse failure");
+                  }
+                  return client.chat.completions.create({
+                    model: deploymentName,
+                    messages: weatherMessages,
+                  });
+                },
+                (result) => assertChatCompletions(result, { functions: true }),
+              ),
+              chatCompletionDeployments,
+            );
+          });
+
+          it("doesn't call tools if toolChoice is set to none", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                    tool_choice: "none",
+                    tools: [{ type: "function", function: getCurrentWeather }],
+                  }),
+                (res) => {
+                  assertChatCompletions(res, { functions: false });
+                  assert.isUndefined(res.choices[0].message?.tool_calls);
+                },
+              ),
+              chatCompletionDeployments,
+            );
+          });
+
+          it("calls a specific tool if its name is specified", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+
+                    tool_choice: {
+                      type: "function",
+                      function: { name: getCurrentWeather.name },
+                    },
+                    tools: [
+                      { type: "function", function: getCurrentWeather },
+                      {
+                        type: "function",
+                        function: {
+                          name: "get_current_weather2",
+                          description: "Get the current weather in a given location in the US",
+                          parameters: {
+                            type: "object",
+                            properties: {
+                              location: {
+                                type: "string",
+                                description: "The city and state, e.g. San Francisco, CA",
+                              },
+                              unit: {
+                                type: "string",
+                                enum: ["celsius", "fahrenheit"],
+                              },
+                            },
+                            required: ["location"],
+                          },
+                        },
+                      },
+                    ],
+                  }),
+                (res) => {
+                  assertChatCompletions(res, { functions: true });
+                  const toolCalls = res.choices[0].message?.tool_calls;
+                  if (!toolCalls) {
+                    throw new Error("toolCalls should be defined here");
+                  }
+                  assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
+                  assert.isUndefined(res.choices[0].message?.function_call);
+                },
+              ),
+              chatCompletionDeployments,
+            );
+          });
+
+          it("ensure schema name is not transformed with snake case", async function () {
+            const getAssetInfo = {
+              name: "getAssetInfo",
+              description: "Returns information about an asset",
               parameters: {
                 type: "object",
                 properties: {
-                  location: {
+                  assetName: {
                     type: "string",
-                    description: "The city and state, e.g. San Francisco, CA",
-                  },
-                  unit: {
-                    type: "string",
-                    enum: ["celsius", "fahrenheit"],
+                    description: "The asset name. This is a required parameter.",
                   },
                 },
-                required: ["location"],
+                required: ["assetName"],
               },
             };
-            const chatCompletionDeployments: string[] = [];
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: [{ role: "user", content: "Give me information about Asset No1" }],
+                    tools: [{ type: "function", function: getAssetInfo }],
+                  }),
+                (res) => {
+                  assertChatCompletions(res, { functions: true });
+                  const toolCalls = res.choices[0].message?.tool_calls;
+                  if (!toolCalls) {
+                    throw new Error("toolCalls should be defined here");
+                  }
+                  const argument = toolCalls[0].function.arguments;
+                  assert.isTrue(argument?.includes("assetName"));
+                },
+              ),
+              chatCompletionDeployments,
+            );
+          });
 
-            describe("getChatCompletions", function () {
-              it("returns completions across all models", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    (deploymentName) =>
-                      client.chat.completions.create({
-                        model: deploymentName,
-                        messages: pirateMessages,
-                      }),
-                    assertChatCompletions,
-                  ),
-                  chatCompletionDeployments,
-                );
-              });
-
-              // TODO: Model gpt-35-turbo-0301 returns weird answers
-              // "arguments": "# Let me implement the function get_current_weather for Boston\n# For this, I'm going to use the OpenWeatherMap API\n\nfrom requests import get\n\ndef get_current_weather(location, unit):\n    \n    url = f\"http://api.openweathermap.org/data/2.5/weather?q={location}&units={unit}&appid=YOUR_APP_ID\"\n    \n    response = get(url)\n    \n    if response.status_code == 200:\n        return response.json()\n    else:\n        return {'error': f'Could not get weather for {location}. Error {response.status_code}'}\n\n\nlocation = 'Boston,MA'\nunit = 'imperial'\n\nget_current_weather(location, unit)",
-              // "arguments": "{\n  \"location\": \"Boston, MA\"\n}",
-              it("calls functions", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    async (deploymentName) => {
-                      const weatherMessages: ChatCompletionMessageParam[] = [
-                        { role: "user", content: "What's the weather like in Boston?" },
-                      ];
-                      const result = await client.chat.completions.create({
-                        model: deploymentName,
-                        messages: weatherMessages,
-                        functions: [getCurrentWeather],
-                      });
-                      assertChatCompletions(result, { functions: true });
-                      const responseMessage = result.choices[0].message;
-                      if (!responseMessage?.function_call) {
-                        assert.fail("Undefined function call");
-                      }
-                      const functionArgs = JSON.parse((responseMessage.function_call as any).arguments);
-                      weatherMessages.push(responseMessage);
-                      weatherMessages.push({
-                        role: "function",
-                        name: (responseMessage.function_call as any).name,
-                        content: JSON.stringify({
-                          location: functionArgs.location,
-                          temperature: "72",
-                          unit: functionArgs.unit,
-                          forecast: ["sunny", "windy"],
-                        }),
-                      });
-                      return client.chat.completions.create({
-                        model: deploymentName,
-                        messages: weatherMessages,
-                      });
-                    },
-                    (result) => assertChatCompletions(result, { functions: true }),
-                  ),
-                  chatCompletionDeployments,
-                );
-              });
-
-              it("doesn't call tools if toolChoice is set to none", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    (deploymentName) =>
-                      client.chat.completions.create({
-                        model: deploymentName,
-                        messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-                        tool_choice: "none",
-                        tools: [{ type: "function", function: getCurrentWeather }],
-                      }),
-                    (res) => {
-                      assertChatCompletions(res, { functions: false });
-                      assert.isUndefined(res.choices[0].message?.tool_calls);
-                    },
-                  ),
-                  chatCompletionDeployments,
-                );
-              });
-
-              it("calls a specific tool if its name is specified", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    (deploymentName) =>
-                      client.chat.completions.create({
-                        model: deploymentName,
-                        messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-
-                        tool_choice: {
-                          type: "function",
-                          function: { name: getCurrentWeather.name },
-                        },
-                        tools: [
-                          { type: "function", function: getCurrentWeather },
-                          {
-                            type: "function",
-                            function: {
-                              name: "get_current_weather2",
-                              description: "Get the current weather in a given location in the US",
-                              parameters: {
-                                type: "object",
-                                properties: {
-                                  location: {
-                                    type: "string",
-                                    description: "The city and state, e.g. San Francisco, CA",
-                                  },
-                                  unit: {
-                                    type: "string",
-                                    enum: ["celsius", "fahrenheit"],
-                                  },
-                                },
-                                required: ["location"],
-                              },
-                            },
-                          },
-                        ],
-                      }),
-                    (res) => {
-                      assertChatCompletions(res, { functions: true });
-                      const toolCalls = res.choices[0].message?.tool_calls;
-                      if (!toolCalls) {
-                        throw new Error("toolCalls should be defined here");
-                      }
-                      assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
-                      assert.isUndefined(res.choices[0].message?.function_call);
-                    },
-                  ),
-                  chatCompletionDeployments,
-                );
-              });
-
-              it("ensure schema name is not transformed with snake case", async function () {
-                const getAssetInfo = {
-                  name: "getAssetInfo",
-                  description: "Returns information about an asset",
-                  parameters: {
-                    type: "object",
-                    properties: {
-                      assetName: {
-                        type: "string",
-                        description: "The asset name. This is a required parameter.",
+          it("respects json_object responseFormat", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: [
+                      {
+                        role: "user",
+                        content:
+                          "Answer the following question in JSON format: What are the capital cities in Africa?",
                       },
-                    },
-                    required: ["assetName"],
-                  },
-                };
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    (deploymentName) =>
-                      client.chat.completions.create({
-                        model: deploymentName,
-                        messages: [
-                          { role: "user", content: "Give me information about Asset No1" },
-                        ],
-                        tools: [{ type: "function", function: getAssetInfo }],
-                      }),
-                    (res) => {
-                      assertChatCompletions(res, { functions: true });
-                      const toolCalls = res.choices[0].message?.tool_calls;
-                      if (!toolCalls) {
-                        throw new Error("toolCalls should be defined here");
-                      }
-                      const argument = toolCalls[0].function.arguments;
-                      assert.isTrue(argument?.includes("assetName"));
-                    },
-                  ),
-                  chatCompletionDeployments,
-                );
-              });
+                    ],
+                    response_format: { type: "json_object" },
+                  }),
+                (res) => {
+                  assertChatCompletions(res, { functions: false });
+                  const content = res.choices[0].message?.content;
+                  if (!content) assert.fail("Undefined content");
+                  try {
+                    JSON.parse(content);
+                  } catch (e) {
+                    assert.fail(`Invalid JSON: ${content}`);
+                  }
+                },
+              ),
+              chatCompletionDeployments,
+            );
+          });
 
-              // TODO: Unskip the test when it works with Azure client
-              it.skip("respects json_object responseFormat", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    (deploymentName) =>
-                      client.chat.completions.create({
-                        model: deploymentName,
-                        messages: [
-                          {
-                            role: "user",
-                            content:
-                              "Answer the following question in JSON format: What are the capital cities in Africa?",
-                          },
-                        ],
-                        response_format: { type: "json_object" },
-                      }),
-                    (res) => {
-                      assertChatCompletions(res, { functions: false });
-                      const content = res.choices[0].message?.content;
-                      if (!content) assert.fail("Undefined content");
-                      try {
-                        JSON.parse(content);
-                      } catch (e) {
-                        assert.fail(`Invalid JSON: ${content}`);
-                      }
-                    },
-                  ),
-                  chatCompletionDeployments,
-                );
-              });
+          it("bring your own data", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                (deploymentName) =>
+                  client.chat.completions.create({
+                    model: deploymentName,
+                    messages: byodMessages,
+                    data_sources: [createAzureSearchExtension()],
+                  }),
+                assertChatCompletions,
+              ),
+              chatCompletionDeployments,
+            );
+          });
+        });
 
-              it("bring your own data", async function () {
-                const dataSources = { data_sources: [createAzureSearchExtension()] };
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    (deploymentName) =>
-                      client.chat.completions.create({
-                        model: deploymentName,
-                        messages: byodMessages,
-                        ...(dataSources as any),
-                      }),
-                    assertChatCompletions,
+        describe("streamChatCompletions", function () {
+          it("returns completions across all models", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: pirateMessages,
+                      stream: true,
+                    }),
                   ),
-                  chatCompletionDeployments,
-                );
-              });
-            });
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                    // The API returns an empty ID in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyId: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+            );
+          });
 
-            describe("streamChatCompletions", function () {
-              it("returns completions across all models", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    async (deploymentName) =>
-                      bufferAsyncIterable(
-                        await client.chat.completions.create({
-                          model: deploymentName,
-                          messages: pirateMessages,
-                          stream: true,
-                        }),
-                      ),
-                    (res) =>
-                      assertChatCompletionsList(res, {
-                        // The API returns an empty choice in the first event for some
-                        // reason. This should be fixed in the API.
-                        allowEmptyChoices: true,
-                        // The API returns an empty ID in the first event for some
-                        // reason. This should be fixed in the API.
-                        allowEmptyId: true,
-                      }),
+          it("calls functions", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                      stream: true,
+                      functions: [getCurrentWeather],
+                    }),
                   ),
-                  chatCompletionDeployments,
-                );
-              });
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    functions: true,
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+            );
+          });
 
-              it("calls functions", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    async (deploymentName) =>
-                      bufferAsyncIterable(
-                        await client.chat.completions.create({
-                          model: deploymentName,
-                          messages: [
-                            { role: "user", content: "What's the weather like in Boston?" },
-                          ],
-                          stream: true,
-                          functions: [getCurrentWeather],
-                        }),
-                      ),
-                    (res) =>
-                      assertChatCompletionsList(res, {
-                        functions: true,
-                        // The API returns an empty choice in the first event for some
-                        // reason. This should be fixed in the API.
-                        allowEmptyChoices: true,
-                      }),
+          it("calls toolCalls", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                      stream: true,
+                      tools: [{ type: "function", function: getCurrentWeather }],
+                    }),
                   ),
-                  chatCompletionDeployments,
-                );
-              });
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    functions: true,
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+            );
+          });
 
-              it("calls toolCalls", async function () {
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    async (deploymentName) =>
-                      bufferAsyncIterable(
-                        await client.chat.completions.create({
-                          model: deploymentName,
-                          messages: [
-                            { role: "user", content: "What's the weather like in Boston?" },
-                          ],
-                          stream: true,
-                          tools: [{ type: "function", function: getCurrentWeather }],
-                        }),
-                      ),
-                    (res) =>
-                      assertChatCompletionsList(res, {
-                        functions: true,
-                        // The API returns an empty choice in the first event for some
-                        // reason. This should be fixed in the API.
-                        allowEmptyChoices: true,
-                      }),
+          it("bring your own data", async function () {
+            const dataSources = { data_sources: [createAzureSearchExtension()] };
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(deployments, chatCompletionDeployments),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.chat.completions.create({
+                      model: deploymentName,
+                      messages: byodMessages,
+                      stream: true,
+                      ...dataSources,
+                    }),
                   ),
-                  chatCompletionDeployments,
-                );
-              });
-
-              it("bring your own data", async function () {
-                const dataSources = { data_sources: [createAzureSearchExtension()] };
-                updateWithSucceeded(
-                  await withDeployments(
-                    getSucceeded(deployments, chatCompletionDeployments),
-                    async (deploymentName) =>
-                      bufferAsyncIterable(
-                        await client.chat.completions.create({
-                          model: deploymentName,
-                          messages: byodMessages,
-                          stream: true,
-                          ...dataSources,
-                        }),
-                      ),
-                    assertChatCompletionsList,
-                  ),
-                  chatCompletionDeployments,
-                );
-              });
-            });
+                assertChatCompletionsList,
+              ),
+              chatCompletionDeployments,
+            );
           });
         });
       });

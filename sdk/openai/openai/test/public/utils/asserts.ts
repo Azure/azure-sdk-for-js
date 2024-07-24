@@ -3,7 +3,6 @@ import { get } from "./utils.js";
 import { OpenAI } from "openai";
 import { getImageDimensionsFromResponse } from "./images.js";
 import { stringToUint8Array } from "@azure/core-util";
-import { Recorder } from "@azure-tools/test-recorder";
 import {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
@@ -21,8 +20,16 @@ import {
   StopFinishDetailsOutput,
 } from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
-import { ChatCompletionChunk, ChatCompletionTokenLogprob, CompletionChoice } from "openai/resources/index";
+import {
+  ChatCompletionChunk,
+  ChatCompletionMessage,
+  ChatCompletionTokenLogprob,
+  Completion,
+  CompletionChoice,
+  CreateEmbeddingResponse,
+} from "openai/resources/index";
 import { ErrorModel } from "@azure-rest/core-client";
+import { ChatCompletion } from "openai/resources/chat/completions.mjs";
 
 export function assertChatCompletions(
   completions: OpenAI.Chat.Completions.ChatCompletion,
@@ -33,7 +40,7 @@ export function assertChatCompletions(
 }
 
 function assertChatCompletionsNoUsage(
-  completions: OpenAI.Chat.Completions.ChatCompletion,
+  completions: ChatCompletion,
   { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
@@ -43,7 +50,7 @@ function assertChatCompletionsNoUsage(
 }
 
 function assertChatCompletionsChunkNoUsage(
-  completions: OpenAI.Chat.Completions.ChatCompletionChunk,
+  completions: ChatCompletionChunk,
   { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
@@ -53,9 +60,7 @@ function assertChatCompletionsChunkNoUsage(
 }
 
 function assertChatCompletionsProperties(
-  completions:
-    | Omit<OpenAI.Chat.Completions.ChatCompletion, "choices">
-    | Omit<OpenAI.Chat.Completions.ChatCompletionChunk, "choices">,
+  completions: Omit<ChatCompletion, "choices"> | Omit<ChatCompletionChunk, "choices">,
 ): void {
   assertContentFilterResultsForPrompt(completions.prompt_filter_results ?? []);
   assert.isNumber(completions.created);
@@ -65,20 +70,20 @@ function assertChatCompletionsProperties(
 }
 
 export function assertChatCompletionsList(
-  list: Array<OpenAI.Chat.Completions.ChatCompletionChunk>,
+  list: Array<ChatCompletionChunk>,
   options: ChatCompletionTestOptions = {},
 ): void {
   assert.isNotEmpty(list);
   list.map((item) => assertChatCompletionsChunkNoUsage(item, { ...options, stream: true }));
 }
 
-export function assertCompletions(completions: OpenAI.Completions.Completion): void {
+export function assertCompletions(completions: Completion): void {
   assertCompletionsNoUsage(completions);
   ifDefined(completions.usage, assertUsage);
 }
 
 function assertCompletionsNoUsage(
-  completions: Omit<OpenAI.Completions.Completion, "usage">,
+  completions: Omit<Completion, "usage">,
   { allowEmptyChoices }: CompletionTestOptions = {},
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
@@ -96,7 +101,7 @@ function assertCompletionsChoice(choice: CompletionChoice): void {
   ifDefined(choice.logprobs, assertLogprobs);
   ifDefined(choice.finish_reason, assert.isString);
   assert.isString(choice.text);
-  ifDefined((choice as any).content_filter_results, assertContentFilterResultsForChoice);
+  ifDefined(choice.content_filter_results, assertContentFilterResultsForChoice);
 }
 
 function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceOutput): void {
@@ -175,18 +180,16 @@ function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResul
 }
 
 function assertChoice(
-  choice:
-    | OpenAI.Chat.Completions.ChatCompletion.Choice
-    | OpenAI.Chat.Completions.ChatCompletionChunk.Choice,
+  choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
   options: ChatCompletionTestOptions,
 ): void {
   const stream = options.stream;
   if (stream) {
-    assertMessage((choice as any).delta, options);
-    assert.isUndefined((choice as any).message);
+    assertMessage((choice as ChatCompletionChunk.Choice).delta, options);
+    assert.isFalse("message" in choice);
   } else {
-    assertMessage((choice as any).message, options);
-    assert.isUndefined((choice as any).delta);
+    assertMessage((choice as ChatCompletion.Choice).message, options);
+    assert.isFalse("delta" in choice);
   }
   assert.isNumber(choice.index);
   ifDefined(choice.content_filter_results, assertContentFilterResultsForChoice);
@@ -282,16 +285,22 @@ function assertFunctionCall(
 }
 
 function assertToolCall(
-  toolCall: OpenAI.Chat.Completions.ChatCompletionMessageToolCall | ChatCompletionChunk.Choice.Delta.ToolCall,
+  toolCall:
+    | OpenAI.Chat.Completions.ChatCompletionMessageToolCall
+    | ChatCompletionChunk.Choice.Delta.ToolCall,
   { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, toolCall.type, assert.isString);
   assertIf(!stream, toolCall.id, assert.isString);
-  assertIf(Boolean(stream), (toolCall as ChatCompletionChunk.Choice.Delta.ToolCall).index, assert.isNumber);
+  assertIf(
+    Boolean(stream),
+    (toolCall as ChatCompletionChunk.Choice.Delta.ToolCall).index,
+    assert.isNumber,
+  );
 
   switch (toolCall.type) {
     case "function":
-      ifDefined(toolCall.function, (functionCall) => assertFunctionCall(functionCall, { stream }))
+      ifDefined(toolCall.function, (functionCall) => assertFunctionCall(functionCall, { stream }));
       break;
   }
 }
@@ -318,11 +327,11 @@ function assertArray<T>(val: T[], validate: (x: T) => void): void {
     validate(x);
   }
 }
+
 export function assertImagesWithURLs(
   image: OpenAI.Images.ImagesResponse,
   height: number,
   width: number,
-  recorder: Recorder,
 ): void {
   assert.isNotNull(image);
   assert.isNumber(image.created);
@@ -332,7 +341,7 @@ export function assertImagesWithURLs(
     assert.isUndefined(img.b64_json);
     ifDefined(img.url, async (url) => {
       assert.isString(url);
-      const response = await get(url, recorder);
+      const response = await get(url);
       const dimensions = await getImageDimensionsFromResponse(response);
       assert.equal(dimensions?.height, height, "Height does not match");
       assert.equal(dimensions?.width, width, "Width does not match");
@@ -362,12 +371,18 @@ export function assertImagesWithJSON(
   });
 }
 
-export function assertEmbeddings(embeddings: OpenAI.Embeddings.CreateEmbeddingResponse) {
+export function assertEmbeddings(
+  embeddings: CreateEmbeddingResponse,
+  options?: EmbeddingTestOptions,
+) {
   assert.isNotNull(embeddings.data);
   assert.equal(embeddings.data.length > 0, true);
   assert.isNotNull(embeddings.data[0].embedding);
   assert.equal(embeddings.data[0].embedding.length > 0, true);
   assert.isNotNull(embeddings.usage);
+  if (options?.dimensions) {
+    assert.equal(embeddings.data[0].embedding.length, options.dimensions);
+  }
 }
 
 export async function assertOpenAiError<T>(
@@ -401,11 +416,11 @@ export async function assertOpenAiError<T>(
 }
 
 function assertMessage(
-  message: OpenAI.Chat.Completions.ChatCompletionMessage | undefined,
+  message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta | undefined,
   { functions, stream }: ChatCompletionTestOptions = {},
 ): void {
   assert.isDefined(message);
-  const msg = message as OpenAI.Chat.Completions.ChatCompletionMessage;
+  const msg = message;
   if (!functions) {
     assertIf(!stream, msg.content, assert.isString);
   }
@@ -413,7 +428,7 @@ function assertMessage(
   for (const item of msg.tool_calls ?? []) {
     assertToolCall(item, { stream });
   }
-  ifDefined((msg as any).context, assertContext);
+  ifDefined(msg.context, assertContext);
 }
 
 function assertContext(context: AzureChatExtensionsMessageContextOutput): void {
@@ -466,4 +481,8 @@ interface ChatCompletionTestOptions {
   functions?: boolean;
   allowEmptyStream?: boolean;
   allowEmptyId?: boolean;
+}
+
+interface EmbeddingTestOptions {
+  dimensions?: number;
 }
