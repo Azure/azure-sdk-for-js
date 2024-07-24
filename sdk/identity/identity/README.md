@@ -10,7 +10,7 @@ Key links:
 - [Package (npm)](https://www.npmjs.com/package/@azure/identity)
 - [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/identity)
 - [Microsoft Entra ID documentation](https://learn.microsoft.com/entra/identity)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples)
 
 ## Getting started
 

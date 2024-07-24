@@ -280,6 +280,17 @@
       ]
     },
     {
+      "filename": "sdk/healthdataaiservices/azure-health-deidentification/**",
+      "words": [
+        "deid",
+        "deidservices",
+        "deidentification",
+        "healthdataaiservices",
+        "deidentify",
+        "deidentified"
+      ]
+    },
+    {
       "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
       "words": ["ctxt", "mros", "nify"]
     },

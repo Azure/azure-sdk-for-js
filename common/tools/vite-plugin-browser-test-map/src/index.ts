@@ -18,7 +18,11 @@ function rewriteDistPath(path: string): string {
   });
 }
 
-export default function browserTestMap() {
+export default function browserTestMap(): {
+  name: string;
+  enforce: "pre";
+  configResolved: (config: Record<string, unknown>) => void;
+} {
   return {
     name: "browser-test-config",
     enforce: "pre",
