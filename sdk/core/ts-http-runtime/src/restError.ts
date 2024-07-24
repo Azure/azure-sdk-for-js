@@ -56,10 +56,12 @@ export class RestError extends Error {
   public statusCode?: number;
   /**
    * The request that was made.
+   * This property is non-enumerable.
    */
   public request?: PipelineRequest;
   /**
    * The response received (if any.)
+   * This property is non-enumerable.
    */
   public response?: PipelineResponse;
   /**
