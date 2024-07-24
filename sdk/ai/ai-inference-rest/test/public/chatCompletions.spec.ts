@@ -118,10 +118,7 @@ describe("chat test suite", () => {
       assert.isTrue(json["tools"][0].function.name == body.tools[0].function.name);
       assert.isTrue(json["tools"][0].function.description == body.tools[0].function.description);
     }
-  },
-    {
-      timeout: 50000
-    });
+  });
 
 
   it("simple chat test", async function () {
@@ -140,10 +137,7 @@ describe("chat test suite", () => {
     assert.isNotEmpty(completion.choices);
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
-  },
-    {
-      timeout: 50000
-    });
+  });
 
   it("function calling test", async function () {
     const getCurrentWeather = {
@@ -192,10 +186,7 @@ describe("chat test suite", () => {
     assert.isDefined(toolCall.function);
     assert.isNotEmpty(toolCall.function.name);
     assert.isTrue(toolCall.function.arguments.includes("location"));
-  },
-    {
-      timeout: 50000
-    });
+  });
 
   it("image url test", async function () {
     const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
@@ -221,10 +212,7 @@ describe("chat test suite", () => {
     assert.isNotEmpty(completion.choices);
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
-  },
-    {
-      timeout: 50000
-    });
+  });
 
   it("multi-turn chat test", async function () {
     const messages = [
@@ -263,10 +251,7 @@ describe("chat test suite", () => {
 
     const yardsMessage = secondCompletion.choices[0].message.content as string;
     assert.isTrue(yardsMessage.includes("760"));
-  },
-    {
-      timeout: 80000
-    });
+  });
 
   it("chat auth error test", async function () {
     client = await createModelClient("dummy", recorder);
@@ -279,9 +264,6 @@ describe("chat test suite", () => {
     });
 
     assert.isTrue(isUnexpected(response));
-  },
-    {
-      timeout: 50000
-    });
+  });
 
 });
