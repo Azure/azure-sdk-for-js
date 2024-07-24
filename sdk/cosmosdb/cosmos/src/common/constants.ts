@@ -188,6 +188,9 @@ export const Constants = {
   ThrottledRequestMaxWaitTimeInSeconds: 30,
   ThrottledRequestFixedRetryIntervalInMs: 0,
 
+  // HttpHeaders Values
+  PREFER_RETURN_MINIMAL: "return=minimal",
+
   // GlobalDB related constants
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",

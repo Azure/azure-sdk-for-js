@@ -216,9 +216,9 @@ export class ClientContext {
     this.applySessionToken(request);
     logger.info(
       "query " +
-        requestId +
-        " started" +
-        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
+      requestId +
+      " started" +
+      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();
@@ -332,6 +332,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      if (!options.contentResponseOnWriteEnabled) {
+        request.headers[HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
+      }
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -391,6 +394,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      if (!options.contentResponseOnWriteEnabled) {
+        request.headers[HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
+      }
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
@@ -446,6 +452,9 @@ export class ClientContext {
         operationType: OperationType.Create,
         resourceType,
       });
+      if (!options.contentResponseOnWriteEnabled) {
+        request.headers[HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
+      }
       request.headers = await this.buildHeaders(request);
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
@@ -550,6 +559,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      if (!options.contentResponseOnWriteEnabled) {
+        request.headers[HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
+      }
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
@@ -606,6 +618,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      if (!options.contentResponseOnWriteEnabled) {
+        request.headers[HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
+      }
       request.headers[HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
@@ -771,6 +786,9 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
+      if (!options.contentResponseOnWriteEnabled) {
+        request.headers[HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
+      }
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.IsBatchAtomic] = true;
 
