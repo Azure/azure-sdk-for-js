@@ -858,12 +858,6 @@ export interface VirtualMachineScaleSetIpTag {
 }
 
 // @public
-export interface VirtualMachineScaleSetListResult {
-    nextLink?: string;
-    value: VirtualMachineScaleSet[];
-}
-
-// @public
 export interface VirtualMachineScaleSetManagedDiskParameters {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityProfile?: VMDiskSecurityProfile;

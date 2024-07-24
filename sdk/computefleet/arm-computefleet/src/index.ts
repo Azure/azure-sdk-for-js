@@ -145,7 +145,6 @@ export {
   FleetUpdate,
   ManagedServiceIdentityUpdate,
   ResourcePlanUpdate,
-  VirtualMachineScaleSetListResult,
   VirtualMachineScaleSet,
   ApiError,
   ApiErrorBase,

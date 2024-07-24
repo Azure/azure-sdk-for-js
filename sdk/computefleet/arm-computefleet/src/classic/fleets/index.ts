@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzureFleetContext } from "../../api/azureFleetContext.js";
-import { Fleet, FleetUpdate, VirtualMachineScaleSetListResult } from "../../models/models.js";
+import { Fleet, FleetUpdate, VirtualMachineScaleSet } from "../../models/models.js";
 import {
   get,
   createOrUpdate,
@@ -71,7 +71,7 @@ export interface FleetsOperations {
     resourceGroupName: string,
     name: string,
     options?: FleetsListVirtualMachineScaleSetsOptionalParams,
-  ) => Promise<VirtualMachineScaleSetListResult>;
+  ) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
 }
 
 export function getFleets(context: AzureFleetContext, subscriptionId: string) {

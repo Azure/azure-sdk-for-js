@@ -228,7 +228,7 @@ export interface FleetsOperations {
     get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) => Promise<Fleet>;
     listByResourceGroup: (resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Fleet>;
     listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Fleet>;
-    listVirtualMachineScaleSets: (resourceGroupName: string, name: string, options?: FleetsListVirtualMachineScaleSetsOptionalParams) => Promise<VirtualMachineScaleSetListResult>;
+    listVirtualMachineScaleSets: (resourceGroupName: string, name: string, options?: FleetsListVirtualMachineScaleSetsOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     update: (resourceGroupName: string, fleetName: string, properties: FleetUpdate, options?: FleetsUpdateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
 }
 
@@ -901,12 +901,6 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
 export interface VirtualMachineScaleSetIpTag {
     ipTagType?: string;
     tag?: string;
-}
-
-// @public
-export interface VirtualMachineScaleSetListResult {
-    nextLink?: string;
-    value: VirtualMachineScaleSet[];
 }
 
 // @public

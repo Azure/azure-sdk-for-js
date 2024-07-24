@@ -3116,7 +3116,7 @@ export interface _FleetListResult {
 }
 
 /** The response of a VirtualMachineScaleSet list operation. */
-export interface VirtualMachineScaleSetListResult {
+export interface _VirtualMachineScaleSetListResult {
   /** The VirtualMachineScaleSet items on this page */
   value: VirtualMachineScaleSet[];
   /** The link to the next page of items */
