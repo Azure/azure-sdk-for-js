@@ -39,7 +39,7 @@ describe("chat test suite", () => {
       messages: [
         { role: "system", content: "You are a helpful assistant." },
         { role: "user", content: "How many feet are in a mile?" },
-        { role: "user", content: [{ type: "image_url", image_url: { url, detail: "auto" } } ]},
+        { role: "user", content: [{ type: "image_url", image_url: { url, detail: "auto" } }] },
       ],
       frequency_penalty: 1,
       stream: false,
@@ -52,7 +52,7 @@ describe("chat test suite", () => {
       model: "foo",
       response_format: "foo",
       tool_choice: "auto",
-      tools: [ { type: "function", function: { name: "foo", description: "bar" } } ]
+      tools: [{ type: "function", function: { name: "foo", description: "bar" } }]
     }
     const response = await client.path("/chat/completions").post({
       headers,
@@ -228,10 +228,10 @@ describe("chat test suite", () => {
 
   it("multi-turn chat test", async function () {
     const messages = [
-      { role: "system", content: "You are a helpful assistant" },
+      { role: "system", content: "You are a helpful assistant answering questions regarding length units." },
       { role: "user", content: "How many feet are in a mile?" },
     ];
-    let response = await client.path("/chat/completions").post({
+    const response = await client.path("/chat/completions").post({
       body: { messages }
     });
 
@@ -242,25 +242,26 @@ describe("chat test suite", () => {
     assert.isNotEmpty(completion.choices);
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
-    
+
     const assistantMessage = completion.choices[0].message.content as string;
     assert.isTrue(assistantMessage.includes("280"));
-    messages.push({ role: "assistant", content: assistantMessage});
-    messages.push({ role: "user", content: "and how many yards?"});
+    messages.push({ role: "assistant", content: assistantMessage });
+    messages.push({ role: "user", content: "and how many yards?" });
 
-    response = await client.path("/chat/completions").post({
+    const secondResponse = await client.path("/chat/completions").post({
       body: { messages }
     });
 
-    assert.isFalse(isUnexpected(response));
+    assert.isFalse(isUnexpected(secondResponse));
 
-    const secondCompletion = response.body as ChatCompletionsOutput;
+    const secondCompletion = secondResponse.body as ChatCompletionsOutput;
     assert.isDefined(secondCompletion);
     assert.isNotEmpty(secondCompletion.choices);
+
     assert.isDefined(secondCompletion.choices[0].message);
     assert.isDefined(secondCompletion.choices[0].message.content);
 
-    const yardsMessage = completion.choices[0].message.content as string;
+    const yardsMessage = secondCompletion.choices[0].message.content as string;
     assert.isTrue(yardsMessage.includes("760"));
   },
     {
