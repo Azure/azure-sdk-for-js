@@ -92,7 +92,7 @@ describe("serviceUtils", function () {
   });
 
   it("convert public fields to generated fields", function () {
-    const generatedFields: GeneratedSearchField[] = convertFieldsToGenerated([
+    const generatedFields: GeneratedSearchField[] | undefined = convertFieldsToGenerated([
       {
         name: "id",
         key: true,
@@ -110,7 +110,7 @@ describe("serviceUtils", function () {
       },
     ]);
 
-    assert.include(generatedFields[0], {
+    assert.include(generatedFields?.[0], {
       name: "id",
       key: true,
       type: "Edm.String",
@@ -128,7 +128,7 @@ describe("serviceUtils", function () {
   });
 
   it("convert public fields (complex) to generated fields", function () {
-    const generatedFields: GeneratedSearchField[] = convertFieldsToGenerated([
+    const generatedFields: GeneratedSearchField[] | undefined = convertFieldsToGenerated([
       {
         name: "ComplexObj",
         type: "Edm.ComplexType",
@@ -152,12 +152,12 @@ describe("serviceUtils", function () {
       },
     ]);
 
-    assert.include(generatedFields[0], {
+    assert.include(generatedFields?.[0], {
       name: "ComplexObj",
       type: "Edm.ComplexType",
     });
 
-    assert.include(generatedFields[0].fields![0], {
+    assert.include(generatedFields?.[0].fields![0], {
       name: "id",
       key: true,
       type: "Edm.String",
