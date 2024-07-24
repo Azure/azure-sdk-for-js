@@ -1077,6 +1077,8 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
+    get correlatedActivityId(): string;
+    // (undocumented)
     readonly diagnostics: CosmosDiagnostics;
     // (undocumented)
     readonly hasMoreResults: boolean;
@@ -1093,6 +1095,7 @@ export class FeedResponse<TResource> {
 // @public (undocumented)
 export type GatewayStatistics = {
     activityId?: string;
+    correlatedActivityId?: string;
     startTimeUTCInMs: number;
     durationInMs: number;
     operationType?: OperationType;
