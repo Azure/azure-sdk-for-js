@@ -376,18 +376,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/openai-assistants",
-      "projectFolder": "sdk/openai/openai-assistants",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure-rest/openai",
-      "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2245,6 +2235,11 @@
     {
       "packageName": "@azure/arm-computefleet",
       "projectFolder": "sdk/computefleet/arm-computefleet",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-edgezones",
+      "projectFolder": "sdk/edgezones/arm-edgezones",
       "versionPolicyName": "management"
     }
   ]

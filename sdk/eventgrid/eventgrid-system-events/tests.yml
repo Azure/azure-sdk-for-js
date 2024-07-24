@@ -5,4 +5,3 @@ extends:
     parameters:
       PackageName: "@azure/eventgrid-system-events"
       ServiceDirectory: eventgrid
-      UseFederatedAuth: true
