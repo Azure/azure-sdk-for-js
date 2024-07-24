@@ -268,6 +268,16 @@ describe("chat test suite", () => {
     });
 
   it("chat auth error test", async function () {
+    client = await createModelClient("dummy", recorder);
+    const response = await client.path("/chat/completions").post({
+      body: {
+        messages: [
+          { role: "user", content: "How many feet are in a mile?" },
+        ]
+      }
+    });
+
+    assert.isTrue(isUnexpected(response));
   },
     {
       timeout: 50000
