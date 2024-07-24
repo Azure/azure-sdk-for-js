@@ -27,7 +27,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private pageSize: number;
   private vectorSearchBufferSize: number = 0;
   private static DEFAULT_PAGE_SIZE = 10;
-  private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 2000;
+  private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
 
   constructor(
