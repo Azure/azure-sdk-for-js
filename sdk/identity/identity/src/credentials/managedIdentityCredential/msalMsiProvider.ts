@@ -215,11 +215,13 @@ export class MsalMsiProvider {
         if (isNetworkError(err)) {
           throw new CredentialUnavailableError(
             `ManagedIdentityCredential: Network unreachable. Message: ${err.message}`,
+            { cause: err },
           );
         }
 
         throw new CredentialUnavailableError(
           `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
+          { cause: err },
         );
       }
     });
