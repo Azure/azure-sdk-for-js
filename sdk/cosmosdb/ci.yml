@@ -35,3 +35,4 @@ extends:
     Artifacts:
       - name: azure-cosmos
         safeName: azurecosmos
+    UseFederatedAuth: false
