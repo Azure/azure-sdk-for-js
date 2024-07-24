@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/developer-devcenter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure Developer DevCenter Client",
   "engines": {
     "node": ">=18.0.0"
@@ -60,8 +60,8 @@
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.6.2",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-lro": "3.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-paging": "^1.5.0"
   },
   "devDependencies": {
@@ -69,7 +69,6 @@
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "eslint": "^8.55.0",
-    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "mkdirp": "^3.0.1",
     "typescript": "~5.5.3",
