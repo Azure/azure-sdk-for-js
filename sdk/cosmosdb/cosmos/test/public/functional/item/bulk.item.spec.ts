@@ -156,21 +156,20 @@ describe("test bulk operations", async function () {
           },
         ];
         const response = await container.items.bulk(operations);
-        console.log("response", response);
-        // // Create
-        // assert.equal(response[0].resourceBody.name, "sample");
-        // assert.equal(response[0].statusCode, 201);
-        // // Upsert
-        // assert.equal(response[1].resourceBody.name, "other");
-        // assert.equal(response[1].statusCode, 201);
-        // // Read
-        // assert.equal(response[2].resourceBody.class, "2010");
-        // assert.equal(response[2].statusCode, 200);
-        // // Delete
-        // assert.equal(response[3].statusCode, 204);
-        // // Replace
-        // assert.equal(response[4].resourceBody.name, "nice");
-        // assert.equal(response[4].statusCode, 200);
+        // Create
+        assert.equal(response[0].resourceBody.name, "sample");
+        assert.equal(response[0].statusCode, 201);
+        // Upsert
+        assert.equal(response[1].resourceBody.name, "other");
+        assert.equal(response[1].statusCode, 201);
+        // Read
+        assert.equal(response[2].resourceBody.class, "2010");
+        assert.equal(response[2].statusCode, 200);
+        // Delete
+        assert.equal(response[3].statusCode, 204);
+        // Replace
+        assert.equal(response[4].resourceBody.name, "nice");
+        assert.equal(response[4].statusCode, 200);
       });
       it("Check case when cumulative size of all operations is less than threshold", async function () {
         const operations: OperationInput[] = [...Array(10).keys()].map(
