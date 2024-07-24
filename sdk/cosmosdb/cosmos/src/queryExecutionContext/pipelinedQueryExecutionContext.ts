@@ -279,7 +279,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private checkTopOrLimit(queryInfo: QueryInfo): void {
-    if (!queryInfo.top && !queryInfo.limit) {
+    if (!queryInfo.top && !queryInfo.limit && queryInfo.top !== 0 && queryInfo.limit !== 0) {
       throw new ErrorResponse(
         "Executing a vector search query without TOP or LIMIT can consume a large number of RUs " +
           "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
