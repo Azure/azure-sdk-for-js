@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.2 (2024-05-10)
     
-**Features**
+### Features Added
 
   - Added operation group ScheduledEvent
   - Added operation ApplyUpdates.createOrUpdateOrCancel

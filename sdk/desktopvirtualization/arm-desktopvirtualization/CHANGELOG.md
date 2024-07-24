@@ -12,7 +12,7 @@
 
 ## 1.1.0 (2023-10-08)
     
-**Features**
+### Features Added
 
   - Added operation group PrivateEndpointConnections
   - Added operation group PrivateLinkResources

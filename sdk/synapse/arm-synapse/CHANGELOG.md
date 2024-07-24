@@ -12,7 +12,7 @@
 
 ## 9.0.0-beta.1 (2023-02-08)
     
-**Features**
+### Features Added
 
   - Added operation group Get
   - Added operation group KustoPoolPrivateLinkResourcesOperations
@@ -140,7 +140,7 @@
   - Added Enum KnownWorkspaceStatus
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group PrivateLinkResources
   - Removed operation SqlPoolOperationResults.getLocationHeaderResult

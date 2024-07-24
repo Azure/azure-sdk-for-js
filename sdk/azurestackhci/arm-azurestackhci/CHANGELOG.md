@@ -2,7 +2,7 @@
     
 ## 4.0.0-beta.1 (2023-10-16)
     
-**Features**
+### Features Added
 
   - Added operation group GalleryImagesOperations
   - Added operation group GuestAgentOperations
@@ -285,7 +285,7 @@
   - Enum KnownStatus has a new value InProgress
   - Enum KnownStatus has a new value Succeeded
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group ArcSettings
   - Removed operation group Clusters
@@ -311,7 +311,7 @@
     
 ## 3.1.0 (2022-11-16)
     
-**Features**
+### Features Added
 
   - Added Interface ArcSetting
   - Added Interface Cluster
@@ -321,19 +321,19 @@
     
 ## 3.0.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  revert credential scopes
 
 ## 3.0.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  fix better user experience of credential scopes in government cloud
 
 ## 3.0.0 (2022-05-17)
     
-**Features**
+### Features Added
 
   - Added operation ArcSettings.beginCreateIdentity
   - Added operation ArcSettings.beginCreateIdentityAndWait
@@ -372,13 +372,13 @@
   - Type Alias Cluster has a new parameter aadServicePrincipalObjectId
   - Type Alias Cluster has a new parameter serviceEndpoint
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Clusters.delete
     
 ## 2.1.0 (2022-02-28)
 
-**Features**
+### Features Added
 
   - Added Parameters
 

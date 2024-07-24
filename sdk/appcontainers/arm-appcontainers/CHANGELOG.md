@@ -12,7 +12,7 @@
 
 ## 2.1.0-beta.1 (2024-03-18)
     
-**Features**
+### Features Added
 
   - Added operation group AppResiliencyOperations
   - Added operation group BuildAuthToken
@@ -236,7 +236,7 @@
     
 ## 2.0.0 (2023-08-08)
 
-**Features**
+### Features Added
 
 - Added operation group AvailableWorkloadProfiles
 - Added operation group BillingMeters
@@ -548,7 +548,7 @@
 - Added function getContinuationToken
 - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
 
-**Breaking Changes**
+### Breaking Changes
 
 - Interface VnetConfiguration no longer has parameter runtimeSubnetId
 - Type of parameter customDomainVerificationFailureInfo of interface CustomHostnameAnalysisResult is changed from DefaultErrorResponse to CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
@@ -556,19 +556,19 @@
 
 ## 1.1.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - revert credential scopes
 
 ## 1.1.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - fix better user experience of credential scopes in government cloud
 
 ## 1.1.0 (2022-08-02)
 
-**Features**
+### Features Added
 
 - Added Interface AuthConfig
 - Added Interface Certificate

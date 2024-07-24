@@ -12,7 +12,7 @@
 
 ## 4.1.0 (2024-03-08)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedServiceIdentity
   - Added Interface UserAssignedIdentity
@@ -24,7 +24,7 @@
     
 ## 4.1.0-beta.2 (2023-11-10)
     
-**Features**
+### Features Added
 
   - Added operation group SuppressionListAddresses
   - Added operation group SuppressionLists
@@ -60,7 +60,7 @@
   
 ## 4.1.0-beta.1 (2023-09-20)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedServiceIdentity
   - Added Interface UserAssignedIdentity
@@ -70,7 +70,7 @@
   - Added Enum KnownManagedServiceIdentityType
 ## 4.0.0 (2023-03-27)
     
-**Features**
+### Features Added
 
   - Added operation group CommunicationServices
   - Added operation group Domains
@@ -188,14 +188,14 @@
   - Added Enum KnownVerificationType
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group CommunicationService
   - Class CommunicationServiceManagementClient no longer has parameter communicationService
     
 ## 3.0.1 (2022-04-11)
 
-**features**
+### Features Added
 
   - Bug fix
 

@@ -2,7 +2,7 @@
     
 ## 6.0.0-beta.2 (2023-10-09)
     
-**Features**
+### Features Added
 
   - Added operation group SignalRReplicas
   - Added operation SignalR.listReplicaSkus
@@ -35,14 +35,14 @@
   - Interface SignalRResource has a new optional parameter regionEndpointEnabled
   - Interface SignalRResource has a new optional parameter resourceStopped
 
-**Breaking Changes**
+### Breaking Changes
 
   - Parameter location of interface TrackedResource is now required
     
     
 ## 6.0.0-beta.1 (2023-08-31)
 
-**Features**
+### Features Added
 
 - Added operation group SignalRReplicas
 - Added operation SignalR.listReplicaSkus
@@ -70,14 +70,14 @@
 - Added Type Alias SignalRReplicasUpdateResponse
 - Added Type Alias SignalRRestartResponse
 
-**Breaking Changes**
+### Breaking Changes
 
 - Parameter location of interface TrackedResource is now required
 
 
 ## 5.2.0 (2023-03-08)
     
-**Features**
+### Features Added
 
   - Added Interface CustomCertificate
   - Added Interface CustomDomain
@@ -94,7 +94,7 @@
     
 ## 5.1.0 (2022-03-30)
     
-**Features**
+### Features Added
 
   - Added operation group SignalRCustomCertificates
   - Added operation group SignalRCustomDomains

@@ -13,7 +13,7 @@
 ## 4.0.0-beta.2 (2024-06-05)
 Compared with version 3.0.0
     
-**Features**
+### Features Added
 
   - Added operation group ExtensionMetadata
   - Added operation group Gateways
@@ -259,7 +259,7 @@ Compared with version 3.0.0
   - Enum KnownPublicNetworkAccessType has a new value SecuredByPerimeter
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface MachineExtensionsListNextOptionalParams no longer has parameter expand
   - Type of parameter protectedSettings of interface MachineExtensionProperties is changed from Record<string, unknown> to {
@@ -273,7 +273,7 @@ Compared with version 3.0.0
     
 ## 4.0.0-beta.1 (2024-04-17)
     
-**Features**
+### Features Added
 
   - Added operation group ExtensionMetadata
   - Added operation group MachineRunCommands
@@ -452,7 +452,7 @@ Compared with version 3.0.0
   - Added Enum KnownVMGuestPatchRebootStatus
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface MachineExtensionsListNextOptionalParams no longer has parameter expand
   - Type of parameter protectedSettings of interface MachineExtensionProperties is changed from Record<string, unknown> to {
@@ -468,7 +468,7 @@ Compared with version 3.0.0
 
 ## 3.1.0-beta.3 (2023-11-09)
     
-**Features**
+### Features Added
 
   - Added operation group AgentVersionOperations
   - Added operation group ExtensionMetadata
@@ -655,7 +655,7 @@ Compared with version 3.0.0
 
 ## 3.1.0-beta.2 (2022-11-25)
     
-**Features**
+### Features Added
 
   - Added Interface HybridComputePrivateLinkScope
   - Added Interface Machine
@@ -679,7 +679,7 @@ Compared with version 3.0.0
 
 ## 3.1.0-beta.1 (2022-04-26)
     
-**Features**
+### Features Added
 
   - Added Interface OSProfileLinuxConfiguration
   - Added Interface OSProfileWindowsConfiguration

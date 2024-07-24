@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2023-02-02)
     
-**Features**
+### Features Added
 
   - Interface JobsListByResourceGroupNextOptionalParams no longer has parameter filter
   - Interface JobsListByResourceGroupNextOptionalParams no longer has parameter top
@@ -21,13 +21,13 @@
     
 ## 2.0.2 (2022-07-05)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 2.0.1 (2022-05-01)
 
-**Features**
+### Features Added
 
   - Bug fix
 

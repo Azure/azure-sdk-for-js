@@ -12,7 +12,7 @@
 
 ## 8.0.0-beta.5 (2024-03-28)
     
-**Features**
+### Features Added
 
   - Added operation group AzureMonitorWorkspaces
   - Added operation group MetricsOperations
@@ -322,7 +322,7 @@
   - Enum KnownProvisioningState has a new value Deleting
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Metrics
   - Removed operation ActionGroups.beginPostTestNotifications
@@ -373,7 +373,7 @@
     
 ## 8.0.0-beta.4 (2023-02-13)
     
-**Features**
+### Features Added
 
   - Added operation group AzureMonitorWorkspaces
   - Added operation group MetricsOperations
@@ -576,7 +576,7 @@
   - Enum KnownProvisioningState has a new value Deleting
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Metrics
   - Operation ActivityLogAlerts.update has a new signature
@@ -606,7 +606,7 @@
     
 ## 8.0.0-beta.3 (2023-01-29)
     
-**Features**
+### Features Added
 
   - Added operation group PredictiveMetric
   - Added operation ActionGroups.beginCreateNotificationsAtActionGroupResourceLevel
@@ -744,7 +744,7 @@
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation ActivityLogAlerts.update has a new signature
   - Interface ActivityLogsListNextOptionalParams no longer has parameter select
@@ -760,7 +760,7 @@
 
 ## 8.0.0-beta.2 (2022-07-29)
     
-**Features**
+### Features Added
 
   - Added operation group PredictiveMetric
   - Added operation ActionGroups.beginCreateNotificationsAtActionGroupResourceLevel
@@ -898,7 +898,7 @@
   - Added Enum KnownPrivateEndpointConnectionProvisioningState
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation ActivityLogAlerts.update has a new signature
   - Interface AzureResource no longer has parameter identity
@@ -910,7 +910,7 @@
 
 ## 8.0.0-beta.1 (2022-06-10)
     
-**Features**
+### Features Added
 
   - Added operation ActionGroups.beginCreateNotificationsAtActionGroupResourceLevel
   - Added operation ActionGroups.beginCreateNotificationsAtActionGroupResourceLevelAndWait
@@ -978,7 +978,7 @@
   - Added Enum KnownKnownLogFilesDataSourceFormat
   - Added Enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation ActivityLogAlerts.update has a new signature
   - Delete parameters of Resource in TypeAlias ActivityLogAlertResource

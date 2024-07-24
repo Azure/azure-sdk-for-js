@@ -2,7 +2,7 @@
     
 ## 7.5.0 (2023-07-06)
     
-**Features**
+### Features Added
 
   - Added operation group Models
   - Added operation group Usages
@@ -39,7 +39,7 @@
     
 ## 7.4.0 (2023-02-06)
     
-**Features**
+### Features Added
 
   - Added operation CommitmentPlans.beginCreateOrUpdateAssociation
   - Added operation CommitmentPlans.beginCreateOrUpdateAssociationAndWait
@@ -110,17 +110,17 @@
     
 ## 7.3.1 (2022-11-21)
 
-**Features**
+### Features Added
 
  -  Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 7.3.0 (2022-10-31)
     
-**Features**
+### Features Added
 
   - Added Interface Account
   - Added Interface AccountModel
@@ -138,14 +138,14 @@
     
 ## 7.2.0 (2022-06-10)
     
-**Features**
+### Features Added
 
   - Enum KnownDeploymentScaleType has a new value Standard
     
     
 ## 7.1.0 (2022-04-06)
     
-**Features**
+### Features Added
 
   - Added operation Accounts.listModels
   - Added Interface AccountModelListResult
