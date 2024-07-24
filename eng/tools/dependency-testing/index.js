@@ -74,6 +74,27 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
   }
 }
 
+function replaceStringInFile(filePath, oldString, newString) {
+  // Read the content of the file
+  fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+          console.error(err);
+          return;
+      }
+
+      // Replace the old string with the new string
+      const result = data.replace(new RegExp(oldString, 'g'), newString);
+
+      // Write the updated content back to the file
+      fs.writeFile(filePath, result, 'utf8', (err) => {
+          if (err) {
+              console.error(err);
+              return;
+          }
+      });
+  });
+}
+
 /**
  * This inserts the package.json from the templates into the test folder.
  * It computes the different versions of the dependencies/ dev-dep in this package.json
@@ -95,7 +116,10 @@ async function insertPackageJson(
   testFolder,
 ) {
   const testPath = path.join(targetPackagePath, testFolder);
+  const vitestConfigFilePath = path.join(targetPackagePath, "vitest.config.json");
+  replaceStringInFile(vitestConfigFilePath, "include: [\"test/**/*.spec.ts\"],", "");
   const testPackageJson = await packageUtils.readFileJson("./templates/package.json");
+  
   if (packageJsonContents.name.startsWith("@azure/")) {
     testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
   } else if (packageJsonContents.name.startsWith("@azure-rest/")) {
