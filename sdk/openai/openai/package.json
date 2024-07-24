@@ -47,6 +47,7 @@
     "dist/",
     "CHANGELOG.md",
     "LICENSE",
+    "MIGRATION.md",
     "README.md"
   ],
   "tshy": {
