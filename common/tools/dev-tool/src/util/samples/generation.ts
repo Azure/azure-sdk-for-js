@@ -325,6 +325,8 @@ export async function makeSamplesFactory(
    * Helper to remove azsdk- directives from the resulting module code.
    */
   function postProcess(moduleText: string | Buffer): string {
+    console.log("Post-processing module text");
+    console.log(moduleText);
     const content = Buffer.isBuffer(moduleText) ? moduleText.toString("utf8") : moduleText;
     return (
       content

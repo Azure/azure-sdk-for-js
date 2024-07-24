@@ -121,6 +121,7 @@ export async function processSources(
       },
     });
 
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     const sourceFile = ts.createSourceFile(source, sourceText, ts.ScriptTarget.Latest, true);
     const tsModuleText = credentialTransformer(undefined)(sourceFile).getText();
 
@@ -413,7 +414,8 @@ const credentialTransformer: (
   const visitor: ts.Visitor = (node) => {
     if (ts.isImportDeclaration(node)) {
       if (node.moduleSpecifier.getText() === '"@azure-tools/test-credential"') {
-        return ts.factory.createImportDeclaration(
+        return ts.factory.updateImportDeclaration(
+          node,
           node.modifiers,
           ts.factory.createImportClause(
             false,
@@ -421,12 +423,12 @@ const credentialTransformer: (
             ts.factory.createNamedImports([
               ts.factory.createImportSpecifier(
                 false,
+
                 undefined,
                 ts.factory.createIdentifier("DefaultAzureCredential"),
               ),
             ]),
           ),
-
           ts.factory.createStringLiteral("@azure/identity"),
           node.attributes,
         );

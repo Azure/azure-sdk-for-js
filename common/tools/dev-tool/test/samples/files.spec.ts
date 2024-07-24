@@ -96,13 +96,13 @@ describe("File content tests", { timeout: 50000 }, async function () {
             const actual = await fs.readFile(actualFileName);
             const expected = await fs.readFile(expectedFileName);
 
-            // console.log(expectedFileName);
-            // if (expectedFileName.includes("credential")) {
-            //   console.log("=====EXPECTED=====");
-            //   console.log(expected.toString("utf8"));
-            //   console.log("=====ACTUAL=====");
-            //   console.log(actual.toString("utf8"));
-            // }
+            console.log(expectedFileName);
+            if (expectedFileName.includes("credential")) {
+              console.log("=====EXPECTED=====");
+              console.log(expected.toString("utf8"));
+              console.log("=====ACTUAL=====");
+              console.log(actual.toString("utf8"));
+            }
             assert.equal(actual.toString("utf8"), expected.toString("utf8"));
           }
 
