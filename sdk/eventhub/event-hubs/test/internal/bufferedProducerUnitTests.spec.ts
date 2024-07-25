@@ -8,7 +8,7 @@ import { assert, expect } from "../utils/chai.js";
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("verbose");
-let localStorage: any = {};
+const localStorage: any = {};
 localStorage.debug = "azure:*:verbose";
 
 describe("EventHubBufferedProducerClient unit tests", function () {
