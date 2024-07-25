@@ -5,6 +5,11 @@ import type { EventHubBufferedProducerClient } from "../../src/index.js";
 import { createBufferedProducer } from "../utils/clients.js";
 import { describe, it, afterEach, vi, beforeEach, beforeAll, afterAll } from "vitest";
 import { assert, expect } from "../utils/chai.js";
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("verbose");
+let localStorage: any = {};
+localStorage.debug = "azure:*:verbose";
 
 describe("EventHubBufferedProducerClient unit tests", function () {
   let client: EventHubBufferedProducerClient;
