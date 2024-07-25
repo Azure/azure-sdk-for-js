@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- The `request` and `response` properties on `RestError` are now non-enumerable.
+
 ## 1.16.2 (2024-07-10)
 
 ### Bugs Fixed
