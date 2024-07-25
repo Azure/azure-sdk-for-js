@@ -166,7 +166,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       ]);
 
       const result = results[1];
-      return await parseJsonToken(result);
+      return parseJsonToken(result);
     }
     throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);
   }
