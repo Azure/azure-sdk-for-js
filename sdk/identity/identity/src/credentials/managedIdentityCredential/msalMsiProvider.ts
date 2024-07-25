@@ -244,7 +244,7 @@ export class MsalMsiProvider {
       });
     };
     if (!msalToken) {
-      throw createError("No response");
+      throw createError("No response.");
     }
     if (!msalToken.expiresOn) {
       throw createError(`Response had no "expiresOn" property.`);
