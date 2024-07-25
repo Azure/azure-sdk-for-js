@@ -29,10 +29,10 @@ describe("AzurePowerShellCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantIdErrorMessage =
     "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
-  let sandbox:Sinon.SinonSandbox;
-  beforeEach(()=>{
-    sandbox = Sinon.createSandbox();    
-  })
+  let sandbox: Sinon.SinonSandbox;
+  beforeEach(() => {
+    sandbox = Sinon.createSandbox();
+  });
   afterEach(() => {
     sandbox.restore();
     resetCommandStack();
