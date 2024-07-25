@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure/event-hubs";
+import {
+  EventHubBufferedProducerClient,
+  OnSendEventsErrorContext,
+} from "@azure/event-hubs";
 import { WebSocketWrapper } from "./wsWrapper";
 
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const connectionString =
+  process.env.EXPO_PUBLIC_EVENTHUB_CONNECTION_STRING || "<connection string>";
+const eventHubName = process.env.EXPO_PUBLIC_EVENTHUB_NAME || "<hub name>";
 
 async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
@@ -26,20 +30,24 @@ export async function main(): Promise<void> {
    * Create a buffered client that batches the enqueued events and sends it either
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
-  const client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
-    /** An error handler must be provided */
-    onSendEventsErrorHandler: handleError,
+  const client = new EventHubBufferedProducerClient(
+    connectionString,
+    eventHubName,
+    {
+      /** An error handler must be provided */
+      onSendEventsErrorHandler: handleError,
 
-    /** wait for up to 750 milliseconds before sending a batch */
-    maxWaitTimeInMs: 750,
+      /** wait for up to 750 milliseconds before sending a batch */
+      maxWaitTimeInMs: 750,
 
-    /** buffer up to 1000 events per partition before sending */
-    maxEventBufferLengthPerPartition: 1000,
+      /** buffer up to 1000 events per partition before sending */
+      maxEventBufferLengthPerPartition: 1000,
 
-    webSocketOptions: {
-      webSocket: WebSocketWrapper,
-    },
-  });
+      webSocketOptions: {
+        webSocket: WebSocketWrapper,
+      },
+    }
+  );
 
   function createData(count: number): number[] {
     return [...Array(count).keys()];

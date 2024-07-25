@@ -20,5 +20,8 @@ export async function testSDK(selectedId: string) {
     case "eh-receive-msgs":
       await ehReceiveEvents();
       break;
+    default:
+      console.warn("Please select a scenario");
+      break;
   }
 }

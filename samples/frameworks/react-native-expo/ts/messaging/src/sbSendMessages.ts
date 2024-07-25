@@ -5,13 +5,13 @@ import {
   ServiceBusClient,
   ServiceBusMessage,
   ServiceBusMessageBatch,
-  WebSocketImpl,
 } from "@azure/service-bus";
 import { WebSocketWrapper } from "./wsWrapper";
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-const queueName = process.env.QUEUE_NAME || "<queue name>";
+const connectionString =
+  process.env.EXPO_PUBLIC_SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.EXPO_PUBLIC_QUEUE_NAME || "<queue name>";
 
 const firstSetOfMessages: ServiceBusMessage[] = [
   { body: "Albert Einstein" },

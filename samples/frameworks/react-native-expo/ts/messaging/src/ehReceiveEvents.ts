@@ -1,21 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+import {
+  EventHubConsumerClient,
+  earliestEventPosition,
+} from "@azure/event-hubs";
 import { WebSocketWrapper } from "./wsWrapper";
 
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const connectionString =
+  process.env.EXPO_PUBLIC_EVENTHUB_CONNECTION_STRING || "<connection string>";
+const eventHubName = process.env.EXPO_PUBLIC_EVENTHUB_NAME || "<hub name>";
+const consumerGroup = process.env.EXPO_PUBLIC_CONSUMER_GROUP_NAME || "$Default";
 
 export async function main() {
   console.log(`Running receiveEvents sample`);
 
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, {
-    webSocketOptions: {
-      webSocket: WebSocketWrapper,
-    },
-  });
+  const consumerClient = new EventHubConsumerClient(
+    consumerGroup,
+    connectionString,
+    eventHubName,
+    {
+      webSocketOptions: {
+        webSocket: WebSocketWrapper,
+      },
+    }
+  );
 
   const subscription = consumerClient.subscribe(
     {
