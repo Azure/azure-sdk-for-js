@@ -18020,7 +18020,7 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-ng05dmmR8zMs1iHtpoC/4IEluVbdNByOPKN0xhweKKQDAxqN1asF0TD7ncOW5KYlVoLuDYAVQnS9RMXymdO7HA==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-n9+MFthVi0kPRyKbesnuxpozFIAXlDtN3AUHhnifFNmk1ljV9L9Qlo6F4jwEUiVDxc3q4Tewg2Z20NXpsl7jcQ==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
@@ -18041,6 +18041,7 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
       tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.18.0
     transitivePeerDependencies:
