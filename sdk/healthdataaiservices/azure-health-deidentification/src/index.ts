@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import DeidServicesClient from "./deidServicesClient.js";
+import DeidentificationClient from "./deidentificationClient.js";
 
-export * from "./deidServicesClient.js";
+export * from "./deidentificationClient.js";
 export * from "./parameters.js";
 export * from "./responses.js";
 export * from "./clientDefinitions.js";
@@ -13,4 +13,4 @@ export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
 
-export default DeidServicesClient;
+export default DeidentificationClient;
