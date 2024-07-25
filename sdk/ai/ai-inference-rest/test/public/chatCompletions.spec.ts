@@ -39,7 +39,7 @@ describe("chat test suite", () => {
       messages: [
         { role: "system", content: "You are a helpful assistant." },
         { role: "user", content: "How many feet are in a mile?" },
-        { role: "user", content: [{ type: "image_url", image_url: { url, detail: "auto" } } ]},
+        { role: "user", content: [{ type: "image_url", image_url: { url, detail: "auto" } }] },
       ],
       frequency_penalty: 1,
       stream: false,
@@ -52,7 +52,7 @@ describe("chat test suite", () => {
       model: "foo",
       response_format: "foo",
       tool_choice: "auto",
-      tools: [ { type: "function", function: { name: "foo", description: "bar" } } ]
+      tools: [{ type: "function", function: { name: "foo", description: "bar" } }]
     }
     const response = await client.path("/chat/completions").post({
       headers,
@@ -118,10 +118,7 @@ describe("chat test suite", () => {
       assert.isTrue(json["tools"][0].function.name == body.tools[0].function.name);
       assert.isTrue(json["tools"][0].function.description == body.tools[0].function.description);
     }
-  },
-    {
-      timeout: 50000
-    });
+  });
 
 
   it("simple chat test", async function () {
@@ -140,10 +137,7 @@ describe("chat test suite", () => {
     assert.isNotEmpty(completion.choices);
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
-  },
-    {
-      timeout: 50000
-    });
+  });
 
   it("function calling test", async function () {
     const getCurrentWeather = {
@@ -192,10 +186,7 @@ describe("chat test suite", () => {
     assert.isDefined(toolCall.function);
     assert.isNotEmpty(toolCall.function.name);
     assert.isTrue(toolCall.function.arguments.includes("location"));
-  },
-    {
-      timeout: 50000
-    });
+  });
 
   it("image url test", async function () {
     const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
@@ -221,9 +212,58 @@ describe("chat test suite", () => {
     assert.isNotEmpty(completion.choices);
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
-  },
-    {
-      timeout: 50000
+  });
+
+  it("multi-turn chat test", async function () {
+    const messages = [
+      { role: "system", content: "You are a helpful assistant answering questions regarding length units." },
+      { role: "user", content: "How many feet are in a mile?" },
+    ];
+    const response = await client.path("/chat/completions").post({
+      body: { messages }
     });
+
+    assert.isFalse(isUnexpected(response));
+
+    const completion = response.body as ChatCompletionsOutput;
+    assert.isDefined(completion);
+    assert.isNotEmpty(completion.choices);
+    assert.isDefined(completion.choices[0].message);
+    assert.isDefined(completion.choices[0].message.content);
+
+    const assistantMessage = completion.choices[0].message.content as string;
+    assert.isTrue(assistantMessage.includes("280"));
+    messages.push({ role: "assistant", content: assistantMessage });
+    messages.push({ role: "user", content: "and how many yards?" });
+
+    const secondResponse = await client.path("/chat/completions").post({
+      body: { messages }
+    });
+
+    assert.isFalse(isUnexpected(secondResponse));
+
+    const secondCompletion = secondResponse.body as ChatCompletionsOutput;
+    assert.isDefined(secondCompletion);
+    assert.isNotEmpty(secondCompletion.choices);
+
+    assert.isDefined(secondCompletion.choices[0].message);
+    assert.isDefined(secondCompletion.choices[0].message.content);
+
+    const yardsMessage = secondCompletion.choices[0].message.content as string;
+    assert.isTrue(yardsMessage.includes("760"));
+  });
+
+  it("chat auth error test", async function () {
+    client = await createModelClient("dummy", recorder);
+    const response = await client.path("/chat/completions").post({
+      body: {
+        messages: [
+          { role: "user", content: "How many feet are in a mile?" },
+        ]
+      }
+    });
+
+    assert.isTrue(isUnexpected(response));
+  });
 
 });

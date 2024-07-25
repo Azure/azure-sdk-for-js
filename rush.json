@@ -2223,14 +2223,19 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-mongocluster",
-      "projectFolder": "sdk/mongocluster/arm-mongocluster",
-      "versionPolicyName": "management"
+      "packageName": "@azure-rest/health-deidentification",
+      "projectFolder": "sdk/healthdataaiservices/azure-health-deidentification",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/ai-inference",
       "projectFolder": "sdk/ai/ai-inference-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-edgezones",
+      "projectFolder": "sdk/edgezones/arm-edgezones",
+      "versionPolicyName": "management"
     }
   ]
 }

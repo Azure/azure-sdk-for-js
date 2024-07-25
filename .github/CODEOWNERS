@@ -512,6 +512,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -549,6 +552,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
+
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
