@@ -414,6 +414,7 @@ async function replaceTestCredential(sourceText: string) {
   sourceFile.forEachDescendant((node) => {
     if (Node.isImportDeclaration(node)) {
       if (node.getModuleSpecifierValue() === "@azure-tools/test-credential") {
+        log.debug("Replacing import of test credential with DefaultAzureCredential");
         node.replaceWithText(`import { DefaultAzureCredential } from "@azure/identity";`);
       }
     }
@@ -422,6 +423,7 @@ async function replaceTestCredential(sourceText: string) {
         Node.isIdentifier(node.getExpression()) &&
         node.getExpression().getText() === "createTestCredential"
       ) {
+        log.debug("Replacing call to createTestCredential with new DefaultAzureCredential");
         node.replaceWithText("new DefaultAzureCredential()");
       }
     }
