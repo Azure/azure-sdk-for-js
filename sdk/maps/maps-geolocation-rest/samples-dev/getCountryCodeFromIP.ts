@@ -15,7 +15,7 @@ async function successfullyRetrieveCountryCodeFromIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   const client = MapsGeolocation(credential, mapsClientId);
-  
+
   /** Or use subscription key authentication */
   // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   // const credential = new AzureKeyCredential(subscriptionKey);

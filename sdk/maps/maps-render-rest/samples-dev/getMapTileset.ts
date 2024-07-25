@@ -8,7 +8,7 @@ import MapsRender from "../src/mapsRender";
 /**
  * @summary How to get the metadata of a certain tileset.
  */
-async function main(): Promise<void>  {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)

@@ -9,7 +9,7 @@ import { LatLon } from "@azure/maps-common";
 /**
  * @summary How to get the map static image with pins and paths specified.
  */
-async function main(): Promise<void>  {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)

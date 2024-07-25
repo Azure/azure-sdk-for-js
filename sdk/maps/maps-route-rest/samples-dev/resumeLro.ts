@@ -29,7 +29,7 @@ async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   const client = MapsRoute(credential, mapsClientId);
-  
+
   /** Use subscription key authentication */
   // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   // const credential = new AzureKeyCredential(subscriptionKey);

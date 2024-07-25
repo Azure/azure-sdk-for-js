@@ -33,10 +33,6 @@ export const testLogger = createClientLogger("route-test");
 
 export function createClient(options?: ClientOptions): MapsRouteClient {
   const credential = createTestCredential();
-  const client = MapsRoute(
-    credential,
-    env["MAPS_RESOURCE_CLIENT_ID"] as string,
-    options,
-  );
+  const client = MapsRoute(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
   return client;
 }

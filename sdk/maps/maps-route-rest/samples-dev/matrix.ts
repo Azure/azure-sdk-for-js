@@ -73,7 +73,7 @@ async function main(): Promise<void> {
   );
   matrix.forEach((row) => {
     row.forEach((cell) => {
-      if(cell.response) console.dir(cell.response.routeSummary);
+      if (cell.response) console.dir(cell.response.routeSummary);
     });
   });
 }

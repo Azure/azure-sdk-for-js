@@ -29,10 +29,6 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 
 export function createClient(options?: ClientOptions): MapsSearchClient {
   const credential = createTestCredential();
-  const client = MapsSearch(
-    credential,
-    env["MAPS_RESOURCE_CLIENT_ID"] as string,
-    options,
-  );
+  const client = MapsSearch(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
   return client;
 }

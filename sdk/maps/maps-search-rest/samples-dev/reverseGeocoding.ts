@@ -16,7 +16,7 @@ async function main(): Promise<void> {
    * - Shared Key authentication (subscription-key)
    * - Microsoft Entra ID authentication
    *
-  * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
+   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
@@ -30,7 +30,6 @@ async function main(): Promise<void> {
   // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   // const credential = new AzureKeyCredential(subscriptionKey);
   // const client = MapsSearch(credential);
-
 
   /** Make the request. */
   const response = await client.path("/reverseGeocode").get({

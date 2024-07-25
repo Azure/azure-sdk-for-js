@@ -28,11 +28,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 }
 
 export function createClient(options?: ClientOptions): MapsRenderClient {
-    const credential = createTestCredential();
-  const client = MapsRender(
-    credential,
-    env["MAPS_RESOURCE_CLIENT_ID"] as string,
-    options,
-  );
+  const credential = createTestCredential();
+  const client = MapsRender(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
   return client;
 }

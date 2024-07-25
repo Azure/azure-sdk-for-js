@@ -29,10 +29,6 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 
 export function createClient(options?: ClientOptions): MapsGeolocationClient {
   const credential = createTestCredential();
-  const client = MapsGeolocation(
-    credential,
-    env["MAPS_RESOURCE_CLIENT_ID"] as string,
-    options,
-  );
+  const client = MapsGeolocation(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
   return client;
 }

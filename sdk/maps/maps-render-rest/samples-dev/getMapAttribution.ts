@@ -29,7 +29,6 @@ async function main(): Promise<void> {
   // const credential = new AzureKeyCredential(subscriptionKey);
   // const client = MapsRender(credential);
 
-
   const baseResponse = await client.path("/map/attribution").get({
     queryParameters: {
       tilesetId: "microsoft.base",
