@@ -9,6 +9,7 @@ extends:
       SupportedClouds: 'Public,UsGov,China,Canary'
       CloudConfig:
         Public:
+          ServiceConnection: azure-sdk-tests
           SubscriptionConfigurations:
             - $(sub-config-azure-cloud-test-resources)
             # Contains alternate tenant, AAD app and cert info for testing
