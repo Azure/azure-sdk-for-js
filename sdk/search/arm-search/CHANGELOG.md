@@ -1,6 +1,6 @@
 # Release History
     
-## 3.3.0-beta.2 (2024-07-17)
+## 4.0.0-beta.1 (2024-07-25)
 Compared with version 3.2.0
     
 ### Features Added
@@ -53,7 +53,11 @@ Compared with version 3.2.0
   - Added Enum KnownSharedPrivateLinkResourceStatus
   - Added Enum KnownSkuName
     
-    
+### Breaking Changes
+
+  - Enum ProvisioningState is changed from "succeeded" | "provisioning" | "failed" to "Succeeded" | "Provisioning" | "Failed"
+
+
 ## 3.3.0-beta.1 (2024-03-12)
     
 ### Features Added
