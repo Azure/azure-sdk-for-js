@@ -24,24 +24,6 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
-  sanitizerOptions: {
-    bodySanitizers: [
-      {
-        regex: true,
-        value: `fakeKey`,
-        target: `[a-z0-9_A-z=]{40,100}`
-      },
-      {
-        regex: true,
-        target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
-        value: `fakeKey`,
-      },
-    ]
-  },
-  removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
-    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
-  ],
 };
 
 export const testPollingOptions = {
