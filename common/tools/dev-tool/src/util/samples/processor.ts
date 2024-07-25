@@ -11,6 +11,7 @@ import { createDiagnosticEmitter } from "../typescript/diagnostic";
 import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
 import { testSyntax } from "./syntax";
 import { createToCommonJsTransform, isDependency, isRelativePath } from "./transforms";
+import { Node, Project } from "ts-morph";
 
 const log = createPrinter("samples:processor");
 
@@ -111,19 +112,18 @@ export async function processSources(
         );
       };
 
+    // Prepares the source text for conversion by replacing test credentials with DefaultAzureCredential.
+    const tsModuleText = await replaceTestCredential(sourceText);
+
     // Where the work happens. This runs the conversion step from the ts-to-js command with the visitor we've defined
     // above and the CommonJS transforms (see transforms.ts).
-    const jsModuleText = await convert(sourceText, {
+    const jsModuleText = await convert(tsModuleText, {
       fileName: source,
       transformers: {
-        before: [sourceProcessor, credentialTransformer],
+        before: [sourceProcessor],
         after: [createToCommonJsTransform(requireInScope)],
       },
     });
-
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    const sourceFile = ts.createSourceFile(source, sourceText, ts.ScriptTarget.Latest, true);
-    const tsModuleText = credentialTransformer(undefined)(sourceFile).getText();
 
     // Check the imports for any relative module imports (these could be util files), and compute a relative path to the
     // module from the source directory
@@ -403,66 +403,28 @@ function processExportDefault(
 }
 
 /**
- * Transforms usages of createTestCredential to DefaultAzureCredential
+ * Prepares the source text for conversion by replacing test credentials with DefaultAzureCredential.
  *
- * @param context The transformation context
- * @returns A transformer that replaces the test credential import with the DefaultAzureCredential import
+ * @param sourceText The original source text from samples-dev
+ * @returns Modified source text with test credential replaced with DefaultAzureCredential
  */
-const credentialTransformer: (
-  context: ts.TransformationContext | undefined,
-) => ts.Transformer<ts.SourceFile> = (context) => (sourceFile) => {
-  const visitor: ts.Visitor = (node) => {
-    if (ts.isImportDeclaration(node)) {
-      if (node.moduleSpecifier.getText() === '"@azure-tools/test-credential"') {
-        return ts.factory.updateImportDeclaration(
-          node,
-          node.modifiers,
-          ts.factory.createImportClause(
-            false,
-            undefined,
-            ts.factory.createNamedImports([
-              ts.factory.createImportSpecifier(
-                false,
-
-                undefined,
-                ts.factory.createIdentifier("DefaultAzureCredential"),
-              ),
-            ]),
-          ),
-          ts.factory.createStringLiteral("@azure/identity"),
-          node.attributes,
-        );
+async function replaceTestCredential(sourceText: string) {
+  const project = new Project();
+  const sourceFile = project.createSourceFile("temp.ts", sourceText);
+  sourceFile.forEachDescendant((node) => {
+    if (Node.isImportDeclaration(node)) {
+      if (node.getModuleSpecifierValue() === "@azure-tools/test-credential") {
+        node.replaceWithText(`import { DefaultAzureCredential } from "@azure/identity";`);
       }
     }
-
-    // Change usage in the function
-    if (ts.isVariableDeclaration(node)) {
+    if (Node.isCallExpression(node)) {
       if (
-        node.initializer &&
-        ts.isCallExpression(node.initializer) &&
-        ts.isIdentifier(node.initializer.expression) &&
-        node.initializer.expression.text === "createTestCredential"
+        Node.isIdentifier(node.getExpression()) &&
+        node.getExpression().getText() === "createTestCredential"
       ) {
-        return ts.factory.updateVariableDeclaration(
-          node,
-          node.name,
-          node.exclamationToken,
-          node.type,
-          ts.factory.createNewExpression(
-            ts.factory.createIdentifier("DefaultAzureCredential"),
-            undefined,
-            [],
-          ),
-        );
+        node.replaceWithText("new DefaultAzureCredential()");
       }
     }
-
-    return ts.visitEachChild(node, visitor, context);
-  };
-
-  const visited = ts.visitNode(sourceFile, visitor);
-  if (!visited) {
-    throw new Error("Expect valid visited node");
-  }
-  return visited as ts.SourceFile;
-};
+  });
+  return sourceFile.getFullText();
+}

@@ -31,7 +31,7 @@ async function main() {
 
   const cryptoClient = new CryptographyClient(
     myWorkKey.id, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-    credential
+    credential,
   );
 
   // Sign and Verify

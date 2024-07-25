@@ -5,11 +5,11 @@
  * @summary a succinct and simple sample example
  */
 
-import { createTestCredential } from "@azure-tools/test-credential";
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
+import { createTestCredential } from "@azure-tools/test-credential";
 
 async function main() {
   const credential = createTestCredential();
