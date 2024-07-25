@@ -3449,7 +3449,7 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/bunyan@1.8.9:
@@ -3477,7 +3477,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3487,7 +3487,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/debug@4.1.12:
@@ -3526,7 +3526,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3554,7 +3554,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3597,7 +3597,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3711,7 +3711,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3737,7 +3737,7 @@ packages:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
       '@types/send': 0.17.4
     dev: false
 
@@ -3819,7 +3819,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
     optional: true
 
@@ -16276,40 +16276,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-OwMaWs5+csPOhl6T6P2NjcsI73pGbqoumtUGxpCmoJCGg8pOlqD/P1Wrq1A6KArX9xnkXXS9MxSoS/+d5JkgVw==, tarball: file:projects/arm-mongocluster.tgz}
-    name: '@rush-temp/arm-mongocluster'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 4.4.0
-      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
-      '@types/node': 18.19.40
-      '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
-      dotenv: 16.4.5
-      eslint: 8.57.0
-      mkdirp: 3.0.1
-      playwright: 1.45.2
-      rimraf: 5.0.9
-      tshy: 1.18.0
-      tslib: 2.6.3
-      typescript: 5.4.5
-      vitest: 1.6.0(@types/node@18.19.40)(@vitest/browser@1.6.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - webdriverio
-    dev: false
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-iIVKSMObhPtllgldBh5d9PvGgh+4/0POUj8UdtW1VsK6bUAx+UtzTjsv2FjIMZ/0nuKBA0NQ678rKS5dppppbw==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
@@ -17901,7 +17867,7 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-8wWgbL5XfIbN7ZNgeGpiF8Qr14txuzUZBzFm/pSqXXPR3naScaVY+A3EAaCXPxQwJrvMZXmnIF9cqZmMwEuA3A==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-8uv5If4Z3qbT8dx9W89TzHJJ7AR4OC6k1IlD++vK1O7FZe0oNHYWwfd3cVjI7TbaccMC+Syzr+lAuMdt9FqJMA==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
@@ -17922,6 +17888,7 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
       tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -21179,8 +21146,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.3.0
-      '@microsoft/api-extractor': 7.47.2(@types/node@18.19.41)
-      '@types/node': 18.19.41
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@types/node': 18.19.40
       '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       dotenv: 16.4.5
@@ -21192,7 +21159,7 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.4.5
-      vitest: 1.6.0(@types/node@18.19.41)(@vitest/browser@1.6.0)
+      vitest: 1.6.0(@types/node@18.19.40)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
