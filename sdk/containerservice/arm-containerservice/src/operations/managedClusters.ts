@@ -39,8 +39,6 @@ import {
   ManagedClustersListMeshUpgradeProfilesNextOptionalParams,
   ManagedClustersListMeshUpgradeProfilesOptionalParams,
   ManagedClustersListMeshUpgradeProfilesResponse,
-  ManagedClustersGetOSOptionsOptionalParams,
-  ManagedClustersGetOSOptionsResponse,
   ManagedClustersListKubernetesVersionsOptionalParams,
   ManagedClustersListKubernetesVersionsResponse,
   ManagedClustersGetUpgradeProfileOptionalParams,
@@ -465,21 +463,6 @@ export class ManagedClustersImpl implements ManagedClusters {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Gets supported OS options in the specified subscription.
-   * @param location The name of the Azure region.
-   * @param options The options parameters.
-   */
-  getOSOptions(
-    location: string,
-    options?: ManagedClustersGetOSOptionsOptionalParams,
-  ): Promise<ManagedClustersGetOSOptionsResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      getOSOptionsOperationSpec,
-    );
   }
 
   /**
@@ -1849,26 +1832,6 @@ export class ManagedClustersImpl implements ManagedClusters {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOSOptionsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/osOptions/default",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OSOptionProfile,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.resourceType],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listKubernetesVersionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/kubernetesVersions",
   httpMethod: "GET",

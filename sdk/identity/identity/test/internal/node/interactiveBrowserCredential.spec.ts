@@ -15,7 +15,7 @@ import { Context } from "mocha";
 import Sinon from "sinon";
 import { assert } from "chai";
 import http from "http";
-import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";
+import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalClient";
 
 declare global {
   namespace NodeJS {

@@ -38,6 +38,7 @@
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "tags": [
     "isomorphic",
     "browser",
