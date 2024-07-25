@@ -8,8 +8,8 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/core-auth";
-import { DeidServicesClient } from "../../../src/clientDefinitions.js";
-import createClient from "../../../src/deidServicesClient.js";
+import { DeidentificationClient } from "../../../src/clientDefinitions.js";
+import createClient from "../../../src/deidentificationClient.js";
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
@@ -35,7 +35,7 @@ export function getTestEnvironment(): string {
 export async function createRecordedDeidentificationClient(
   recorder: Recorder,
   credentials: TokenCredential,
-): Promise<DeidServicesClient> {
+): Promise<DeidentificationClient> {
   const endpoint = isPlaybackMode()
     ? "example.com"
     : assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");

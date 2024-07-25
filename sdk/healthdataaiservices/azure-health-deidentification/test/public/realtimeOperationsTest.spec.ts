@@ -3,7 +3,7 @@
 
 import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
 import { beforeEach, afterEach, it, describe } from "vitest";
-import { DeidServicesClient } from "../../src/clientDefinitions.js";
+import { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 import { DeidentificationContent } from "../../src/models.js";
@@ -18,7 +18,7 @@ const replaceableVariables: Record<string, string> = {
 
 describe("Realtime", () => {
   let recorder: Recorder;
-  let client: DeidServicesClient;
+  let client: DeidentificationClient;
 
   beforeEach(async function (context) {
     recorder = await createRecorder(context);

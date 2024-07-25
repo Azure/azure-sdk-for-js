@@ -12,13 +12,25 @@ export interface DeidentificationJobOutput {
   sourceLocation: SourceStorageLocationOutput;
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocationOutput;
-  /** Operation to perform on the input documents. */
+  /**
+   * Operation to perform on the input documents.
+   *
+   * Possible values: "Redact", "Surrogate", "Tag"
+   */
   operation?: OperationTypeOutput;
-  /** Data type of the input documents. */
+  /**
+   * Data type of the input documents.
+   *
+   * Possible values: "Plaintext"
+   */
   dataType?: DocumentDataTypeOutput;
   /** Format of the redacted output. Only valid when Operation is Redact. */
   redactionFormat?: string;
-  /** Current status of a job. */
+  /**
+   * Current status of a job.
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "PartialFailed", "Failed", "Canceled"
+   */
   readonly status: JobStatusOutput;
   /** Error when job fails in it's entirety. */
   readonly error?: ErrorModel;
@@ -78,7 +90,11 @@ export interface DocumentDetailsOutput {
   input: DocumentLocationOutput;
   /** Location for the output. */
   output?: DocumentLocationOutput;
-  /** Status of the document. */
+  /**
+   * Status of the document.
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
   status: OperationStateOutput;
   /** Error when document fails. */
   error?: ErrorModel;
@@ -112,7 +128,11 @@ export interface PhiTaggerResultOutput {
 
 /** PHI Entity tag in the input. */
 export interface PhiEntityOutput {
-  /** PHI Category of the entity. */
+  /**
+   * PHI Category of the entity.
+   *
+   * Possible values: "Unknown", "Account", "Age", "BioID", "City", "CountryOrRegion", "Date", "Device", "Doctor", "Email", "Fax", "HealthPlan", "Hospital", "IDNum", "IPAddress", "License", "LocationOther", "MedicalRecord", "Organization", "Patient", "Phone", "Profession", "SocialSecurity", "State", "Street", "Url", "Username", "Vehicle", "Zip"
+   */
   category: PhiCategoryOutput;
   /** Starting index of the location from within the input text. */
   offset: StringIndexOutput;

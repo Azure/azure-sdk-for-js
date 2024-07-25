@@ -89,6 +89,6 @@ export interface Routes {
   (path: "/deid"): Deidentify;
 }
 
-export type DeidServicesClient = Client & {
+export type DeidentificationClient = Client & {
   path: Routes;
 };
