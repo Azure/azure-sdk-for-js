@@ -42,6 +42,7 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics"
  *   endpoint: "<URL HERE>",
  *   aadCredentials: credential,
  * });
+ * ```
  */
 export class CosmosClient {
   /**
