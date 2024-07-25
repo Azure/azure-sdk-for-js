@@ -14,7 +14,7 @@ extends:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
           MatrixFilters:
-            - DependencyVersion=^.+$  
+            - DependencyVersion=^.+$
       Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/
