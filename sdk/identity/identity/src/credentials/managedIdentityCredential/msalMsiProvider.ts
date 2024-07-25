@@ -150,6 +150,8 @@ export class MsalMsiProvider {
         const identitySource = this.managedIdentityApp.getManagedIdentitySource();
         const isImdsMsi = identitySource === "DefaultToImds" || identitySource === "Imds"; // Neither actually checks that IMDS endpoint is available, just that it's the source the MSAL _would_ try to use.
 
+        logger.getToken.info(`MSAL Identity source: ${identitySource}`);
+
         if (isTokenExchangeMsi) {
           // In the AKS scenario we will use the existing tokenExchangeMsi indefinitely.
           logger.getToken.info("Using the token exchange managed identity.");
@@ -163,7 +165,7 @@ export class MsalMsiProvider {
 
           if (result === null) {
             throw new CredentialUnavailableError(
-              "The managed identity endpoint was reached, yet no tokens were received.",
+              "Attempted to use the token exchange managed identity, but received a null token.",
             );
           }
 
@@ -182,7 +184,7 @@ export class MsalMsiProvider {
 
           if (!isAvailable) {
             throw new CredentialUnavailableError(
-              `ManagedIdentityCredential: The managed identity endpoint is not available.`,
+              `ManagedIdentityCredential: MSAL indicated that the IMDS endpoint is the source for managed identity, but the IMDS endpoint is not available.`,
             );
           }
         }

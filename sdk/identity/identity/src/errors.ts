@@ -125,8 +125,8 @@ export class AuthenticationError extends Error {
       } catch (e: any) {
         if (statusCode === 400) {
           errorResponse = {
-            error: "authority_not_found",
-            errorDescription: "The specified authority URL was not found.",
+            error: "invalid_request",
+            errorDescription: `The service indicated that the request was invalid.\n\n${errorBody}`,
           };
         } else {
           errorResponse = {
@@ -143,7 +143,7 @@ export class AuthenticationError extends Error {
     }
 
     super(
-      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`,
+      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription},`,
       // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
       options,
     );
