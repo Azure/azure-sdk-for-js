@@ -1554,7 +1554,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /**/tsconfig.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
-/sdk/**/arm-*/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+/sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder @ckairen
 /vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
