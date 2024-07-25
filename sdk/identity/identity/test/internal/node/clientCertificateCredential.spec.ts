@@ -6,23 +6,17 @@
 import * as path from "path";
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
-import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
-import { ConfidentialClientApplication } from "@azure/msal-node";
 import { Context } from "mocha";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import Sinon from "sinon";
 import { assert } from "chai";
-import { parseCertificate } from "../../../src/msal/nodeFlows/msalClientCertificate";
+import { parseCertificate } from "../../../src/credentials/clientCertificateCredential";
 
 const ASSET_PATH = "assets";
 
 describe("ClientCertificateCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
-  let getTokenSilentSpy: Sinon.SinonSpy;
-  let doGetTokenSpy: Sinon.SinonSpy;
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
@@ -31,14 +25,8 @@ describe("ClientCertificateCredential (internal)", function () {
     recorder = setup.recorder;
 
     await recorder.setMatcher("BodilessMatcher");
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
-
-    // MsalClientSecret calls to this method underneath.
-    doGetTokenSpy = setup.sandbox.spy(
-      ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential",
-    );
   });
+
   afterEach(async function () {
     await cleanup();
   });
@@ -147,63 +135,6 @@ describe("ClientCertificateCredential (internal)", function () {
       error?.message,
       `The file at the specified path does not contain a PEM-encoded certificate.`,
     );
-  });
-
-  // TODO:
-  // This is not the way to test persistence with acquireTokenByClientCredential,
-  // since acquireTokenByClientCredential caches at the method level, and not with the same cache used for acquireTokenSilent.
-  // I'm leaving this here so I can remember about this in the future.
-  it.skip("Authenticates silently after the initial request", async function (this: Context) {
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
-    }
-
-    const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, {
-      certificatePath,
-    });
-
-    await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
-
-    await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 2);
-
-    // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
-    // The Client Credential flow does not return the account information from the authentication service,
-    // so each time getToken gets called, we will have to acquire a new token through the service.
-    assert.equal(doGetTokenSpy.callCount, 2);
-  });
-
-  // TODO: Enable again once we're ready to release this feature.
-  it.skip("supports specifying the regional authority", async function () {
-    const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      { certificatePath },
-      {
-        // TODO: Uncomment once we're ready to release this feature.
-        // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
-      },
-    );
-
-    // We'll abort since we only want to ensure the parameters are sent appropriately.
-    const controller = new AbortController();
-    const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal,
-    });
-    await delay(5);
-    controller.abort();
-    try {
-      await getTokenPromise;
-    } catch (e: any) {
-      // Nothing to do here.
-    }
-
-    assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
   });
 
   describe("parseCertificate", function () {
