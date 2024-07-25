@@ -9,9 +9,3 @@ extends:
       Clouds: 'Preview'
       MatrixFilters:
         - DependencyVersion=^$
-      CloudConfig:
-        Preview:
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths: 
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json

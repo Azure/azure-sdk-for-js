@@ -53,6 +53,7 @@ Authenticating `AzureOpenAI` with an API key is as simple as setting the `AZURE_
 `OpenAIClient` and `AssistantsClient` are constructed similarly as follows:
 
 Original code:
+
 ```typescript
 import { OpenAIClient } from "@azure/openai";
 const endpoint = "Your Azure OpenAI resource endpoint";
@@ -64,6 +65,7 @@ If not set, the API version defaults to the last known one before the release of
 On the other hand, the `AzureOpenAI` client is constructed as follows:
 
 Migrated code:
+
 ```typescript
 import { AzureOpenAI } from "openai";
 const deployment = "Your Azure OpenAI deployment";
@@ -91,16 +93,19 @@ The following sections provide examples of how to migrate from `OpenAIClient` an
 The following example shows how to migrate the `getChatCompletions` method call.
 
 Original code:
+
 ```typescript
 const result = await client.getChatCompletions(deploymentName, messages, { maxTokens: 100 });
 ```
 
 Migrated code:
+
 ```typescript
 const result = await client.chat.completions.create({ messages, model: '', max_tokens: 100 });
 ```
 
 Notice the following:
+
 - The `getChatCompletions` method has been replaced with the `chat.completions.create` method
 - The `messages` parameter is now passed in the options object with the `messages` property
 - The `maxTokens` property has been renamed to `max_tokens` and the `deploymentName` parameter has been removed. Generally, the names of the properties in the `options` object are the same as in the Azure OpenAI service API, following the snake case convention instead of the camel case convention used in the `AssistantsClient`. This is true for all the properties across all requests and responses in the `AzureOpenAI` client
@@ -111,11 +116,13 @@ Notice the following:
 The following example shows how to migrate the `streamChatCompletions` method call.
 
 Original code:
+
 ```typescript
 const stream = await client.streamChatCompletions(deploymentName, messages, { maxTokens: 100 });
 ```
 
 Migrated code:
+
 ```typescript
 const stream = await client.chat.completions.create({ model: '', messages, max_tokens: 100, stream: true });
 ```
@@ -125,6 +132,7 @@ const stream = await client.chat.completions.create({ model: '', messages, max_t
 The following example shows how to migrate a `getChatCompletions` method call that enables Azure On Your Data with Azure Search.
 
 Original code:
+
 ```typescript
 const azureSearchEndpoint = "Your Azure Search resource endpoint";
 const azureSearchIndexName = "Your Azure Search index name";
@@ -142,6 +150,7 @@ const result = await client.getChatCompletions(deploymentName, messages, { azure
 ```
 
 Migrated code:
+
 ```typescript
 import "@azure/openai/types";
 
@@ -164,7 +173,8 @@ const result = await client.chat.completions.create({
 ```
 
 Notice that:
-- `"@azure/openai/types"` is imported whcih adds Azure-specific definitions (e.g. `data_sources`) to the client types
+
+- `"@azure/openai/types"` is imported which adds Azure-specific definitions (e.g. `data_sources`) to the client types
 - The `azureExtensionOptions` property has been replaced with the inner `data_sources` property
 - The `parameters` property has been added to wrap the parameters of the extension, which mirrors the schema of the Azure OpenAI service API
 - camel case properties have been replaced with snake case properties
@@ -174,6 +184,7 @@ Notice that:
 The following example shows how to migrate the `getAudioTranscription` method call.
 
 Original code:
+
 ```typescript
 import { readFile } from "fs/promises";
 
@@ -183,6 +194,7 @@ const result = await client.getAudioTranscription(deploymentName, audio);
 ```
 
 Migrated code:
+
 ```typescript
 import { createReadStream } from "fs";
 
@@ -193,6 +205,7 @@ const result = await client.audio.transcriptions.create({
 ```
 
 Notice that:
+
 - The `getAudioTranscription` method has been replaced with the `audio.transcriptions.create` method
 - The `AzureOpenAI` has to be constructed with the `deployment` option set to the deployment name in order to use audio operations such as `audio.transcriptions.create`
 - The `model` property is required to be set in the options object but its value is not used in the operation so feel free to set it to any value
@@ -203,6 +216,7 @@ Notice that:
 The following example shows how to migrate the `getAudioTranslation` method call.
 
 Original code:
+
 ```typescript
 import { readFile } from "fs/promises";
 
@@ -212,6 +226,7 @@ const result = await client.getAudioTranslation(deploymentName, audio);
 ```
 
 Migrated code:
+
 ```typescript
 import { createReadStream } from "fs";
 
@@ -222,6 +237,7 @@ const result = await client.audio.translations.create({
 ```
 
 Notice that:
+
 - The `getAudioTranslation` method has been replaced with the `audio.translations.create` method
 - All other changes are the same as in the audio transcription example
 
@@ -232,6 +248,7 @@ The following examples show how to migrate some of the `AssistantsClient` method
 #### Assistant creation
 
 Original code:
+
 ```typescript
 const options = {
   model: azureOpenAIDeployment,
@@ -244,6 +261,7 @@ const assistantResponse = await assistantsClient.createAssistant(options);
 ```
 
 Migrated code:
+
 ```typescript
 const options = ...;
 const assistantResponse = await assistantsClient.beta.assistants.create(
@@ -252,6 +270,7 @@ const assistantResponse = await assistantsClient.beta.assistants.create(
 ```
 
 Notice that:
+
 - The `createAssistant` method has been replaced with the `beta.assistants.create` method
 
 #### Thread creation
@@ -259,16 +278,19 @@ Notice that:
 The following example shows how to migrate the `createThread` method call.
 
 Original code:
+
 ```typescript
 const assistantThread = await assistantsClient.createThread();
 ```
 
 Migration code:
+
 ```typescript
 const assistantThread = await assistantsClient.beta.threads.create();
 ```
 
 Notice that:
+
 - The `createThread` method has been replaced with the `beta.threads.create` method
 
 #### Message creation
@@ -276,6 +298,7 @@ Notice that:
 The following example shows how to migrate the `createMessage` method call.
 
 Original code:
+
 ```typescript
 const threadResponse = await assistantsClient.createMessage(
   assistantThread.id,
@@ -285,6 +308,7 @@ const threadResponse = await assistantsClient.createMessage(
 ```
 
 Migration code:
+
 ```typescript
 const threadResponse = await assistantsClient.beta.threads.messages.create(
   assistantThread.id,
@@ -296,6 +320,7 @@ const threadResponse = await assistantsClient.beta.threads.messages.create(
 ```
 
 Notice that:
+
 - The `createMessage` method has been replaced with the `beta.threads.messages.create` method
 - The message specification has been moved from a parameter list to an options object
 
@@ -304,6 +329,7 @@ Notice that:
 To run an assistant on a thread, the `createRun` method is used to create a run and then a loop is used to poll the run status until it is in a terminal state. The following example shows how to migrate the run creation and polling.
 
 Original code:
+
 ```typescript
 let runResponse = await assistantsClient.createRun(assistantThread.id, {
   assistantId: assistantResponse.id,
@@ -323,6 +349,7 @@ do {
 This code can be migrated and simplified by using the `createAndPoll` method which creates a run and polls it until it is in a terminal state.
 
 Migration code:
+
 ```typescript
 const runResponse = await assistantsClient.beta.threads.runs.createAndPoll(
   assistantThread.id,
@@ -334,6 +361,7 @@ const runResponse = await assistantsClient.beta.threads.runs.createAndPoll(
 ```
 
 Notice that:
+
 - The `createRun` method has been replaced with the `beta.threads.runs.create` and `createAndPoll` methods
 - The `createAndPoll` method is used to create a run and poll it until it is in a terminal state
 
@@ -342,6 +370,7 @@ Notice that:
 Without paging, results had to be accessed manually page by page using the `data` property of the response object. For instance, accessing the first page can be done as follows:
 
 Original code:
+
 ```typescript
 for (const runMessageDatum of runMessages.data) {
   for (const item of runMessageDatum.content) {
@@ -353,6 +382,7 @@ for (const runMessageDatum of runMessages.data) {
 Pages can be looped through by using the `for await` loop.
 
 Migration code:
+
 ```typescript
 for await (const runMessageDatum of runMessages) {
   for (const item of runMessageDatum.content) {
@@ -366,16 +396,19 @@ for await (const runMessageDatum of runMessages) {
 The following example shows how to migrate the `getEmbeddings` method call.
 
 Original code:
+
 ```typescript
 const embeddings = await client.getEmbeddings(deploymentName, input);
 ```
 
 Migrated code:
+
 ```typescript
 const embeddings = await client.embeddings.create({ input, model: '' });
 ```
 
 Notice that:
+
 - The `getEmbeddings` method has been replaced with the `embeddings.create` method
 - The `input` parameter is now passed in the options object with the `input` property
 - The `deploymentName` parameter has been removed. The `deploymentName` parameter is not needed if the client was created with the `deployment` option. If the client was not created with the `deployment` option, the `model` property in the option object should be set with the deployment name
@@ -385,16 +418,19 @@ Notice that:
 The following example shows how to migrate the `getImages` method call.
 
 Original code:
+
 ```typescript
 const results = await client.getImages(deploymentName, prompt, { n, size });
 ```
 
 Migrated code:
+
 ```typescript
   const results = await client.images.generate({ prompt, model: '', n, size });
 ```
 
 Notice that:
+
 - The `getImages` method has been replaced with the `images.generate` method
 - The `prompt` parameter is now passed in the options object with the `prompt` property
 - The `deploymentName` parameter has been removed. The `deploymentName` parameter is not needed if the client was created with the `deployment` option. If the client was not created with the `deployment` option, the `model` property in the option object should be set with the deployment name
@@ -404,6 +440,7 @@ Notice that:
 Content filter results is part of the chat completions response types in `OpenAIClient`. The following example shows how to access the content filter results.
 
 Original code:
+
 ```typescript
 const results = await client.getChatCompletions(deploymentName, messages);
 for (const choice of results.choices) {
@@ -419,9 +456,11 @@ for (const choice of results.choices) {
   ...
 }
 ```
+
 However `AzureOpenAI` does not have a direct equivalent to the `contentFilterResults` property in the `ChatCompletion.Choice` interface. The content filter results can be accessed by importing `"@azure/openai/types"` and accessing the `content_filter_results` property.
 
 Migrated code:
+
 ```typescript
 import "@azure/openai/types";
 
@@ -442,8 +481,9 @@ for (const choice of results.choices) {
 ```
 
 Notice that:
+
 - camel case properties have been replaced with snake case properties
-- `"@azure/openai/types"` is imported whcih adds Azure-specific definitions (e.g. `content_filter_results`) to the client types, see the [Azure types](#azure-types) section for more information
+- `"@azure/openai/types"` is imported which adds Azure-specific definitions (e.g. `content_filter_results`) to the client types, see the [Azure types](#azure-types) section for more information
 
 ## Comparing Types
 
@@ -455,10 +495,10 @@ The following table explores several type names from `@azure/openai` and shows t
 | `OpenAIClient` | `AzureOpenAI` | Class | This class replaces the former and has no methods in common with it. See the section on `AzureOpenAI` below. |
 | `AudioResult` | `Transcription`/`Transcription` | Interface | Depending on the calling operation, the two interfaces replace the former one |
 | `AudioResultFormat` | inline union type of the `response_format` property | Alias | It doesn't exist |
-| `AudioResultSimpleJson ` | `Transcription`/`Transcription` | Interface | Depending on the calling operation, the two interfaces replace the former one |
-| `AudioResultVerboseJson ` | N/A | Interface | |
-| `AudioSegment ` | N/A | Interface |  |
-| `AudioTranscriptionTask ` | N/A | Alias |  |
+| `AudioResultSimpleJson` | `Transcription`/`Transcription` | Interface | Depending on the calling operation, the two interfaces replace the former one |
+| `AudioResultVerboseJson` | N/A | Interface | |
+| `AudioSegment` | N/A | Interface |  |
+| `AudioTranscriptionTask` | N/A | Alias |  |
 | `AzureChatEnhancementConfiguration`, `AzureChatEnhancements`, `AzureChatExtensionConfiguration`, `AzureChatExtensionConfigurationUnion`, `AzureChatExtensionDataSourceResponseCitation`, `AzureChatExtensionsMessageContext`, `AzureChatExtensionType`, `AzureChatGroundingEnhancementConfiguration`, `AzureChatOCREnhancementConfiguration`, `AzureCosmosDBChatExtensionConfiguration`, `AzureCosmosDBFieldMappingOptions`, `AzureExtensionsOptions`, `AzureGroundingEnhancement`, `AzureGroundingEnhancementCoordinatePoint`, `AzureGroundingEnhancementLine`, `AzureGroundingEnhancementLineSpan`, `AzureMachineLearningIndexChatExtensionConfiguration`, `AzureSearchChatExtensionConfiguration`, `AzureSearchIndexFieldMappingOptions`, `AzureSearchQueryType`, `ContentFilterBlocklistIdResult`, `ContentFilterCitedDetectionResult`, `ContentFilterDetectionResult`, `ContentFilterErrorResults`, `ContentFilterResult`, `ContentFilterResultDetailsForPrompt`, `ContentFilterResultsForChoice`, `ContentFilterSeverity`, `ContentFilterResultsForPrompt`, `ContentFilterSuccessResultDetailsForPrompt`, `ContentFilterSuccessResultsForChoice`, `ElasticsearchChatExtensionConfiguration`, `ElasticsearchIndexFieldMappingOptions`, `ElasticsearchQueryType`, `ImageGenerationContentFilterResults`, `ImageGenerationPromptFilterResults`, `OnYourDataAccessTokenAuthenticationOptions`, `OnYourDataApiKeyAuthenticationOptions`, `OnYourDataAuthenticationOptions`, `OnYourDataAuthenticationOptionsUnion`, `OnYourDataConnectionStringAuthenticationOptions`, `OnYourDataDeploymentNameVectorizationSource`, `OnYourDataEncodedApiKeyAuthenticationOptions`, `OnYourDataEndpointVectorizationSource`, `OnYourDataKeyAndKeyIdAuthenticationOptions`, `OnYourDataModelIdVectorizationSource`, `OnYourDataSystemAssignedManagedIdentityAuthenticationOptions`, `OnYourDataUserAssignedManagedIdentityAuthenticationOptions`, `OnYourDataVectorizationSource`, `OnYourDataVectorizationSourceType`, `OnYourDataVectorizationSourceUnion`, `PineconeChatExtensionConfiguration`, `PineconeFieldMappingOptions`  | N/A | Interfaces and Aliases | See the Azure types section below |
 | `AzureKeyCredential` | N/A | Class | The API key can be provided as a string value |
 | `ChatChoice` | `ChatCompletion.Choice` | Interface | |
