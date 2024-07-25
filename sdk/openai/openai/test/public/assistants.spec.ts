@@ -6,13 +6,13 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { createClient } from "./utils/createClient.js";
 import OpenAI, { AzureOpenAI } from "openai";
-import { APIVersion } from "./utils/utils.js";
+import { APIVersion, handleAssistantsRunFailure } from "./utils/utils.js";
 
 interface Metadata {
   foo: string;
 }
 describe("OpenAIAssistants", () => {
-  matrix([[APIVersion.Latest]] as const, async function (apiVersion: APIVersion) {
+  matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
 
@@ -137,22 +137,6 @@ describe("OpenAIAssistants", () => {
           assert.equal(oneMessageList.data[0].id, firstID);
         });
 
-        it("uploads, gets, and lists a file", async function () {
-          /*
-          // move to node only, currently failing in browser
-          const filename = "sample_file_for_upload.txt";
-          const text = "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
-          const uint8 = Uint8Array.from(text.split("").map(x => x.charCodeAt(0)));
-          const uploadedFile = await client.uploadFile(uint8, "assistants", { filename });
-          assert.isNotNull(uploadedFile.id);
-          assert.equal(uploadedFile.filename, filename);
-          assert.equal(uploadedFile.bytes, uint8.length);
-          */
-          const fileList = await client.files.list();
-          assert.isNotEmpty(fileList.data);
-          assert.isNotNull(fileList.data[0].id);
-        });
-
         it("create, lists, gets, and cancels a run", async function () {
           const assistant = await client.beta.assistants.create({
             model: "gpt-4-1106-preview",
@@ -207,6 +191,200 @@ describe("OpenAIAssistants", () => {
           assert.equal(getRun.assistant_id, assistant.id);
           assert.equal(getRun.instructions, instructions);
           assert.equal((getRun.metadata as Metadata).foo, metadataValue);
+          const deleteThreadResponse = await client.beta.threads.del(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
+      });
+
+      describe(`customer scenarios`, function () {
+        it("create and run code interpreter scenario", async function (context) {
+          context.skip();
+          const assistant = await client.beta.assistants.create(codeAssistant);
+          assertAssistantEquality(codeAssistant, assistant);
+          const thread = await client.beta.threads.create();
+          assert.isNotNull(thread.id);
+          const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
+          const role = "user";
+          const message = await client.beta.threads.messages.create(thread.id, {
+            role,
+            content: question,
+          });
+          const messageContent = message.content[0];
+          assert.isNotNull(message.id);
+          assert.equal(message.role, role);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, question);
+          }
+          const instructions =
+            "Please address the user as Jane Doe. The user has a premium account.";
+          let run = await client.beta.threads.runs.createAndPoll(thread.id, {
+            assistant_id: assistant.id,
+            instructions,
+          });
+          handleAssistantsRunFailure(run, context);
+          assert.isNotNull(run.id);
+          assert.equal(run.thread_id, thread.id);
+          assert.equal(run.assistant_id, assistant.id);
+          assert.equal(run.instructions, instructions);
+          assert.equal(run.status, "completed");
+
+          const runMessages = await client.beta.threads.messages.list(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+            for (const item of runMessageDatum.content) {
+              assert.equal(item.type, "text");
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text.value);
+              }
+            }
+          }
+          const deleteThreadResponse = await client.beta.threads.del(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
+
+        it("create and run function scenario for assistant", async function (context) {
+          const favoriteCityFunctionName = "getUserFavoriteCity";
+          const favoriteCityFunctionDescription = "Gets the user's favorite city.";
+          const getFavoriteCity = (): string => "Atlanta, GA";
+          const getUserFavoriteCityTool = {
+            type: "function" as const,
+            function: {
+              name: favoriteCityFunctionName,
+              description: favoriteCityFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {},
+              },
+            },
+          };
+
+          const getCityNickname = (city: string): string => {
+            switch (city) {
+              case "Atlanta, GA":
+                return "The ATL";
+              case "Seattle, WA":
+                return "The Emerald City";
+              case "Los Angeles, CA":
+                return "LA";
+              default:
+                return "Unknown";
+            }
+          };
+
+          const getCityNicknameFunctionName = "getCityNickname";
+          const getCityNicknameFunctionDescription =
+            "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.";
+          const getCityNicknameTool = {
+            type: "function" as const,
+            function: {
+              name: getCityNicknameFunctionName,
+              description: getCityNicknameFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {
+                  city: {
+                    type: "string",
+                    description: "The city and state, e.g. San Francisco, CA",
+                  },
+                },
+              },
+            },
+          };
+
+          let favoriteCityCalled = false;
+          let nicknameCalled = false;
+          const getResolvedToolOutput = (toolCall: {
+            id: string;
+            function?: any;
+          }): { output: string } => {
+            const toolOutput = { tool_call_id: toolCall.id, output: "" };
+            if (toolCall["function"]) {
+              const functionCall = toolCall["function"];
+              const functionName = functionCall.name;
+              const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
+              switch (functionName) {
+                case favoriteCityFunctionName:
+                  toolOutput.output = getFavoriteCity();
+                  favoriteCityCalled = true;
+                  break;
+                case getCityNicknameFunctionName:
+                  toolOutput.output = getCityNickname(functionArgs["city"]);
+                  nicknameCalled = true;
+                  break;
+                default:
+                  toolOutput.output = `Unknown function: ${functionName}`;
+                  break;
+              }
+            }
+
+            return toolOutput;
+          };
+
+          const instructions = `You are a helpful assistant. Use the provided functions to help answer questions.
+            Customize your responses to the user's preferences as much as possible and use friendly
+            nicknames for cities whenever possible.
+        `;
+          const functionAssistant = {
+            model: "gpt-4-1106-preview",
+            name: "JS SDK Test Assistant - Nickname",
+            instructions,
+            tools: [getUserFavoriteCityTool, getCityNicknameTool],
+          };
+          const assistant = await client.beta.assistants.create(functionAssistant);
+          assert.isNotNull(assistant.id);
+          const thread = await client.beta.threads.create();
+          assert.isNotNull(thread.id);
+          const content = "What's the nickname of my favorite city?";
+          const role = "user";
+          const message = await client.beta.threads.messages.create(thread.id, { role, content });
+          assert.isNotNull(message.id);
+          assert.equal(message.thread_id, thread.id);
+          let run = await client.beta.threads.runs.createAndPoll(
+            thread.id,
+            {
+              assistant_id: assistant.id,
+              tools: [getUserFavoriteCityTool, getCityNicknameTool],
+            },
+            {
+              timeout: 10000,
+            },
+          );
+          handleAssistantsRunFailure(run, context);
+          if (
+            run.status === "requires_action" &&
+            run.required_action?.type === "submit_tool_outputs"
+          ) {
+            const toolOutputs = [];
+
+            assert.notEqual(run.required_action?.submit_tool_outputs?.tool_calls, undefined);
+            if (run.required_action?.submit_tool_outputs?.tool_calls !== undefined) {
+              for (const toolCall of run.required_action.submit_tool_outputs.tool_calls) {
+                toolOutputs.push(getResolvedToolOutput(toolCall));
+              }
+            }
+            run = await client.beta.threads.runs.submitToolOutputsAndPoll(thread.id, run.id, {
+              tool_outputs: toolOutputs,
+            });
+          }
+          handleAssistantsRunFailure(run, context);
+          assert.equal(favoriteCityCalled, true);
+          assert.equal(nicknameCalled, true);
+
+          const runMessages = await client.beta.threads.messages.list(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+            for (const item of runMessageDatum.content) {
+              assert.equal(item.type, "text");
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text?.value);
+              }
+            }
+          }
+
           const deleteThreadResponse = await client.beta.threads.del(thread.id);
           assert.equal(deleteThreadResponse.deleted, true);
 

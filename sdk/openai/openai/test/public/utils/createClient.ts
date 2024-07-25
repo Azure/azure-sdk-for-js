@@ -59,7 +59,7 @@ export function createClient(
 ): AzureOpenAI | OpenAI {
   const { endpoint } = getEndpointFromResourceType(resourceType);
   switch (apiVersion) {
-    case APIVersion.Latest:
+    case APIVersion.Preview:
     case APIVersion.Stable: {
       const credential = createTestCredential();
       return new AzureOpenAI({

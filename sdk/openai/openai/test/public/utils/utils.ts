@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "vitest";
+import { assert, TaskContext, Test, TestContext } from "vitest";
 import {
   PipelineRequest,
   PipelineResponse,
+  RestError,
   createDefaultHttpClient,
   createEmptyPipeline,
   createHttpHeaders,
@@ -21,16 +22,17 @@ import {
   EnvironmentVariableNamesForWhisper,
 } from "./envVars.js";
 import { logger } from "@azure/identity";
+import { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 
 export type AuthMethod = "AAD" | "DummyAPIKey";
 export type DeploymentType = "dalle" | "whisper" | "completions";
 export enum APIVersion {
-  Latest = "2024-05-01-preview",
+  Preview = "2024-05-01-preview",
   Stable = "2024-06-01",
   OpenAI = "OpenAI",
 }
-export const latestAPIPreview = APIVersion.Latest;
-export const APIMatrix = [APIVersion.Latest, APIVersion.Stable];
+export const latestAPIPreview = APIVersion.Preview;
+export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
 function toString(error: any): string {
   return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
 }
@@ -184,4 +186,17 @@ export function createAzureSearchExtension(): {
       },
     },
   };
+}
+
+export function handleAssistantsRunFailure(run: Run, context: TaskContext<Test<{}>> & TestContext): void {
+  if (run.status === "failed") {
+    if (run.last_error?.message.includes("Rate limit")){
+      logger.info(`Rate limit error: ${run.last_error.message}`);
+      context.skip();
+    }
+    throw new RestError(`Run failed with unexpected error: ${run.last_error?.message}`, {code: run.last_error?.code});
+  }
+  if (!(["completed", "requires_action"].includes(run.status))) {
+    throw new RestError(`Run failed with unexpected status: ${run.status}`);
+  }
 }
