@@ -25,6 +25,8 @@ export default mergeConfig(
       fileParallelism: false,
       reporters: ["verbose", "junit"],
       include: ["dist-test/browser/**/*.spec.js"],
+      setupFiles: !process.env["AZURE_LOG_LEVEL"] ? [] : ['./test/activate-browser-logging.ts'],
+      set
       fakeTimers: {
         toFake: [
           "setTimeout",
