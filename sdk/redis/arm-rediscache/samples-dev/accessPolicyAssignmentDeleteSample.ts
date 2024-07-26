@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the access policy assignment from a redis cache
  *
  * @summary Deletes the access policy assignment from a redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheAccessPolicyAssignmentDelete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyAssignmentDelete.json
  */
 async function redisCacheAccessPolicyAssignmentDelete() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function redisCacheAccessPolicyAssignmentDelete() {
   const result = await client.accessPolicyAssignment.beginDeleteAndWait(
     resourceGroupName,
     cacheName,
-    accessPolicyAssignmentName
+    accessPolicyAssignmentName,
   );
   console.log(result);
 }

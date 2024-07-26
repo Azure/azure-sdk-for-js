@@ -10,12 +10,6 @@ extends:
       Location: canadacentral
       MatrixFilters:
         - DependencyVersion=^$
-      CloudConfig:
-        Preview:
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths: 
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
       MatrixConfigs:
         - Name: Storage_live_test_base
           Path: sdk/storage/storage-blob/platform-matrix.json

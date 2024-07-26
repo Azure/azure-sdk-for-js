@@ -22,7 +22,7 @@ import {
   BackupVaultsUpdateResponse,
   CheckNameAvailabilityRequest,
   BackupVaultsCheckNameAvailabilityOptionalParams,
-  BackupVaultsCheckNameAvailabilityResponse
+  BackupVaultsCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface BackupVaults {
    * @param options The options parameters.
    */
   listInSubscription(
-    options?: BackupVaultsGetInSubscriptionOptionalParams
+    options?: BackupVaultsGetInSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<BackupVaultResource>;
   /**
    * Returns resource collection belonging to a resource group.
@@ -42,7 +42,7 @@ export interface BackupVaults {
    */
   listInResourceGroup(
     resourceGroupName: string,
-    options?: BackupVaultsGetInResourceGroupOptionalParams
+    options?: BackupVaultsGetInResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BackupVaultResource>;
   /**
    * Returns a resource belonging to a resource group.
@@ -53,7 +53,7 @@ export interface BackupVaults {
   get(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupVaultsGetOptionalParams
+    options?: BackupVaultsGetOptionalParams,
   ): Promise<BackupVaultsGetResponse>;
   /**
    * Creates or updates a BackupVault resource belonging to a resource group.
@@ -66,7 +66,7 @@ export interface BackupVaults {
     resourceGroupName: string,
     vaultName: string,
     parameters: BackupVaultResource,
-    options?: BackupVaultsCreateOrUpdateOptionalParams
+    options?: BackupVaultsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupVaultsCreateOrUpdateResponse>,
@@ -84,7 +84,7 @@ export interface BackupVaults {
     resourceGroupName: string,
     vaultName: string,
     parameters: BackupVaultResource,
-    options?: BackupVaultsCreateOrUpdateOptionalParams
+    options?: BackupVaultsCreateOrUpdateOptionalParams,
   ): Promise<BackupVaultsCreateOrUpdateResponse>;
   /**
    * Deletes a BackupVault resource from the resource group.
@@ -95,7 +95,7 @@ export interface BackupVaults {
   beginDelete(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupVaultsDeleteOptionalParams
+    options?: BackupVaultsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a BackupVault resource from the resource group.
@@ -106,7 +106,7 @@ export interface BackupVaults {
   beginDeleteAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupVaultsDeleteOptionalParams
+    options?: BackupVaultsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a BackupVault resource belonging to a resource group. For example, updating tags for a
@@ -120,7 +120,7 @@ export interface BackupVaults {
     resourceGroupName: string,
     vaultName: string,
     parameters: PatchResourceRequestInput,
-    options?: BackupVaultsUpdateOptionalParams
+    options?: BackupVaultsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupVaultsUpdateResponse>,
@@ -139,7 +139,7 @@ export interface BackupVaults {
     resourceGroupName: string,
     vaultName: string,
     parameters: PatchResourceRequestInput,
-    options?: BackupVaultsUpdateOptionalParams
+    options?: BackupVaultsUpdateOptionalParams,
   ): Promise<BackupVaultsUpdateResponse>;
   /**
    * API to check for resource name availability
@@ -152,6 +152,6 @@ export interface BackupVaults {
     resourceGroupName: string,
     location: string,
     parameters: CheckNameAvailabilityRequest,
-    options?: BackupVaultsCheckNameAvailabilityOptionalParams
+    options?: BackupVaultsCheckNameAvailabilityOptionalParams,
   ): Promise<BackupVaultsCheckNameAvailabilityResponse>;
 }
