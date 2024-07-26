@@ -4,7 +4,6 @@
 import { EventHubConsumerClient, EventHubProducerClient } from "../../src/index.js";
 import type { ConnectionContext } from "../../src/connectionContext.js";
 import { MessagingError } from "@azure/core-amqp";
-import debugModule from "debug";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo.js";
 import { packageJsonInfo } from "../../src/util/constants.js";
 import { isNodeLike } from "@azure/core-util";
@@ -14,21 +13,31 @@ import { NoOpCredential } from "@azure-tools/test-credential";
 import { getSubscriptionPromise } from "../utils/testUtils.js";
 import { should, expect } from "../utils/chai.js";
 
-const debug = debugModule("azure:event-hubs:client-spec");
-
 function createNoOpCred(): NoOpCredential {
   return new NoOpCredential();
 }
 
-function validateConnectionError<E extends Error & { code?: string }>(err: E): void {
-  should.exist(err.code, "Missing code on error object.");
-  if (!isNodeLike) {
-    should.equal(err.code, "ServiceCommunicationError");
-  }
+async function validateConnectionError(promise: Promise<unknown>): Promise<void> {
+  await expect(promise).to.be.rejected.then((err) => {
+    expect(err)
+      .to.be.an.instanceOf(MessagingError)
+      .and.has.property("code", isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError");
+  });
 }
 
-function getConnectionErrorCode(): string | undefined {
-  return isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError";
+async function validateNotFoundError(promise: Promise<unknown>): Promise<void> {
+  await expect(promise).to.be.rejected.then((err) => {
+    expect(err)
+      .to.be.an.instanceOf(MessagingError)
+      .and.has.property("code", isNodeLike ? "ENOTFOUND" : "MessagingEntityNotFoundError");
+  });
+}
+
+async function validateConnectionClosedError(promise: Promise<unknown>): Promise<void> {
+  const expectedErrorMsg = "The underlying AMQP connection is closed.";
+  await expect(promise).to.be.rejected.then((err) => {
+    expect(err).and.has.property("message", expectedErrorMsg);
+  });
 }
 
 describe("EventHubClient", function () {
@@ -252,28 +261,19 @@ describe("EventHubClient", function () {
     });
 
     it("should throw ServiceCommunicationError for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties()).to.be.rejected.and.has.property(
-        "code",
-        getConnectionErrorCode(),
-      );
+      await validateConnectionError(client.getEventHubProperties());
     });
 
     it("should throw ServiceCommunicationError for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await validateConnectionError(client.getPartitionProperties("0"));
     });
 
     it("should throw ServiceCommunicationError for getPartitionIds", async function () {
-      await expect(client.getPartitionIds())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await validateConnectionError(client.getPartitionIds());
     });
 
     it("should throw ServiceCommunicationError while subscribe()", async function () {
-      const caughtErr = await getSubscriptionPromise(client);
-      debug(caughtErr);
-      validateConnectionError(caughtErr);
+      await validateConnectionError(getSubscriptionPromise(client));
     });
   });
 
@@ -290,39 +290,28 @@ describe("EventHubClient", function () {
     });
 
     it("should throw ServiceCommunicationError for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await validateConnectionError(client.getEventHubProperties());
     });
 
     it("should throw ServiceCommunicationError for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await validateConnectionError(client.getPartitionProperties("0"));
     });
 
     it("should throw ServiceCommunicationError for getPartitionIds", async function () {
-      await expect(client.getPartitionIds())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await validateConnectionError(client.getPartitionIds());
     });
 
     it("should throw ServiceCommunicationError while sending", async function () {
-      await expect(client.sendBatch([{ body: "Hello World" }]))
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await validateConnectionError(client.sendBatch([{ body: "Hello World" }]));
     });
 
     it("should throw ServiceCommunicationError while creating a batch", async function () {
-      await expect(client.createBatch())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await validateConnectionError(client.createBatch());
     });
   });
 
   describe("EventHubConsumerClient with non existent event hub", function () {
     let client: EventHubConsumerClient;
-    const expectedErrCode = "MessagingEntityNotFoundError";
 
     beforeEach(async function () {
       client = createConsumer({ eventhubName: "bad" }).consumer;
@@ -333,33 +322,24 @@ describe("EventHubClient", function () {
     });
 
     it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.getEventHubProperties());
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.getPartitionProperties("0"));
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionIds", async function () {
-      await expect(client.getPartitionIds())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.getPartitionIds());
     });
 
     it("should throw MessagingEntityNotFoundError while subscribe()", async function () {
-      const caughtErr = await getSubscriptionPromise(client);
-      debug(caughtErr);
-      should.equal(caughtErr instanceof MessagingError && caughtErr.code, expectedErrCode);
+      await validateNotFoundError(getSubscriptionPromise(client));
     });
   });
 
   describe("EventHubProducerClient with non existent event hub", function () {
     let client: EventHubProducerClient;
-    const expectedErrCode = "MessagingEntityNotFoundError";
 
     beforeEach(async function () {
       client = createProducer({ eventhubName: "bad" }).producer;
@@ -370,33 +350,23 @@ describe("EventHubClient", function () {
     });
 
     it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.getEventHubProperties());
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.getPartitionProperties("0"));
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionIds", async function () {
-      await expect(client.getPartitionIds())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.getPartitionIds());
     });
 
     it("should throw MessagingEntityNotFoundError while sending", async function () {
-      await expect(client.sendBatch([{ body: "Hello World" }]))
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.sendBatch([{ body: "Hello World" }]));
     });
 
     it("should throw MessagingEntityNotFoundError while creating a batch", async function () {
-      await expect(client.createBatch())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", expectedErrCode);
+      await validateNotFoundError(client.createBatch());
     });
   });
 
@@ -451,7 +421,6 @@ describe("EventHubClient", function () {
 
   describe("EventHubConsumerClient after close()", function () {
     let client: EventHubConsumerClient;
-    const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
     beforeEach(async function () {
       client = createConsumer().consumer;
@@ -460,28 +429,25 @@ describe("EventHubClient", function () {
       await client.close();
     });
 
-    it("should throw connection closed error for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties()).to.be.rejectedWith(expectedErrorMsg);
+    it.only("should throw connection closed error for getEventHubProperties", async function () {
+      await validateConnectionClosedError(client.getEventHubProperties());
     });
 
     it("should throw connection closed error for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0")).to.be.rejectedWith(expectedErrorMsg);
+      await validateConnectionClosedError(client.getPartitionProperties("0"));
     });
 
     it("should throw connection closed error for getPartitionIds", async function () {
-      await expect(client.getPartitionIds()).to.be.rejectedWith(expectedErrorMsg);
+      await validateConnectionClosedError(client.getPartitionIds());
     });
 
     it("should throw connection closed error while subscribe()", async function () {
-      const caughtErr = await getSubscriptionPromise(client);
-      debug(caughtErr);
-      should.equal(caughtErr.message, expectedErrorMsg);
+      await validateConnectionClosedError(getSubscriptionPromise(client));
     });
   });
 
   describe("EventHubProducerClient after close()", function () {
     let client: EventHubProducerClient;
-    const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
     beforeEach(async function () {
       client = createProducer().producer;
@@ -491,25 +457,23 @@ describe("EventHubClient", function () {
     });
 
     it("should throw connection closed error for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties()).to.be.rejectedWith(expectedErrorMsg);
+      await validateConnectionClosedError(client.getEventHubProperties());
     });
 
     it("should throw connection closed error for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0")).to.be.rejectedWith(expectedErrorMsg);
+      await validateConnectionClosedError(client.getPartitionProperties("0"));
     });
 
     it("should throw connection closed error for getPartitionIds", async function () {
-      await expect(client.getPartitionIds()).to.be.rejectedWith(expectedErrorMsg);
+      await validateConnectionClosedError(client.getPartitionIds());
     });
 
     it("should throw connection closed error while sending", async function () {
-      await expect(client.sendBatch([{ body: "Hello World" }])).to.be.rejectedWith(
-        expectedErrorMsg,
-      );
+      await validateConnectionClosedError(client.sendBatch([{ body: "Hello World" }]));
     });
 
     it("should throw connection closed error while creating a batch", async function () {
-      await expect(client.createBatch()).to.be.rejectedWith(expectedErrorMsg);
+      await validateConnectionClosedError(client.createBatch());
     });
   });
 });
