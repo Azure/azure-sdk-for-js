@@ -22,6 +22,7 @@ async function validateConnectionError(promise: Promise<unknown>): Promise<void>
     expect(err)
       .to.be.an.instanceOf(MessagingError)
       .and.has.property("code", isNodeLike ? "ENOTFOUND" : "ServiceCommunicationError");
+    return err;
   });
 }
 
@@ -30,6 +31,7 @@ async function validateNotFoundError(promise: Promise<unknown>): Promise<void> {
     expect(err)
       .to.be.an.instanceOf(MessagingError)
       .and.has.property("code", isNodeLike ? "ENOTFOUND" : "MessagingEntityNotFoundError");
+    return err;
   });
 }
 
@@ -37,6 +39,7 @@ async function validateConnectionClosedError(promise: Promise<unknown>): Promise
   const expectedErrorMsg = "The underlying AMQP connection is closed.";
   await expect(promise).to.be.rejected.then((err) => {
     expect(err).and.has.property("message", expectedErrorMsg);
+    return err;
   });
 }
 
@@ -429,7 +432,7 @@ describe("EventHubClient", function () {
       await client.close();
     });
 
-    it.only("should throw connection closed error for getEventHubProperties", async function () {
+    it("should throw connection closed error for getEventHubProperties", async function () {
       await validateConnectionClosedError(client.getEventHubProperties());
     });
 
