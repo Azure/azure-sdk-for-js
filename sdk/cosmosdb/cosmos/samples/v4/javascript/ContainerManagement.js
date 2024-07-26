@@ -8,7 +8,12 @@
 require("dotenv").config();
 
 const { finish, handleError, logStep, logSampleHeader } = require("./Shared/handleError");
-const { CosmosClient } = require("@azure/cosmos");
+const {
+  CosmosClient,
+  VectorEmbeddingDataType,
+  VectorEmbeddingDistanceFunction,
+  VectorIndexType,
+} = require("@azure/cosmos");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -98,6 +103,56 @@ async function run() {
     .fetchAll();
   console.log("computed property query results: ", response.resources);
   await finish();
+
+  logStep("Create container with vector embedding and indexing policies");
+  const vectorEmbeddingPolicy = {
+    vectorEmbeddings: [
+      {
+        path: "/vector1",
+        dataType: VectorEmbeddingDataType.UInt8,
+        dimensions: 1000,
+        distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+      },
+      {
+        path: "/vector2",
+        dataType: VectorEmbeddingDataType.Int8,
+        dimensions: 200,
+        distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
+      },
+      {
+        path: "/vector3",
+        dataType: VectorEmbeddingDataType.UInt8,
+        dimensions: 400,
+        distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+      },
+    ],
+  };
+
+  const indexingPolicy = {
+    automatic: true,
+    indexingMode: "consistent",
+    compositeIndexes: [
+      [
+        { path: "/numberField", order: "ascending" },
+        { path: "/stringField", order: "descending" },
+      ],
+    ],
+    spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }],
+    vectorIndexes: [
+      { path: "/vector1", type: VectorIndexType.Flat },
+      { path: "/vector2", type: VectorIndexType.QuantizedFlat },
+      { path: "/vector3", type: VectorIndexType.DiskANN },
+    ],
+  };
+
+  const containerDefinition = {
+    id: containerId,
+    partitionKey: { path: "/id" },
+    indexingPolicy: indexingPolicy,
+    vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+  };
+  await database.containers.createIfNotExists(containerDefinition);
+  logStep("Container with vector embedding and indexing policies created");
 }
 
 run().catch(handleError);
