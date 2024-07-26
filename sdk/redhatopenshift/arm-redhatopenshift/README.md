@@ -6,7 +6,7 @@ Rest API for Azure Red Hat OpenShift 4
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redhatopenshift/arm-redhatopenshift) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-redhatopenshift) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-redhatopenshift) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-redhatopenshift?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
