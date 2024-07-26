@@ -3,7 +3,8 @@
 
 import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData.js";
 import { Constants } from "@azure/core-amqp";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
+import { assert } from "../utils/chai.js";
 
 describe("AMQP message encoding", function () {
   it("isAmqpAnnotatedMessage", async function () {

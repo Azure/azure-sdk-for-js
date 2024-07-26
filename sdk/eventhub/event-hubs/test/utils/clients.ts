@@ -18,7 +18,7 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { EnvVarKeys } from "./constants.js";
 import * as MOCKS from "./constants.js";
 import type { NamedKeyCredential, SASCredential } from "@azure/core-auth";
-import { assert } from "vitest";
+import { assert } from "./chai.js";
 import { ConnectionContext, createConnectionContext } from "../../src/connectionContext.js";
 import { createSasTokenProvider } from "@azure/core-amqp";
 

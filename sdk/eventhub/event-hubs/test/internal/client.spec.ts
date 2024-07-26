@@ -8,14 +8,12 @@ import debugModule from "debug";
 import { getRuntimeInfo } from "../../src/util/runtimeInfo.js";
 import { packageJsonInfo } from "../../src/util/constants.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, should as shouldFn, beforeEach, afterEach, expect, chai } from "vitest";
+import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { getSubscriptionPromise } from "../utils/testUtils.js";
-import chaiString from "chai-string";
+import { should, expect } from "../utils/chai.js";
 
-chai.use(chaiString);
-const should = shouldFn();
 const debug = debugModule("azure:event-hubs:client-spec");
 
 function createNoOpCred(): NoOpCredential {

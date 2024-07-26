@@ -10,7 +10,7 @@ extends:
         - DependencyVersion=^$
       UseFederatedAuth: true
       Clouds: 'Public,Canary'
-      TimeoutInMinutes: 120
+      TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:

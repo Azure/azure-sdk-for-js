@@ -4,13 +4,14 @@
 import type { EventHubConsumerClient, EventHubProducerClient } from "../../../src/index.js";
 import { tracingClient } from "../../../src/diagnostics/tracing.js";
 import { assert } from "@azure-tools/test-utils";
-import { describe, it, afterEach, vi, expect } from "vitest";
+import { describe, it, afterEach, vi } from "vitest";
 import { createConsumer } from "../../utils/clients.js";
+import { expect } from "../../utils/chai.js";
 
 describe("Create clients using Azure Identity (Internal)", function (): void {
   let client: EventHubConsumerClient | EventHubProducerClient;
 
-  afterEach(async () => {
+  afterEach(async function () {
     await client.close();
   });
 
