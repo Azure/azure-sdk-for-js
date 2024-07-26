@@ -4,20 +4,19 @@
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import {
   MongoCluster,
-  MongoClusterUpdate,
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
 import {
-  get,
-  createOrUpdate,
-  update,
-  $delete,
-  listByResourceGroup,
-  list,
-  listConnectionStrings,
-  checkNameAvailability,
+  mongoClustersGet,
+  mongoClustersCreateOrUpdate,
+  mongoClustersUpdate,
+  mongoClustersDelete,
+  mongoClustersListByResourceGroup,
+  mongoClustersList,
+  mongoClustersListConnectionStrings,
+  mongoClustersCheckNameAvailability,
 } from "../../api/mongoClusters/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -51,15 +50,10 @@ export interface MongoClustersOperations {
   update: (
     resourceGroupName: string,
     mongoClusterName: string,
-    properties: MongoClusterUpdate,
+    properties: MongoCluster,
     options?: MongoClustersUpdateOptionalParams,
   ) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
   /** Deletes a mongo cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -71,9 +65,7 @@ export interface MongoClustersOperations {
     options?: MongoClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MongoCluster>;
   /** List all the mongo clusters in a given subscription. */
-  list: (
-    options?: MongoClustersListOptionalParams,
-  ) => PagedAsyncIterableIterator<MongoCluster>;
+  list: (options?: MongoClustersListOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
   /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
   listConnectionStrings: (
     resourceGroupName: string,
@@ -88,30 +80,20 @@ export interface MongoClustersOperations {
   ) => Promise<CheckNameAvailabilityResponse>;
 }
 
-export function getMongoClusters(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getMongoClusters(context: DocumentDBContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersGetOptionalParams,
-    ) =>
-      get(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
+    ) => mongoClustersGet(context, subscriptionId, resourceGroupName, mongoClusterName, options),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
       resource: MongoCluster,
       options?: MongoClustersCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(
+      mongoClustersCreateOrUpdate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -122,10 +104,10 @@ export function getMongoClusters(
     update: (
       resourceGroupName: string,
       mongoClusterName: string,
-      properties: MongoClusterUpdate,
+      properties: MongoCluster,
       options?: MongoClustersUpdateOptionalParams,
     ) =>
-      update(
+      mongoClustersUpdate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -137,27 +119,19 @@ export function getMongoClusters(
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
+    ) => mongoClustersDelete(context, subscriptionId, resourceGroupName, mongoClusterName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: MongoClustersListByResourceGroupOptionalParams,
-    ) =>
-      listByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) => mongoClustersListByResourceGroup(context, subscriptionId, resourceGroupName, options),
     list: (options?: MongoClustersListOptionalParams) =>
-      list(context, subscriptionId, options),
+      mongoClustersList(context, subscriptionId, options),
     listConnectionStrings: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersListConnectionStringsOptionalParams,
     ) =>
-      listConnectionStrings(
+      mongoClustersListConnectionStrings(
         context,
         subscriptionId,
         resourceGroupName,
@@ -168,8 +142,7 @@ export function getMongoClusters(
       location: string,
       body: CheckNameAvailabilityRequest,
       options?: MongoClustersCheckNameAvailabilityOptionalParams,
-    ) =>
-      checkNameAvailability(context, subscriptionId, location, body, options),
+    ) => mongoClustersCheckNameAvailability(context, subscriptionId, location, body, options),
   };
 }
 

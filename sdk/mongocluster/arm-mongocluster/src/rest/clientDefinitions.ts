@@ -14,12 +14,12 @@ import {
   FirewallRulesGetParameters,
   FirewallRulesCreateOrUpdateParameters,
   FirewallRulesDeleteParameters,
-  FirewallRulesListByMongoClusterParameters,
-  PrivateEndpointConnectionsListByMongoClusterParameters,
+  FirewallRulesListByParentParameters,
+  PrivateEndpointConnectionsListConnectionsParameters,
   PrivateEndpointConnectionsGetParameters,
   PrivateEndpointConnectionsCreateParameters,
   PrivateEndpointConnectionsDeleteParameters,
-  PrivateLinksListByMongoClusterParameters,
+  PrivateLinksListParameters,
 } from "./parameters.js";
 import {
   OperationsList200Response,
@@ -52,10 +52,10 @@ import {
   FirewallRulesDelete202Response,
   FirewallRulesDelete204Response,
   FirewallRulesDeleteDefaultResponse,
-  FirewallRulesListByMongoCluster200Response,
-  FirewallRulesListByMongoClusterDefaultResponse,
-  PrivateEndpointConnectionsListByMongoCluster200Response,
-  PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
+  FirewallRulesListByParent200Response,
+  FirewallRulesListByParentDefaultResponse,
+  PrivateEndpointConnectionsListConnections200Response,
+  PrivateEndpointConnectionsListConnectionsDefaultResponse,
   PrivateEndpointConnectionsGet200Response,
   PrivateEndpointConnectionsGetDefaultResponse,
   PrivateEndpointConnectionsCreate200Response,
@@ -65,8 +65,8 @@ import {
   PrivateEndpointConnectionsDelete202Response,
   PrivateEndpointConnectionsDelete204Response,
   PrivateEndpointConnectionsDeleteDefaultResponse,
-  PrivateLinksListByMongoCluster200Response,
-  PrivateLinksListByMongoClusterDefaultResponse,
+  PrivateLinksList200Response,
+  PrivateLinksListDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -74,18 +74,14 @@ export interface OperationsList {
   /** List the operations for the provider */
   get(
     options?: OperationsListParameters,
-  ): StreamableMethod<
-    OperationsList200Response | OperationsListDefaultResponse
-  >;
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 export interface MongoClustersGet {
   /** Gets information about a mongo cluster. */
   get(
     options?: MongoClustersGetParameters,
-  ): StreamableMethod<
-    MongoClustersGet200Response | MongoClustersGetDefaultResponse
-  >;
+  ): StreamableMethod<MongoClustersGet200Response | MongoClustersGetDefaultResponse>;
   /** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
   put(
     options: MongoClustersCreateOrUpdateParameters,
@@ -117,8 +113,7 @@ export interface MongoClustersListByResourceGroup {
   get(
     options?: MongoClustersListByResourceGroupParameters,
   ): StreamableMethod<
-    | MongoClustersListByResourceGroup200Response
-    | MongoClustersListByResourceGroupDefaultResponse
+    MongoClustersListByResourceGroup200Response | MongoClustersListByResourceGroupDefaultResponse
   >;
 }
 
@@ -126,9 +121,7 @@ export interface MongoClustersList {
   /** List all the mongo clusters in a given subscription. */
   get(
     options?: MongoClustersListParameters,
-  ): StreamableMethod<
-    MongoClustersList200Response | MongoClustersListDefaultResponse
-  >;
+  ): StreamableMethod<MongoClustersList200Response | MongoClustersListDefaultResponse>;
 }
 
 export interface MongoClustersListConnectionStrings {
@@ -155,9 +148,7 @@ export interface FirewallRulesGet {
   /** Gets information about a mongo cluster firewall rule. */
   get(
     options?: FirewallRulesGetParameters,
-  ): StreamableMethod<
-    FirewallRulesGet200Response | FirewallRulesGetDefaultResponse
-  >;
+  ): StreamableMethod<FirewallRulesGet200Response | FirewallRulesGetDefaultResponse>;
   /** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
   put(
     options: FirewallRulesCreateOrUpdateParameters,
@@ -177,23 +168,22 @@ export interface FirewallRulesGet {
   >;
 }
 
-export interface FirewallRulesListByMongoCluster {
+export interface FirewallRulesListByParent {
   /** List all the firewall rules in a given mongo cluster. */
   get(
-    options?: FirewallRulesListByMongoClusterParameters,
+    options?: FirewallRulesListByParentParameters,
   ): StreamableMethod<
-    | FirewallRulesListByMongoCluster200Response
-    | FirewallRulesListByMongoClusterDefaultResponse
+    FirewallRulesListByParent200Response | FirewallRulesListByParentDefaultResponse
   >;
 }
 
-export interface PrivateEndpointConnectionsListByMongoCluster {
+export interface PrivateEndpointConnectionsListConnections {
   /** List existing private connections */
   get(
-    options?: PrivateEndpointConnectionsListByMongoClusterParameters,
+    options?: PrivateEndpointConnectionsListConnectionsParameters,
   ): StreamableMethod<
-    | PrivateEndpointConnectionsListByMongoCluster200Response
-    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
+    | PrivateEndpointConnectionsListConnections200Response
+    | PrivateEndpointConnectionsListConnectionsDefaultResponse
   >;
 }
 
@@ -202,8 +192,7 @@ export interface PrivateEndpointConnectionsGet {
   get(
     options?: PrivateEndpointConnectionsGetParameters,
   ): StreamableMethod<
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetDefaultResponse
+    PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
   >;
   /** Create a Private endpoint connection */
   put(
@@ -224,14 +213,11 @@ export interface PrivateEndpointConnectionsGet {
   >;
 }
 
-export interface PrivateLinksListByMongoCluster {
+export interface PrivateLinksList {
   /** list private links on the given resource */
   get(
-    options?: PrivateLinksListByMongoClusterParameters,
-  ): StreamableMethod<
-    | PrivateLinksListByMongoCluster200Response
-    | PrivateLinksListByMongoClusterDefaultResponse
-  >;
+    options?: PrivateLinksListParameters,
+  ): StreamableMethod<PrivateLinksList200Response | PrivateLinksListDefaultResponse>;
 }
 
 export interface Routes {
@@ -282,14 +268,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
-  ): FirewallRulesListByMongoCluster;
+  ): FirewallRulesListByParent;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DocumentDB/mongoClusters/\{mongoClusterName\}/privateEndpointConnections' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections",
     subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
-  ): PrivateEndpointConnectionsListByMongoCluster;
+  ): PrivateEndpointConnectionsListConnections;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DocumentDB/mongoClusters/\{mongoClusterName\}/privateEndpointConnections/\{privateEndpointConnectionName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -304,7 +290,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     mongoClusterName: string,
-  ): PrivateLinksListByMongoCluster;
+  ): PrivateLinksList;
 }
 
 export type DocumentDBContext = Client & {

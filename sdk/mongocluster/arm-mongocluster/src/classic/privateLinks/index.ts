@@ -3,37 +3,27 @@
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateLinkResource } from "../../models/models.js";
-import { listByMongoCluster } from "../../api/privateLinks/index.js";
+import { privateLinksList } from "../../api/privateLinks/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
+import { PrivateLinksListOptionalParams } from "../../models/options.js";
 
 /** Interface representing a PrivateLinks operations. */
 export interface PrivateLinksOperations {
   /** list private links on the given resource */
-  listByMongoCluster: (
+  list: (
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: PrivateLinksListByMongoClusterOptionalParams,
+    options?: PrivateLinksListOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getPrivateLinks(context: DocumentDBContext, subscriptionId: string) {
   return {
-    listByMongoCluster: (
+    list: (
       resourceGroupName: string,
       mongoClusterName: string,
-      options?: PrivateLinksListByMongoClusterOptionalParams,
-    ) =>
-      listByMongoCluster(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
+      options?: PrivateLinksListOptionalParams,
+    ) => privateLinksList(context, subscriptionId, resourceGroupName, mongoClusterName, options),
   };
 }
 

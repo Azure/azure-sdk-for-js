@@ -228,8 +228,7 @@ export interface TrackedResourceOutput extends ResourceOutput {
 }
 
 /** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
-export interface ResourceModelWithAllowedPropertySetOutput
-  extends TrackedResourceOutput {
+export interface ResourceModelWithAllowedPropertySetOutput extends TrackedResourceOutput {
   /**
    * The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource.
    * If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.
@@ -313,8 +312,7 @@ export interface FirewallRulePropertiesOutput {
 }
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface PrivateEndpointConnectionResourceOutput
-  extends ProxyResourceOutput {
+export interface PrivateEndpointConnectionResourceOutput extends ProxyResourceOutput {
   /** The resource-specific properties for this resource. */
   properties?: PrivateEndpointConnectionPropertiesOutput;
 }
@@ -416,5 +414,4 @@ export type FirewallRuleListResultOutput = Paged<FirewallRuleOutput>;
 export type PrivateEndpointConnectionResourceListResultOutput =
   Paged<PrivateEndpointConnectionResourceOutput>;
 /** The response of a PrivateLinkResource list operation. */
-export type PrivateLinkResourceListResultOutput =
-  Paged<PrivateLinkResourceOutput>;
+export type PrivateLinkResourceListResultOutput = Paged<PrivateLinkResourceOutput>;

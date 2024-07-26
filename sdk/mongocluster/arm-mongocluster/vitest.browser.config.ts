@@ -10,9 +10,6 @@ export default defineConfig({
   define: {
     "process.env": process.env,
   },
-  optimizeDeps: {
-    include: ["@azure/core-lro"],
-  },
   test: {
     reporters: ["basic", "junit"],
     outputFile: {

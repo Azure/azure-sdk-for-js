@@ -6,17 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  isPlaybackMode,
-  delay
-} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { MongoClusterManagementClient } from "../../src/mongoClusterManagementClient.js"
+import { MongoClusterManagementClient } from "../../src/mongoClusterManagementClient.js";
 import { createRecorder } from "./utils/recordedClient.js";
-import { NetworkManagementClient } from "@azure/arm-network"
+import { NetworkManagementClient } from "@azure/arm-network";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -37,11 +32,19 @@ describe.only("MongoCluster test", () => {
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
     recorder = await createRecorder(context);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new MongoClusterManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    networkClient = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new MongoClusterManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    networkClient = new NetworkManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest1";
@@ -76,10 +79,10 @@ describe.only("MongoCluster test", () => {
           serverVersion: "5.0",
         },
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourcename);
   });
-
 
   it.only("virtual network create test", async function () {
     const res = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(
@@ -88,8 +91,8 @@ describe.only("MongoCluster test", () => {
       {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
         flowTimeoutInMinutes: 10,
-        location
-      }
+        location,
+      },
     );
     assert.equal(res.name, virtualNetworkName);
 
@@ -99,7 +102,7 @@ describe.only("MongoCluster test", () => {
       "testsubnet",
       { addressPrefix: "10.0.0.0/16" },
     );
-  })
+  });
 
   // it("private endpoit create test", async function () {
   //   const clusterRes = await client.mongoClusters.get(
@@ -209,4 +212,4 @@ describe.only("MongoCluster test", () => {
 
   //   await delay(isPlaybackMode() ? 1000 : 60000)
   // });
-})
+});

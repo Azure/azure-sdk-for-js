@@ -57,15 +57,13 @@ export interface MongoClustersCreateOrUpdate201Response extends HttpResponse {
   headers: RawHttpHeaders & MongoClustersCreateOrUpdate201Headers;
 }
 
-export interface MongoClustersCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface MongoClustersCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running createOrUpdate operation */
-export interface MongoClustersCreateOrUpdateLogicalResponse
-  extends HttpResponse {
+export interface MongoClustersCreateOrUpdateLogicalResponse extends HttpResponse {
   status: "200";
   body: MongoClusterOutput;
 }
@@ -129,14 +127,12 @@ export interface MongoClustersDeleteLogicalResponse extends HttpResponse {
 }
 
 /** Azure operation completed successfully. */
-export interface MongoClustersListByResourceGroup200Response
-  extends HttpResponse {
+export interface MongoClustersListByResourceGroup200Response extends HttpResponse {
   status: "200";
   body: MongoClusterListResultOutput;
 }
 
-export interface MongoClustersListByResourceGroupDefaultResponse
-  extends HttpResponse {
+export interface MongoClustersListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -153,27 +149,23 @@ export interface MongoClustersListDefaultResponse extends HttpResponse {
 }
 
 /** Azure operation completed successfully. */
-export interface MongoClustersListConnectionStrings200Response
-  extends HttpResponse {
+export interface MongoClustersListConnectionStrings200Response extends HttpResponse {
   status: "200";
   body: ListConnectionStringsResultOutput;
 }
 
-export interface MongoClustersListConnectionStringsDefaultResponse
-  extends HttpResponse {
+export interface MongoClustersListConnectionStringsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface MongoClustersCheckNameAvailability200Response
-  extends HttpResponse {
+export interface MongoClustersCheckNameAvailability200Response extends HttpResponse {
   status: "200";
   body: CheckNameAvailabilityResponseOutput;
 }
 
-export interface MongoClustersCheckNameAvailabilityDefaultResponse
-  extends HttpResponse {
+export interface MongoClustersCheckNameAvailabilityDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -214,15 +206,13 @@ export interface FirewallRulesCreateOrUpdate202Response extends HttpResponse {
   headers: RawHttpHeaders & FirewallRulesCreateOrUpdate202Headers;
 }
 
-export interface FirewallRulesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface FirewallRulesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running createOrUpdate operation */
-export interface FirewallRulesCreateOrUpdateLogicalResponse
-  extends HttpResponse {
+export interface FirewallRulesCreateOrUpdateLogicalResponse extends HttpResponse {
   status: "200";
   body: FirewallRuleOutput;
 }
@@ -256,27 +246,23 @@ export interface FirewallRulesDeleteLogicalResponse extends HttpResponse {
 }
 
 /** Azure operation completed successfully. */
-export interface FirewallRulesListByMongoCluster200Response
-  extends HttpResponse {
+export interface FirewallRulesListByParent200Response extends HttpResponse {
   status: "200";
   body: FirewallRuleListResultOutput;
 }
 
-export interface FirewallRulesListByMongoClusterDefaultResponse
-  extends HttpResponse {
+export interface FirewallRulesListByParentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Azure operation completed successfully. */
-export interface PrivateEndpointConnectionsListByMongoCluster200Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsListConnections200Response extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionResourceListResultOutput;
 }
 
-export interface PrivateEndpointConnectionsListByMongoClusterDefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsListConnectionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -287,22 +273,19 @@ export interface PrivateEndpointConnectionsGet200Response extends HttpResponse {
   body: PrivateEndpointConnectionResourceOutput;
 }
 
-export interface PrivateEndpointConnectionsGetDefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Resource 'PrivateEndpointConnectionResource' update operation succeeded */
-export interface PrivateEndpointConnectionsCreate200Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsCreate200Response extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionResourceOutput;
 }
 
 /** Resource 'PrivateEndpointConnectionResource' create operation succeeded */
-export interface PrivateEndpointConnectionsCreate201Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsCreate201Response extends HttpResponse {
   status: "201";
   body: PrivateEndpointConnectionResourceOutput;
 }
@@ -315,21 +298,18 @@ export interface PrivateEndpointConnectionsCreate202Headers {
 }
 
 /** Resource operation accepted. */
-export interface PrivateEndpointConnectionsCreate202Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsCreate202Response extends HttpResponse {
   status: "202";
   headers: RawHttpHeaders & PrivateEndpointConnectionsCreate202Headers;
 }
 
-export interface PrivateEndpointConnectionsCreateDefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running create operation */
-export interface PrivateEndpointConnectionsCreateLogicalResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsCreateLogicalResponse extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionResourceOutput;
 }
@@ -342,39 +322,33 @@ export interface PrivateEndpointConnectionsDelete202Headers {
 }
 
 /** Resource deletion accepted. */
-export interface PrivateEndpointConnectionsDelete202Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsDelete202Response extends HttpResponse {
   status: "202";
   headers: RawHttpHeaders & PrivateEndpointConnectionsDelete202Headers;
 }
 
 /** Resource does not exist. */
-export interface PrivateEndpointConnectionsDelete204Response
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsDelete204Response extends HttpResponse {
   status: "204";
 }
 
-export interface PrivateEndpointConnectionsDeleteDefaultResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running delete operation */
-export interface PrivateEndpointConnectionsDeleteLogicalResponse
-  extends HttpResponse {
+export interface PrivateEndpointConnectionsDeleteLogicalResponse extends HttpResponse {
   status: "200";
 }
 
 /** Azure operation completed successfully. */
-export interface PrivateLinksListByMongoCluster200Response
-  extends HttpResponse {
+export interface PrivateLinksList200Response extends HttpResponse {
   status: "200";
   body: PrivateLinkResourceListResultOutput;
 }
 
-export interface PrivateLinksListByMongoClusterDefaultResponse
-  extends HttpResponse {
+export interface PrivateLinksListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

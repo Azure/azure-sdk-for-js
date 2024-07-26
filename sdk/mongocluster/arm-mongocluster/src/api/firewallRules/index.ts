@@ -24,8 +24,8 @@ import {
   FirewallRulesDeleteLogicalResponse,
   FirewallRulesGet200Response,
   FirewallRulesGetDefaultResponse,
-  FirewallRulesListByMongoCluster200Response,
-  FirewallRulesListByMongoClusterDefaultResponse,
+  FirewallRulesListByParent200Response,
+  FirewallRulesListByParentDefaultResponse,
 } from "../../rest/index.js";
 import {
   StreamableMethod,
@@ -36,19 +36,17 @@ import {
   FirewallRulesGetOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesListByMongoClusterOptionalParams,
+  FirewallRulesListByParentOptionalParams,
 } from "../../models/options.js";
 
-export function _getSend(
+export function _firewallRulesGetSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   firewallRuleName: string,
   options: FirewallRulesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  FirewallRulesGet200Response | FirewallRulesGetDefaultResponse
-> {
+): StreamableMethod<FirewallRulesGet200Response | FirewallRulesGetDefaultResponse> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
@@ -60,7 +58,7 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(
+export async function _firewallRulesGetDeserialize(
   result: FirewallRulesGet200Response | FirewallRulesGetDefaultResponse,
 ): Promise<FirewallRule> {
   if (isUnexpected(result)) {
@@ -98,7 +96,7 @@ export async function _getDeserialize(
 }
 
 /** Gets information about a mongo cluster firewall rule. */
-export async function get(
+export async function firewallRulesGet(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -106,7 +104,7 @@ export async function get(
   firewallRuleName: string,
   options: FirewallRulesGetOptionalParams = { requestOptions: {} },
 ): Promise<FirewallRule> {
-  const result = await _getSend(
+  const result = await _firewallRulesGetSend(
     context,
     subscriptionId,
     resourceGroupName,
@@ -114,10 +112,10 @@ export async function get(
     firewallRuleName,
     options,
   );
-  return _getDeserialize(result);
+  return _firewallRulesGetDeserialize(result);
 }
 
-export function _createOrUpdateSend(
+export function _firewallRulesCreateOrUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -150,7 +148,7 @@ export function _createOrUpdateSend(
     });
 }
 
-export async function _createOrUpdateDeserialize(
+export async function _firewallRulesCreateOrUpdateDeserialize(
   result:
     | FirewallRulesCreateOrUpdate200Response
     | FirewallRulesCreateOrUpdate201Response
@@ -194,7 +192,7 @@ export async function _createOrUpdateDeserialize(
 }
 
 /** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
-export function createOrUpdate(
+export function firewallRulesCreateOrUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -203,11 +201,11 @@ export function createOrUpdate(
   resource: FirewallRule,
   options: FirewallRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FirewallRule>, FirewallRule> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, {
+  return getLongRunningPoller(context, _firewallRulesCreateOrUpdateDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(
+      _firewallRulesCreateOrUpdateSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -219,7 +217,7 @@ export function createOrUpdate(
   }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
 
-export function _$deleteSend(
+export function _firewallRulesDeleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -243,7 +241,7 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
+export async function _firewallRulesDeleteDeserialize(
   result:
     | FirewallRulesDelete202Response
     | FirewallRulesDelete204Response
@@ -258,12 +256,7 @@ export async function _$deleteDeserialize(
 }
 
 /** Deletes a mongo cluster firewall rule. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export function $delete(
+export function firewallRulesDelete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -271,11 +264,11 @@ export function $delete(
   firewallRuleName: string,
   options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, {
+  return getLongRunningPoller(context, _firewallRulesDeleteDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(
+      _firewallRulesDeleteSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -286,17 +279,14 @@ export function $delete(
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _listByMongoClusterSend(
+export function _firewallRulesListByParentSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: FirewallRulesListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: FirewallRulesListByParentOptionalParams = { requestOptions: {} },
 ): StreamableMethod<
-  | FirewallRulesListByMongoCluster200Response
-  | FirewallRulesListByMongoClusterDefaultResponse
+  FirewallRulesListByParent200Response | FirewallRulesListByParentDefaultResponse
 > {
   return context
     .path(
@@ -308,10 +298,8 @@ export function _listByMongoClusterSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByMongoClusterDeserialize(
-  result:
-    | FirewallRulesListByMongoCluster200Response
-    | FirewallRulesListByMongoClusterDefaultResponse,
+export async function _firewallRulesListByParentDeserialize(
+  result: FirewallRulesListByParent200Response | FirewallRulesListByParentDefaultResponse,
 ): Promise<_FirewallRuleListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -353,26 +341,24 @@ export async function _listByMongoClusterDeserialize(
 }
 
 /** List all the firewall rules in a given mongo cluster. */
-export function listByMongoCluster(
+export function firewallRulesListByParent(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: FirewallRulesListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: FirewallRulesListByParentOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<FirewallRule> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listByMongoClusterSend(
+      _firewallRulesListByParentSend(
         context,
         subscriptionId,
         resourceGroupName,
         mongoClusterName,
         options,
       ),
-    _listByMongoClusterDeserialize,
+    _firewallRulesListByParentDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

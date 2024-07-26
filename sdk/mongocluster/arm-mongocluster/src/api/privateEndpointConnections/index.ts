@@ -24,8 +24,8 @@ import {
   PrivateEndpointConnectionsDeleteLogicalResponse,
   PrivateEndpointConnectionsGet200Response,
   PrivateEndpointConnectionsGetDefaultResponse,
-  PrivateEndpointConnectionsListByMongoCluster200Response,
-  PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
+  PrivateEndpointConnectionsListConnections200Response,
+  PrivateEndpointConnectionsListConnectionsDefaultResponse,
 } from "../../rest/index.js";
 import {
   StreamableMethod,
@@ -33,23 +33,23 @@ import {
   createRestError,
 } from "@azure-rest/core-client";
 import {
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsListConnectionsOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../../models/options.js";
 
-export function _listByMongoClusterSend(
+export function _privateEndpointConnectionsListConnectionsSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = {
+  options: PrivateEndpointConnectionsListConnectionsOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod<
-  | PrivateEndpointConnectionsListByMongoCluster200Response
-  | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
+  | PrivateEndpointConnectionsListConnections200Response
+  | PrivateEndpointConnectionsListConnectionsDefaultResponse
 > {
   return context
     .path(
@@ -61,10 +61,10 @@ export function _listByMongoClusterSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByMongoClusterDeserialize(
+export async function _privateEndpointConnectionsListConnectionsDeserialize(
   result:
-    | PrivateEndpointConnectionsListByMongoCluster200Response
-    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
+    | PrivateEndpointConnectionsListConnections200Response
+    | PrivateEndpointConnectionsListConnectionsDefaultResponse,
 ): Promise<_PrivateEndpointConnectionResourceListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -100,16 +100,9 @@ export async function _listByMongoClusterDeserialize(
                 ? undefined
                 : { id: p.properties?.privateEndpoint?.["id"] },
               privateLinkServiceConnectionState: {
-                status:
-                  p.properties?.privateLinkServiceConnectionState["status"],
-                description:
-                  p.properties?.privateLinkServiceConnectionState[
-                    "description"
-                  ],
-                actionsRequired:
-                  p.properties?.privateLinkServiceConnectionState[
-                    "actionsRequired"
-                  ],
+                status: p.properties?.privateLinkServiceConnectionState["status"],
+                description: p.properties?.privateLinkServiceConnectionState["description"],
+                actionsRequired: p.properties?.privateLinkServiceConnectionState["actionsRequired"],
               },
               provisioningState: p.properties?.["provisioningState"],
             },
@@ -120,31 +113,31 @@ export async function _listByMongoClusterDeserialize(
 }
 
 /** List existing private connections */
-export function listByMongoCluster(
+export function privateEndpointConnectionsListConnections(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = {
+  options: PrivateEndpointConnectionsListConnectionsOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<PrivateEndpointConnectionResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listByMongoClusterSend(
+      _privateEndpointConnectionsListConnectionsSend(
         context,
         subscriptionId,
         resourceGroupName,
         mongoClusterName,
         options,
       ),
-    _listByMongoClusterDeserialize,
+    _privateEndpointConnectionsListConnectionsDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _getSend(
+export function _privateEndpointConnectionsGetSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -152,8 +145,7 @@ export function _getSend(
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod<
-  | PrivateEndpointConnectionsGet200Response
-  | PrivateEndpointConnectionsGetDefaultResponse
+  PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
 > {
   return context
     .path(
@@ -166,10 +158,8 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(
-  result:
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetDefaultResponse,
+export async function _privateEndpointConnectionsGetDeserialize(
+  result: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
 ): Promise<PrivateEndpointConnectionResource> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -203,18 +193,10 @@ export async function _getDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
-            description:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "description"
-              ],
+            status: result.body.properties?.privateLinkServiceConnectionState["status"],
+            description: result.body.properties?.privateLinkServiceConnectionState["description"],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "actionsRequired"
-              ],
+              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
           },
           provisioningState: result.body.properties?.["provisioningState"],
         },
@@ -222,7 +204,7 @@ export async function _getDeserialize(
 }
 
 /** Get a specific private connection */
-export async function get(
+export async function privateEndpointConnectionsGet(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -230,7 +212,7 @@ export async function get(
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnectionResource> {
-  const result = await _getSend(
+  const result = await _privateEndpointConnectionsGetSend(
     context,
     subscriptionId,
     resourceGroupName,
@@ -238,10 +220,10 @@ export async function get(
     privateEndpointConnectionName,
     options,
   );
-  return _getDeserialize(result);
+  return _privateEndpointConnectionsGetDeserialize(result);
 }
 
-export function _createSend(
+export function _privateEndpointConnectionsCreateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -276,7 +258,7 @@ export function _createSend(
     });
 }
 
-export async function _createDeserialize(
+export async function _privateEndpointConnectionsCreateDeserialize(
   result:
     | PrivateEndpointConnectionsCreate200Response
     | PrivateEndpointConnectionsCreate201Response
@@ -288,8 +270,7 @@ export async function _createDeserialize(
     throw createRestError(result);
   }
 
-  const res =
-    result as unknown as PrivateEndpointConnectionsCreateLogicalResponse;
+  const res = result as unknown as PrivateEndpointConnectionsCreateLogicalResponse;
   return {
     id: res.body["id"],
     name: res.body["name"],
@@ -318,16 +299,10 @@ export async function _createDeserialize(
             ? undefined
             : { id: res.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              res.body.properties?.privateLinkServiceConnectionState["status"],
-            description:
-              res.body.properties?.privateLinkServiceConnectionState[
-                "description"
-              ],
+            status: res.body.properties?.privateLinkServiceConnectionState["status"],
+            description: res.body.properties?.privateLinkServiceConnectionState["description"],
             actionsRequired:
-              res.body.properties?.privateLinkServiceConnectionState[
-                "actionsRequired"
-              ],
+              res.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
           },
           provisioningState: res.body.properties?.["provisioningState"],
         },
@@ -335,7 +310,7 @@ export async function _createDeserialize(
 }
 
 /** Create a Private endpoint connection */
-export function create(
+export function privateEndpointConnectionsCreate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -349,11 +324,11 @@ export function create(
   OperationState<PrivateEndpointConnectionResource>,
   PrivateEndpointConnectionResource
 > {
-  return getLongRunningPoller(context, _createDeserialize, {
+  return getLongRunningPoller(context, _privateEndpointConnectionsCreateDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createSend(
+      _privateEndpointConnectionsCreateSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -368,7 +343,7 @@ export function create(
   >;
 }
 
-export function _$deleteSend(
+export function _privateEndpointConnectionsDeleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -394,7 +369,7 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
+export async function _privateEndpointConnectionsDeleteDeserialize(
   result:
     | PrivateEndpointConnectionsDelete202Response
     | PrivateEndpointConnectionsDelete204Response
@@ -409,12 +384,7 @@ export async function _$deleteDeserialize(
 }
 
 /** Delete the private endpoint connection */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export function $delete(
+export function privateEndpointConnectionsDelete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -424,11 +394,11 @@ export function $delete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, {
+  return getLongRunningPoller(context, _privateEndpointConnectionsDeleteDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(
+      _privateEndpointConnectionsDeleteSend(
         context,
         subscriptionId,
         resourceGroupName,

@@ -37,10 +37,10 @@ import {
   FirewallRulesDelete204Response,
   FirewallRulesDeleteLogicalResponse,
   FirewallRulesDeleteDefaultResponse,
-  FirewallRulesListByMongoCluster200Response,
-  FirewallRulesListByMongoClusterDefaultResponse,
-  PrivateEndpointConnectionsListByMongoCluster200Response,
-  PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
+  FirewallRulesListByParent200Response,
+  FirewallRulesListByParentDefaultResponse,
+  PrivateEndpointConnectionsListConnections200Response,
+  PrivateEndpointConnectionsListConnectionsDefaultResponse,
   PrivateEndpointConnectionsGet200Response,
   PrivateEndpointConnectionsGetDefaultResponse,
   PrivateEndpointConnectionsCreate200Response,
@@ -52,8 +52,8 @@ import {
   PrivateEndpointConnectionsDelete204Response,
   PrivateEndpointConnectionsDeleteLogicalResponse,
   PrivateEndpointConnectionsDeleteDefaultResponse,
-  PrivateLinksListByMongoCluster200Response,
-  PrivateLinksListByMongoClusterDefaultResponse,
+  PrivateLinksList200Response,
+  PrivateLinksListDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -68,8 +68,7 @@ const responseMap: Record<string, string[]> = {
     ["202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters":
-    ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters": ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/listConnectionStrings":
     ["200"],
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/checkMongoClusterNameAvailability":
@@ -158,19 +157,15 @@ export function isUnexpected(
     | FirewallRulesDeleteDefaultResponse,
 ): response is FirewallRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | FirewallRulesListByMongoCluster200Response
-    | FirewallRulesListByMongoClusterDefaultResponse,
-): response is FirewallRulesListByMongoClusterDefaultResponse;
+  response: FirewallRulesListByParent200Response | FirewallRulesListByParentDefaultResponse,
+): response is FirewallRulesListByParentDefaultResponse;
 export function isUnexpected(
   response:
-    | PrivateEndpointConnectionsListByMongoCluster200Response
-    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
-): response is PrivateEndpointConnectionsListByMongoClusterDefaultResponse;
+    | PrivateEndpointConnectionsListConnections200Response
+    | PrivateEndpointConnectionsListConnectionsDefaultResponse,
+): response is PrivateEndpointConnectionsListConnectionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetDefaultResponse,
+  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
 ): response is PrivateEndpointConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -188,10 +183,8 @@ export function isUnexpected(
     | PrivateEndpointConnectionsDeleteDefaultResponse,
 ): response is PrivateEndpointConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | PrivateLinksListByMongoCluster200Response
-    | PrivateLinksListByMongoClusterDefaultResponse,
-): response is PrivateLinksListByMongoClusterDefaultResponse;
+  response: PrivateLinksList200Response | PrivateLinksListDefaultResponse,
+): response is PrivateLinksListDefaultResponse;
 export function isUnexpected(
   response:
     | OperationsList200Response
@@ -229,10 +222,10 @@ export function isUnexpected(
     | FirewallRulesDelete204Response
     | FirewallRulesDeleteLogicalResponse
     | FirewallRulesDeleteDefaultResponse
-    | FirewallRulesListByMongoCluster200Response
-    | FirewallRulesListByMongoClusterDefaultResponse
-    | PrivateEndpointConnectionsListByMongoCluster200Response
-    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
+    | FirewallRulesListByParent200Response
+    | FirewallRulesListByParentDefaultResponse
+    | PrivateEndpointConnectionsListConnections200Response
+    | PrivateEndpointConnectionsListConnectionsDefaultResponse
     | PrivateEndpointConnectionsGet200Response
     | PrivateEndpointConnectionsGetDefaultResponse
     | PrivateEndpointConnectionsCreate200Response
@@ -244,8 +237,8 @@ export function isUnexpected(
     | PrivateEndpointConnectionsDelete204Response
     | PrivateEndpointConnectionsDeleteLogicalResponse
     | PrivateEndpointConnectionsDeleteDefaultResponse
-    | PrivateLinksListByMongoCluster200Response
-    | PrivateLinksListByMongoClusterDefaultResponse,
+    | PrivateLinksList200Response
+    | PrivateLinksListDefaultResponse,
 ): response is
   | OperationsListDefaultResponse
   | MongoClustersGetDefaultResponse
@@ -259,12 +252,12 @@ export function isUnexpected(
   | FirewallRulesGetDefaultResponse
   | FirewallRulesCreateOrUpdateDefaultResponse
   | FirewallRulesDeleteDefaultResponse
-  | FirewallRulesListByMongoClusterDefaultResponse
-  | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
+  | FirewallRulesListByParentDefaultResponse
+  | PrivateEndpointConnectionsListConnectionsDefaultResponse
   | PrivateEndpointConnectionsGetDefaultResponse
   | PrivateEndpointConnectionsCreateDefaultResponse
   | PrivateEndpointConnectionsDeleteDefaultResponse
-  | PrivateLinksListByMongoClusterDefaultResponse {
+  | PrivateLinksListDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -297,24 +290,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

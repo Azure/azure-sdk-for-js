@@ -89,7 +89,7 @@ export interface FirewallRulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {
+export interface FirewallRulesListByParentOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -239,21 +239,6 @@ export interface MongoClustersUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MongoClusterUpdate {
-    properties?: MongoClusterUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface MongoClusterUpdateProperties {
-    administratorLogin?: string;
-    administratorLoginPassword?: string;
-    nodeGroupSpecs?: NodeGroupSpec[];
-    publicNetworkAccess?: PublicNetworkAccess;
-    serverVersion?: string;
-}
-
-// @public
 export interface NodeGroupSpec {
     diskSizeGB?: number;
     enableHa?: boolean;
@@ -342,7 +327,7 @@ export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOp
 }
 
 // @public
-export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionsListConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -368,7 +353,7 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
-export interface PrivateLinksListByMongoClusterOptionalParams extends OperationOptions {
+export interface PrivateLinksListOptionalParams extends OperationOptions {
 }
 
 // @public

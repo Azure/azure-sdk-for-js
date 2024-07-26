@@ -229,32 +229,6 @@ export interface PrivateLinkResource extends Resource {
   properties?: PrivateLinkResourceProperties;
 }
 
-/** The type used for update operations of the MongoCluster. */
-export interface MongoClusterUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: MongoClusterUpdateProperties;
-}
-
-/** The updatable properties of the MongoCluster. */
-export interface MongoClusterUpdateProperties {
-  /** The administrator's login for the mongo cluster. */
-  administratorLogin?: string;
-  /** The password of the administrator login. */
-  administratorLoginPassword?: string;
-  /** The Mongo DB server version. Defaults to the latest available version if not specified. */
-  serverVersion?: string;
-  /**
-   * Whether or not public endpoint access is allowed for this mongo cluster.
-   *
-   * Possible values: "Enabled", "Disabled"
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** The list of node group specs in the cluster. */
-  nodeGroupSpecs?: Array<NodeGroupSpec>;
-}
-
 /** The check availability request body. */
 export interface CheckNameAvailabilityRequest {
   /** The name of the resource for which availability needs to be checked. */

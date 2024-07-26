@@ -12,12 +12,7 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./models": "./src/models/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./api/mongoClusters": "./src/api/mongoClusters/index.ts",
-      "./api/firewallRules": "./src/api/firewallRules/index.ts",
-      "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts",
-      "./api/privateLinks": "./src/api/privateLinks/index.ts"
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -76,6 +71,7 @@
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "eslint": "^8.55.0",
+    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "mkdirp": "^3.0.1",
     "typescript": "~5.5.3",
@@ -95,8 +91,8 @@
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
-    "lint": "echo skipped",
-    "lint:fix": "echo skipped",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
@@ -182,116 +178,6 @@
         "source": "./src/models/index.ts",
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
-      }
-    },
-    "./api/operations": {
-      "browser": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/browser/api/operations/index.d.ts",
-        "default": "./dist/browser/api/operations/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
-      "import": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/esm/api/operations/index.d.ts",
-        "default": "./dist/esm/api/operations/index.js"
-      },
-      "require": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/commonjs/api/operations/index.d.ts",
-        "default": "./dist/commonjs/api/operations/index.js"
-      }
-    },
-    "./api/mongoClusters": {
-      "browser": {
-        "source": "./src/api/mongoClusters/index.ts",
-        "types": "./dist/browser/api/mongoClusters/index.d.ts",
-        "default": "./dist/browser/api/mongoClusters/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/mongoClusters/index.ts",
-        "types": "./dist/react-native/api/mongoClusters/index.d.ts",
-        "default": "./dist/react-native/api/mongoClusters/index.js"
-      },
-      "import": {
-        "source": "./src/api/mongoClusters/index.ts",
-        "types": "./dist/esm/api/mongoClusters/index.d.ts",
-        "default": "./dist/esm/api/mongoClusters/index.js"
-      },
-      "require": {
-        "source": "./src/api/mongoClusters/index.ts",
-        "types": "./dist/commonjs/api/mongoClusters/index.d.ts",
-        "default": "./dist/commonjs/api/mongoClusters/index.js"
-      }
-    },
-    "./api/firewallRules": {
-      "browser": {
-        "source": "./src/api/firewallRules/index.ts",
-        "types": "./dist/browser/api/firewallRules/index.d.ts",
-        "default": "./dist/browser/api/firewallRules/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/firewallRules/index.ts",
-        "types": "./dist/react-native/api/firewallRules/index.d.ts",
-        "default": "./dist/react-native/api/firewallRules/index.js"
-      },
-      "import": {
-        "source": "./src/api/firewallRules/index.ts",
-        "types": "./dist/esm/api/firewallRules/index.d.ts",
-        "default": "./dist/esm/api/firewallRules/index.js"
-      },
-      "require": {
-        "source": "./src/api/firewallRules/index.ts",
-        "types": "./dist/commonjs/api/firewallRules/index.d.ts",
-        "default": "./dist/commonjs/api/firewallRules/index.js"
-      }
-    },
-    "./api/privateEndpointConnections": {
-      "browser": {
-        "source": "./src/api/privateEndpointConnections/index.ts",
-        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/browser/api/privateEndpointConnections/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/privateEndpointConnections/index.ts",
-        "types": "./dist/react-native/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/react-native/api/privateEndpointConnections/index.js"
-      },
-      "import": {
-        "source": "./src/api/privateEndpointConnections/index.ts",
-        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/esm/api/privateEndpointConnections/index.js"
-      },
-      "require": {
-        "source": "./src/api/privateEndpointConnections/index.ts",
-        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
-      }
-    },
-    "./api/privateLinks": {
-      "browser": {
-        "source": "./src/api/privateLinks/index.ts",
-        "types": "./dist/browser/api/privateLinks/index.d.ts",
-        "default": "./dist/browser/api/privateLinks/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/privateLinks/index.ts",
-        "types": "./dist/react-native/api/privateLinks/index.d.ts",
-        "default": "./dist/react-native/api/privateLinks/index.js"
-      },
-      "import": {
-        "source": "./src/api/privateLinks/index.ts",
-        "types": "./dist/esm/api/privateLinks/index.d.ts",
-        "default": "./dist/esm/api/privateLinks/index.js"
-      },
-      "require": {
-        "source": "./src/api/privateLinks/index.ts",
-        "types": "./dist/commonjs/api/privateLinks/index.d.ts",
-        "default": "./dist/commonjs/api/privateLinks/index.js"
       }
     }
   },

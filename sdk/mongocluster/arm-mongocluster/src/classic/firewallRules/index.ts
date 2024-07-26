@@ -4,10 +4,10 @@
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { FirewallRule } from "../../models/models.js";
 import {
-  get,
-  createOrUpdate,
-  $delete,
-  listByMongoCluster,
+  firewallRulesGet,
+  firewallRulesCreateOrUpdate,
+  firewallRulesDelete,
+  firewallRulesListByParent,
 } from "../../api/firewallRules/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -15,7 +15,7 @@ import {
   FirewallRulesGetOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesListByMongoClusterOptionalParams,
+  FirewallRulesListByParentOptionalParams,
 } from "../../models/options.js";
 
 /** Interface representing a FirewallRules operations. */
@@ -36,11 +36,6 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<FirewallRule>, FirewallRule>;
   /** Deletes a mongo cluster firewall rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -48,17 +43,14 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** List all the firewall rules in a given mongo cluster. */
-  listByMongoCluster: (
+  listByParent: (
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: FirewallRulesListByMongoClusterOptionalParams,
+    options?: FirewallRulesListByParentOptionalParams,
   ) => PagedAsyncIterableIterator<FirewallRule>;
 }
 
-export function getFirewallRules(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getFirewallRules(context: DocumentDBContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
@@ -66,7 +58,7 @@ export function getFirewallRules(
       firewallRuleName: string,
       options?: FirewallRulesGetOptionalParams,
     ) =>
-      get(
+      firewallRulesGet(
         context,
         subscriptionId,
         resourceGroupName,
@@ -81,7 +73,7 @@ export function getFirewallRules(
       resource: FirewallRule,
       options?: FirewallRulesCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(
+      firewallRulesCreateOrUpdate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -96,7 +88,7 @@ export function getFirewallRules(
       firewallRuleName: string,
       options?: FirewallRulesDeleteOptionalParams,
     ) =>
-      $delete(
+      firewallRulesDelete(
         context,
         subscriptionId,
         resourceGroupName,
@@ -104,12 +96,12 @@ export function getFirewallRules(
         firewallRuleName,
         options,
       ),
-    listByMongoCluster: (
+    listByParent: (
       resourceGroupName: string,
       mongoClusterName: string,
-      options?: FirewallRulesListByMongoClusterOptionalParams,
+      options?: FirewallRulesListByParentOptionalParams,
     ) =>
-      listByMongoCluster(
+      firewallRulesListByParent(
         context,
         subscriptionId,
         resourceGroupName,

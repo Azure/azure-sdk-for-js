@@ -2236,6 +2236,11 @@
       "packageName": "@azure/arm-edgezones",
       "projectFolder": "sdk/edgezones/arm-edgezones",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mongocluster",
+      "projectFolder": "sdk/mongocluster/arm-mongocluster",
+      "versionPolicyName": "management"
     }
   ]
 }

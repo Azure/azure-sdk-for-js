@@ -28,7 +28,7 @@ Install the Azure MongoClusterManagement client library for JavaScript with `npm
 npm install @azure/arm-mongocluster
 ```
 
-### Create and authenticate a `MongoClusterManagementClient`
+### Create and authenticate a `DocumentDBClient`
 
 To create a client object to access the Azure MongoClusterManagement API, you will need the `endpoint` of your Azure MongoClusterManagement resource and a `credential`. The Azure MongoClusterManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure MongoClusterManagement resource in the [Azure Portal][azure_portal].
@@ -47,19 +47,19 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DocumentDBClient } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new MongoClusterManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new DocumentDBClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new MongoClusterManagementClient(credential, subscriptionId);
+// const client = new DocumentDBClient(credential, subscriptionId);
 ```
 
 
@@ -68,9 +68,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### MongoClusterManagementClient
+### DocumentDBClient
 
-`MongoClusterManagementClient` is the primary interface for developers using the Azure MongoClusterManagement client library. Explore the methods on this client object to understand the different features of the Azure MongoClusterManagement service that you can access.
+`DocumentDBClient` is the primary interface for developers using the Azure MongoClusterManagement client library. Explore the methods on this client object to understand the different features of the Azure MongoClusterManagement service that you can access.
 
 ## Troubleshooting
 

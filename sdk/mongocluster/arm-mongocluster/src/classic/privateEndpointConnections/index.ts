@@ -4,15 +4,15 @@
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateEndpointConnectionResource } from "../../models/models.js";
 import {
-  listByMongoCluster,
-  get,
-  create,
-  $delete,
+  privateEndpointConnectionsListConnections,
+  privateEndpointConnectionsGet,
+  privateEndpointConnectionsCreate,
+  privateEndpointConnectionsDelete,
 } from "../../api/privateEndpointConnections/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsListConnectionsOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
@@ -21,10 +21,10 @@ import {
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
   /** List existing private connections */
-  listByMongoCluster: (
+  listConnections: (
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+    options?: PrivateEndpointConnectionsListConnectionsOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
   /** Get a specific private connection */
   get: (
@@ -45,11 +45,6 @@ export interface PrivateEndpointConnectionsOperations {
     PrivateEndpointConnectionResource
   >;
   /** Delete the private endpoint connection */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -58,17 +53,14 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PollerLike<OperationState<void>, void>;
 }
 
-export function getPrivateEndpointConnections(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getPrivateEndpointConnections(context: DocumentDBContext, subscriptionId: string) {
   return {
-    listByMongoCluster: (
+    listConnections: (
       resourceGroupName: string,
       mongoClusterName: string,
-      options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+      options?: PrivateEndpointConnectionsListConnectionsOptionalParams,
     ) =>
-      listByMongoCluster(
+      privateEndpointConnectionsListConnections(
         context,
         subscriptionId,
         resourceGroupName,
@@ -81,7 +73,7 @@ export function getPrivateEndpointConnections(
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsGetOptionalParams,
     ) =>
-      get(
+      privateEndpointConnectionsGet(
         context,
         subscriptionId,
         resourceGroupName,
@@ -96,7 +88,7 @@ export function getPrivateEndpointConnections(
       resource: PrivateEndpointConnectionResource,
       options?: PrivateEndpointConnectionsCreateOptionalParams,
     ) =>
-      create(
+      privateEndpointConnectionsCreate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -111,7 +103,7 @@ export function getPrivateEndpointConnections(
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) =>
-      $delete(
+      privateEndpointConnectionsDelete(
         context,
         subscriptionId,
         resourceGroupName,

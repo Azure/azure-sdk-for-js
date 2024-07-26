@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PrivateLinkResource,
-  _PrivateLinkResourceListResult,
-} from "../../models/models.js";
+import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
   isUnexpected,
   DocumentDBContext as Client,
-  PrivateLinksListByMongoCluster200Response,
-  PrivateLinksListByMongoClusterDefaultResponse,
+  PrivateLinksList200Response,
+  PrivateLinksListDefaultResponse,
 } from "../../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
   createRestError,
 } from "@azure-rest/core-client";
-import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
+import { PrivateLinksListOptionalParams } from "../../models/options.js";
 
-export function _listByMongoClusterSend(
+export function _privateLinksListSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateLinksListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod<
-  | PrivateLinksListByMongoCluster200Response
-  | PrivateLinksListByMongoClusterDefaultResponse
-> {
+  options: PrivateLinksListOptionalParams = { requestOptions: {} },
+): StreamableMethod<PrivateLinksList200Response | PrivateLinksListDefaultResponse> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateLinkResources",
@@ -42,10 +34,8 @@ export function _listByMongoClusterSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByMongoClusterDeserialize(
-  result:
-    | PrivateLinksListByMongoCluster200Response
-    | PrivateLinksListByMongoClusterDefaultResponse,
+export async function _privateLinksListDeserialize(
+  result: PrivateLinksList200Response | PrivateLinksListDefaultResponse,
 ): Promise<_PrivateLinkResourceListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -87,26 +77,18 @@ export async function _listByMongoClusterDeserialize(
 }
 
 /** list private links on the given resource */
-export function listByMongoCluster(
+export function privateLinksList(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateLinksListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateLinksListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listByMongoClusterSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
-    _listByMongoClusterDeserialize,
+      _privateLinksListSend(context, subscriptionId, resourceGroupName, mongoClusterName, options),
+    _privateLinksListDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
