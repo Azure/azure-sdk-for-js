@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Redis caches in a resource group.
  *
  * @summary Lists all Redis caches in a resource group.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheListByResourceGroup.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheListByResourceGroup.json
  */
 async function redisCacheListByResourceGroup() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
