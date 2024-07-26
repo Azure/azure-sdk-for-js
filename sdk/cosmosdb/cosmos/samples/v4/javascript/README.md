@@ -76,9 +76,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Bulk.js
 [bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/BulkUpdateWithSproc.js
 [changefeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeed.js
-[changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js
-[changefeediterator_changefeediteratorallversionsanddeletes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator\ChangeFeedIteratorAllVersionsAndDeletes.js
-[changefeediterator_changefeediteratorlatestversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator\ChangeFeedIteratorLatestVersion.js
+[changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator/ChangeFeedHierarchicalPartitionKey.js
+[changefeediterator_changefeediteratorallversionsanddeletes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator/ChangeFeedIteratorAllVersionsAndDeletes.js
+[changefeediterator_changefeediteratorlatestversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ChangeFeedIterator/ChangeFeedIteratorLatestVersion.js
 [containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ContainerManagement.js
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/DatabaseManagement.js
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Diagnostics.js
