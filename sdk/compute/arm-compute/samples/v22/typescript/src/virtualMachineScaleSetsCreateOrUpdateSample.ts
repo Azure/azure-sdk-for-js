@@ -1401,7 +1401,9 @@ async function createAScaleSetWithSecurityPostureReference() {
         computerNamePrefix: "{vmss-name}",
       },
       securityPostureReference: {
-        id: "/CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|{major.*}|latest",
+        excludeExtensions: ["{securityPostureVMExtensionName}"],
+        id: "/CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest",
+        isOverridable: true,
       },
       storageProfile: {
         imageReference: {
