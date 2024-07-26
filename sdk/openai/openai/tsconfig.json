@@ -1,7 +1,9 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "paths": { "@azure/openai": ["./src/index.js"] },
+    "paths": {
+      "@azure/openai": ["./src/index.js"]
+    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
@@ -11,7 +13,8 @@
     "./src/**/*.ts",
     "./src/**/*.mts",
     "./src/**/*.cts",
+    "./samples-dev/**/*.ts",
     "./test/**/*.ts",
-    "./samples-dev/**/*.ts"
+    "test/public/utils/images-browser.mts"
   ]
 }

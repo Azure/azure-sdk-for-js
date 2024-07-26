@@ -188,15 +188,20 @@ export function createAzureSearchExtension(): {
   };
 }
 
-export function handleAssistantsRunFailure(run: Run, context: TaskContext<Test<{}>> & TestContext): void {
+export function handleAssistantsRunFailure(
+  run: Run,
+  context: TaskContext<Test<{}>> & TestContext,
+): void {
   if (run.status === "failed") {
-    if (run.last_error?.message.includes("Rate limit")){
+    if (run.last_error?.message.includes("Rate limit")) {
       logger.info(`Rate limit error: ${run.last_error.message}`);
       context.skip();
     }
-    throw new RestError(`Run failed with unexpected error: ${run.last_error?.message}`, {code: run.last_error?.code});
+    throw new RestError(`Run failed with unexpected error: ${run.last_error?.message}`, {
+      code: run.last_error?.code,
+    });
   }
-  if (!(["completed", "requires_action"].includes(run.status))) {
+  if (!["completed", "requires_action"].includes(run.status)) {
     throw new RestError(`Run failed with unexpected status: ${run.status}`);
   }
 }

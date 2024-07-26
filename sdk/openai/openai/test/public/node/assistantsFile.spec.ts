@@ -12,7 +12,6 @@ describe("OpenAIAssistants", () => {
     describe(`[${apiVersion}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
 
-
       beforeEach(async function () {
         client = createClient(apiVersion, "dalle");
       });
@@ -21,11 +20,12 @@ describe("OpenAIAssistants", () => {
         it("uploads, gets, and lists a file", async function () {
           // move to node only, currently failing in browser
           const filename = "sample_file_for_upload.jsonl";
-          const text = "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
+          const text =
+            "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
           const file = await toFile(Buffer.from(text), filename);
           const uploadedFile = await client.files.create({
             file,
-            purpose: 'assistants',
+            purpose: "assistants",
           });
           assert.isNotNull(uploadedFile.id);
           assert.equal(uploadedFile.filename, filename);
