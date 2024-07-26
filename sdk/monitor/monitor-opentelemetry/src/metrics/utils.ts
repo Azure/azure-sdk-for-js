@@ -8,10 +8,8 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
   SEMATTRS_PEER_SERVICE,
-  SEMATTRS_HTTP_HOST,
-  SEMATTRS_HTTP_URL,
   SEMATTRS_NET_PEER_NAME,
-  SEMATTRS_NET_PEER_IP,
+  SEMATTRS_NET_HOST_PORT,
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_TYPE,
   SEMATTRS_HTTP_USER_AGENT,
@@ -88,25 +86,20 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
   return dimensions;
 }
 
+// Get metric dependency target, avoiding high cardinality.
 export function getDependencyTarget(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
   const peerService = attributes[SEMATTRS_PEER_SERVICE];
-  const httpHost = attributes[SEMATTRS_HTTP_HOST];
-  const httpUrl = attributes[SEMATTRS_HTTP_URL];
+  const hostPort = attributes[SEMATTRS_NET_HOST_PORT];
   const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
-  const netPeerIp = attributes[SEMATTRS_NET_PEER_IP];
   if (peerService) {
     return String(peerService);
-  } else if (httpHost) {
-    return String(httpHost);
-  } else if (httpUrl) {
-    return String(httpUrl);
+  } else if (hostPort && netPeerName) {
+    return `${netPeerName}:${hostPort}`;
   } else if (netPeerName) {
     return String(netPeerName);
-  } else if (netPeerIp) {
-    return String(netPeerIp);
   }
   return "";
 }

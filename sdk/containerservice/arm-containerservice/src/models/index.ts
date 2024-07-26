@@ -69,35 +69,6 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
-/** The OS option profile. */
-export interface OSOptionProfile {
-  /**
-   * The ID of the OS option resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the OS option resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the OS option resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The list of OS options. */
-  osOptionPropertyList: OSOptionProperty[];
-}
-
-/** OS option property. */
-export interface OSOptionProperty {
-  /** The OS type. */
-  osType: string;
-  /** Whether the image is FIPS-enabled. */
-  enableFipsImage: boolean;
-}
-
 /** Hold values properties, which is array of KubernetesVersion */
 export interface KubernetesVersionListResult {
   /** Array of AKS supported Kubernetes versions. */
@@ -748,6 +719,12 @@ export interface UpgradeOverrideSettings {
 export interface ManagedClusterPropertiesAutoScalerProfile {
   /** Valid values are 'true' and 'false' */
   balanceSimilarNodeGroups?: string;
+  /** If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted. */
+  daemonsetEvictionForEmptyNodes?: boolean;
+  /** If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted. */
+  daemonsetEvictionForOccupiedNodes?: boolean;
+  /** If set to true, the resources used by daemonset will be taken into account when making scaling down decisions. */
+  ignoreDaemonsetsUtilization?: boolean;
   /** If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information. */
   expander?: Expander;
   /** The default is 10. */
@@ -2488,6 +2465,8 @@ export type NetworkPluginMode = string;
 
 /** Known values of {@link NetworkPolicy} that the service accepts. */
 export enum KnownNetworkPolicy {
+  /** Network policies will not be enforced. This is the default value when NetworkPolicy is not specified. */
+  None = "none",
   /** Use Calico network policies. See [differences between Azure and Calico policies](https:\//docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. */
   Calico = "calico",
   /** Use Azure network policies. See [differences between Azure and Calico policies](https:\//docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. */
@@ -2501,6 +2480,7 @@ export enum KnownNetworkPolicy {
  * {@link KnownNetworkPolicy} can be used interchangeably with NetworkPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **none**: Network policies will not be enforced. This is the default value when NetworkPolicy is not specified. \
  * **calico**: Use Calico network policies. See [differences between Azure and Calico policies](https:\/\/docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. \
  * **azure**: Use Azure network policies. See [differences between Azure and Calico policies](https:\/\/docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. \
  * **cilium**: Use Cilium to enforce network policies. This requires networkDataplane to be 'cilium'.
@@ -2656,6 +2636,8 @@ export enum KnownNodeOSUpgradeChannel {
   Unmanaged = "Unmanaged",
   /** AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images. */
   NodeImage = "NodeImage",
+  /** AKS downloads and updates the nodes with tested security updates. These updates honor the maintenance window settings and produce a new VHD that is used on new nodes. On some occasions it's not possible to apply the updates in place, in such cases the existing nodes will also be re-imaged to the newly produced VHD in order to apply the changes. This option incurs an extra cost of hosting the new Security Patch VHDs in your resource group for just in time consumption. */
+  SecurityPatch = "SecurityPatch",
 }
 
 /**
@@ -2665,7 +2647,8 @@ export enum KnownNodeOSUpgradeChannel {
  * ### Known values supported by the service
  * **None**: No attempt to update your machines OS will be made either by OS or by rolling VHDs. This means you are responsible for your security updates \
  * **Unmanaged**: OS updates will be applied automatically through the OS built-in patching infrastructure. Newly scaled in machines will be unpatched initially and will be patched at some point by the OS's infrastructure. Behavior of this option depends on the OS in question. Ubuntu and Mariner apply security patches through unattended upgrade roughly once a day around 06:00 UTC. Windows does not apply security patches automatically and so for them this option is equivalent to None till further notice \
- * **NodeImage**: AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images.
+ * **NodeImage**: AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images. \
+ * **SecurityPatch**: AKS downloads and updates the nodes with tested security updates. These updates honor the maintenance window settings and produce a new VHD that is used on new nodes. On some occasions it's not possible to apply the updates in place, in such cases the existing nodes will also be re-imaged to the newly produced VHD in order to apply the changes. This option incurs an extra cost of hosting the new Security Patch VHDs in your resource group for just in time consumption.
  */
 export type NodeOSUpgradeChannel = string;
 
@@ -2968,16 +2951,6 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface ManagedClustersGetOSOptionsOptionalParams
-  extends coreClient.OperationOptions {
-  /** The resource type for which the OS options needs to be returned */
-  resourceType?: string;
-}
-
-/** Contains response data for the getOSOptions operation. */
-export type ManagedClustersGetOSOptionsResponse = OSOptionProfile;
 
 /** Optional parameters. */
 export interface ManagedClustersListKubernetesVersionsOptionalParams
