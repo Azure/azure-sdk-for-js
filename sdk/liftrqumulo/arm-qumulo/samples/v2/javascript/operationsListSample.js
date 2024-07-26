@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { QumuloStorage } from "@azure/arm-qumulo";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { QumuloStorage } = require("@azure/arm-qumulo");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the operations for the provider
@@ -22,8 +20,7 @@ dotenv.config();
  */
 async function operationsList() {
   const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
@@ -41,8 +38,7 @@ async function operationsList() {
  */
 async function operationsListMinimumSetGen() {
   const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
