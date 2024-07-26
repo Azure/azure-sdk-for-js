@@ -4,7 +4,7 @@
 import { afterAll, beforeAll } from "vitest";
 import { AzureLogLevel, setLogLevel } from "@azure/logger";
 
-const logLevel = (process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "verbose";
+const logLevel = (process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "info";
 const localStorage: any = {};
 
 beforeAll(async function () {
