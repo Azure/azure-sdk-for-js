@@ -239,8 +239,8 @@ export async function parseJsonToken(
           const jsonContent = JSON.parse(item);
           if (jsonContent?.Token) {
             resultWithoutToken = resultWithoutToken.replace(item, "");
-            if(resultWithoutToken){
-                logger.getToken.warning(resultWithoutToken);
+            if (resultWithoutToken) {
+              logger.getToken.warning(resultWithoutToken);
             }
             return jsonContent;
           }
