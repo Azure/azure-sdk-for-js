@@ -12,9 +12,7 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./models": "./src/models/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./api/fleets": "./src/api/fleets/index.ts"
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -180,50 +178,6 @@
         "source": "./src/models/index.ts",
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
-      }
-    },
-    "./api/operations": {
-      "browser": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/browser/api/operations/index.d.ts",
-        "default": "./dist/browser/api/operations/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
-      "import": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/esm/api/operations/index.d.ts",
-        "default": "./dist/esm/api/operations/index.js"
-      },
-      "require": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/commonjs/api/operations/index.d.ts",
-        "default": "./dist/commonjs/api/operations/index.js"
-      }
-    },
-    "./api/fleets": {
-      "browser": {
-        "source": "./src/api/fleets/index.ts",
-        "types": "./dist/browser/api/fleets/index.d.ts",
-        "default": "./dist/browser/api/fleets/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/fleets/index.ts",
-        "types": "./dist/react-native/api/fleets/index.d.ts",
-        "default": "./dist/react-native/api/fleets/index.js"
-      },
-      "import": {
-        "source": "./src/api/fleets/index.ts",
-        "types": "./dist/esm/api/fleets/index.d.ts",
-        "default": "./dist/esm/api/fleets/index.js"
-      },
-      "require": {
-        "source": "./src/api/fleets/index.ts",
-        "types": "./dist/commonjs/api/fleets/index.d.ts",
-        "default": "./dist/commonjs/api/fleets/index.js"
       }
     }
   },

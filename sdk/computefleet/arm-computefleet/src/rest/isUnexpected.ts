@@ -2,28 +2,28 @@
 // Licensed under the MIT license.
 
 import {
-  List200Response,
-  ListDefaultResponse,
-  Get200Response,
-  GetDefaultResponse,
-  CreateOrUpdate200Response,
-  CreateOrUpdate201Response,
-  CreateOrUpdateLogicalResponse,
-  CreateOrUpdateDefaultResponse,
-  Update200Response,
-  Update202Response,
-  UpdateLogicalResponse,
-  UpdateDefaultResponse,
-  Delete202Response,
-  Delete204Response,
-  DeleteLogicalResponse,
-  DeleteDefaultResponse,
-  ListByResourceGroup200Response,
-  ListByResourceGroupDefaultResponse,
-  ListBySubscription200Response,
-  ListBySubscriptionDefaultResponse,
-  ListVirtualMachineScaleSets200Response,
-  ListVirtualMachineScaleSetsDefaultResponse,
+  OperationsList200Response,
+  OperationsListDefaultResponse,
+  FleetsGet200Response,
+  FleetsGetDefaultResponse,
+  FleetsCreateOrUpdate200Response,
+  FleetsCreateOrUpdate201Response,
+  FleetsCreateOrUpdateLogicalResponse,
+  FleetsCreateOrUpdateDefaultResponse,
+  FleetsUpdate200Response,
+  FleetsUpdate202Response,
+  FleetsUpdateLogicalResponse,
+  FleetsUpdateDefaultResponse,
+  FleetsDelete202Response,
+  FleetsDelete204Response,
+  FleetsDeleteLogicalResponse,
+  FleetsDeleteDefaultResponse,
+  FleetsListByResourceGroup200Response,
+  FleetsListByResourceGroupDefaultResponse,
+  FleetsListBySubscription200Response,
+  FleetsListBySubscriptionDefaultResponse,
+  FleetsListVirtualMachineScaleSets200Response,
+  FleetsListVirtualMachineScaleSetsDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -44,66 +44,76 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: List200Response | ListDefaultResponse,
-): response is ListDefaultResponse;
+  response: OperationsList200Response | OperationsListDefaultResponse,
+): response is OperationsListDefaultResponse;
 export function isUnexpected(
-  response: Get200Response | GetDefaultResponse,
-): response is GetDefaultResponse;
-export function isUnexpected(
-  response:
-    | CreateOrUpdate200Response
-    | CreateOrUpdate201Response
-    | CreateOrUpdateLogicalResponse
-    | CreateOrUpdateDefaultResponse,
-): response is CreateOrUpdateDefaultResponse;
-export function isUnexpected(
-  response: Update200Response | Update202Response | UpdateLogicalResponse | UpdateDefaultResponse,
-): response is UpdateDefaultResponse;
-export function isUnexpected(
-  response: Delete202Response | Delete204Response | DeleteLogicalResponse | DeleteDefaultResponse,
-): response is DeleteDefaultResponse;
-export function isUnexpected(
-  response: ListByResourceGroup200Response | ListByResourceGroupDefaultResponse,
-): response is ListByResourceGroupDefaultResponse;
-export function isUnexpected(
-  response: ListBySubscription200Response | ListBySubscriptionDefaultResponse,
-): response is ListBySubscriptionDefaultResponse;
-export function isUnexpected(
-  response: ListVirtualMachineScaleSets200Response | ListVirtualMachineScaleSetsDefaultResponse,
-): response is ListVirtualMachineScaleSetsDefaultResponse;
+  response: FleetsGet200Response | FleetsGetDefaultResponse,
+): response is FleetsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | List200Response
-    | ListDefaultResponse
-    | Get200Response
-    | GetDefaultResponse
-    | CreateOrUpdate200Response
-    | CreateOrUpdate201Response
-    | CreateOrUpdateLogicalResponse
-    | CreateOrUpdateDefaultResponse
-    | Update200Response
-    | Update202Response
-    | UpdateLogicalResponse
-    | UpdateDefaultResponse
-    | Delete202Response
-    | Delete204Response
-    | DeleteLogicalResponse
-    | DeleteDefaultResponse
-    | ListByResourceGroup200Response
-    | ListByResourceGroupDefaultResponse
-    | ListBySubscription200Response
-    | ListBySubscriptionDefaultResponse
-    | ListVirtualMachineScaleSets200Response
-    | ListVirtualMachineScaleSetsDefaultResponse,
+    | FleetsCreateOrUpdate200Response
+    | FleetsCreateOrUpdate201Response
+    | FleetsCreateOrUpdateLogicalResponse
+    | FleetsCreateOrUpdateDefaultResponse,
+): response is FleetsCreateOrUpdateDefaultResponse;
+export function isUnexpected(
+  response:
+    | FleetsUpdate200Response
+    | FleetsUpdate202Response
+    | FleetsUpdateLogicalResponse
+    | FleetsUpdateDefaultResponse,
+): response is FleetsUpdateDefaultResponse;
+export function isUnexpected(
+  response:
+    | FleetsDelete202Response
+    | FleetsDelete204Response
+    | FleetsDeleteLogicalResponse
+    | FleetsDeleteDefaultResponse,
+): response is FleetsDeleteDefaultResponse;
+export function isUnexpected(
+  response: FleetsListByResourceGroup200Response | FleetsListByResourceGroupDefaultResponse,
+): response is FleetsListByResourceGroupDefaultResponse;
+export function isUnexpected(
+  response: FleetsListBySubscription200Response | FleetsListBySubscriptionDefaultResponse,
+): response is FleetsListBySubscriptionDefaultResponse;
+export function isUnexpected(
+  response:
+    | FleetsListVirtualMachineScaleSets200Response
+    | FleetsListVirtualMachineScaleSetsDefaultResponse,
+): response is FleetsListVirtualMachineScaleSetsDefaultResponse;
+export function isUnexpected(
+  response:
+    | OperationsList200Response
+    | OperationsListDefaultResponse
+    | FleetsGet200Response
+    | FleetsGetDefaultResponse
+    | FleetsCreateOrUpdate200Response
+    | FleetsCreateOrUpdate201Response
+    | FleetsCreateOrUpdateLogicalResponse
+    | FleetsCreateOrUpdateDefaultResponse
+    | FleetsUpdate200Response
+    | FleetsUpdate202Response
+    | FleetsUpdateLogicalResponse
+    | FleetsUpdateDefaultResponse
+    | FleetsDelete202Response
+    | FleetsDelete204Response
+    | FleetsDeleteLogicalResponse
+    | FleetsDeleteDefaultResponse
+    | FleetsListByResourceGroup200Response
+    | FleetsListByResourceGroupDefaultResponse
+    | FleetsListBySubscription200Response
+    | FleetsListBySubscriptionDefaultResponse
+    | FleetsListVirtualMachineScaleSets200Response
+    | FleetsListVirtualMachineScaleSetsDefaultResponse,
 ): response is
-  | ListDefaultResponse
-  | GetDefaultResponse
-  | CreateOrUpdateDefaultResponse
-  | UpdateDefaultResponse
-  | DeleteDefaultResponse
-  | ListByResourceGroupDefaultResponse
-  | ListBySubscriptionDefaultResponse
-  | ListVirtualMachineScaleSetsDefaultResponse {
+  | OperationsListDefaultResponse
+  | FleetsGetDefaultResponse
+  | FleetsCreateOrUpdateDefaultResponse
+  | FleetsUpdateDefaultResponse
+  | FleetsDeleteDefaultResponse
+  | FleetsListByResourceGroupDefaultResponse
+  | FleetsListBySubscriptionDefaultResponse
+  | FleetsListVirtualMachineScaleSetsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

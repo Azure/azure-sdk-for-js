@@ -7,8 +7,8 @@ import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
   isUnexpected,
   AzureFleetContext as Client,
-  List200Response,
-  ListDefaultResponse,
+  OperationsList200Response,
+  OperationsListDefaultResponse,
 } from "../../rest/index.js";
 import {
   StreamableMethod,
@@ -20,14 +20,14 @@ import { OperationsListOptionalParams } from "../../models/options.js";
 export function _listSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
-): StreamableMethod<List200Response | ListDefaultResponse> {
+): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse> {
   return context
     .path("/providers/Microsoft.AzureFleet/operations")
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _listDeserialize(
-  result: List200Response | ListDefaultResponse,
+  result: OperationsList200Response | OperationsListDefaultResponse,
 ): Promise<_OperationListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
