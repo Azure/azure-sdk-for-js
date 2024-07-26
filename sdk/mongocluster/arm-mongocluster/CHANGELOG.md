@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- support hierarchy api subpath export and issue fix.
+- disable hierarchy api subpath export and issue fix.
 
 ## 1.0.0-beta.1 (2024-07-05)
 
