@@ -17499,7 +17499,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-wswc3nbvYMnmCEpvtsynVmHNOySJbPMQEeb5xNeZhgXRsIGyqxzQ/PqBIMi3xyxyC8tU0YnSuWr3n/HFjS+TaQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-wjKgPDteXSNG7HsflXJ6v7ogpaDCk+Cbx5YNmOr2XQJ7STHcZKl8XlOXagYonaTB/ZXPFI2jDZxiv39SQZr0yA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -17519,9 +17519,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'

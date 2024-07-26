@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { RedisManagementClient } from "../redisManagementClient";
 import {
   AsyncOperationStatusGetOptionalParams,
-  AsyncOperationStatusGetResponse
+  AsyncOperationStatusGetResponse,
 } from "../models";
 
 /** Class containing AsyncOperationStatus operations. */
@@ -37,11 +37,11 @@ export class AsyncOperationStatusImpl implements AsyncOperationStatus {
   get(
     location: string,
     operationId: string,
-    options?: AsyncOperationStatusGetOptionalParams
+    options?: AsyncOperationStatusGetOptionalParams,
   ): Promise<AsyncOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class AsyncOperationStatusImpl implements AsyncOperationStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/locations/{location}/asyncOperations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/locations/{location}/asyncOperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
