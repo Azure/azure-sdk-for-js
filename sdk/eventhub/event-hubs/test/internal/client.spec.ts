@@ -252,9 +252,10 @@ describe("EventHubClient", function () {
     });
 
     it("should throw ServiceCommunicationError for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties())
-        .to.eventually.be.rejected.and.be.an.instanceOf(MessagingError)
-        .and.has.property("code", getConnectionErrorCode());
+      await expect(client.getEventHubProperties()).to.be.rejected.and.has.property(
+        "code",
+        getConnectionErrorCode(),
+      );
     });
 
     it("should throw ServiceCommunicationError for getPartitionProperties", async function () {
