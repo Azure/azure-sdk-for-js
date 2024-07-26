@@ -14215,7 +14215,7 @@ packages:
     dev: false
 
   file:projects/arm-dataprotection.tgz:
-    resolution: {integrity: sha512-WfTw29CYnxe6L+teesno8NTr2h2bsdKaTpherRlllDgRF1cpC0ejABRe07bI6bbRYyQk9iOXK1IJmRzLK8J/mQ==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-LdVQlNk85WkLK9UFEnJJKKKUL2eAwL6Mqs6VgOGojOomnnQGZg/kNYOgdtbvJ/V0th5JLVzDSD55d+xfUO49vg==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
@@ -14234,9 +14234,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'

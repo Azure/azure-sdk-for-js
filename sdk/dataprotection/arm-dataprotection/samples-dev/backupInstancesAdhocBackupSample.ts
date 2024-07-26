@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TriggerBackupRequest,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Trigger adhoc backup
  *
  * @summary Trigger adhoc backup
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/TriggerBackup.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerBackup.json
  */
 async function triggerAdhocBackup() {
   const subscriptionId =
@@ -34,8 +34,8 @@ async function triggerAdhocBackup() {
   const parameters: TriggerBackupRequest = {
     backupRuleOptions: {
       ruleName: "BackupWeekly",
-      triggerOption: { retentionTagOverride: "yearly" }
-    }
+      triggerOption: { retentionTagOverride: "yearly" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function triggerAdhocBackup() {
     resourceGroupName,
     vaultName,
     backupInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
