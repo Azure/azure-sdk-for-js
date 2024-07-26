@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -2235,6 +2235,11 @@
     {
       "packageName": "@azure/arm-edgezones",
       "projectFolder": "sdk/edgezones/arm-edgezones",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redhatopenshift",
+      "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
       "versionPolicyName": "management"
     }
   ]
