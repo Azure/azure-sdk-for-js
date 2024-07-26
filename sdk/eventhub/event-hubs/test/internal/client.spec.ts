@@ -512,7 +512,7 @@ describe("EventHubClient", function () {
     });
 
     it("should throw connection closed error while creating a batch", async function () {
-      await expect(client.createBatch()).to.eventually.be.rejectedWith(expectedErrorMsg);
+      await expect(client.createBatch()).to.be.rejectedWith(expectedErrorMsg);
     });
   });
 });
