@@ -15333,7 +15333,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-0or0DRzcMxsjT2BlIn8l1W2p4fBwX8/YWxMQUoOsavEAzgSgoQf5EvBFMqjH2HKUA+XRf7qujMSX39Tr5LQGNg==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-wVSrm4aoTJmUA1s14d3er3Gl9qTN+62er6kypTMV4tOc8+diDsA98xMlu0/GJFes8efUbc6QiJkymgo10+gDag==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -15352,10 +15352,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'

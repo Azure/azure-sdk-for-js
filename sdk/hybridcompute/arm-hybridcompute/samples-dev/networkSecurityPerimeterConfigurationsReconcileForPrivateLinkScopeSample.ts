@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the network security perimeter configuration for a private link scope.
+ * This sample demonstrates how to Forces the network security perimeter configuration to refresh for a private link scope.
  *
- * @summary Gets the network security perimeter configuration for a private link scope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationGet.json
+ * @summary Forces the network security perimeter configuration to refresh for a private link scope.
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationReconcile.json
  */
-async function getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope() {
+async function reconcilesTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope() {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -31,7 +31,7 @@ async function getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const result =
-    await client.networkSecurityPerimeterConfigurations.getByPrivateLinkScope(
+    await client.networkSecurityPerimeterConfigurations.beginReconcileForPrivateLinkScopeAndWait(
       resourceGroupName,
       scopeName,
       perimeterName,
@@ -40,7 +40,7 @@ async function getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope
 }
 
 async function main() {
-  getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
+  reconcilesTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
 }
 
 main().catch(console.error);
