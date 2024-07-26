@@ -602,6 +602,9 @@ dependencies:
   '@rush-temp/arm-recoveryservicesdatareplication':
     specifier: file:./projects/arm-recoveryservicesdatareplication.tgz
     version: file:projects/arm-recoveryservicesdatareplication.tgz
+  '@rush-temp/arm-redhatopenshift':
+    specifier: file:./projects/arm-redhatopenshift.tgz
+    version: file:projects/arm-redhatopenshift.tgz
   '@rush-temp/arm-rediscache':
     specifier: file:./projects/arm-rediscache.tgz
     version: file:projects/arm-rediscache.tgz
@@ -668,6 +671,9 @@ dependencies:
   '@rush-temp/arm-servicefabric-1':
     specifier: file:./projects/arm-servicefabric-1.tgz
     version: file:projects/arm-servicefabric-1.tgz
+  '@rush-temp/arm-servicefabricmanagedclusters':
+    specifier: file:./projects/arm-servicefabricmanagedclusters.tgz
+    version: file:projects/arm-servicefabricmanagedclusters.tgz
   '@rush-temp/arm-servicefabricmesh':
     specifier: file:./projects/arm-servicefabricmesh.tgz
     version: file:projects/arm-servicefabricmesh.tgz
@@ -15183,7 +15189,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-cCSHGX4XZ82VEjFQLrhfsdFTxbHoCAzcVMdEKJvBf+1tQKiYaiddlm0qEt2HVqgBEPxpaPCttQkrXupGF+Y6sg==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-piHmNUXYyLYB3zYcjPVPoB2JlkIrf60nv+aGdOG/Uo5lqXDa4vjd2MY2yFITHVKZGDudVNZQPEWgi+27vwKzLg==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -15202,10 +15208,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -17537,6 +17543,37 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-redhatopenshift.tgz:
+    resolution: {integrity: sha512-BwUzxC6iOJCCVzPqt2faC92BLQ74PN3hlhv1a1SsGdqWz8vXr7ONGB0YF7fiLtCvvn7RuileFsVfjXNrKy9qqA==, tarball: file:projects/arm-redhatopenshift.tgz}
+    name: '@rush-temp/arm-redhatopenshift'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.0
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.40
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.6.0
+      rimraf: 5.0.9
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
+      tslib: 2.6.3
+      tsx: 4.16.2
+      typescript: 5.4.5
+      uglify-js: 3.18.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-rediscache.tgz:
     resolution: {integrity: sha512-wjKgPDteXSNG7HsflXJ6v7ogpaDCk+Cbx5YNmOr2XQJ7STHcZKl8XlOXagYonaTB/ZXPFI2jDZxiv39SQZr0yA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
@@ -18209,6 +18246,37 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-servicefabricmanagedclusters.tgz:
+    resolution: {integrity: sha512-aXLhNHWEstwVsLKpmTC2k/xVystn9qlcSGaDg+o6B5saAiAICgXAynb+8X4YUUkH/N7xVIGwB06GhYPhmkDwMw==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    name: '@rush-temp/arm-servicefabricmanagedclusters'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.0
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.40
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.6.0
+      rimraf: 5.0.9
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
+      tslib: 2.6.3
+      tsx: 4.16.2
+      typescript: 5.4.5
+      uglify-js: 3.18.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-servicefabricmesh.tgz:

@@ -2241,6 +2241,16 @@
       "packageName": "@azure/arm-mongocluster",
       "projectFolder": "sdk/mongocluster/arm-mongocluster",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabricmanagedclusters",
+      "projectFolder": "sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redhatopenshift",
+      "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
+      "versionPolicyName": "management"
     }
   ]
 }
