@@ -5,11 +5,11 @@ import { EventHubConsumerClient, EventHubProducerClient } from "../../src/index.
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 import { expect } from "../utils/chai.js";
-import { StandardAbortMessage } from "@azure/core-amqp";
+import { AbortError } from "@azure/abort-controller";
 
 function expectAbortError(promise: Promise<unknown>): Chai.PromisedAssertion {
   return expect(promise)
-    .to.be.rejectedWith(new RegExp(StandardAbortMessage))
+    .to.be.rejected.and.be.an.instanceOf(AbortError)
     .and.has.property("name", "AbortError");
 }
 
