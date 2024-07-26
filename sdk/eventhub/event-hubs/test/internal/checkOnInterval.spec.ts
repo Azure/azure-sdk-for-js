@@ -31,6 +31,6 @@ describe("checkOnInterval", function () {
       abortErrorMsg: StandardAbortMessage,
     });
     aborter.abort();
-    await expect(delayPromise).to.eventually.be.rejectedWith(StandardAbortMessage);
+    await expect(delayPromise).to.be.rejectedWith(StandardAbortMessage);
   });
 });

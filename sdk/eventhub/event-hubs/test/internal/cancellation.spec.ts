@@ -32,7 +32,7 @@ const cancellationCases = [
 
 function expectAbortError(promise: Promise<unknown>): Chai.PromisedAssertion {
   return expect(promise)
-    .to.eventually.be.rejectedWith(new RegExp(StandardAbortMessage))
+    .to.be.rejectedWith(new RegExp(StandardAbortMessage))
     .and.has.property("name", "AbortError");
 }
 

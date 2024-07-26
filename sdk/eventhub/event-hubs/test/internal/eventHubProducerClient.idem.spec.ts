@@ -74,9 +74,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
     });
     describe("does not allow partitionKey to be set", function () {
       it("createBatch", async function () {
-        await expect(
-          producerClient.createBatch({ partitionKey: "foo" }),
-        ).to.eventually.be.rejectedWith(
+        await expect(producerClient.createBatch({ partitionKey: "foo" })).to.be.rejectedWith(
           /The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true./,
         );
       });
@@ -84,7 +82,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
       it("sendBatch", async function () {
         await expect(
           producerClient.sendBatch([{ body: "test" }], { partitionKey: "foo" }),
-        ).to.eventually.be.rejectedWith(
+        ).to.be.rejectedWith(
           /The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true./,
         );
       });
@@ -104,13 +102,13 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
       });
 
       it("throws an error if partitionId not set by createBatch", async function () {
-        await expect(producerClient.createBatch()).to.eventually.be.rejectedWith(
+        await expect(producerClient.createBatch()).to.be.rejectedWith(
           /The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true./,
         );
       });
 
       it("throws an error if partitionId not set by sendBatch when passing EventData[]", async function () {
-        await expect(producerClient.sendBatch([{ body: "test" }])).to.eventually.be.rejectedWith(
+        await expect(producerClient.sendBatch([{ body: "test" }])).to.be.rejectedWith(
           /The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true./,
         );
       });
@@ -128,7 +126,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
             producerClient.sendBatch(batch1),
             producerClient.sendBatch([{ body: "two" }], { partitionId: "0" }),
           ]),
-        ).to.eventually.be.rejectedWith(
+        ).to.be.rejectedWith(
           /There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true./,
         );
       });
@@ -232,7 +230,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         await producerClient2.sendBatch([{ body: "two" }], { partitionId: "0" });
 
         await expect(producerClient1.sendBatch([{ body: "should fail" }], { partitionId: "0" }))
-          .to.eventually.be.rejectedWith(/Received:0 Current:1/)
+          .to.be.rejectedWith(/Received:0 Current:1/)
           .then((err) => {
             expect(err).to.have.property("code", "ProducerDisconnectedError");
             expect(err).to.have.property("name", "MessagingError");
@@ -250,7 +248,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         };
 
         await expect(producerClient.sendBatch([{ body: "one" }], { partitionId: "0" }))
-          .to.eventually.be.rejectedWith(
+          .to.be.rejectedWith(
             /Invalid range for idempotent producer state. Producer Id, Epoch, and Sequence Number must be zero or positive./,
           )
           .then((err) => {
@@ -284,7 +282,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         };
 
         await expect(producerClient2.sendBatch([{ body: "six as two" }], { partitionId: "0" }))
-          .to.eventually.be.rejectedWith(/old sequence/)
+          .to.be.rejectedWith(/old sequence/)
           .then((err) => {
             expect(err).to.have.property("code", "SequenceOutOfOrderError");
             expect(err).to.have.property("name", "MessagingError");
@@ -383,7 +381,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
 
         await expect(
           producerClient.sendBatch(batch, { abortSignal: abortController.signal }),
-        ).to.eventually.be.rejectedWith(StandardAbortMessage);
+        ).to.be.rejectedWith(StandardAbortMessage);
         should.not.exist(
           (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
           "startingPublishedSequenceNumber should not exist if batch failed to send.",
@@ -444,7 +442,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
             partitionId: "0",
             abortSignal: abortController.signal,
           }),
-        ).to.eventually.be.rejectedWith(StandardAbortMessage);
+        ).to.be.rejectedWith(StandardAbortMessage);
         for (const event of events) {
           should.not.exist(
             (event as EventDataInternal)._publishedSequenceNumber,
@@ -458,9 +456,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         // Send the events. Afterwards they should be considered 'published.'
         await producerClient.sendBatch(events, { partitionId: "0" });
 
-        await expect(
-          producerClient.sendBatch(events, { partitionId: "0" }),
-        ).to.eventually.be.rejectedWith(
+        await expect(producerClient.sendBatch(events, { partitionId: "0" })).to.be.rejectedWith(
           /1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again./,
         );
       });
@@ -472,7 +468,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         // Send the events. Afterwards they should be considered 'published.'
         await producerClient.sendBatch(batch);
 
-        await expect(producerClient.sendBatch(batch)).to.eventually.be.rejectedWith(
+        await expect(producerClient.sendBatch(batch)).to.be.rejectedWith(
           /These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again./,
         );
       });

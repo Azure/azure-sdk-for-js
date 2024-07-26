@@ -253,19 +253,19 @@ describe("EventHubClient", function () {
 
     it("should throw ServiceCommunicationError for getEventHubProperties", async function () {
       await expect(client.getEventHubProperties())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
 
     it("should throw ServiceCommunicationError for getPartitionProperties", async function () {
       await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
 
     it("should throw ServiceCommunicationError for getPartitionIds", async function () {
       await expect(client.getPartitionIds())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
 
@@ -290,31 +290,31 @@ describe("EventHubClient", function () {
 
     it("should throw ServiceCommunicationError for getEventHubProperties", async function () {
       await expect(client.getEventHubProperties())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
 
     it("should throw ServiceCommunicationError for getPartitionProperties", async function () {
       await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
 
     it("should throw ServiceCommunicationError for getPartitionIds", async function () {
       await expect(client.getPartitionIds())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
 
     it("should throw ServiceCommunicationError while sending", async function () {
       await expect(client.sendBatch([{ body: "Hello World" }]))
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
 
     it("should throw ServiceCommunicationError while creating a batch", async function () {
       await expect(client.createBatch())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", getConnectionErrorCode());
     });
   });
@@ -333,19 +333,19 @@ describe("EventHubClient", function () {
 
     it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function () {
       await expect(client.getEventHubProperties())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function () {
       await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionIds", async function () {
       await expect(client.getPartitionIds())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
 
@@ -370,31 +370,31 @@ describe("EventHubClient", function () {
 
     it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function () {
       await expect(client.getEventHubProperties())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function () {
       await expect(client.getPartitionProperties("0"))
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
 
     it("should throw MessagingEntityNotFoundError for getPartitionIds", async function () {
       await expect(client.getPartitionIds())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
 
     it("should throw MessagingEntityNotFoundError while sending", async function () {
       await expect(client.sendBatch([{ body: "Hello World" }]))
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
 
     it("should throw MessagingEntityNotFoundError while creating a batch", async function () {
       await expect(client.createBatch())
-        .to.eventually.be.rejectedWith(MessagingError)
+        .to.be.rejectedWith(MessagingError)
         .and.has.property("code", expectedErrCode);
     });
   });
@@ -460,17 +460,15 @@ describe("EventHubClient", function () {
     });
 
     it("should throw connection closed error for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties()).to.eventually.be.rejectedWith(expectedErrorMsg);
+      await expect(client.getEventHubProperties()).to.be.rejectedWith(expectedErrorMsg);
     });
 
     it("should throw connection closed error for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0")).to.eventually.be.rejectedWith(
-        expectedErrorMsg,
-      );
+      await expect(client.getPartitionProperties("0")).to.be.rejectedWith(expectedErrorMsg);
     });
 
     it("should throw connection closed error for getPartitionIds", async function () {
-      await expect(client.getPartitionIds()).to.eventually.be.rejectedWith(expectedErrorMsg);
+      await expect(client.getPartitionIds()).to.be.rejectedWith(expectedErrorMsg);
     });
 
     it("should throw connection closed error while subscribe()", async function () {
@@ -492,21 +490,19 @@ describe("EventHubClient", function () {
     });
 
     it("should throw connection closed error for getEventHubProperties", async function () {
-      await expect(client.getEventHubProperties()).to.eventually.be.rejectedWith(expectedErrorMsg);
+      await expect(client.getEventHubProperties()).to.be.rejectedWith(expectedErrorMsg);
     });
 
     it("should throw connection closed error for getPartitionProperties", async function () {
-      await expect(client.getPartitionProperties("0")).to.eventually.be.rejectedWith(
-        expectedErrorMsg,
-      );
+      await expect(client.getPartitionProperties("0")).to.be.rejectedWith(expectedErrorMsg);
     });
 
     it("should throw connection closed error for getPartitionIds", async function () {
-      await expect(client.getPartitionIds()).to.eventually.be.rejectedWith(expectedErrorMsg);
+      await expect(client.getPartitionIds()).to.be.rejectedWith(expectedErrorMsg);
     });
 
     it("should throw connection closed error while sending", async function () {
-      await expect(client.sendBatch([{ body: "Hello World" }])).to.eventually.be.rejectedWith(
+      await expect(client.sendBatch([{ body: "Hello World" }])).to.be.rejectedWith(
         expectedErrorMsg,
       );
     });
