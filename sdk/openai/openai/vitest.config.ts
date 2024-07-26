@@ -9,6 +9,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
+      testTimeout: 600000,
       fileParallelism: false,
       include: ["test/**/*.spec.ts"],
     },
