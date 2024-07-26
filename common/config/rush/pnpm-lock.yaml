@@ -1270,6 +1270,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.6.0:
+    resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.2
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -13402,7 +13417,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-sepxg6yxN5qkJtNgdTKuQOzYsMGS7K21SDDvZzFlZHFYDbRIq+PpVZSIVjDCvB4WC4/lWZn392wT9LDcs5Lfsw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-htTzU/qeMbztclayDaALb69likrxG5yfqsxktJ13IrT2EfCQT0inWi5E74C+k9nztbPUvj7111EL4w5Pxi9OaQ==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13422,9 +13437,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -15465,13 +15481,14 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-Xq7Gf/JRWq8OIO7j4463l0sWFYukXiIJ+GFf4m1WG+sfWb7VP+BGP4oHsTHolO3i89LYkfaLYBcOC23fw1/5LQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-islzKXCverh55F/8bwNWnF4ocA6k4XZlCbinA4+4XRneUPoac7nP5XKWj3pfRAPS1p0R9hJwTLHPsAIvwLTxbg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.6.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
@@ -16577,7 +16594,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-tKGUsN6M/Z5s8JIUN7jcIhW8aHoVPb79wJ3JriNym0opG/W6aeSeHEdal66/Hajox3jwqbrtUI8nOY4Ex1opow==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-IEGA8a8gWKVvL693jv3yzXGR2X7G0nl+y1PfJ4jBEPtc9zdIiH1Pj0b7Bq19Z6xCOW/lJPPJ6G8fI9XKIneZJg==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -16596,10 +16613,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
