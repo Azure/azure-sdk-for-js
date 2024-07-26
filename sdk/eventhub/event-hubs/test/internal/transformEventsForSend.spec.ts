@@ -35,7 +35,7 @@ describe("transformEventsForSend", function () {
         batch.tryAdd(event);
       }
 
-      return producerClient.close();
+      await producerClient.close();
     });
 
     it("doesn't annotate events in batch when isIdempotentPublishingEnabled is false", async function () {
@@ -83,7 +83,7 @@ describe("transformEventsForSend", function () {
         batch.tryAdd(event);
       }
 
-      return producerClient.close();
+      await producerClient.close();
     });
 
     it("annotates events in batch when isIdempotentPublishingEnabled is true", async function () {

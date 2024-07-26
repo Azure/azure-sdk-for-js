@@ -187,7 +187,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
           "producer2 lastPublishedSequenceNumber should be 1 higher than producer1 lastPublishedSequenceNumber.",
         );
 
-        return Promise.all([producerClient1.close(), producerClient2.close()]);
+        await Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
       it("can use partial state", async function () {
@@ -239,7 +239,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
             return err;
           });
 
-        return Promise.all([producerClient1.close(), producerClient2.close()]);
+        await Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
       it("fails with invalid state", async function () {
@@ -291,7 +291,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
             return err;
           });
 
-        return Promise.all([producerClient1.close(), producerClient2.close()]);
+        await Promise.all([producerClient1.close(), producerClient2.close()]);
       });
     });
 

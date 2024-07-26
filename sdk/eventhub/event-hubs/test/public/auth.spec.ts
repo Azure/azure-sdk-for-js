@@ -72,7 +72,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
         await consumerClient.getEventHubProperties();
         should.exist(properties);
 
-        return consumerClient.close();
+        await consumerClient.close();
       });
 
       it("EventHubConsumerClient receive calls", async function () {
@@ -141,7 +141,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
           );
         });
 
-        return consumerClient.close();
+        await consumerClient.close();
       });
 
       it("EventHubProducerClient send calls", async function () {
@@ -182,7 +182,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
         // Notice that we didn't have to fast forward through time to move past a token refresh!
         await producerClient.sendBatch([{ body: "test2" }]);
 
-        return producerClient.close();
+        await producerClient.close();
       });
     });
   });
@@ -235,7 +235,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
         await consumerClient.getEventHubProperties();
         should.exist(properties);
 
-        return consumerClient.close();
+        await consumerClient.close();
       });
 
       it("EventHubConsumerClient receive calls", async function () {
@@ -301,7 +301,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
           );
         });
 
-        return consumerClient.close();
+        await consumerClient.close();
       });
 
       it("EventHubProducerClient send calls", async function () {
@@ -341,7 +341,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
         // Notice that we didn't have to fast forward through time to move past a token refresh!
         await producerClient.sendBatch([{ body: "test2" }]);
 
-        return producerClient.close();
+        await producerClient.close();
       });
     });
   });

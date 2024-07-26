@@ -15,7 +15,7 @@ describe("disconnected", function () {
   beforeAll(async function () {
     const client = createConsumer().consumer;
     partitionIds = await client.getPartitionIds();
-    return client.close();
+    await client.close();
   });
 
   describe("EventHubSender", function () {
@@ -100,7 +100,7 @@ describe("disconnected", function () {
         // We are going to override sender1's close method so that it also invokes receiver2's close method.
         const sender1Close = sender1.close.bind(sender1);
         sender1.close = async function () {
-          sender2.close().catch(() => {
+          await sender2.close().catch(() => {
             /* no-op */
           });
           return sender1Close();
@@ -109,7 +109,7 @@ describe("disconnected", function () {
         // We are going to override receiver1's close method so that it also invokes receiver2's close method.
         const receiver1Close = receiver1.close.bind(receiver1);
         (receiver1 as WritableReceiver).close = async function () {
-          receiver2.close().catch(() => {
+          await receiver2.close().catch(() => {
             /* no-op */
           });
           return receiver1Close();
@@ -166,7 +166,7 @@ describe("disconnected", function () {
         // We are going to override sender1's close method so that it also invokes receiver2's close method.
         const sender1Close = sender1.close.bind(sender1);
         sender1.close = async function () {
-          sender2.close().catch(() => {
+          await sender2.close().catch(() => {
             /* no-op */
           });
           return sender1Close();
@@ -175,7 +175,7 @@ describe("disconnected", function () {
         // We are going to override receiver1's close method so that it also invokes receiver2's close method.
         const originalClose = receiver1.close.bind(receiver1);
         (receiver1 as WritableReceiver).close = async function () {
-          receiver2.close().catch(() => {
+          await receiver2.close().catch(() => {
             /* no-op */
           });
           return originalClose();

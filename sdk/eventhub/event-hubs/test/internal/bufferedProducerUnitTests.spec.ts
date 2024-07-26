@@ -23,7 +23,7 @@ describe("EventHubBufferedProducerClient unit tests", function () {
   });
 
   afterEach(async function () {
-    client?.close();
+    await client?.close();
   });
 
   it("should update partition ids periodically", async function () {

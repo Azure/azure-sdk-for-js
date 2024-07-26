@@ -85,8 +85,8 @@ describe("EventHubConsumerClient", function () {
       });
 
       afterEach(async function () {
-        client.close();
-        clientWithCheckpointStore.close();
+        await client.close();
+        await clientWithCheckpointStore.close();
         vi.restoreAllMocks();
       });
 
@@ -134,7 +134,7 @@ describe("EventHubConsumerClient", function () {
 
         const subscription = client.subscribe("0", subscriptionHandlers);
 
-        subscription.close();
+        await subscription.close();
         expect(stopSpy).toHaveBeenCalledOnce();
       });
 
@@ -173,7 +173,7 @@ describe("EventHubConsumerClient", function () {
 
         const subscription = client.subscribe("0", subscriptionHandlers);
 
-        subscription.close();
+        await subscription.close();
         expect(stopSpy).toHaveBeenCalledOnce();
       });
 
