@@ -768,6 +768,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

@@ -674,6 +674,7 @@ export interface RedisCheckNameAvailabilityOptionalParams extends coreClient.Ope
 
 // @public
 export interface RedisCommonProperties {
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     minimumTlsVersion?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -701,6 +702,7 @@ export interface RedisCommonPropertiesRedisConfiguration {
     maxmemoryDelta?: string;
     maxmemoryPolicy?: string;
     maxmemoryReserved?: string;
+    notifyKeyspaceEvents?: string;
     readonly preferredDataArchiveAuthMethod?: string;
     preferredDataPersistenceAuthMethod?: string;
     rdbBackupEnabled?: string;
@@ -719,6 +721,7 @@ export interface RedisCreateOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface RedisCreateParameters {
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     identity?: ManagedServiceIdentity;
     location: string;
@@ -1016,6 +1019,7 @@ export type RedisRegenerateKeyResponse = RedisAccessKeys;
 // @public
 export interface RedisResource extends TrackedResource {
     readonly accessKeys?: RedisAccessKeys;
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -1050,6 +1054,7 @@ export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface RedisUpdateParameters {
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
