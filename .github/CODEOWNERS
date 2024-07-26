@@ -825,6 +825,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/servicefabric/arm-servicefabric/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric-rest/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
