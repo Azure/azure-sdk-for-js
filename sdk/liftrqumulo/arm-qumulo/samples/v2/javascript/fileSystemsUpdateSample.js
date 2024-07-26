@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { FileSystemResourceUpdate, QumuloStorage } from "@azure/arm-qumulo";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { QumuloStorage } = require("@azure/arm-qumulo");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a FileSystemResource
@@ -22,12 +20,10 @@ dotenv.config();
  */
 async function fileSystemsUpdate() {
   const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] ||
-    "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
-  const resourceGroupName =
-    process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
+    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
+  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
   const fileSystemName = "ahpixnvykleksjlr";
-  const properties: FileSystemResourceUpdate = {
+  const properties = {
     identity: { type: "None", userAssignedIdentities: { key7679: {} } },
     properties: {
       delegatedSubnetId: "bqaryqsjlackxphpmzffgoqsvm",
@@ -45,11 +41,7 @@ async function fileSystemsUpdate() {
   };
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.update(
-    resourceGroupName,
-    fileSystemName,
-    properties,
-  );
+  const result = await client.fileSystems.update(resourceGroupName, fileSystemName, properties);
   console.log(result);
 }
 
@@ -60,19 +52,13 @@ async function fileSystemsUpdate() {
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Update_MinimumSet_Gen.json
  */
 async function fileSystemsUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
-  const resourceGroupName =
-    process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
+  const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
+  const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
   const fileSystemName = "aaaaaaaaaaaaaaaaa";
-  const properties: FileSystemResourceUpdate = {};
+  const properties = {};
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
-  const result = await client.fileSystems.update(
-    resourceGroupName,
-    fileSystemName,
-    properties,
-  );
+  const result = await client.fileSystems.update(resourceGroupName, fileSystemName, properties);
   console.log(result);
 }
 
