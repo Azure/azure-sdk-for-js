@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-edgezones",
   "version": "1.0.0-beta.1",
-  "description": "Azure Edgezones Service",
+  "description": "Microsoft Edgezones Service",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -12,9 +12,7 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./models": "./src/models/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./api/extendedZones": "./src/api/extendedZones/index.ts"
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -41,7 +39,8 @@
     "dist",
     "README.md",
     "LICENSE",
-    "review/*"
+    "review/*",
+    "CHANGELOG.md"
   ],
   "sdk-type": "mgmt",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -53,7 +52,7 @@
     "constantPaths": [
       {
         "path": "src/rest/edgeZonesClient.ts",
-        "prefix": "package-version"
+        "prefix": "userAgentInfo"
       }
     ]
   },
@@ -90,8 +89,8 @@
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
-    "lint": "echo skipped",
-    "lint:fix": "echo skipped",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
@@ -177,50 +176,6 @@
         "source": "./src/models/index.ts",
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
-      }
-    },
-    "./api/operations": {
-      "browser": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/browser/api/operations/index.d.ts",
-        "default": "./dist/browser/api/operations/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
-      "import": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/esm/api/operations/index.d.ts",
-        "default": "./dist/esm/api/operations/index.js"
-      },
-      "require": {
-        "source": "./src/api/operations/index.ts",
-        "types": "./dist/commonjs/api/operations/index.d.ts",
-        "default": "./dist/commonjs/api/operations/index.js"
-      }
-    },
-    "./api/extendedZones": {
-      "browser": {
-        "source": "./src/api/extendedZones/index.ts",
-        "types": "./dist/browser/api/extendedZones/index.d.ts",
-        "default": "./dist/browser/api/extendedZones/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/extendedZones/index.ts",
-        "types": "./dist/react-native/api/extendedZones/index.d.ts",
-        "default": "./dist/react-native/api/extendedZones/index.js"
-      },
-      "import": {
-        "source": "./src/api/extendedZones/index.ts",
-        "types": "./dist/esm/api/extendedZones/index.d.ts",
-        "default": "./dist/esm/api/extendedZones/index.js"
-      },
-      "require": {
-        "source": "./src/api/extendedZones/index.ts",
-        "types": "./dist/commonjs/api/extendedZones/index.d.ts",
-        "default": "./dist/commonjs/api/extendedZones/index.js"
       }
     }
   },

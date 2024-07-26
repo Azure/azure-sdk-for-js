@@ -135,7 +135,7 @@ export enum KnownResourceProvisioningState {
 // @public
 export interface Operation {
     actionType?: ActionType;
-    display?: OperationDisplay;
+    readonly display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -143,10 +143,10 @@ export interface Operation {
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
@@ -203,6 +203,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type Versions = "2024-04-01-preview";
 
 // (No @packageDocumentation comment for this package)
 

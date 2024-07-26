@@ -7,14 +7,14 @@ import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
   isUnexpected,
   EdgeZonesContext as Client,
-  Get200Response,
-  GetDefaultResponse,
-  ListBySubscription200Response,
-  ListBySubscriptionDefaultResponse,
-  Register200Response,
-  RegisterDefaultResponse,
-  Unregister200Response,
-  UnregisterDefaultResponse,
+  ExtendedZonesGet200Response,
+  ExtendedZonesGetDefaultResponse,
+  ExtendedZonesListBySubscription200Response,
+  ExtendedZonesListBySubscriptionDefaultResponse,
+  ExtendedZonesRegister200Response,
+  ExtendedZonesRegisterDefaultResponse,
+  ExtendedZonesUnregister200Response,
+  ExtendedZonesUnregisterDefaultResponse,
 } from "../../rest/index.js";
 import {
   StreamableMethod,
@@ -33,7 +33,7 @@ export function _getSend(
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<Get200Response | GetDefaultResponse> {
+): StreamableMethod<ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}",
@@ -44,7 +44,7 @@ export function _getSend(
 }
 
 export async function _getDeserialize(
-  result: Get200Response | GetDefaultResponse,
+  result: ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse,
 ): Promise<ExtendedZone> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -105,7 +105,9 @@ export function _listBySubscriptionSend(
   options: ExtendedZonesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<ListBySubscription200Response | ListBySubscriptionDefaultResponse> {
+): StreamableMethod<
+  ExtendedZonesListBySubscription200Response | ExtendedZonesListBySubscriptionDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones",
@@ -115,7 +117,9 @@ export function _listBySubscriptionSend(
 }
 
 export async function _listBySubscriptionDeserialize(
-  result: ListBySubscription200Response | ListBySubscriptionDefaultResponse,
+  result:
+    | ExtendedZonesListBySubscription200Response
+    | ExtendedZonesListBySubscriptionDefaultResponse,
 ): Promise<_ExtendedZoneListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -185,7 +189,7 @@ export function _registerSend(
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesRegisterOptionalParams = { requestOptions: {} },
-): StreamableMethod<Register200Response | RegisterDefaultResponse> {
+): StreamableMethod<ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/register",
@@ -196,7 +200,7 @@ export function _registerSend(
 }
 
 export async function _registerDeserialize(
-  result: Register200Response | RegisterDefaultResponse,
+  result: ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse,
 ): Promise<ExtendedZone> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -256,7 +260,7 @@ export function _unregisterSend(
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesUnregisterOptionalParams = { requestOptions: {} },
-): StreamableMethod<Unregister200Response | UnregisterDefaultResponse> {
+): StreamableMethod<ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/unregister",
@@ -267,7 +271,7 @@ export function _unregisterSend(
 }
 
 export async function _unregisterDeserialize(
-  result: Unregister200Response | UnregisterDefaultResponse,
+  result: ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse,
 ): Promise<ExtendedZone> {
   if (isUnexpected(result)) {
     throw createRestError(result);

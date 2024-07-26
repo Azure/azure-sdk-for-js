@@ -22,6 +22,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
   ProvisioningState,
 } from "./models.js";
 export {
