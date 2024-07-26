@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
  *
  * @summary Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CrossRegionRestore/FetchSecondaryRPs.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/FetchSecondaryRPs.json
  */
 async function fetchSecondaryRPs() {
   const subscriptionId =
