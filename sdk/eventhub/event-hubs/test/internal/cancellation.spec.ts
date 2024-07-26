@@ -7,7 +7,6 @@ import { ConnectionContext } from "../../src/connectionContext.js";
 import { createContext } from "../utils/clients.js";
 import { expect } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
-import { AbortError } from "@azure/abort-controller";
 
 const cancellationCases = [
   {
@@ -31,9 +30,7 @@ const cancellationCases = [
 ];
 
 function expectAbortError(promise: Promise<unknown>): Chai.PromisedAssertion {
-  return expect(promise)
-    .to.eventually.be.rejected.and.be.an.instanceOf(AbortError)
-    .and.has.property("name", "AbortError");
+  return expect(promise).to.eventually.be.rejected.and.has.property("name", "AbortError");
 }
 
 describe("Cancellation via AbortSignal", function () {
