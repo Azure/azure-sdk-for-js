@@ -30,7 +30,7 @@ async function validateNotFoundError(promise: Promise<unknown>): Promise<void> {
   await expect(promise).to.be.rejected.then((err) => {
     expect(err)
       .to.be.an.instanceOf(MessagingError)
-      .and.has.property("code", isNodeLike ? "ENOTFOUND" : "MessagingEntityNotFoundError");
+      .and.has.property("code", "MessagingEntityNotFoundError");
     return err;
   });
 }
