@@ -47,7 +47,7 @@ describe("EventHubConsumerClient", function () {
       let clientWithCheckpointStore: EventHubConsumerClient;
       let subscriptionHandlers: SubscriptionEventHandlers;
       let validateOptions: (options: FullEventProcessorOptions) => void;
-      let stopSpy: MockInstance<[], Promise<void>>;
+      let stopSpy: MockInstance<() => Promise<void>>;
       let stubEventProcessor: EventProcessor;
       const fakeEventProcessorConstructor = (
         connectionContext: ConnectionContext,

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createEventHubsConsumerClient, createEventHubsProducerClient } from "./utils.js";
+import { createEventHubsConsumerClient, createEventHubsProducerClient } from "./utils";
 import parsedArgs from "minimist";
 import { delay } from "@azure/core-amqp";
-import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester.js";
+import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester";
 
 interface scenarioGetRuntimePropertiesOptions {
   testDurationInMs?: number;

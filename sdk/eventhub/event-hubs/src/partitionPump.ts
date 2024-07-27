@@ -3,7 +3,6 @@
 
 import { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
 import { logErrorStackTrace, logger } from "./logger.js";
-import { AbortController } from "@azure/abort-controller";
 import { CloseReason } from "./models/public.js";
 import { CommonEventProcessorOptions } from "./models/private.js";
 import { ConnectionContext } from "./connectionContext.js";

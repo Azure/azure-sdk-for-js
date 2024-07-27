@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { delay } from "@azure/core-util";
-import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester.js";
+import { EventHubsStressTester, defaultClientAppInsights } from "./eventHubsStressTester";
 import parsedArgs from "minimist";
 import { Subscription } from "@azure/event-hubs";
-import { createEventHubsConsumerClient, createEventHubsProducerClient } from "./utils.js";
+import { createEventHubsConsumerClient, createEventHubsProducerClient } from "./utils";
 
 interface ScenarioNoActivityOptions {
   testDurationInMs?: number;

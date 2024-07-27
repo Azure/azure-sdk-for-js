@@ -36,7 +36,7 @@ import { isNodeLike, randomUUID } from "@azure/core-util";
 import { should } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
-import { AbortError, type AbortSignal } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 const debug = debugModule("azure:event-hubs:partitionPump");
 
 describe(
@@ -1953,6 +1953,10 @@ function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
       /* no-op */
     },
     dispatchEvent: () => true,
+    reason: "reason",
+    throwIfAborted: () => {
+      /** no-op */
+    },
   };
 
   return abortSignal;
