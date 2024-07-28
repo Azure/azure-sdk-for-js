@@ -61,6 +61,14 @@ describe("Network test", () => {
     await recorder.stop();
   });
 
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("virtualNetworks create test", async function () {
     const res = await client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, virtualNetworkName, {
       addressSpace: {
