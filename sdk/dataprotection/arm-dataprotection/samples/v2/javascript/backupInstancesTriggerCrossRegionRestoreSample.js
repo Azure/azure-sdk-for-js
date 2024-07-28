@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Triggers Cross Region Restore for BackupInstance.
  *
  * @summary Triggers Cross Region Restore for BackupInstance.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CrossRegionRestore/TriggerCrossRegionRestore.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/TriggerCrossRegionRestore.json
  */
 async function triggerCrossRegionRestore() {
   const subscriptionId =

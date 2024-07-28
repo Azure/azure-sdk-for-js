@@ -9,14 +9,16 @@ urlFragment: ai-inference-javascript-beta
 
 # Azure AI Inference client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for Azure OpenAI in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure AI Inference in some common scenarios.
 
-| **File Name**                                     | **Description**                      |
-| ------------------------------------------------- | ------------------------------------ |
-| [chatCompletions.js][chatcompletions]             | get chat completions.                |
-| [getModelInfo.js][getmodelinfo]                   | get model info.                      |
-| [streamChatCompletions.js][streamchatcompletions] | list chat completions.               |
-| [toolCall.js][toolcall]                           | get chat completions with functions. |
+| **File Name**                                     | **Description**                       |
+| ------------------------------------------------- | ------------------------------------- |
+| [chatCompletions.js][chatcompletions]             | get chat completions.                 |
+| [embeddings.js][embeddings]                       | get embeddings.                       |
+| [getModelInfo.js][getmodelinfo]                   | get model info.                       |
+| [imageFileCompletions.js][imagefilecompletions]   | get chat completions with image file. |
+| [streamChatCompletions.js][streamchatcompletions] | list chat completions.                |
+| [toolCall.js][toolcall]                           | get chat completions with functions.  |
 
 ## Prerequisites
 
@@ -57,9 +59,11 @@ npx cross-env ENDPOINT="<endpoint>" node chatCompletions.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/chatCompletions.js
+[embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/embeddings.js
 [getmodelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/getModelInfo.js
+[imagefilecompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/imageFileCompletions.js
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/streamChatCompletions.js
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/toolCall.js
-[apiref]: https://docs.microsoft.com/javascript
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-inference
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/README.md

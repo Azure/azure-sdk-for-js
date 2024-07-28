@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns a ResourceGuard belonging to a resource group.
  *
  * @summary Returns a ResourceGuard belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/GetResourceGuard.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/GetResourceGuard.json
  */
 async function getResourceGuard() {
   const subscriptionId =

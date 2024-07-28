@@ -1,34 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetJobParameters, CreateJobParameters } from "./parameters";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
+import { CreateJobParameters, GetJobParameters } from "./parameters";
 import {
+  CreateJob200Response,
+  CreateJob201Response,
+  CreateJobDefaultResponse,
   GetJob200Response,
   GetJobDefaultResponse,
-  CreateJob202Response,
-  CreateJobDefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
 
+/** Gets the Radiology Insights job. */
 export interface GetJob {
   /** Gets the status and details of the Radiology Insights job. */
   get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
-}
-
-export interface CreateJob {
   /** Creates a Radiology Insights job with the given request body. */
-  post(
-    options?: CreateJobParameters,
-  ): StreamableMethod<CreateJob202Response | CreateJobDefaultResponse>;
+  put(
+    options: CreateJobParameters,
+    requestOptions?: GetJobParameters,
+  ): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
 }
 
+/** The routes for the resource */
 export interface Routes {
-  /** Resource for '/radiology-insights/jobs/\{id\}' has methods for the following verbs: get */
+  /** Resource for '/radiology-insights/jobs/\{id\}' has methods for the following verbs: get, put */
   (path: "/radiology-insights/jobs/{id}", id: string): GetJob;
-  /** Resource for '/radiology-insights/jobs' has methods for the following verbs: post */
-  (path: "/radiology-insights/jobs"): CreateJob;
 }
 
+/** Create a HealthInsightsclient which is a Client an defined by the resource */
 export type AzureHealthInsightsClient = Client & {
+  /** The path specified by the routes for the resource */
   path: Routes;
 };

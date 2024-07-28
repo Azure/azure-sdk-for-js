@@ -17,7 +17,7 @@ import {
   DppResourceGuardProxyDeleteOptionalParams,
   UnlockDeleteRequest,
   DppResourceGuardProxyUnlockDeleteOptionalParams,
-  DppResourceGuardProxyUnlockDeleteResponse
+  DppResourceGuardProxyUnlockDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface DppResourceGuardProxy {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DppResourceGuardProxyListOptionalParams
+    options?: DppResourceGuardProxyListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
   /**
    * Returns the ResourceGuardProxy object associated with the vault, and that matches the name in the
@@ -46,7 +46,7 @@ export interface DppResourceGuardProxy {
     resourceGroupName: string,
     vaultName: string,
     resourceGuardProxyName: string,
-    options?: DppResourceGuardProxyGetOptionalParams
+    options?: DppResourceGuardProxyGetOptionalParams,
   ): Promise<DppResourceGuardProxyGetResponse>;
   /**
    * Creates or Updates a ResourceGuardProxy
@@ -61,7 +61,7 @@ export interface DppResourceGuardProxy {
     vaultName: string,
     resourceGuardProxyName: string,
     parameters: ResourceGuardProxyBaseResource,
-    options?: DppResourceGuardProxyCreateOrUpdateOptionalParams
+    options?: DppResourceGuardProxyCreateOrUpdateOptionalParams,
   ): Promise<DppResourceGuardProxyCreateOrUpdateResponse>;
   /**
    * Deletes the ResourceGuardProxy
@@ -74,7 +74,7 @@ export interface DppResourceGuardProxy {
     resourceGroupName: string,
     vaultName: string,
     resourceGuardProxyName: string,
-    options?: DppResourceGuardProxyDeleteOptionalParams
+    options?: DppResourceGuardProxyDeleteOptionalParams,
   ): Promise<void>;
   /**
    * UnlockDelete call for ResourceGuardProxy, executed before one can delete it
@@ -89,6 +89,6 @@ export interface DppResourceGuardProxy {
     vaultName: string,
     resourceGuardProxyName: string,
     parameters: UnlockDeleteRequest,
-    options?: DppResourceGuardProxyUnlockDeleteOptionalParams
+    options?: DppResourceGuardProxyUnlockDeleteOptionalParams,
   ): Promise<DppResourceGuardProxyUnlockDeleteResponse>;
 }

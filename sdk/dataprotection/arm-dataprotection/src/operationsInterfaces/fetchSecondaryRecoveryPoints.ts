@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AzureBackupRecoveryPointResource,
   FetchSecondaryRPsRequestParameters,
-  FetchSecondaryRecoveryPointsListOptionalParams
+  FetchSecondaryRecoveryPointsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,6 +28,6 @@ export interface FetchSecondaryRecoveryPoints {
     resourceGroupName: string,
     location: string,
     parameters: FetchSecondaryRPsRequestParameters,
-    options?: FetchSecondaryRecoveryPointsListOptionalParams
+    options?: FetchSecondaryRecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource>;
 }

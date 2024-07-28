@@ -376,18 +376,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/openai-assistants",
-      "projectFolder": "sdk/openai/openai-assistants",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure-rest/openai",
-      "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2233,9 +2223,29 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/health-deidentification",
+      "projectFolder": "sdk/healthdataaiservices/azure-health-deidentification",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-inference",
       "projectFolder": "sdk/ai/ai-inference-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-edgezones",
+      "projectFolder": "sdk/edgezones/arm-edgezones",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabricmanagedclusters",
+      "projectFolder": "sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redhatopenshift",
+      "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
+      "versionPolicyName": "management"
     }
   ]
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ValidateForBackupRequest,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validate whether adhoc backup will be successful or not
  *
  * @summary Validate whether adhoc backup will be successful or not
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/ValidateForBackup.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ValidateForBackup.json
  */
 async function validateForBackup() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function validateForBackup() {
         resourceLocation: "",
         resourceName: "testdb",
         resourceType: "Microsoft.DBforPostgreSQL/servers/databases",
-        resourceUri: ""
+        resourceUri: "",
       },
       dataSourceSetInfo: {
         datasourceType: "OssDB",
@@ -50,29 +50,29 @@ async function validateForBackup() {
         resourceLocation: "",
         resourceName: "viveksipgtest",
         resourceType: "Microsoft.DBforPostgreSQL/servers",
-        resourceUri: ""
+        resourceUri: "",
       },
       datasourceAuthCredentials: {
         objectType: "SecretStoreBasedAuthCredentials",
         secretStoreResource: {
           secretStoreType: "AzureKeyVault",
-          uri: "https://samplevault.vault.azure.net/secrets/credentials"
-        }
+          uri: "https://samplevault.vault.azure.net/secrets/credentials",
+        },
       },
       friendlyName: "harshitbi2",
       objectType: "BackupInstance",
       policyInfo: {
         policyId:
-          "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/Backupvaults/PratikPrivatePreviewVault1/backupPolicies/PratikPolicy1"
-      }
-    }
+          "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/Backupvaults/PratikPrivatePreviewVault1/backupPolicies/PratikPolicy1",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const result = await client.backupInstances.beginValidateForBackupAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get all gateways of a non-Azure machine
  *
  * @summary The operation to get all gateways of a non-Azure machine
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/gateway/Gateway_ListBySubscription.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/gateway/Gateway_ListBySubscription.json
  */
 async function listGatewaysBySubscription() {
   const subscriptionId =
