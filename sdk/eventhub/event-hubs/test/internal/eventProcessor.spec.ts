@@ -33,7 +33,7 @@ import { isLatestPosition } from "../../src/eventPosition.js";
 import { loggerForTest } from "../utils/logHelpers.js";
 import { getRandomName } from "../../src/util/utils.js";
 import { isNodeLike, randomUUID } from "@azure/core-util";
-import { should } from "../utils/chai.js";
+import { should, assert } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 import { AbortError } from "@azure/abort-controller";
@@ -869,18 +869,14 @@ describe(
 
       it("should receive events from the checkpoint", async function () {
         const partitionIds = await producerClient.getPartitionIds();
-
-        // ensure we have at least 2 partitions
         partitionIds.length.should.gte(2);
 
-        let checkpointMap = new Map<string, ReceivedEventData[]>();
-        partitionIds.forEach((id) => checkpointMap.set(id, []));
-
-        let didError = false;
-        let processedAtLeastOneEvent = new Set();
-        const checkpointSequenceNumbers: Map<string, number> = new Map();
-
-        let partionCount: { [x: string]: number } = {};
+        const checkpointMap = new Map<string, ReceivedEventData[]>(
+          partitionIds.map((id) => [id, []]),
+        );
+        const processedAtLeastOneEvent = new Set();
+        const checkpointSequenceNumbers = new Map<string, number>();
+        const partionCount = Object.fromEntries(partitionIds.map((id) => [id, 0]));
 
         class FooPartitionProcessor {
           async processEvents(
@@ -888,26 +884,22 @@ describe(
             context: PartitionContext,
           ): Promise<void> {
             processedAtLeastOneEvent.add(context.partitionId);
-
-            if (!partionCount[context.partitionId]) {
-              partionCount[context.partitionId] = 0;
-            }
             partionCount[context.partitionId]++;
-
-            const existingEvents = checkpointMap.get(context.partitionId)!;
-
+            const eventList = checkpointMap.get(context.partitionId);
+            if (!eventList) {
+              assert.fail(`No event list found for partition ${context.partitionId}`);
+            }
             for (const event of events) {
               debug("Received event: '%s' from partition: '%s'", event.body, context.partitionId);
-
               if (partionCount[context.partitionId] <= 50) {
                 checkpointSequenceNumbers.set(context.partitionId, event.sequenceNumber);
                 await context.updateCheckpoint(event);
-                existingEvents.push(event);
+                eventList.push(event);
               }
             }
           }
           async processError(): Promise<void> {
-            didError = true;
+            assert.fail("An unexpected error");
           }
         }
 
@@ -923,10 +915,8 @@ describe(
           },
         );
 
-        // start first processor
         processor1.start();
 
-        // create messages
         const expectedMessagePrefix = "EventProcessor test - checkpoint - ";
         const events: EventData[] = [];
 
@@ -937,26 +927,31 @@ describe(
           await producerClient.sendBatch(events, { partitionId });
         }
 
-        // set a delay to give a consumers a chance to receive a message
-        while (checkpointSequenceNumbers.size !== partitionIds.length) {
-          await delay(5000);
-        }
+        await loopUntil({
+          name: "waiting for checkpoint to be updated by processor 1",
+          maxTimes: 10,
+          timeBetweenRunsMs: 5000,
+          until: async () => checkpointSequenceNumbers.size === partitionIds.length,
+        });
 
-        // shutdown the first processor
         await processor1.stop();
 
         const lastEventsReceivedFromProcessor1: ReceivedEventData[] = [];
         let index = 0;
 
         for (const partitionId of partitionIds) {
-          const receivedEvents = checkpointMap.get(partitionId)!;
-          lastEventsReceivedFromProcessor1[index++] = receivedEvents[receivedEvents.length - 1];
+          const receivedEvents = checkpointMap.get(partitionId);
+          if (!receivedEvents) {
+            assert.fail(`No events found for partition ${partitionId}`);
+          }
+          lastEventsReceivedFromProcessor1[index++] = receivedEvents.pop()!;
         }
 
-        checkpointMap = new Map<string, ReceivedEventData[]>();
-        partitionIds.forEach((id) => checkpointMap.set(id, []));
-        partionCount = {};
-        processedAtLeastOneEvent = new Set();
+        partitionIds.forEach((id) => {
+          checkpointMap.set(id, []);
+          partionCount[id] = 0;
+        });
+        processedAtLeastOneEvent.clear();
 
         const processor2 = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
@@ -976,30 +971,31 @@ describe(
 
         for (const checkpoint of checkpoints) {
           const expectedSequenceNumber = checkpointSequenceNumbers.get(checkpoint.partitionId);
-          should.exist(expectedSequenceNumber);
-
+          assert.isNumber(expectedSequenceNumber);
           expectedSequenceNumber!.should.equal(checkpoint.sequenceNumber);
         }
 
-        // start second processor
         processor2.start();
 
-        // set a delay to give a consumers a chance to receive a message
-        while (processedAtLeastOneEvent.size !== partitionIds.length) {
-          await delay(5000);
-        }
+        await loopUntil({
+          name: "waiting for checkpoint to be updated by processor 2",
+          maxTimes: 10,
+          timeBetweenRunsMs: 5000,
+          until: async () => processedAtLeastOneEvent.size === partitionIds.length,
+        });
 
-        // shutdown the second processor
         await processor2.stop();
 
         index = 0;
         const firstEventsReceivedFromProcessor2: ReceivedEventData[] = [];
         for (const partitionId of partitionIds) {
-          const receivedEvents = checkpointMap.get(partitionId)!;
+          const receivedEvents = checkpointMap.get(partitionId);
+          if (!receivedEvents) {
+            assert.fail(`No events found for partition ${partitionId}`);
+          }
           firstEventsReceivedFromProcessor2[index++] = receivedEvents[0];
         }
 
-        didError.should.equal(false);
         index = 0;
         // validate correct events captured for each partition using checkpoint
         for (const partitionId of partitionIds) {
