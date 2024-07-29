@@ -118,7 +118,7 @@ export class AzurePipelinesCredential implements TokenCredential {
   }
 }
 
-export async function handleOidcResponse(response: PipelineResponse): Promise<string> {
+export function handleOidcResponse(response: PipelineResponse): string {
   const text = response.bodyAsText;
   if (!text) {
     logger.error(
