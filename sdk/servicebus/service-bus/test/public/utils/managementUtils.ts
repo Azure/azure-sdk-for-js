@@ -9,7 +9,7 @@ import { ServiceBusAdministrationClient } from "../../../src";
 import chai from "chai";
 import { CreateQueueOptions } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { getFullyQualifiedNamespace } from "./testutils2";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 const should = chai.should();
 
 let client: ServiceBusAdministrationClient;
@@ -20,8 +20,9 @@ let client: ServiceBusAdministrationClient;
  */
 function getManagementClient(): ServiceBusAdministrationClient {
   if (client === undefined) {
+    const env = getEnvVars();
     client = new ServiceBusAdministrationClient(
-      getFullyQualifiedNamespace(),
+      env[EnvVarNames.SERVICEBUS_FQDN],
       createTestCredential(),
     );
   }
