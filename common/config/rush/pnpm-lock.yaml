@@ -4605,6 +4605,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /builtin-modules@4.0.0:
+    resolution: {integrity: sha512-p1n8zyCkt1BVrKNFymOHjcDSAl7oq/gUvfgULv2EblgpPVQlQr9yHnWjg9IJ2MhfwPqiYqMMrr01OY7yQoK2yA==}
+    engines: {node: '>=18.20'}
+    dev: false
+
   /builtin-status-codes@3.0.0:
     resolution: {integrity: sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==}
     dev: false
@@ -20526,7 +20531,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-zyu8AiqGLwZWuEpTuodQDLMu+auXoDcDC2rLYtEysykv5r2j1ORxUZofNqNOlwQxfOzrMHBNYj5Vv9GrLNNAKA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-QFD+xdMw06ZiVKiPNpeq9qKHkpW0Qxgab2N5mnHEsqzkgNsQNohVpWaazPuSyzjjFHheZJlgznOL0lHZ1nTRFg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -20550,7 +20555,7 @@ packages:
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       archiver: 7.0.1
       autorest: 3.7.1
-      builtin-modules: 3.3.0
+      builtin-modules: 4.0.0
       chalk: 4.1.2
       concurrently: 8.2.2
       cross-env: 7.0.3
