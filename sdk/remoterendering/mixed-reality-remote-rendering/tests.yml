@@ -6,6 +6,5 @@ extends:
     PackageName: "@azure/mixed-reality-remote-rendering"
     ServiceDirectory: remoterendering
     Location: eastus2
-    UseFederatedAuth: true
     MatrixFilters:
       - DependencyVersion=^$

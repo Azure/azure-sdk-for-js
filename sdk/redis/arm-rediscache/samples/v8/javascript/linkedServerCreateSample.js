@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Adds a linked server to the Redis cache (requires Premium SKU).
  *
  * @summary Adds a linked server to the Redis cache (requires Premium SKU).
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheLinkedServer_Create.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheLinkedServer_Create.json
  */
 async function linkedServerCreate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function linkedServerCreate() {
     resourceGroupName,
     name,
     linkedServerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

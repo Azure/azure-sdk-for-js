@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AzureBackupFindRestorableTimeRangesRequest,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/FindRestorableTimeRanges.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/FindRestorableTimeRanges.json
  */
 async function findRestorableTimeRanges() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function findRestorableTimeRanges() {
   const parameters: AzureBackupFindRestorableTimeRangesRequest = {
     endTime: "2021-02-24T00:35:17.6829685Z",
     sourceDataStoreType: "OperationalStore",
-    startTime: "2020-10-17T23:28:17.6829685Z"
+    startTime: "2020-10-17T23:28:17.6829685Z",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function findRestorableTimeRanges() {
     resourceGroupName,
     vaultName,
     backupInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
