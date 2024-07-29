@@ -114,7 +114,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       }),
     });
     const response = await this.identityClient.sendRequest(request);
-    return await handleOidcResponse(response);
+    return handleOidcResponse(response);
   }
 }
 
@@ -122,12 +122,12 @@ export async function handleOidcResponse(response: PipelineResponse): Promise<st
   const text = response.bodyAsText;
   if (!text) {
     logger.error(
-      `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
+      `${credentialName}: Authentication Failed. Received null token from OIDC request. Response status- ${
         response.status
       }. Complete response - ${JSON.stringify(response)}`
     );
     throw new AuthenticationError(response.status, {
-      error: `${credentialName}: Authenticated Failed. Received null token from OIDC request.`,
+      error: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
       error_description: `${JSON.stringify(
         response
       )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
@@ -153,7 +153,7 @@ export async function handleOidcResponse(response: PipelineResponse): Promise<st
       });
     }
   } catch (e: any) {
-    let errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+    const errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
     logger.error(`Response from service = ${text} and error message = ${e.message}`);
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
