@@ -1613,28 +1613,6 @@ packages:
       undici: 5.28.4
     dev: false
 
-  /@azure/identity@4.3.0:
-    resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
-    engines: {node: '>=18.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-rest-pipeline': 1.16.2
-      '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.1
-      '@azure/logger': 1.1.3
-      '@azure/msal-browser': 3.20.0
-      '@azure/msal-node': 2.12.0
-      events: 3.3.0
-      jws: 4.0.0
-      open: 8.4.2
-      stoppable: 1.1.0
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/identity@4.4.0:
     resolution: {integrity: sha512-oG6oFNMxUuoivYg/ElyZWVSZfw42JQyHbrp+lR7VJ1BYWsGzt34NwyDw3miPp1QI7Qm5+4KAd76wGsbHQmkpkg==}
     engines: {node: '>=18.0.0'}
@@ -21108,14 +21086,14 @@ packages:
     dev: false
 
   file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-l3T/b6E6mGUSL9YLwtJGtHiEnm0LaIPXf/g7DMlYTwAQb+4+KRO7TPgMcvU9q4FVNnd4oHys/7mYsxh0gYqvSA==, tarball: file:projects/health-deidentification.tgz}
+    resolution: {integrity: sha512-Oq0jsnfYpet5FzCy28OoBfDRTtnEfYN31tYqGenIItoHjikGAgt0hu/FEZWNxcSnYNuIW9T7WRSBVmheeLr7ng==, tarball: file:projects/health-deidentification.tgz}
     name: '@rush-temp/health-deidentification'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 2.2.0
       '@azure/core-lro': 3.0.0
       '@azure/core-paging': 1.6.2
-      '@azure/identity': 4.3.0
+      '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
       '@types/node': 18.19.42
       '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
