@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortError } from '@azure/abort-controller';
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -712,6 +713,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint: string;
+    httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -1850,6 +1852,8 @@ export interface RequestContext {
     globalEndpointManager: GlobalEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;
+    // (undocumented)
+    httpClient?: HttpClient;
     // (undocumented)
     method: HTTPMethod;
     // (undocumented)

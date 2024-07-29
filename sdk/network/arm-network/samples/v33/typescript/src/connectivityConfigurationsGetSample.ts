@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name
  *
  * @summary Gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerConnectivityConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerConnectivityConfigurationGet.json
  */
 async function connectivityConfigurationsGet() {
   const subscriptionId =

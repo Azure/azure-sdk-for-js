@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  HttpClient,
   Pipeline,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
@@ -970,6 +971,7 @@ export class ClientContext {
     client?: ClientContext;
     pipeline?: Pipeline;
     plugins: PluginConfig[];
+    httpClient?: HttpClient;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -978,6 +980,7 @@ export class ClientContext {
       client: this,
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
+      httpClient: this.cosmosClientOptions.httpClient,
     };
   }
 
