@@ -15,7 +15,6 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSender,
   ServiceBusReceiverOptions,
-  TokenCredential,
 } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
