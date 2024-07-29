@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified application gateway.
  *
  * @summary Deletes the specified application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ApplicationGatewayDelete.json
  */
 async function deleteApplicationGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Resets the primary of the vpn gateway in the specified resource group.
  *
  * @summary Resets the primary of the vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnGatewayReset.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VpnGatewayReset.json
  */
 async function resetVpnGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
