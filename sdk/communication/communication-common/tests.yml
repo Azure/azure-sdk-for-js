@@ -5,7 +5,6 @@ extends:
     parameters:
       PackageName: "@azure/communication-common"
       ServiceDirectory: communication
-      UseFederatedAuth: true
       CloudConfig:
         Public:
           ServiceConnection: azure-sdk-tests
@@ -15,7 +14,7 @@ extends:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
           MatrixFilters:
-            - DependencyVersion=^.+$  
+            - DependencyVersion=^.+$
       Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/

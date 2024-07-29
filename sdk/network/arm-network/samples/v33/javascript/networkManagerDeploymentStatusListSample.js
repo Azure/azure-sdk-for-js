@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Post to List of Network Manager Deployment Status.
  *
  * @summary Post to List of Network Manager Deployment Status.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerDeploymentStatusList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerDeploymentStatusList.json
  */
 async function networkManagerDeploymentStatusList() {
   const subscriptionId =
