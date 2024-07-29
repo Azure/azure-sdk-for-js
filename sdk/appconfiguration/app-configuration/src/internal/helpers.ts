@@ -185,11 +185,11 @@ export function formatSnapshotFiltersAndSelect(
  * @internal
  */
 export function formatLabelsFiltersAndSelect(
-  ListLabelsOptions: ListLabelsOptions,
+  listLabelsOptions: ListLabelsOptions,
 ): Pick<GetLabelsOptionalParams, "name" | "select"> {
   return {
-    name: ListLabelsOptions.nameFilter,
-    select: ListLabelsOptions.fields,
+    name: listLabelsOptions.nameFilter,
+    select: listLabelsOptions.fields,
   };
 }
 /**
