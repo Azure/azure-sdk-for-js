@@ -1,16 +1,18 @@
 {
-  "name": "typescript-emitter-package",
   "main": "dist/src/index.js",
   "dependencies": {
-    "@azure-tools/typespec-ts": "0.31.0",
-    "@azure-tools/typespec-azure-core": "0.44.0",
-    "@azure-tools/typespec-autorest": "0.44.0",
-    "@azure-tools/typespec-client-generator-core": "0.44.1",
-    "@azure-tools/typespec-azure-resource-manager": "0.44.0",
-    "@azure-tools/typespec-azure-rulesets": "0.44.0",
-    "@typespec/compiler": "0.58.1",
-    "@typespec/http": "0.58.0",
-    "@typespec/rest": "0.58.0",
-    "@typespec/versioning": "0.58.0"
+    "@azure-tools/typespec-ts": "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js-test-autorest/npm/registry/@azure-tools/typespec-ts/-/typespec-ts-0.31.0-preview.20240729.1.tgz"
+  },
+  "devDependencies": {
+    "@azure-tools/typespec-azure-core": "0.45.0-dev.4",
+    "@azure-tools/typespec-client-generator-core": "0.45.0-dev.5",
+    "@typespec/compiler": "0.59.0-dev.7",
+    "@typespec/http": "0.59.0-dev.4",
+    "@typespec/rest": "0.59.0-dev.1",
+    "@typespec/versioning": "0.59.0-dev.3"
+  },
+  "overrides": {
+    "@autorest/typescript": "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js-test-autorest/npm/registry/@autorest/typescript/-/typescript-6.0.24-preview.20240729.1.tgz",
+    "@azure-tools/rlc-common": "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js-test-autorest/npm/registry/@azure-tools/rlc-common/-/rlc-common-0.31.0-preview.20240729.1.tgz"
   }
 }
