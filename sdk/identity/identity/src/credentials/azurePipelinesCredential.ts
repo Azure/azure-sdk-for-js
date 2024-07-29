@@ -36,33 +36,33 @@ export class AzurePipelinesCredential implements TokenCredential {
     clientId: string,
     serviceConnectionId: string,
     systemAccessToken: string,
-    options?: AzurePipelinesCredentialOptions
+    options?: AzurePipelinesCredentialOptions,
   ) {
     if (!clientId || !tenantId || !serviceConnectionId || !systemAccessToken) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, serviceConnectionId, and systemAccessToken are required parameters.`
+        `${credentialName}: is unavailable. tenantId, clientId, serviceConnectionId, and systemAccessToken are required parameters.`,
       );
     }
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, client ID: ${clientId}, and service connection ID: ${serviceConnectionId}`
+      `Invoking AzurePipelinesCredential with tenant ID: ${tenantId}, client ID: ${clientId}, and service connection ID: ${serviceConnectionId}`,
     );
     if (!process.env.SYSTEM_OIDCREQUESTURI) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- "SYSTEM_OIDCREQUESTURI"`
+        `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- "SYSTEM_OIDCREQUESTURI"`,
       );
     }
 
     const oidcRequestUrl = `${process.env.SYSTEM_OIDCREQUESTURI}?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
     logger.info(
-      `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, client ID: ${clientId} and service connection ID: ${serviceConnectionId}`
+      `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, client ID: ${clientId} and service connection ID: ${serviceConnectionId}`,
     );
     this.clientAssertionCredential = new ClientAssertionCredential(
       tenantId,
       clientId,
       this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-      options
+      options,
     );
   }
 
@@ -76,7 +76,7 @@ export class AzurePipelinesCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
       const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, the following parameters are required - 
@@ -101,7 +101,7 @@ export class AzurePipelinesCredential implements TokenCredential {
    */
   private async requestOidcToken(
     oidcRequestUrl: string,
-    systemAccessToken: string
+    systemAccessToken: string,
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
@@ -124,12 +124,12 @@ export function handleOidcResponse(response: PipelineResponse): string {
     logger.error(
       `${credentialName}: Authentication Failed. Received null token from OIDC request. Response status- ${
         response.status
-      }. Complete response - ${JSON.stringify(response)}`
+      }. Complete response - ${JSON.stringify(response)}`,
     );
     throw new AuthenticationError(response.status, {
       error: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
       error_description: `${JSON.stringify(
-        response
+        response,
       )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }
@@ -142,7 +142,7 @@ export function handleOidcResponse(response: PipelineResponse): string {
       let errorDescription = ``;
       if (response.status !== 200) {
         errorDescription = `Complete response - ${JSON.stringify(
-          result
+          result,
         )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
       logger.error(errorMessage);

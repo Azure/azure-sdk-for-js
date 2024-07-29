@@ -33,14 +33,14 @@ describe("AzurePipelinesCredential (internal)", function () {
   it("throws expected Authentication Error", function () {
     assert.throws(
       () => handleOidcResponse(response),
-      /AzurePipelinesCredential: Authentication Failed. Received null token from OIDC request. Status code: 400/
+      /AzurePipelinesCredential: Authentication Failed. Received null token from OIDC request. Status code: 400/,
     );
   });
   it("throws expected error message with a service connection not found error", function () {
     response.bodyAsText = "No service connection found with identifier frwerhq-241242-vsdkf-jw";
     assert.throws(
       () => handleOidcResponse(response),
-      /AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response. Status code: 400[\s\S]*No service connection found with identifier/
+      /AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response. Status code: 400[\s\S]*No service connection found with identifier/,
     );
   });
 });
