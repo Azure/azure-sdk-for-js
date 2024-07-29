@@ -7,5 +7,12 @@ export interface ImageUrl {
   url: string;
 }
 
-/** Alias for VisualFeatures */
-export type VisualFeatures = string;
+/** The visual features supported by the Image Analysis service */
+export type VisualFeatures =
+  | "tags"
+  | "caption"
+  | "denseCaptions"
+  | "objects"
+  | "read"
+  | "smartCrops"
+  | "people";

@@ -12,7 +12,7 @@ import {
   RemoveBlocklistItemsParameters,
   GetTextBlocklistItemParameters,
   ListTextBlocklistItemsParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   AnalyzeText200Response,
   AnalyzeTextDefaultResponse,
@@ -35,7 +35,7 @@ import {
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AnalyzeText {
@@ -56,7 +56,9 @@ export interface GetTextBlocklist {
   /** Returns text blocklist details. */
   get(
     options?: GetTextBlocklistParameters,
-  ): StreamableMethod<GetTextBlocklist200Response | GetTextBlocklistDefaultResponse>;
+  ): StreamableMethod<
+    GetTextBlocklist200Response | GetTextBlocklistDefaultResponse
+  >;
   /** Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created. */
   patch(
     options: CreateOrUpdateTextBlocklistParameters,
@@ -68,14 +70,18 @@ export interface GetTextBlocklist {
   /** Deletes a text blocklist. */
   delete(
     options?: DeleteTextBlocklistParameters,
-  ): StreamableMethod<DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse>;
+  ): StreamableMethod<
+    DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse
+  >;
 }
 
 export interface ListTextBlocklists {
   /** Get all text blocklists details. */
   get(
     options?: ListTextBlocklistsParameters,
-  ): StreamableMethod<ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse>;
+  ): StreamableMethod<
+    ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse
+  >;
 }
 
 export interface AddOrUpdateBlocklistItems {
@@ -83,7 +89,8 @@ export interface AddOrUpdateBlocklistItems {
   post(
     options: AddOrUpdateBlocklistItemsParameters,
   ): StreamableMethod<
-    AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
   >;
 }
 
@@ -91,21 +98,27 @@ export interface RemoveBlocklistItems {
   /** Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one request. */
   post(
     options: RemoveBlocklistItemsParameters,
-  ): StreamableMethod<RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse>;
+  ): StreamableMethod<
+    RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse
+  >;
 }
 
 export interface GetTextBlocklistItem {
   /** Get blocklistItem by blocklistName and blocklistItemId from a text blocklist. */
   get(
     options?: GetTextBlocklistItemParameters,
-  ): StreamableMethod<GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse>;
+  ): StreamableMethod<
+    GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse
+  >;
 }
 
 export interface ListTextBlocklistItems {
   /** Get all blocklistItems in a text blocklist. */
   get(
     options?: ListTextBlocklistItemsParameters,
-  ): StreamableMethod<ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse>;
+  ): StreamableMethod<
+    ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse
+  >;
 }
 
 export interface Routes {
@@ -114,7 +127,10 @@ export interface Routes {
   /** Resource for '/image:analyze' has methods for the following verbs: post */
   (path: "/image:analyze"): AnalyzeImage;
   /** Resource for '/text/blocklists/\{blocklistName\}' has methods for the following verbs: get, patch, delete */
-  (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
+  (
+    path: "/text/blocklists/{blocklistName}",
+    blocklistName: string,
+  ): GetTextBlocklist;
   /** Resource for '/text/blocklists' has methods for the following verbs: get */
   (path: "/text/blocklists"): ListTextBlocklists;
   /** Resource for '/text/blocklists/\{blocklistName\}:addOrUpdateBlocklistItems' has methods for the following verbs: post */

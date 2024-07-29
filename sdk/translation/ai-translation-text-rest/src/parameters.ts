@@ -83,6 +83,8 @@ export interface TranslateQueryParamProperties {
   /**
    * Defines whether the text being translated is plain text or HTML text. Any HTML needs to be a well-formed,
    * complete element. Possible values are: plain (default) or html.
+   *
+   * Possible values: "Plain", "Html"
    */
   textType?: TextType;
   /**
