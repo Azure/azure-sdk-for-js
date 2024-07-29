@@ -62,6 +62,7 @@ async function run() {
     options = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
+      ChangeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
     await iterateChangeFeedFromNowAndContinuation(container, options, 9, 12);
   } catch (err) {

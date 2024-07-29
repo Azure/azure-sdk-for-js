@@ -66,6 +66,7 @@ async function run(): Promise<void> {
     options = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
+      ChangeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
     await iterateChangeFeedFromNowAndContinuation(container, options, 9, 12);
   } catch (err) {
