@@ -41,7 +41,6 @@ describe("Event Grid Namespace Client", function (this: Suite) {
     ({ senderClient, receiverClient, recorder } = await createRecordedClient(
       this.currentTest,
       "EVENT_GRID_NAMESPACES_ENDPOINT",
-      "EVENT_GRID_NAMESPACES_KEY",
       topicName,
       eventSubscriptionName,
     ));

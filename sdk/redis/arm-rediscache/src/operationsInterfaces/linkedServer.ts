@@ -16,7 +16,7 @@ import {
   LinkedServerCreateResponse,
   LinkedServerDeleteOptionalParams,
   LinkedServerGetOptionalParams,
-  LinkedServerGetResponse
+  LinkedServerGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface LinkedServer {
   list(
     resourceGroupName: string,
     name: string,
-    options?: LinkedServerListOptionalParams
+    options?: LinkedServerListOptionalParams,
   ): PagedAsyncIterableIterator<RedisLinkedServerWithProperties>;
   /**
    * Adds a linked server to the Redis cache (requires Premium SKU).
@@ -46,7 +46,7 @@ export interface LinkedServer {
     name: string,
     linkedServerName: string,
     parameters: RedisLinkedServerCreateParameters,
-    options?: LinkedServerCreateOptionalParams
+    options?: LinkedServerCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LinkedServerCreateResponse>,
@@ -66,7 +66,7 @@ export interface LinkedServer {
     name: string,
     linkedServerName: string,
     parameters: RedisLinkedServerCreateParameters,
-    options?: LinkedServerCreateOptionalParams
+    options?: LinkedServerCreateOptionalParams,
   ): Promise<LinkedServerCreateResponse>;
   /**
    * Deletes the linked server from a redis cache (requires Premium SKU).
@@ -79,7 +79,7 @@ export interface LinkedServer {
     resourceGroupName: string,
     name: string,
     linkedServerName: string,
-    options?: LinkedServerDeleteOptionalParams
+    options?: LinkedServerDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the linked server from a redis cache (requires Premium SKU).
@@ -92,7 +92,7 @@ export interface LinkedServer {
     resourceGroupName: string,
     name: string,
     linkedServerName: string,
-    options?: LinkedServerDeleteOptionalParams
+    options?: LinkedServerDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the detailed information about a linked server of a redis cache (requires Premium SKU).
@@ -105,6 +105,6 @@ export interface LinkedServer {
     resourceGroupName: string,
     name: string,
     linkedServerName: string,
-    options?: LinkedServerGetOptionalParams
+    options?: LinkedServerGetOptionalParams,
   ): Promise<LinkedServerGetResponse>;
 }

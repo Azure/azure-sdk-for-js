@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets load balancer backend address pool.
  *
  * @summary Gets load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
  */
 async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -37,7 +37,7 @@ async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
  * This sample demonstrates how to Gets load balancer backend address pool.
  *
  * @summary Gets load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerBackendAddressPoolGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/LoadBalancerBackendAddressPoolGet.json
  */
 async function loadBalancerBackendAddressPoolGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

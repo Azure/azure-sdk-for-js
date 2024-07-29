@@ -1,9 +1,11 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "declarationDir": "./typings",
     "outDir": "./dist-esm",
-    "downlevelIteration": true
+    "paths": {
+      "@azure/eventhubs-checkpointstore-table": ["./src/index"]
+    }
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]

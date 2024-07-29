@@ -44,6 +44,7 @@ import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
 import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { storageCorrectContentLengthPolicy } from "./policies/StorageCorrectContentLengthPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -300,6 +301,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     });
     corePipeline.removePolicy({ phase: "Retry" });
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
+    corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);

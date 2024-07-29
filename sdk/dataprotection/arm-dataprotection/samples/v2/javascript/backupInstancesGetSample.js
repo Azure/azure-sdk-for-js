@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a backup instance with name in a backup vault
  *
  * @summary Gets a backup instance with name in a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/GetBackupInstance.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/GetBackupInstance.json
  */
 async function getBackupInstance() {
   const subscriptionId =

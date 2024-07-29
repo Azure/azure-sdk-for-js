@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortError } from '@azure/abort-controller';
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -324,6 +325,12 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public
+export interface CompositePath {
+    order: "ascending" | "descending";
+    path: string;
+}
+
 // @public (undocumented)
 export interface ComputedProperty {
     // (undocumented)
@@ -634,6 +641,7 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
+    vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 // Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
@@ -705,6 +713,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint: string;
+    httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -1042,6 +1051,7 @@ export interface FeedOptions extends SharedOptions {
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableNonStreamingOrderByQuery?: boolean;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
@@ -1050,6 +1060,7 @@ export interface FeedOptions extends SharedOptions {
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
+    vectorSearchBufferSize?: number;
 }
 
 // @public
@@ -1068,6 +1079,8 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
+    get correlatedActivityId(): string;
+    // (undocumented)
     readonly diagnostics: CosmosDiagnostics;
     // (undocumented)
     readonly hasMoreResults: boolean;
@@ -1084,6 +1097,7 @@ export class FeedResponse<TResource> {
 // @public (undocumented)
 export type GatewayStatistics = {
     activityId?: string;
+    correlatedActivityId?: string;
     startTimeUTCInMs: number;
     durationInMs: number;
     operationType?: OperationType;
@@ -1175,11 +1189,13 @@ export enum IndexingMode {
 export interface IndexingPolicy {
     // (undocumented)
     automatic?: boolean;
+    compositeIndexes?: CompositePath[][];
     excludedPaths?: IndexedPath[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
+    vectorIndexes?: VectorIndex[];
 }
 
 // @public
@@ -1633,6 +1649,7 @@ export interface QueryInfo {
     groupByAliasToAggregateType: GroupByAliasToAggregateType;
     // (undocumented)
     groupByExpressions?: GroupByExpressions;
+    hasNonStreamingOrderBy: boolean;
     // (undocumented)
     hasSelectValue: boolean;
     // (undocumented)
@@ -1835,6 +1852,8 @@ export interface RequestContext {
     globalEndpointManager: GlobalEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;
+    // (undocumented)
+    httpClient?: HttpClient;
     // (undocumented)
     method: HTTPMethod;
     // (undocumented)
@@ -2518,6 +2537,47 @@ export class Users {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
+}
+
+// @public
+export interface VectorEmbedding {
+    dataType: VectorEmbeddingDataType;
+    dimensions: number;
+    distanceFunction: VectorEmbeddingDistanceFunction;
+    path: string;
+}
+
+// @public
+export enum VectorEmbeddingDataType {
+    Float16 = "float16",
+    Float32 = "float32",
+    Int8 = "int8",
+    UInt8 = "uint8"
+}
+
+// @public
+export enum VectorEmbeddingDistanceFunction {
+    Cosine = "cosine",
+    DotProduct = "dotproduct",
+    Euclidean = "euclidean"
+}
+
+// @public
+export interface VectorEmbeddingPolicy {
+    vectorEmbeddings: VectorEmbedding[];
+}
+
+// @public
+export interface VectorIndex {
+    path: string;
+    type: VectorIndexType;
+}
+
+// @public
+export enum VectorIndexType {
+    DiskANN = "diskANN",
+    Flat = "flat",
+    QuantizedFlat = "quantizedFlat"
 }
 
 // (No @packageDocumentation comment for this package)

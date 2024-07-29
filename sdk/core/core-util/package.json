@@ -1,12 +1,13 @@
 {
   "name": "@azure/core-util",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
