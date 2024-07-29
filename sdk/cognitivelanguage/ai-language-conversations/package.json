@@ -63,7 +63,7 @@
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.5"
   },

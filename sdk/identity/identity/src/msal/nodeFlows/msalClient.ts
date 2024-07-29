@@ -22,12 +22,12 @@ import { AuthenticationRequiredError } from "../../errors";
 import { BrokerOptions } from "./brokerOptions";
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { IdentityClient } from "../../client/identityClient";
+import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
+import open from "open";
 import { resolveTenantId } from "../../util/tenantIdUtils";
-import { interactiveBrowserMockable } from "./msalOpenBrowser";
-import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -240,6 +240,14 @@ export interface MsalClientOptions {
    */
   authenticationRecord?: AuthenticationRecord;
 }
+
+/**
+ * A call to open(), but mockable
+ * @internal
+ */
+export const interactiveBrowserMockable = {
+  open,
+};
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
@@ -465,6 +473,17 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   }
 
   /**
+   * Builds an authority URL for the given request. The authority may be different than the one used when creating the MSAL client
+   * if the user is creating cross-tenant requests
+   */
+  function calculateRequestAuthority(options?: GetTokenOptions): string | undefined {
+    if (options?.tenantId) {
+      return getAuthority(options.tenantId, createMsalClientOptions.authorityHost);
+    }
+    return state.msalConfig.auth.authority;
+  }
+
+  /**
    * Performs silent authentication using MSAL to acquire an access token.
    * If silent authentication fails, falls back to interactive authentication.
    *
@@ -532,7 +551,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       const response = await msalApp.acquireTokenByClientCredential({
         scopes,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
       });
@@ -563,7 +582,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       const response = await msalApp.acquireTokenByClientCredential({
         scopes,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
         clientAssertion,
@@ -594,7 +613,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       const response = await msalApp.acquireTokenByClientCredential({
         scopes,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
       });
@@ -625,7 +644,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         scopes,
         cancel: options?.abortSignal?.aborted ?? false,
         deviceCodeCallback,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         claims: options?.claims,
       };
       const deviceCodeRequest = msalApp.acquireTokenByDeviceCode(requestOptions);
@@ -654,7 +673,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         scopes,
         username,
         password,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         claims: options?.claims,
       };
 
@@ -693,7 +712,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         scopes,
         redirectUri,
         code: authorizationCode,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         claims: options?.claims,
       });
     });
@@ -725,7 +744,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       const response = await msalApp.acquireTokenOnBehalfOf({
         scopes,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         claims: options.claims,
         oboAssertion: userAssertionToken,
       });
@@ -802,7 +821,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
           await interactiveBrowserMockable.open(url, { wait: true, newInstance: true });
         },
         scopes,
-        authority: state.msalConfig.auth.authority,
+        authority: calculateRequestAuthority(options),
         claims: options?.claims,
         loginHint: options?.loginHint,
         errorTemplate: options?.browserCustomizationOptions?.errorMessage,

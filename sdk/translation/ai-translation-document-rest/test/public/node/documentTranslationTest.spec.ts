@@ -484,7 +484,7 @@ describe("DocumentTranslation tests", () => {
     const sourceInput = createSourceInput(sourceUrl);
 
     const targetContainer = await createTargetContainerWithInfo(recorder);
-    const targetUrl = targetContainer.get("sasUrl") as string;
+    const targetUrl = targetContainer.get("containerUrl") as string;
     const targetContainerName = targetContainer.get("containerName") as string;
     const glossaryUrl = await createGlossaryContainer(recorder);
 

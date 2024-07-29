@@ -32,7 +32,7 @@
   "type": "module",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "bundle:bin": "rollup -c rollup.config.bin.mjs",
+    "bundle:bin": "rollup -c rollup.config.bin.mjs 2>&1",
     "build:test": "echo skip",
     "build:samples": "echo skipped",
     "build": "npm run clean && tshy && npm run bundle:bin && dev-tool run extract-api",
@@ -65,11 +65,11 @@
     "@vitest/coverage-istanbul": "^1.4.0",
     "eslint": "^8.57.0",
     "magic-string": "^0.30.8",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "rollup": "^4.14.0",
-    "tshy": "^1.13.0",
-    "typescript": "~5.3.3",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vitest": "^1.4.0"
   },
   "dependencies": {
@@ -108,5 +108,6 @@
     }
   },
   "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts"
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

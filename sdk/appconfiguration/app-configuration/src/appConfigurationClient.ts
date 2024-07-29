@@ -334,11 +334,11 @@ export class AppConfigurationClient {
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
     delete options.pageEtags;
-    const etag = pageEtags?.shift();
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
         firstPageLink: undefined,
         getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
           try {
             const response = await this.sendConfigurationSettingsRequest(
               { ...options, etag },

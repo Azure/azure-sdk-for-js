@@ -62,7 +62,7 @@
     "docs": "echo Skipped."
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.1.1",
     "tslib": "^2.2.0"
   },
@@ -94,7 +94,7 @@
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "util": "^0.12.1"
   }
 }
