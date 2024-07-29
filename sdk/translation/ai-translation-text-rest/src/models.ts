@@ -18,7 +18,7 @@ export interface DictionaryExampleTextItem extends InputTextItem {
 }
 
 /** Alias for TextType */
-export type TextType = string | "Plain" | "Html";
+export type TextType = string;
 /** Translator profanity actions */
 export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
 /** Translator profanity markers */

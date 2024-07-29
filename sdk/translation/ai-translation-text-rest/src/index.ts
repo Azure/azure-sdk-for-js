@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import TextTranslationClient from "./customClient";
+import TextTranslationClient from "./textTranslationClient.js";
 
-export * from "./customClient";
-export * from "./generated/parameters";
-export * from "./generated/responses";
-export * from "./generated/clientDefinitions";
-export * from "./generated/isUnexpected";
-export * from "./generated/models";
-export * from "./generated/outputModels";
-export * from "./generated/serializeHelper";
-export { TranslatorCredential, TranslatorTokenCredential } from "./authentication";
+export * from "./textTranslationClient.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./models.js";
+export * from "./outputModels.js";
+export * from "./serializeHelper.js";
 
 export default TextTranslationClient;

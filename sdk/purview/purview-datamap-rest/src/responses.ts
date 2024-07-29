@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
 import {
   EntityMutationResultOutput,
@@ -13,10 +14,10 @@ import {
   BulkImportResultOutput,
   AtlasGlossaryOutput,
   AtlasGlossaryCategoryOutput,
+  AtlasRelatedCategoryHeaderOutput,
   AtlasRelatedTermHeaderOutput,
   AtlasGlossaryTermOutput,
   AtlasRelatedObjectIdOutput,
-  AtlasRelatedCategoryHeaderOutput,
   AtlasGlossaryExtInfoOutput,
   QueryResultOutput,
   SuggestResultOutput,
@@ -34,7 +35,7 @@ import {
   AtlasTypesDefOutput,
   AtlasTypeDefHeaderOutput,
   TermTemplateDefOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface EntityCreateOrUpdate200Response extends HttpResponse {
@@ -102,23 +103,25 @@ export interface EntityGetDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface EntityPartialUpdateAttributeByGuid200Response extends HttpResponse {
+export interface EntityPartialUpdateAttributeByGuid200Response
+  extends HttpResponse {
   status: "200";
   body: EntityMutationResultOutput;
 }
 
-export interface EntityPartialUpdateAttributeByGuidDefaultResponse extends HttpResponse {
+export interface EntityPartialUpdateAttributeByGuidDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface EntityDeleteOperation200Response extends HttpResponse {
+export interface EntityDelete200Response extends HttpResponse {
   status: "200";
   body: EntityMutationResultOutput;
 }
 
-export interface EntityDeleteOperationDefaultResponse extends HttpResponse {
+export interface EntityDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -139,7 +142,8 @@ export interface EntityRemoveClassification204Response extends HttpResponse {
   status: "204";
 }
 
-export interface EntityRemoveClassificationDefaultResponse extends HttpResponse {
+export interface EntityRemoveClassificationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -170,7 +174,8 @@ export interface EntityUpdateClassifications204Response extends HttpResponse {
   status: "204";
 }
 
-export interface EntityUpdateClassificationsDefaultResponse extends HttpResponse {
+export interface EntityUpdateClassificationsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -181,18 +186,21 @@ export interface EntityGetByUniqueAttributes200Response extends HttpResponse {
   body: AtlasEntityWithExtInfoOutput;
 }
 
-export interface EntityGetByUniqueAttributesDefaultResponse extends HttpResponse {
+export interface EntityGetByUniqueAttributesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface EntityPartialUpdateByUniqueAttributes200Response extends HttpResponse {
+export interface EntityPartialUpdateByUniqueAttributes200Response
+  extends HttpResponse {
   status: "200";
   body: EntityMutationResultOutput;
 }
 
-export interface EntityPartialUpdateByUniqueAttributesDefaultResponse extends HttpResponse {
+export interface EntityPartialUpdateByUniqueAttributesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -203,37 +211,44 @@ export interface EntityDeleteByUniqueAttribute200Response extends HttpResponse {
   body: EntityMutationResultOutput;
 }
 
-export interface EntityDeleteByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface EntityDeleteByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityRemoveClassificationByUniqueAttribute204Response extends HttpResponse {
+export interface EntityRemoveClassificationByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityRemoveClassificationByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface EntityRemoveClassificationByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityAddClassificationsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityAddClassificationsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityAddClassificationsByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface EntityAddClassificationsByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityUpdateClassificationsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityUpdateClassificationsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityUpdateClassificationsByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface EntityUpdateClassificationsByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -244,7 +259,8 @@ export interface EntityBulkSetClassifications200Response extends HttpResponse {
   body: string[];
 }
 
-export interface EntityBulkSetClassificationsDefaultResponse extends HttpResponse {
+export interface EntityBulkSetClassificationsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -255,7 +271,8 @@ export interface EntityListByUniqueAttributes200Response extends HttpResponse {
   body: AtlasEntitiesWithExtInfoOutput;
 }
 
-export interface EntityListByUniqueAttributesDefaultResponse extends HttpResponse {
+export interface EntityListByUniqueAttributesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -276,49 +293,63 @@ export interface EntityRemoveBusinessMetadata204Response extends HttpResponse {
   status: "204";
 }
 
-export interface EntityRemoveBusinessMetadataDefaultResponse extends HttpResponse {
+export interface EntityRemoveBusinessMetadataDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityAddOrUpdateBusinessMetadata204Response extends HttpResponse {
+export interface EntityAddOrUpdateBusinessMetadata204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityAddOrUpdateBusinessMetadataDefaultResponse extends HttpResponse {
+export interface EntityAddOrUpdateBusinessMetadataDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityRemoveBusinessMetadataAttributes204Response extends HttpResponse {
+export interface EntityRemoveBusinessMetadataAttributes204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityRemoveBusinessMetadataAttributesDefaultResponse extends HttpResponse {
+export interface EntityRemoveBusinessMetadataAttributesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityAddOrUpdateBusinessMetadataAttributes204Response extends HttpResponse {
+export interface EntityAddOrUpdateBusinessMetadataAttributes204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityAddOrUpdateBusinessMetadataAttributesDefaultResponse extends HttpResponse {
+export interface EntityAddOrUpdateBusinessMetadataAttributesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
+}
+
+export interface EntityGetSampleBusinessMetadataTemplate200Headers {
+  "content-type": "application/octet-stream";
 }
 
 /** The request has succeeded. */
-export interface EntityGetSampleBusinessMetadataTemplate200Response extends HttpResponse {
+export interface EntityGetSampleBusinessMetadataTemplate200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
+  headers: RawHttpHeaders & EntityGetSampleBusinessMetadataTemplate200Headers;
 }
 
-export interface EntityGetSampleBusinessMetadataTemplateDefaultResponse extends HttpResponse {
+export interface EntityGetSampleBusinessMetadataTemplateDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -329,7 +360,8 @@ export interface EntityImportBusinessMetadata200Response extends HttpResponse {
   body: BulkImportResultOutput;
 }
 
-export interface EntityImportBusinessMetadataDefaultResponse extends HttpResponse {
+export interface EntityImportBusinessMetadataDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -365,42 +397,50 @@ export interface EntityAddLabelDefaultResponse extends HttpResponse {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityRemoveLabelsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityRemoveLabelsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityRemoveLabelsByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface EntityRemoveLabelsByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntitySetLabelsByUniqueAttribute204Response extends HttpResponse {
+export interface EntitySetLabelsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntitySetLabelsByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface EntitySetLabelsByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EntityAddLabelsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityAddLabelsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface EntityAddLabelsByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface EntityAddLabelsByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface EntityMoveEntitiesToCollection200Response extends HttpResponse {
+export interface EntityMoveEntitiesToCollection200Response
+  extends HttpResponse {
   status: "200";
   body: EntityMutationResultOutput;
 }
 
-export interface EntityMoveEntitiesToCollectionDefaultResponse extends HttpResponse {
+export interface EntityMoveEntitiesToCollectionDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -487,7 +527,8 @@ export interface GlossaryPartialUpdateCategory200Response extends HttpResponse {
   body: AtlasGlossaryCategoryOutput;
 }
 
-export interface GlossaryPartialUpdateCategoryDefaultResponse extends HttpResponse {
+export interface GlossaryPartialUpdateCategoryDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -498,7 +539,8 @@ export interface GlossaryListRelatedCategories200Response extends HttpResponse {
   body: Record<string, Array<AtlasRelatedCategoryHeaderOutput>>;
 }
 
-export interface GlossaryListRelatedCategoriesDefaultResponse extends HttpResponse {
+export interface GlossaryListRelatedCategoriesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -580,12 +622,14 @@ export interface GlossaryCreateTermsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface GlossaryListEntitiesAssignedWithTerm200Response extends HttpResponse {
+export interface GlossaryListEntitiesAssignedWithTerm200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasRelatedObjectIdOutput>;
 }
 
-export interface GlossaryListEntitiesAssignedWithTermDefaultResponse extends HttpResponse {
+export interface GlossaryListEntitiesAssignedWithTermDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -595,17 +639,20 @@ export interface GlossaryAssignTermToEntities204Response extends HttpResponse {
   status: "204";
 }
 
-export interface GlossaryAssignTermToEntitiesDefaultResponse extends HttpResponse {
+export interface GlossaryAssignTermToEntitiesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface GlossaryDeleteTermAssignmentFromEntities204Response extends HttpResponse {
+export interface GlossaryDeleteTermAssignmentFromEntities204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse extends HttpResponse {
+export interface GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -644,11 +691,11 @@ export interface GlossaryUpdateDefaultResponse extends HttpResponse {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface GlossaryDeleteOperation204Response extends HttpResponse {
+export interface GlossaryDelete204Response extends HttpResponse {
   status: "204";
 }
 
-export interface GlossaryDeleteOperationDefaultResponse extends HttpResponse {
+export interface GlossaryDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -670,7 +717,8 @@ export interface GlossaryListCategoriesHeaders200Response extends HttpResponse {
   body: Array<AtlasRelatedCategoryHeaderOutput>;
 }
 
-export interface GlossaryListCategoriesHeadersDefaultResponse extends HttpResponse {
+export interface GlossaryListCategoriesHeadersDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -780,7 +828,8 @@ export interface LineageGetByUniqueAttribute200Response extends HttpResponse {
   body: AtlasLineageInfoOutput;
 }
 
-export interface LineageGetByUniqueAttributeDefaultResponse extends HttpResponse {
+export interface LineageGetByUniqueAttributeDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -819,55 +868,63 @@ export interface RelationshipGetDefaultResponse extends HttpResponse {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface RelationshipDeleteOperation204Response extends HttpResponse {
+export interface RelationshipDelete204Response extends HttpResponse {
   status: "204";
 }
 
-export interface RelationshipDeleteOperationDefaultResponse extends HttpResponse {
+export interface RelationshipDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface TypeGetBusinessMetadataDefByGuid200Response extends HttpResponse {
+export interface TypeGetBusinessMetadataDefByGuid200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasBusinessMetadataDefOutput;
 }
 
-export interface TypeGetBusinessMetadataDefByGuidDefaultResponse extends HttpResponse {
+export interface TypeGetBusinessMetadataDefByGuidDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface TypeGetBusinessMetadataDefByName200Response extends HttpResponse {
+export interface TypeGetBusinessMetadataDefByName200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasBusinessMetadataDefOutput;
 }
 
-export interface TypeGetBusinessMetadataDefByNameDefaultResponse extends HttpResponse {
+export interface TypeGetBusinessMetadataDefByNameDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface TypeGetClassificationDefByGuid200Response extends HttpResponse {
+export interface TypeGetClassificationDefByGuid200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasClassificationDefOutput;
 }
 
-export interface TypeGetClassificationDefByGuidDefaultResponse extends HttpResponse {
+export interface TypeGetClassificationDefByGuidDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface TypeGetClassificationDefByName200Response extends HttpResponse {
+export interface TypeGetClassificationDefByName200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasClassificationDefOutput;
 }
 
-export interface TypeGetClassificationDefByNameDefaultResponse extends HttpResponse {
+export interface TypeGetClassificationDefByNameDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -922,7 +979,8 @@ export interface TypeGetRelationshipDefByGuid200Response extends HttpResponse {
   body: AtlasRelationshipDefOutput;
 }
 
-export interface TypeGetRelationshipDefByGuidDefaultResponse extends HttpResponse {
+export interface TypeGetRelationshipDefByGuidDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -933,7 +991,8 @@ export interface TypeGetRelationshipDefByName200Response extends HttpResponse {
   body: AtlasRelationshipDefOutput;
 }
 
-export interface TypeGetRelationshipDefByNameDefaultResponse extends HttpResponse {
+export interface TypeGetRelationshipDefByNameDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -983,11 +1042,11 @@ export interface TypeGetByNameDefaultResponse extends HttpResponse {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface TypeDeleteOperation204Response extends HttpResponse {
+export interface TypeDelete204Response extends HttpResponse {
   status: "204";
 }
 
-export interface TypeDeleteOperationDefaultResponse extends HttpResponse {
+export interface TypeDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -1052,7 +1111,8 @@ export interface TypeGetTermTemplateDefByGuid200Response extends HttpResponse {
   body: TermTemplateDefOutput;
 }
 
-export interface TypeGetTermTemplateDefByGuidDefaultResponse extends HttpResponse {
+export interface TypeGetTermTemplateDefByGuidDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -1063,7 +1123,8 @@ export interface TypeGetTermTemplateDefByName200Response extends HttpResponse {
   body: TermTemplateDefOutput;
 }
 
-export interface TypeGetTermTemplateDefByNameDefaultResponse extends HttpResponse {
+export interface TypeGetTermTemplateDefByNameDefaultResponse
+  extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }

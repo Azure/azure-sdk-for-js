@@ -5,7 +5,11 @@
 export interface OperationResultOutput {
   /** Operation ID of the operation. */
   readonly operationId: string;
-  /** Current status of the operation. */
+  /**
+   * Current status of the operation.
+   *
+   * Possible values: "notStarted", "running", "succeeded", "failed"
+   */
   status: OperationStatusOutput;
   /** Date and time the operation was created. */
   createdTime: string;
@@ -35,7 +39,11 @@ export interface FaceErrorOutput {
 export interface FaceDetectionResultOutput {
   /** Unique faceId of the detected face, created by detection API and it will expire 24 hours after the detection call. To return this, it requires 'returnFaceId' parameter to be true. */
   faceId?: string;
-  /** The 'recognitionModel' associated with this faceId. This is only returned when 'returnRecognitionModel' is explicitly set as true. */
+  /**
+   * The 'recognitionModel' associated with this faceId. This is only returned when 'returnRecognitionModel' is explicitly set as true.
+   *
+   * Possible values: "recognition_01", "recognition_02", "recognition_03", "recognition_04"
+   */
   recognitionModel?: RecognitionModelOutput;
   /** A rectangle area for the face location on image. */
   faceRectangle: FaceRectangleOutput;
@@ -131,7 +139,11 @@ export interface FaceAttributesOutput {
   smile?: number;
   /** Properties describing facial hair attributes. */
   facialHair?: FacialHairOutput;
-  /** Glasses type if any of the face. */
+  /**
+   * Glasses type if any of the face.
+   *
+   * Possible values: "noGlasses", "readingGlasses", "sunglasses", "swimmingGoggles"
+   */
   glasses?: GlassesTypeOutput;
   /** 3-D roll/yaw/pitch angles for face direction. */
   headPose?: HeadPoseOutput;
@@ -149,7 +161,11 @@ export interface FaceAttributesOutput {
   noise?: NoisePropertiesOutput;
   /** Properties describing the presence of a mask on a given face. */
   mask?: MaskPropertiesOutput;
-  /** Properties describing the overall image quality regarding whether the image being used in the detection is of sufficient quality to attempt face recognition on. */
+  /**
+   * Properties describing the overall image quality regarding whether the image being used in the detection is of sufficient quality to attempt face recognition on.
+   *
+   * Possible values: "low", "medium", "high"
+   */
   qualityForRecognition?: QualityForRecognitionOutput;
 }
 
@@ -185,7 +201,11 @@ export interface HairPropertiesOutput {
 
 /** An array of candidate colors and confidence level in the presence of each. */
 export interface HairColorOutput {
-  /** Name of the hair color. */
+  /**
+   * Name of the hair color.
+   *
+   * Possible values: "unknown", "white", "gray", "blond", "brown", "red", "black", "other"
+   */
   color: HairColorTypeOutput;
   /** Confidence level of the color. Range between [0,1]. */
   confidence: number;
@@ -203,7 +223,11 @@ export interface OcclusionPropertiesOutput {
 
 /** Accessory item and corresponding confidence level. */
 export interface AccessoryItemOutput {
-  /** Type of the accessory. */
+  /**
+   * Type of the accessory.
+   *
+   * Possible values: "headwear", "glasses", "mask"
+   */
   type: AccessoryTypeOutput;
   /** Confidence level of the accessory type. Range between [0,1]. */
   confidence: number;
@@ -211,7 +235,11 @@ export interface AccessoryItemOutput {
 
 /** Properties describing any presence of blur within the image. */
 export interface BlurPropertiesOutput {
-  /** An enum value indicating level of blurriness. */
+  /**
+   * An enum value indicating level of blurriness.
+   *
+   * Possible values: "low", "medium", "high"
+   */
   blurLevel: BlurLevelOutput;
   /** A number indicating level of blurriness ranging from 0 to 1. */
   value: number;
@@ -219,7 +247,11 @@ export interface BlurPropertiesOutput {
 
 /** Properties describing exposure level of the image. */
 export interface ExposurePropertiesOutput {
-  /** An enum value indicating level of exposure. */
+  /**
+   * An enum value indicating level of exposure.
+   *
+   * Possible values: "underExposure", "goodExposure", "overExposure"
+   */
   exposureLevel: ExposureLevelOutput;
   /** A number indicating level of exposure level ranging from 0 to 1. [0, 0.25) is under exposure. [0.25, 0.75) is good exposure. [0.75, 1] is over exposure. */
   value: number;
@@ -227,7 +259,11 @@ export interface ExposurePropertiesOutput {
 
 /** Properties describing noise level of the image. */
 export interface NoisePropertiesOutput {
-  /** An enum value indicating level of noise. */
+  /**
+   * An enum value indicating level of noise.
+   *
+   * Possible values: "low", "medium", "high"
+   */
   noiseLevel: NoiseLevelOutput;
   /** A number indicating level of noise level ranging from 0 to 1. [0, 0.25) is under exposure. [0.25, 0.75) is good exposure. [0.75, 1] is over exposure. [0, 0.3) is low noise level. [0.3, 0.7) is medium noise level. [0.7, 1] is high noise level. */
   value: number;
@@ -237,7 +273,11 @@ export interface NoisePropertiesOutput {
 export interface MaskPropertiesOutput {
   /** A boolean value indicating whether nose and mouth are covered. */
   noseAndMouthCovered: boolean;
-  /** Type of the mask. */
+  /**
+   * Type of the mask.
+   *
+   * Possible values: "faceMask", "noMask", "otherMaskOrOcclusion", "uncertain"
+   */
   type: MaskTypeOutput;
 }
 
@@ -305,7 +345,11 @@ export interface LivenessSessionOutput {
   deviceCorrelationId?: string;
   /** Seconds the session should last for. Range is 60 to 86400 seconds. Default value is 600. */
   authTokenTimeToLiveInSeconds?: number;
-  /** The current status of the session. */
+  /**
+   * The current status of the session.
+   *
+   * Possible values: "NotStarted", "Started", "ResultAvailable"
+   */
   status: FaceSessionStatusOutput;
   /** The latest session audit result only populated if status == 'ResultAvailable'. */
   result?: LivenessSessionAuditEntryOutput;
@@ -357,11 +401,19 @@ export interface AuditLivenessResponseInfoOutput {
 
 /** The response body of detect liveness API call. */
 export interface LivenessResponseBodyOutput extends Record<string, any> {
-  /** The liveness classification for the target face. */
+  /**
+   * The liveness classification for the target face.
+   *
+   * Possible values: "uncertain", "realface", "spoofface"
+   */
   livenessDecision?: LivenessDecisionOutput;
   /** Specific targets used for liveness classification. */
   target?: LivenessOutputsTargetOutput;
-  /** The model version used for liveness classification. */
+  /**
+   * The model version used for liveness classification.
+   *
+   * Possible values: "2020-02-15-preview.01", "2021-11-12-preview.03", "2022-10-15-preview.04", "2023-03-02-preview.05"
+   */
   modelVersionUsed?: LivenessModelOutput;
   /** The face verification output. Only available when the request is liveness with verify. */
   verifyResult?: LivenessWithVerifyOutputsOutput;
@@ -375,7 +427,11 @@ export interface LivenessOutputsTargetOutput {
   fileName: string;
   /** The time offset within the file of the frame which contains the face rectangle where the liveness classification was made on. */
   timeOffsetWithinFile: number;
-  /** The image type which contains the face rectangle where the liveness classification was made on. */
+  /**
+   * The image type which contains the face rectangle where the liveness classification was made on.
+   *
+   * Possible values: "Color", "Infrared", "Depth"
+   */
   imageType: ImageTypeOutput;
 }
 
@@ -393,7 +449,11 @@ export interface LivenessWithVerifyOutputsOutput {
 export interface LivenessWithVerifyImageOutput {
   /** The face region where the comparison image's classification was made. */
   faceRectangle: FaceRectangleOutput;
-  /** Quality of face image for recognition. */
+  /**
+   * Quality of face image for recognition.
+   *
+   * Possible values: "low", "medium", "high"
+   */
   qualityForRecognition: QualityForRecognitionOutput;
 }
 
@@ -437,7 +497,11 @@ export interface LivenessWithVerifySessionOutput {
   deviceCorrelationId?: string;
   /** Seconds the session should last for. Range is 60 to 86400 seconds. Default value is 600. */
   authTokenTimeToLiveInSeconds?: number;
-  /** The current status of the session. */
+  /**
+   * The current status of the session.
+   *
+   * Possible values: "NotStarted", "Started", "ResultAvailable"
+   */
   status: FaceSessionStatusOutput;
   /** The latest session audit result only populated if status == 'ResultAvailable'. */
   result?: LivenessSessionAuditEntryOutput;
@@ -449,7 +513,11 @@ export interface FaceListOutput {
   name: string;
   /** Optional user defined data. Length should not exceed 16K. */
   userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  /**
+   * Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds.
+   *
+   * Possible values: "recognition_01", "recognition_02", "recognition_03", "recognition_04"
+   */
   recognitionModel?: RecognitionModelOutput;
   /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
   readonly faceListId: string;
@@ -471,7 +539,11 @@ export interface FaceListItemOutput {
   name: string;
   /** Optional user defined data. Length should not exceed 16K. */
   userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  /**
+   * Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds.
+   *
+   * Possible values: "recognition_01", "recognition_02", "recognition_03", "recognition_04"
+   */
   recognitionModel?: RecognitionModelOutput;
   /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
   faceListId: string;
@@ -489,7 +561,11 @@ export interface LargeFaceListOutput {
   name: string;
   /** Optional user defined data. Length should not exceed 16K. */
   userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  /**
+   * Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds.
+   *
+   * Possible values: "recognition_01", "recognition_02", "recognition_03", "recognition_04"
+   */
   recognitionModel?: RecognitionModelOutput;
   /** Valid character is letter in lower case or digit or '-' or '_', maximum length is 64. */
   readonly largeFaceListId: string;
@@ -497,7 +573,11 @@ export interface LargeFaceListOutput {
 
 /** Training result of a container */
 export interface TrainingResultOutput {
-  /** Training status of the container. */
+  /**
+   * Training status of the container.
+   *
+   * Possible values: "notStarted", "running", "succeeded", "failed"
+   */
   status: OperationStatusOutput;
   /** A combined UTC date and time string that describes the created time of the person group, large person group or large face list. */
   createdDateTime: string;
@@ -577,7 +657,11 @@ export interface PersonGroupOutput {
   name: string;
   /** Optional user defined data. Length should not exceed 16K. */
   userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  /**
+   * Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds.
+   *
+   * Possible values: "recognition_01", "recognition_02", "recognition_03", "recognition_04"
+   */
   recognitionModel?: RecognitionModelOutput;
   /** ID of the container. */
   readonly personGroupId: string;
@@ -609,7 +693,11 @@ export interface LargePersonGroupOutput {
   name: string;
   /** Optional user defined data. Length should not exceed 16K. */
   userData?: string;
-  /** Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds. */
+  /**
+   * Name of recognition model. Recognition model is used when the face features are extracted and associated with detected faceIds.
+   *
+   * Possible values: "recognition_01", "recognition_02", "recognition_03", "recognition_04"
+   */
   recognitionModel?: RecognitionModelOutput;
   /** ID of the container. */
   readonly largePersonGroupId: string;
@@ -636,54 +724,30 @@ export interface LargePersonGroupPersonFaceOutput {
 }
 
 /** Alias for OperationStatusOutput */
-export type OperationStatusOutput = string | "notStarted" | "running" | "succeeded" | "failed";
+export type OperationStatusOutput = string;
 /** Alias for RecognitionModelOutput */
-export type RecognitionModelOutput =
-  | string
-  | "recognition_01"
-  | "recognition_02"
-  | "recognition_03"
-  | "recognition_04";
+export type RecognitionModelOutput = string;
 /** Alias for GlassesTypeOutput */
-export type GlassesTypeOutput =
-  | string
-  | "noGlasses"
-  | "readingGlasses"
-  | "sunglasses"
-  | "swimmingGoggles";
+export type GlassesTypeOutput = string;
 /** Alias for HairColorTypeOutput */
-export type HairColorTypeOutput =
-  | string
-  | "unknown"
-  | "white"
-  | "gray"
-  | "blond"
-  | "brown"
-  | "red"
-  | "black"
-  | "other";
+export type HairColorTypeOutput = string;
 /** Alias for AccessoryTypeOutput */
-export type AccessoryTypeOutput = string | "headwear" | "glasses" | "mask";
+export type AccessoryTypeOutput = string;
 /** Alias for BlurLevelOutput */
-export type BlurLevelOutput = string | "low" | "medium" | "high";
+export type BlurLevelOutput = string;
 /** Alias for ExposureLevelOutput */
-export type ExposureLevelOutput = string | "underExposure" | "goodExposure" | "overExposure";
+export type ExposureLevelOutput = string;
 /** Alias for NoiseLevelOutput */
-export type NoiseLevelOutput = string | "low" | "medium" | "high";
+export type NoiseLevelOutput = string;
 /** Alias for MaskTypeOutput */
-export type MaskTypeOutput = string | "faceMask" | "noMask" | "otherMaskOrOcclusion" | "uncertain";
+export type MaskTypeOutput = string;
 /** Alias for QualityForRecognitionOutput */
-export type QualityForRecognitionOutput = string | "low" | "medium" | "high";
+export type QualityForRecognitionOutput = string;
 /** Alias for FaceSessionStatusOutput */
-export type FaceSessionStatusOutput = string | "NotStarted" | "Started" | "ResultAvailable";
+export type FaceSessionStatusOutput = string;
 /** Alias for LivenessDecisionOutput */
-export type LivenessDecisionOutput = string | "uncertain" | "realface" | "spoofface";
+export type LivenessDecisionOutput = string;
 /** Alias for ImageTypeOutput */
-export type ImageTypeOutput = string | "Color" | "Infrared" | "Depth";
+export type ImageTypeOutput = string;
 /** Alias for LivenessModelOutput */
-export type LivenessModelOutput =
-  | string
-  | "2020-02-15-preview.01"
-  | "2021-11-12-preview.03"
-  | "2022-10-15-preview.04"
-  | "2023-03-02-preview.05";
+export type LivenessModelOutput = string;

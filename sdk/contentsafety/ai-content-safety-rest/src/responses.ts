@@ -11,7 +11,7 @@ import {
   AddOrUpdateTextBlocklistItemsResultOutput,
   TextBlocklistItemOutput,
   PagedTextBlocklistItemOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface AnalyzeText200Response extends HttpResponse {
@@ -81,7 +81,8 @@ export interface CreateOrUpdateTextBlocklistDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
+export interface CreateOrUpdateTextBlocklistDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;

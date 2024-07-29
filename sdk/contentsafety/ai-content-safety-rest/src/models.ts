@@ -6,17 +6,13 @@ export interface AnalyzeTextOptions {
   /** The text needs to be analyzed. We support a maximum of 10k Unicode characters (Unicode code points) in the text of one request. */
   text: string;
   /** The categories will be analyzed. If they are not assigned, a default set of analysis results for the categories will be returned. */
-  categories?: string[];
+  categories?: TextCategory[];
   /** The names of blocklists. */
   blocklistNames?: string[];
   /** When set to true, further analyses of harmful content will not be performed in cases where blocklists are hit. When set to false, all analyses of harmful content will be performed, whether or not blocklists are hit. */
   haltOnBlocklistHit?: boolean;
-  /**
-   * This refers to the type of text analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
-   *
-   * Possible values: FourSeverityLevels, EightSeverityLevels
-   */
-  outputType?: string;
+  /** This refers to the type of text analysis output. If no value is assigned, the default value will be "FourSeverityLevels". */
+  outputType?: AnalyzeTextOutputType;
 }
 
 /** The image analysis request. */
@@ -24,13 +20,9 @@ export interface AnalyzeImageOptions {
   /** The image needs to be analyzed. */
   image: ImageData;
   /** The categories will be analyzed. If they are not assigned, a default set of analysis results for the categories will be returned. */
-  categories?: string[];
-  /**
-   * This refers to the type of image analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
-   *
-   * Possible values: FourSeverityLevels
-   */
-  outputType?: string;
+  categories?: ImageCategory[];
+  /** This refers to the type of image analysis output. If no value is assigned, the default value will be "FourSeverityLevels". */
+  outputType?: AnalyzeImageOutputType;
 }
 
 /** The image can be either base64 encoded bytes or a blob URL. You can choose only one of these options. If both are provided, the request will be refused. The maximum image size is 2048 x 2048 pixels and should not exceed 4 MB, while the minimum image size is 50 x 50 pixels. */
@@ -68,3 +60,14 @@ export interface RemoveTextBlocklistItemsOptions {
   /** Array of blocklistItemIds to remove. */
   blocklistItemIds: string[];
 }
+
+/** Text analyze category. */
+export type TextCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
+/** The type of text analysis output. */
+export type AnalyzeTextOutputType =
+  | "FourSeverityLevels"
+  | "EightSeverityLevels";
+/** Image analyze category. */
+export type ImageCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
+/** The type of image analysis output. */
+export type AnalyzeImageOutputType = "FourSeverityLevels";

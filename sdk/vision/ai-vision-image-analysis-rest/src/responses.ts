@@ -3,7 +3,7 @@
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import { ImageAnalysisResultOutput } from "./outputModels";
+import { ImageAnalysisResultOutput } from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface AnalyzeFromImageData200Response extends HttpResponse {
