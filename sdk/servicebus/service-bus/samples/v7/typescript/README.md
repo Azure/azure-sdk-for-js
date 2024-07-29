@@ -18,7 +18,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [topicSubscriptionWithRuleOperationsSample.ts][topicsubscriptionwithruleoperationssample] | Demonstrates how to filter messages in Service Bus                                                                                                             |
 | [receiveMessagesLoop.ts][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
 | [receiveMessagesStreaming.ts][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
-| [usingAadAuth.ts][usingaadauth]                                                           | This sample how to create a namespace using AAD token credentials                                                                                              |
 | [usingNamedKeyCredential.ts][usingnamedkeycredential]                                     | This sample demonstrates how to authenticate using AzureNamedKeyCredential                                                                                     |
 | [browseMessages.ts][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
 | [deleteMessages.ts][deletemessages]                                                       | Demonstrates deleting messages from a queue.                                                                                                                   |
@@ -91,7 +90,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [topicsubscriptionwithruleoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/topicSubscriptionWithRuleOperationsSample.ts
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/receiveMessagesLoop.ts
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/receiveMessagesStreaming.ts
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/usingAadAuth.ts
 [usingnamedkeycredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/usingNamedKeyCredential.ts
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/browseMessages.ts
 [deletemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/deleteMessages.ts

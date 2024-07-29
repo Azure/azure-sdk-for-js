@@ -18,7 +18,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [topicSubscriptionWithRuleOperationsSample.js][topicsubscriptionwithruleoperationssample] | Demonstrates how to filter messages in Service Bus                                                                                                             |
 | [receiveMessagesLoop.js][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
 | [receiveMessagesStreaming.js][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
-| [usingAadAuth.js][usingaadauth]                                                           | This sample how to create a namespace using AAD token credentials                                                                                              |
 | [usingNamedKeyCredential.js][usingnamedkeycredential]                                     | This sample demonstrates how to authenticate using AzureNamedKeyCredential                                                                                     |
 | [browseMessages.js][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
 | [deleteMessages.js][deletemessages]                                                       | Demonstrates deleting messages from a queue.                                                                                                                   |
@@ -79,7 +78,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [topicsubscriptionwithruleoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/topicSubscriptionWithRuleOperationsSample.js
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesLoop.js
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesStreaming.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/usingAadAuth.js
 [usingnamedkeycredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/usingNamedKeyCredential.js
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/browseMessages.js
 [deletemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/deleteMessages.js
