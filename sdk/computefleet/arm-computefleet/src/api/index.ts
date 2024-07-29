@@ -7,12 +7,12 @@ export {
   AzureFleetContext,
 } from "./azureFleetContext.js";
 export {
-  get,
-  createOrUpdate,
-  update,
-  $delete,
-  listByResourceGroup,
-  listBySubscription,
-  listVirtualMachineScaleSets,
+  fleetsGet,
+  fleetsCreateOrUpdate,
+  fleetsUpdate,
+  fleetsDelete,
+  fleetsListByResourceGroup,
+  fleetsListBySubscription,
+  fleetsListVirtualMachineScaleSets,
 } from "./fleets/index.js";
-export { list } from "./operations/index.js";
+export { operationsList } from "./operations/index.js";

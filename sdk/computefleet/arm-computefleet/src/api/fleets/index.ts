@@ -57,7 +57,7 @@ import {
   FleetsListVirtualMachineScaleSetsOptionalParams,
 } from "../../models/options.js";
 
-export function _getSend(
+export function _fleetsGetSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -74,7 +74,7 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(
+export async function _fleetsGetDeserialize(
   result: FleetsGet200Response | FleetsGetDefaultResponse,
 ): Promise<Fleet> {
   if (isUnexpected(result)) {
@@ -964,18 +964,24 @@ export async function _getDeserialize(
 }
 
 /** Get a Fleet */
-export async function get(
+export async function fleetsGet(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   fleetName: string,
   options: FleetsGetOptionalParams = { requestOptions: {} },
 ): Promise<Fleet> {
-  const result = await _getSend(context, subscriptionId, resourceGroupName, fleetName, options);
-  return _getDeserialize(result);
+  const result = await _fleetsGetSend(
+    context,
+    subscriptionId,
+    resourceGroupName,
+    fleetName,
+    options,
+  );
+  return _fleetsGetDeserialize(result);
 }
 
-export function _createOrUpdateSend(
+export function _fleetsCreateOrUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -1012,7 +1018,7 @@ export function _createOrUpdateSend(
     });
 }
 
-export async function _createOrUpdateDeserialize(
+export async function _fleetsCreateOrUpdateDeserialize(
   result:
     | FleetsCreateOrUpdate200Response
     | FleetsCreateOrUpdate201Response
@@ -1902,7 +1908,7 @@ export async function _createOrUpdateDeserialize(
 }
 
 /** Create a Fleet */
-export function createOrUpdate(
+export function fleetsCreateOrUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -1910,15 +1916,22 @@ export function createOrUpdate(
   resource: Fleet,
   options: FleetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, {
+  return getLongRunningPoller(context, _fleetsCreateOrUpdateDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, subscriptionId, resourceGroupName, fleetName, resource, options),
+      _fleetsCreateOrUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        fleetName,
+        resource,
+        options,
+      ),
   }) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
-export function _updateSend(
+export function _fleetsUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -1953,7 +1966,7 @@ export function _updateSend(
     });
 }
 
-export async function _updateDeserialize(
+export async function _fleetsUpdateDeserialize(
   result:
     | FleetsUpdate200Response
     | FleetsUpdate202Response
@@ -2843,7 +2856,7 @@ export async function _updateDeserialize(
 }
 
 /** Update a Fleet */
-export function update(
+export function fleetsUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -2851,15 +2864,15 @@ export function update(
   properties: FleetUpdate,
   options: FleetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _updateDeserialize, {
+  return getLongRunningPoller(context, _fleetsUpdateDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, subscriptionId, resourceGroupName, fleetName, properties, options),
+      _fleetsUpdateSend(context, subscriptionId, resourceGroupName, fleetName, properties, options),
   }) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
-export function _$deleteSend(
+export function _fleetsDeleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -2881,7 +2894,7 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
+export async function _fleetsDeleteDeserialize(
   result:
     | FleetsDelete202Response
     | FleetsDelete204Response
@@ -2896,27 +2909,22 @@ export async function _$deleteDeserialize(
 }
 
 /** Delete a Fleet */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export function $delete(
+export function fleetsDelete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   fleetName: string,
   options: FleetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, {
+  return getLongRunningPoller(context, _fleetsDeleteDeserialize, {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(context, subscriptionId, resourceGroupName, fleetName, options),
+      _fleetsDeleteSend(context, subscriptionId, resourceGroupName, fleetName, options),
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _listByResourceGroupSend(
+export function _fleetsListByResourceGroupSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -2933,7 +2941,7 @@ export function _listByResourceGroupSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByResourceGroupDeserialize(
+export async function _fleetsListByResourceGroupDeserialize(
   result: FleetsListByResourceGroup200Response | FleetsListByResourceGroupDefaultResponse,
 ): Promise<_FleetListResult> {
   if (isUnexpected(result)) {
@@ -3846,7 +3854,7 @@ export async function _listByResourceGroupDeserialize(
 }
 
 /** List Fleet resources by resource group */
-export function listByResourceGroup(
+export function fleetsListByResourceGroup(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -3854,13 +3862,13 @@ export function listByResourceGroup(
 ): PagedAsyncIterableIterator<Fleet> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
-    _listByResourceGroupDeserialize,
+    () => _fleetsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+    _fleetsListByResourceGroupDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _listBySubscriptionSend(
+export function _fleetsListBySubscriptionSend(
   context: Client,
   subscriptionId: string,
   options: FleetsListBySubscriptionOptionalParams = { requestOptions: {} },
@@ -3870,7 +3878,7 @@ export function _listBySubscriptionSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listBySubscriptionDeserialize(
+export async function _fleetsListBySubscriptionDeserialize(
   result: FleetsListBySubscription200Response | FleetsListBySubscriptionDefaultResponse,
 ): Promise<_FleetListResult> {
   if (isUnexpected(result)) {
@@ -4783,20 +4791,20 @@ export async function _listBySubscriptionDeserialize(
 }
 
 /** List Fleet resources by subscription ID */
-export function listBySubscription(
+export function fleetsListBySubscription(
   context: Client,
   subscriptionId: string,
   options: FleetsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Fleet> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySubscriptionSend(context, subscriptionId, options),
-    _listBySubscriptionDeserialize,
+    () => _fleetsListBySubscriptionSend(context, subscriptionId, options),
+    _fleetsListBySubscriptionDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _listVirtualMachineScaleSetsSend(
+export function _fleetsListVirtualMachineScaleSetsSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -4817,7 +4825,7 @@ export function _listVirtualMachineScaleSetsSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listVirtualMachineScaleSetsDeserialize(
+export async function _fleetsListVirtualMachineScaleSetsDeserialize(
   result:
     | FleetsListVirtualMachineScaleSets200Response
     | FleetsListVirtualMachineScaleSetsDefaultResponse,
@@ -4862,7 +4870,7 @@ export async function _listVirtualMachineScaleSetsDeserialize(
 }
 
 /** List VirtualMachineScaleSet resources by Fleet */
-export function listVirtualMachineScaleSets(
+export function fleetsListVirtualMachineScaleSets(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -4874,8 +4882,14 @@ export function listVirtualMachineScaleSets(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listVirtualMachineScaleSetsSend(context, subscriptionId, resourceGroupName, name, options),
-    _listVirtualMachineScaleSetsDeserialize,
+      _fleetsListVirtualMachineScaleSetsSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        name,
+        options,
+      ),
+    _fleetsListVirtualMachineScaleSetsDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

@@ -4,13 +4,13 @@
 import { AzureFleetContext } from "../../api/azureFleetContext.js";
 import { Fleet, FleetUpdate, VirtualMachineScaleSet } from "../../models/models.js";
 import {
-  get,
-  createOrUpdate,
-  update,
-  $delete,
-  listByResourceGroup,
-  listBySubscription,
-  listVirtualMachineScaleSets,
+  fleetsGet,
+  fleetsCreateOrUpdate,
+  fleetsUpdate,
+  fleetsDelete,
+  fleetsListByResourceGroup,
+  fleetsListBySubscription,
+  fleetsListVirtualMachineScaleSets,
 } from "../../api/fleets/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -47,11 +47,6 @@ export interface FleetsOperations {
     options?: FleetsUpdateOptionalParams,
   ) => PollerLike<OperationState<Fleet>, Fleet>;
   /** Delete a Fleet */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -77,32 +72,41 @@ export interface FleetsOperations {
 export function getFleets(context: AzureFleetContext, subscriptionId: string) {
   return {
     get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) =>
-      get(context, subscriptionId, resourceGroupName, fleetName, options),
+      fleetsGet(context, subscriptionId, resourceGroupName, fleetName, options),
     createOrUpdate: (
       resourceGroupName: string,
       fleetName: string,
       resource: Fleet,
       options?: FleetsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, subscriptionId, resourceGroupName, fleetName, resource, options),
+    ) =>
+      fleetsCreateOrUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        fleetName,
+        resource,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       fleetName: string,
       properties: FleetUpdate,
       options?: FleetsUpdateOptionalParams,
-    ) => update(context, subscriptionId, resourceGroupName, fleetName, properties, options),
+    ) => fleetsUpdate(context, subscriptionId, resourceGroupName, fleetName, properties, options),
     delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) =>
-      $delete(context, subscriptionId, resourceGroupName, fleetName, options),
+      fleetsDelete(context, subscriptionId, resourceGroupName, fleetName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: FleetsListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) => fleetsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
     listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, subscriptionId, options),
+      fleetsListBySubscription(context, subscriptionId, options),
     listVirtualMachineScaleSets: (
       resourceGroupName: string,
       name: string,
       options?: FleetsListVirtualMachineScaleSetsOptionalParams,
-    ) => listVirtualMachineScaleSets(context, subscriptionId, resourceGroupName, name, options),
+    ) =>
+      fleetsListVirtualMachineScaleSets(context, subscriptionId, resourceGroupName, name, options),
   };
 }
 

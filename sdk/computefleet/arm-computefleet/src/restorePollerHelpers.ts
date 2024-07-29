@@ -10,9 +10,9 @@ import {
 import { AzureFleetClient } from "./azureFleetClient.js";
 import { getLongRunningPoller } from "./api/pollingHelpers.js";
 import {
-  _createOrUpdateDeserialize,
-  _updateDeserialize,
-  _$deleteDeserialize,
+  _fleetsCreateOrUpdateDeserialize,
+  _fleetsUpdateDeserialize,
+  _fleetsDeleteDeserialize,
 } from "./api/fleets/index.js";
 import { PathUncheckedResponse, OperationOptions } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -74,11 +74,11 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 
 const deserializeMap: Record<string, Function> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
-    _createOrUpdateDeserialize,
+    _fleetsCreateOrUpdateDeserialize,
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
-    _updateDeserialize,
+    _fleetsUpdateDeserialize,
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
-    _$deleteDeserialize,
+    _fleetsDeleteDeserialize,
 };
 
 function getDeserializationHelper(

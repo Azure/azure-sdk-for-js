@@ -17,9 +17,6 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function $delete(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
-
-// @public
 export interface AzureFleetClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
@@ -33,25 +30,28 @@ export type AzureFleetContext = Client & {
 export function createAzureFleet(credential: TokenCredential, options?: AzureFleetClientOptionalParams): AzureFleetContext;
 
 // @public
-export function createOrUpdate(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, resource: Fleet_2, options?: FleetsCreateOrUpdateOptionalParams): PollerLike<OperationState<Fleet_2>, Fleet_2>;
+export function fleetsCreateOrUpdate(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, resource: Fleet_2, options?: FleetsCreateOrUpdateOptionalParams): PollerLike<OperationState<Fleet_2>, Fleet_2>;
 
 // @public
-export function get(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams): Promise<Fleet_2>;
+export function fleetsDelete(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function list(context: AzureFleetContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export function fleetsGet(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams): Promise<Fleet_2>;
 
 // @public
-export function listByResourceGroup(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Fleet_2>;
+export function fleetsListByResourceGroup(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Fleet_2>;
 
 // @public
-export function listBySubscription(context: AzureFleetContext, subscriptionId: string, options?: FleetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Fleet_2>;
+export function fleetsListBySubscription(context: AzureFleetContext, subscriptionId: string, options?: FleetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Fleet_2>;
 
 // @public
-export function listVirtualMachineScaleSets(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, name: string, options?: FleetsListVirtualMachineScaleSetsOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+export function fleetsListVirtualMachineScaleSets(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, name: string, options?: FleetsListVirtualMachineScaleSetsOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
 
 // @public
-export function update(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, properties: FleetUpdate_2, options?: FleetsUpdateOptionalParams): PollerLike<OperationState<Fleet_2>, Fleet_2>;
+export function fleetsUpdate(context: AzureFleetContext, subscriptionId: string, resourceGroupName: string, fleetName: string, properties: FleetUpdate_2, options?: FleetsUpdateOptionalParams): PollerLike<OperationState<Fleet_2>, Fleet_2>;
+
+// @public
+export function operationsList(context: AzureFleetContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 
 // (No @packageDocumentation comment for this package)
 
