@@ -14,7 +14,7 @@ import {
   ApplicationGroupCreateOrUpdateApplicationGroupResponse,
   ApplicationGroupDeleteOptionalParams,
   ApplicationGroupGetOptionalParams,
-  ApplicationGroupGetResponse
+  ApplicationGroupGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ApplicationGroupOperations {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: ApplicationGroupListByNamespaceOptionalParams
+    options?: ApplicationGroupListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * Creates or updates an ApplicationGroup for a Namespace.
@@ -44,7 +44,7 @@ export interface ApplicationGroupOperations {
     namespaceName: string,
     applicationGroupName: string,
     parameters: ApplicationGroup,
-    options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
+    options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams,
   ): Promise<ApplicationGroupCreateOrUpdateApplicationGroupResponse>;
   /**
    * Deletes an ApplicationGroup for a Namespace.
@@ -57,7 +57,7 @@ export interface ApplicationGroupOperations {
     resourceGroupName: string,
     namespaceName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupDeleteOptionalParams
+    options?: ApplicationGroupDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets an ApplicationGroup for a Namespace.
@@ -70,6 +70,6 @@ export interface ApplicationGroupOperations {
     resourceGroupName: string,
     namespaceName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupGetOptionalParams
+    options?: ApplicationGroupGetOptionalParams,
   ): Promise<ApplicationGroupGetResponse>;
 }

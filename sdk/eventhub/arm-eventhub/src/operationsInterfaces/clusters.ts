@@ -22,7 +22,7 @@ import {
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
   ClustersListNamespacesOptionalParams,
-  ClustersListNamespacesResponse
+  ClustersListNamespacesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Clusters {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ClustersListBySubscriptionOptionalParams
+    options?: ClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists the available Event Hubs Clusters within an ARM resource group
@@ -42,14 +42,14 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * List the quantity of available pre-provisioned Event Hubs Clusters, indexed by Azure region.
    * @param options The options parameters.
    */
   listAvailableClusterRegion(
-    options?: ClustersListAvailableClusterRegionOptionalParams
+    options?: ClustersListAvailableClusterRegionOptionalParams,
   ): Promise<ClustersListAvailableClusterRegionResponse>;
   /**
    * Gets the resource description of the specified Event Hubs Cluster.
@@ -60,7 +60,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Creates or updates an instance of an Event Hubs Cluster.
@@ -73,7 +73,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersCreateOrUpdateResponse>,
@@ -91,7 +91,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<ClustersCreateOrUpdateResponse>;
   /**
    * Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
@@ -104,7 +104,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersUpdateResponse>,
@@ -122,7 +122,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
    * Deletes an existing Event Hubs Cluster. This operation is idempotent.
@@ -133,7 +133,7 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Event Hubs Cluster. This operation is idempotent.
@@ -144,7 +144,7 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster.
@@ -155,6 +155,6 @@ export interface Clusters {
   listNamespaces(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListNamespacesOptionalParams
+    options?: ClustersListNamespacesOptionalParams,
   ): Promise<ClustersListNamespacesResponse>;
 }

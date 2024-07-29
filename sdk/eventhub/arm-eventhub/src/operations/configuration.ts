@@ -16,7 +16,7 @@ import {
   ConfigurationPatchOptionalParams,
   ConfigurationPatchResponse,
   ConfigurationGetOptionalParams,
-  ConfigurationGetResponse
+  ConfigurationGetResponse,
 } from "../models";
 
 /** Class containing Configuration operations. */
@@ -43,11 +43,11 @@ export class ConfigurationImpl implements Configuration {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterQuotaConfigurationProperties,
-    options?: ConfigurationPatchOptionalParams
+    options?: ConfigurationPatchOptionalParams,
   ): Promise<ConfigurationPatchResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, parameters, options },
-      patchOperationSpec
+      patchOperationSpec,
     );
   }
 
@@ -61,11 +61,11 @@ export class ConfigurationImpl implements Configuration {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationGetOptionalParams
+    options?: ConfigurationGetOptionalParams,
   ): Promise<ConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -73,20 +73,19 @@ export class ConfigurationImpl implements Configuration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/quotaConfiguration/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/quotaConfiguration/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterQuotaConfigurationProperties
+      bodyMapper: Mappers.ClusterQuotaConfigurationProperties,
     },
     201: {
-      bodyMapper: Mappers.ClusterQuotaConfigurationProperties
+      bodyMapper: Mappers.ClusterQuotaConfigurationProperties,
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -94,31 +93,30 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/quotaConfiguration/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/quotaConfiguration/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterQuotaConfigurationProperties
+      bodyMapper: Mappers.ClusterQuotaConfigurationProperties,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
