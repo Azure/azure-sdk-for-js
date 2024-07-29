@@ -131,6 +131,8 @@ await database.containers.createIfNotExists(containerDefinition);
     await database.containers.create(containerDefinition);
 ```
 
+- Added support for passing a custom `HttpClient` when constructing a `CosmosClient`.
+
 ### Breaking Changes
 
 #### Dropped Support for TypeScript 4.1
