@@ -46,7 +46,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "SERVICEBUS_CONNECTION_STRING_PREMIUM",
       "SERVICEBUS_CONNECTION_STRING",
-      "SERVICEBUS_FDQN",
+      "SERVICEBUS_FQDN",
     ],
 
     // test results reporter to use
