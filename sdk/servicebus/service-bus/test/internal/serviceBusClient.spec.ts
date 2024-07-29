@@ -19,7 +19,7 @@ import {
 } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
-import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
+import { getEnvVars } from "../public/utils/envVarUtils";
 import { isNode } from "@azure/core-util";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
 import {
@@ -29,6 +29,7 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
+  getFullyQualifiedNamespace,
 } from "../public/utils/testutils2";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
@@ -587,19 +588,7 @@ describe("ServiceBusClient live tests", () => {
   describe("Test ServiceBusClient with TokenCredentials", function (): void {
     let errorWasThrown: boolean = false;
 
-    const env = getEnvVars();
-    const sbFullQualifiedNamespace = env.SERVICEBUS_FQDN;
-
-    /**
-     * Utility to create TokenCredential using `@azure/identity`
-     */
-    function getDefaultTokenCredential(): TokenCredential {
-      should.exist(
-        env[EnvVarNames.SERVICEBUS_FQDN],
-        "define SERVICEBUS_FQDN in your environment before running integration tests.",
-      );
-      return createTestCredential();
-    }
+    const sbFullQualifiedNamespace = getFullyQualifiedNamespace();
 
     it("throws error for invalid tokenCredentials", async function (): Promise<void> {
       try {
@@ -634,7 +623,7 @@ describe("ServiceBusClient live tests", () => {
     if (isNode) {
       it("throws error for invalid host name", async function (): Promise<void> {
         try {
-          new ServiceBusClient(123 as any, getDefaultTokenCredential());
+          new ServiceBusClient(123 as any, createTestCredential());
         } catch (error: any) {
           errorWasThrown = true;
           should.equal(
@@ -649,7 +638,7 @@ describe("ServiceBusClient live tests", () => {
       it(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
         async function (): Promise<void> {
-          const tokenCreds = getDefaultTokenCredential();
+          const tokenCreds = createTestCredential();
 
           const serviceBusClient = createServiceBusClientForTests();
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);

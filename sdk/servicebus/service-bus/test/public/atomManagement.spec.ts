@@ -68,7 +68,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
-        env[EnvVarNames.SERVICEBUS_FQDN],
+        getFullyQualifiedNamespace(),
         createTestCredential(),
         { serviceVersion: serviceVersion as "2021-05" | "2017-04" },
       );
