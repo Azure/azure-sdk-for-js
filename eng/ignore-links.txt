@@ -29,3 +29,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-n
 https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-edgezones?view=azure-node-preview
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computefleet/arm-computefleet/samples
