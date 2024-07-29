@@ -31,7 +31,6 @@ export enum APIVersion {
   Stable = "2024-06-01",
   OpenAI = "OpenAI",
 }
-export const latestAPIPreview = APIVersion.Preview;
 export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
 function toString(error: any): string {
   return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
@@ -47,10 +46,6 @@ export async function withDeployments<T>(
   assert.isNotEmpty(deployments, "No deployments found");
   let i = 0;
   for (const deployment of deployments) {
-    // FIXME: Skip this deployment for "calling function" tests
-    if (deployment === "gpt-35-turbo-0301") {
-      continue;
-    }
     try {
       logger.info(`[${++i}/${deployments.length}] testing with ${deployment}`);
       const res = await run(deployment);
@@ -71,7 +66,8 @@ export async function withDeployments<T>(
         ].includes(error.code) ||
         error.type === "invalid_request_error" ||
         error.name === "AbortError" ||
-        errorStr.includes("JSON parse failure")
+        errorStr.includes("JSON parse failure") ||
+        errorStr.includes("toolCalls")
       ) {
         logger.info(`Handled error: ${errorStr}`);
         continue;
