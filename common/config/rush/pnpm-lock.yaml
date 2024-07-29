@@ -16517,7 +16517,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-pWf2IWCtxsob7wMSDxsOO+tq/nuoK3zLV4ed9NBPO/St57n9UwUxyU/Cu6HRaLm46PrMAx+/59qFr9pkxMnQxg==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-jzVX655DGAScA32dW/iYkMYwrm1AYinRpn1bkwNuX6gBHyPTH8Vp6GIu+68bsZeJDDgq2yySBfqUMmtWgYFl3Q==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16536,10 +16536,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
