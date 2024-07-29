@@ -2236,6 +2236,16 @@
       "packageName": "@azure/arm-edgezones",
       "projectFolder": "sdk/edgezones/arm-edgezones",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabricmanagedclusters",
+      "projectFolder": "sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redhatopenshift",
+      "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
+      "versionPolicyName": "management"
     }
   ]
 }

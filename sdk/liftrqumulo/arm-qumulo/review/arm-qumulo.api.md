@@ -38,17 +38,16 @@ export interface ErrorResponse {
 
 // @public
 export interface FileSystemResource extends TrackedResource {
-    adminPassword: string;
+    adminPassword?: string;
     availabilityZone?: string;
     clusterLoginUrl?: string;
-    delegatedSubnetId: string;
+    delegatedSubnetId?: string;
     identity?: ManagedServiceIdentity;
-    initialCapacity: number;
-    marketplaceDetails: MarketplaceDetails;
+    marketplaceDetails?: MarketplaceDetails;
     privateIPs?: string[];
     readonly provisioningState?: ProvisioningState;
-    storageSku: StorageSku;
-    userDetails: UserDetails;
+    storageSku?: string;
+    userDetails?: UserDetails;
 }
 
 // @public
@@ -68,10 +67,8 @@ export interface FileSystemResourceUpdate {
 
 // @public
 export interface FileSystemResourceUpdateProperties {
-    clusterLoginUrl?: string;
     delegatedSubnetId?: string;
     marketplaceDetails?: MarketplaceDetails;
-    privateIPs?: string[];
     userDetails?: UserDetails;
 }
 
@@ -79,12 +76,18 @@ export interface FileSystemResourceUpdateProperties {
 export interface FileSystems {
     beginCreateOrUpdate(resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FileSystemsCreateOrUpdateResponse>, FileSystemsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams): Promise<FileSystemsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FileSystemsDeleteResponse>, FileSystemsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<FileSystemsDeleteResponse>;
     get(resourceGroupName: string, fileSystemName: string, options?: FileSystemsGetOptionalParams): Promise<FileSystemsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: FileSystemsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FileSystemResource>;
     listBySubscription(options?: FileSystemsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<FileSystemResource>;
     update(resourceGroupName: string, fileSystemName: string, properties: FileSystemResourceUpdate, options?: FileSystemsUpdateOptionalParams): Promise<FileSystemsUpdateResponse>;
+}
+
+// @public
+export interface FileSystemsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -97,10 +100,20 @@ export interface FileSystemsCreateOrUpdateOptionalParams extends coreClient.Oper
 export type FileSystemsCreateOrUpdateResponse = FileSystemResource;
 
 // @public
+export interface FileSystemsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface FileSystemsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type FileSystemsDeleteResponse = FileSystemsDeleteHeaders;
 
 // @public
 export interface FileSystemsGetOptionalParams extends coreClient.OperationOptions {
@@ -164,8 +177,16 @@ export enum KnownCreatedByType {
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMarketplaceSubscriptionStatus {
+    PendingFulfillmentStart = "PendingFulfillmentStart",
+    Subscribed = "Subscribed",
+    Suspended = "Suspended",
+    Unsubscribed = "Unsubscribed"
 }
 
 // @public
@@ -173,6 +194,18 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -194,11 +227,12 @@ export interface MarketplaceDetails {
     readonly marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
     offerId: string;
     planId: string;
-    publisherId: string;
+    publisherId?: string;
+    termUnit?: string;
 }
 
 // @public
-export type MarketplaceSubscriptionStatus = "PendingFulfillmentStart" | "Subscribed" | "Suspended" | "Unsubscribed";
+export type MarketplaceSubscriptionStatus = string;
 
 // @public
 export interface Operation {
@@ -246,7 +280,7 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
-export type ProvisioningState = "Accepted" | "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed" | "Canceled" | "Deleted" | "NotSpecified";
+export type ProvisioningState = string;
 
 // @public (undocumented)
 export class QumuloStorage extends coreClient.ServiceClient {
@@ -277,9 +311,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type StorageSku = "Standard" | "Performance";
 
 // @public
 export interface SystemData {

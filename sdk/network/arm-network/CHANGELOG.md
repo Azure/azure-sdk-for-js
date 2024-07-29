@@ -1,15 +1,29 @@
 # Release History
-
-## 33.2.1 (Unreleased)
-
+    
+## 33.3.0 (2024-07-17)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation InboundSecurityRuleOperations.get
+  - Added Interface ExpressRoutePortAuthorizationsDeleteHeaders
+  - Added Interface ExpressRoutePortsDeleteHeaders
+  - Added Interface InboundSecurityRuleGetOptionalParams
+  - Added Interface RouteFilterRulesDeleteHeaders
+  - Added Interface RouteFiltersDeleteHeaders
+  - Added Type Alias InboundSecurityRuleGetResponse
+  - Added Type Alias ProbeNoHealthyBackendsBehavior
+  - Interface BastionHost has a new optional parameter enableSessionRecording
+  - Interface ExpressRouteCircuitAuthorization has a new optional parameter connectionResourceUri
+  - Interface ExpressRouteCrossConnectionsListOptionalParams has a new optional parameter filter
+  - Interface FlowLog has a new optional parameter identity
+  - Interface FlowLogInformation has a new optional parameter identity
+  - Interface Probe has a new optional parameter noHealthyBackendsBehavior
+  - Interface ServiceEndpointPropertiesFormat has a new optional parameter networkIdentifier
+  - Interface VirtualNetworkGateway has a new optional parameter identity
+  - Added Enum KnownProbeNoHealthyBackendsBehavior
+  - Enum KnownBastionHostSkuName has a new value Premium
+    
+    
 ## 33.2.0 (2024-06-07)
     
 ### Features Added

@@ -599,6 +599,9 @@ dependencies:
   '@rush-temp/arm-recoveryservicesdatareplication':
     specifier: file:./projects/arm-recoveryservicesdatareplication.tgz
     version: file:projects/arm-recoveryservicesdatareplication.tgz
+  '@rush-temp/arm-redhatopenshift':
+    specifier: file:./projects/arm-redhatopenshift.tgz
+    version: file:projects/arm-redhatopenshift.tgz
   '@rush-temp/arm-rediscache':
     specifier: file:./projects/arm-rediscache.tgz
     version: file:projects/arm-rediscache.tgz
@@ -665,6 +668,9 @@ dependencies:
   '@rush-temp/arm-servicefabric-1':
     specifier: file:./projects/arm-servicefabric-1.tgz
     version: file:projects/arm-servicefabric-1.tgz
+  '@rush-temp/arm-servicefabricmanagedclusters':
+    specifier: file:./projects/arm-servicefabricmanagedclusters.tgz
+    version: file:projects/arm-servicefabricmanagedclusters.tgz
   '@rush-temp/arm-servicefabricmesh':
     specifier: file:./projects/arm-servicefabricmesh.tgz
     version: file:projects/arm-servicefabricmesh.tgz
@@ -1265,6 +1271,21 @@ packages:
       '@azure/core-tracing': 1.1.2
       '@azure/core-util': 1.9.1
       '@azure/logger': 1.1.3
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-compute@21.6.0:
+    resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.2
       tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
@@ -3449,13 +3470,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3477,7 +3498,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3487,7 +3508,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/debug@4.1.12:
@@ -3526,7 +3547,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3554,7 +3575,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3597,7 +3618,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3656,13 +3677,13 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
       form-data: 4.0.0
     dev: false
 
@@ -3691,7 +3712,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
       pg-protocol: 1.6.1
       pg-types: 2.2.0
     dev: false
@@ -3711,7 +3732,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3730,14 +3751,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
       '@types/send': 0.17.4
     dev: false
 
@@ -3764,7 +3785,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/triple-beam@1.3.5:
@@ -3778,7 +3799,7 @@ packages:
   /@types/tunnel@0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
 
   /@types/underscore@1.11.15:
@@ -3819,7 +3840,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
     dev: false
     optional: true
 
@@ -5579,7 +5600,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.40
+      '@types/node': 20.10.8
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -10427,7 +10448,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.9
       sync-content: 1.0.2
-      typescript: 5.5.3
+      typescript: 5.5.4
       walk-up-path: 3.0.1
     dev: false
 
@@ -13249,7 +13270,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-/KFM//a+1WZDqH2gacp0FHu4InxN05F+pf19k1JAKeaIoOoyJZ4RMVZAAefaDLdxxNMUBexPWWdrVqR5uXrTKQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-AM0dsiMAJJ2gP64uWD5ysDFbFhSeYjtTasktK5CUVdqxAXZQuTkLgYw7a0tULebPWwF46L3mrmqQYzz/Gs/dTw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13269,9 +13290,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -14062,7 +14084,7 @@ packages:
     dev: false
 
   file:projects/arm-dataprotection.tgz:
-    resolution: {integrity: sha512-a7STgugHlK/42OVzy97KgEZ38ePS2HTalXltvAqjXH6oEKEWarCWTwYEsgWwd79PCSmxW8XO9m6SIacNMVj2wQ==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-mPMDI8V3PEYMWzKfjL/WqtwL2gZjPrAQNoT8PZOO4Du7TC4r9oVMjoPoPtPIqEYTMGuCh80/gto9RGc+jL0xxg==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
@@ -14081,9 +14103,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -15163,7 +15186,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-cCSHGX4XZ82VEjFQLrhfsdFTxbHoCAzcVMdEKJvBf+1tQKiYaiddlm0qEt2HVqgBEPxpaPCttQkrXupGF+Y6sg==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-piHmNUXYyLYB3zYcjPVPoB2JlkIrf60nv+aGdOG/Uo5lqXDa4vjd2MY2yFITHVKZGDudVNZQPEWgi+27vwKzLg==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -15182,10 +15205,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -15311,13 +15334,14 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-fbDFdJqSE9uyENyXFKr7HkhdwwnfM4i3Tn47PX8qsi1BsuUvbT+oOlrt3TDnNXAMiMfAxThn7EEzAaJVzYhC9w==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-pQoZ4wc8j0MjhyKzsQLomLQ1Opl4DtzihWSX2ZdbvXJkS7KYRE6YH1Vh/M1tfYgOeS6XLQuiB0E+0BXhspx4ww==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.6.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
@@ -16276,40 +16300,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-OwMaWs5+csPOhl6T6P2NjcsI73pGbqoumtUGxpCmoJCGg8pOlqD/P1Wrq1A6KArX9xnkXXS9MxSoS/+d5JkgVw==, tarball: file:projects/arm-mongocluster.tgz}
-    name: '@rush-temp/arm-mongocluster'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 4.4.0
-      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
-      '@types/node': 18.19.40
-      '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
-      dotenv: 16.4.5
-      eslint: 8.57.0
-      mkdirp: 3.0.1
-      playwright: 1.45.2
-      rimraf: 5.0.9
-      tshy: 1.18.0
-      tslib: 2.6.3
-      typescript: 5.4.5
-      vitest: 1.6.0(@types/node@18.19.40)(@vitest/browser@1.6.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - webdriverio
-    dev: false
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-iIVKSMObhPtllgldBh5d9PvGgh+4/0POUj8UdtW1VsK6bUAx+UtzTjsv2FjIMZ/0nuKBA0NQ678rKS5dppppbw==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
@@ -16457,7 +16447,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-vTKXWJjP3g3d/c5M2JcxQEB4dRfjKDwOYTTUXgmYskAamjNt5KxeyyylhtdpQLFvW8kgWgEtufyKpe0g4rwakA==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-JlcDJRWLklWlsRA6UjMRKuRVqhe/fZRGYsq0pZGbg/N8zMWI3BQH5q+2RmRKLbfuVXFlkbjsgIvKaY9fp05Kkg==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -16476,10 +16466,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -16488,7 +16478,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-pWf2IWCtxsob7wMSDxsOO+tq/nuoK3zLV4ed9NBPO/St57n9UwUxyU/Cu6HRaLm46PrMAx+/59qFr9pkxMnQxg==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-jzVX655DGAScA32dW/iYkMYwrm1AYinRpn1bkwNuX6gBHyPTH8Vp6GIu+68bsZeJDDgq2yySBfqUMmtWgYFl3Q==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16507,10 +16497,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -17331,7 +17321,7 @@ packages:
     dev: false
 
   file:projects/arm-qumulo.tgz:
-    resolution: {integrity: sha512-sk4BG9dwLB3VKSx0RY7+mmxn9Je+xB+o7FnMR2tp86iWpJAt8epMALif9XApWGDwtRWID0BL4pLL3iCSge22yQ==, tarball: file:projects/arm-qumulo.tgz}
+    resolution: {integrity: sha512-16kffyI39XON8XY0eZ8FV4msa7hdHziR5iXUAOOcVXnhrlyWeIeZ8BAWNRxdwfSRDIrnWzDx+aJTQnVRKL3E2Q==, tarball: file:projects/arm-qumulo.tgz}
     name: '@rush-temp/arm-qumulo'
     version: 0.0.0
     dependencies:
@@ -17350,9 +17340,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -17513,8 +17504,39 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-redhatopenshift.tgz:
+    resolution: {integrity: sha512-BwUzxC6iOJCCVzPqt2faC92BLQ74PN3hlhv1a1SsGdqWz8vXr7ONGB0YF7fiLtCvvn7RuileFsVfjXNrKy9qqA==, tarball: file:projects/arm-redhatopenshift.tgz}
+    name: '@rush-temp/arm-redhatopenshift'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.0
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.40
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.6.0
+      rimraf: 5.0.9
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
+      tslib: 2.6.3
+      tsx: 4.16.2
+      typescript: 5.4.5
+      uglify-js: 3.18.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-wswc3nbvYMnmCEpvtsynVmHNOySJbPMQEeb5xNeZhgXRsIGyqxzQ/PqBIMi3xyxyC8tU0YnSuWr3n/HFjS+TaQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-wjKgPDteXSNG7HsflXJ6v7ogpaDCk+Cbx5YNmOr2XQJ7STHcZKl8XlOXagYonaTB/ZXPFI2jDZxiv39SQZr0yA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -17534,9 +17556,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -17901,7 +17924,7 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-8wWgbL5XfIbN7ZNgeGpiF8Qr14txuzUZBzFm/pSqXXPR3naScaVY+A3EAaCXPxQwJrvMZXmnIF9cqZmMwEuA3A==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-8uv5If4Z3qbT8dx9W89TzHJJ7AR4OC6k1IlD++vK1O7FZe0oNHYWwfd3cVjI7TbaccMC+Syzr+lAuMdt9FqJMA==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
@@ -17922,6 +17945,7 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
       tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.3
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -18183,6 +18207,37 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-servicefabricmanagedclusters.tgz:
+    resolution: {integrity: sha512-aXLhNHWEstwVsLKpmTC2k/xVystn9qlcSGaDg+o6B5saAiAICgXAynb+8X4YUUkH/N7xVIGwB06GhYPhmkDwMw==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    name: '@rush-temp/arm-servicefabricmanagedclusters'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.0
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.40
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.6.0
+      rimraf: 5.0.9
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
+      tslib: 2.6.3
+      tsx: 4.16.2
+      typescript: 5.4.5
+      uglify-js: 3.18.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-servicefabricmesh.tgz:
@@ -21179,8 +21234,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.3.0
-      '@microsoft/api-extractor': 7.47.2(@types/node@18.19.41)
-      '@types/node': 18.19.41
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@types/node': 18.19.40
       '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       dotenv: 16.4.5
@@ -21192,7 +21247,7 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.4.5
-      vitest: 1.6.0(@types/node@18.19.41)(@vitest/browser@1.6.0)
+      vitest: 1.6.0(@types/node@18.19.40)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'

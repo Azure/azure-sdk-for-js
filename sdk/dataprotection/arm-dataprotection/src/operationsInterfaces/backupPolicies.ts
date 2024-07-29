@@ -14,7 +14,7 @@ import {
   BackupPoliciesGetResponse,
   BackupPoliciesCreateOrUpdateOptionalParams,
   BackupPoliciesCreateOrUpdateResponse,
-  BackupPoliciesDeleteOptionalParams
+  BackupPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface BackupPolicies {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<BaseBackupPolicyResource>;
   /**
    * Gets a backup policy belonging to a backup vault
@@ -42,7 +42,7 @@ export interface BackupPolicies {
     resourceGroupName: string,
     vaultName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesGetOptionalParams
+    options?: BackupPoliciesGetOptionalParams,
   ): Promise<BackupPoliciesGetResponse>;
   /**
    * Creates or Updates a backup policy belonging to a backup vault
@@ -57,7 +57,7 @@ export interface BackupPolicies {
     vaultName: string,
     backupPolicyName: string,
     parameters: BaseBackupPolicyResource,
-    options?: BackupPoliciesCreateOrUpdateOptionalParams
+    options?: BackupPoliciesCreateOrUpdateOptionalParams,
   ): Promise<BackupPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes a backup policy belonging to a backup vault
@@ -70,6 +70,6 @@ export interface BackupPolicies {
     resourceGroupName: string,
     vaultName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesDeleteOptionalParams
+    options?: BackupPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }
