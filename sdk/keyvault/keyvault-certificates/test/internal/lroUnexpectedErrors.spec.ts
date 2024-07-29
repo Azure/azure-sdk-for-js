@@ -98,7 +98,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const code = 403;
 
       const fooClient: Partial<KeyVaultClient> = {
-        async recoverDeletedCertificate(_a, _b, c): Promise<any> {
+        async recoverDeletedCertificate(_b, c): Promise<any> {
           const request: PipelineRequest = {
             url: "",
             method: "GET",
@@ -143,7 +143,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const code = 404;
 
       const fooClient: Partial<KeyVaultClient> = {
-        async recoverDeletedCertificate(_a, _b, c): Promise<any> {
+        async recoverDeletedCertificate(_b, c): Promise<any> {
           const request: PipelineRequest = {
             url: "",
             method: "GET",
@@ -189,7 +189,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       const codes = [401, 402, 405, 500];
       for (const code of codes) {
         const fooClient: Partial<KeyVaultClient> = {
-          async recoverDeletedCertificate(_a, _b, c): Promise<any> {
+          async recoverDeletedCertificate(_b, c): Promise<any> {
             const request: PipelineRequest = {
               url: "",
               method: "GET",

@@ -344,7 +344,11 @@ export function getCertificateOperationFromCoreOperation(
     certificateType: operation.issuerParameters
       ? operation.issuerParameters.certificateType
       : undefined,
-    csr: operation.csr,
+    // behavioral breaking change of onResponse callback
+    csr:
+      typeof operation.csr === "string"
+        ? Buffer.from(operation.csr as string, "base64")
+        : operation.csr,
     error: getCertificateOperationErrorFromErrorModel(operation.error),
     id: operation.id,
     requestId: operation.requestId,

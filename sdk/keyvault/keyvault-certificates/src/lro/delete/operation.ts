@@ -36,7 +36,6 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 > {
   constructor(
     public state: DeleteCertificatePollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -55,11 +54,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       "DeleteCertificatePoller.deleteCertificate",
       options,
       async (updatedOptions) => {
-        const response = await this.client.deleteCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions,
-        );
+        const response = await this.client.deleteCertificate(certificateName, updatedOptions);
         return getDeletedCertificateFromDeletedCertificateBundle(response);
       },
     );
@@ -78,7 +73,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       options,
       async (updatedOptions) => {
         let parsedBody: any;
-        await this.client.getDeletedCertificate(this.vaultUrl, certificateName, {
+        await this.client.getDeletedCertificate(certificateName, {
           ...updatedOptions,
           onResponse: (response) => {
             parsedBody = response.parsedBody;
