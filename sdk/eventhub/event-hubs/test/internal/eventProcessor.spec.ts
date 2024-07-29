@@ -871,29 +871,31 @@ describe(
         const partitionIds = await producerClient.getPartitionIds();
         partitionIds.length.should.gte(2);
 
-        const checkpointMap = new Map<string, ReceivedEventData[]>(
-          partitionIds.map((id) => [id, []]),
-        );
-        const processedAtLeastOneEvent = new Set();
-        const checkpointSequenceNumbers = new Map<string, number>();
-        const partionCount = Object.fromEntries(partitionIds.map((id) => [id, 0]));
+        type PartitionId = string;
 
-        class FooPartitionProcessor {
-          async processEvents(
-            events: ReceivedEventData[],
-            context: PartitionContext,
-          ): Promise<void> {
-            processedAtLeastOneEvent.add(context.partitionId);
-            partionCount[context.partitionId]++;
-            const eventList = checkpointMap.get(context.partitionId);
+        class PartitionProcessor {
+          checkpointMap: Map<PartitionId, ReceivedEventData[]>;
+          partionCount: Record<PartitionId, number>;
+          processedAtLeastOneEvent: Set<PartitionId> = new Set();
+          checkpointSequenceNumbers: Map<PartitionId, number> = new Map();
+
+          constructor(partitionIds: string[]) {
+            this.checkpointMap = new Map(partitionIds.map((id) => [id, []]));
+            this.partionCount = Object.fromEntries(partitionIds.map((id) => [id, 0]));
+          }
+
+          async processEvents(events: ReceivedEventData[], ctx: PartitionContext): Promise<void> {
+            this.processedAtLeastOneEvent.add(ctx.partitionId);
+            this.partionCount[ctx.partitionId]++;
+            const eventList = this.checkpointMap.get(ctx.partitionId);
             if (!eventList) {
-              assert.fail(`No event list found for partition ${context.partitionId}`);
+              assert.fail(`No event list found for partition ${ctx.partitionId}`);
             }
             for (const event of events) {
-              debug("Received event: '%s' from partition: '%s'", event.body, context.partitionId);
-              if (partionCount[context.partitionId] <= 50) {
-                checkpointSequenceNumbers.set(context.partitionId, event.sequenceNumber);
-                await context.updateCheckpoint(event);
+              debug("Received event: '%s' from partition: '%s'", event.body, ctx.partitionId);
+              if (this.partionCount[ctx.partitionId] <= 50) {
+                this.checkpointSequenceNumbers.set(ctx.partitionId, event.sequenceNumber);
+                await ctx.updateCheckpoint(event);
                 eventList.push(event);
               }
             }
@@ -903,12 +905,13 @@ describe(
           }
         }
 
-        const inMemoryCheckpointStore = new InMemoryCheckpointStore();
+        const checkpointStore = new InMemoryCheckpointStore();
+        const partitionProcessor1 = new PartitionProcessor(partitionIds);
         const processor1 = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
           consumerClient["_context"],
-          new FooPartitionProcessor(),
-          inMemoryCheckpointStore,
+          partitionProcessor1,
+          checkpointStore,
           {
             ...defaultOptions,
             startPosition: earliestEventPosition,
@@ -931,37 +934,13 @@ describe(
           name: "waiting for checkpoint to be updated by processor 1",
           maxTimes: 10,
           timeBetweenRunsMs: 5000,
-          until: async () => checkpointSequenceNumbers.size === partitionIds.length,
+          until: async () =>
+            partitionProcessor1.processedAtLeastOneEvent.size === partitionIds.length,
         });
 
         await processor1.stop();
 
-        const lastEventsReceivedFromProcessor1: ReceivedEventData[] = [];
-        let index = 0;
-
-        for (const partitionId of partitionIds) {
-          const receivedEvents = checkpointMap.get(partitionId);
-          if (!receivedEvents) {
-            assert.fail(`No events found for partition ${partitionId}`);
-          }
-          lastEventsReceivedFromProcessor1[index++] = receivedEvents.pop()!;
-        }
-
-        partitionIds.forEach((id) => {
-          checkpointMap.set(id, []);
-          partionCount[id] = 0;
-        });
-        processedAtLeastOneEvent.clear();
-
-        const processor2 = new EventProcessor(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
-          new FooPartitionProcessor(),
-          inMemoryCheckpointStore,
-          { ...defaultOptions, startPosition: earliestEventPosition },
-        );
-
-        const checkpoints = await inMemoryCheckpointStore.listCheckpoints(
+        const checkpoints = await checkpointStore.listCheckpoints(
           consumerClient.fullyQualifiedNamespace,
           consumerClient.eventHubName,
           EventHubConsumerClient.defaultConsumerGroupName,
@@ -970,10 +949,36 @@ describe(
         checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
         for (const checkpoint of checkpoints) {
-          const expectedSequenceNumber = checkpointSequenceNumbers.get(checkpoint.partitionId);
-          assert.isNumber(expectedSequenceNumber);
-          expectedSequenceNumber!.should.equal(checkpoint.sequenceNumber);
+          const expectedSequenceNumber = partitionProcessor1.checkpointSequenceNumbers.get(
+            checkpoint.partitionId,
+          );
+          if (!expectedSequenceNumber) {
+            assert.fail(
+              `No expected sequence number found for partition ${checkpoint.partitionId}`,
+            );
+          }
+          expectedSequenceNumber.should.equal(checkpoint.sequenceNumber);
         }
+
+        const lastEventsReceivedFromProcessor1: ReceivedEventData[] = [];
+        let index = 0;
+
+        for (const partitionId of partitionIds) {
+          const receivedEvents = partitionProcessor1.checkpointMap.get(partitionId);
+          if (!receivedEvents) {
+            assert.fail(`No events found for partition ${partitionId}`);
+          }
+          lastEventsReceivedFromProcessor1[index++] = receivedEvents.pop()!;
+        }
+
+        const partitionProcessor2 = new PartitionProcessor(partitionIds);
+        const processor2 = new EventProcessor(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          consumerClient["_context"],
+          partitionProcessor2,
+          checkpointStore,
+          { ...defaultOptions, startPosition: earliestEventPosition },
+        );
 
         processor2.start();
 
@@ -981,7 +986,8 @@ describe(
           name: "waiting for checkpoint to be updated by processor 2",
           maxTimes: 10,
           timeBetweenRunsMs: 5000,
-          until: async () => processedAtLeastOneEvent.size === partitionIds.length,
+          until: async () =>
+            partitionProcessor2.processedAtLeastOneEvent.size === partitionIds.length,
         });
 
         await processor2.stop();
@@ -989,7 +995,7 @@ describe(
         index = 0;
         const firstEventsReceivedFromProcessor2: ReceivedEventData[] = [];
         for (const partitionId of partitionIds) {
-          const receivedEvents = checkpointMap.get(partitionId);
+          const receivedEvents = partitionProcessor2.checkpointMap.get(partitionId);
           if (!receivedEvents) {
             assert.fail(`No events found for partition ${partitionId}`);
           }
