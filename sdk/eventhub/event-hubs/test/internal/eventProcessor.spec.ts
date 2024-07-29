@@ -879,9 +879,9 @@ describe(
           processedAtLeastOneEvent: Set<PartitionId> = new Set();
           checkpointSequenceNumbers: Map<PartitionId, number> = new Map();
 
-          constructor(partitionIds: string[]) {
-            this.checkpointMap = new Map(partitionIds.map((id) => [id, []]));
-            this.partionCount = Object.fromEntries(partitionIds.map((id) => [id, 0]));
+          constructor(partitionIDs: string[]) {
+            this.checkpointMap = new Map(partitionIDs.map((id) => [id, []]));
+            this.partionCount = Object.fromEntries(partitionIDs.map((id) => [id, 0]));
           }
 
           async processEvents(events: ReceivedEventData[], ctx: PartitionContext): Promise<void> {
