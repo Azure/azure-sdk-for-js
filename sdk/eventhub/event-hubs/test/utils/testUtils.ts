@@ -13,7 +13,7 @@ import { loggerForTest } from "./logHelpers.js";
 
 export async function getSubscriptionPromise(client: EventHubConsumerClient): Promise<void> {
   let subscription: Subscription | undefined;
-  const caughtErr = await new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     subscription = client.subscribe({
       processEvents: async () => {
         resolve();
@@ -22,9 +22,7 @@ export async function getSubscriptionPromise(client: EventHubConsumerClient): Pr
         reject(err);
       },
     });
-  });
-  await subscription?.close();
-  return caughtErr;
+  }).finally(() => subscription?.close());
 }
 
 export async function loopUntil(args: {
