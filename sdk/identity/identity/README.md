@@ -227,13 +227,25 @@ const credential = new ClientSecretCredential(
 );
 ```
 
-As an alternative to specifying the `authority` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud:
+As an alternative to specifying the `authorityHost` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud:
 
 ```sh
 AZURE_AUTHORITY_HOST=https://login.partner.microsoftonline.cn
 ```
 
-> The `AzureAuthorityHosts` enum defines authorities for well-known clouds for your convenience; however, if the authority for your cloud is not listed in `AzureAuthorityHosts`, you may pass any valid authority URL (example: `https://login.partner.microsoftonline.cn`) as a string argument.
+The `AzureAuthorityHosts` enum defines authorities for well-known clouds for your convenience; however, if the authority for your cloud is not listed in `AzureAuthorityHosts`, you may pass any valid authority URL as a string argument as the following example demonstrates:
+
+```typescript
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: "https://login.partner.microsoftonline.cn",
+  }
+);
+```
 
 Not all credentials require this configuration. Credentials that authenticate through a development tool, such as `AzureCliCredential`, use that tool's configuration. Similarly, `VisualStudioCodeCredential` accepts an `authorityHost` argument but defaults to the `authorityHost` matching Visual Studio Code's **Azure: Cloud** setting.
 
