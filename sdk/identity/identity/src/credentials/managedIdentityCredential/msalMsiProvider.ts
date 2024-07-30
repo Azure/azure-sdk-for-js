@@ -165,7 +165,7 @@ export class MsalMsiProvider {
 
           if (result === null) {
             throw new CredentialUnavailableError(
-              "Attempted to use the token exchange managed identity, but received a null token.",
+              "Attempted to use the token exchange managed identity, but received a null response.",
             );
           }
 
@@ -184,7 +184,7 @@ export class MsalMsiProvider {
 
           if (!isAvailable) {
             throw new CredentialUnavailableError(
-              `ManagedIdentityCredential: MSAL indicated that the IMDS endpoint is the source for managed identity, but the IMDS endpoint is not available.`,
+              `ManagedIdentityCredential: Attempted to use the IMDS endpoint, but it is not available.`,
             );
           }
         }
