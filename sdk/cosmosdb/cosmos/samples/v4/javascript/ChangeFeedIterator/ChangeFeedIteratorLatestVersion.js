@@ -44,23 +44,35 @@ async function run() {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
     };
-    await iterateChangeFeedFromBeginningAndContinuation(container, options, 1, 4);
+    // ingest data to introduce changes to container
+    await ingestData(container, 1, 2);
+    // fetch the changes from beginning, and get the continuation token to fetch further changes made to container after this iteration.
+    let continuationToken = await iterateChangeFeedFromBeginning(container, options);
+    // ingest more data to container to fetch changes from continuation token
+    await ingestData(container, 3, 4);
+    await iterateChangeFeedFromContinuationToken(container, continuationToken);
 
-    logStep("Change Feed for partition key - `sample1`");
+    logStep("Change Feed for partition key -`sample1`");
     options = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"),
     };
 
-    await iterateChangeFeedFromBeginningAndContinuation(container, options, 5, 8);
+    continuationToken = await iterateChangeFeedFromBeginning(container, options);
+    // ingest more data to fetch changes from above continuation token
+    await ingestData(container, 5, 6);
+    await iterateChangeFeedFromContinuationToken(container, continuationToken);
 
     logStep("Change Feed for an epk range");
-    const feedRanges = await container.getFeedRanges();
+    const epkRanges = await container.getFeedRanges();
     options = {
       maxItemCount: 1,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRanges[0]),
     };
-    await iterateChangeFeedFromBeginningAndContinuation(container, options, 9, 12);
+    continuationToken = await iterateChangeFeedFromBeginning(container, options);
+    // ingest more data to fetch changes from above continuation token
+    await ingestData(container, 7, 8);
+    await iterateChangeFeedFromContinuationToken(container, continuationToken);
   } catch (err) {
     console.error(err);
   } finally {
@@ -78,23 +90,20 @@ async function ingestData(container, initialize, end) {
   console.log(`ingested items with id - item${initialize} and id - item${end}`);
 }
 
-async function iterateChangeFeedFromBeginningAndContinuation(container, options, initialize, end) {
+async function iterateChangeFeedFromBeginning(container, options) {
   let iterator = container.items.getChangeFeedIterator(options);
-  // ingest data to introduce changes to container
-  await ingestData(container, initialize, initialize + 1);
   console.log("fetch changes from beginning");
-  // fetch continuation token to start from where the last iteration ended
-  const continuationToken = await iterateChangeFeed(iterator);
-  options = {
+  return iterateChangeFeed(iterator);
+}
+
+async function iterateChangeFeedFromContinuationToken(container, continuationToken) {
+  const options = {
     maxItemCount: 1,
     changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
   };
-  iterator = container.items.getChangeFeedIterator(options);
-  // ingest more data to fetch from continuation token
-  await ingestData(container, initialize + 2, end);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("fetch changes from continuation token");
-  await iterateChangeFeed(iterator, continuationToken);
-  return continuationToken;
+  await iterateChangeFeed(iterator);
 }
 
 async function iterateChangeFeed(iterator, continuationToken = "") {

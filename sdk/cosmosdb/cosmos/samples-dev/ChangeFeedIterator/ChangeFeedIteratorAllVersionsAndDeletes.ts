@@ -51,24 +51,35 @@ async function run(): Promise<void> {
       changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
 
-    await iterateChangeFeedFromNowAndContinuation(container, options, 1, 4);
+    // fetch the changes, and get the continuation token so that we can fetch further changes made to container after this iteration.
+    let continuationToken = await iterateChangeFeedFromNow(container, options, 1, 2);
+    // add more changes to  fetch change feed from continuation token
+    await insertAndModifyData(container, 3, 4);
+    await iterateChangeFeedFromContinuationToken(container, continuationToken);
 
-    logStep("Change Feed for a Partition Key");
+    logStep("Change Feed for partition key - `sample1`");
     options = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Now("sample1"),
       changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
-    await iterateChangeFeedFromNowAndContinuation(container, options, 5, 8);
+    continuationToken = await iterateChangeFeedFromNow(container, options, 5, 6);
+    // add more changes to fetch change feed from above continuation token
+    await insertAndModifyData(container, 7, 8);
+    await iterateChangeFeedFromContinuationToken(container, continuationToken);
 
     logStep("Change Feed for an epk range");
-    const feedRanges = await container.getFeedRanges();
+    const epkRanges = await container.getFeedRanges();
+    console.log("epkRanges: ", epkRanges);
     options = {
       maxItemCount: 1,
-      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
-      ChangeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(epkRanges[1]),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
     };
-    await iterateChangeFeedFromNowAndContinuation(container, options, 9, 12);
+    continuationToken = await iterateChangeFeedFromNow(container, options, 9, 10);
+    // add more changes to fetch change feed from above continuation token
+    await insertAndModifyData(container, 11, 12);
+    await iterateChangeFeedFromContinuationToken(container, continuationToken);
   } catch (err) {
     console.error(err);
   } finally {
@@ -94,29 +105,32 @@ async function insertAndModifyData(container: Container, initialize: number, end
   console.log(`deleted item with id - item${initialize} and partition key - sample1`);
 }
 
-async function iterateChangeFeedFromNowAndContinuation(
+async function iterateChangeFeedFromNow(
   container: Container,
   options: ChangeFeedIteratorOptions,
   initialize: number,
   end: number,
-): Promise<void> {
+): Promise<string> {
   let iterator = container.items.getChangeFeedIterator(options);
   console.log("running the iterator to start fetching changes from now.");
   await iterator.readNext();
   // ingest, upsert, and delete some data to introduce changes to container
-  await insertAndModifyData(container, initialize, initialize + 1);
-  // fetch the changes, and continuation token so that we can start from the same point in time
-  const continuationToken = await iterateChangeFeed(iterator);
-  options = {
+  await insertAndModifyData(container, initialize, end);
+  return iterateChangeFeed(iterator);
+}
+
+async function iterateChangeFeedFromContinuationToken(
+  container: Container,
+  continuationToken: string,
+): Promise<void> {
+  const options = {
     maxItemCount: 1,
     changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
     changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
   };
-  iterator = container.items.getChangeFeedIterator(options);
-  // insert and modify some new data after fetching the continuation token
-  await insertAndModifyData(container, initialize + 2, end);
-  console.log("fetching changefeed from the continuation token");
-  await iterateChangeFeed(iterator, continuationToken);
+  const iterator = container.items.getChangeFeedIterator(options);
+  console.log("fetch changes from continuation token");
+  await iterateChangeFeed(iterator);
 }
 
 async function iterateChangeFeed(
