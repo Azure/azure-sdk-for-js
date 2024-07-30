@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support in `EnvironmentCredential` and `DefaultAzureCredential` for `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` environment variable to configure subject name / issuer authentication. [#30570](https://github.com/Azure/azure-sdk-for-js/pull/30570)
+
 ### Breaking Changes
 
 ### Bugs Fixed
