@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `calculateExponentialDelayInterval` helper that can be used to calculate the next delay interval for exponential delay with jitter. []
+
 ### Breaking Changes
 
 ### Bugs Fixed
