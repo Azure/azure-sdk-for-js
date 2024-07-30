@@ -71,8 +71,8 @@
     "eslint": "^8.57.0",
     "playwright": "^1.43.0",
     "rimraf": "^5.0.5",
-    "tshy": "^1.13.1",
-    "typescript": "~5.4.5",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vitest": "^1.6.0"
   },
   "dependencies": {
@@ -173,5 +173,6 @@
         "default": "./dist/commonjs/models/index.js"
       }
     }
-  }
+  },
+  "module": "./dist/esm/index.js"
 }

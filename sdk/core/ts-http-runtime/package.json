@@ -7,6 +7,7 @@
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -109,8 +110,8 @@
     "eslint": "^8.56.0",
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
-    "tshy": "^1.13.0",
-    "typescript": "~5.4.5",
+    "tshy": "^1.17.0",
+    "typescript": "~5.5.3",
     "vitest": "^1.3.1"
   },
   "tshy": {
@@ -127,5 +128,6 @@
       "react-native"
     ],
     "selfLink": false
-  }
+  },
+  "module": "./dist/esm/index.js"
 }

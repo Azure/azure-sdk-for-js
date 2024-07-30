@@ -6,21 +6,44 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  ReportResource,
+  ReportListOptionalParams,
   ReportGetOptionalParams,
   ReportGetResponse,
-  ReportResource,
   ReportCreateOrUpdateOptionalParams,
   ReportCreateOrUpdateResponse,
   ReportResourcePatch,
   ReportUpdateOptionalParams,
   ReportUpdateResponse,
-  ReportDeleteOptionalParams
+  ReportDeleteOptionalParams,
+  ReportDeleteResponse,
+  CheckNameAvailabilityRequest,
+  ReportNestedResourceCheckNameAvailabilityOptionalParams,
+  ReportNestedResourceCheckNameAvailabilityResponse,
+  ReportFixOptionalParams,
+  ReportFixResponse,
+  ReportGetScopingQuestionsOptionalParams,
+  ReportGetScopingQuestionsResponse,
+  SyncCertRecordRequest,
+  ReportSyncCertRecordOptionalParams,
+  ReportSyncCertRecordResponse,
+  ReportVerifyOptionalParams,
+  ReportVerifyResponse,
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Report. */
 export interface Report {
+  /**
+   * Get the AppComplianceAutomation report list for the tenant.
+   * @param options The options parameters.
+   */
+  list(
+    options?: ReportListOptionalParams,
+  ): PagedAsyncIterableIterator<ReportResource>;
   /**
    * Get the AppComplianceAutomation report and its properties.
    * @param reportName Report Name.
@@ -28,58 +51,58 @@ export interface Report {
    */
   get(
     reportName: string,
-    options?: ReportGetOptionalParams
+    options?: ReportGetOptionalParams,
   ): Promise<ReportGetResponse>;
   /**
    * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
    * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
+   * @param properties Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     reportName: string,
-    parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    properties: ReportResource,
+    options?: ReportCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReportCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReportCreateOrUpdateResponse>,
       ReportCreateOrUpdateResponse
     >
   >;
   /**
    * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
    * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
+   * @param properties Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     reportName: string,
-    parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    properties: ReportResource,
+    options?: ReportCreateOrUpdateOptionalParams,
   ): Promise<ReportCreateOrUpdateResponse>;
   /**
    * Update an exiting AppComplianceAutomation report.
    * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
+   * @param properties Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginUpdate(
     reportName: string,
-    parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
+    properties: ReportResourcePatch,
+    options?: ReportUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<ReportUpdateResponse>, ReportUpdateResponse>
+    SimplePollerLike<OperationState<ReportUpdateResponse>, ReportUpdateResponse>
   >;
   /**
    * Update an exiting AppComplianceAutomation report.
    * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
+   * @param properties Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     reportName: string,
-    parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
+    properties: ReportResourcePatch,
+    options?: ReportUpdateOptionalParams,
   ): Promise<ReportUpdateResponse>;
   /**
    * Delete an AppComplianceAutomation report.
@@ -88,8 +111,10 @@ export interface Report {
    */
   beginDelete(
     reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReportDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ReportDeleteResponse>, ReportDeleteResponse>
+  >;
   /**
    * Delete an AppComplianceAutomation report.
    * @param reportName Report Name.
@@ -97,6 +122,96 @@ export interface Report {
    */
   beginDeleteAndWait(
     reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<void>;
+    options?: ReportDeleteOptionalParams,
+  ): Promise<ReportDeleteResponse>;
+  /**
+   * Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
+   * @param reportName Report Name.
+   * @param body NameAvailabilityRequest object.
+   * @param options The options parameters.
+   */
+  nestedResourceCheckNameAvailability(
+    reportName: string,
+    body: CheckNameAvailabilityRequest,
+    options?: ReportNestedResourceCheckNameAvailabilityOptionalParams,
+  ): Promise<ReportNestedResourceCheckNameAvailabilityResponse>;
+  /**
+   * Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service
+   * unregistered, automation removed.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  beginFix(
+    reportName: string,
+    options?: ReportFixOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ReportFixResponse>, ReportFixResponse>
+  >;
+  /**
+   * Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service
+   * unregistered, automation removed.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  beginFixAndWait(
+    reportName: string,
+    options?: ReportFixOptionalParams,
+  ): Promise<ReportFixResponse>;
+  /**
+   * Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service
+   * unregistered, automation removed.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  getScopingQuestions(
+    reportName: string,
+    options?: ReportGetScopingQuestionsOptionalParams,
+  ): Promise<ReportGetScopingQuestionsResponse>;
+  /**
+   * Synchronize attestation record from app compliance.
+   * @param reportName Report Name.
+   * @param body Parameters for synchronize certification record operation
+   * @param options The options parameters.
+   */
+  beginSyncCertRecord(
+    reportName: string,
+    body: SyncCertRecordRequest,
+    options?: ReportSyncCertRecordOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReportSyncCertRecordResponse>,
+      ReportSyncCertRecordResponse
+    >
+  >;
+  /**
+   * Synchronize attestation record from app compliance.
+   * @param reportName Report Name.
+   * @param body Parameters for synchronize certification record operation
+   * @param options The options parameters.
+   */
+  beginSyncCertRecordAndWait(
+    reportName: string,
+    body: SyncCertRecordRequest,
+    options?: ReportSyncCertRecordOptionalParams,
+  ): Promise<ReportSyncCertRecordResponse>;
+  /**
+   * Verify the AppComplianceAutomation report health status.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  beginVerify(
+    reportName: string,
+    options?: ReportVerifyOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ReportVerifyResponse>, ReportVerifyResponse>
+  >;
+  /**
+   * Verify the AppComplianceAutomation report health status.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  beginVerifyAndWait(
+    reportName: string,
+    options?: ReportVerifyOptionalParams,
+  ): Promise<ReportVerifyResponse>;
 }

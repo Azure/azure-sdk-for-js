@@ -20,7 +20,7 @@ import {
   DeletedAccountsListResponse,
   DeletedAccountsGetOptionalParams,
   DeletedAccountsGetResponse,
-  DeletedAccountsListNextResponse
+  DeletedAccountsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    * @param options The options parameters.
    */
   public list(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedAccount> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class DeletedAccountsImpl implements DeletedAccounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DeletedAccountsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedAccount[]> {
     let result: DeletedAccountsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
   }
 
   private async *listPagingAll(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): AsyncIterableIterator<DeletedAccount> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    * @param options The options parameters.
    */
   private _list(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): Promise<DeletedAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -109,11 +109,11 @@ export class DeletedAccountsImpl implements DeletedAccounts {
   get(
     deletedAccountName: string,
     location: string,
-    options?: DeletedAccountsGetOptionalParams
+    options?: DeletedAccountsGetOptionalParams,
   ): Promise<DeletedAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { deletedAccountName, location, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -124,11 +124,11 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    */
   private _listNext(
     nextLink: string,
-    options?: DeletedAccountsListNextOptionalParams
+    options?: DeletedAccountsListNextOptionalParams,
   ): Promise<DeletedAccountsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -136,60 +136,58 @@ export class DeletedAccountsImpl implements DeletedAccounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/deletedAccounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/deletedAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedAccountListResult
+      bodyMapper: Mappers.DeletedAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/deletedAccounts/{deletedAccountName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/deletedAccounts/{deletedAccountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedAccount
+      bodyMapper: Mappers.DeletedAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.deletedAccountName,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedAccountListResult
+      bodyMapper: Mappers.DeletedAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

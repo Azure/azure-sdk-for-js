@@ -26,7 +26,8 @@
   "dependencies": {
     "@azure/eventhubs-checkpointstore-blob": "latest",
     "dotenv": "latest",
-    "@azure/storage-blob": "^12.4.1",
-    "@azure/event-hubs": "^5.5.0"
+    "@azure/storage-blob": "^12.9.0",
+    "@azure/identity": "^4.3.0",
+    "@azure/event-hubs": "^5.12.0"
   }
 }
