@@ -6,7 +6,7 @@ extends:
       PackageName: "@azure/service-bus"
       ServiceDirectory: servicebus
       UseFederatedAuth: true
-      TimeoutInMinutes: 90
+      TimeoutInMinutes: 120
       Clouds: 'Public,Canary'
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
