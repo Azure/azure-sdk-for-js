@@ -1333,7 +1333,7 @@ describe("Event Processor", function () {
 
       processorByName[`processor-2`] = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        createConsumer().consumer["_context"],
         new FooPartitionProcessor(),
         checkpointStore,
         {
