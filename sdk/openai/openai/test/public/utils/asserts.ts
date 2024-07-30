@@ -215,8 +215,7 @@ async function assertAsyncIterable<T>(
       validate(item);
     } catch (e: any) {
       throw new Error(
-        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
-          e.message
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${e.message
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
@@ -361,10 +360,10 @@ export function assertImagesWithJSON(
     assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {
       assert.isString(data);
-      // Width in PNG is byte 16 - 20
+      // Width in PNG is byte 16 - 19
       const actualWidth = Buffer.from(data, "base64").readUInt32BE(16);
       assert.equal(actualWidth, width, "Width does not match");
-      // Height in PNG is byte 20 - 24
+      // Height in PNG is byte 20 - 23
       const actualHeight = Buffer.from(data, "base64").readUInt32BE(20);
       assert.equal(actualHeight, height, "Height does not match");
     });
