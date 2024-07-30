@@ -9,6 +9,7 @@ import { checkTenantId } from "../util/tenantIdUtils";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
+import { PipelineResponse } from "@azure/core-rest-pipeline";
 
 const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
@@ -113,41 +114,51 @@ export class AzurePipelinesCredential implements TokenCredential {
       }),
     });
     const response = await this.identityClient.sendRequest(request);
-    const text = response.bodyAsText;
-    if (!text) {
-      logger.error(
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
-          response.status
-        }. Complete response - ${JSON.stringify(response)}`,
-      );
-      throw new AuthenticationError(
-        response.status,
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
-          response.status
-        }. Complete response - ${JSON.stringify(response)}`,
-      );
-    }
-    try {
-      const result = JSON.parse(text);
-      if (result?.oidcToken) {
-        return result.oidcToken;
-      } else {
-        let errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
-        if (response.status !== 200) {
-          errorMessage += `Response = ${JSON.stringify(result)}`;
-        }
-        logger.error(errorMessage);
-        throw new AuthenticationError(response.status, errorMessage);
+    return handleOidcResponse(response);
+  }
+}
+
+export function handleOidcResponse(response: PipelineResponse): string {
+  const text = response.bodyAsText;
+  if (!text) {
+    logger.error(
+      `${credentialName}: Authentication Failed. Received null token from OIDC request. Response status- ${
+        response.status
+      }. Complete response - ${JSON.stringify(response)}`,
+    );
+    throw new AuthenticationError(response.status, {
+      error: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
+      error_description: `${JSON.stringify(
+        response,
+      )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+    });
+  }
+  try {
+    const result = JSON.parse(text);
+    if (result?.oidcToken) {
+      return result.oidcToken;
+    } else {
+      const errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+      let errorDescription = ``;
+      if (response.status !== 200) {
+        errorDescription = `Complete response - ${JSON.stringify(
+          result,
+        )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
-    } catch (e: any) {
-      logger.error(e.message);
-      logger.error(
-        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
-      );
-      throw new AuthenticationError(
-        response.status,
-        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
-      );
+      logger.error(errorMessage);
+      logger.error(errorDescription);
+      throw new AuthenticationError(response.status, {
+        error: errorMessage,
+        error_description: errorDescription,
+      });
     }
+  } catch (e: any) {
+    const errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+    logger.error(`Response from service = ${text} and error message = ${e.message}`);
+    logger.error(errorDetails);
+    throw new AuthenticationError(response.status, {
+      error: errorDetails,
+      error_description: `Response = ${text}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+    });
   }
 }

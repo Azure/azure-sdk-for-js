@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the details of a vpn connection.
  *
  * @summary Retrieves the details of a vpn connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VpnConnectionGet.json
  */
 async function vpnConnectionGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

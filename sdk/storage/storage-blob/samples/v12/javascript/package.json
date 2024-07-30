@@ -30,7 +30,7 @@
   "dependencies": {
     "@azure/storage-blob": "latest",
     "dotenv": "latest",
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/logger": "^1.0.0",
     "@azure/identity": "^4.2.1"
   }

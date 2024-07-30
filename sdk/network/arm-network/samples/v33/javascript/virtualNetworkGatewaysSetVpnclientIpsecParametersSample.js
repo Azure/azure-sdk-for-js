@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
  *
  * @summary The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
  */
 async function setVirtualNetworkGatewayVpnClientIpsecParameters() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
