@@ -18405,7 +18405,7 @@ packages:
     dev: false
 
   file:projects/arm-storage-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-sr8c66f9AdW9TuDGk1H6wFgS9WviiJv1i02B7W+sWSIFbBUKz5t8zoiKcPrzx2csZ68OCJstbpI3e5Hd6hpyvg==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-UY/523bFXh4JW89AWbDbZjZl8dsPEytPd2OjzZ8uYdEcPXsb2JiPeS6741E7kE2Z99pBC9DgwfeqMjPVa6PLyg==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-storage-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -18435,7 +18435,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-y0irsK1GaCCXE785jPOyttitGFjqQlTIdvLvkHM6ZgX7TfOLVAIMYR1o4QVBrdhv4QuwoaIc1AnhWZt2VbF2Kw==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-CrodZpd6ur66ptS0rc95Au7c0CwIRraHAuxmsgQdaqILR2zcprBEfsdnBWz8QSS6uzLDzZyJ5nl2HHgWZXYknQ==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -20526,13 +20526,14 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-zyu8AiqGLwZWuEpTuodQDLMu+auXoDcDC2rLYtEysykv5r2j1ORxUZofNqNOlwQxfOzrMHBNYj5Vv9GrLNNAKA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-z9Gvg9Sjq9IevC8b6hbo2nxvosbLBw9y0MX0VOxQY/kI5+ivWEbf7uV3RmhtPfdhqmWPHnpDHUs4v68xMhi1YA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
       '@_ts/max': /typescript@5.5.4
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.0
+      '@eslint/js': 9.2.0
       '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
       '@rollup/plugin-commonjs': 25.0.8(rollup@4.19.1)
       '@rollup/plugin-inject': 5.0.5(rollup@4.19.1)
@@ -20573,6 +20574,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
       typescript: 5.5.4
+      typescript-eslint: 7.16.1(eslint@8.57.0)(typescript@5.5.4)
       vitest: 1.6.0(@types/node@18.19.42)(@vitest/browser@1.6.0)
       yaml: 2.5.0
     transitivePeerDependencies:
@@ -23417,7 +23419,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-eDVTgCOXkmMCSMYlcHMq4zoZ1M5yoc0dlLpTyRH6DARGB12GIXxE6DKsmK+rbep3qo287fXmKIzpl/riR2UzmA==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-fwmHZho2lwmrVWSRPByBqwivzbKwwKmIDpmhhbByJV+LA4Ygh4Psy2iqkNPWrMgxp3DEFM8vGzbc3YwpKsHPAA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -23467,7 +23469,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-7n99q+NT+a89Cbxv1NvpYFc3nmOGK6vryAgy7vFEFXUf40GXUX23IYruwNxvAmAzGkdciIJxFERiAQR4NI1eIA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-yUxQENJ01CZgt3pQ+Hc1KBPbiMQCiUnDCY6hUEkbjCiZQPiYl0WOZh19gPRbbL47r/XWQM5a1pMaMdSfTkTgog==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -23515,7 +23517,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-TMs7RTT9s8/qj9yQvf84ZK2i98CuvIVWzR3Nqr7HaBZIQJ/JcmR0GmCugBk1otGN0AX4HlqhV4JZln3tokMlsA==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-9x6G40Mst6ksYXM/ufVBtrPHw8Y+GQek1BUQLZ/lED8NoA0F3LrdWAimybrvYToVqvpWwkdbY9B20jEe4ocYJw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -23566,7 +23568,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-4jcFTTIJoy+MAwtL2EBGRd2p05R4R4Ii34K2hMXlkA7tDmMuwd+s50Awtfcbo/C2E8oWVmbwIfADF0U7zVzK4w==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-pnrJFe23mI79MQvoYd3TAW2xdxacOf+8XIQ0ejcr9vqC7xuRQ6C8nTU7Q+Gs/YLQsGQVNQVVrzUWaRbuZsZ2eQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -23615,7 +23617,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-tw3AM3j/kFVBHmpE7/HcAx4ZrK/dIWmZNSn6U4m3+7Tf7DlPsMeiVh8YJWgNIEVKGliPIpbRqsccDxIqkNEoMA==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-MQ2mQDvJArx+qkWz6lh1DNC25q8Mfw6DyorvnHPCgDWShVD1OyNbkR3FdBtXF3ApGx3OXWvGagwN48dnPU7+lw==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -23658,7 +23660,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-4irXh8rIUqXBIbrF5EyhAmnB9QIeOqw9f+Xs67zoUW63TzC9O+Yl7rTv1kbA6s9Bhcaiko5eQGG3dZ/PCfTgHg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-ZoZpfV3mA8Y0taJ2+TS1FURVeCdqeHyNx1STH+c3npYsbeXx1EM7zdjlxFy9AzW8WqC98Ljw1CuG94DjdS8lNQ==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
