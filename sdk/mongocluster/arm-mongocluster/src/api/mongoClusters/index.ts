@@ -5,7 +5,9 @@ import { getLongRunningPoller } from "../pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   mongoClusterPropertiesSerializer,
+  mongoClusterUpdatePropertiesSerializer,
   MongoCluster,
+  MongoClusterUpdate,
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
@@ -373,7 +375,7 @@ export function _mongoClustersUpdateSend(
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  properties: MongoCluster,
+  properties: MongoClusterUpdate,
   options: MongoClustersUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod<
   | MongoClustersUpdate200Response
@@ -392,10 +394,9 @@ export function _mongoClustersUpdateSend(
       ...operationOptionsToRequestParameters(options),
       body: {
         tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        location: properties["location"],
         properties: !properties.properties
           ? properties.properties
-          : mongoClusterPropertiesSerializer(properties.properties),
+          : mongoClusterUpdatePropertiesSerializer(properties.properties),
       },
     });
 }
@@ -519,7 +520,7 @@ export function mongoClustersUpdate(
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  properties: MongoCluster,
+  properties: MongoClusterUpdate,
   options: MongoClustersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
   return getLongRunningPoller(context, _mongoClustersUpdateDeserialize, {

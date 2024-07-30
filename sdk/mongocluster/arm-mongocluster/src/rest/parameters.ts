@@ -4,6 +4,7 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   MongoCluster,
+  MongoClusterUpdate,
   CheckNameAvailabilityRequest,
   FirewallRule,
   PrivateEndpointConnectionResource,
@@ -22,7 +23,7 @@ export type MongoClustersCreateOrUpdateParameters = MongoClustersCreateOrUpdateB
 
 export interface MongoClustersUpdateBodyParam {
   /** The resource properties to be updated. */
-  body: MongoCluster;
+  body: MongoClusterUpdate;
 }
 
 export type MongoClustersUpdateParameters = MongoClustersUpdateBodyParam & RequestParameters;
@@ -48,8 +49,8 @@ export interface FirewallRulesCreateOrUpdateBodyParam {
 export type FirewallRulesCreateOrUpdateParameters = FirewallRulesCreateOrUpdateBodyParam &
   RequestParameters;
 export type FirewallRulesDeleteParameters = RequestParameters;
-export type FirewallRulesListByParentParameters = RequestParameters;
-export type PrivateEndpointConnectionsListConnectionsParameters = RequestParameters;
+export type FirewallRulesListByMongoClusterParameters = RequestParameters;
+export type PrivateEndpointConnectionsListByMongoClusterParameters = RequestParameters;
 export type PrivateEndpointConnectionsGetParameters = RequestParameters;
 
 export interface PrivateEndpointConnectionsCreateBodyParam {
@@ -60,4 +61,4 @@ export interface PrivateEndpointConnectionsCreateBodyParam {
 export type PrivateEndpointConnectionsCreateParameters = PrivateEndpointConnectionsCreateBodyParam &
   RequestParameters;
 export type PrivateEndpointConnectionsDeleteParameters = RequestParameters;
-export type PrivateLinksListParameters = RequestParameters;
+export type PrivateLinksListByMongoClusterParameters = RequestParameters;

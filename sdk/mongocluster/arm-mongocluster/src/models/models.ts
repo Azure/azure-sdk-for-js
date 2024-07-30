@@ -13,6 +13,8 @@ import {
   MongoClusterProperties as MongoClusterPropertiesRest,
   MongoClusterRestoreParameters as MongoClusterRestoreParametersRest,
   NodeGroupSpec as NodeGroupSpecRest,
+  MongoClusterUpdate as MongoClusterUpdateRest,
+  MongoClusterUpdateProperties as MongoClusterUpdatePropertiesRest,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestRest,
 } from "../rest/index.js";
 
@@ -524,6 +526,52 @@ export type NodeKind = string;
 export interface PrivateEndpointConnection extends Resource {
   /** The private endpoint connection properties */
   properties?: PrivateEndpointConnectionProperties;
+}
+
+/** The type used for update operations of the MongoCluster. */
+export interface MongoClusterUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: MongoClusterUpdateProperties;
+}
+
+export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): MongoClusterUpdateRest {
+  return {
+    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    properties: !item.properties
+      ? item.properties
+      : mongoClusterUpdatePropertiesSerializer(item.properties),
+  };
+}
+
+/** The updatable properties of the MongoCluster. */
+export interface MongoClusterUpdateProperties {
+  /** The administrator's login for the mongo cluster. */
+  administratorLogin?: string;
+  /** The password of the administrator login. */
+  administratorLoginPassword?: string;
+  /** The Mongo DB server version. Defaults to the latest available version if not specified. */
+  serverVersion?: string;
+  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The list of node group specs in the cluster. */
+  nodeGroupSpecs?: NodeGroupSpec[];
+}
+
+export function mongoClusterUpdatePropertiesSerializer(
+  item: MongoClusterUpdateProperties,
+): MongoClusterUpdatePropertiesRest {
+  return {
+    administratorLogin: item["administratorLogin"],
+    administratorLoginPassword: item["administratorLoginPassword"],
+    serverVersion: item["serverVersion"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    nodeGroupSpecs:
+      item["nodeGroupSpecs"] === undefined
+        ? item["nodeGroupSpecs"]
+        : item["nodeGroupSpecs"].map(nodeGroupSpecSerializer),
+  };
 }
 
 /** The response of a MongoCluster list operation. */

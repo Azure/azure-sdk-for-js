@@ -38,6 +38,8 @@ export {
   KnownNodeKind,
   NodeKind,
   PrivateEndpointConnection,
+  MongoClusterUpdate,
+  MongoClusterUpdateProperties,
   ListConnectionStringsResult,
   ConnectionString,
   CheckNameAvailabilityRequest,
@@ -66,11 +68,11 @@ export {
   FirewallRulesGetOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesListByParentOptionalParams,
-  PrivateEndpointConnectionsListConnectionsOptionalParams,
+  FirewallRulesListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateLinksListOptionalParams,
+  PrivateLinksListByMongoClusterOptionalParams,
 } from "./options.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes.js";

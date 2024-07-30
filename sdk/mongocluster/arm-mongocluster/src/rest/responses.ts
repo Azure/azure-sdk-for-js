@@ -246,23 +246,23 @@ export interface FirewallRulesDeleteLogicalResponse extends HttpResponse {
 }
 
 /** Azure operation completed successfully. */
-export interface FirewallRulesListByParent200Response extends HttpResponse {
+export interface FirewallRulesListByMongoCluster200Response extends HttpResponse {
   status: "200";
   body: FirewallRuleListResultOutput;
 }
 
-export interface FirewallRulesListByParentDefaultResponse extends HttpResponse {
+export interface FirewallRulesListByMongoClusterDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Azure operation completed successfully. */
-export interface PrivateEndpointConnectionsListConnections200Response extends HttpResponse {
+export interface PrivateEndpointConnectionsListByMongoCluster200Response extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionResourceListResultOutput;
 }
 
-export interface PrivateEndpointConnectionsListConnectionsDefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsListByMongoClusterDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -343,12 +343,12 @@ export interface PrivateEndpointConnectionsDeleteLogicalResponse extends HttpRes
 }
 
 /** Azure operation completed successfully. */
-export interface PrivateLinksList200Response extends HttpResponse {
+export interface PrivateLinksListByMongoCluster200Response extends HttpResponse {
   status: "200";
   body: PrivateLinkResourceListResultOutput;
 }
 
-export interface PrivateLinksListDefaultResponse extends HttpResponse {
+export interface PrivateLinksListByMongoClusterDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

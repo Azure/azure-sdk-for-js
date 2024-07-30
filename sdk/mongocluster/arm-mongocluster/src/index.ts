@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 export {
-  MongoClusterManagementClient,
-  MongoClusterManagementClientOptionalParams,
+  mongoClusterManagementClient,
+  mongoClusterManagementClientOptionalParams,
 } from "./mongoClusterManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
@@ -43,6 +43,8 @@ export {
   KnownNodeKind,
   NodeKind,
   PrivateEndpointConnection,
+  MongoClusterUpdate,
+  MongoClusterUpdateProperties,
   ListConnectionStringsResult,
   ConnectionString,
   CheckNameAvailabilityRequest,
@@ -69,12 +71,12 @@ export {
   FirewallRulesGetOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesListByParentOptionalParams,
-  PrivateEndpointConnectionsListConnectionsOptionalParams,
+  FirewallRulesListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateLinksListOptionalParams,
+  PrivateLinksListByMongoClusterOptionalParams,
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,

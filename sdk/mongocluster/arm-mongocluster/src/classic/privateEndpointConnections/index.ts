@@ -4,7 +4,7 @@
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateEndpointConnectionResource } from "../../models/models.js";
 import {
-  privateEndpointConnectionsListConnections,
+  privateEndpointConnectionsListByMongoCluster,
   privateEndpointConnectionsGet,
   privateEndpointConnectionsCreate,
   privateEndpointConnectionsDelete,
@@ -12,7 +12,7 @@ import {
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  PrivateEndpointConnectionsListConnectionsOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
@@ -21,10 +21,10 @@ import {
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
   /** List existing private connections */
-  listConnections: (
+  listByMongoCluster: (
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: PrivateEndpointConnectionsListConnectionsOptionalParams,
+    options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
   /** Get a specific private connection */
   get: (
@@ -55,12 +55,12 @@ export interface PrivateEndpointConnectionsOperations {
 
 export function getPrivateEndpointConnections(context: DocumentDBContext, subscriptionId: string) {
   return {
-    listConnections: (
+    listByMongoCluster: (
       resourceGroupName: string,
       mongoClusterName: string,
-      options?: PrivateEndpointConnectionsListConnectionsOptionalParams,
+      options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
     ) =>
-      privateEndpointConnectionsListConnections(
+      privateEndpointConnectionsListByMongoCluster(
         context,
         subscriptionId,
         resourceGroupName,

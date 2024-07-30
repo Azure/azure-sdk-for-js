@@ -7,7 +7,7 @@ import {
   firewallRulesGet,
   firewallRulesCreateOrUpdate,
   firewallRulesDelete,
-  firewallRulesListByParent,
+  firewallRulesListByMongoCluster,
 } from "../../api/firewallRules/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -15,7 +15,7 @@ import {
   FirewallRulesGetOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesListByParentOptionalParams,
+  FirewallRulesListByMongoClusterOptionalParams,
 } from "../../models/options.js";
 
 /** Interface representing a FirewallRules operations. */
@@ -43,10 +43,10 @@ export interface FirewallRulesOperations {
     options?: FirewallRulesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** List all the firewall rules in a given mongo cluster. */
-  listByParent: (
+  listByMongoCluster: (
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: FirewallRulesListByParentOptionalParams,
+    options?: FirewallRulesListByMongoClusterOptionalParams,
   ) => PagedAsyncIterableIterator<FirewallRule>;
 }
 
@@ -96,12 +96,12 @@ export function getFirewallRules(context: DocumentDBContext, subscriptionId: str
         firewallRuleName,
         options,
       ),
-    listByParent: (
+    listByMongoCluster: (
       resourceGroupName: string,
       mongoClusterName: string,
-      options?: FirewallRulesListByParentOptionalParams,
+      options?: FirewallRulesListByMongoClusterOptionalParams,
     ) =>
-      firewallRulesListByParent(
+      firewallRulesListByMongoCluster(
         context,
         subscriptionId,
         resourceGroupName,

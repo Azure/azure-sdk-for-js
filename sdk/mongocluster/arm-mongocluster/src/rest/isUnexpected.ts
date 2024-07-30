@@ -37,10 +37,10 @@ import {
   FirewallRulesDelete204Response,
   FirewallRulesDeleteLogicalResponse,
   FirewallRulesDeleteDefaultResponse,
-  FirewallRulesListByParent200Response,
-  FirewallRulesListByParentDefaultResponse,
-  PrivateEndpointConnectionsListConnections200Response,
-  PrivateEndpointConnectionsListConnectionsDefaultResponse,
+  FirewallRulesListByMongoCluster200Response,
+  FirewallRulesListByMongoClusterDefaultResponse,
+  PrivateEndpointConnectionsListByMongoCluster200Response,
+  PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
   PrivateEndpointConnectionsGet200Response,
   PrivateEndpointConnectionsGetDefaultResponse,
   PrivateEndpointConnectionsCreate200Response,
@@ -52,8 +52,8 @@ import {
   PrivateEndpointConnectionsDelete204Response,
   PrivateEndpointConnectionsDeleteLogicalResponse,
   PrivateEndpointConnectionsDeleteDefaultResponse,
-  PrivateLinksList200Response,
-  PrivateLinksListDefaultResponse,
+  PrivateLinksListByMongoCluster200Response,
+  PrivateLinksListByMongoClusterDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -157,13 +157,15 @@ export function isUnexpected(
     | FirewallRulesDeleteDefaultResponse,
 ): response is FirewallRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response: FirewallRulesListByParent200Response | FirewallRulesListByParentDefaultResponse,
-): response is FirewallRulesListByParentDefaultResponse;
+  response:
+    | FirewallRulesListByMongoCluster200Response
+    | FirewallRulesListByMongoClusterDefaultResponse,
+): response is FirewallRulesListByMongoClusterDefaultResponse;
 export function isUnexpected(
   response:
-    | PrivateEndpointConnectionsListConnections200Response
-    | PrivateEndpointConnectionsListConnectionsDefaultResponse,
-): response is PrivateEndpointConnectionsListConnectionsDefaultResponse;
+    | PrivateEndpointConnectionsListByMongoCluster200Response
+    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
+): response is PrivateEndpointConnectionsListByMongoClusterDefaultResponse;
 export function isUnexpected(
   response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
 ): response is PrivateEndpointConnectionsGetDefaultResponse;
@@ -183,8 +185,10 @@ export function isUnexpected(
     | PrivateEndpointConnectionsDeleteDefaultResponse,
 ): response is PrivateEndpointConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrivateLinksList200Response | PrivateLinksListDefaultResponse,
-): response is PrivateLinksListDefaultResponse;
+  response:
+    | PrivateLinksListByMongoCluster200Response
+    | PrivateLinksListByMongoClusterDefaultResponse,
+): response is PrivateLinksListByMongoClusterDefaultResponse;
 export function isUnexpected(
   response:
     | OperationsList200Response
@@ -222,10 +226,10 @@ export function isUnexpected(
     | FirewallRulesDelete204Response
     | FirewallRulesDeleteLogicalResponse
     | FirewallRulesDeleteDefaultResponse
-    | FirewallRulesListByParent200Response
-    | FirewallRulesListByParentDefaultResponse
-    | PrivateEndpointConnectionsListConnections200Response
-    | PrivateEndpointConnectionsListConnectionsDefaultResponse
+    | FirewallRulesListByMongoCluster200Response
+    | FirewallRulesListByMongoClusterDefaultResponse
+    | PrivateEndpointConnectionsListByMongoCluster200Response
+    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
     | PrivateEndpointConnectionsGet200Response
     | PrivateEndpointConnectionsGetDefaultResponse
     | PrivateEndpointConnectionsCreate200Response
@@ -237,8 +241,8 @@ export function isUnexpected(
     | PrivateEndpointConnectionsDelete204Response
     | PrivateEndpointConnectionsDeleteLogicalResponse
     | PrivateEndpointConnectionsDeleteDefaultResponse
-    | PrivateLinksList200Response
-    | PrivateLinksListDefaultResponse,
+    | PrivateLinksListByMongoCluster200Response
+    | PrivateLinksListByMongoClusterDefaultResponse,
 ): response is
   | OperationsListDefaultResponse
   | MongoClustersGetDefaultResponse
@@ -252,12 +256,12 @@ export function isUnexpected(
   | FirewallRulesGetDefaultResponse
   | FirewallRulesCreateOrUpdateDefaultResponse
   | FirewallRulesDeleteDefaultResponse
-  | FirewallRulesListByParentDefaultResponse
-  | PrivateEndpointConnectionsListConnectionsDefaultResponse
+  | FirewallRulesListByMongoClusterDefaultResponse
+  | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
   | PrivateEndpointConnectionsGetDefaultResponse
   | PrivateEndpointConnectionsCreateDefaultResponse
   | PrivateEndpointConnectionsDeleteDefaultResponse
-  | PrivateLinksListDefaultResponse {
+  | PrivateLinksListByMongoClusterDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

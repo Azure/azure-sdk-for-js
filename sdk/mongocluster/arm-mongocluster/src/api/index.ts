@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 export {
-  createMongoClusterManagement,
-  MongoClusterManagementClientOptionalParams,
+  createmongoClusterManagement,
+  mongoClusterManagementClientOptionalParams,
   DocumentDBContext,
 } from "./mongoClusterManagementContext.js";
 export {
   firewallRulesGet,
   firewallRulesCreateOrUpdate,
   firewallRulesDelete,
-  firewallRulesListByParent,
+  firewallRulesListByMongoCluster,
 } from "./firewallRules/index.js";
 export {
   mongoClustersGet,
@@ -24,9 +24,9 @@ export {
 } from "./mongoClusters/index.js";
 export { operationsList } from "./operations/index.js";
 export {
-  privateEndpointConnectionsListConnections,
+  privateEndpointConnectionsListByMongoCluster,
   privateEndpointConnectionsGet,
   privateEndpointConnectionsCreate,
   privateEndpointConnectionsDelete,
 } from "./privateEndpointConnections/index.js";
-export { privateLinksList } from "./privateLinks/index.js";
+export { privateLinksListByMongoCluster } from "./privateLinks/index.js";

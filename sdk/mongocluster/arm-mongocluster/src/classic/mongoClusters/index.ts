@@ -4,6 +4,7 @@
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import {
   MongoCluster,
+  MongoClusterUpdate,
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
@@ -50,7 +51,7 @@ export interface MongoClustersOperations {
   update: (
     resourceGroupName: string,
     mongoClusterName: string,
-    properties: MongoCluster,
+    properties: MongoClusterUpdate,
     options?: MongoClustersUpdateOptionalParams,
   ) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
   /** Deletes a mongo cluster. */
@@ -104,7 +105,7 @@ export function getMongoClusters(context: DocumentDBContext, subscriptionId: str
     update: (
       resourceGroupName: string,
       mongoClusterName: string,
-      properties: MongoCluster,
+      properties: MongoClusterUpdate,
       options?: MongoClustersUpdateOptionalParams,
     ) =>
       mongoClustersUpdate(

@@ -24,8 +24,8 @@ import {
   PrivateEndpointConnectionsDeleteLogicalResponse,
   PrivateEndpointConnectionsGet200Response,
   PrivateEndpointConnectionsGetDefaultResponse,
-  PrivateEndpointConnectionsListConnections200Response,
-  PrivateEndpointConnectionsListConnectionsDefaultResponse,
+  PrivateEndpointConnectionsListByMongoCluster200Response,
+  PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
 } from "../../rest/index.js";
 import {
   StreamableMethod,
@@ -33,23 +33,23 @@ import {
   createRestError,
 } from "@azure-rest/core-client";
 import {
-  PrivateEndpointConnectionsListConnectionsOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../../models/options.js";
 
-export function _privateEndpointConnectionsListConnectionsSend(
+export function _privateEndpointConnectionsListByMongoClusterSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateEndpointConnectionsListConnectionsOptionalParams = {
+  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod<
-  | PrivateEndpointConnectionsListConnections200Response
-  | PrivateEndpointConnectionsListConnectionsDefaultResponse
+  | PrivateEndpointConnectionsListByMongoCluster200Response
+  | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
 > {
   return context
     .path(
@@ -61,10 +61,10 @@ export function _privateEndpointConnectionsListConnectionsSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _privateEndpointConnectionsListConnectionsDeserialize(
+export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
   result:
-    | PrivateEndpointConnectionsListConnections200Response
-    | PrivateEndpointConnectionsListConnectionsDefaultResponse,
+    | PrivateEndpointConnectionsListByMongoCluster200Response
+    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
 ): Promise<_PrivateEndpointConnectionResourceListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -113,26 +113,26 @@ export async function _privateEndpointConnectionsListConnectionsDeserialize(
 }
 
 /** List existing private connections */
-export function privateEndpointConnectionsListConnections(
+export function privateEndpointConnectionsListByMongoCluster(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: PrivateEndpointConnectionsListConnectionsOptionalParams = {
+  options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<PrivateEndpointConnectionResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _privateEndpointConnectionsListConnectionsSend(
+      _privateEndpointConnectionsListByMongoClusterSend(
         context,
         subscriptionId,
         resourceGroupName,
         mongoClusterName,
         options,
       ),
-    _privateEndpointConnectionsListConnectionsDeserialize,
+    _privateEndpointConnectionsListByMongoClusterDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

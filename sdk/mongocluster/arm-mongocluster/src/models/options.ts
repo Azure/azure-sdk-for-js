@@ -55,10 +55,11 @@ export interface FirewallRulesDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface FirewallRulesListByParentOptionalParams extends OperationOptions {}
+export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListConnectionsOptionalParams extends OperationOptions {}
+export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {}
@@ -76,4 +77,4 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams extends Operatio
 }
 
 /** Optional parameters. */
-export interface PrivateLinksListOptionalParams extends OperationOptions {}
+export interface PrivateLinksListByMongoClusterOptionalParams extends OperationOptions {}
