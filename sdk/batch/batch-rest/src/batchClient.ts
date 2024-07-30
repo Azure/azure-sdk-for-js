@@ -8,6 +8,12 @@ import { BatchClient } from "./clientDefinitions.js";
 import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials.js";
 import { createReplacePoolPropertiesPolicy } from "./replacePoolPropertiesPolicy.js";
 
+/** The optional parameters for the client */
+export interface BatchClientOptions extends ClientOptions {
+  /** The api version option of the client */
+  apiVersion?: string;
+}
+
 /**
  * Initialize a new instance of `BatchClient`
  * @param endpointParam - Batch account endpoint (for example: https://batchaccount.eastus2.batch.azure.com).
@@ -17,10 +23,9 @@ import { createReplacePoolPropertiesPolicy } from "./replacePoolPropertiesPolicy
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | AzureNamedKeyCredential,
-  options: ClientOptions = {},
+  { apiVersion = "2024-02-01.19.0", ...options }: BatchClientOptions = {},
 ): BatchClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  options.apiVersion = options.apiVersion ?? "2024-02-01.19.0";
   const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -51,13 +56,34 @@ export default function createClient(
     ],
   };
 
+  const addClientApiVersionPolicy = (client: BatchClient): BatchClient => {
+    client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
+    client.pipeline.addPolicy({
+      name: "ClientApiVersionPolicy",
+      sendRequest: (req, next) => {
+        // Use the apiVersion defined in request url directly
+        // Append one if there is no apiVersion and we have one at client options
+        const url = new URL(req.url);
+        if (!url.searchParams.get("api-version") && apiVersion) {
+          req.url = `${req.url}${
+            Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+          }api-version=${apiVersion}`;
+        }
+
+        return next(req);
+      },
+    });
+    return client;
+  };
+
+  // Customization for BatchClient, shouldn't be overwritten by codegen
   if (isTokenCredential(credentials)) {
-    return getClient(endpointUrl, credentials, options) as BatchClient;
+    const client = getClient(endpointUrl, credentials, options) as BatchClient;
+    return addClientApiVersionPolicy(client);
   }
-  // Customization for BatchClient, shouldn't be overwritten codegen
   // If the credentials are not a TokenCredential, we need to add a policy to handle the shared key auth.
   const client = getClient(endpointUrl, options) as BatchClient;
   const authPolicy = createBatchSharedKeyCredentialsPolicy(credentials);
   client.pipeline.addPolicy(authPolicy);
-  return client;
+  return addClientApiVersionPolicy(client);
 }
