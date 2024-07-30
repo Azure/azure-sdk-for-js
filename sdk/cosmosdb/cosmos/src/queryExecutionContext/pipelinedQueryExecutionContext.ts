@@ -50,8 +50,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     // TODO: Currently we don't get any field from backend to determine streaming queries
     if (this.nonStreamingOrderBy) {
-      if (!options.allowNonStreamingQueriesWithoutTopOrLimit) {
-        this.checkTopOrLimit(partitionedQueryExecutionInfo.queryInfo);
+      if (!options.allowUnboundedNonStreamingQueries) {
+        this.checkQueryConstraints(partitionedQueryExecutionInfo.queryInfo);
       }
 
       this.vectorSearchBufferSize = this.calculateVectorSearchBufferSize(
@@ -64,8 +64,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
-          "Executing a vector search query with TOP or LIMIT larger than the vectorSearchBufferSize " +
-            "is not allowed",
+          `Executing a vector search query with TOP or LIMIT larger than the vectorSearchBufferSize ${maxBufferSize} ` +
+            `is not allowed`,
         );
       }
 
@@ -278,8 +278,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           : PipelinedQueryExecutionContext.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
   }
 
-  private checkTopOrLimit(queryInfo: QueryInfo): void {
-    if (!queryInfo.top && !queryInfo.limit && queryInfo.top !== 0 && queryInfo.limit !== 0) {
+  private checkQueryConstraints(queryInfo: QueryInfo): void {
+    const hasTop = queryInfo.top || queryInfo.top === 0;
+    const hasLimit = queryInfo.limit || queryInfo.limit === 0;
+    if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a vector search query without TOP or LIMIT can consume a large number of RUs " +
           "very fast and have long runtimes. Please ensure you are using one of the above two filters " +

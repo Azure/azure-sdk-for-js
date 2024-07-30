@@ -127,5 +127,5 @@ export interface FeedOptions extends SharedOptions {
    * Valid only for non streaming order by query.
    * Default: false; When set to true, it allows queries to bypass the default behavior that blocks nonStreaming queries without top or limit clauses.
    */
-  allowNonStreamingQueriesWithoutTopOrLimit?: boolean;
+  allowUnboundedNonStreamingQueries?: boolean;
 }
