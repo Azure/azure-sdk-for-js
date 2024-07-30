@@ -34,7 +34,7 @@ export function firewallRulesDelete(context: DocumentDBContext, subscriptionId: 
 export function firewallRulesGet(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams): Promise<FirewallRule_2>;
 
 // @public
-export function firewallRulesListByParent(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: FirewallRulesListByParentOptionalParams): PagedAsyncIterableIterator<FirewallRule_2>;
+export function firewallRulesListByMongoCluster(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: FirewallRulesListByMongoClusterOptionalParams): PagedAsyncIterableIterator<FirewallRule_2>;
 
 // @public
 export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
@@ -63,7 +63,7 @@ export function mongoClustersListByResourceGroup(context: DocumentDBContext, sub
 export function mongoClustersListConnectionStrings(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: MongoClustersListConnectionStringsOptionalParams): Promise<ListConnectionStringsResult>;
 
 // @public
-export function mongoClustersUpdate(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, properties: MongoCluster_2, options?: MongoClustersUpdateOptionalParams): PollerLike<OperationState<MongoCluster_2>, MongoCluster_2>;
+export function mongoClustersUpdate(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, properties: MongoClusterUpdate_2, options?: MongoClustersUpdateOptionalParams): PollerLike<OperationState<MongoCluster_2>, MongoCluster_2>;
 
 // @public
 export function operationsList(context: DocumentDBContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
@@ -78,10 +78,10 @@ export function privateEndpointConnectionsDelete(context: DocumentDBContext, sub
 export function privateEndpointConnectionsGet(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionResource_2>;
 
 // @public
-export function privateEndpointConnectionsListConnections(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: PrivateEndpointConnectionsListConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionResource_2>;
+export function privateEndpointConnectionsListByMongoCluster(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionResource_2>;
 
 // @public
-export function privateLinksList(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: PrivateLinksListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+export function privateLinksListByMongoCluster(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: PrivateLinksListByMongoClusterOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
 
 // (No @packageDocumentation comment for this package)
 
