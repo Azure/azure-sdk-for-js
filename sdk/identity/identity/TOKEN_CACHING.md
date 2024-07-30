@@ -1,6 +1,6 @@
 ## Token caching in the Azure Identity client library
 
-*Token caching* is a feature provided by the Azure Identity library that allows apps to:
+_Token caching_ is a feature provided by the Azure Identity library that allows apps to:
 
 - Improve their resilience and performance.
 - Reduce the number of requests made to Microsoft Entra ID to obtain access tokens.
@@ -12,7 +12,7 @@ Token caching, via the Azure Identity library, allows the app to store this acce
 
 ### In-memory token caching
 
-*In-memory token caching* is the default option provided by the Azure Identity library. This caching approach allows apps to store access tokens in memory. With in-memory token caching, the library first determines if a valid access token for the requested resource is already stored in memory. If a valid token is found, it's returned to the app without the need to make another request to Microsoft Entra ID. If a valid token isn't found, the library will automatically acquire a token by sending a request to Microsoft Entra ID.
+_In-memory token caching_ is the default option provided by the Azure Identity library. This caching approach allows apps to store access tokens in memory. With in-memory token caching, the library first determines if a valid access token for the requested resource is already stored in memory. If a valid token is found, it's returned to the app without the need to make another request to Microsoft Entra ID. If a valid token isn't found, the library will automatically acquire a token by sending a request to Microsoft Entra ID.
 
 The in-memory token cache provided by the Azure Identity library:
 
@@ -27,13 +27,13 @@ As there are many levels of cache, it's not possible disable in-memory caching. 
 
 ### Persistent token caching
 
-*Persistent disk token caching* is an opt-in feature in the Azure Identity library. The feature allows apps to cache access tokens in an encrypted, persistent storage mechanism. As indicated in the following table, the storage mechanism differs across operating systems.
+_Persistent disk token caching_ is an opt-in feature in the Azure Identity library. The feature allows apps to cache access tokens in an encrypted, persistent storage mechanism. As indicated in the following table, the storage mechanism differs across operating systems.
 
 | Operating system | Storage mechanism |
-|------------------|-------------------|
+| ---------------- | ----------------- |
 | Linux            | Keyring           |
 | macOS            | Keychain          |
-| Windows          | DPAPI              |
+| Windows          | DPAPI             |
 
 With persistent disk token caching enabled, the library first determines if a valid access token for the requested resource is already stored in the persistent cache. If a valid token is found, it's returned to the app without the need to make another request to Microsoft Entra ID. Additionally, the tokens are preserved across app runs, which:
 
@@ -43,7 +43,7 @@ With persistent disk token caching enabled, the library first determines if a va
 
 #### Code sample
 
-[The sample showcases how to activate persistence token caching](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-the-token-cache) in the credentials offered by the Azure Identity library. 
+[The sample showcases how to activate persistence token caching](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-the-token-cache) in the credentials offered by the Azure Identity library.
 
 #### Persist user authentication record
 
@@ -64,10 +64,11 @@ The following table indicates the state of in-memory and persistent caching in e
 **Note:** In-memory caching is activated by default. Persistent token caching needs to be enabled as shown in [this code sample](#code-sample).
 
 | Credential                     | In-memory token caching                                                | Persistent disk token caching |
-|--------------------------------|------------------------------------------------------------------------|-------------------------------|
+| ------------------------------ | ---------------------------------------------------------------------- | ----------------------------- |
 | `AuthorizationCodeCredential`  | Supported                                                              | Supported                     |
 | `AzureCliCredential`           | Not Supported                                                          | Not Supported                 |
 | `AzureDeveloperCliCredential`  | Not Supported                                                          | Not Supported                 |
+| `AzurePipelinesCredential`     | Supported                                                              | Supported                     |
 | `AzurePowershellCredential`    | Not Supported                                                          | Not Supported                 |
 | `ClientAssertionCredential`    | Supported                                                              | Supported                     |
 | `ClientCertificateCredential`  | Supported                                                              | Supported                     |
