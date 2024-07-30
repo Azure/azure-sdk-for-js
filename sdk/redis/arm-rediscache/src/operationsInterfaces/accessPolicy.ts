@@ -15,7 +15,7 @@ import {
   AccessPolicyCreateUpdateResponse,
   AccessPolicyDeleteOptionalParams,
   AccessPolicyGetOptionalParams,
-  AccessPolicyGetResponse
+  AccessPolicyGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface AccessPolicy {
   list(
     resourceGroupName: string,
     cacheName: string,
-    options?: AccessPolicyListOptionalParams
+    options?: AccessPolicyListOptionalParams,
   ): PagedAsyncIterableIterator<RedisCacheAccessPolicy>;
   /**
    * Adds an access policy to the redis cache
@@ -45,7 +45,7 @@ export interface AccessPolicy {
     cacheName: string,
     accessPolicyName: string,
     parameters: RedisCacheAccessPolicy,
-    options?: AccessPolicyCreateUpdateOptionalParams
+    options?: AccessPolicyCreateUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessPolicyCreateUpdateResponse>,
@@ -65,7 +65,7 @@ export interface AccessPolicy {
     cacheName: string,
     accessPolicyName: string,
     parameters: RedisCacheAccessPolicy,
-    options?: AccessPolicyCreateUpdateOptionalParams
+    options?: AccessPolicyCreateUpdateOptionalParams,
   ): Promise<AccessPolicyCreateUpdateResponse>;
   /**
    * Deletes the access policy from a redis cache
@@ -78,7 +78,7 @@ export interface AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyName: string,
-    options?: AccessPolicyDeleteOptionalParams
+    options?: AccessPolicyDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the access policy from a redis cache
@@ -91,7 +91,7 @@ export interface AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyName: string,
-    options?: AccessPolicyDeleteOptionalParams
+    options?: AccessPolicyDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the detailed information about an access policy of a redis cache
@@ -104,6 +104,6 @@ export interface AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyName: string,
-    options?: AccessPolicyGetOptionalParams
+    options?: AccessPolicyGetOptionalParams,
   ): Promise<AccessPolicyGetResponse>;
 }

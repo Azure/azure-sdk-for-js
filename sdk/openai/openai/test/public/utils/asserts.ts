@@ -361,8 +361,10 @@ export function assertImagesWithJSON(
     assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {
       assert.isString(data);
+      // Width in PNG is byte 16 - 20
       const actualWidth = Buffer.from(data, "base64").readUInt32BE(16);
       assert.equal(actualWidth, width, "Width does not match");
+      // Height in PNG is byte 20 - 24
       const actualHeight = Buffer.from(data, "base64").readUInt32BE(20);
       assert.equal(actualHeight, height, "Height does not match");
     });

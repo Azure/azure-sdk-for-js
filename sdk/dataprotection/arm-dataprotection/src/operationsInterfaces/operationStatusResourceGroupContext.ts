@@ -8,7 +8,7 @@
 
 import {
   OperationStatusResourceGroupContextGetOptionalParams,
-  OperationStatusResourceGroupContextGetResponse
+  OperationStatusResourceGroupContextGetResponse,
 } from "../models";
 
 /** Interface representing a OperationStatusResourceGroupContext. */
@@ -22,6 +22,6 @@ export interface OperationStatusResourceGroupContext {
   get(
     resourceGroupName: string,
     operationId: string,
-    options?: OperationStatusResourceGroupContextGetOptionalParams
+    options?: OperationStatusResourceGroupContextGetOptionalParams,
   ): Promise<OperationStatusResourceGroupContextGetResponse>;
 }
