@@ -86,6 +86,8 @@ export async function getConnectionStringWithSAS(): Promise<string | undefined> 
     : undefined;
 }
 
+let clientId = 0;
+
 export function createConsumer(
   inputOptions: {
     connectionString?: string;
@@ -107,7 +109,7 @@ export function createConsumer(
     fqdn = getFullyQualifiedNamespace(),
     groupName = EventHubConsumerClient.defaultConsumerGroupName,
     checkPointStore,
-    options,
+    options = { identifier: `consumer${clientId++}` },
   } = inputOptions;
   return {
     consumer: !connectionString
@@ -154,7 +156,7 @@ export function createProducer(
     eventhubName = getEventhubName(),
     fqdn = getFullyQualifiedNamespace(),
     enableIdempotentRetries,
-    options,
+    options = { identifier: `producer${clientId++}` },
   } = inputOptions;
   const producer = !connectionString
     ? new EventHubProducerClient(fqdn, eventhubName, credential, options)
@@ -190,6 +192,7 @@ export function createBufferedProducer(
       onSendEventsErrorHandler: async (ctx) => {
         throw ctx.error;
       },
+      identifier: `bufferedProducer${clientId++}`,
     },
   } = inputOptions;
   return {
@@ -218,7 +221,7 @@ export function createContext(
     credential = createTestCredential(),
     eventhubName = getEventhubName(),
     fqdn = getFullyQualifiedNamespace(),
-    options,
+    options = { identifier: `context${clientId++}` },
   } = inputOptions;
   return {
     context: !connectionString

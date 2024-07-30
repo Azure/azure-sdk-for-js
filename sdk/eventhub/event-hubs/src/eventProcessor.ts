@@ -14,6 +14,7 @@ import { OperationOptions } from "./util/operationOptions.js";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels.js";
 import { delayWithoutThrow } from "./util/delayWithoutThrow.js";
 import { getRandomName } from "./util/utils.js";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
@@ -179,7 +180,7 @@ export class EventProcessor {
   private _id: string;
   private _isRunning: boolean = false;
   private _loopTask?: PromiseLike<void>;
-  private _abortController?: AbortController;
+  private _abortController: AbortController = new AbortController();
   /**
    * A specific partition to target.
    */
@@ -367,7 +368,7 @@ export class EventProcessor {
         await this._startPump(partitionId, abortSignal);
       } catch (err: any) {
         logger.warning(
-          `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`,
+          `[${this._id}] An error occurred within the EventProcessor loop: ${err?.name}: ${err?.message}`,
         );
         logErrorStackTrace(err);
         await this._handleSubscriptionError(err);
@@ -415,7 +416,7 @@ export class EventProcessor {
       const iterationStartTimeInMs = Date.now();
       try {
         const { partitionIds } = await this._context.managementSession!.getEventHubProperties({
-          abortSignal: abortSignal,
+          abortSignal,
         });
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
       } catch (err: any) {
@@ -448,7 +449,7 @@ export class EventProcessor {
     partitionIds: string[],
     abortSignal: AbortSignalLike,
   ): Promise<void> {
-    if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
+    if (abortSignal.aborted) throw new AbortError(StandardAbortMessage);
 
     // Retrieve current partition ownership details from the datastore.
     const partitionOwnership = await this._checkpointStore.listOwnership(
@@ -457,7 +458,7 @@ export class EventProcessor {
       this._consumerGroup,
     );
 
-    if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
+    if (abortSignal.aborted) throw new AbortError(StandardAbortMessage);
 
     const { partitionOwnershipMap, partitionsToClaim } = computePartitionsToClaim({
       id: this._id,
@@ -523,7 +524,6 @@ export class EventProcessor {
     }
 
     this._isRunning = true;
-    this._abortController = new AbortController();
     logger.verbose(`[${this._id}] Starting an EventProcessor.`);
 
     if (this._processingTarget) {
@@ -554,10 +554,8 @@ export class EventProcessor {
    */
   async stop(): Promise<void> {
     logger.verbose(`[${this._id}] Stopping an EventProcessor.`);
-    if (this._abortController) {
-      // cancel the event processor loop
-      this._abortController.abort();
-    }
+    // cancel the event processor loop
+    this._abortController.abort();
 
     try {
       // remove all existing pumps
@@ -569,7 +567,7 @@ export class EventProcessor {
         await this._loopTask;
       }
     } catch (err: any) {
-      logger.verbose(`[${this._id}] An error occured while stopping the EventProcessor: ${err}`);
+      logger.verbose(`[${this._id}] An error occurred while stopping the EventProcessor: ${err}`);
     } finally {
       logger.verbose(`[${this._id}] EventProcessor stopped.`);
     }

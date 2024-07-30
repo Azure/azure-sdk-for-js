@@ -358,13 +358,15 @@ export function waitForEvents(
     aborter.abort();
   };
   clientAbortSignal?.addEventListener("abort", abortListener);
+  let cleanupBeforeAbortCalled = false;
 
   const updatedOptions = {
     abortSignal: aborter.signal,
     abortErrorMsg: StandardAbortMessage,
     cleanupBeforeAbort: () => {
-      if (clientAbortSignal?.aborted) {
+      if (clientAbortSignal?.aborted && !cleanupBeforeAbortCalled) {
         cleanupBeforeAbort?.();
+        cleanupBeforeAbortCalled = true;
       }
     },
   };

@@ -12,17 +12,17 @@ import { delay } from "@azure/core-amqp";
 import { loggerForTest } from "./logHelpers.js";
 
 export async function getSubscriptionPromise(client: EventHubConsumerClient): Promise<void> {
-  let subscription: Subscription | undefined;
+  let subscription: Subscription;
   return new Promise<void>((resolve, reject) => {
     subscription = client.subscribe({
       processEvents: async () => {
         resolve();
       },
-      processError: async (err: any) => {
+      processError: async (err) => {
         reject(err);
       },
     });
-  }).finally(() => subscription?.close());
+  }).finally(() => subscription.close());
 }
 
 export async function loopUntil(args: {

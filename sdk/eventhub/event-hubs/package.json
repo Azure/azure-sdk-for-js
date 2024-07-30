@@ -55,7 +55,7 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "vitest:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" start-server-and-test start-mock-service tcp:5671 vitest:node",
+    "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" AZURE_LOG_LEVEL=\"info\" start-server-and-test start-mock-service tcp:5671 vitest:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
