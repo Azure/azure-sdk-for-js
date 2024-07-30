@@ -2,7 +2,6 @@ import { assert } from "vitest";
 import { get } from "./utils.js";
 import { OpenAI } from "openai";
 import { getImageDimensionsFromResponse } from "./images.js";
-import { stringToUint8Array } from "@azure/core-util";
 import {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
@@ -362,10 +361,9 @@ export function assertImagesWithJSON(
     assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {
       assert.isString(data);
-      const arr = stringToUint8Array(data, "base64");
-      const actualWidth = new DataView(arr.subarray(16, 4).buffer).getUint32(0);
+      const actualWidth = Buffer.from(data, "base64").readUInt32BE(16);
       assert.equal(actualWidth, width, "Width does not match");
-      const actualHeight = new DataView(arr.subarray(20, 4).buffer).getUint32(0);
+      const actualHeight = Buffer.from(data, "base64").readUInt32BE(20);
       assert.equal(actualHeight, height, "Height does not match");
     });
   });

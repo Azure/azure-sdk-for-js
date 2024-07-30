@@ -5,6 +5,9 @@ extends:
   parameters:
     PackageName: "@azure/openai"
     ServiceDirectory: openai
+    MatrixFilters:
+      - TestType=^(?!sample).*
+      - DependencyVersion=^$
     EnvVars:
       AZURE_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
       AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT: $(AOAI-ENDPOINT-NORTHCENTRALUS)
