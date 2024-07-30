@@ -32,7 +32,7 @@ import { delay, MessagingError } from "@azure/core-amqp";
 import { isLatestPosition } from "../../src/eventPosition.js";
 import { loggerForTest } from "../utils/logHelpers.js";
 import { getRandomName } from "../../src/util/utils.js";
-import { isNodeLike, randomUUID } from "@azure/core-util";
+import { randomUUID } from "@azure/core-util";
 import { should, assert } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
@@ -1518,7 +1518,7 @@ describe("Event Processor", function () {
         const processorName = `processor-${i}`;
         processorByName[processorName] = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
+          createConsumer().consumer["_context"],
           new FooPartitionProcessor(),
           checkpointStore,
           {
@@ -1528,9 +1528,6 @@ describe("Event Processor", function () {
           },
         );
         processorByName[processorName].start();
-        if (isNodeLike) {
-          await delay(12000);
-        }
       }
 
       await loopUntil({
