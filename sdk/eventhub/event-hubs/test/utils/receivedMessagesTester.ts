@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CloseReason, EventHubProducerClient, ReceivedEventData } from "../../../src";
-import { PartitionContext, SubscriptionEventHandlers } from "../../../src";
-import chai from "chai";
+import {
+  CloseReason,
+  EventHubProducerClient,
+  ReceivedEventData,
+  SubscriptionEventHandlers,
+  PartitionContext,
+} from "../../src/index.js";
 import { delay } from "@azure/core-amqp";
-
-const should = chai.should();
+import { should } from "./chai.js";
 
 interface ReceivedMessages {
   closeReason?: CloseReason;

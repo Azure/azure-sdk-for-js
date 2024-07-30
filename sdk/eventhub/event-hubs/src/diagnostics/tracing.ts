@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { createTracingClient, TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
-import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
-import { packageJsonInfo } from "../util/constants";
+import { EventHubConnectionConfig } from "../eventhubConnectionConfig.js";
+import { packageJsonInfo } from "../util/constants.js";
 
 /**
  * The names of the operations that can be instrumented.
