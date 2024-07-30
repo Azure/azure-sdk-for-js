@@ -146,9 +146,13 @@
       "type": "string",
       "value": "[replace(reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint, ':443/', '')]"
     },
-    "SERVICEBUS_HOSTNAME": {
+    "SERVICEBUS_FQDN": {
       "type": "string",
       "value": "[replace(replace(reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
+    },
+    "SERVICEBUS_FQDN_PREMIUM": {
+      "type": "string",
+      "value": "[replace(replace(reference(resourceId('Microsoft.ServiceBus/namespaces', variables('baseNamePremium'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
     },
     "QUEUE_NAME": {
       "type": "string",

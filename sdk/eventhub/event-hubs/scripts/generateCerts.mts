@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { execFileSync } = require("child_process");
-const { mkdirSync } = require("fs");
-const { resolve: resolvePath } = require("path");
+import { execFileSync } from "child_process";
+import { mkdirSync } from "fs";
+import { resolve as resolvePath } from "path";
 
 const cwd = process.cwd();
 const certsDirectory = resolvePath(cwd, "certs");
