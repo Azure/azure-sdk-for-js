@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 export {
-  mongoClusterManagementClient,
-  mongoClusterManagementClientOptionalParams,
+  MongoClusterManagementClient,
+  MongoClusterManagementClientOptionalParams,
 } from "./mongoClusterManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {

@@ -7,7 +7,7 @@ import { DocumentDBContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
 
 /** Optional parameters for the client. */
-export interface mongoClusterManagementClientOptionalParams extends ClientOptions {
+export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   apiVersion?: string;
 }
@@ -15,9 +15,9 @@ export interface mongoClusterManagementClientOptionalParams extends ClientOption
 export { DocumentDBContext } from "../rest/index.js";
 
 /** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure Cosmos DB for MongoDB vCore resources including clusters and firewall rules. */
-export function createmongoClusterManagement(
+export function createMongoClusterManagement(
   credential: TokenCredential,
-  options: mongoClusterManagementClientOptionalParams = {},
+  options: MongoClusterManagementClientOptionalParams = {},
 ): DocumentDBContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";

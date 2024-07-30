@@ -18,14 +18,14 @@ import {
 } from "./classic/privateEndpointConnections/index.js";
 import { getPrivateLinksOperations, PrivateLinksOperations } from "./classic/privateLinks/index.js";
 import {
-  createmongoClusterManagement,
-  mongoClusterManagementClientOptionalParams,
+  createMongoClusterManagement,
+  MongoClusterManagementClientOptionalParams,
   DocumentDBContext,
 } from "./api/index.js";
 
-export { mongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
+export { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
 
-export class mongoClusterManagementClient {
+export class MongoClusterManagementClient {
   private _client: DocumentDBContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
@@ -34,14 +34,14 @@ export class mongoClusterManagementClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: mongoClusterManagementClientOptionalParams = {},
+    options: MongoClusterManagementClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : "azsdk-js-client";
 
-    this._client = createmongoClusterManagement(credential, {
+    this._client = createMongoClusterManagement(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
