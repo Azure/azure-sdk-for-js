@@ -2,7 +2,7 @@
   "name": "@azure-rest/ai-vision-image-analysis",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "undefined",
   "keywords": [
     "node",

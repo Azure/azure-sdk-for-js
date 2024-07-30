@@ -223,7 +223,7 @@ async function main(){
   }
   for (const choice of response.body.choices) {
     const completion = choice.message.content;
-    console.log(`Input: ${examplePrompts[promptIndex++]}`);
+    console.log(`Input: ${messages[promptIndex++].content}`);
     console.log(`Chatbot: ${completion}`);
   }
 }
@@ -251,7 +251,7 @@ async function main(){
     ""As a layman I would say: 'I think we have it'. Would you agree?"" Rolf-Dieter Heuer, CERN's director-general, asked the packed auditorium. The physicists assembled there burst into applause.
   :`;
 
-  const summarizationPrompt = [`
+  const summarizationPrompt = `
     Summarize the following text.
 
     Text:
@@ -260,7 +260,7 @@ async function main(){
     """"""
 
     Summary:
-  `];
+  `;
 
   console.log(`Input: ${summarizationPrompt}`);
 
@@ -354,7 +354,7 @@ context -- including the original system and user messages, the response from th
 calls, and the tool messages that resolved each of those tools -- when making a subsequent request.
 
 ```js
-const choice = result.choices[0];
+const choice = result.body.choices[0];
 const responseMessage = choice.message;
 if (responseMessage?.role === "assistant") {
   const requestedToolCalls = responseMessage?.toolCalls;

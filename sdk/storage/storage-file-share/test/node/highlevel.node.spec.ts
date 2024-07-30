@@ -6,7 +6,6 @@ import * as buffer from "buffer";
 import * as fs from "fs";
 import * as path from "path";
 
-import { AbortController } from "@azure/abort-controller";
 import {
   createRandomLocalFile,
   getBSU,
@@ -123,7 +122,7 @@ describe("Highlevel Node.js only", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await fileClient.uploadFile(tempFileLarge, {
@@ -141,7 +140,7 @@ describe("Highlevel Node.js only", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await fileClient.uploadFile(tempFileSmall, {
@@ -230,7 +229,7 @@ describe("Highlevel Node.js only", () => {
       this.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20, {
@@ -385,7 +384,7 @@ describe("Highlevel Node.js only", () => {
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
       await fileClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: AbortController.timeout(1),
+        abortSignal: AbortSignal.timeout(1),
         concurrency: 20,
         rangeSize: 4 * 1024 * 1024,
       });
