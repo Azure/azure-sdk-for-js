@@ -51,10 +51,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     winston: config.instrumentationOptions?.winston?.enabled,
   };
   const statsbeatFeatures: StatsbeatFeatures = {
-      browserSdkLoader: config.browserSdkLoaderOptions.enabled,
-      aadHandling: !!config.azureMonitorExporterOptions?.credential,
-      diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
-  }
+    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
+    aadHandling: !!config.azureMonitorExporterOptions?.credential,
+    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+  };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 
   if (config.browserSdkLoaderOptions.enabled) {

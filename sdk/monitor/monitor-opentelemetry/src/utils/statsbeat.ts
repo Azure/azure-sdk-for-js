@@ -51,7 +51,10 @@ class StatsbeatConfiguration {
         error,
       );
     }
-    this.currentStatsbeatInstrumentations = { ...this.currentStatsbeatInstrumentations, ...statsbeatInstrumentations };
+    this.currentStatsbeatInstrumentations = {
+      ...this.currentStatsbeatInstrumentations,
+      ...statsbeatInstrumentations,
+    };
     this.currentStatsbeatFeatures = { ...this.currentStatsbeatFeatures, ...statsbeatFeatures };
 
     // Set the statsbeat options for community instrumentations based on the environment variable
@@ -91,7 +94,7 @@ class StatsbeatConfiguration {
       restify: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.RESTIFY ? true : false,
       router: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.ROUTER ? true : false,
     };
-    
+
     let instrumentationBitMap = StatsbeatInstrumentation.NONE;
 
     const instrumentationArray: Array<StatsbeatOption> = Object.entries(
