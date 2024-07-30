@@ -23,7 +23,7 @@ import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { getInstance } from "./utils/statsbeat";
-import { patchOpenTelemetryInstrumentations } from "./utils/opentelemetryInstrumentationPatcher";
+import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher";
 import { parseResourceDetectorsFromEnvVar } from "./utils/common";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
@@ -39,7 +39,7 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
-  patchOpenTelemetryInstrumentations();
+  patchOpenTelemetryInstrumentationEnable();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,

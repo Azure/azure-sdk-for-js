@@ -98,7 +98,7 @@ export interface StatsbeatInstrumentations {
   redis?: boolean;
   bunyan?: boolean;
   winston?: boolean;
-  /** OpenTelemetry Community Instrumenatations */
+  /** OpenTelemetry Community Instrumentations */
   amqplib?: boolean;
   cucumber?: boolean;
   dataloader?: boolean;
