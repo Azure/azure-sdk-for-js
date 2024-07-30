@@ -233,7 +233,7 @@ As an alternative to specifying the `authorityHost` argument, you can also set t
 AZURE_AUTHORITY_HOST=https://login.partner.microsoftonline.cn
 ```
 
-The [`AzureAuthorityHosts`][authority_hosts] enum defines authorities for well-known clouds for your convenience; however, if the authority for your cloud isn't listed in [`AzureAuthorityHosts`][authority_hosts], you may pass any valid authority URL as a string argument. For example:
+The `AzureAuthorityHosts` enum defines authorities for well-known clouds for your convenience; however, if the authority for your cloud isn't listed in `AzureAuthorityHosts`, you may pass any valid authority URL as a string argument. For example:
 
 ```typescript
 import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";

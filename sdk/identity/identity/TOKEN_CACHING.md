@@ -43,7 +43,7 @@ With persistent disk token caching enabled, the library first determines if a va
 
 #### Code sample
 
-[The sample showcases how to activate persistence token caching](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-the-token-cache) in the credentials offered by the Azure Identity library.
+[The sample showcases how to activate persistent token caching](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-the-token-cache) in the credentials offered by the Azure Identity library.
 
 #### Persist user authentication record
 
