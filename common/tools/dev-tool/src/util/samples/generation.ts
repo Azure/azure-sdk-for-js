@@ -357,8 +357,8 @@ export async function makeSamplesFactory(
               copy("sample.env", path.join(projectInfo.path, "sample.env")),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
-                ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath))),
+                ...info.moduleInfos.map(({ relativeSourcePath, tsModuleText }) =>
+                  file(relativeSourcePath, () => postProcess(tsModuleText)),
                 ),
                 ...dtsFiles.map(([relative, absolute]) =>
                   file(relative, fs.readFileSync(absolute)),

@@ -11,6 +11,7 @@ import { createDiagnosticEmitter } from "../typescript/diagnostic";
 import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
 import { testSyntax } from "./syntax";
 import { createToCommonJsTransform, isDependency, isRelativePath } from "./transforms";
+import { Node, Project } from "ts-morph";
 
 const log = createPrinter("samples:processor");
 
@@ -111,9 +112,12 @@ export async function processSources(
         );
       };
 
+    // Prepares the source text for conversion by replacing test credentials with DefaultAzureCredential.
+    const tsModuleText = await replaceTestCredential(sourceText);
+
     // Where the work happens. This runs the conversion step from the ts-to-js command with the visitor we've defined
     // above and the CommonJS transforms (see transforms.ts).
-    const jsModuleText = await convert(sourceText, {
+    const jsModuleText = await convert(tsModuleText, {
       fileName: source,
       transformers: {
         before: [sourceProcessor],
@@ -136,6 +140,7 @@ export async function processSources(
       relativeSourcePath,
       text: sourceText,
       jsModuleText,
+      tsModuleText,
       summary,
       importedModules: accumulator.importedModules.filter(isDependency),
       usedEnvironmentVariables: accumulator.usedEnvironmentVariables,
@@ -395,4 +400,33 @@ function processExportDefault(
           decl.body,
         );
   });
+}
+
+/**
+ * Prepares the source text for conversion by replacing test credentials with DefaultAzureCredential.
+ *
+ * @param sourceText The original source text from samples-dev
+ * @returns Modified source text with test credential replaced with DefaultAzureCredential
+ */
+async function replaceTestCredential(sourceText: string) {
+  const project = new Project();
+  const sourceFile = project.createSourceFile("temp.ts", sourceText);
+  sourceFile.forEachDescendant((node) => {
+    if (Node.isImportDeclaration(node)) {
+      if (node.getModuleSpecifierValue() === "@azure-tools/test-credential") {
+        log.debug("Replacing import of test credential with DefaultAzureCredential");
+        node.replaceWithText(`import { DefaultAzureCredential } from "@azure/identity";`);
+      }
+    }
+    if (Node.isCallExpression(node)) {
+      if (
+        Node.isIdentifier(node.getExpression()) &&
+        node.getExpression().getText() === "createTestCredential"
+      ) {
+        log.debug("Replacing call to createTestCredential with new DefaultAzureCredential");
+        node.replaceWithText("new DefaultAzureCredential()");
+      }
+    }
+  });
+  return sourceFile.getFullText();
 }

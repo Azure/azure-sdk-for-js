@@ -124,6 +124,10 @@ export interface ModuleInfo {
    */
   jsModuleText: string;
   /**
+   * The processed TypeScript Module
+   */
+  tsModuleText: string;
+  /**
    * The description provided by the first doc comment.
    */
   summary?: string;

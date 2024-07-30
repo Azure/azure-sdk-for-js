@@ -8,7 +8,7 @@
 import { createHash } from "crypto";
 
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
-import { DefaultAzureCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -18,7 +18,7 @@ export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
   // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
-  const credential = new DefaultAzureCredential();
+  const credential = createTestCredential();
 
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
