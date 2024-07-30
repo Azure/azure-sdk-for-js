@@ -227,7 +227,7 @@ const credential = new ClientSecretCredential(
 );
 ```
 
-As an alternative to specifying the `authorityHost` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud:
+As an alternative to specifying the `authorityHost` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud or when the deployed environment needs to define the target cloud:
 
 ```sh
 AZURE_AUTHORITY_HOST=https://login.partner.microsoftonline.cn
