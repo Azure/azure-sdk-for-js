@@ -85,7 +85,8 @@
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0"
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/arm-network": "^33.2.0"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
