@@ -1607,28 +1607,6 @@ packages:
       undici: 5.28.4
     dev: false
 
-  /@azure/identity@4.3.0:
-    resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
-    engines: {node: '>=18.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-rest-pipeline': 1.16.2
-      '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.1
-      '@azure/logger': 1.1.3
-      '@azure/msal-browser': 3.19.1
-      '@azure/msal-node': 2.11.1
-      events: 3.3.0
-      jws: 4.0.0
-      open: 8.4.2
-      stoppable: 1.1.0
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/identity@4.4.0:
     resolution: {integrity: sha512-oG6oFNMxUuoivYg/ElyZWVSZfw42JQyHbrp+lR7VJ1BYWsGzt34NwyDw3miPp1QI7Qm5+4KAd76wGsbHQmkpkg==}
     engines: {node: '>=18.0.0'}
@@ -21943,11 +21921,11 @@ packages:
     dev: false
 
   file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-zOrqicmLpHIlB5rcPkTwdhNdkSWRslP5zESj2zsS4FjvIdPpHtgbik/qkR1oq6CXYFHq0Tb+9F/ESxNmqLuiQA==, tarball: file:projects/health-deidentification.tgz}
+    resolution: {integrity: sha512-vSRaQJqMh0srWkkYRCfiG0ShE+6AqlRoDugGBg5hbt5EdLgM2VvwO7fls4mC5YnZ+eiV5TknyYuHmkZ0JM+LWA==, tarball: file:projects/health-deidentification.tgz}
     name: '@rush-temp/health-deidentification'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 4.3.0
+      '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@types/node': 18.19.40
       '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
@@ -24213,7 +24191,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-3yEAH/IcASzEznHo+5QLozH1XJAgt9AlpH4W/7+E5zYD/g+E7gG9O4QFexgLEGjXsACrUANibnGYIa3UpZ3NyA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-5KuSb4ZuUTjcGRVRFpQMlGZ0DjHVv9WhGsx6+jnegk6CInLjnK82v+pupoSuZQwpJ2n50Ubg2XMSyJI7Kn+e/Q==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

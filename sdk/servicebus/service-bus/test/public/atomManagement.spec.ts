@@ -19,8 +19,13 @@ import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/mana
 import { EntityNames, TestClientType } from "./utils/testUtils";
 import { TestConstants } from "./fakeTestSecrets";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import {
+  createServiceBusClientForTests,
+  getFullyQualifiedNamespace,
+  ServiceBusClientForTests,
+} from "./utils/testutils2";
 import { versionsToTest } from "@azure-tools/test-utils";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -63,7 +68,8 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
-        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
+        getFullyQualifiedNamespace(),
+        createTestCredential(),
         { serviceVersion: serviceVersion as "2021-05" | "2017-04" },
       );
     });
@@ -349,11 +355,8 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     describe("Atom management - Authentication", function (): void {
       if (isNode) {
         it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-          const connectionStringProperties = parseServiceBusConnectionString(
-            env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-          );
-          const host = connectionStringProperties.fullyQualifiedNamespace;
-          const endpoint = connectionStringProperties.endpoint;
+          const host = getFullyQualifiedNamespace();
+          const endpoint = `sb://${host}/`;
           const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
             host,
             new DefaultAzureCredential(),
@@ -2969,14 +2972,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     }
 
     describe("Premium Namespaces", () => {
-      const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
+      const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
       before(function (this: Mocha.Context) {
-        if (!premiumConnectionString) {
+        if (!premiumNamespace) {
           this.skip();
         }
-        atomClient = new ServiceBusAdministrationClient(premiumConnectionString);
+        atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
       });
 
       function setEntityNameWithMaxSize(
