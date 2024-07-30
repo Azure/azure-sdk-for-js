@@ -38,7 +38,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     }
 
     return {
-      startPosition: startPosition,
+      startPosition,
       subscriptionEventHandler: new SubscriptionHandlerForTests(),
     };
   }

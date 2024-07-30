@@ -180,7 +180,7 @@ export class EventProcessor {
   private _id: string;
   private _isRunning: boolean = false;
   private _loopTask?: PromiseLike<void>;
-  private _abortController: AbortController = new AbortController();
+  private _abortController?: AbortController;
   /**
    * A specific partition to target.
    */
@@ -524,6 +524,7 @@ export class EventProcessor {
     }
 
     this._isRunning = true;
+    this._abortController = new AbortController();
     logger.verbose(`[${this._id}] Starting an EventProcessor.`);
 
     if (this._processingTarget) {
@@ -555,7 +556,7 @@ export class EventProcessor {
   async stop(): Promise<void> {
     logger.verbose(`[${this._id}] Stopping an EventProcessor.`);
     // cancel the event processor loop
-    this._abortController.abort();
+    this._abortController?.abort();
 
     try {
       // remove all existing pumps

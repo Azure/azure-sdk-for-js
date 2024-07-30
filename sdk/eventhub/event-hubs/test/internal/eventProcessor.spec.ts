@@ -732,8 +732,6 @@ describe("Event Processor", function () {
 
   it("should support start after stopping", async function () {
     const partitionIds = await producerClient.getPartitionIds();
-
-    // ensure we have at least 2 partitions
     partitionIds.length.should.gte(2);
 
     const { subscriptionEventHandler, startPosition } =
@@ -971,7 +969,7 @@ describe("Event Processor", function () {
       const partitionProcessor2 = new PartitionProcessor(partitionIds);
       const processor2 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        createConsumer().consumer["_context"],
         partitionProcessor2,
         checkpointStore,
         { ...defaultOptions, ownerId: "processor2", startPosition: earliestEventPosition },
