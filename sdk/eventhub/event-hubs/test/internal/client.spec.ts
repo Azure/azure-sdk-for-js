@@ -11,7 +11,7 @@ import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { getSubscriptionPromise } from "../utils/testUtils.js";
-import { expect, should } from "../utils/chai.js";
+import { assert, expect, should } from "../utils/chai.js";
 
 function createNoOpCred(): NoOpCredential {
   return new NoOpCredential();
@@ -406,8 +406,10 @@ describe("EventHubClient", function () {
   function testUserAgentString(context: ConnectionContext, customValue?: string): void {
     const packageVersion = packageJsonInfo.version;
     const properties = context.connection.options.properties;
-    properties!["user-agent"].should.startWith(
-      `azsdk-js-azureeventhubs/${packageVersion} (${getRuntimeInfo()})`,
+    assert.isTrue(
+      properties!["user-agent"].startWith(
+        `azsdk-js-azureeventhubs/${packageVersion} (${getRuntimeInfo()})`,
+      ),
     );
     should.equal(properties!.product, "MSJSClient");
     should.equal(properties!.version, packageVersion);
