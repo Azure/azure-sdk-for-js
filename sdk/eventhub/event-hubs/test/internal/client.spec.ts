@@ -407,7 +407,7 @@ describe("EventHubClient", function () {
     const packageVersion = packageJsonInfo.version;
     const properties = context.connection.options.properties;
     assert.isTrue(
-      properties!["user-agent"].startWith(
+      properties!["user-agent"].startsWith(
         `azsdk-js-azureeventhubs/${packageVersion} (${getRuntimeInfo()})`,
       ),
     );
