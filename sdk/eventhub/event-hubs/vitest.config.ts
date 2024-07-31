@@ -8,7 +8,6 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      reporters: ["verbose", "junit"],
       testTimeout: 600000,
       hookTimeout: 60000,
       fileParallelism: false,
