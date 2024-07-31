@@ -11,7 +11,7 @@ import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { getSubscriptionPromise } from "../utils/testUtils.js";
-import { should, expect } from "../utils/chai.js";
+import { expect, should } from "../utils/chai.js";
 
 function createNoOpCred(): NoOpCredential {
   return new NoOpCredential();
