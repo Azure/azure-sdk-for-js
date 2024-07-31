@@ -1,16 +1,11 @@
 # Release History
 
-## 1.16.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.16.3 (2024-08-01)
 
 ### Other Changes
 
 - The `request` and `response` properties on `RestError` are now non-enumerable.
+- Adding React-Native support at top level [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
 
 ## 1.16.2 (2024-07-10)
 
