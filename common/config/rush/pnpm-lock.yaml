@@ -479,6 +479,9 @@ dependencies:
   '@rush-temp/arm-mobilenetwork':
     specifier: file:./projects/arm-mobilenetwork.tgz
     version: file:projects/arm-mobilenetwork.tgz
+  '@rush-temp/arm-mongocluster':
+    specifier: file:./projects/arm-mongocluster.tgz
+    version: file:projects/arm-mongocluster.tgz
   '@rush-temp/arm-monitor':
     specifier: file:./projects/arm-monitor.tgz
     version: file:projects/arm-monitor.tgz
@@ -16855,6 +16858,42 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - supports-color
+    dev: false
+
+  file:projects/arm-mongocluster.tgz:
+    resolution: {integrity: sha512-5FzyO/e1o/c2iH+ED7PTk7qTkY0NQJ1G3yNKuRa1w7nC8vYki0njT4UI3rZsKKEDs071k6lvP/FsOjxS3uhMRw==, tarball: file:projects/arm-mongocluster.tgz}
+    name: '@rush-temp/arm-mongocluster'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.0
+      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
+      '@types/node': 18.19.40
+      '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.45.2
+      prettier: 3.3.3
+      rimraf: 5.0.9
+      tshy: 1.18.0
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.40)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
