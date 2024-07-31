@@ -65,7 +65,7 @@ export class ApplicationInsightsSampler implements Sampler {
     }
     // Add sample rate as span attribute
     attributes = attributes || {};
-    attributes["_MS.sampleRate"] = this._sampleRate;
+    attributes["microsoft.sample_rate"] = this._sampleRate;
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.RECORD, attributes: attributes };

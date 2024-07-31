@@ -31,7 +31,7 @@ export enum DependencyTypes {
   Wcf = "WCF Service",
 }
 
-export const AzureMonitorSampleRate = "_MS.sampleRate";
+export const AzureMonitorSampleRate = "microsoft.sample_rate";
 export const ApplicationInsightsBaseType = "_MS.baseType";
 
 export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";

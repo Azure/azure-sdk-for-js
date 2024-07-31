@@ -115,6 +115,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
       if (
         !(
           key.startsWith("_MS.") ||
+          key.startsWith("microsoft.") ||
           key === SEMATTRS_NET_PEER_IP ||
           key === SEMATTRS_NET_PEER_NAME ||
           key === SEMATTRS_PEER_SERVICE ||
