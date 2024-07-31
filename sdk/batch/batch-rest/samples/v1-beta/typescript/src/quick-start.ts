@@ -16,12 +16,13 @@ import createClient, {
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
+// eslint-disable-next-line import/no-extraneous-dependencies
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const batchAccountEndpoint = process.env["BATCH_ACCOUNT_ENDPOINT"]!;
-const batchAccountName = process.env["BATCH_ACCOUNT_NAME"]!;
-const batchAccountKey = process.env["BATCH_ACCOUNT_KEY"]!;
+const batchAccountEndpoint = process.env["BATCH_ACCOUNT_ENDPOINT"] || "<batch account endpoint>";
+const batchAccountName = process.env["BATCH_ACCOUNT_NAME"] || "<batch account name>";
+const batchAccountKey = process.env["BATCH_ACCOUNT_KEY"] || "<batch account key>";
 const poolName = "samplepool";
 const jobId = "samplejob2";
 
@@ -153,4 +154,4 @@ async function cleanup(client: BatchClient) {
   console.log(`Pool ${poolName} deleted`);
 }
 
-main();
+main().catch(console.error);
