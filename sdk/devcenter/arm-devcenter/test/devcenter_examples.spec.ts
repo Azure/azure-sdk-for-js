@@ -20,7 +20,7 @@ import { DevCenterClient } from "../src/devCenterClient";
 import { DevCenter } from "../src/models";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
