@@ -36,7 +36,7 @@ async function run() {
     controlPlaneWriterScope: 0,
     dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
     dataPlaneWriterScope: 0,
-  } as SasTokenProperties;
+  } as unknown as SasTokenProperties;
 
   const key = await createAuthorizationSasToken(masterKey, sasTokenProperties);
 

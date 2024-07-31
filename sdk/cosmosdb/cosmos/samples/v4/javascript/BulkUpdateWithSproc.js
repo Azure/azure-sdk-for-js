@@ -85,7 +85,7 @@ async function run() {
   let continuation = undefined;
   let totalUpdatedDocuments = 0;
   for (;;) {
-    const response = await storedProcedure.execute(undefined, [continuation]);
+    const response = await storedProcedure.execute(null, [continuation]);
     const result = response.resource;
     totalUpdatedDocuments = totalUpdatedDocuments + result.updatedDocumentIds.length;
     console.log(`Updated Documents: ${result.updatedDocumentIds}`);

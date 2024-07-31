@@ -102,7 +102,6 @@ async function run() {
     .query(`SELECT c.${lowerName.name} FROM c`)
     .fetchAll();
   console.log("computed property query results: ", response.resources);
-  await finish();
 
   logStep("Create container with vector embedding and indexing policies");
   const vectorEmbeddingPolicy = {
@@ -146,13 +145,14 @@ async function run() {
   };
 
   const containerDefinition = {
-    id: containerId,
-    partitionKey: { path: "/id" },
+    id: "ContainerWithVectorPolicy",
+    partitionKey: { paths: ["/id"] },
     indexingPolicy: indexingPolicy,
     vectorEmbeddingPolicy: vectorEmbeddingPolicy,
   };
   await database.containers.createIfNotExists(containerDefinition);
   logStep("Container with vector embedding and indexing policies created");
+  await finish();
 }
 
 run().catch(handleError);

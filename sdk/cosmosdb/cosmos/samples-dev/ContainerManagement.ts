@@ -10,7 +10,10 @@ dotenv.config();
 
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
 import {
+  ContainerDefinition,
   CosmosClient,
+  IndexingPolicy,
+  SpatialIndex,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
@@ -103,7 +106,6 @@ async function run(): Promise<void> {
     .query(`SELECT c.${lowerName.name} FROM c`)
     .fetchAll();
   console.log("computed property query results: ", response.resources);
-  await finish();
 
   logStep("Create container with vector embedding and indexing policies");
   const vectorEmbeddingPolicy = {
@@ -129,7 +131,7 @@ async function run(): Promise<void> {
     ],
   };
 
-  const indexingPolicy = {
+  const indexingPolicy: IndexingPolicy = {
     automatic: true,
     indexingMode: "consistent",
     compositeIndexes: [
@@ -138,7 +140,7 @@ async function run(): Promise<void> {
         { path: "/stringField", order: "descending" },
       ],
     ],
-    spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }],
+    spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }] as SpatialIndex[],
     vectorIndexes: [
       { path: "/vector1", type: VectorIndexType.Flat },
       { path: "/vector2", type: VectorIndexType.QuantizedFlat },
@@ -146,14 +148,15 @@ async function run(): Promise<void> {
     ],
   };
 
-  const containerDefinition = {
-    id: containerId,
-    partitionKey: { path: "/id" },
+  const containerDefinition: ContainerDefinition = {
+    id: "ContainerWithVectorPolicy",
+    partitionKey: { paths: ["/id"] },
     indexingPolicy: indexingPolicy,
     vectorEmbeddingPolicy: vectorEmbeddingPolicy,
   };
   await database.containers.createIfNotExists(containerDefinition);
   logStep("Container with vector embedding and indexing policies created");
+  await finish();
 }
 
 run().catch(handleError);

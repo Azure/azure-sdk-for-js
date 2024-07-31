@@ -120,7 +120,7 @@ async function run(): Promise<void> {
   logStep("Executing the sproc: '" + sproc.id + "'");
   console.log("Sproc parameters: " + JSON.stringify(sprocParams));
 
-  const { resource: results, headers } = await sproc.execute(undefined, sprocParams);
+  const { resource: results, headers } = await sproc.execute(null, sprocParams);
 
   console.log("//////////////////////////////////");
   if (headers) {

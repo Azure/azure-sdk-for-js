@@ -15,6 +15,7 @@ import {
   PatchOperation,
   PartitionKeyKind,
   PartitionKeyBuilder,
+  OperationInput,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -133,7 +134,7 @@ async function run(): Promise<void> {
     itemWithBothPartitionPresentKey,
   );
 
-  const bulkOperations = [
+  const bulkOperations: OperationInput[] = [
     {
       operationType: BulkOperationType.Create,
       //Providing partition key is not necessary while create, it can be automatically derived from resourceBody.
