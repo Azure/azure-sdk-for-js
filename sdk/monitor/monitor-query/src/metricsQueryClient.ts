@@ -34,7 +34,7 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
 } from "./internal/modelConverters";
-import { SDK_VERSION, KnownMonitorAudience, KnownMonitorMetricsQueryAudience } from "./constants";
+import { SDK_VERSION, KnownMonitorMetricsQueryAudience } from "./constants";
 
 /**
  * Options for the MetricsQueryClient.
@@ -46,7 +46,7 @@ export interface MetricsQueryClientOptions extends CommonClientOptions {
   /**
    * The Audience to use for authentication with Microsoft Entra ID. The
    * audience is not considered when using a shared key.
-   * {@link KnownMonitorAudience} can be used interchangeably with audience
+   * {@link KnownMonitorMetricsQueryAudience} can be used interchangeably with audience
    */
   audience?: string;
 }

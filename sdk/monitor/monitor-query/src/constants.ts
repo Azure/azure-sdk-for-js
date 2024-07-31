@@ -8,6 +8,9 @@ export const SDK_VERSION: string = "1.3.1";
 
 /**
  * Known values for Monitor Audience
+ *
+ * **NOTE**: This is applicable only to `MetricsClient` in the `@azure/monitor-query` data plane package.
+ * The name `KnownMonitorAudience` is added for backward compatibilty.
  */
 export enum KnownMonitorAudience {
   /**
