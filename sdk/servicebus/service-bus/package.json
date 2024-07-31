@@ -89,7 +89,6 @@
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
       "useProxy.js",
-      "usingAadAuth.js",
       "administrationClient.js",
       "listingEntities.js",
       "sessionState.js",
