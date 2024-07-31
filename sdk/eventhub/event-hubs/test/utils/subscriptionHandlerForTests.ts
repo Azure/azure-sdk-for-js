@@ -9,13 +9,11 @@ import {
   PartitionContext,
   ReceivedEventData,
   SubscriptionEventHandlers,
-} from "../../../src";
-import chai from "chai";
+} from "../../src/index.js";
 import { delay } from "@azure/core-amqp";
-import { loggerForTest } from "./logHelpers";
-import { loopUntil } from "./testUtils";
-
-const should = chai.should();
+import { loggerForTest } from "./logHelpers.js";
+import { loopUntil } from "./testUtils.js";
+import { should } from "./chai.js";
 
 export interface HandlerAndPositions {
   startPosition: { [partitionId: string]: EventPosition };
@@ -40,7 +38,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     }
 
     return {
-      startPosition: startPosition,
+      startPosition,
       subscriptionEventHandler: new SubscriptionHandlerForTests(),
     };
   }

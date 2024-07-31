@@ -36,17 +36,11 @@ export interface PagedAsyncIterableIterator<
   /**
    * The connection to the async iterator, part of the iteration protocol
    */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<
-    TElement,
-    TPage,
-    TPageSettings
-  >;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
   /**
    * Return an AsyncIterableIterator that works a page at a time
    */
-  byPage: (
-    settings?: TPageSettings,
-  ) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+  byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
 }
 
 /**
@@ -64,15 +58,11 @@ export interface PagedResult<
   /**
    * A method that returns a page of results.
    */
-  getPage: (
-    pageLink?: string,
-  ) => Promise<{ page: TPage; nextPageLink?: string } | undefined>;
+  getPage: (pageLink?: string) => Promise<{ page: TPage; nextPageLink?: string } | undefined>;
   /**
    * a function to implement the `byPage` method on the paged async iterator.
    */
-  byPage?: (
-    settings?: TPageSettings,
-  ) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+  byPage?: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
 
   /**
    * A function to extract elements from a page.

@@ -5,6 +5,10 @@ extends:
     parameters:
       PackageName: "@azure/event-hubs"
       ServiceDirectory: eventhub
+      MatrixFilters:
+        - TestType=^(?!sample).*
+        - DependencyVersion=^$
+      UseFederatedAuth: true
       Clouds: 'Public,Canary'
       TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
@@ -24,7 +28,4 @@ extends:
             - eng/common/TestResources/sub-config/AzureChinaMsft.json
           Location: 'chinaeast'
       EnvVars:
-        AZURE_CLIENT_ID: $(EVENTHUB_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(EVENTHUB_CLIENT_SECRET)
-        AZURE_TENANT_ID: $(EVENTHUB_TENANT_ID)
         AZURE_LOG_LEVEL: info

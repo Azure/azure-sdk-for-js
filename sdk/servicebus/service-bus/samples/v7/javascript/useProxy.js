@@ -7,6 +7,8 @@
  */
 
 const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
+
 const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 
@@ -14,7 +16,7 @@ const { HttpsProxyAgent } = require("https-proxy-agent");
 require("dotenv").config();
 
 // Define connection string for your Service Bus instance here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
@@ -30,7 +32,8 @@ async function main() {
   // Create an instance of the `HttpsProxyAgent` class with the proxy server information
   const proxyAgent = new HttpsProxyAgent(proxyInfo);
 
-  const sbClient = new ServiceBusClient(connectionString, {
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential, {
     webSocketOptions: {
       // No need to pass the `WebSocket` from "ws" package if you're in the browser
       // in which case the `window.WebSocket` is used by the library.
