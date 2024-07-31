@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { createIdentifierFromRawId } from "@azure/communication-common";
-import { TranscriptionMetadata, TranscriptionData } from "../models/transcription";
-import { AudioData, AudioMetadata } from "../models/audio";
+import { TranscriptionMetadata, TranscriptionData } from "./models/transcription";
+import { AudioData, AudioMetadata } from "./models/audio";
 
 /** Parse the incoming package. */
 export function streamingData(

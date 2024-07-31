@@ -63,6 +63,23 @@ export interface AnswerCallOptions extends OperationOptions {
 export type AnswerCallResult = CallResult;
 
 // @public
+export interface AudioData {
+    data: string;
+    isSilent: boolean;
+    participant: CommunicationIdentifier | undefined;
+    timestamp: Date;
+}
+
+// @public
+export interface AudioMetadata {
+    channels: number;
+    encoding: string;
+    length: number;
+    sampleRate: number;
+    subscriptionId: string;
+}
+
+// @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
@@ -1187,6 +1204,9 @@ export type StopRecordingOptions = OperationOptions;
 export interface StopTranscriptionOptions extends OperationOptions {
     operationContext?: string;
 }
+
+// @public
+export function streamingData(packetData: string | ArrayBuffer): TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
 
 // @public
 export enum TextFormat {
