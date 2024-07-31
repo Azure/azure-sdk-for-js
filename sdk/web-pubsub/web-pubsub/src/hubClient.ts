@@ -273,11 +273,11 @@ export interface GenerateClientTokenOptions extends OperationOptions {
   groups?: string[];
 
   /**
-   * The endpoint type of the client
-   * * `default`: Default WebPubSub Client. Example Service URL: _wss://exampleHost.com/client/hubs/exampleHub_
-   * * `mqtt`: MQTT Client. Example Service URL:  _wss://exampleHost.com/client/mqtt/hubs/exampleHub_
+   * The protocol type of the client
+   * * `default`: Default WebPubSub Client. Example Client Connection URL: _wss://exampleHost.com/client/hubs/exampleHub_
+   * * `mqtt`: MQTT Client. Example Client Connection URL:  _wss://exampleHost.com/client/mqtt/hubs/exampleHub_
    */
-  webPubSubClientProtocol?: WebPubSubClientProtocol;
+  clientProtocol?: WebPubSubClientProtocol;
 }
 
 /**
@@ -958,9 +958,9 @@ export class WebPubSubServiceClient {
       async (updatedOptions) => {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-        const webPubSubClientProtocol = updatedOptions.webPubSubClientProtocol;
+        const clientProtocol = updatedOptions.clientProtocol;
         const clientPath =
-          webPubSubClientProtocol && webPubSubClientProtocol === "mqtt"
+          clientProtocol && clientProtocol === "mqtt"
             ? `clients/mqtt/hubs/${this.hubName}`
             : `client/hubs/${this.hubName}`;
         const baseUrl = clientEndpoint + clientPath;

@@ -310,7 +310,7 @@ describe("HubClient", function () {
       const res = await client.getClientAccessToken({
         userId: "brian",
         groups: ["group1"],
-        webPubSubClientProtocol: "mqtt",
+        clientProtocol: "mqtt",
       });
       const url = new URL(res.url);
       assert.ok(url.searchParams.has("access_token"));

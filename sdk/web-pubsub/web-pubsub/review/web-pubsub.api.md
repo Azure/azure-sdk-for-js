@@ -21,11 +21,11 @@ export interface ClientTokenResponse {
 
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
+    clientProtocol?: WebPubSubClientProtocol;
     expirationTimeInMinutes?: number;
     groups?: string[];
     roles?: string[];
     userId?: string;
-    webPubSubClientProtocol?: WebPubSubClientProtocol;
 }
 
 // @public
