@@ -34,7 +34,7 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
 } from "./internal/modelConverters";
-import { SDK_VERSION, KnownMonitorAudience } from "./constants";
+import { SDK_VERSION, KnownMonitorAudience, KnownMonitorMetricsQueryAudience } from "./constants";
 
 /**
  * Options for the MetricsQueryClient.
@@ -67,7 +67,7 @@ export class MetricsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
     const scope: string = options?.audience
       ? `${options.audience}/.default`
-      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+      : `${KnownMonitorMetricsQueryAudience.AzurePublicCloud}/.default`;
 
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =

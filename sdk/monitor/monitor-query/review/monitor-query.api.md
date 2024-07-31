@@ -30,9 +30,23 @@ export const Durations: {
 
 // @public
 export enum KnownMonitorAudience {
-    AzureChina = "https://monitor.azure.cn",
-    AzureGovernment = "https://monitor.azure.us",
-    AzurePublicCloud = "https://monitor.azure.com"
+    AzureChina = "https://metrics.monitor.azure.cn",
+    AzureGovernment = "https://metrics.monitor.azure.us",
+    AzurePublicCloud = "https://metrics.monitor.azure.com"
+}
+
+// @public
+export enum KnownMonitorLogAudience {
+    AzureChina = "https://api.loganalytics.cn",
+    AzureGovernment = "https://api.loganalytics.us",
+    AzurePublicCloud = "https://api.loganalytics.io"
+}
+
+// @public
+export enum KnownMonitorMetricsQueryAudience {
+    AzureChina = "https://management.azure.cn/",
+    AzureGovernment = "https://management.azure.us/",
+    AzurePublicCloud = "https://management.azure.com/"
 }
 
 // @public
