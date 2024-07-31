@@ -420,7 +420,7 @@ describe("EventHubClient", function () {
     }
     should.exist(properties!.platform);
     if (customValue) {
-      properties!["user-agent"].should.endWith(customValue);
+      assert.isTrue(properties!["user-agent"].endsWith(customValue));
     }
   }
 
