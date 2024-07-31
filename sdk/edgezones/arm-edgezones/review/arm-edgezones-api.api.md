@@ -27,19 +27,19 @@ export type EdgeZonesContext = Client & {
 };
 
 // @public
-export function get(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesGetOptionalParams): Promise<ExtendedZone>;
+export function extendedZonesGet(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesGetOptionalParams): Promise<ExtendedZone>;
 
 // @public
-export function list(context: EdgeZonesContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export function extendedZonesListBySubscription(context: EdgeZonesContext, subscriptionId: string, options?: ExtendedZonesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ExtendedZone>;
 
 // @public
-export function listBySubscription(context: EdgeZonesContext, subscriptionId: string, options?: ExtendedZonesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ExtendedZone>;
+export function extendedZonesRegister(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesRegisterOptionalParams): Promise<ExtendedZone>;
 
 // @public
-export function register(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesRegisterOptionalParams): Promise<ExtendedZone>;
+export function extendedZonesUnregister(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesUnregisterOptionalParams): Promise<ExtendedZone>;
 
 // @public
-export function unregister(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesUnregisterOptionalParams): Promise<ExtendedZone>;
+export function operationsList(context: EdgeZonesContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 
 // (No @packageDocumentation comment for this package)
 
