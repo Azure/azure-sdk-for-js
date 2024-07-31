@@ -28,16 +28,13 @@ type ClientCommonMethods = Pick<
 describe.skip("Tracing", function () {
   describe("EventHub Sender", function () {
     let producerClient: EventHubProducerClient;
-    let consumerClient: EventHubConsumerClient;
 
     beforeEach(async function () {
       producerClient = createProducer().producer;
-      consumerClient = createConsumer().consumer;
     });
 
     afterEach(async function () {
       await producerClient.close();
-      await consumerClient.close();
     });
 
     describe("Create batch", function () {
