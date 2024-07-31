@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
 import {
   OperationResultGetOptionalParams,
-  OperationResultGetResponse
+  OperationResultGetResponse,
 } from "../models";
 
 /** Class containing OperationResult operations. */
@@ -37,11 +37,11 @@ export class OperationResultImpl implements OperationResult {
   get(
     operationId: string,
     location: string,
-    options?: OperationResultGetOptionalParams
+    options?: OperationResultGetOptionalParams,
   ): Promise<OperationResultGetResponse> {
     return this.client.sendOperationRequest(
       { operationId, location, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,27 +49,26 @@ export class OperationResultImpl implements OperationResult {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     202: {
-      headersMapper: Mappers.OperationResultGetHeaders
+      headersMapper: Mappers.OperationResultGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -46,7 +46,7 @@ import {
   WorkflowRunActionScopeRepetitionsImpl,
   WorkflowTriggersImpl,
   WorkflowTriggerHistoriesImpl,
-  WorkflowVersionsImpl
+  WorkflowVersionsImpl,
 } from "./operations";
 import {
   AppServiceCertificateOrders,
@@ -78,7 +78,7 @@ import {
   WorkflowRunActionScopeRepetitions,
   WorkflowTriggers,
   WorkflowTriggerHistories,
-  WorkflowVersions
+  WorkflowVersions,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -144,7 +144,7 @@ import {
   ListAseRegionsNextResponse,
   ListGeoRegionsNextResponse,
   ListSiteIdentifiersAssignedToHostNameNextResponse,
-  ListPremierAddOnOffersNextResponse
+  ListPremierAddOnOffersNextResponse,
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -163,16 +163,16 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: WebSiteManagementClientOptionalParams
+    options?: WebSiteManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: WebSiteManagementClientOptionalParams
+    options?: WebSiteManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: WebSiteManagementClientOptionalParams | string,
-    options?: WebSiteManagementClientOptionalParams
+    options?: WebSiteManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -192,10 +192,10 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     }
     const defaults: WebSiteManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/14.1.1`;
+    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -205,20 +205,21 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -228,7 +229,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -238,9 +239,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -248,16 +249,15 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
+    this.apiVersion = options.apiVersion || "2023-12-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
-      this
+      this,
     );
     this.certificateOrdersDiagnostics = new CertificateOrdersDiagnosticsImpl(
-      this
+      this,
     );
-    this.certificateRegistrationProvider = new CertificateRegistrationProviderImpl(
-      this
-    );
+    this.certificateRegistrationProvider =
+      new CertificateRegistrationProviderImpl(this);
     this.domains = new DomainsImpl(this);
     this.topLevelDomains = new TopLevelDomainsImpl(this);
     this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
@@ -272,9 +272,8 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.kubeEnvironments = new KubeEnvironmentsImpl(this);
     this.provider = new ProviderImpl(this);
     this.recommendations = new RecommendationsImpl(this);
-    this.resourceHealthMetadataOperations = new ResourceHealthMetadataOperationsImpl(
-      this
-    );
+    this.resourceHealthMetadataOperations =
+      new ResourceHealthMetadataOperationsImpl(this);
     this.getUsagesInLocation = new GetUsagesInLocationImpl(this);
     this.staticSites = new StaticSitesImpl(this);
     this.webApps = new WebAppsImpl(this);
@@ -282,14 +281,12 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.workflowRuns = new WorkflowRunsImpl(this);
     this.workflowRunActions = new WorkflowRunActionsImpl(this);
     this.workflowRunActionRepetitions = new WorkflowRunActionRepetitionsImpl(
-      this
+      this,
     );
-    this.workflowRunActionRepetitionsRequestHistories = new WorkflowRunActionRepetitionsRequestHistoriesImpl(
-      this
-    );
-    this.workflowRunActionScopeRepetitions = new WorkflowRunActionScopeRepetitionsImpl(
-      this
-    );
+    this.workflowRunActionRepetitionsRequestHistories =
+      new WorkflowRunActionRepetitionsRequestHistoriesImpl(this);
+    this.workflowRunActionScopeRepetitions =
+      new WorkflowRunActionScopeRepetitionsImpl(this);
     this.workflowTriggers = new WorkflowTriggersImpl(this);
     this.workflowTriggerHistories = new WorkflowTriggerHistoriesImpl(this);
     this.workflowVersions = new WorkflowVersionsImpl(this);
@@ -305,7 +302,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -319,7 +316,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -329,7 +326,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   public listSourceControls(
-    options?: ListSourceControlsOptionalParams
+    options?: ListSourceControlsOptionalParams,
   ): PagedAsyncIterableIterator<SourceControl> {
     const iter = this.listSourceControlsPagingAll(options);
     return {
@@ -344,13 +341,13 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listSourceControlsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listSourceControlsPagingPage(
     options?: ListSourceControlsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SourceControl[]> {
     let result: ListSourceControlsResponse;
     let continuationToken = settings?.continuationToken;
@@ -371,7 +368,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   private async *listSourceControlsPagingAll(
-    options?: ListSourceControlsOptionalParams
+    options?: ListSourceControlsOptionalParams,
   ): AsyncIterableIterator<SourceControl> {
     for await (const page of this.listSourceControlsPagingPage(options)) {
       yield* page;
@@ -383,7 +380,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   public listBillingMeters(
-    options?: ListBillingMetersOptionalParams
+    options?: ListBillingMetersOptionalParams,
   ): PagedAsyncIterableIterator<BillingMeter> {
     const iter = this.listBillingMetersPagingAll(options);
     return {
@@ -398,13 +395,13 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBillingMetersPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBillingMetersPagingPage(
     options?: ListBillingMetersOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BillingMeter[]> {
     let result: ListBillingMetersResponse;
     let continuationToken = settings?.continuationToken;
@@ -425,7 +422,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   private async *listBillingMetersPagingAll(
-    options?: ListBillingMetersOptionalParams
+    options?: ListBillingMetersOptionalParams,
   ): AsyncIterableIterator<BillingMeter> {
     for await (const page of this.listBillingMetersPagingPage(options)) {
       yield* page;
@@ -437,7 +434,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   public listCustomHostNameSites(
-    options?: ListCustomHostNameSitesOptionalParams
+    options?: ListCustomHostNameSitesOptionalParams,
   ): PagedAsyncIterableIterator<CustomHostnameSites> {
     const iter = this.listCustomHostNameSitesPagingAll(options);
     return {
@@ -452,13 +449,13 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listCustomHostNameSitesPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listCustomHostNameSitesPagingPage(
     options?: ListCustomHostNameSitesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomHostnameSites[]> {
     let result: ListCustomHostNameSitesResponse;
     let continuationToken = settings?.continuationToken;
@@ -472,7 +469,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     while (continuationToken) {
       result = await this._listCustomHostNameSitesNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -482,7 +479,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   private async *listCustomHostNameSitesPagingAll(
-    options?: ListCustomHostNameSitesOptionalParams
+    options?: ListCustomHostNameSitesOptionalParams,
   ): AsyncIterableIterator<CustomHostnameSites> {
     for await (const page of this.listCustomHostNameSitesPagingPage(options)) {
       yield* page;
@@ -494,7 +491,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   public listAseRegions(
-    options?: ListAseRegionsOptionalParams
+    options?: ListAseRegionsOptionalParams,
   ): PagedAsyncIterableIterator<AseRegion> {
     const iter = this.listAseRegionsPagingAll(options);
     return {
@@ -509,13 +506,13 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAseRegionsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAseRegionsPagingPage(
     options?: ListAseRegionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AseRegion[]> {
     let result: ListAseRegionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -536,7 +533,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   private async *listAseRegionsPagingAll(
-    options?: ListAseRegionsOptionalParams
+    options?: ListAseRegionsOptionalParams,
   ): AsyncIterableIterator<AseRegion> {
     for await (const page of this.listAseRegionsPagingPage(options)) {
       yield* page;
@@ -548,7 +545,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   public listGeoRegions(
-    options?: ListGeoRegionsOptionalParams
+    options?: ListGeoRegionsOptionalParams,
   ): PagedAsyncIterableIterator<GeoRegion> {
     const iter = this.listGeoRegionsPagingAll(options);
     return {
@@ -563,13 +560,13 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listGeoRegionsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listGeoRegionsPagingPage(
     options?: ListGeoRegionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GeoRegion[]> {
     let result: ListGeoRegionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -590,7 +587,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   private async *listGeoRegionsPagingAll(
-    options?: ListGeoRegionsOptionalParams
+    options?: ListGeoRegionsOptionalParams,
   ): AsyncIterableIterator<GeoRegion> {
     for await (const page of this.listGeoRegionsPagingPage(options)) {
       yield* page;
@@ -604,11 +601,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   public listSiteIdentifiersAssignedToHostName(
     nameIdentifier: NameIdentifier,
-    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams
+    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams,
   ): PagedAsyncIterableIterator<Identifier> {
     const iter = this.listSiteIdentifiersAssignedToHostNamePagingAll(
       nameIdentifier,
-      options
+      options,
     );
     return {
       next() {
@@ -624,23 +621,23 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
         return this.listSiteIdentifiersAssignedToHostNamePagingPage(
           nameIdentifier,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listSiteIdentifiersAssignedToHostNamePagingPage(
     nameIdentifier: NameIdentifier,
     options?: ListSiteIdentifiersAssignedToHostNameOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Identifier[]> {
     let result: ListSiteIdentifiersAssignedToHostNameResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listSiteIdentifiersAssignedToHostName(
         nameIdentifier,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -651,7 +648,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       result = await this._listSiteIdentifiersAssignedToHostNameNext(
         nameIdentifier,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -662,11 +659,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
   private async *listSiteIdentifiersAssignedToHostNamePagingAll(
     nameIdentifier: NameIdentifier,
-    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams
+    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams,
   ): AsyncIterableIterator<Identifier> {
     for await (const page of this.listSiteIdentifiersAssignedToHostNamePagingPage(
       nameIdentifier,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -677,7 +674,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   public listPremierAddOnOffers(
-    options?: ListPremierAddOnOffersOptionalParams
+    options?: ListPremierAddOnOffersOptionalParams,
   ): PagedAsyncIterableIterator<PremierAddOnOffer> {
     const iter = this.listPremierAddOnOffersPagingAll(options);
     return {
@@ -692,13 +689,13 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPremierAddOnOffersPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPremierAddOnOffersPagingPage(
     options?: ListPremierAddOnOffersOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PremierAddOnOffer[]> {
     let result: ListPremierAddOnOffersResponse;
     let continuationToken = settings?.continuationToken;
@@ -712,7 +709,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     while (continuationToken) {
       result = await this._listPremierAddOnOffersNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -722,7 +719,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   private async *listPremierAddOnOffersPagingAll(
-    options?: ListPremierAddOnOffersOptionalParams
+    options?: ListPremierAddOnOffersOptionalParams,
   ): AsyncIterableIterator<PremierAddOnOffer> {
     for await (const page of this.listPremierAddOnOffersPagingPage(options)) {
       yield* page;
@@ -734,11 +731,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   getPublishingUser(
-    options?: GetPublishingUserOptionalParams
+    options?: GetPublishingUserOptionalParams,
   ): Promise<GetPublishingUserResponse> {
     return this.sendOperationRequest(
       { options },
-      getPublishingUserOperationSpec
+      getPublishingUserOperationSpec,
     );
   }
 
@@ -749,11 +746,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   updatePublishingUser(
     userDetails: User,
-    options?: UpdatePublishingUserOptionalParams
+    options?: UpdatePublishingUserOptionalParams,
   ): Promise<UpdatePublishingUserResponse> {
     return this.sendOperationRequest(
       { userDetails, options },
-      updatePublishingUserOperationSpec
+      updatePublishingUserOperationSpec,
     );
   }
 
@@ -762,11 +759,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   private _listSourceControls(
-    options?: ListSourceControlsOptionalParams
+    options?: ListSourceControlsOptionalParams,
   ): Promise<ListSourceControlsResponse> {
     return this.sendOperationRequest(
       { options },
-      listSourceControlsOperationSpec
+      listSourceControlsOperationSpec,
     );
   }
 
@@ -777,11 +774,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   getSourceControl(
     sourceControlType: string,
-    options?: GetSourceControlOptionalParams
+    options?: GetSourceControlOptionalParams,
   ): Promise<GetSourceControlResponse> {
     return this.sendOperationRequest(
       { sourceControlType, options },
-      getSourceControlOperationSpec
+      getSourceControlOperationSpec,
     );
   }
 
@@ -794,11 +791,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   updateSourceControl(
     sourceControlType: string,
     requestMessage: SourceControl,
-    options?: UpdateSourceControlOptionalParams
+    options?: UpdateSourceControlOptionalParams,
   ): Promise<UpdateSourceControlResponse> {
     return this.sendOperationRequest(
       { sourceControlType, requestMessage, options },
-      updateSourceControlOperationSpec
+      updateSourceControlOperationSpec,
     );
   }
 
@@ -807,11 +804,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   private _listBillingMeters(
-    options?: ListBillingMetersOptionalParams
+    options?: ListBillingMetersOptionalParams,
   ): Promise<ListBillingMetersResponse> {
     return this.sendOperationRequest(
       { options },
-      listBillingMetersOperationSpec
+      listBillingMetersOperationSpec,
     );
   }
 
@@ -824,11 +821,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   checkNameAvailability(
     name: string,
     typeParam: CheckNameResourceTypes,
-    options?: CheckNameAvailabilityOptionalParams
+    options?: CheckNameAvailabilityOptionalParams,
   ): Promise<CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       { name, typeParam, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -837,11 +834,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   private _listCustomHostNameSites(
-    options?: ListCustomHostNameSitesOptionalParams
+    options?: ListCustomHostNameSitesOptionalParams,
   ): Promise<ListCustomHostNameSitesResponse> {
     return this.sendOperationRequest(
       { options },
-      listCustomHostNameSitesOperationSpec
+      listCustomHostNameSitesOperationSpec,
     );
   }
 
@@ -850,11 +847,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   getSubscriptionDeploymentLocations(
-    options?: GetSubscriptionDeploymentLocationsOptionalParams
+    options?: GetSubscriptionDeploymentLocationsOptionalParams,
   ): Promise<GetSubscriptionDeploymentLocationsResponse> {
     return this.sendOperationRequest(
       { options },
-      getSubscriptionDeploymentLocationsOperationSpec
+      getSubscriptionDeploymentLocationsOperationSpec,
     );
   }
 
@@ -863,7 +860,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   private _listAseRegions(
-    options?: ListAseRegionsOptionalParams
+    options?: ListAseRegionsOptionalParams,
   ): Promise<ListAseRegionsResponse> {
     return this.sendOperationRequest({ options }, listAseRegionsOperationSpec);
   }
@@ -873,7 +870,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   private _listGeoRegions(
-    options?: ListGeoRegionsOptionalParams
+    options?: ListGeoRegionsOptionalParams,
   ): Promise<ListGeoRegionsResponse> {
     return this.sendOperationRequest({ options }, listGeoRegionsOperationSpec);
   }
@@ -885,11 +882,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   private _listSiteIdentifiersAssignedToHostName(
     nameIdentifier: NameIdentifier,
-    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams
+    options?: ListSiteIdentifiersAssignedToHostNameOptionalParams,
   ): Promise<ListSiteIdentifiersAssignedToHostNameResponse> {
     return this.sendOperationRequest(
       { nameIdentifier, options },
-      listSiteIdentifiersAssignedToHostNameOperationSpec
+      listSiteIdentifiersAssignedToHostNameOperationSpec,
     );
   }
 
@@ -898,11 +895,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   private _listPremierAddOnOffers(
-    options?: ListPremierAddOnOffersOptionalParams
+    options?: ListPremierAddOnOffersOptionalParams,
   ): Promise<ListPremierAddOnOffersResponse> {
     return this.sendOperationRequest(
       { options },
-      listPremierAddOnOffersOperationSpec
+      listPremierAddOnOffersOperationSpec,
     );
   }
 
@@ -922,11 +919,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   verifyHostingEnvironmentVnet(
     parameters: VnetParameters,
-    options?: VerifyHostingEnvironmentVnetOptionalParams
+    options?: VerifyHostingEnvironmentVnetOptionalParams,
   ): Promise<VerifyHostingEnvironmentVnetResponse> {
     return this.sendOperationRequest(
       { parameters, options },
-      verifyHostingEnvironmentVnetOperationSpec
+      verifyHostingEnvironmentVnetOperationSpec,
     );
   }
 
@@ -939,11 +936,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   move(
     resourceGroupName: string,
     moveResourceEnvelope: CsmMoveResourceEnvelope,
-    options?: MoveOptionalParams
+    options?: MoveOptionalParams,
   ): Promise<void> {
     return this.sendOperationRequest(
       { resourceGroupName, moveResourceEnvelope, options },
-      moveOperationSpec
+      moveOperationSpec,
     );
   }
 
@@ -956,11 +953,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   validate(
     resourceGroupName: string,
     validateRequest: ValidateRequest,
-    options?: ValidateOptionalParams
+    options?: ValidateOptionalParams,
   ): Promise<ValidateOperationResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, validateRequest, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 
@@ -973,11 +970,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   validateMove(
     resourceGroupName: string,
     moveResourceEnvelope: CsmMoveResourceEnvelope,
-    options?: ValidateMoveOptionalParams
+    options?: ValidateMoveOptionalParams,
   ): Promise<void> {
     return this.sendOperationRequest(
       { resourceGroupName, moveResourceEnvelope, options },
-      validateMoveOperationSpec
+      validateMoveOperationSpec,
     );
   }
 
@@ -988,11 +985,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   private _listSourceControlsNext(
     nextLink: string,
-    options?: ListSourceControlsNextOptionalParams
+    options?: ListSourceControlsNextOptionalParams,
   ): Promise<ListSourceControlsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      listSourceControlsNextOperationSpec
+      listSourceControlsNextOperationSpec,
     );
   }
 
@@ -1003,11 +1000,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   private _listBillingMetersNext(
     nextLink: string,
-    options?: ListBillingMetersNextOptionalParams
+    options?: ListBillingMetersNextOptionalParams,
   ): Promise<ListBillingMetersNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      listBillingMetersNextOperationSpec
+      listBillingMetersNextOperationSpec,
     );
   }
 
@@ -1019,11 +1016,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   private _listCustomHostNameSitesNext(
     nextLink: string,
-    options?: ListCustomHostNameSitesNextOptionalParams
+    options?: ListCustomHostNameSitesNextOptionalParams,
   ): Promise<ListCustomHostNameSitesNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      listCustomHostNameSitesNextOperationSpec
+      listCustomHostNameSitesNextOperationSpec,
     );
   }
 
@@ -1034,11 +1031,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   private _listAseRegionsNext(
     nextLink: string,
-    options?: ListAseRegionsNextOptionalParams
+    options?: ListAseRegionsNextOptionalParams,
   ): Promise<ListAseRegionsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      listAseRegionsNextOperationSpec
+      listAseRegionsNextOperationSpec,
     );
   }
 
@@ -1049,11 +1046,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   private _listGeoRegionsNext(
     nextLink: string,
-    options?: ListGeoRegionsNextOptionalParams
+    options?: ListGeoRegionsNextOptionalParams,
   ): Promise<ListGeoRegionsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      listGeoRegionsNextOperationSpec
+      listGeoRegionsNextOperationSpec,
     );
   }
 
@@ -1067,11 +1064,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   private _listSiteIdentifiersAssignedToHostNameNext(
     nameIdentifier: NameIdentifier,
     nextLink: string,
-    options?: ListSiteIdentifiersAssignedToHostNameNextOptionalParams
+    options?: ListSiteIdentifiersAssignedToHostNameNextOptionalParams,
   ): Promise<ListSiteIdentifiersAssignedToHostNameNextResponse> {
     return this.sendOperationRequest(
       { nameIdentifier, nextLink, options },
-      listSiteIdentifiersAssignedToHostNameNextOperationSpec
+      listSiteIdentifiersAssignedToHostNameNextOperationSpec,
     );
   }
 
@@ -1082,11 +1079,11 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
    */
   private _listPremierAddOnOffersNext(
     nextLink: string,
-    options?: ListPremierAddOnOffersNextOptionalParams
+    options?: ListPremierAddOnOffersNextOptionalParams,
   ): Promise<ListPremierAddOnOffersNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      listPremierAddOnOffersNextOperationSpec
+      listPremierAddOnOffersNextOperationSpec,
     );
   }
 
@@ -1129,467 +1126,461 @@ const getPublishingUserOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.User
+      bodyMapper: Mappers.User,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updatePublishingUserOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Web/publishingUsers/web",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.User
+      bodyMapper: Mappers.User,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.userDetails,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSourceControlsOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Web/sourcecontrols",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlCollection
+      bodyMapper: Mappers.SourceControlCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSourceControlOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Web/sourcecontrols/{sourceControlType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.SourceControl,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.sourceControlType],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateSourceControlOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Web/sourcecontrols/{sourceControlType}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.SourceControl,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.requestMessage,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.sourceControlType],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBillingMetersOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/billingMeters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingMeterCollection
+      bodyMapper: Mappers.BillingMeterCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.billingLocation,
-    Parameters.osType
+    Parameters.osType,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/checknameavailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/checknameavailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceNameAvailability
+      bodyMapper: Mappers.ResourceNameAvailability,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       name: ["name"],
       typeParam: ["typeParam"],
       isFqdn: ["options", "isFqdn"],
-      environmentId: ["options", "environmentId"]
+      environmentId: ["options", "environmentId"],
     },
-    mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true }
+    mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listCustomHostNameSitesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnameSites",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnameSites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomHostnameSitesCollection
+      bodyMapper: Mappers.CustomHostnameSitesCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.hostname],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getSubscriptionDeploymentLocationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentLocations
+const getSubscriptionDeploymentLocationsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DeploymentLocations,
+      },
+      default: {
+        bodyMapper: Mappers.DefaultErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listAseRegionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/aseRegions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AseRegionCollection
+      bodyMapper: Mappers.AseRegionCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGeoRegionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/geoRegions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoRegionCollection
+      bodyMapper: Mappers.GeoRegionCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.sku,
     Parameters.linuxWorkersEnabled,
     Parameters.xenonWorkersEnabled,
-    Parameters.linuxDynamicWorkersEnabled
+    Parameters.linuxDynamicWorkersEnabled,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listSiteIdentifiersAssignedToHostNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/listSitesAssignedToHostName",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IdentifierCollection
+const listSiteIdentifiersAssignedToHostNameOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/listSitesAssignedToHostName",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.IdentifierCollection,
+      },
+      default: {
+        bodyMapper: Mappers.DefaultErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  requestBody: Parameters.nameIdentifier,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.nameIdentifier,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const listPremierAddOnOffersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/premieraddonoffers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/premieraddonoffers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PremierAddOnOfferCollection
+      bodyMapper: Mappers.PremierAddOnOfferCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSkusOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuInfos
+      bodyMapper: Mappers.SkuInfos,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const verifyHostingEnvironmentVnetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VnetValidationFailureDetails
+      bodyMapper: Mappers.VnetValidationFailureDetails,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const moveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.moveResourceEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateResponse
+      bodyMapper: Mappers.ValidateResponse,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.validateRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.moveResourceEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSourceControlsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlCollection
+      bodyMapper: Mappers.SourceControlCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBillingMetersNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingMeterCollection
+      bodyMapper: Mappers.BillingMeterCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCustomHostNameSitesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomHostnameSitesCollection
+      bodyMapper: Mappers.CustomHostnameSitesCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAseRegionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AseRegionCollection
+      bodyMapper: Mappers.AseRegionCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGeoRegionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoRegionCollection
+      bodyMapper: Mappers.GeoRegionCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listSiteIdentifiersAssignedToHostNameNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IdentifierCollection
+const listSiteIdentifiersAssignedToHostNameNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.IdentifierCollection,
+      },
+      default: {
+        bodyMapper: Mappers.DefaultErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const listPremierAddOnOffersNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PremierAddOnOfferCollection
+      bodyMapper: Mappers.PremierAddOnOfferCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

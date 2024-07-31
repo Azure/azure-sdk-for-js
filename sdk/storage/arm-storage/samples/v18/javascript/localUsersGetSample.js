@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the local user of the storage account by username.
  *
  * @summary Get the local user of the storage account by username.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/LocalUserGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserGet.json
  */
 async function getLocalUser() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates the specified Bastion Host.
  *
  * @summary Creates or updates the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionHostPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/BastionHostPut.json
  */
 async function createBastionHost() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -49,7 +49,7 @@ async function createBastionHost() {
  * This sample demonstrates how to Creates or updates the specified Bastion Host.
  *
  * @summary Creates or updates the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionHostPutWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/BastionHostPutWithZones.json
  */
 async function createBastionHostWithZones() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -82,7 +82,7 @@ async function createBastionHostWithZones() {
  * This sample demonstrates how to Creates or updates the specified Bastion Host.
  *
  * @summary Creates or updates the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionHostDeveloperPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/BastionHostDeveloperPut.json
  */
 async function createDeveloperBastionHost() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

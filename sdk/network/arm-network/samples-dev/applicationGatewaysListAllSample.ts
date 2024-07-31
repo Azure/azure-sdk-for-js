@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the application gateways in a subscription.
  *
  * @summary Gets all the application gateways in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ApplicationGatewayListAll.json
  */
 async function listsAllApplicationGatewaysInASubscription() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

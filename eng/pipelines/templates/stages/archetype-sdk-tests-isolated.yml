@@ -76,7 +76,7 @@ parameters:
     default: []
   - name: UseFederatedAuth
     type: boolean
-    default: false
+    default: true
 
 stages:
   - ${{ each cloud in parameters.CloudConfig }}:
@@ -129,3 +129,4 @@ stages:
                 ServiceConnection: ${{ cloud.value.ServiceConnection }}
                 Location: ${{ coalesce(parameters.Location, cloud.value.Location) }}
                 Cloud: ${{ cloud.key }}
+                SubscriptionConfigurationFilePaths: ${{ cloud.value.SubscriptionConfigurationFilePaths }}

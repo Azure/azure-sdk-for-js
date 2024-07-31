@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
  *
  * @summary Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/InboundSecurityRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/InboundSecurityRulePut.json
  */
 async function createNetworkVirtualApplianceInboundSecurityRules() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,9 +29,13 @@ async function createNetworkVirtualApplianceInboundSecurityRules() {
   const networkVirtualApplianceName = "nva";
   const ruleCollectionName = "rule1";
   const parameters: InboundSecurityRule = {
+    ruleType: "Permanent",
     rules: [
       {
+        name: "inboundRule1",
+        appliesOn: ["slbip1"],
         destinationPortRange: 22,
+        destinationPortRanges: ["80-100"],
         sourceAddressPrefix: "50.20.121.5/32",
         protocol: "TCP",
       },

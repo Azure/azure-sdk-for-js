@@ -5,7 +5,7 @@
  * @file Rule to force the inclusion of type declarations in the package.
  */
 
-import { createRule, getVerifiers, stripPath, usesTshy } from "../utils";
+import { createRule, getVerifiers, stripPath, isEsmPackage } from "../utils";
 import { TSESTree } from "@typescript-eslint/utils";
 import { VerifierMessages, stripFileName } from "../utils/verifiers";
 
@@ -42,7 +42,7 @@ export default createRule({
     if (stripPath(fileName) !== "api-extractor.json") {
       return {};
     }
-    if (usesTshy(context.filename)) {
+    if (isEsmPackage(context.filename)) {
       return {};
     }
     return {

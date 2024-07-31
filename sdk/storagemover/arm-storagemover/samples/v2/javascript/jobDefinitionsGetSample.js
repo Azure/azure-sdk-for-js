@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a Job Definition resource.
  *
  * @summary Gets a Job Definition resource.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobDefinitions_Get.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_Get.json
  */
 async function jobDefinitionsGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function jobDefinitionsGet() {
     resourceGroupName,
     storageMoverName,
     projectName,
-    jobDefinitionName
+    jobDefinitionName,
   );
   console.log(result);
 }

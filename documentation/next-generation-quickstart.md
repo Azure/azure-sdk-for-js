@@ -2,11 +2,11 @@
 Getting Started - Using the next-generation management libraries of Azure SDK for JavaScript/TypeScript
 =============================================================
 
-We are excited to announce the GA of a new set of management plane libraries for JavaScript/TypeScript. Those libraries contain a number of new features including Azure Identity support, HTTP pipeline, error-handling.,etc, and follow the new Azure SDK guidelines which create easy-to-use
+We are excited to announce the GA of a new set of management plane libraries for JavaScript/TypeScript. Those libraries contain a number of new features including Azure Identity support, HTTP pipeline, error-handling, etc, and follow the new Azure SDK guidelines which create easy-to-use
 APIs that are idiomatic, compatible, and dependable. See [TypeScript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
 
 Currently, we have released GA version of several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
-`@azure/arm-compute`, `@azure/arm-network` for next-generation. Please find the latest version of those libraries in npmjs.com and have a try.
+`@azure/arm-compute`, `@azure/arm-network` for next-generation. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and have a try.
 
 In this basic quickstart guide, we will walk you through how to
 authenticate to Azure and start interacting with Azure resources. There are several possible approaches to
@@ -76,7 +76,7 @@ As an example, to install the Azure Compute module, you would run :
 ```sh
 npm i @azure/arm-compute@latest
 ```
-You can always find the latest preview version of our next-generation management libraries via npmjs under the `next` tag of each package.  
+You can always find the latest preview version of our next-generation management libraries via [npm](https://www.npmjs.com) under the `next` tag of each package.  
 
 We also recommend installing other packages for authentication and core functionalities :
 
@@ -115,13 +115,13 @@ Interacting with Azure Resources
 Now that we are authenticated and have created our clients, we can use our client to make API calls. For resource management scenarios, most of our cases are centered around creating / updating / reading / deleting Azure resources. Those scenarios correspond to what we call "operations" in Azure. Once you are sure of which operations you want to call, you can then implement the operation call using the management client we just created in previous section.
 
 
-In the following samples. we are going to show
+In the following samples, we are going to show
 
 - **Step 1** : How to Create a simple resource Resource Group.
 - **Step 2** : How to Manage Resource Group with Azure SDK for JavaScript/TypeScript
 - **Step 3** : How to Create a complex resource Virtual Machine.
 
-Let's show our what final code looks like
+Let's show what our final code looks like
 
 Example: Creating a Resource Group
 ---------------------------------

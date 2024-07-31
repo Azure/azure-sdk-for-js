@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks whether a domain name in the cloudapp.azure.com zone is available for use.
  *
  * @summary Checks whether a domain name in the cloudapp.azure.com zone is available for use.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/CheckDnsNameAvailability.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/CheckDnsNameAvailability.json
  */
 async function checkDnsNameAvailability() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes Policy.
  *
  * @summary Deletes Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/WafPolicyDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/WafPolicyDelete.json
  */
 async function deletesAWafPolicyWithinAResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

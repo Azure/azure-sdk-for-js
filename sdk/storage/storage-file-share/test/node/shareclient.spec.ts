@@ -14,6 +14,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
+  SimpleTokenCredential,
 } from "../utils";
 import {
   getFileServiceAccountAudience,
@@ -84,25 +85,43 @@ describe("ShareClient Node.js only", () => {
     assert.equal(getPermissionResp.errorCode, undefined);
   });
 
-  it("Bad audience should fail", async () => {
+  it("Bad audience should work", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
     const cResp = await directoryClient.create();
     assert.ok(cResp.filePermissionKey);
 
+    const token = await createTestCredential().getToken(
+      "https://badaudience.file.core.windows.net/.default",
+    );
+
+    const shareClientWithSimpleOAuthToken = new ShareClient(
+      shareClient.url,
+      new SimpleTokenCredential(token!.token, new Date(token!.expiresOnTimestamp)),
+      {
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, shareClientWithSimpleOAuthToken);
+
+    try {
+      await shareClientWithSimpleOAuthToken.getPermission(cResp.filePermissionKey!);
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
     const shareClientWithOAuthToken = new ShareClient(shareClient.url, createTestCredential(), {
       audience: "https://badaudience.file.core.windows.net/.default",
       fileRequestIntent: "backup",
     });
     configureStorageClient(recorder, shareClientWithOAuthToken);
-
-    try {
-      await shareClientWithOAuthToken.getPermission(cResp.filePermissionKey!);
-      assert.fail("Should fail with 403");
-    } catch (err) {
-      assert.strictEqual((err as any).statusCode, 403);
-    }
+    const getPermissionResp = await shareClientWithOAuthToken.getPermission(
+      cResp.filePermissionKey!,
+    );
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
   });
 
   it("setAccessPolicy", async () => {

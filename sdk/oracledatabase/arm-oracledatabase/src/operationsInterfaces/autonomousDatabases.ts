@@ -27,6 +27,11 @@ import {
   GenerateAutonomousDatabaseWalletDetails,
   AutonomousDatabasesGenerateWalletOptionalParams,
   AutonomousDatabasesGenerateWalletResponse,
+  RestoreAutonomousDatabaseDetails,
+  AutonomousDatabasesRestoreOptionalParams,
+  AutonomousDatabasesRestoreResponse,
+  AutonomousDatabasesShrinkOptionalParams,
+  AutonomousDatabasesShrinkResponse,
   AutonomousDatabasesSwitchoverOptionalParams,
   AutonomousDatabasesSwitchoverResponse,
 } from "../models";
@@ -194,6 +199,64 @@ export interface AutonomousDatabases {
     body: GenerateAutonomousDatabaseWalletDetails,
     options?: AutonomousDatabasesGenerateWalletOptionalParams,
   ): Promise<AutonomousDatabasesGenerateWalletResponse>;
+  /**
+   * Restores an Autonomous Database based on the provided request parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginRestore(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: RestoreAutonomousDatabaseDetails,
+    options?: AutonomousDatabasesRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AutonomousDatabasesRestoreResponse>,
+      AutonomousDatabasesRestoreResponse
+    >
+  >;
+  /**
+   * Restores an Autonomous Database based on the provided request parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginRestoreAndWait(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: RestoreAutonomousDatabaseDetails,
+    options?: AutonomousDatabasesRestoreOptionalParams,
+  ): Promise<AutonomousDatabasesRestoreResponse>;
+  /**
+   * This operation shrinks the current allocated storage down to the current actual used data storage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param options The options parameters.
+   */
+  beginShrink(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    options?: AutonomousDatabasesShrinkOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AutonomousDatabasesShrinkResponse>,
+      AutonomousDatabasesShrinkResponse
+    >
+  >;
+  /**
+   * This operation shrinks the current allocated storage down to the current actual used data storage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param options The options parameters.
+   */
+  beginShrinkAndWait(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    options?: AutonomousDatabasesShrinkOptionalParams,
+  ): Promise<AutonomousDatabasesShrinkResponse>;
   /**
    * Perform switchover action on Autonomous Database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

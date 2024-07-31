@@ -95,6 +95,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     const responseHeaders = pipelineResponse.headers.toJSON();
     const gatewayRequest = {
       activityId: responseHeaders[Constants.HttpHeaders.ActivityId],
+      correlateActivityId: requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId],
       startTimeUTCInMs,
       durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
       statusCode: pipelineResponse.status,
@@ -146,6 +147,9 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     this.diagnosticCtx.recordFailedAttempt(
       {
         activityId: responseHeaders[Constants.HttpHeaders.ActivityId] as string,
+        correlatedActivityId: requestContext.headers[
+          Constants.HttpHeaders.CorrelatedActivityId
+        ] as string,
         startTimeUTCInMs,
         durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
         statusCode,

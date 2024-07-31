@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified load balancer inbound NAT rule.
  *
  * @summary Gets the specified load balancer inbound NAT rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/InboundNatRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/InboundNatRuleGet.json
  */
 async function inboundNatRuleGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

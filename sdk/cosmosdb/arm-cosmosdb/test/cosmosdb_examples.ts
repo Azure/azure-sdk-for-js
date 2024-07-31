@@ -21,14 +21,15 @@ import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
 
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 
@@ -51,9 +52,9 @@ describe("Cosmosdb test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroupName = "myjstest";
-    accountName = "myaccountxxyy2";
+    location = "eastasia";
+    resourceGroupName = "czwjstest";
+    accountName = "myaccountxxyz2";
   });
 
   afterEach(async function () {
@@ -70,7 +71,7 @@ describe("Cosmosdb test", () => {
         //   isZoneRedundant: false
         // },
         {
-          locationName: "eastus",
+          locationName: "eastasia",
           failoverPriority: 1
         },
         {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the specified network watcher by resource group.
  *
  * @summary Gets the specified network watcher by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkWatcherGet.json
  */
 async function getNetworkWatcher() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

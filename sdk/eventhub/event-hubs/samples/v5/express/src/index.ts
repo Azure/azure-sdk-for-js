@@ -17,28 +17,31 @@
 
 import { v4 as uuid } from "uuid";
 import { AsyncBatchingProducer } from "./asyncBatchingProducer";
-import bodyParser from "body-parser";
 import express from "express";
 import { EventHubProducerClient } from "@azure/event-hubs";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 const app = express();
 
-const eventHubConnectionString = "my connection string";
-const eventHubName = "my event hub name";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
+const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
 const maxBatchSendSize = 20;
 const maxWaitTimeInSeconds = 10;
+const credential = new DefaultAzureCredential();
 const eventProducer = new AsyncBatchingProducer({
-  producer: new EventHubProducerClient(eventHubConnectionString, eventHubName),
+  producer: new EventHubProducerClient(fullyQualifiedNamespace, eventHubName, credential),
   maxWaitTimeInSeconds: maxWaitTimeInSeconds,
   maxBatchSize: maxBatchSendSize
 });
 const port = 8080;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 // respond with requestId
 app.post("/ingest", async (req, res) => {
   const requestId = uuid();
-  await eventProducer.send({
+  eventProducer.send({
     properties: {
       request_id: requestId
     },

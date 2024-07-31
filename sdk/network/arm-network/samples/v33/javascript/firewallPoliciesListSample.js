@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Firewall Policies in a resource group.
  *
  * @summary Lists all Firewall Policies in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyListByResourceGroup.json
  */
 async function listAllFirewallPoliciesForAGivenResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
