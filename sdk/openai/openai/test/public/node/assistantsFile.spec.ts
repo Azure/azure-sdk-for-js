@@ -18,7 +18,6 @@ describe("OpenAIAssistants", () => {
 
       describe("all CRUD APIs", function () {
         it("uploads, gets, and lists a file", async function () {
-          // move to node only, currently failing in browser
           const filename = "sample_file_for_upload.jsonl";
           const text =
             "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";

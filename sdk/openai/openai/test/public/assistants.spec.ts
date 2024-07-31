@@ -15,6 +15,7 @@ describe("OpenAIAssistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
+      const model = "gpt-4-1106-preview";
 
       const codeAssistant = {
         tools: [{ type: "code_interpreter" as const }],
@@ -201,7 +202,6 @@ describe("OpenAIAssistants", () => {
 
       describe(`customer scenarios`, function () {
         it("create and run code interpreter scenario", async function (context) {
-          context.skip();
           const assistant = await client.beta.assistants.create(codeAssistant);
           assertAssistantEquality(codeAssistant, assistant);
           const thread = await client.beta.threads.create();
@@ -330,7 +330,7 @@ describe("OpenAIAssistants", () => {
             nicknames for cities whenever possible.
         `;
           const functionAssistant = {
-            model: "gpt-4-1106-preview",
+            model,
             name: "JS SDK Test Assistant - Nickname",
             instructions,
             tools: [getUserFavoriteCityTool, getCityNicknameTool],

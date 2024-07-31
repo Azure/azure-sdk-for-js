@@ -216,13 +216,11 @@ describe("Completions", function () {
                   }
                   // add try catch block to handle the error
                   try {
-                    const functionArgs = JSON.parse(
-                      (responseMessage.function_call as any).arguments,
-                    );
+                    const functionArgs = JSON.parse(responseMessage.function_call.arguments);
                     weatherMessages.push(responseMessage);
                     weatherMessages.push({
                       role: "function",
-                      name: (responseMessage.function_call as any).name,
+                      name: responseMessage.function_call.name,
                       content: JSON.stringify({
                         location: functionArgs.location,
                         temperature: "72",

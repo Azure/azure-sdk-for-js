@@ -15,6 +15,6 @@
     "./src/**/*.cts",
     "./samples-dev/**/*.ts",
     "./test/**/*.ts",
-    "test/public/utils/images-browser.mts"
+    "./test/**/*.mts"
   ]
 }

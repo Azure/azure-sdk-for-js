@@ -9,7 +9,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     optimizeDeps: {
-      include: ["@azure/openai/types", "@azure/openai"],
+      include: ["@azure/openai"],
     },
     test: {
       testTimeout: 600000,

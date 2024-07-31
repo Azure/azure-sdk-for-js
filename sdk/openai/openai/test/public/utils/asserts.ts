@@ -31,7 +31,7 @@ import { ErrorModel } from "@azure-rest/core-client";
 import { ChatCompletion } from "openai/resources/chat/completions.mjs";
 
 export function assertChatCompletions(
-  completions: OpenAI.Chat.Completions.ChatCompletion,
+  completions: ChatCompletion,
   options: ChatCompletionTestOptions = {},
 ): void {
   assertChatCompletionsNoUsage(completions, options);
@@ -215,7 +215,8 @@ async function assertAsyncIterable<T>(
       validate(item);
     } catch (e: any) {
       throw new Error(
-        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${e.message
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
+          e.message
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
@@ -254,7 +255,7 @@ function assertUsage(usage: OpenAI.Completions.CompletionUsage | undefined): voi
   assert.isNumber(castUsage.total_tokens);
 }
 
-function assertIf(condition: boolean, val: any, check: (x: any) => void): void {
+function assertIf<T>(condition: boolean, val: T, check: (x: T) => void): void {
   if (condition) {
     check(val);
   } else {

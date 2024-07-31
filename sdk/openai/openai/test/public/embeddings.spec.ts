@@ -9,14 +9,6 @@ import OpenAI, { AzureOpenAI } from "openai";
 import { assertEmbeddings, assertOpenAiError } from "./utils/asserts.js";
 
 describe("Embeddings", function () {
-  let deployments: string[] = [];
-
-  beforeEach(async function () {
-    if (!deployments.length) {
-      deployments = await getDeployments("completions");
-    }
-  });
-
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let client: AzureOpenAI | OpenAI;

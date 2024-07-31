@@ -21,10 +21,11 @@ import {
   EnvironmentVariableNamesForDalle,
   EnvironmentVariableNamesForWhisper,
 } from "./envVars.js";
-import { logger } from "@azure/identity";
 import { Run } from "openai/resources/beta/threads/runs/runs.mjs";
+import { createClientLogger } from "@azure/logger";
+import { AzureChatExtensionConfiguration } from "../../../src/types/models.js";
 
-export type AuthMethod = "AAD" | "DummyAPIKey";
+const logger = createClientLogger("openai");
 export type DeploymentType = "dalle" | "whisper" | "completions";
 export enum APIVersion {
   Preview = "2024-05-01-preview",
@@ -103,7 +104,7 @@ async function listDeployments(
       deployments.push(deploymentName);
     }
   }
-  // console.log(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
+  logger.info(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
   return deployments;
 }
 
@@ -159,15 +160,7 @@ export async function get(url: string): Promise<PipelineResponse> {
   return sendRequestWithRecorder(request);
 }
 
-// TODO: Update this once we add Azure specific feature tests
-export function createAzureSearchExtension(): {
-  type: string;
-  parameters: {
-    endpoint: string;
-    index_name: string;
-    authentication: { type: string };
-  };
-} {
+export function createAzureSearchExtension(): AzureChatExtensionConfiguration {
   return {
     type: "azure_search",
     parameters: {

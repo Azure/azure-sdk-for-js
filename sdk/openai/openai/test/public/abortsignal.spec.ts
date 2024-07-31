@@ -15,8 +15,8 @@ describe("AbortSignal", () => {
       client = createClient(apiVersion, "completions");
     });
 
-    // TODO: Fix the tests
-    it.skip("Abort signal test for streaming method", async function () {
+    // TODO: Fix the tests for client.chat.completions.create
+    it("Abort signal test for streaming method", async function () {
       const messages = [
         {
           role: "system",
@@ -30,10 +30,10 @@ describe("AbortSignal", () => {
         { role: "user", content: "What's the best way to train a parrot?" } as const,
       ];
 
-      const deploymentName = "gpt-3.5-turbo";
+      const deploymentName = "gpt-35-turbo";
       let currentMessage = "";
       try {
-        const events = await client.chat.completions.create({
+        const events = client.beta.chat.completions.stream({
           model: deploymentName,
           messages,
           stream: true,
@@ -44,13 +44,12 @@ describe("AbortSignal", () => {
         });
         for await (const event of events) {
           assert.isDefined(event);
-          events.controller.abort();
+          events.abort();
         }
         assert.isDefined(currentMessage);
         assert.fail("Expected to abort streaming");
       } catch (error: any) {
-        console.log(error);
-        assert.isTrue(error.name === "AbortError" || error.code === "ECONNRESET");
+        assert.isTrue(error.message.includes("aborted"));
       }
     });
   });

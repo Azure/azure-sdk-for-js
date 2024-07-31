@@ -73,7 +73,7 @@ export function createClient(
       return new OpenAI();
     }
     default: {
-      throw Error(`Unsupported authentication method: ${apiVersion}`);
+      throw Error(`Unsupported service API version: ${apiVersion}`);
     }
   }
 }
