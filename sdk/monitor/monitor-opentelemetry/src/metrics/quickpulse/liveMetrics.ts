@@ -53,10 +53,9 @@ import { CollectionConfigurationError } from "../../generated";
 import {
   TelemetryTypeError,
   UnexpectedFilterCreateError,
-  validateTelemetryType,
-  checkCustomMetricProjection,
-  validateFilters,
+  Validator,
   DuplicateMetricIdError,
+  CollectionConfigurationErrorTracker,
 } from "./filtering";
 
 const POST_INTERVAL = 1000;
@@ -125,10 +124,11 @@ export class LiveMetrics {
     | undefined;
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
-  private errors: CollectionConfigurationError[] = [];
-  private validDerivedMetrics: Map<string, DerivedMetricInfo> = new Map();
+  private errorTracker: CollectionConfigurationErrorTracker = new CollectionConfigurationErrorTracker();
+  // For tracking of duplicate metric ids in the same configuration.
+  private seenMetricIds: Set<string> = new Set();
+  private validDerivedMetrics: Map<string, DerivedMetricInfo[]> = new Map();
   // implementation note: add configuration info or some list representation of filters
-
   /**
    * Initializes a new instance of the StandardMetrics class.
    * @param config - Distro configuration.
@@ -144,7 +144,7 @@ export class LiveMetrics {
     const version = getSdkVersion();
     this.baseMonitoringDataPoint = {
       version: version,
-      invariantVersion: 1,
+      invariantVersion: 2, // implementation note: need to change
       instance: instance,
       roleName: roleName,
       machineName: machineName,
@@ -189,7 +189,9 @@ export class LiveMetrics {
           configurationEtag: this.etag,
         };
         await context.with(suppressTracing(context.active()), async () => {
+          console.log("ping getting called");
           let response = await this.pingSender.isSubscribed(params);
+          console.log("ping response {}", response);
           this.quickPulseDone(response);
         });
       } catch (error) {
@@ -359,8 +361,10 @@ export class LiveMetrics {
    */
   public deactivateMetrics() {
     this.documents = [];
-    this.errors = [];
+    this.errorTracker.clearRunTimeErrors();
+    this.errorTracker.clearValidationTimeErrors();
     this.validDerivedMetrics.clear();
+    this.seenMetricIds.clear();
     this.meterProvider?.shutdown();
     this.meterProvider = undefined;
   }
@@ -384,7 +388,7 @@ export class LiveMetrics {
   }
 
   public getErrors(): CollectionConfigurationError[] {
-    return this.errors;
+    return this.errorTracker.getErrors();
   }
 
   private addDocument(document: DocumentIngress) {
@@ -625,17 +629,26 @@ export class LiveMetrics {
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse) {
     this.etag = response.xMsQpsConfigurationEtag || "";
     this.quickpulseExporter.setEtag(this.etag);
-    this.errors = [];
+    this.errorTracker.clearValidationTimeErrors();
     this.validDerivedMetrics.clear();
+    this.seenMetricIds.clear();
+
     response.metrics.forEach((derivedMetricInfo) => {
       try {
-        validateTelemetryType(derivedMetricInfo);
-        checkCustomMetricProjection(derivedMetricInfo);
-        validateFilters(derivedMetricInfo);
-        if (this.validDerivedMetrics.has(derivedMetricInfo.id)) {
-          throw new DuplicateMetricIdError(`This metric id is a duplicate id; will use the first instance of this id: ${derivedMetricInfo.id}`);
+        if (!this.seenMetricIds.has(derivedMetricInfo.id)) {
+          this.seenMetricIds.add(derivedMetricInfo.id);
+          Validator.validateTelemetryType(derivedMetricInfo);
+          Validator.checkCustomMetricProjection(derivedMetricInfo);
+          Validator.validateFilters(derivedMetricInfo);
+          // implementation note: create a DerivedMetric obj & valid map should contain a list of those instead of the derivedMetricInfo
+          if (this.validDerivedMetrics.has(derivedMetricInfo.telemetryType)) {
+            this.validDerivedMetrics.get(derivedMetricInfo.telemetryType)?.push(derivedMetricInfo);
+          } else {
+            this.validDerivedMetrics.set(derivedMetricInfo.telemetryType, [derivedMetricInfo]);
+          }
+        } else {
+          throw new DuplicateMetricIdError(`Duplicate Metric Id: ${derivedMetricInfo.id}`);
         }
-        this.validDerivedMetrics.set(derivedMetricInfo.id, derivedMetricInfo);
       } catch (error) {
         let configError: CollectionConfigurationError = {
           collectionConfigurationErrorType: "",
@@ -659,7 +672,7 @@ export class LiveMetrics {
         data.push({ key: "MetricId", value: derivedMetricInfo.id });
         data.push({ key: "ETag", value: this.etag });
         configError.data = data;
-        this.errors.push(configError);
+        this.errorTracker.addValidationError(configError);
       }
 
     });

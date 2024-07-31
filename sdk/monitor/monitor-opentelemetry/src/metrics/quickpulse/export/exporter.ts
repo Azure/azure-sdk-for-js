@@ -74,7 +74,9 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
       try {
+        console.log("calling post");
         let postResponse = await this.sender.publish(optionalParams);
+        console.log("post response {}", postResponse);
         this.postCallback(postResponse);
         resultCallback({ code: ExportResultCode.SUCCESS });
       } catch (error) {
