@@ -14,7 +14,7 @@ import type {
 import { exec } from "child_process";
 import Debug from "debug";
 import { createHash, randomUUID } from "crypto";
-import { IBackOffOptions } from "exponential-backoff";
+import { IBackOffOptions } from "../common/types";
 import fs from "fs";
 import os from "os";
 import path from "path";

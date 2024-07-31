@@ -57,8 +57,6 @@
     "extract-api": "echo skipped"
   },
   "dependencies": {
-    "colors": "^1.4.0",
-    "commander": "^12.1.0",
     "prompts": "^2.4.2"
   },
   "devDependencies": {

@@ -81,7 +81,6 @@
     "lodash.clonedeep": "^4.5.0",
     "@azure/storage-blob": "^12.15.0",
     "axios": "^1.6.0",
-    "exponential-backoff": "^3.1.1",
     "uuid": "^9.0.1",
     "debug": "^4.3.4",
     "dotenv": "^16.4.4"

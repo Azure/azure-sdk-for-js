@@ -1,6 +1,5 @@
 import chai from "chai";
 import sinon from "sinon";
-import colors from "colors/safe";
 import fs from "fs";
 import chaiAsPromised from "chai-as-promised";
 import { PlaywrightServiceInitialize } from "../src/initialize";
@@ -151,10 +150,8 @@ describe("PlaywrightServiceInitialize", () => {
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
     expect(consoleLogStub.callCount).to.equal(9);
-    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${colors.cyan(npmRunCommand)}\n`);
-    expect(consoleLogStub.getCall(4).args[0]).to.equal(
-      `\t${colors.cyan(npmRunCommandParallelWorkers)}\n`,
-    );
+    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${npmRunCommand}\n`);
+    expect(consoleLogStub.getCall(4).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
     delete process.env["npm_config_user_agent"];
   });
 
@@ -172,10 +169,8 @@ describe("PlaywrightServiceInitialize", () => {
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
     expect(consoleLogStub.callCount).to.equal(9);
-    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${colors.cyan(npmRunCommand)}\n`);
-    expect(consoleLogStub.getCall(4).args[0]).to.equal(
-      `\t${colors.cyan(npmRunCommandParallelWorkers)}\n`,
-    );
+    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${npmRunCommand}\n`);
+    expect(consoleLogStub.getCall(4).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
     delete process.env["npm_config_user_agent"];
   });
 
@@ -193,10 +188,8 @@ describe("PlaywrightServiceInitialize", () => {
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
     expect(consoleLogStub.callCount).to.equal(9);
-    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${colors.cyan(npmRunCommand)}\n`);
-    expect(consoleLogStub.getCall(4).args[0]).to.equal(
-      `\t${colors.cyan(npmRunCommandParallelWorkers)}\n`,
-    );
+    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${npmRunCommand}\n`);
+    expect(consoleLogStub.getCall(4).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
     delete process.env["npm_config_user_agent"];
   });
 });
