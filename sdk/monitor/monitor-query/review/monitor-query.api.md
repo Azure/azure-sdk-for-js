@@ -36,16 +36,16 @@ export enum KnownMonitorAudience {
 }
 
 // @public
-export enum KnownMonitorLogAudience {
-    AzureChina = "https://api.loganalytics.cn",
+export enum KnownMonitorLogsQueryAudience {
+    AzureChina = "https://api.loganalytics.azure.cn",
     AzureGovernment = "https://api.loganalytics.us",
     AzurePublicCloud = "https://api.loganalytics.io"
 }
 
 // @public
 export enum KnownMonitorMetricsQueryAudience {
-    AzureChina = "https://management.azure.cn/",
-    AzureGovernment = "https://management.azure.us/",
+    AzureChina = "https://management.chinacloudapi.cn",
+    AzureGovernment = "https://management.usgovcloudapi.net",
     AzurePublicCloud = "https://management.azure.com/"
 }
 

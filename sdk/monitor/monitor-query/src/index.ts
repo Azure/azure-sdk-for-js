@@ -66,6 +66,6 @@ export { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
 export { MetricsClient } from "./metricsClient";
 export {
   KnownMonitorAudience,
-  KnownMonitorLogAudience,
+  KnownMonitorLogsQueryAudience,
   KnownMonitorMetricsQueryAudience,
 } from "./constants";

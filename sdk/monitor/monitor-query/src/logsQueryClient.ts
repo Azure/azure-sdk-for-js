@@ -25,7 +25,7 @@ import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
-import { KnownMonitorLogAudience, SDK_VERSION } from "./constants";
+import { KnownMonitorLogsQueryAudience, SDK_VERSION } from "./constants";
 import { tracingClient } from "./tracing";
 import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils";
 
@@ -60,7 +60,7 @@ export class LogsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
     const scope: string = options?.audience
       ? `${options.audience}/.default`
-      : `${KnownMonitorLogAudience.AzurePublicCloud}/.default`;
+      : `${KnownMonitorLogsQueryAudience.AzurePublicCloud}/.default`;
 
     let endpoint = options?.endpoint;
     if (options?.endpoint) {

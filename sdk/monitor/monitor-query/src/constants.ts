@@ -27,11 +27,11 @@ export enum KnownMonitorAudience {
 /**
  * Known values for Monitor Audience
  */
-export enum KnownMonitorLogAudience {
+export enum KnownMonitorLogsQueryAudience {
   /**
    * Audience for Azure China
    */
-  AzureChina = "https://api.loganalytics.cn",
+  AzureChina = "https://api.loganalytics.azure.cn",
   /**
    * Audience for Azure Government
    */
@@ -49,11 +49,11 @@ export enum KnownMonitorMetricsQueryAudience {
   /**
    * Audience for Azure China
    */
-  AzureChina = "https://management.azure.cn/",
+  AzureChina = "https://management.chinacloudapi.cn",
   /**
    * Audience for Azure Government
    */
-  AzureGovernment = "https://management.azure.us/",
+  AzureGovernment = "https://management.usgovcloudapi.net",
   /**
    * Audience for Azure Public
    */
