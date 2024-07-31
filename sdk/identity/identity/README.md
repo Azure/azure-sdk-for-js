@@ -10,13 +10,9 @@ Key links:
 - [Package (npm)](https://www.npmjs.com/package/@azure/identity)
 - [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/identity)
 - [Microsoft Entra ID documentation](https://learn.microsoft.com/entra/identity)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples)
 
 ## Getting started
-
-### Migrate from v1 to v2 of @azure/identity
-
-If you're using v1 of `@azure/identity`, see the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) to update to v2.
 
 ### Currently supported environments
 
@@ -62,7 +58,7 @@ For advanced authentication workflows in the browser, we have a section where we
 
 ### Authenticate the client in development environment
 
-While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
+While we recommend using managed identity in your Azure-hosted application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
 
 #### Authenticate via the Azure Developer CLI
 
@@ -88,7 +84,7 @@ For systems without a default web browser, the `az login` command will use the d
 
 Applications using the `AzurePowerShellCredential`, whether directly or via the `DefaultAzureCredential`, can use the account connected to Azure PowerShell to authenticate calls in the application when running locally.
 
-To authenticate with [Azure PowerShell][azure_powershell] users can run the `Connect-AzAccount` cmdlet. By default, ike the Azure CLI, `Connect-AzAccount` will launch the default web browser to authenticate a user account.
+To authenticate with [Azure PowerShell][azure_powershell] users can run the `Connect-AzAccount` cmdlet. By default, like the Azure CLI, `Connect-AzAccount` will launch the default web browser to authenticate a user account.
 
 ![Azure PowerShell Account Sign In][azurepowershelllogin_image]
 
@@ -151,8 +147,8 @@ Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), 
 
 Azure Identity for JavaScript provides a plugin API that allows us to provide certain functionality through separate _plugin packages_. The `@azure/identity` package exports a top-level function (`useIdentityPlugin`) that can be used to enable a plugin. We provide two plugin packages:
 
-- [`@azure/identity-broker`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker), which provides brokered authentication support through a native broker, such as Web Account Manager.
-- [`@azure/identity-cache-persistence`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
+- [`@azure/identity-broker`](https://www.npmjs.com/package/@azure/identity-broker), which provides brokered authentication support through a native broker, such as Web Account Manager.
+- [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
 
 ## Examples
 
@@ -217,7 +213,7 @@ For examples of how to use managed identity for authentication, see [the example
 
 ## Cloud configuration
 
-Credentials default to authenticating to the Microsoft Entra endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The `AzureAuthorityHosts` interface defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
+Credentials default to authenticating to the Microsoft Entra endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The [`AzureAuthorityHosts`][authority_hosts] enum defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
 
 ```typescript
 import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
@@ -231,28 +227,50 @@ const credential = new ClientSecretCredential(
 );
 ```
 
+As an alternative to specifying the `authorityHost` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud or when the deployed environment needs to define the target cloud:
+
+```sh
+AZURE_AUTHORITY_HOST=https://login.partner.microsoftonline.cn
+```
+
+The `AzureAuthorityHosts` enum defines authorities for well-known clouds for your convenience; however, if the authority for your cloud isn't listed in `AzureAuthorityHosts`, you may pass any valid authority URL as a string argument. For example:
+
+```typescript
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: "https://login.partner.microsoftonline.cn",
+  }
+);
+```
+
 Not all credentials require this configuration. Credentials that authenticate through a development tool, such as `AzureCliCredential`, use that tool's configuration. Similarly, `VisualStudioCodeCredential` accepts an `authorityHost` argument but defaults to the `authorityHost` matching Visual Studio Code's **Azure: Cloud** setting.
 
 ## Credential classes
 
 ### Authenticate Azure-hosted applications
 
-| Credential                                                                                                                                   | Usage                                                                                                                                                                | Example                                                                                                                                                                               |
-| -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`DefaultAzureCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest)         | Provides a simplified authentication experience to quickly start developing applications run in Azure.                                                               | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-defaultazurecredential)                      |
-| [`ChainedTokenCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/chainedtokencredential?view=azure-node-latest)         | Allows users to define custom authentication flows composing multiple credentials.                                                                                   | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#chaining-credentials)                                            |
-| [`EnvironmentCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest)           | Authenticates a service principal or user via credential information specified in environment variables.                                                             | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
-| [`ManagedIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)   | Authenticates the managed identity of an Azure resource.                                                                                                             | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)                   |
-| [`WorkloadIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/workloadidentitycredential?view=azure-node-latest) | Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/aks/workload-identity-overview) on Kubernetes.                                              | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-workload-identity)                  |
-| `AzurePipelinesServiceConnectionCredential`                                                                                                  | Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops) on Azure Pipelines. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-pipelines-with-service-connections)      |
+| Credential                                                                                                                                   | Usage                                                                                                                   | Example                                                                                                                                                                               |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`DefaultAzureCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest)         | Provides a simplified authentication experience to quickly start developing applications run in Azure.                  | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-defaultazurecredential)                      |
+| [`ChainedTokenCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/chainedtokencredential?view=azure-node-latest)         | Allows users to define custom authentication flows composing multiple credentials.                                      | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#chaining-credentials)                                            |
+| [`EnvironmentCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest)           | Authenticates a service principal or user via credential information specified in environment variables.                | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
+| [`ManagedIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)   | Authenticates the managed identity of an Azure resource.                                                                | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)                   |
+| [`WorkloadIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/workloadidentitycredential?view=azure-node-latest) | Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/aks/workload-identity-overview) on Kubernetes. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-workload-identity)                  |
+|  |
 
 ### Authenticate service principals
 
-| Credential                                                                                                                                     | Usage                                                              | Example                                                                                                                                                                            | Reference                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [`ClientAssertionCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientassertioncredential?view=azure-node-latest)     | Authenticates a service principal using a signed client assertion. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-assertion)   | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
-| [`ClientCertificateCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest) | Authenticates a service principal using a certificate.             | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-certificate) | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
-| [`ClientSecretCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)           | Authenticates a service principal using a secret.                  | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-secret)      | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
+| Credential                                                                                                                                     | Usage                                                                                                                                                                | Example                                                                                                                                                                            | Reference                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [`AzurePipelinesCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/azurepipelinescredential?view=azure-node-latest) | Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops) on Azure Pipelines. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-pipelines-with-service-connections)   |
+| [`ClientAssertionCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientassertioncredential?view=azure-node-latest)     | Authenticates a service principal using a signed client assertion.                                                                                                   | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-assertion)   | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
+| [`ClientCertificateCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest) | Authenticates a service principal using a certificate.                                                                                                               | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-certificate) | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
+| [`ClientSecretCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)           | Authenticates a service principal using a secret.                                                                                                                    | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-secret)      | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
+
 
 ### Authenticate users
 
@@ -371,5 +389,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/mermaidjs/DefaultAzureCredentialAuthFlow.svg
 [azure_identity_broker]: https://www.npmjs.com/package/@azure/identity-broker
 [azure_identity_broker_readme]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
+[authority_hosts]: https://learn.microsoft.com/javascript/api/@azure/identity/azureauthorityhosts
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

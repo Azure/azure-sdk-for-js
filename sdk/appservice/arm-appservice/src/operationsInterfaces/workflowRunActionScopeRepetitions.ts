@@ -11,7 +11,7 @@ import {
   WorkflowRunActionRepetitionDefinition,
   WorkflowRunActionScopeRepetitionsListOptionalParams,
   WorkflowRunActionScopeRepetitionsGetOptionalParams,
-  WorkflowRunActionScopeRepetitionsGetResponse
+  WorkflowRunActionScopeRepetitionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface WorkflowRunActionScopeRepetitions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionScopeRepetitionsListOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
   /**
    * Get a workflow run action scoped repetition.
@@ -51,6 +51,6 @@ export interface WorkflowRunActionScopeRepetitions {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionScopeRepetitionsGetOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsGetOptionalParams,
   ): Promise<WorkflowRunActionScopeRepetitionsGetResponse>;
 }

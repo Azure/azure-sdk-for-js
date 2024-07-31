@@ -14,7 +14,7 @@ import {
   GeoBackupPoliciesCreateOrUpdateOptionalParams,
   GeoBackupPoliciesCreateOrUpdateResponse,
   GeoBackupPoliciesGetOptionalParams,
-  GeoBackupPoliciesGetResponse
+  GeoBackupPoliciesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface GeoBackupPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: GeoBackupPoliciesListByDatabaseOptionalParams
+    options?: GeoBackupPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<GeoBackupPolicy>;
   /**
    * Updates a database geo backup policy.
@@ -50,7 +50,7 @@ export interface GeoBackupPolicies {
     databaseName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
     parameters: GeoBackupPolicy,
-    options?: GeoBackupPoliciesCreateOrUpdateOptionalParams
+    options?: GeoBackupPoliciesCreateOrUpdateOptionalParams,
   ): Promise<GeoBackupPoliciesCreateOrUpdateResponse>;
   /**
    * Gets a geo backup policy.
@@ -66,6 +66,6 @@ export interface GeoBackupPolicies {
     serverName: string,
     databaseName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
-    options?: GeoBackupPoliciesGetOptionalParams
+    options?: GeoBackupPoliciesGetOptionalParams,
   ): Promise<GeoBackupPoliciesGetResponse>;
 }

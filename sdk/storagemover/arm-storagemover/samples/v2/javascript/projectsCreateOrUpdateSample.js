@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a Project resource, which is a logical grouping of related jobs.
  *
  * @summary Creates or updates a Project resource, which is a logical grouping of related jobs.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/Projects_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Projects_CreateOrUpdate.json
  */
 async function projectsCreateOrUpdate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function projectsCreateOrUpdate() {
     resourceGroupName,
     storageMoverName,
     projectName,
-    project
+    project,
   );
   console.log(result);
 }

@@ -2,13 +2,13 @@
 
 These sample programs show how to use the TypeScript client libraries for Azure Schema Registry in some common scenarios.
 
-| **File Name**                                                                 | **Description**                                                                                                                                                                                     |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [schemaRegistryJsonSample.ts][schemaregistryjsonsample]                       | Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry.                                                                           |
-| [schemaRegistryJsonWithValidation.ts][schemaregistryjsonwithvalidation]       | Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry with validation using a third party library.                               |
-| [withEventHubsBufferedProducerClient.ts][witheventhubsbufferedproducerclient] | Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client. |
-| [withEventHubsConsumerClient.ts][witheventhubsconsumerclient]                 | Demonstrates the use of JsonSerializer to deserialize messages with json-serialized payload received from the Event Hub Consumer Client.                                                            |
-| [withEventHubsProducerClient.ts][witheventhubsproducerclient]                 | Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Producer Client.          |
+| **File Name**                                                                 | **Description**                                                                                                                                                                                           |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [schemaRegistryJsonSample.ts][schemaregistryjsonsample]                       | Demonstrates the use of JsonSchemaSerializer to create messages with json-serialized payload using schema from Schema Registry.                                                                           |
+| [schemaRegistryJsonWithValidation.ts][schemaregistryjsonwithvalidation]       | Demonstrates the use of JsonSchemaSerializer to create messages with json-serialized payload using schema from Schema Registry with validation using a third party library.                               |
+| [withEventHubsBufferedProducerClient.ts][witheventhubsbufferedproducerclient] | Demonstrates the use of JsonSchemaSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client. |
+| [withEventHubsConsumerClient.ts][witheventhubsconsumerclient]                 | Demonstrates the use of JsonSchemaSerializer to deserialize messages with json-serialized payload received from the Event Hub Consumer Client.                                                            |
+| [withEventHubsProducerClient.ts][witheventhubsproducerclient]                 | Demonstrates the use of JsonSchemaSerializer to create messages with json-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Producer Client.          |
 
 ## Prerequisites
 
@@ -67,7 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsBufferedProducerClient.ts
 [witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsConsumerClient.ts
 [witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsProducerClient.ts
-[apiref]: https://aka.ms/schemaregistryjson-js-api
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry-json
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/README.md

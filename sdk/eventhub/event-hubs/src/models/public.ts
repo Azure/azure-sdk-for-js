@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RetryOptions, WebSocketOptions } from "@azure/core-amqp";
-import { OperationOptions } from "../util/operationOptions";
+import { OperationOptions } from "../util/operationOptions.js";
 
 /**
  * The set of options to configure the behavior of `getEventHubProperties`.
@@ -43,7 +43,7 @@ export interface SendBatchOptions extends OperationOptions {
   /**
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   * Specifying this will throw an error if the producer was created using a `partitionId`.
    */
   partitionKey?: string;
 }
@@ -66,7 +66,7 @@ export interface SendOptions extends OperationOptions {
   /**
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   * Specifying this will throw an error if the producer was created using a `partitionId`.
    */
   partitionKey?: string;
 }

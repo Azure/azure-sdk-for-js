@@ -33,7 +33,7 @@ async function getTopology() {
   const result = await client.topology.get(
     resourceGroupName,
     ascLocation,
-    topologyResourceName
+    topologyResourceName,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about all public IP addresses in a role instance IP configuration in a cloud service.
  *
  * @summary Gets information about all public IP addresses in a role instance IP configuration in a cloud service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/CloudServiceRoleInstancePublicIpList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/CloudServiceRoleInstancePublicIpList.json
  */
 async function listVmssvmPublicIP() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

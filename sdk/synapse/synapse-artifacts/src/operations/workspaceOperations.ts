@@ -31,7 +31,7 @@ export class WorkspaceOperationsImpl implements WorkspaceOperations {
    * @param options The options parameters.
    */
   async get(
-    options?: WorkspaceGetOptionalParams
+    options?: WorkspaceGetOptionalParams,
   ): Promise<WorkspaceGetResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.get",
@@ -39,9 +39,9 @@ export class WorkspaceOperationsImpl implements WorkspaceOperations {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getOperationSpec
+          getOperationSpec,
         ) as Promise<WorkspaceGetResponse>;
-      }
+      },
     );
   }
 }
@@ -53,14 +53,14 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
+      bodyMapper: Mappers.Workspace,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

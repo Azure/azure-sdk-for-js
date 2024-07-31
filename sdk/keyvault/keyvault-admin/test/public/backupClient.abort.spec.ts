@@ -9,7 +9,8 @@ import { authenticate } from "./utils/authentication";
 import { testPollerProperties } from "./utils/recorder";
 import { assertThrowsAbortError, getSasToken, getServiceVersion } from "./utils/common";
 
-describe("Aborting KeyVaultBackupClient's requests", () => {
+// TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
+describe.skip("Aborting KeyVaultBackupClient's requests", () => {
   let client: KeyVaultBackupClient;
   let recorder: Recorder;
   let blobStorageUri: string;

@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData";
-import { ConnectionContext } from "./connectionContext";
+import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData.js";
+import { ConnectionContext } from "./connectionContext.js";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { PartitionPublishingProperties } from "./models/private";
+import { instrumentEventData } from "./diagnostics/instrumentEventData.js";
+import { throwTypeErrorIfParameterMissing } from "./util/error.js";
+import { PartitionPublishingProperties } from "./models/private.js";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -118,13 +118,13 @@ export class EventDataBatchImpl implements EventDataBatch {
   private _context: ConnectionContext;
   /**
    * The Id of the partition to which the batch is expected to be sent to.
-   * Specifying this will throw an error if the batch was created using a `paritionKey`.
+   * Specifying this will throw an error if the batch was created using a `partitionKey`.
    */
   private _partitionId?: string;
   /**
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the batch was created using a `paritionId`.
+   * Specifying this will throw an error if the batch was created using a `partitionId`.
    */
   private _partitionKey?: string;
   /**

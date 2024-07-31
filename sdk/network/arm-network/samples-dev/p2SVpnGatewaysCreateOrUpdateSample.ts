@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
  *
  * @summary Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/P2SVpnGatewayPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/P2SVpnGatewayPut.json
  */
 async function p2SVpnGatewayPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

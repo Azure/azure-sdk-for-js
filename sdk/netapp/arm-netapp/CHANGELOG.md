@@ -1,6 +1,6 @@
 # Release History
 
-## 20.0.1 (Unreleased)
+## 21.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,16 +10,112 @@
 
 ### Other Changes
 
+## 21.1.0 (2024-07-17)
+    
+### Features Added
+
+  - Interface VolumePatch has a new optional parameter protocolTypes
+    
+    
+## 21.0.0 (2024-05-14)
+    
+### Features Added
+
+  - Added operation group BackupsUnderAccount
+  - Added operation group BackupsUnderBackupVault
+  - Added operation group BackupsUnderVolume
+  - Added operation group BackupVaults
+  - Added operation group NetAppResourceRegionInfos
+  - Added operation Backups.beginCreate
+  - Added operation Backups.beginCreateAndWait
+  - Added operation Backups.beginDelete
+  - Added operation Backups.beginDeleteAndWait
+  - Added operation Backups.beginUpdate
+  - Added operation Backups.beginUpdateAndWait
+  - Added operation Backups.get
+  - Added operation Backups.getLatestStatus
+  - Added operation Backups.getVolumeLatestRestoreStatus
+  - Added operation Backups.listByVault
+  - Added Interface Backup
+  - Added Interface BackupPatch
+  - Added Interface BackupRestoreFiles
+  - Added Interface BackupsCreateOptionalParams
+  - Added Interface BackupsDeleteHeaders
+  - Added Interface BackupsDeleteOptionalParams
+  - Added Interface BackupsGetLatestStatusOptionalParams
+  - Added Interface BackupsGetOptionalParams
+  - Added Interface BackupsGetVolumeLatestRestoreStatusOptionalParams
+  - Added Interface BackupsList
+  - Added Interface BackupsListByVaultNextOptionalParams
+  - Added Interface BackupsListByVaultOptionalParams
+  - Added Interface BackupsMigrationRequest
+  - Added Interface BackupStatus
+  - Added Interface BackupsUnderAccountMigrateBackupsHeaders
+  - Added Interface BackupsUnderAccountMigrateBackupsOptionalParams
+  - Added Interface BackupsUnderBackupVaultRestoreFilesHeaders
+  - Added Interface BackupsUnderBackupVaultRestoreFilesOptionalParams
+  - Added Interface BackupsUnderVolumeMigrateBackupsHeaders
+  - Added Interface BackupsUnderVolumeMigrateBackupsOptionalParams
+  - Added Interface BackupsUpdateHeaders
+  - Added Interface BackupsUpdateOptionalParams
+  - Added Interface BackupVault
+  - Added Interface BackupVaultPatch
+  - Added Interface BackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface BackupVaultsDeleteHeaders
+  - Added Interface BackupVaultsDeleteOptionalParams
+  - Added Interface BackupVaultsGetOptionalParams
+  - Added Interface BackupVaultsList
+  - Added Interface BackupVaultsListByNetAppAccountNextOptionalParams
+  - Added Interface BackupVaultsListByNetAppAccountOptionalParams
+  - Added Interface BackupVaultsUpdateHeaders
+  - Added Interface BackupVaultsUpdateOptionalParams
+  - Added Interface NetAppResourceRegionInfosGetOptionalParams
+  - Added Interface NetAppResourceRegionInfosListNextOptionalParams
+  - Added Interface NetAppResourceRegionInfosListOptionalParams
+  - Added Interface RegionInfoResource
+  - Added Interface RegionInfosList
+  - Added Interface VolumeBackupProperties
+  - Added Type Alias BackupsCreateResponse
+  - Added Type Alias BackupsDeleteResponse
+  - Added Type Alias BackupsGetLatestStatusResponse
+  - Added Type Alias BackupsGetResponse
+  - Added Type Alias BackupsGetVolumeLatestRestoreStatusResponse
+  - Added Type Alias BackupsListByVaultNextResponse
+  - Added Type Alias BackupsListByVaultResponse
+  - Added Type Alias BackupsUnderAccountMigrateBackupsResponse
+  - Added Type Alias BackupsUnderBackupVaultRestoreFilesResponse
+  - Added Type Alias BackupsUnderVolumeMigrateBackupsResponse
+  - Added Type Alias BackupsUpdateResponse
+  - Added Type Alias BackupType
+  - Added Type Alias BackupVaultsCreateOrUpdateResponse
+  - Added Type Alias BackupVaultsDeleteResponse
+  - Added Type Alias BackupVaultsGetResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountNextResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountResponse
+  - Added Type Alias BackupVaultsUpdateResponse
+  - Added Type Alias NetAppResourceRegionInfosGetResponse
+  - Added Type Alias NetAppResourceRegionInfosListNextResponse
+  - Added Type Alias NetAppResourceRegionInfosListResponse
+  - Interface VolumeBackups has a new optional parameter volumeResourceId
+  - Interface VolumePatchPropertiesDataProtection has a new optional parameter backup
+  - Interface VolumePropertiesDataProtection has a new optional parameter backup
+  - Added Enum KnownBackupType
+
+### Breaking Changes
+
+  - Removed operation Backups.getVolumeRestoreStatus
+    
+    
 ## 20.0.0 (2024-03-05)
     
-**Features**
+### Features Added
 
   - Added Interface VolumesResetCifsPasswordHeaders
   - Added Type Alias VolumesResetCifsPasswordResponse
   - Enum KnownRelationshipStatus has a new value Failed
   - Enum KnownRelationshipStatus has a new value Unknown
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface VolumeGroupMetaData no longer has parameter deploymentSpecId
   - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
@@ -31,7 +127,7 @@
     
 ## 20.0.0-beta.1 (2023-12-14)
     
-**Features**
+### Features Added
 
   - Added operation group AccountBackups
   - Added operation group BackupsUnderAccount
@@ -138,7 +234,7 @@
   - Interface VolumePropertiesDataProtection has a new optional parameter backup
   - Added Enum KnownBackupType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface VolumeGroupMetaData no longer has parameter deploymentSpecId
   - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
@@ -150,7 +246,7 @@
    
 ## 19.0.0 (2023-09-25)
     
-**Features**
+### Features Added
 
   - Added operation NetAppResource.beginUpdateNetworkSiblingSet
   - Added operation NetAppResource.beginUpdateNetworkSiblingSetAndWait
@@ -183,7 +279,7 @@
   - Enum KnownNetworkFeatures has a new value BasicStandard
   - Enum KnownNetworkFeatures has a new value StandardBasic
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group AccountBackups
   - Removed operation Backups.beginCreate
@@ -205,7 +301,7 @@
     
 ## 18.1.0 (2023-07-03)
     
-**Features**
+### Features Added
 
   - Added operation Volumes.beginListGetGroupIdListForLdapUser
   - Added operation Volumes.beginListGetGroupIdListForLdapUserAndWait
@@ -232,7 +328,7 @@
     
 ## 18.0.0 (2023-03-08)
     
-**Features**
+### Features Added
 
   - Added operation Backups.beginRestoreFiles
   - Added operation Backups.beginRestoreFilesAndWait
@@ -262,7 +358,7 @@
   - Added Enum KnownFileAccessLogs
   - Added Enum KnownManagedServiceIdentityType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Vaults
   - Operation NetAppResource.checkNameAvailability has a new signature
@@ -286,17 +382,17 @@
     
 ## 17.0.1 (2023-02-01)
     
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
     
 ## 17.0.0 (2022-09-21)
     
-**Features**
+### Features Added
 
   - Added operation Accounts.beginRenewCredentials
   - Added operation Accounts.beginRenewCredentialsAndWait
@@ -336,14 +432,14 @@
   - Added Enum KnownSmbAccessBasedEnumeration
   - Added Enum KnownSmbNonBrowsable
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Vault no longer has parameter location
     
     
 ## 16.1.0 (2022-07-21)
     
-**Features**
+### Features Added
 
   - Added operation Volumes.beginReestablishReplication
   - Added operation Volumes.beginReestablishReplicationAndWait
@@ -368,7 +464,7 @@
     
 ## 16.0.0 (2022-06-13)
     
-**Features**
+### Features Added
 
   - Added operation group VolumeQuotaRules
   - Added operation Volumes.beginFinalizeRelocation
@@ -416,7 +512,7 @@
   - Added Enum KnownEncryptionKeySource
   - Added Enum KnownType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface VolumeGroup no longer has parameter tags
   - Interface VolumeGroupDetails no longer has parameter tags
@@ -425,13 +521,13 @@
     
 ## 15.1.1 (2022-04-27)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 15.1.0 (2022-03-02)
     
-**Features**
+### Features Added
 
   - Added operation group Subvolumes
   - Added operation Snapshots.beginRestoreFiles

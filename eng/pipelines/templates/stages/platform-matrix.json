@@ -12,16 +12,12 @@
         "OSVmImage": "env:LINUXVMIMAGE",
         "Pool": "env:LINUXPOOL"
       },
-      "macos-11": {
+      "macos-latest": {
         "OSVmImage": "env:MACVMIMAGE",
         "Pool": "env:MACPOOL"
       }
     },
-    "NodeTestVersion": [
-      "18.x",
-      "20.x",
-      "21.2.0"
-    ],
+    "NodeTestVersion": ["18.x", "20.x", "22.4.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
@@ -59,10 +55,7 @@
       },
       "TestType": "node",
       "NodeTestVersion": "18.x",
-      "DependencyVersion": [
-        "max",
-        "min"
-      ],
+      "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml"
     }
   ]

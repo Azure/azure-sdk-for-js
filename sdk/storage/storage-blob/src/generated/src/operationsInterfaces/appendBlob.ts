@@ -15,7 +15,7 @@ import {
   AppendBlobAppendBlockFromUrlOptionalParams,
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobSealOptionalParams,
-  AppendBlobSealResponse
+  AppendBlobSealResponse,
 } from "../models";
 
 /** Interface representing a AppendBlob. */
@@ -27,7 +27,7 @@ export interface AppendBlob {
    */
   create(
     contentLength: number,
-    options?: AppendBlobCreateOptionalParams
+    options?: AppendBlobCreateOptionalParams,
   ): Promise<AppendBlobCreateResponse>;
   /**
    * The Append Block operation commits a new block of data to the end of an existing append blob. The
@@ -40,7 +40,7 @@ export interface AppendBlob {
   appendBlock(
     contentLength: number,
     body: coreRestPipeline.RequestBodyType,
-    options?: AppendBlobAppendBlockOptionalParams
+    options?: AppendBlobAppendBlockOptionalParams,
   ): Promise<AppendBlobAppendBlockResponse>;
   /**
    * The Append Block operation commits a new block of data to the end of an existing append blob where
@@ -54,7 +54,7 @@ export interface AppendBlob {
   appendBlockFromUrl(
     sourceUrl: string,
     contentLength: number,
-    options?: AppendBlobAppendBlockFromUrlOptionalParams
+    options?: AppendBlobAppendBlockFromUrlOptionalParams,
   ): Promise<AppendBlobAppendBlockFromUrlResponse>;
   /**
    * The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version

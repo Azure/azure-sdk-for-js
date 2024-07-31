@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { AzureLogger } from '@azure/logger';
 import * as coreClient from '@azure/core-client';
 import { ExtendedCommonClientOptions } from '@azure/core-http-compat';

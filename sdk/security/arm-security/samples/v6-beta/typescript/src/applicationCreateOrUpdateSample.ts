@@ -29,17 +29,19 @@ async function createApplication() {
     description: "An application on critical recommendations",
     conditionSets: [
       {
-        conditions: [{ operator: "contains", property: "$.Id", value: "-bil-" }]
-      }
+        conditions: [
+          { operator: "contains", property: "$.Id", value: "-bil-" },
+        ],
+      },
     ],
     displayName: "Admin's application",
-    sourceResourceType: "Assessments"
+    sourceResourceType: "Assessments",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.applicationOperations.createOrUpdate(
     applicationId,
-    application
+    application,
   );
   console.log(result);
 }

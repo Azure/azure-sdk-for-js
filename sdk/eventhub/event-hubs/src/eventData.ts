@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
-import { BodyTypes, defaultDataTransformer } from "./dataTransformer";
+import { BodyTypes, defaultDataTransformer } from "./dataTransformer.js";
 import {
   DeliveryAnnotations,
   MessageAnnotations,
@@ -13,7 +13,7 @@ import { isDefined, isObjectWithProperties, objectHasProperty } from "@azure/cor
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
-} from "./util/constants";
+} from "./util/constants.js";
 
 /**
  * Describes the delivery annotations.
@@ -52,7 +52,7 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
    */
   "x-opt-partition-key"?: string | null;
   /**
-   * Annontation for the sequence number of the event.
+   * Annotation for the sequence number of the event.
    */
   "x-opt-sequence-number"?: number;
   /**
@@ -90,7 +90,7 @@ export interface EventDataInternal {
   /**
    * The offset of the event.
    */
-  offset?: number;
+  offset?: string;
   /**
    * The sequence number of the event.
    */
@@ -405,7 +405,7 @@ export interface ReceivedEventData {
   /**
    * The offset of the event.
    */
-  offset: number;
+  offset: string;
   /**
    * The sequence number of the event.
    */

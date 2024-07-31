@@ -34,7 +34,7 @@ async function listDatabaseUsageMetrics() {
   for await (let item of client.elasticPools.listMetricDefinitions(
     resourceGroupName,
     serverName,
-    elasticPoolName
+    elasticPoolName,
   )) {
     resArray.push(item);
   }

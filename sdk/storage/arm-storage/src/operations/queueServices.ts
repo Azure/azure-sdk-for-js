@@ -18,7 +18,7 @@ import {
   QueueServicesSetServicePropertiesOptionalParams,
   QueueServicesSetServicePropertiesResponse,
   QueueServicesGetServicePropertiesOptionalParams,
-  QueueServicesGetServicePropertiesResponse
+  QueueServicesGetServicePropertiesResponse,
 } from "../models";
 
 /** Class containing QueueServices operations. */
@@ -45,11 +45,11 @@ export class QueueServicesImpl implements QueueServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: QueueServicesListOptionalParams
+    options?: QueueServicesListOptionalParams,
   ): Promise<QueueServicesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -69,11 +69,11 @@ export class QueueServicesImpl implements QueueServices {
     resourceGroupName: string,
     accountName: string,
     parameters: QueueServiceProperties,
-    options?: QueueServicesSetServicePropertiesOptionalParams
+    options?: QueueServicesSetServicePropertiesOptionalParams,
   ): Promise<QueueServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      setServicePropertiesOperationSpec
+      setServicePropertiesOperationSpec,
     );
   }
 
@@ -90,11 +90,11 @@ export class QueueServicesImpl implements QueueServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: QueueServicesGetServicePropertiesOptionalParams
+    options?: QueueServicesGetServicePropertiesOptionalParams,
   ): Promise<QueueServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getServicePropertiesOperationSpec
+      getServicePropertiesOperationSpec,
     );
   }
 }
@@ -102,72 +102,69 @@ export class QueueServicesImpl implements QueueServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListQueueServices
+      bodyMapper: Mappers.ListQueueServices,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.QueueServiceProperties
+      bodyMapper: Mappers.QueueServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.queueServiceName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.queueServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueueServiceProperties
+      bodyMapper: Mappers.QueueServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.queueServiceName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.queueServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

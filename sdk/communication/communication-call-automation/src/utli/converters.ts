@@ -14,6 +14,8 @@ import {
   SerializedCommunicationIdentifier,
   isMicrosoftTeamsUserIdentifier,
   MicrosoftTeamsUserIdentifier,
+  isMicrosoftTeamsAppIdentifier,
+  MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import {
   CallParticipantInternal,
@@ -37,6 +39,9 @@ function extractKind(
   }
   if (identifierModel.microsoftTeamsUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser;
+  }
+  if (identifierModel.microsoftTeamsApp !== undefined) {
+    return KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp;
   }
   return KnownCommunicationIdentifierModelKind.Unknown;
 }
@@ -113,6 +118,18 @@ export function communicationIdentifierConverter(
     return microsoftTeamsUserIdentifier;
   }
 
+  if (
+    kind === KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp &&
+    identifierModel.microsoftTeamsApp !== undefined
+  ) {
+    const microsoftTeamsAppIdentifier: MicrosoftTeamsAppIdentifier = {
+      rawId: rawId,
+      teamsAppId: identifierModel.microsoftTeamsApp.appId,
+      cloud: identifierModel.microsoftTeamsApp.cloud as KnownCommunicationCloudEnvironmentModel,
+    };
+    return microsoftTeamsAppIdentifier;
+  }
+
   const unknownIdentifier: UnknownIdentifier = {
     id: rawId ? rawId : "",
   };
@@ -147,6 +164,14 @@ export function communicationIdentifierModelConverter(
       ...serializedIdentifier,
     };
     return microsoftTeamsUserIdentifierModel;
+  }
+
+  if (isMicrosoftTeamsAppIdentifier(identifier)) {
+    const microsoftTeamsAppIdentifierModel: CommunicationIdentifierModel = {
+      kind: KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp,
+      ...serializedIdentifier,
+    };
+    return microsoftTeamsAppIdentifierModel;
   }
 
   if (isUnknownIdentifier(identifier)) {

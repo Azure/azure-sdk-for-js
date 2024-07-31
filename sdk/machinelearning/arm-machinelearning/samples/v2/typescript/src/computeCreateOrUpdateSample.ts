@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   ComputeResource,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/KubernetesCompute.json
  */
 async function attachAKubernetesCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
@@ -36,16 +42,16 @@ async function attachAKubernetesCompute() {
           defaultInstanceType: {
             nodeSelector: {},
             resources: {
-              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": '' },
-              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": '' }
-            }
-          }
+              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+            },
+          },
         },
-        namespace: "default"
+        namespace: "default",
       },
       resourceId:
-        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
-    }
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -53,12 +59,10 @@ async function attachAKubernetesCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-attachAKubernetesCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -67,8 +71,11 @@ attachAKubernetesCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/BasicAmlCompute.json
  */
 async function createAAmlCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
@@ -83,16 +90,15 @@ async function createAAmlCompute() {
         scaleSettings: {
           maxNodeCount: 1,
           minNodeCount: 0,
-          nodeIdleTimeBeforeScaleDown: "PT5M"
+          nodeIdleTimeBeforeScaleDown: "PT5M",
         },
         virtualMachineImage: {
-          id:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myImageGallery/images/myImageDefinition/versions/0.0.1"
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myImageGallery/images/myImageDefinition/versions/0.0.1",
         },
         vmPriority: "Dedicated",
-        vmSize: "STANDARD_NC6"
-      }
-    }
+        vmSize: "STANDARD_NC6",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -100,12 +106,10 @@ async function createAAmlCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createAAmlCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -114,13 +118,16 @@ createAAmlCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/BasicDataFactoryCompute.json
  */
 async function createADataFactoryCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
     location: "eastus",
-    properties: { computeType: "DataFactory" }
+    properties: { computeType: "DataFactory" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -128,12 +135,10 @@ async function createADataFactoryCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createADataFactoryCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -142,13 +147,16 @@ createADataFactoryCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/BasicAKSCompute.json
  */
 async function createAnAksCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
     location: "eastus",
-    properties: { computeType: "AKS" }
+    properties: { computeType: "AKS" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -156,12 +164,10 @@ async function createAnAksCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createAnAksCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -170,8 +176,11 @@ createAnAksCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/ComputeInstance.json
  */
 async function createAnComputeInstanceCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
@@ -184,14 +193,14 @@ async function createAnComputeInstanceCompute() {
         personalComputeInstanceSettings: {
           assignedUser: {
             objectId: "00000000-0000-0000-0000-000000000000",
-            tenantId: "00000000-0000-0000-0000-000000000000"
-          }
+            tenantId: "00000000-0000-0000-0000-000000000000",
+          },
         },
         sshSettings: { sshPublicAccess: "Disabled" },
         subnet: { id: "test-subnet-resource-id" },
-        vmSize: "STANDARD_NC6"
-      }
-    }
+        vmSize: "STANDARD_NC6",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -199,12 +208,10 @@ async function createAnComputeInstanceCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createAnComputeInstanceCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -213,8 +220,11 @@ createAnComputeInstanceCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/ComputeInstanceWithSchedules.json
  */
 async function createAnComputeInstanceComputeWithSchedules() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
@@ -227,8 +237,8 @@ async function createAnComputeInstanceComputeWithSchedules() {
         personalComputeInstanceSettings: {
           assignedUser: {
             objectId: "00000000-0000-0000-0000-000000000000",
-            tenantId: "00000000-0000-0000-0000-000000000000"
-          }
+            tenantId: "00000000-0000-0000-0000-000000000000",
+          },
         },
         schedules: {
           computeStartStop: [
@@ -238,17 +248,17 @@ async function createAnComputeInstanceComputeWithSchedules() {
                 triggerType: "Cron",
                 expression: "0 18 * * *",
                 startTime: "2021-04-23T01:30:00",
-                timeZone: "Pacific Time"
+                timeZone: "Pacific Standard Time",
               },
               status: "Enabled",
-              triggerType: "Cron"
-            }
-          ]
+              triggerType: "Cron",
+            },
+          ],
         },
         sshSettings: { sshPublicAccess: "Disabled" },
-        vmSize: "STANDARD_NC6"
-      }
-    }
+        vmSize: "STANDARD_NC6",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -256,12 +266,10 @@ async function createAnComputeInstanceComputeWithSchedules() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createAnComputeInstanceComputeWithSchedules().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -270,16 +278,19 @@ createAnComputeInstanceComputeWithSchedules().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/ComputeInstanceMinimal.json
  */
 async function createAnComputeInstanceComputeWithMinimalInputs() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
     location: "eastus",
     properties: {
       computeType: "ComputeInstance",
-      properties: { vmSize: "STANDARD_NC6" }
-    }
+      properties: { vmSize: "STANDARD_NC6" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -287,12 +298,10 @@ async function createAnComputeInstanceComputeWithMinimalInputs() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createAnComputeInstanceComputeWithMinimalInputs().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -301,8 +310,11 @@ createAnComputeInstanceComputeWithMinimalInputs().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/AmlCompute.json
  */
 async function updateAAmlCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
@@ -314,10 +326,10 @@ async function updateAAmlCompute() {
         scaleSettings: {
           maxNodeCount: 4,
           minNodeCount: 4,
-          nodeIdleTimeBeforeScaleDown: "PT5M"
-        }
-      }
-    }
+          nodeIdleTimeBeforeScaleDown: "PT5M",
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -325,12 +337,10 @@ async function updateAAmlCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-updateAAmlCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
@@ -339,8 +349,11 @@ updateAAmlCompute().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/AKSCompute.json
  */
 async function updateAnAksCompute() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
   const parameters: ComputeResource = {
@@ -350,8 +363,8 @@ async function updateAnAksCompute() {
       computeType: "AKS",
       properties: { agentCount: 4 },
       resourceId:
-        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
-    }
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -359,9 +372,21 @@ async function updateAnAksCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-updateAnAksCompute().catch(console.error);
+async function main() {
+  attachAKubernetesCompute();
+  createAAmlCompute();
+  createADataFactoryCompute();
+  createAnAksCompute();
+  createAnComputeInstanceCompute();
+  createAnComputeInstanceComputeWithSchedules();
+  createAnComputeInstanceComputeWithMinimalInputs();
+  updateAAmlCompute();
+  updateAnAksCompute();
+}
+
+main().catch(console.error);

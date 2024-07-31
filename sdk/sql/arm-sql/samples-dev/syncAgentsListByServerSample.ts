@@ -32,7 +32,7 @@ async function getSyncAgentsUnderAServer() {
   const resArray = new Array();
   for await (let item of client.syncAgents.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

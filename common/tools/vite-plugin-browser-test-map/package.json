@@ -20,14 +20,16 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "types/"
   ],
   "scripts": {
     "build": "tsc -p .",
     "build:samples": "echo Skipped.",
     "build:test": "tsc -p .",
-    "clean": "rimraf dist/",
+    "clean": "rimraf --glob dist/",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "lint": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json src --ext .ts",
@@ -51,8 +53,8 @@
   "devDependencies": {
     "@types/node": "^18.0.0",
     "eslint": "^8.50.0",
-    "prettier": "^3.2.5",
-    "rimraf": "^3.0.0",
-    "typescript": "~5.4.5"
+    "prettier": "^3.3.3",
+    "rimraf": "^5.0.0",
+    "typescript": "~5.5.3"
   }
 }

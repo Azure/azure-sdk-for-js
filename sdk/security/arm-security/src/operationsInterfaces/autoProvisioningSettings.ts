@@ -13,7 +13,7 @@ import {
   AutoProvisioningSettingsGetOptionalParams,
   AutoProvisioningSettingsGetResponse,
   AutoProvisioningSettingsCreateOptionalParams,
-  AutoProvisioningSettingsCreateResponse
+  AutoProvisioningSettingsCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface AutoProvisioningSettings {
    * @param options The options parameters.
    */
   list(
-    options?: AutoProvisioningSettingsListOptionalParams
+    options?: AutoProvisioningSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<AutoProvisioningSetting>;
   /**
    * Details of a specific setting
@@ -33,7 +33,7 @@ export interface AutoProvisioningSettings {
    */
   get(
     settingName: string,
-    options?: AutoProvisioningSettingsGetOptionalParams
+    options?: AutoProvisioningSettingsGetOptionalParams,
   ): Promise<AutoProvisioningSettingsGetResponse>;
   /**
    * Details of a specific setting
@@ -44,6 +44,6 @@ export interface AutoProvisioningSettings {
   create(
     settingName: string,
     setting: AutoProvisioningSetting,
-    options?: AutoProvisioningSettingsCreateOptionalParams
+    options?: AutoProvisioningSettingsCreateOptionalParams,
   ): Promise<AutoProvisioningSettingsCreateResponse>;
 }

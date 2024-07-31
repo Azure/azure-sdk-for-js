@@ -1,6 +1,6 @@
 # Release History
 
-## 5.4.1 (Unreleased)
+## 5.5.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,22 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.5.1 (2024-07-16)
+
+### Bugs Fixed
+
+- Fixed deserialization bugs in `AcsEmailEngagementTrackingReportReceivedEventData` and `AcsEmailDeliveryReportReceivedEventData` system events that caused the `DeliveryAttemptTimestamp` and `UserActionTimeStamp` properties to be null.
+
+## 5.5.0 (2024-06-11)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Communication.ChatThreadCreated`
+  - `Microsoft.Communication.ChatThreadDeleted`
+  - `Microsoft.Communication.ChatThreadPropertiesUpdated`
 
 ## 5.4.0 (2024-04-11)
 
@@ -371,4 +387,4 @@ now see compliation issues if they try to treat these properties as strings (pre
 
 - This release is a preview of our efforts to create a client library that is user friendly and
   idiomatic to the JavaScript ecosystem. The reasons for most of the changes in this update can be found in the
-  [Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+  [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_design.html).

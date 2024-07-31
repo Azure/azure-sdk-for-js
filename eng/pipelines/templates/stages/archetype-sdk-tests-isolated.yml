@@ -43,6 +43,9 @@ parameters:
     default:
       Public:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        ServiceConnection: azure-sdk-tests
+        SubscriptionConfigurationFilePaths: 
+          - eng/common/TestResources/sub-config/AzurePublicMsft.json
       Preview:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
       Canary:
@@ -71,6 +74,9 @@ parameters:
   - name: MatrixReplace
     type: object
     default: []
+  - name: UseFederatedAuth
+    type: boolean
+    default: true
 
 stages:
   - ${{ each cloud in parameters.CloudConfig }}:
@@ -98,6 +104,7 @@ stages:
                 TimeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
                 TestResourceDirectories: ${{ parameters.TestResourceDirectories }}
                 PublishCodeCoverage: ${{ parameters.PublishCodeCoverage }}
+                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
                 PreSteps:
                   - ${{ parameters.PreSteps }}
                 PostSteps:
@@ -119,5 +126,7 @@ stages:
               CloudConfig:
                 SubscriptionConfiguration: ${{ cloud.value.SubscriptionConfiguration }}
                 SubscriptionConfigurations: ${{ cloud.value.SubscriptionConfigurations }}
+                ServiceConnection: ${{ cloud.value.ServiceConnection }}
                 Location: ${{ coalesce(parameters.Location, cloud.value.Location) }}
                 Cloud: ${{ cloud.key }}
+                SubscriptionConfigurationFilePaths: ${{ cloud.value.SubscriptionConfigurationFilePaths }}

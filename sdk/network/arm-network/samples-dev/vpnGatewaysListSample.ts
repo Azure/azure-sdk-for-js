@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the VpnGateways in a subscription.
  *
  * @summary Lists all the VpnGateways in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnGatewayList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VpnGatewayList.json
  */
 async function vpnGatewayListBySubscription() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

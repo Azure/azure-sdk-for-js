@@ -14,7 +14,7 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -23,12 +23,13 @@ import {
   PrivateEndpointConnectionResource,
   PrivateEndpointConnectionPutOptionalParams,
   PrivateEndpointConnectionPutResponse,
-  PrivateEndpointConnectionDeleteOptionalParams
+  PrivateEndpointConnectionDeleteOptionalParams,
 } from "../models";
 
 /** Class containing PrivateEndpointConnectionOperations operations. */
 export class PrivateEndpointConnectionOperationsImpl
-  implements PrivateEndpointConnectionOperations {
+  implements PrivateEndpointConnectionOperations
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -51,11 +52,11 @@ export class PrivateEndpointConnectionOperationsImpl
     vaultName: string,
     resourceGroupName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionGetOptionalParams
+    options?: PrivateEndpointConnectionGetOptionalParams,
   ): Promise<PrivateEndpointConnectionGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, privateEndpointConnectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -73,7 +74,7 @@ export class PrivateEndpointConnectionOperationsImpl
     resourceGroupName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnectionResource,
-    options?: PrivateEndpointConnectionPutOptionalParams
+    options?: PrivateEndpointConnectionPutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionPutResponse>,
@@ -82,21 +83,20 @@ export class PrivateEndpointConnectionOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateEndpointConnectionPutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -105,8 +105,8 @@ export class PrivateEndpointConnectionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -114,8 +114,8 @@ export class PrivateEndpointConnectionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -126,16 +126,16 @@ export class PrivateEndpointConnectionOperationsImpl
         resourceGroupName,
         privateEndpointConnectionName,
         parameters,
-        options
+        options,
       },
-      spec: putOperationSpec
+      spec: putOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateEndpointConnectionPutResponse,
       OperationState<PrivateEndpointConnectionPutResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -155,14 +155,14 @@ export class PrivateEndpointConnectionOperationsImpl
     resourceGroupName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnectionResource,
-    options?: PrivateEndpointConnectionPutOptionalParams
+    options?: PrivateEndpointConnectionPutOptionalParams,
   ): Promise<PrivateEndpointConnectionPutResponse> {
     const poller = await this.beginPut(
       vaultName,
       resourceGroupName,
       privateEndpointConnectionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -179,25 +179,24 @@ export class PrivateEndpointConnectionOperationsImpl
     vaultName: string,
     resourceGroupName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +205,8 @@ export class PrivateEndpointConnectionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,8 +214,8 @@ export class PrivateEndpointConnectionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -226,13 +225,13 @@ export class PrivateEndpointConnectionOperationsImpl
         vaultName,
         resourceGroupName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -250,13 +249,13 @@ export class PrivateEndpointConnectionOperationsImpl
     vaultName: string,
     resourceGroupName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       vaultName,
       resourceGroupName,
       privateEndpointConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -265,16 +264,15 @@ export class PrivateEndpointConnectionOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.PrivateEndpointConnectionResource,
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
-    }
+      bodyMapper: Mappers.NewErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -282,31 +280,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.PrivateEndpointConnectionResource,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.PrivateEndpointConnectionResource,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.PrivateEndpointConnectionResource,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.PrivateEndpointConnectionResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -315,15 +312,14 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -331,8 +327,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -340,8 +336,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

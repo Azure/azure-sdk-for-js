@@ -13,10 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to The operation to create or update the extension.
+ * This sample demonstrates how to The operation to update the extension.
  *
- * @summary The operation to create or update the extension.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extension_Update.json
+ * @summary The operation to update the extension.
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/extension/Extension_Update.json
  */
 async function createOrUpdateAMachineExtension() {
   const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";

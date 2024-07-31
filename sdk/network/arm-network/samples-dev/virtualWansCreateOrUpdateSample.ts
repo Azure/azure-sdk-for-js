@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
  *
  * @summary Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualWANPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualWANPut.json
  */
 async function virtualWanCreate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

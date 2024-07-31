@@ -42,6 +42,9 @@ parameters:
   default: false
 - name: OSName
   type: string
+- name: UseFederatedAuth
+  type: boolean
+  default: false
 
 jobs:
   - job:
@@ -79,7 +82,11 @@ jobs:
           parameters:
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
             SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
-            EnvVars: ${{ parameters.EnvVars }}
+            EnvVars:
+              Pool: $(Pool)
+              ${{ insert }}: ${{ parameters.EnvVars }}
+            ${{ if parameters.UseFederatedAuth }}:
+              SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
         - ${{ if parameters.TestResourceDirectories }}:
           - ${{ each directory in parameters.TestResourceDirectories }}:
@@ -90,6 +97,12 @@ jobs:
                 ServiceDirectory: '${{ directory }}'
                 SubscriptionConfiguration: $(SubscriptionConfiguration)
                 ArmTemplateParameters: $(ArmTemplateParameters)
+                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
+                SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
+                EnvVars:
+                  Pool: $(Pool)
+                  ${{ insert }}: ${{ parameters.EnvVars }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/deploy-test-resources.yml
             parameters:
@@ -98,6 +111,12 @@ jobs:
               ServiceDirectory: '${{ parameters.ServiceDirectory }}'
               SubscriptionConfiguration: $(SubscriptionConfiguration)
               ArmTemplateParameters: $(ArmTemplateParameters)
+              UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+              ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
+              SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
+              EnvVars:
+                Pool: $(Pool)
+                ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -143,38 +162,166 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
 
+      - ${{ if eq('true', parameters.UseFederatedAuth) }}:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            pwsh: true
+            ScriptType: InlineScript
+            Inline: |
+              Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+              for ($i = 0; $i -lt 10; $i++) {
+                  try {
+                      Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
+                      exit 0
+                  } catch {
+                      Write-Warning "Failed to successfully connect to browser credential relay. Retrying..."
+                      Start-Sleep 6
+                  }
+              }
+              Write-Error "Could not connect to browser credential relay."
+              exit 1
+          displayName: "Start browser credential relay"
+          condition: and(succeeded(), eq(variables['TestType'], 'browser'))
+          env:
+            TEST_MODE: "live"
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+      - ${{ else }}:
+        - pwsh: |
+            Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
+            for ($i = 0; $i -lt 10; $i++) {
+                try {
+                    Invoke-WebRequest -Uri "http://localhost:4895/health" | Out-Null
+                    exit 0
+                } catch {
+                    Write-Warning "Failed to successfully connect to browser credential relay. Retrying..."
+                    Start-Sleep 6
+                }
+            }
+            Write-Error "Could not connect to browser credential relay."
+            exit 1
+          displayName: "Start browser credential relay"
+          condition: and(succeeded(), eq(variables['TestType'], 'browser'))
+          env:
+            TEST_MODE: "live"
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
       - template: ../steps/use-node-test-version.yml
 
-      - script: |
-          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
-        displayName: "Integration test libraries"
-        workingDirectory: $(PackagePath)
-        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
-        env:
-          TEST_MODE: "live"
-          SERVICE_VERSION: $(ServiceVersion)
-          ${{ insert }}: ${{ parameters.EnvVars }}
+      # ===== BEGIN LIVE TEST RUNS =====
 
-      - script: |
-          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-        displayName: "Integration test libraries"
-        workingDirectory: $(PackageTestPath)
-        condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
-        env:
-          TEST_MODE: "live"
-          SERVICE_VERSION: $(ServiceVersion)
-          ${{ insert }}: ${{ parameters.EnvVars }}
+      - pwsh: |
+          eng/common/scripts/Import-AzModules.ps1
+          Update-AzConfig -DisplayBreakingChangeWarning $false
+        displayName: "Workaround https://github.com/Azure/azure-sdk-for-js/issues/30356"
 
-      - ${{ parameters.PostSteps }}
+      - ${{ if eq('true', parameters.UseFederatedAuth) }}:
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackagePath)
+            pwsh: true
+            ScriptType: InlineScript
+            Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-      - script: |
-          node ../../../common/scripts/install-run-rushx.js execute:samples
-        displayName: "Execute Samples"
-        workingDirectory: $(PackagePath)
-        env:
-          TEST_MODE: "live"
-          ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeeded(),eq(variables['TestType'],'sample'))
+              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+              exit $LASTEXITCODE
+          displayName: "Integration test libraries"
+          condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackageTestPath)
+            ScriptType: InlineScript
+            Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
+              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+              exit $LASTEXITCODE
+          displayName: "Integration test libraries"
+          condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+        - ${{ parameters.PostSteps }}
+
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: ${{ parameters.CloudConfig.ServiceConnection }}
+            azurePowerShellVersion: LatestVersion
+            workingDirectory: $(PackagePath)
+            ScriptType: InlineScript
+            Inline: |
+              $account = (Get-AzContext).Account
+              $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
+              $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
+
+              node ../../../common/scripts/install-run-rushx.js execute:samples
+              exit $LASTEXITCODE
+          displayName: "Execute Samples"
+          env:
+            TEST_MODE: "live"
+            # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
+            # so "execute samples" step correctly picks up Powershell credential.
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+            ${{ insert }}: ${{ parameters.EnvVars }}
+          condition: and(succeeded(),eq(variables['TestType'],'sample'))
+
+      - ${{ else }}:
+        - script: |
+            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+          displayName: "Integration test libraries"
+          workingDirectory: $(PackagePath)
+          condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+        - script: |
+            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+          displayName: "Integration test libraries"
+          workingDirectory: $(PackageTestPath)
+          condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+          env:
+            TEST_MODE: "live"
+            SERVICE_VERSION: $(ServiceVersion)
+            ${{ insert }}: ${{ parameters.EnvVars }}
+
+        - ${{ parameters.PostSteps }}
+
+        - script: |
+            node ../../../common/scripts/install-run-rushx.js execute:samples
+          displayName: "Execute Samples"
+          workingDirectory: $(PackagePath)
+          env:
+            TEST_MODE: "live"
+            # Set fake authority host to ensure Managed Identity fail for Default Azure Credential
+            # so "execute samples" step correctly picks up Powershell credential.
+            AZURE_POD_IDENTITY_AUTHORITY_HOST: "FakeAuthorityHost"
+            ${{ insert }}: ${{ parameters.EnvVars }}
+          condition: and(succeeded(),eq(variables['TestType'],'sample'))
+
+      # ===== END LIVE TEST RUNS =====
 
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - ${{ if parameters.TestResourceDirectories }}:
@@ -183,11 +330,15 @@ jobs:
               parameters:
                 ServiceDirectory: "${{ directory }}"
                 SubscriptionConfiguration: $(SubscriptionConfiguration)
+                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
         - ${{ if not(parameters.TestResourceDirectories) }}:
           - template: /eng/common/TestResources/remove-test-resources.yml
             parameters:
               ServiceDirectory: "${{ parameters.ServiceDirectory }}"
               SubscriptionConfiguration: $(SubscriptionConfiguration)
+              UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+              ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"

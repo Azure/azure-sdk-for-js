@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DeploymentStacks client.
 
-The APIs listed in this specification can be used to manage deployment stack resources through the Azure Resource Manager.
+The APIs listed in this specification can be used to manage Deployment stack resources through the Azure Resource Manager.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resourcesdeploymentstacks) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

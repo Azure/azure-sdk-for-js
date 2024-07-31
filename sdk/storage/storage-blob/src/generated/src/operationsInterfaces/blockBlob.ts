@@ -21,7 +21,7 @@ import {
   BlockBlobCommitBlockListResponse,
   BlockListType,
   BlockBlobGetBlockListOptionalParams,
-  BlockBlobGetBlockListResponse
+  BlockBlobGetBlockListResponse,
 } from "../models";
 
 /** Interface representing a BlockBlob. */
@@ -38,7 +38,7 @@ export interface BlockBlob {
   upload(
     contentLength: number,
     body: coreRestPipeline.RequestBodyType,
-    options?: BlockBlobUploadOptionalParams
+    options?: BlockBlobUploadOptionalParams,
   ): Promise<BlockBlobUploadResponse>;
   /**
    * The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read
@@ -56,7 +56,7 @@ export interface BlockBlob {
   putBlobFromUrl(
     contentLength: number,
     copySource: string,
-    options?: BlockBlobPutBlobFromUrlOptionalParams
+    options?: BlockBlobPutBlobFromUrlOptionalParams,
   ): Promise<BlockBlobPutBlobFromUrlResponse>;
   /**
    * The Stage Block operation creates a new block to be committed as part of a blob
@@ -71,7 +71,7 @@ export interface BlockBlob {
     blockId: string,
     contentLength: number,
     body: coreRestPipeline.RequestBodyType,
-    options?: BlockBlobStageBlockOptionalParams
+    options?: BlockBlobStageBlockOptionalParams,
   ): Promise<BlockBlobStageBlockResponse>;
   /**
    * The Stage Block operation creates a new block to be committed as part of a blob where the contents
@@ -87,7 +87,7 @@ export interface BlockBlob {
     blockId: string,
     contentLength: number,
     sourceUrl: string,
-    options?: BlockBlobStageBlockFromURLOptionalParams
+    options?: BlockBlobStageBlockFromURLOptionalParams,
   ): Promise<BlockBlobStageBlockFromURLResponse>;
   /**
    * The Commit Block List operation writes a blob by specifying the list of block IDs that make up the
@@ -102,7 +102,7 @@ export interface BlockBlob {
    */
   commitBlockList(
     blocks: BlockLookupList,
-    options?: BlockBlobCommitBlockListOptionalParams
+    options?: BlockBlobCommitBlockListOptionalParams,
   ): Promise<BlockBlobCommitBlockListResponse>;
   /**
    * The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block
@@ -113,6 +113,6 @@ export interface BlockBlob {
    */
   getBlockList(
     listType: BlockListType,
-    options?: BlockBlobGetBlockListOptionalParams
+    options?: BlockBlobGetBlockListOptionalParams,
   ): Promise<BlockBlobGetBlockListResponse>;
 }

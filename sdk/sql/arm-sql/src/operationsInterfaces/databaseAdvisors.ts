@@ -13,7 +13,7 @@ import {
   DatabaseAdvisorsGetResponse,
   Advisor,
   DatabaseAdvisorsUpdateOptionalParams,
-  DatabaseAdvisorsUpdateResponse
+  DatabaseAdvisorsUpdateResponse,
 } from "../models";
 
 /** Interface representing a DatabaseAdvisors. */
@@ -30,7 +30,7 @@ export interface DatabaseAdvisors {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseAdvisorsListByDatabaseOptionalParams
+    options?: DatabaseAdvisorsListByDatabaseOptionalParams,
   ): Promise<DatabaseAdvisorsListByDatabaseResponse>;
   /**
    * Gets a database advisor.
@@ -46,7 +46,7 @@ export interface DatabaseAdvisors {
     serverName: string,
     databaseName: string,
     advisorName: string,
-    options?: DatabaseAdvisorsGetOptionalParams
+    options?: DatabaseAdvisorsGetOptionalParams,
   ): Promise<DatabaseAdvisorsGetResponse>;
   /**
    * Updates a database advisor.
@@ -64,6 +64,6 @@ export interface DatabaseAdvisors {
     databaseName: string,
     advisorName: string,
     parameters: Advisor,
-    options?: DatabaseAdvisorsUpdateOptionalParams
+    options?: DatabaseAdvisorsUpdateOptionalParams,
   ): Promise<DatabaseAdvisorsUpdateResponse>;
 }

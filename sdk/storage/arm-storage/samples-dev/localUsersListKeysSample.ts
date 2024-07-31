@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List SSH authorized keys and shared key of the local user.
  *
  * @summary List SSH authorized keys and shared key of the local user.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/LocalUserListKeys.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserListKeys.json
  */
 async function listLocalUserKeys() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listLocalUserKeys() {
   const result = await client.localUsersOperations.listKeys(
     resourceGroupName,
     accountName,
-    username
+    username,
   );
   console.log(result);
 }

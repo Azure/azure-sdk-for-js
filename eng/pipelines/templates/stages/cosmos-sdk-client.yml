@@ -42,11 +42,12 @@ extends:
             - TestType=node
             - DependencyVersion=^$
             - NodeTestVersion=18.x
-            - Pool=.*mms-win-2022.*
           PreSteps:
             - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml@self
           PostSteps:
             - template: /eng/pipelines/templates/steps/cosmos-additional-steps.yml@self
+          # Temporary fix for cosmos ci pipeline
+          UseFederatedAuth: false
           EnvVars:
             MOCHA_TIMEOUT: 100000
             NODE_TLS_REJECT_UNAUTHORIZED: 0

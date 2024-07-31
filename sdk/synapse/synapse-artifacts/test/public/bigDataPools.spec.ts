@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ArtifactsClient } from "../../src/artifactsClient";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";

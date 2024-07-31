@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData } from "./eventData";
-import { EventHubProducerClient } from "./eventHubProducerClient";
-import { OperationOptions } from "./util/operationOptions";
+import { EventData } from "./eventData.js";
+import { EventHubProducerClient } from "./eventHubProducerClient.js";
+import { OperationOptions } from "./util/operationOptions.js";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   SendBatchOptions,
-} from "./models/public";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
+} from "./models/public.js";
+import { EventHubProperties, PartitionProperties } from "./managementClient.js";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isDefined } from "@azure/core-util";
-import { isCredential } from "./util/typeGuards";
-import { AbortController } from "@azure/abort-controller";
+import { isCredential } from "./util/typeGuards.js";
 import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
-import { BatchingPartitionChannel } from "./batchingPartitionChannel";
-import { PartitionAssigner } from "./impl/partitionAssigner";
-import { logger } from "./logger";
-import { getRandomName } from "./util/utils";
+import { BatchingPartitionChannel } from "./batchingPartitionChannel.js";
+import { PartitionAssigner } from "./impl/partitionAssigner.js";
+import { logger } from "./logger.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -108,7 +107,7 @@ export interface BufferedCloseOptions extends OperationOptions {
 }
 
 /**
- * Options to configure the `enqueueEvents` method on the `EventHubBufferedProcuerClient`.
+ * Options to configure the `enqueueEvents` method on the `EventHubBufferedProducerClient`.
  */
 export interface EnqueueEventOptions extends SendBatchOptions {}
 

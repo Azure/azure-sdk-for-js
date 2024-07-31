@@ -1,5 +1,17 @@
 # Release History
 
+## 1.1.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Fix the test recording
+
 ## 1.0.1 (2024-03-07)
 
 Using MessagesServiceClient:

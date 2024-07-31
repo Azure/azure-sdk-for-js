@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the specified private endpoint connection on application gateway.
  *
  * @summary Updates the specified private endpoint connection on application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayPrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ApplicationGatewayPrivateEndpointConnectionUpdate.json
  */
 async function updateApplicationGatewayPrivateEndpointConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

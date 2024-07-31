@@ -28,7 +28,7 @@ async function getSelectedRegulatoryComplianceStandardDetailsAndState() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.regulatoryComplianceStandards.get(
-    regulatoryComplianceStandardName
+    regulatoryComplianceStandardName,
   );
   console.log(result);
 }

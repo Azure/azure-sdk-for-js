@@ -3,7 +3,6 @@
 
 import * as fs from "fs";
 import { randomUUID } from "@azure/core-util";
-import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
 import {
@@ -974,6 +973,13 @@ describe("BlobClient", () => {
 
   it("getProperties and listBlob RehydratePriority = Standard", async () => {
     await checkRehydratePriority("Standard");
+  });
+
+  it("getAccountInfo", async function () {
+    const accountInfo = await blobClient.getAccountInfo();
+    assert.ok(accountInfo.accountKind);
+    assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
   // Skipped for now as it's not working in live tests pipeline.

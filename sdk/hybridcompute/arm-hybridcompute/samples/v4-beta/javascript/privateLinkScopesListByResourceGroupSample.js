@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of Azure Arc PrivateLinkScopes within a resource group.
  *
  * @summary Gets a list of Azure Arc PrivateLinkScopes within a resource group.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_ListByResourceGroup.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/privateLinkScope/PrivateLinkScopes_ListByResourceGroup.json
  */
 async function privateLinkScopeListByResourceGroup() {
   const subscriptionId =

@@ -23,8 +23,7 @@ import {
   SimplifiedSolutionsImpl,
   TroubleshootersImpl,
   SolutionSelfHelpImpl,
-  DiscoverySolutionNLPTenantScopeImpl,
-  DiscoverySolutionNLPSubscriptionScopeImpl,
+  DiscoverySolutionNLPImpl,
 } from "./operations";
 import {
   Operations,
@@ -35,46 +34,25 @@ import {
   SimplifiedSolutions,
   Troubleshooters,
   SolutionSelfHelp,
-  DiscoverySolutionNLPTenantScope,
-  DiscoverySolutionNLPSubscriptionScope,
+  DiscoverySolutionNLP,
 } from "./operationsInterfaces";
 import { HelpRPOptionalParams } from "./models";
 
 export class HelpRP extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the HelpRP class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionId: string,
-    options?: HelpRPOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: HelpRPOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?: HelpRPOptionalParams | string,
     options?: HelpRPOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
-    }
-
-    let subscriptionId: string | undefined;
-
-    if (typeof subscriptionIdOrOptions === "string") {
-      subscriptionId = subscriptionIdOrOptions;
-    } else if (typeof subscriptionIdOrOptions === "object") {
-      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -86,7 +64,7 @@ export class HelpRP extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-selfhelp/2.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-selfhelp/2.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -135,8 +113,6 @@ export class HelpRP extends coreClient.ServiceClient {
         }),
       );
     }
-    // Parameter assignments
-    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
@@ -149,10 +125,7 @@ export class HelpRP extends coreClient.ServiceClient {
     this.simplifiedSolutions = new SimplifiedSolutionsImpl(this);
     this.troubleshooters = new TroubleshootersImpl(this);
     this.solutionSelfHelp = new SolutionSelfHelpImpl(this);
-    this.discoverySolutionNLPTenantScope =
-      new DiscoverySolutionNLPTenantScopeImpl(this);
-    this.discoverySolutionNLPSubscriptionScope =
-      new DiscoverySolutionNLPSubscriptionScopeImpl(this);
+    this.discoverySolutionNLP = new DiscoverySolutionNLPImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -192,6 +165,5 @@ export class HelpRP extends coreClient.ServiceClient {
   simplifiedSolutions: SimplifiedSolutions;
   troubleshooters: Troubleshooters;
   solutionSelfHelp: SolutionSelfHelp;
-  discoverySolutionNLPTenantScope: DiscoverySolutionNLPTenantScope;
-  discoverySolutionNLPSubscriptionScope: DiscoverySolutionNLPSubscriptionScope;
+  discoverySolutionNLP: DiscoverySolutionNLP;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-recorder",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "./dist/commonjs/index.js",
@@ -8,15 +8,15 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo skipped",
-    "build:node": "tshy && npm run build:test",
+    "build:node": "tshy",
     "build:samples": "echo Skipped.",
-    "build:test": "tshy && dev-tool run build-test",
-    "build": "npm run clean && npm run build:test",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
+    "build": "npm run clean && tshy",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-esm test-dist typings *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "concurrently \"npm run tests:server\" \"npm run test:browser-with-proxy\" --kill-others --success first",
+    "integration-test:browser": "tshy && dev-tool run build-test && concurrently \"npm run tests:server\" \"npm run test:browser-with-proxy\" --kill-others --success first",
     "integration-test:node": "concurrently \"npm run tests:server\" \"npm run test:node-with-proxy\" --kill-others --success first",
     "test:node-with-proxy": "dev-tool run test:vitest -- --coverage",
     "test:browser-with-proxy": "dev-tool run test:vitest --browser -- --coverage",
@@ -29,8 +29,8 @@
     "unit-test:node": "npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "test:node": "npm run clean && npm run integration-test:node",
+    "test": "npm run clean && npm run unit-test",
     "docs": "echo Skipped."
   },
   "files": [
@@ -59,7 +59,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.2",
-    "@azure/core-client": "^1.0.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.0"
@@ -77,12 +77,11 @@
     "cross-env": "7.0.3",
     "eslint": "^8.56.0",
     "express": "^4.19.2",
-    "loupe": "^3.1.0",
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
-    "tshy": "^1.13.0",
+    "tshy": "^1.17.0",
     "tslib": "^2.6.2",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "vitest": "^1.4.0"
   },
   "tshy": {
@@ -97,28 +96,34 @@
     "esmDialects": [
       "browser",
       "react-native"
-    ]
+    ],
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "browser": {
+        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
+        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     }
   },
-  "type": "module"
+  "type": "module",
+  "module": "./dist/esm/index.js"
 }

@@ -12,7 +12,7 @@
 
 ## 9.2.0 (2024-03-13)
     
-**Features**
+### Features Added
 
   - Added Interface AutomaticOSUpgradePolicy
   - Added Interface RollingUpgradePolicy
@@ -24,7 +24,7 @@
     
 ## 9.1.0 (2023-12-08)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedDisk
   - Added Interface SecurityProfile
@@ -41,7 +41,7 @@
     
 ## 9.0.0 (2023-06-30)
     
-**Features**
+### Features Added
 
   - Added Type Alias ContainerType
   - Interface NetworkConfiguration has a new optional parameter enableAcceleratedNetworking
@@ -62,14 +62,14 @@
   - Interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams no longer has parameter maxresults
   - Interface PrivateLinkResourceListByBatchAccountNextOptionalParams no longer has parameter maxresults
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter type of interface ContainerConfiguration is changed from "DockerCompatible" to ContainerType
 
    
 ## 8.0.0 (2022-11-10)
     
-**Features**
+### Features Added
 
   - Added Type Alias NodeCommunicationMode
   - Interface NetworkConfiguration has a new optional parameter dynamicVnetAssignmentScope
@@ -77,7 +77,7 @@
   - Interface Pool has a new optional parameter targetNodeCommunicationMode
   - Interface PrivateLinkServiceConnectionState has a new optional parameter actionsRequired
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface CifsMountConfiguration no longer has parameter username
   - Interface NetworkConfiguration no longer has parameter dynamicVNetAssignmentScope
@@ -87,7 +87,7 @@
     
 ## 7.2.0 (2022-07-19)
     
-**Features**
+### Features Added
 
   - Added operation PrivateEndpointConnectionOperations.beginDelete
   - Added operation PrivateEndpointConnectionOperations.beginDeleteAndWait
@@ -116,13 +116,13 @@
     
 ## 7.1.1 (2022-04-11)
 
-**features**
+### Features Added
 
   - Bug fix
     
 ## 7.1.0 (2022-03-02)
     
-**Features**
+### Features Added
 
   - Added operation BatchAccountOperations.getDetector
   - Added operation BatchAccountOperations.listDetectors

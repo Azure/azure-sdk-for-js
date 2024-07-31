@@ -2,20 +2,19 @@
 // Licensed under the MIT license.
 
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { assert, expect } from "chai";
-import { Context } from "mocha";
-import { createRecordedClient, createRecorder } from "./utils/recordedClient";
+import { createRecordedClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, beforeEach, afterEach, expect, assert } from "vitest";
 import {
   AzureDeveloperDevCenterClient,
   CatalogOutput,
   EnvironmentDefinitionOutput,
   EnvironmentTypeOutput,
-  CreateOrUpdateEnvironmentParameters,
+  CreateOrReplaceEnvironmentParameters,
   isUnexpected,
   paginate,
   getLongRunningPoller,
   EnvironmentOutput,
-} from "../../src/index";
+} from "../../src/index.js";
 
 const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -32,8 +31,8 @@ describe("DevCenter Environments Operations Test", () => {
   let environmentName: string;
   let userId: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (context) {
+    recorder = await createRecorder(context);
 
     endpoint = env["ENDPOINT"] || "";
     projectName = env["DEFAULT_PROJECT_NAME"] || "";
@@ -122,7 +121,7 @@ describe("DevCenter Environments Operations Test", () => {
       environmentDefinitions.push(environmentDefinition);
     }
 
-    expect(environmentDefinitions.length).to.equal(3);
+    expect(environmentDefinitions.length).to.equal(8);
   });
 
   it("List environments within a project", async function () {
@@ -223,7 +222,7 @@ describe("DevCenter Environments Operations Test", () => {
   });
 
   async function createDevelopmentEnvironment(): Promise<void> {
-    const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters = {
+    const environmentsCreateParameters: CreateOrReplaceEnvironmentParameters = {
       body: {
         environmentDefinitionName: envDefinitionName,
         environmentType: environmentTypeName,

@@ -576,7 +576,7 @@ export interface SectionSelfHelp {
 export interface DiscoveryNlpRequest {
   /** Natural language description of the issue. */
   issueSummary: string;
-  /** ARM resource Id of the resource that is having the issue. */
+  /** ARM resource Id of the resource that is having the issue. Only applicable for Discovery Solution NLP Subscription Scope. */
   resourceId?: string;
   /** ARM service Id of the service that is having the issue. For more information on service Id see https://learn.microsoft.com/rest/api/support/services/list?tabs=HTTP. */
   serviceId?: string;
@@ -1261,14 +1261,15 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface CheckNameAvailabilityPostOptionalParams
+export interface CheckNameAvailabilityCheckAvailabilityOptionalParams
   extends coreClient.OperationOptions {
   /** The required parameters for availability check. */
   checkNameAvailabilityRequest?: CheckNameAvailabilityRequest;
 }
 
-/** Contains response data for the post operation. */
-export type CheckNameAvailabilityPostResponse = CheckNameAvailabilityResponse;
+/** Contains response data for the checkAvailability operation. */
+export type CheckNameAvailabilityCheckAvailabilityResponse =
+  CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface DiagnosticsCreateOptionalParams
@@ -1423,24 +1424,25 @@ export interface SolutionSelfHelpGetOptionalParams
 export type SolutionSelfHelpGetResponse = SolutionResourceSelfHelp;
 
 /** Optional parameters. */
-export interface DiscoverySolutionNLPTenantScopePostOptionalParams
+export interface DiscoverySolutionNLPDiscoverSolutionsOptionalParams
   extends coreClient.OperationOptions {
   /** Request body for discovering solutions using NLP. */
   discoverSolutionRequest?: DiscoveryNlpRequest;
 }
 
-/** Contains response data for the post operation. */
-export type DiscoverySolutionNLPTenantScopePostResponse = DiscoveryNlpResponse;
+/** Contains response data for the discoverSolutions operation. */
+export type DiscoverySolutionNLPDiscoverSolutionsResponse =
+  DiscoveryNlpResponse;
 
 /** Optional parameters. */
-export interface DiscoverySolutionNLPSubscriptionScopePostOptionalParams
+export interface DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** Request body for discovering solutions using NLP. */
   discoverSolutionRequest?: DiscoveryNlpRequest;
 }
 
-/** Contains response data for the post operation. */
-export type DiscoverySolutionNLPSubscriptionScopePostResponse =
+/** Contains response data for the discoverSolutionsBySubscription operation. */
+export type DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse =
   DiscoveryNlpResponse;
 
 /** Optional parameters. */

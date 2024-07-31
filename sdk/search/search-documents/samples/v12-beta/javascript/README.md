@@ -60,7 +60,7 @@ node bufferedSenderAutoFlushSize.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" SEARCH_API_ADMIN_KEY="<search api admin key>" node bufferedSenderAutoFlushSize.js
+npx cross-env ENDPOINT="<endpoint>" node bufferedSenderAutoFlushSize.js
 ```
 
 ## Next Steps

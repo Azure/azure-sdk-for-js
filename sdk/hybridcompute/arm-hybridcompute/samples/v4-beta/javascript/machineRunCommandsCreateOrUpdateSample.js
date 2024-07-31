@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create or update a run command.
  *
  * @summary The operation to create or update a run command.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/runCommand/RunCommands_CreateOrUpdate.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/runCommand/RunCommands_CreateOrUpdate.json
  */
 async function createOrUpdateARunCommand() {
   const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";

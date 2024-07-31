@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -60,10 +60,10 @@
     "extract-api": "npm run check:src:strict && npm run build:src && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha --loader=ts-node -r test/mocha.env.ts -r ts-node/register -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
+    "integration-test:node": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha -r test/mocha.env.ts -r ts-node/register -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
@@ -122,7 +122,7 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   },
   "//sampleConfiguration": {
     "skip": [

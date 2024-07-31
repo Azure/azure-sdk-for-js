@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the current filter values for the signatures overrides
  *
  * @summary Retrieves the current filter values for the signatures overrides
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyQuerySignatureOverridesFilterValues.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyQuerySignatureOverridesFilterValues.json
  */
 async function querySignatureOverrides() {
   const subscriptionId =

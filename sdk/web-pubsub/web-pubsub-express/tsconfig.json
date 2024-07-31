@@ -1,11 +1,12 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
     "paths": {
-      "@azure/web-pubsub-express": ["./src/index"]
+      "@azure/web-pubsub-express": ["./src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.cts", "src/**/*.mts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

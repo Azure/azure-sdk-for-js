@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts the managed instance.
  *
  * @summary Starts the managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/StartManagedInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/StartManagedInstance.json
  */
 async function startsTheManagedInstance() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function startsTheManagedInstance() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.beginStartAndWait(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   );
   console.log(result);
 }

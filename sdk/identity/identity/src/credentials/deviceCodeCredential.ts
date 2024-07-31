@@ -5,14 +5,19 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
+  resolveTenantId,
 } from "../util/tenantIdUtils";
-import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
+import {
+  DeviceCodeCredentialOptions,
+  DeviceCodeInfo,
+  DeviceCodePromptCallback,
+} from "./deviceCodeCredentialOptions";
 import { AuthenticationRecord } from "../msal/types";
-import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
-import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
+import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+import { DeveloperSignOnClientId } from "../constants";
 
 const logger = credentialLogger("DeviceCodeCredential");
 
@@ -31,8 +36,9 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
 export class DeviceCodeCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
+  private msalClient: MsalClient;
+  private userPromptCallback: DeviceCodePromptCallback;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
@@ -59,10 +65,12 @@ export class DeviceCodeCredential implements TokenCredential {
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants,
     );
-    this.msalFlow = new MsalDeviceCode({
+    const clientId = options?.clientId ?? DeveloperSignOnClientId;
+    const tenantId = resolveTenantId(logger, options?.tenantId, clientId);
+    this.userPromptCallback = options?.userPromptCallback ?? defaultDeviceCodePromptCallback;
+    this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       logger,
-      userPromptCallback: options?.userPromptCallback || defaultDeviceCodePromptCallback,
       tokenCredentialOptions: options || {},
     });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
@@ -93,7 +101,7 @@ export class DeviceCodeCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalFlow.getToken(arrayScopes, {
+        return this.msalClient.getTokenByDeviceCode(arrayScopes, this.userPromptCallback, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
@@ -105,7 +113,7 @@ export class DeviceCodeCredential implements TokenCredential {
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
-   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   * If the token can't be retrieved silently, this method will always generate a challenge for the user.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
@@ -120,8 +128,11 @@ export class DeviceCodeCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-        await this.msalFlow.getToken(arrayScopes, newOptions);
-        return this.msalFlow.getActiveAccount();
+        await this.msalClient.getTokenByDeviceCode(arrayScopes, this.userPromptCallback, {
+          ...newOptions,
+          disableAutomaticAuthentication: false, // this method should always allow user interaction
+        });
+        return this.msalClient.getActiveAccount();
       },
     );
   }

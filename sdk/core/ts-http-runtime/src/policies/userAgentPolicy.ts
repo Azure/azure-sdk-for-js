@@ -34,7 +34,7 @@ export function userAgentPolicy(options: UserAgentPolicyOptions = {}): PipelineP
     name: userAgentPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.headers.has(UserAgentHeaderName)) {
-        request.headers.set(UserAgentHeaderName, userAgentValue);
+        request.headers.set(UserAgentHeaderName, await userAgentValue);
       }
       return next(request);
     },

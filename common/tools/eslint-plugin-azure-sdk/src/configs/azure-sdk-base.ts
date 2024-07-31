@@ -15,14 +15,15 @@ export default {
     "import",
     "markdown",
   ],
-  extends: ["eslint:recommended", "plugin:promise/recommended", "prettier"],
   env: {
     mocha: true,
+    es2017: true,
   },
   ignorePatterns: ["**/generated/**"],
   overrides: [
     {
       files: ["*.ts", "*.cts", "*.mts", "*.tsx", "*.json"],
+      excludedFiles: ["**/*.md/*.ts", "**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
       parserOptions: {
         project: [
           "./tsconfig.json",
@@ -30,10 +31,12 @@ export default {
         ],
       },
       extends: [
+        "eslint:recommended",
+        "plugin:promise/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "prettier",
-        "plugin:@azure/azure-sdk/recommended",
+        "plugin:@azure/azure-sdk/recommended-legacy",
       ],
       rules: {
         curly: ["error", "multi-line"],
@@ -140,9 +143,11 @@ export default {
       processor: "markdown/markdown",
     },
     {
-      files: ["**/*.md/*.{js,javascript}"],
+      files: ["*.md/*.js"],
       extends: ["plugin:markdown/recommended-legacy"],
       rules: {
+        "no-unused-vars": "off",
+        "no-undef": "off",
         "no-restricted-imports": [
           "error",
           {
@@ -154,6 +159,19 @@ export default {
             ],
           },
         ],
+      },
+    },
+    {
+      files: ["*md/*.ts"],
+      parserOptions: {
+        project: null,
+      },
+      extends: [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+      ],
+      rules: {
+        "@typescript-eslint/no-unused-vars": "off",
       },
     },
   ],

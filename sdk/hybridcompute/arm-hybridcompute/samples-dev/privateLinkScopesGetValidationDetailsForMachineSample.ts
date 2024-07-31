@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a Azure Arc PrivateLinkScope's validation details for a given machine.
  *
  * @summary Returns a Azure Arc PrivateLinkScope's validation details for a given machine.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_GetValidationForMachine.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/privateLinkScope/PrivateLinkScopes_GetValidationForMachine.json
  */
 async function privateLinkScopeGet() {
   const subscriptionId =

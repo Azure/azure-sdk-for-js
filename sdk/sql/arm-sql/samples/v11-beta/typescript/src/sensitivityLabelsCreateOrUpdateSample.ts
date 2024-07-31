@@ -35,7 +35,7 @@ async function updatesTheSensitivityLabelOfAGivenColumnWithAllParameters() {
     informationTypeId: "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
     labelId: "bf91e08c-f4f0-478a-b016-25164b2a65ff",
     labelName: "PII",
-    rank: "Low"
+    rank: "Low",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function updatesTheSensitivityLabelOfAGivenColumnWithAllParameters() {
     schemaName,
     tableName,
     columnName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

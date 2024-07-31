@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the network manager connectivity configuration in a specified network manager.
  *
  * @summary Lists all the network manager connectivity configuration in a specified network manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerConnectivityConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerConnectivityConfigurationList.json
  */
 async function connectivityConfigurationsList() {
   const subscriptionId =

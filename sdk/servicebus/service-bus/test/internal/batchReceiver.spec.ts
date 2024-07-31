@@ -17,7 +17,6 @@ import {
   getRandomTestClientType,
   getRandomTestClientTypeWithSessions,
 } from "../public/utils/testutils2";
-import { AbortController } from "@azure/abort-controller";
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import {
   ServiceBusSessionReceiver,
@@ -30,7 +29,8 @@ import { testLogger } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-const assert = chai.assert;
+
+const assert: typeof chai.assert = chai.assert;
 const expect = chai.expect;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();

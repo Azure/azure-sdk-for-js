@@ -401,7 +401,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.machineName1,
     Parameters.runCommandName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

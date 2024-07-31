@@ -43,8 +43,12 @@ parameters:
     default:
       Public:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        ServiceConnection: azure-sdk-tests
+        SubscriptionConfigurationFilePaths: 
+          - eng/common/TestResources/sub-config/AzurePublicMsft.json
       Preview:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+        ServiceConnection: azure-sdk-tests-preview
       Canary:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
         Location: centraluseuap
@@ -71,6 +75,10 @@ parameters:
   - name: MatrixReplace
     type: object
     default: []
+  - name: UseFederatedAuth
+    type: boolean
+    default: true
+
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
@@ -89,6 +97,7 @@ extends:
           Clouds: ${{ parameters.Clouds }}
           SupportedClouds: ${{ parameters.SupportedClouds }}
           UnsupportedClouds: ${{ parameters.UnsupportedClouds }}
+          UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
           PreSteps:
             - ${{ parameters.PreSteps }}
           PostSteps:

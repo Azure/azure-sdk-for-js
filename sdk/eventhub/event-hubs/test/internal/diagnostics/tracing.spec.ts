@@ -3,20 +3,19 @@
 import {
   MockInstrumenter,
   MockTracingSpan,
-  assert,
   createMockTracingContext,
 } from "@azure-tools/test-utils";
 import {
   TRACEPARENT_PROPERTY,
   instrumentEventData,
-} from "../../../src/diagnostics/instrumentEventData";
-import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing";
+} from "../../../src/diagnostics/instrumentEventData.js";
+import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing.js";
+import { assert, expect } from "../../utils/chai.js";
+import { describe, it, afterEach, vi } from "vitest";
 
-import Sinon from "sinon";
-
-describe("tracing", () => {
-  describe("#getAdditionalSpanOptions", () => {
-    it("returns the initial set of attributes", () => {
+describe("tracing", function () {
+  describe("#getAdditionalSpanOptions", function () {
+    it("returns the initial set of attributes", async function () {
       assert.deepEqual(toSpanOptions({ entityPath: "testPath", host: "testHost" }, "receive"), {
         spanAttributes: {
           "messaging.operation": "receive",
@@ -27,7 +26,7 @@ describe("tracing", () => {
       });
     });
 
-    it("sets the spanKind if provided", () => {
+    it("sets the spanKind if provided", async function () {
       const expectedSpanKind = "client";
       assert.equal(
         toSpanOptions({ entityPath: "", host: "" }, "receive", expectedSpanKind).spanKind,
@@ -36,13 +35,13 @@ describe("tracing", () => {
     });
   });
 
-  describe("#instrumentEventData", () => {
-    afterEach(() => {
-      Sinon.restore();
+  describe("#instrumentEventData", function () {
+    afterEach(async function () {
+      vi.restoreAllMocks();
     });
 
-    it("is idempotent", () => {
-      const tracingClientSpy = Sinon.spy(tracingClient, "startSpan");
+    it("is idempotent", async function () {
+      const tracingClientSpy = vi.spyOn(tracingClient, "startSpan");
       const instrumentedEventData = {
         body: "test",
         properties: {
@@ -58,15 +57,15 @@ describe("tracing", () => {
       );
       assert.notExists(spanContext);
       assert.equal(event.properties?.[TRACEPARENT_PROPERTY], "exists");
-      assert.equal(tracingClientSpy.callCount, 0);
+      expect(tracingClientSpy).toBeCalledTimes(0);
     });
 
-    it("returns early if the span is not recording", () => {
+    it("returns early if the span is not recording", async function () {
       const instrumenter = new MockInstrumenter();
       const { span: nonRecordingSpan } = instrumenter.startSpan("test");
       (nonRecordingSpan as MockTracingSpan).setIsRecording(false);
       // Setup our tracingClient to ensure we reach the happy path.
-      Sinon.stub(tracingClient, "startSpan").returns({
+      vi.spyOn(tracingClient, "startSpan").mockReturnValue({
         span: nonRecordingSpan,
         updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
       });
@@ -81,18 +80,18 @@ describe("tracing", () => {
       assert.notExists(event.properties?.[TRACEPARENT_PROPERTY]);
     });
 
-    describe("when the span is valid", () => {
-      it("sets the traceparent on eventData", () => {
+    describe("when the span is valid", function () {
+      it("sets the traceparent on eventData", async function () {
         const instrumenter = new MockInstrumenter();
         const { span: recordingSpan } = instrumenter.startSpan("test");
         (recordingSpan as MockTracingSpan).setIsRecording(true);
 
         // Setup our tracingClient to ensure we reach the happy path.
-        Sinon.stub(tracingClient, "startSpan").returns({
+        vi.spyOn(tracingClient, "startSpan").mockReturnValue({
           span: recordingSpan,
           updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
         });
-        Sinon.stub(tracingClient, "createRequestHeaders").returns({
+        vi.spyOn(tracingClient, "createRequestHeaders").mockReturnValue({
           traceparent: "fake-traceparent-header",
         });
 

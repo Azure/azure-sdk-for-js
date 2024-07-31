@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-utils",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "sdk-type": "utility",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && dev-tool run bundle",
     "build:samples": "echo Skipped.",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -26,7 +26,7 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "unit-test:browser": "cross-env karma start --single-run",
+    "unit-test:browser": "tsc -p . && dev-tool run bundle && cross-env karma start --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
@@ -36,7 +36,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/src/index.d.ts",
+    "types/src/",
     "README.md",
     "LICENSE"
   ],
@@ -54,13 +54,12 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/test-utils/README.md",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "^1.0.0",
-    "@opentelemetry/api": "^1.8.0",
+    "@opentelemetry/api": "^1.9.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.4",
     "chai": "^4.2.0",
@@ -84,7 +83,7 @@
     "karma-env-preprocessor": "^0.1.1",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ts-node": "^10.0.0"
   }
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all network security groups in a resource group.
  *
  * @summary Gets all network security groups in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkSecurityGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkSecurityGroupList.json
  */
 async function listNetworkSecurityGroupsInResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
