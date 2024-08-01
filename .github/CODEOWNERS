@@ -388,6 +388,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
