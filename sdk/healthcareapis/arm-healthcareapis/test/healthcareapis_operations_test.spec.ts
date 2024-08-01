@@ -51,7 +51,7 @@ describe("HealthcareApis test", () => {
     client = new HealthcareApisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    resourcename = "resourcetest";
+    resourcename = "resourcetest1";
 
   });
 
