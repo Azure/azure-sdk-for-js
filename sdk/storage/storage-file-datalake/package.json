@@ -58,10 +58,11 @@
     "dist/",
     "dist-esm/storage-file-datalake/src/",
     "dist-esm/storage-common/src/",
+    "dist-esm/storage-blob/src/log.*",
     "dist-esm/storage-blob/src/policies/",
     "dist-esm/storage-blob/src/StorageRetryPolicyFactory.*",
     "dist-esm/storage-blob/src/StorageBrowserPolicyFactory.*",
-    "dist-esm/storage-blob/src/utils/cache.*",
+    "dist-esm/storage-blob/src/utils/",
     "types/latest/storage-file-datalake.d.ts",
     "README.md",
     "LICENSE"
