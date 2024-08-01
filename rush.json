@@ -2233,6 +2233,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-computefleet",
+      "projectFolder": "sdk/computefleet/arm-computefleet",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-edgezones",
       "projectFolder": "sdk/edgezones/arm-edgezones",
       "versionPolicyName": "management"
