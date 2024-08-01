@@ -13,7 +13,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                                                                                                               | **Description**                                                                                                       |
 | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [AADAuth.js][aadauth]                                                                                                       | Uses AAD credentials to authenticate with the CosmosClient.                                                           |
 | [AlterQueryThroughput.js][alterquerythroughput]                                                                             | Updates a container offer to change query throughput.                                                                 |
 | [Bulk.js][bulk]                                                                                                             | Shows a simple bulk call with each BulkOperation type.                                                                |
 | [BulkUpdateWithSproc.js][bulkupdatewithsproc]                                                                               | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.                   |
@@ -24,6 +23,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [ContainerManagement.js][containermanagement]                                                                               | Demonstrates container create, read, delete and reading all containers belonging to a database.                       |
 | [DatabaseManagement.js][databasemanagement]                                                                                 | Demonstrates database create, read, delete and reading all databases.                                                 |
 | [Diagnostics.js][diagnostics]                                                                                               | Demonstrates usage of CosmosDiagnostic Object.                                                                        |
+| [EntraAuth.js][entraauth]                                                                                                   | Uses AAD credentials to authenticate with the CosmosClient.                                                           |
 | [HierarchicalPartitioning.js][hierarchicalpartitioning]                                                                     | Shows various operations on containers with Hierarchical Partitioning.                                                |
 | [IndexManagement.js][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
 | [ItemManagement.js][itemmanagement]                                                                                         | Demonstrates item creation, read, delete and reading all items belonging to a container.                              |
@@ -58,20 +58,19 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node AADAuth.js
+node AlterQueryThroughput.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_CONTAINER="<cosmos container>" node AADAuth.js
+npx cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_DATABASE="<cosmos database>" COSMOS_CONTAINER="<cosmos container>" node AlterQueryThroughput.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[aadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/AADAuth.js
 [alterquerythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/AlterQueryThroughput.js
 [bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Bulk.js
 [bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/BulkUpdateWithSproc.js
@@ -82,6 +81,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ContainerManagement.js
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/DatabaseManagement.js
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Diagnostics.js
+[entraauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/EntraAuth.js
 [hierarchicalpartitioning]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/HierarchicalPartitioning.js
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/IndexManagement.js
 [itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ItemManagement.js
