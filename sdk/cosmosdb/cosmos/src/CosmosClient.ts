@@ -34,15 +34,6 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics"
  *    },
  * });
  * ```
- * @example Instantiate a client using Managed Identity
- * ```typescript
- * import { DefaultAzureCredential } from "@azure/identity";
- * const credential = new DefaultAzureCredential(options);
- * const client = new CosmosClient({
- *   endpoint: "<URL HERE>",
- *   aadCredentials: credential,
- * });
- * ```
  */
 export class CosmosClient {
   /**
