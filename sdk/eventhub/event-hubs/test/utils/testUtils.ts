@@ -1,47 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assertEnvironmentVariable, setEnvironmentVariables } from "@azure-tools/test-recorder";
-import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
+import {
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  EventPosition,
+  Subscription,
+} from "../../src/index.js";
 import { TestTracer, resetTracer, setTracer } from "@azure-tools/test-utils";
 import { delay } from "@azure/core-amqp";
-import { loggerForTest } from "./logHelpers";
+import { loggerForTest } from "./logHelpers.js";
 
-export enum EnvVarKeys {
-  EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",
-  EVENTHUB_NAME = "EVENTHUB_NAME",
-  AZURE_TENANT_ID = "AZURE_TENANT_ID",
-  AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
-  AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET",
-  TEST_TARGET = "TEST_TARGET",
-}
-
-export function getEnvVarValue(name: string): string | undefined {
-  try {
-    return assertEnvironmentVariable(name);
-  } catch {
-    return undefined;
-  }
-}
-
-export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST_TARGET> {
-  if (getEnvVarValue(EnvVarKeys.TEST_TARGET) === "mock") {
-    setEnvironmentVariables({
-      [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`,
-      [EnvVarKeys.EVENTHUB_NAME]: "mock-hub",
-      [EnvVarKeys.AZURE_TENANT_ID]: "AzureTenantId",
-      [EnvVarKeys.AZURE_CLIENT_ID]: "AzureClientId",
-      [EnvVarKeys.AZURE_CLIENT_SECRET]: "AzureClientSecret",
+export async function getSubscriptionPromise(client: EventHubConsumerClient): Promise<void> {
+  let subscription: Subscription;
+  return new Promise<void>((resolve, reject) => {
+    subscription = client.subscribe({
+      processEvents: async () => {
+        resolve();
+      },
+      processError: async (err) => {
+        reject(err);
+      },
     });
-  }
-
-  return {
-    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
-    [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
-    [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
-    [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
-    [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET),
-  };
+  }).finally(() => subscription.close());
 }
 
 export async function loopUntil(args: {

@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import { MockEventHub, MockServerOptions } from "@azure/mock-hub";
-import { getEnvVars } from "./testUtils";
 import { readFileSync } from "fs";
 import { resolve as resolvePath } from "path";
+import { EVENTHUB_NAME } from "../test/utils/constants.js";
 
 export function createMockServer(options: MockServerOptions = {}): MockEventHub {
-  const { EVENTHUB_NAME } = getEnvVars();
   return new MockEventHub({
     name: EVENTHUB_NAME,
     partitionCount: 4,
@@ -20,3 +19,6 @@ export function createMockServer(options: MockServerOptions = {}): MockEventHub 
     ...options,
   });
 }
+
+const server = createMockServer();
+await server.start();

@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  EventHubConnectionStringProperties,
-  parseEventHubConnectionString,
-} from "../src/util/connectionStringUtils";
-import chai from "chai";
+import { parseEventHubConnectionString } from "../../src/util/connectionStringUtils.js";
+import { describe, it } from "vitest";
+import { assert } from "../utils/chai.js";
 
-const assert: typeof chai.assert = chai.assert;
-
-describe("parseEventHubConnectionString", () => {
+describe("parseEventHubConnectionString", function () {
   const namespace = "my.servicebus.windows.net";
   const sharedAccessKey = "shared-access-key";
   const sharedAccessKeyName = "shared-access-key-name";
@@ -17,9 +13,9 @@ describe("parseEventHubConnectionString", () => {
   const endpoint = "sb://my.servicebus.windows.net";
   const eventHubName = "event-hub-name";
 
-  describe("with valid data", () => {
-    it("parses a full connection string correctly", () => {
-      const expected: EventHubConnectionStringProperties = {
+  describe("with valid data", function () {
+    it("parses a full connection string correctly", async function () {
+      const expected = {
         fullyQualifiedNamespace: namespace,
         endpoint: endpoint,
         eventHubName: eventHubName,
@@ -32,8 +28,8 @@ describe("parseEventHubConnectionString", () => {
       assert.deepEqual(parseEventHubConnectionString(connectionString), expected);
     });
 
-    it("parses a minimal connection string correctly", () => {
-      const expected: EventHubConnectionStringProperties = {
+    it("parses a minimal connection string correctly", async function () {
+      const expected = {
         fullyQualifiedNamespace: namespace,
         endpoint: endpoint,
         sharedAccessSignature: sharedAccessSignature,
@@ -45,36 +41,36 @@ describe("parseEventHubConnectionString", () => {
     });
   });
 
-  describe("with invalid data", () => {
-    it("throws when Endpoint is missing", () => {
+  describe("with invalid data", function () {
+    it("throws when Endpoint is missing", async function () {
       const connectionString = `SharedAccessSignature=${sharedAccessSignature}`;
       assert.throws(() => {
         parseEventHubConnectionString(connectionString);
       }, /Connection string/);
     });
 
-    it("throws when both SharedAccessSignature and SharedAccessKey are provided", () => {
+    it("throws when both SharedAccessSignature and SharedAccessKey are provided", async function () {
       const connectionString = `Endpoint=${endpoint};SharedAccessSignature=${sharedAccessSignature};SharedAccessKey=${sharedAccessKey}`;
       assert.throws(() => {
         parseEventHubConnectionString(connectionString);
       }, /Connection string/);
     });
 
-    it("throws when both SharedAccessSignature and SharedAccessKeyName are provided", () => {
+    it("throws when both SharedAccessSignature and SharedAccessKeyName are provided", async function () {
       const connectionString = `Endpoint=${endpoint};SharedAccessSignature=${sharedAccessSignature};SharedAccessKeyName=${sharedAccessKeyName}`;
       assert.throws(() => {
         parseEventHubConnectionString(connectionString);
       }, /Connection string/);
     });
 
-    it("throws when SharedAccessKey is provided without SharedAccessKeyName", () => {
+    it("throws when SharedAccessKey is provided without SharedAccessKeyName", async function () {
       const connectionString = `Endpoint=${endpoint};SharedAccessKey=${sharedAccessKey}`;
       assert.throws(() => {
         parseEventHubConnectionString(connectionString);
       }, /Connection string/);
     });
 
-    it("throws when SharedAccessKeyName is provided without SharedAccessKey", () => {
+    it("throws when SharedAccessKeyName is provided without SharedAccessKey", async function () {
       const connectionString = `Endpoint=${endpoint};SharedAccessKeyName=${sharedAccessKeyName}`;
       assert.throws(() => {
         parseEventHubConnectionString(connectionString);
