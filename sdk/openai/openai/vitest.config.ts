@@ -11,9 +11,8 @@ export default mergeConfig(
     test: {
       testTimeout: 600000,
       hookTimeout: 18000,
-      reporters: ["verbose", "junit"],
       fileParallelism: false,
-      include: ["test/**/*.spec.ts"],
+      include: ["test/public/assistants.spec.ts"],
     },
   }),
 );

@@ -14,7 +14,6 @@ export default mergeConfig(
     test: {
       testTimeout: 600000,
       hookTimeout: 18000,
-      reporters: ["verbose", "junit"],
       fileParallelism: false,
       include: [
         "dist-test/browser/test/**/*.spec.js",
