@@ -41,7 +41,7 @@ describe("TenDlcClient - Brands", function () {
       brandDetails: brandDetails
     };
 
-    let brand = await client.upsertUSBrand(brandId, options);
+    const brand = await client.upsertUSBrand(brandId, options);
     assert.equal(brand.id, brandId);
     assert.equal(brand.brandDetails?.name, "newBrand");
     assert.equal(brand.brandDetails?.companyName, "Contoso");
@@ -65,12 +65,11 @@ describe("TenDlcClient - Brands", function () {
     assert.equal(brand.brandDetails?.name, "newBrand");
     assert.equal(brand.brandDetails?.companyName, "Contoso");
 
-
     const newBrandDetails =  {
       name: "updatedName"
     };
     
-    let newOptions = {
+    const newOptions = {
       brandDetails: newBrandDetails
     };
 
@@ -94,7 +93,7 @@ describe("TenDlcClient - Brands", function () {
     };
 
     client.upsertUSBrand(brandId, options);
-    
+
     for await (const brand of client.listUSBrands()) {
       assert.isNotNull(brand);
     }

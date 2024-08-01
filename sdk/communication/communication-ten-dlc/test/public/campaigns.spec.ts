@@ -14,7 +14,7 @@ describe("TenDlcClient - Campaigns", function () {
   let id: string; 
   const DEFAULT_ID = "a551dbcf-30a8-440c-9fb0-6baafbc411e8";
 
-  let messageDetails = { 
+  const messageDetails = { 
     useCase: {
       sampleMessages: ["sampleMessages"],
     }
@@ -43,7 +43,7 @@ describe("TenDlcClient - Campaigns", function () {
       messageDetails: messageDetails,
     };
 
-    let campaign = await client.upsertUSCampaign(id, options);
+    const campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
     assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
 
