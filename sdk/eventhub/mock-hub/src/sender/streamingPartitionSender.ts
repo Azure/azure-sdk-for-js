@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { DeliveryAnnotations, Sender, SenderEvents, types } from "rhea";
 import { MessageRecord, MessageStore } from "../storage/messageStore";
 import { EventPosition } from "../utils/eventPosition";
