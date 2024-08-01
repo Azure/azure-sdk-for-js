@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the base Settings of the target resource.
  *
  * @summary Update the base Settings of the target resource.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/settings/SettingsPatch.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/settings/SettingsPatch.json
  */
 async function networkConfigurationsPatch() {
   const subscriptionId =

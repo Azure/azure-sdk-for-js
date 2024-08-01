@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.23.0",
+  "version": "12.23.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -114,7 +114,7 @@
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-client": "^1.6.2",
     "@azure/core-http-compat": "^2.0.0",

@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.4 (Unreleased)
+
+### Features Added
+- Added a `clientProtocol` option to `GenerateClientTokenOptions` to specify the type of client protocol when generating token. This option can be used to generate token and client connection URL for a specific client protocol type, such as `Default` or `MQTT`.
+- Update API version to `2024-01-01`
+
 ## 1.1.3 (Unreleased)
 
 ### Features Added

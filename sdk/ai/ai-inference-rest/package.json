@@ -139,7 +139,8 @@
     "productName": "Azure AI Inference",
     "productSlugs": [
       "azure"
-    ]
+    ],
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference"
   },
   "module": "./dist/esm/index.js"
 }

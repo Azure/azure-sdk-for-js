@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.24.0",
+  "version": "12.24.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-blob/src/index.js",
@@ -124,7 +124,7 @@
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-client": "^1.6.2",
     "@azure/core-http-compat": "^2.0.0",
