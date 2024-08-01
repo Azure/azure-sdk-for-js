@@ -27,7 +27,7 @@ export interface Agent {
 }
 
 // @public (undocumented)
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 // @public (undocumented)
 export type BulkOperationResponse = OperationResponse[] & {
