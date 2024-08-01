@@ -150,6 +150,8 @@ export class MsalMsiProvider {
         const identitySource = this.managedIdentityApp.getManagedIdentitySource();
         const isImdsMsi = identitySource === "DefaultToImds" || identitySource === "Imds"; // Neither actually checks that IMDS endpoint is available, just that it's the source the MSAL _would_ try to use.
 
+        logger.getToken.info(`MSAL Identity source: ${identitySource}`);
+
         if (isTokenExchangeMsi) {
           // In the AKS scenario we will use the existing tokenExchangeMsi indefinitely.
           logger.getToken.info("Using the token exchange managed identity.");
@@ -163,7 +165,7 @@ export class MsalMsiProvider {
 
           if (result === null) {
             throw new CredentialUnavailableError(
-              "The managed identity endpoint was reached, yet no tokens were received.",
+              "Attempted to use the token exchange managed identity, but received a null response.",
             );
           }
 
@@ -182,7 +184,7 @@ export class MsalMsiProvider {
 
           if (!isAvailable) {
             throw new CredentialUnavailableError(
-              `ManagedIdentityCredential: The managed identity endpoint is not available.`,
+              `ManagedIdentityCredential: Attempted to use the IMDS endpoint, but it is not available.`,
             );
           }
         }
@@ -215,11 +217,13 @@ export class MsalMsiProvider {
         if (isNetworkError(err)) {
           throw new CredentialUnavailableError(
             `ManagedIdentityCredential: Network unreachable. Message: ${err.message}`,
+            { cause: err },
           );
         }
 
         throw new CredentialUnavailableError(
           `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
+          { cause: err },
         );
       }
     });
@@ -242,7 +246,7 @@ export class MsalMsiProvider {
       });
     };
     if (!msalToken) {
-      throw createError("No response");
+      throw createError("No response.");
     }
     if (!msalToken.expiresOn) {
       throw createError(`Response had no "expiresOn" property.`);
