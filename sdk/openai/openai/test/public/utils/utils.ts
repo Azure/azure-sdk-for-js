@@ -214,7 +214,7 @@ export function createAzureSearchExtension(): AzureChatExtensionConfiguration {
 
 export function handleAssistantsRunFailure(
   run: Run,
-  context: TaskContext<Test<{}>> & TestContext,
+  context: TaskContext<Test> & TestContext & object,
 ): void {
   if (run.status === "failed") {
     if (run.last_error?.message.includes("Rate limit")) {

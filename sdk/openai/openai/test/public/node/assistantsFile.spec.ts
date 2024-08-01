@@ -13,7 +13,7 @@ describe("OpenAIAssistants", () => {
       let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "dalle");
+        client = createClient(apiVersion, "vision");
       });
 
       describe("all CRUD APIs", function () {

@@ -464,13 +464,13 @@ function assertMessage(
   assert.isDefined(message);
   const msg = message;
   if (!functions) {
-    assertIf(!stream, msg.content, assert.isString);
+    assertIf(!stream, msg?.content, assert.isString);
   }
-  assertIf(!stream, msg.role, assert.isString);
-  for (const item of msg.tool_calls ?? []) {
+  assertIf(!stream, msg?.role, assert.isString);
+  for (const item of msg?.tool_calls ?? []) {
     assertToolCall(item, { stream });
   }
-  ifDefined(msg.context, assertContext);
+  ifDefined(msg?.context, assertContext);
 }
 
 function assertContext(context: AzureChatExtensionsMessageContextOutput): void {
