@@ -23,7 +23,7 @@ import { createConsumer, createProducer } from "../utils/clients.js";
 
 const debug = debugModule("azure:event-hubs:misc-spec");
 
-describe("Misc tests", function (): void {
+describe("Misc tests", function () {
   let consumerClient: EventHubConsumerClient;
   let producerClient: EventHubProducerClient;
   let hubInfo: EventHubProperties;
