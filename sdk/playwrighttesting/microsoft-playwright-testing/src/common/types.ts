@@ -1,10 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { JwtPayload } from "jwt-decode";
 import type { Location, TestStep } from "@playwright/test/reporter";
 import { ServiceAuth, ServiceOS } from "./constants";
 import type { TokenCredential } from "@azure/identity";
+
+export type JwtPayload = {
+  iss?: string;
+  sub?: string;
+  aud?: string[] | string;
+  exp?: number;
+  nbf?: number;
+  iat?: number;
+  jti?: string;
+};
 
 export type AccessTokenClaims = JwtPayload & {
   aid?: string;

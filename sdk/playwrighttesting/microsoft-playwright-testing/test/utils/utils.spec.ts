@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { API_VERSION, ServiceEnvironmentVariable } from "../../src/common/constants";
+import * as utils from "../../src/utils/utils";
 import {
   getAccessToken,
   getServiceBaseURL,
@@ -12,14 +13,12 @@ import {
   exitWithFailureMessage,
   fetchOrValidateAccessToken,
   emitReportingUrl,
+  parseJwt,
 } from "../../src/utils/utils";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
 import sinon from "sinon";
 import chai from "chai";
-import * as jwtDecode from "jwt-decode";
 import chaiAsPromised from "chai-as-promised";
-import { PlaywrightTestConfig, ReporterDescription } from "@playwright/test";
-import { ServiceErrorMessageConstants } from "../../src/common/messages";
 
 chai.use(chaiAsPromised);
 
@@ -129,7 +128,7 @@ describe("Service Utils", () => {
 
   it("should exit with error message if invalid token is set in env variable", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    sandbox.stub(jwtDecode, "jwtDecode").returns({});
+    sandbox.stub(utils, "parseJwt").returns({});
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -142,7 +141,7 @@ describe("Service Utils", () => {
 
   it("should exit with error message if MPT PAT is expired", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 - 10 });
+    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 - 10 });
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -155,7 +154,7 @@ describe("Service Utils", () => {
 
   it("should be no-op if MPT PAT is valid", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 + 10 });
+    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10 });
 
     expect(() => validateMptPAT()).not.to.throw();
 
@@ -210,7 +209,7 @@ describe("Service Utils", () => {
     const newTokenMock = "newTest";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const expiry = Date.now();
-    sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: expiry / 1000 });
+    sandbox.stub(utils, "parseJwt").returns({ exp: expiry / 1000 });
     const credential = {
       getToken: sinon.stub().resolves({
         token: newTokenMock,

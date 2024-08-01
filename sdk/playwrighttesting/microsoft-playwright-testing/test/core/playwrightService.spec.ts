@@ -8,7 +8,7 @@ import {
   ServiceOS,
 } from "../../src/common/constants";
 import { ServiceErrorMessageConstants } from "../../src/common/messages";
-import * as jwtDecode from "jwt-decode";
+import * as utils from "../../src/utils/utils";
 import { getServiceConfig } from "../../src/core/playwrightService";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
 import { expect } from "chai";
@@ -111,7 +111,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should not set service global setup and teardown for mpt pat authentication if pat is set", () => {
-    sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 + 10000 });
+    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10000 });
     const { getServiceConfig } = require("../../src/core/playwrightService");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const config = getServiceConfig(samplePlaywrightConfigInput, {
@@ -219,7 +219,7 @@ describe("getConnectOptions", () => {
     const sandbox = sinon.createSandbox();
     const accessToken = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
-    sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: Date.now() / 1000 });
+    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 });
     const credential = {
       getToken: sandbox.stub().resolves(accessToken),
     };

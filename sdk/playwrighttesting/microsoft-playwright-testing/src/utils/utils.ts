@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import dotenv from "dotenv";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import type { JwtPayload } from "../common/types";
 import { API_VERSION, ServiceEnvironmentVariable } from "../common/constants";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken";
@@ -10,12 +9,26 @@ import playwrightServiceDebugLogger from "../common/debugLogger";
 import type { TokenCredential } from "@azure/identity";
 import ReporterUtils from "./reporterUtils";
 import { CIInfoProvider } from "./cIInfoProvider";
-dotenv.config();
 
 export const exitWithFailureMessage = (message: string): never => {
   console.log();
   console.error(message);
   process.exit(1);
+};
+
+export const base64UrlDecode = (base64Url: string): string => {
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const buffer = Buffer.from(base64, "base64");
+  return buffer.toString("utf-8");
+};
+
+export const parseJwt = <T = JwtPayload>(token: string): T => {
+  const parts = token.split(".");
+  if (parts.length !== 3) {
+    throw new Error("Invalid JWT token.");
+  }
+  const payload = base64UrlDecode(parts[1]);
+  return JSON.parse(payload) as T;
 };
 
 export const getAccessToken = (): string => {
@@ -49,7 +62,7 @@ export const validateMptPAT = (): void => {
     if (!accessToken) {
       exitWithFailureMessage(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }
-    const claims = jwtDecode(accessToken) as JwtPayload;
+    const claims = parseJwt<JwtPayload>(accessToken);
     if (!claims.exp) {
       exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
     }

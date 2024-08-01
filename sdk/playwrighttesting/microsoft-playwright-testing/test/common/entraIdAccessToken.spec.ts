@@ -5,6 +5,7 @@ import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants";
+import * as utils from "../../src/utils/utils";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken";
 import { expect } from "chai";
 import sinon from "sinon";
@@ -30,7 +31,7 @@ describe("EntraIdAccessToken", () => {
     const token = "token";
     const expiry = Date.now();
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(require("jwt-decode"), "jwtDecode").returns({
+    sandbox.stub(utils, "parseJwt").returns({
       exp: expiry / 1000,
     });
     const entraIdAccessToken = new EntraIdAccessToken();
@@ -48,7 +49,7 @@ describe("EntraIdAccessToken", () => {
   it("should not set entra id access token if mpt pat is set in environment variable on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(require("jwt-decode"), "jwtDecode").returns({
+    sandbox.stub(utils, "parseJwt").returns({
       aid: "aid",
     });
     const entraIdAccessToken = new EntraIdAccessToken();
@@ -60,7 +61,7 @@ describe("EntraIdAccessToken", () => {
   it("should not set entra id access token if mpt back compat pat is set in environment variable on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(require("jwt-decode"), "jwtDecode").returns({
+    sandbox.stub(utils, "parseJwt").returns({
       accountId: "accountId",
     });
     const entraIdAccessToken = new EntraIdAccessToken();
@@ -72,7 +73,7 @@ describe("EntraIdAccessToken", () => {
   it("should not set entra id access token if jwt decode throws error on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(require("jwt-decode"), "jwtDecode").throws(new Error());
+    sandbox.stub(utils, "parseJwt").throws(new Error());
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.be.undefined;
     expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;

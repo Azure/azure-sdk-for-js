@@ -3,7 +3,7 @@
 
 import { expect } from "chai";
 import sinon from "sinon";
-import * as jwtDecode from "jwt-decode";
+import * as utils from "../../src/utils/utils";
 import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
@@ -42,7 +42,7 @@ describe("playwrightServiceEntra", () => {
 
   it("should validate mpt PAT if entra id access token fetch fails and does not setup rotation handler", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    sandbox.stub(jwtDecode, "jwtDecode").returns({ exp: new Date().getTime() / 1000 + 10000 });
+    sandbox.stub(utils, "parseJwt").returns({ exp: new Date().getTime() / 1000 + 10000 });
     sandbox
       .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
       .resolves(false);

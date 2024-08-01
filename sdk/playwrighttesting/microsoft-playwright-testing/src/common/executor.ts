@@ -1,12 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as babel from "@babel/core";
 import { basename } from "path";
 import fs from "fs";
+import url from "url";
 import path from "path";
-import cloneDeep from "lodash.clonedeep";
 import { ServiceErrorMessageConstants } from "./messages";
+
+const getPackageJsonPath = (folderPath: string): string => {
+  const packageJsonPath = path.join(folderPath, "package.json");
+  if (fs.existsSync(packageJsonPath)) {
+    return packageJsonPath;
+  }
+
+  const parentFolder = path.dirname(folderPath);
+  if (folderPath === parentFolder) {
+    return "";
+  }
+
+  const result = getPackageJsonPath(parentFolder);
+  return result;
+};
+
+const folderIsModule = (folder: string): boolean => {
+  const packageJsonPath = getPackageJsonPath(folder);
+  if (!packageJsonPath) return false;
+  // Rely on `require` internal caching logic.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  return require(packageJsonPath).type === "module";
+};
+
+const fileIsModule = (file: string): boolean => {
+  if (file.endsWith(".mjs") || file.endsWith(".mts")) return true;
+  if (file.endsWith(".cjs") || file.endsWith(".cts")) return false;
+  const folder = path.dirname(file);
+  return folderIsModule(folder);
+};
 
 const resolveFile = (id: string | undefined, rootDir: string): string | undefined => {
   if (!id) {
@@ -19,40 +48,13 @@ const resolveFile = (id: string | undefined, rootDir: string): string | undefine
   return require.resolve(id, { paths: [rootDir] });
 };
 
-const readFileContent = async (file: string): Promise<string> => {
-  const fileBuffer = await fs.promises.readFile(file);
-  return fileBuffer.toString();
-};
-
-const babelTransform = async (file: string): Promise<any> => {
-  const fileContent = await readFileContent(file);
-  const babelOptions = {
-    cwd: path.resolve(__dirname, "../../"),
-    filename: basename(file),
-    configFile: path.resolve(__dirname, "../../", "./babel.config.json"),
-  };
-  const ast = await babel.parseAsync(fileContent, babelOptions);
-  const transform = await babel.transformFromAstAsync(ast, fileContent, babelOptions);
-  const originalExports = cloneDeep(exports);
-  exports = cloneDeep({});
-  const evaluationResponse = eval(transform.code);
-  // If export is used in customer file
-  if (Object.keys(exports).length > 0) {
-    if (Object.keys(exports).length > 1) {
-      return null;
-    } // if more than 1 exports
-    if (!exports.default) {
-      return null;
-    } // export object has key != default
-    return exports.default;
-  }
-  exports = cloneDeep(originalExports);
-  return evaluationResponse; // module.exports
-};
-
 const requireOrImportDefaultFunction = async (file: string): Promise<any> => {
   const fileName = basename(file);
-  let func = await babelTransform(file);
+  const isModule = fileIsModule(file);
+  let func: any;
+  if (isModule) func = await eval(`import(${JSON.stringify(url.pathToFileURL(file))})`);
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  else func = require(file);
   if (func && typeof func === "object" && "default" in func) {
     func = func.default;
   }

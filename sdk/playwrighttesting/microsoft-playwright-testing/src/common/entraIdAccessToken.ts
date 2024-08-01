@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { jwtDecode } from "jwt-decode";
 import mptDebugLogger from "./debugLogger";
 import { EntraIdAccessTokenConstants, ServiceEnvironmentVariable } from "./constants";
 import { AccessTokenClaims } from "./types";
+import { parseJwt } from "../utils/utils";
 
 class EntraIdAccessToken {
   public token?: string;
@@ -63,7 +63,7 @@ class EntraIdAccessToken {
       if (!token) {
         return;
       }
-      const claims = jwtDecode(token) as Partial<AccessTokenClaims>;
+      const claims = parseJwt<Partial<AccessTokenClaims>>(token);
       if (claims.accountId || claims.aid) {
         return;
       } // mpt PAT
