@@ -59,7 +59,7 @@
     "ts-node": "^10.0.0"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "rhea": "^3.0.0",
     "tslib": "^2.2.0"
   },
