@@ -22,9 +22,7 @@ describe("TenDlcClient - Costs", function () {
   });
 
   it("can list all costs", async function () {
-    let count = 0;
     for await (const cost of client.listCosts()) {
-      count++;
       assert.isNotNull(cost);
     }
   }).timeout(30000);

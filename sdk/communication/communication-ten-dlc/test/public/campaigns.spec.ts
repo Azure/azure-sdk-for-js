@@ -43,7 +43,7 @@ describe("TenDlcClient - Campaigns", function () {
       messageDetails: messageDetails,
     };
 
-    var campaign = await client.upsertUSCampaign(id, options);
+    let campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
     assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
 
@@ -56,7 +56,7 @@ describe("TenDlcClient - Campaigns", function () {
       campaignDetails: {},
       messageDetails: messageDetails,
     };
-    var campaign = await client.upsertUSCampaign(id, options);
+    let campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
     assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
 
@@ -66,7 +66,8 @@ describe("TenDlcClient - Campaigns", function () {
       campaignDetails: {},
       messageDetails: messageDetails,
     };
-    var campaign = await client.upsertUSCampaign(id, newOptions);
+    
+    campaign = await client.upsertUSCampaign(id, newOptions);
     assert.equal(campaign.id, id);
     assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
 
@@ -82,9 +83,7 @@ describe("TenDlcClient - Campaigns", function () {
     };
 
     client.upsertUSCampaign(id, options);
-    let count = 0;
     for await (const campaign of client.listUSCampaigns()) {
-      count++;
       assert.isNotNull(campaign);
     }
 
