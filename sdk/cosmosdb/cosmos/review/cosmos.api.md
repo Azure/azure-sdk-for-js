@@ -1046,6 +1046,7 @@ export interface FeedOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    allowUnboundedNonStreamingQueries?: boolean;
     bufferItems?: boolean;
     // @deprecated
     continuation?: string;
@@ -2549,7 +2550,6 @@ export interface VectorEmbedding {
 
 // @public
 export enum VectorEmbeddingDataType {
-    Float16 = "float16",
     Float32 = "float32",
     Int8 = "int8",
     UInt8 = "uint8"
