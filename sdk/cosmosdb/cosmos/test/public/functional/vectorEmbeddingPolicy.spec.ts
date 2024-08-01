@@ -259,14 +259,14 @@ describe("Vector search feature", async () => {
     it("should execute vector search query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
+        "SELECT TOP 10 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
       await executeQueryAndVerifyOrder(container, query, 3, false);
     });
 
     it("should execute distinct vector search query", async function () {
       // create a queryiterator to run vector search query
       const query =
-        "SELECT distinct c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
+        "SELECT distinct TOP 10 c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
       await executeQueryAndVerifyOrder(container, query, 3, false);
     });
 

@@ -275,6 +275,7 @@ export class ClientContext {
     request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
       options.disableNonStreamingOrderByQuery,
     );
+
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
     }

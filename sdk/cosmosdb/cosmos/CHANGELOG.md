@@ -12,6 +12,8 @@
 - Correlated Activity Id: Correlated Activity Id is added in header of every query request on Items. This helps in troubleshooting by linking all requests for a query that involves multiple server interactions and partitions. Correlated Activity Id can be accessed through query response headers or `response.correlatedActivityId`.
 - Split/Merge proof for Bulk API: Earlier, whenever Bulk API encountered a partition merge or split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition splitting and merging. [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
 - Improved samples: The samples have been updated in this release, now organized into two folders: `v3` for features up to the v3 release, and `v4` for features up to the v4 release.
+- Added support for MakeList and MakeSet query aggregators
+
 
 #### Vector Search
 
