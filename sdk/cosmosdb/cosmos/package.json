@@ -126,7 +126,7 @@
   },
   "//sampleConfiguration": {
     "skip": [
-      "AADAuth.ts",
+      "EntraAuth.ts",
       "AlterQueryThroughput.ts",
       "Bulk.ts",
       "BulkUpdateWithSproc.ts",
