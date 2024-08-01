@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, HttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import {
+  HttpClient,
+  HttpHeaders,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,

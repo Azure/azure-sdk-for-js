@@ -11,21 +11,20 @@ import { CreateUUID } from "../utils/helpers";
 describe("TenDlcClient - Campaigns", function () {
   let recorder: Recorder;
   let client: TenDlcClient;
-  let id: string; 
+  let id: string;
   const DEFAULT_ID = "a551dbcf-30a8-440c-9fb0-6baafbc411e8";
 
-  const messageDetails = { 
+  const messageDetails = {
     useCase: {
       sampleMessages: ["sampleMessages"],
-    }
-  }
+    },
+  };
 
   beforeEach(async function (this: Context) {
     ({ client, recorder } = await createRecordedClient(this));
-    if(isPlaybackMode()){
+    if (isPlaybackMode()) {
       id = DEFAULT_ID;
-    }
-    else{
+    } else {
       id = CreateUUID();
     }
   });
@@ -45,7 +44,10 @@ describe("TenDlcClient - Campaigns", function () {
 
     const campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
-    assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
+    assert.equal(
+      campaign.messageDetails?.useCase?.sampleMessages?.values,
+      messageDetails.useCase.sampleMessages.values,
+    );
 
     await client.deleteUSCampaign(id);
   }).timeout(30000);
@@ -58,7 +60,10 @@ describe("TenDlcClient - Campaigns", function () {
     };
     let campaign = await client.upsertUSCampaign(id, options);
     assert.equal(campaign.id, id);
-    assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
+    assert.equal(
+      campaign.messageDetails?.useCase?.sampleMessages?.values,
+      messageDetails.useCase.sampleMessages.values,
+    );
 
     messageDetails.useCase.sampleMessages = ["updatedSampleMessages"];
     const newOptions = {
@@ -66,13 +71,15 @@ describe("TenDlcClient - Campaigns", function () {
       campaignDetails: {},
       messageDetails: messageDetails,
     };
-    
+
     campaign = await client.upsertUSCampaign(id, newOptions);
     assert.equal(campaign.id, id);
-    assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
+    assert.equal(
+      campaign.messageDetails?.useCase?.sampleMessages?.values,
+      messageDetails.useCase.sampleMessages.values,
+    );
 
     await client.deleteUSCampaign(id);
-
   }).timeout(30000);
 
   it("can list all us campaigns", async function () {

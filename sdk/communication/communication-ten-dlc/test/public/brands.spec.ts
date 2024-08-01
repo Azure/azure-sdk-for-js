@@ -11,16 +11,15 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 describe("TenDlcClient - Brands", function () {
   let recorder: Recorder;
   let client: TenDlcClient;
-  let brandId: string; 
+  let brandId: string;
 
   const DEFAULT_BRAND_ID = "a551dbcf-30a8-440c-9fb0-6baafbc411e8";
 
   beforeEach(async function (this: Context) {
     ({ client, recorder } = await createRecordedClient(this));
-    if(isPlaybackMode()){
+    if (isPlaybackMode()) {
       brandId = DEFAULT_BRAND_ID;
-    }
-    else{
+    } else {
       brandId = CreateUUID();
     }
   });
@@ -32,13 +31,13 @@ describe("TenDlcClient - Brands", function () {
   });
 
   it("successfully inserts brand", async function (this: Context) {
-    const brandDetails =  {
+    const brandDetails = {
       name: "newBrand",
-      companyName: "Contoso"
+      companyName: "Contoso",
     };
-    
+
     const options = {
-      brandDetails: brandDetails
+      brandDetails: brandDetails,
     };
 
     const brand = await client.upsertUSBrand(brandId, options);
@@ -49,15 +48,14 @@ describe("TenDlcClient - Brands", function () {
     await client.deleteUSBrand(brandId);
   }).timeout(30000);
 
-  
   it("successfully updates brand", async function (this: Context) {
-    const brandDetails =  {
+    const brandDetails = {
       name: "newBrand",
-      companyName: "Contoso"
+      companyName: "Contoso",
     };
-    
+
     const options = {
-      brandDetails: brandDetails
+      brandDetails: brandDetails,
     };
 
     let brand = await client.upsertUSBrand(brandId, options);
@@ -65,12 +63,12 @@ describe("TenDlcClient - Brands", function () {
     assert.equal(brand.brandDetails?.name, "newBrand");
     assert.equal(brand.brandDetails?.companyName, "Contoso");
 
-    const newBrandDetails =  {
-      name: "updatedName"
+    const newBrandDetails = {
+      name: "updatedName",
     };
-    
+
     const newOptions = {
-      brandDetails: newBrandDetails
+      brandDetails: newBrandDetails,
     };
 
     brand = await client.upsertUSBrand(brandId, newOptions);
@@ -79,17 +77,16 @@ describe("TenDlcClient - Brands", function () {
     assert.equal(brand.brandDetails?.companyName, "Contoso");
 
     await client.deleteUSBrand(brandId);
-
   }).timeout(30000);
 
   it("can list all us brands", async function () {
-    const brandDetails =  {
+    const brandDetails = {
       name: "newBrand",
-      companyName: "Contoso"
+      companyName: "Contoso",
     };
-    
+
     const options = {
-      brandDetails: brandDetails
+      brandDetails: brandDetails,
     };
 
     client.upsertUSBrand(brandId, options);
