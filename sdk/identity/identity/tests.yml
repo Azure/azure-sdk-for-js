@@ -7,6 +7,7 @@ extends:
       ServiceDirectory: identity
       TimeoutInMinutes: 120
       SupportedClouds: 'Public,UsGov,China,Canary'
+      UseFederatedAuth: false
       CloudConfig:
         Public:
           ServiceConnection: azure-sdk-tests
