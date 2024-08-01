@@ -8,6 +8,14 @@
 
 ### Breaking Changes
 
+### Bugs Fixed
+
+- Fixed an issue where an incorrect error message was returned when the service responds with a 400 status code. [#30532](https://github.com/Azure/azure-sdk-for-js/pull/30532)
+
+### Other Changes
+
+- ManagedIdentityCredential errors will now include the underlying error cause under the `cause` property. [#30532](https://github.com/Azure/azure-sdk-for-js/pull/30532)
+
 ## 4.4.1 (2024-07-30)
 
 ### Bugs Fixed
