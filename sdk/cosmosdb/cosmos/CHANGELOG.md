@@ -7,7 +7,6 @@
 - Added support for Vector embedding and Vector Indexes.
 - Added support for MakeList and MakeSet query aggregators
 
-
 ### Breaking Changes
 
 ####  Dropped Support for TypeScript 4.1
