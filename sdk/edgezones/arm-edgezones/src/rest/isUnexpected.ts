@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  List200Response,
-  ListDefaultResponse,
-  Get200Response,
-  GetDefaultResponse,
-  ListBySubscription200Response,
-  ListBySubscriptionDefaultResponse,
-  Register200Response,
-  RegisterDefaultResponse,
-  Unregister200Response,
-  UnregisterDefaultResponse,
+  OperationsList200Response,
+  OperationsListDefaultResponse,
+  ExtendedZonesGet200Response,
+  ExtendedZonesGetDefaultResponse,
+  ExtendedZonesListBySubscription200Response,
+  ExtendedZonesListBySubscriptionDefaultResponse,
+  ExtendedZonesRegister200Response,
+  ExtendedZonesRegisterDefaultResponse,
+  ExtendedZonesUnregister200Response,
+  ExtendedZonesUnregisterDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -26,38 +26,40 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: List200Response | ListDefaultResponse,
-): response is ListDefaultResponse;
+  response: OperationsList200Response | OperationsListDefaultResponse,
+): response is OperationsListDefaultResponse;
 export function isUnexpected(
-  response: Get200Response | GetDefaultResponse,
-): response is GetDefaultResponse;
-export function isUnexpected(
-  response: ListBySubscription200Response | ListBySubscriptionDefaultResponse,
-): response is ListBySubscriptionDefaultResponse;
-export function isUnexpected(
-  response: Register200Response | RegisterDefaultResponse,
-): response is RegisterDefaultResponse;
-export function isUnexpected(
-  response: Unregister200Response | UnregisterDefaultResponse,
-): response is UnregisterDefaultResponse;
+  response: ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse,
+): response is ExtendedZonesGetDefaultResponse;
 export function isUnexpected(
   response:
-    | List200Response
-    | ListDefaultResponse
-    | Get200Response
-    | GetDefaultResponse
-    | ListBySubscription200Response
-    | ListBySubscriptionDefaultResponse
-    | Register200Response
-    | RegisterDefaultResponse
-    | Unregister200Response
-    | UnregisterDefaultResponse,
+    | ExtendedZonesListBySubscription200Response
+    | ExtendedZonesListBySubscriptionDefaultResponse,
+): response is ExtendedZonesListBySubscriptionDefaultResponse;
+export function isUnexpected(
+  response: ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse,
+): response is ExtendedZonesRegisterDefaultResponse;
+export function isUnexpected(
+  response: ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse,
+): response is ExtendedZonesUnregisterDefaultResponse;
+export function isUnexpected(
+  response:
+    | OperationsList200Response
+    | OperationsListDefaultResponse
+    | ExtendedZonesGet200Response
+    | ExtendedZonesGetDefaultResponse
+    | ExtendedZonesListBySubscription200Response
+    | ExtendedZonesListBySubscriptionDefaultResponse
+    | ExtendedZonesRegister200Response
+    | ExtendedZonesRegisterDefaultResponse
+    | ExtendedZonesUnregister200Response
+    | ExtendedZonesUnregisterDefaultResponse,
 ): response is
-  | ListDefaultResponse
-  | GetDefaultResponse
-  | ListBySubscriptionDefaultResponse
-  | RegisterDefaultResponse
-  | UnregisterDefaultResponse {
+  | OperationsListDefaultResponse
+  | ExtendedZonesGetDefaultResponse
+  | ExtendedZonesListBySubscriptionDefaultResponse
+  | ExtendedZonesRegisterDefaultResponse
+  | ExtendedZonesUnregisterDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
