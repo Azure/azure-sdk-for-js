@@ -22,7 +22,7 @@ export default function createClient(
   { apiVersion = "2024-04-01-preview", ...options }: EdgeZonesContextOptions = {},
 ): EdgeZonesContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-  const userAgentInfo = `azsdk-js-arm-edgezones/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-arm-edgezones/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
