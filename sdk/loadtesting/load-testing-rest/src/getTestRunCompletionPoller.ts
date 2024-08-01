@@ -3,15 +3,15 @@
 
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import { TestRunCompletionPoller, PolledOperationOptions } from "./models";
-import { AzureLoadTestingClient } from "./clientDefinitions";
+import { TestRunCompletionPoller, PolledOperationOptions } from "./models.js";
+import { AzureLoadTestingClient } from "./clientDefinitions.js";
 import {
-  TestRunCreateOrUpdate200Response,
-  TestRunCreateOrUpdate201Response,
-  TestRunGet200Response,
-} from "./responses";
-import { isUnexpected } from "./isUnexpected";
-import { sleep, isTestRunInProgress } from "./util/LROUtil";
+  LoadTestRunCreateOrUpdateTestRun200Response,
+  LoadTestRunCreateOrUpdateTestRun201Response,
+  LoadTestRunGetTestRun200Response,
+} from "./responses.js";
+import { isUnexpected } from "./isUnexpected.js";
+import { sleep, isTestRunInProgress } from "./util/LROUtil.js";
 
 /**
  * Creates a poller to poll for test run status.
@@ -21,25 +21,25 @@ import { sleep, isTestRunInProgress } from "./util/LROUtil";
  */
 export async function getTestRunCompletionPoller(
   client: AzureLoadTestingClient,
-  createTestRunResponse: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response,
+  createTestRunResponse: LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response,
   polledOperationOptions: PolledOperationOptions = {},
 ): Promise<TestRunCompletionPoller> {
-  type Handler = (state: OperationState<TestRunGet200Response>) => void;
+  type Handler = (state: OperationState<LoadTestRunGetTestRun200Response>) => void;
 
-  const state: OperationState<TestRunGet200Response> = {
+  const state: OperationState<LoadTestRunGetTestRun200Response> = {
     status: "notStarted",
   };
 
   const progressCallbacks = new Map<symbol, Handler>();
   const processProgressCallbacks = async (): Promise<void> =>
     progressCallbacks.forEach((h) => h(state));
-  let resultPromise: Promise<TestRunGet200Response> | undefined;
+  let resultPromise: Promise<LoadTestRunGetTestRun200Response> | undefined;
   let cancelJob: (() => void) | undefined;
   const abortController = new AbortController();
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
   const testRunId = createTestRunResponse.body.testRunId;
 
-  const poller: SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response> = {
+  const poller: SimplePollerLike<OperationState<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response> = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");
@@ -74,7 +74,7 @@ export async function getTestRunCompletionPoller(
       }
     },
 
-    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TestRunGet200Response> {
+    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<LoadTestRunGetTestRun200Response> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         const { signal: abortSignal } = inputAbortSignal
@@ -93,7 +93,7 @@ export async function getTestRunCompletionPoller(
           case "succeeded":
           case "failed":
           case "canceled": {
-            return poller.getResult() as TestRunGet200Response;
+            return poller.getResult() as LoadTestRunGetTestRun200Response;
           }
           case "notStarted":
           case "running": {
@@ -106,7 +106,7 @@ export async function getTestRunCompletionPoller(
       }));
     },
 
-    onProgress(callback: (state: OperationState<TestRunGet200Response>) => void): CancelOnProgress {
+    onProgress(callback: (state: OperationState<LoadTestRunGetTestRun200Response>) => void): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
 
@@ -126,11 +126,11 @@ export async function getTestRunCompletionPoller(
       return resultPromise === undefined;
     },
 
-    getOperationState(): OperationState<TestRunGet200Response> {
+    getOperationState(): OperationState<LoadTestRunGetTestRun200Response> {
       return state;
     },
 
-    getResult(): TestRunGet200Response | undefined {
+    getResult(): LoadTestRunGetTestRun200Response | undefined {
       return state.result;
     },
 
