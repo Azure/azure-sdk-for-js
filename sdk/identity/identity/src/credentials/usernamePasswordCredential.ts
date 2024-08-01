@@ -8,7 +8,7 @@ import {
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 
-import { CredentialUnavailableError } from "..";
+import { CredentialUnavailableError } from "../errors";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";

@@ -9,7 +9,7 @@ import {
 } from "../util/tenantIdUtils";
 
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
-import { CredentialUnavailableError } from "@azure/identity";
+import { CredentialUnavailableError } from "../errors";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
