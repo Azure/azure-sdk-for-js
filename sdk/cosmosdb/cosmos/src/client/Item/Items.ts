@@ -689,7 +689,7 @@ export class Items {
    *
    * Usage example:
    * ```typescript
-   * // partitionKey is required as a second argument, but defaults to the expected partition key format in case of undefined partition key
+   * // The partitionKey is a required second argument. If it’s undefined, it defaults to the expected partition key format.
    * const operations: OperationInput[] = [
    *    {
    *       operationType: "Create",
