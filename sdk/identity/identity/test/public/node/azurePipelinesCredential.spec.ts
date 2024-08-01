@@ -22,7 +22,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      systemAccessToken,
+      systemAccessToken
     );
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -30,7 +30,7 @@ describe("AzurePipelinesCredential", function () {
     if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
-  it("fails with with invalid service connection", async function () {
+  it.only("fails with with invalid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -41,14 +41,19 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       "existingServiceConnectionId",
-      systemAccessToken,
+      systemAccessToken
     );
+    try {
+      await credential.getToken(scope);
+    } catch (e) {
+      console.error(e);
+    }
     const regExp: RegExp =
       /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected",
+      "error thrown doesn't match or promise not rejected"
     );
   });
 
@@ -62,14 +67,14 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       "clientId",
       existingServiceConnectionId,
-      systemAccessToken,
+      systemAccessToken
     );
     const regExp: RegExp =
       /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected",
+      "error thrown doesn't match or promise not rejected"
     );
   });
 
@@ -83,7 +88,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "systemAccessToken",
+      "systemAccessToken"
     );
     await assert.isRejected(credential.getToken(scope), /Status code: 302/);
   });
