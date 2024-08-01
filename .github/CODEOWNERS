@@ -512,6 +512,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -549,6 +552,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
+
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
@@ -1515,6 +1522,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /eng/                  @ckairen @mikeharder @weshaggard @benbp
 /eng/common/           @Azure/azure-sdk-eng
 /.github/workflows/    @Azure/azure-sdk-eng
+/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 
 ###########
 # Config
@@ -1540,10 +1548,14 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
-/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-for-js-core
-/tsconfig.json @mikeharder @ckairen @jeremymeng @deyaaeldeen
-/**/tsconfig.json @jeremymeng @deyaaeldeen
-/**/tsconfig.strict.json @deyaaeldeen
+/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-js-dev
+
+/tsconfig.json @mikeharder @ckairen @Azure/azure-sdk-for-js-core
+/**/tsconfig.json @Azure/azure-sdk-for-js-core
+
+# Managment tsconfig.json
+/sdk/**/arm-*/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+
 /.scripts/ @mikeharder @ckairen
 /vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 /vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
