@@ -521,9 +521,7 @@ describe("Test nonStreaming Queries", function () {
       assert.fail("must throw exception");
     } catch (err) {
       assert(
-        err.message.includes(
-          "Executing a vector search query with TOP or LIMIT larger than the vectorSearchBufferSize",
-        ),
+        err.message.includes("Executing a vector search query with TOP or OFFSET + LIMIT value"),
       );
     }
   });
@@ -537,9 +535,7 @@ describe("Test nonStreaming Queries", function () {
       assert.fail("must throw exception");
     } catch (err) {
       assert(
-        err.message.includes(
-          "Executing a vector search query with TOP or LIMIT larger than the vectorSearchBufferSize",
-        ),
+        err.message.includes("Executing a vector search query with TOP or OFFSET + LIMIT value"),
       );
     }
   });
@@ -558,9 +554,7 @@ describe("Test nonStreaming Queries", function () {
       assert.fail("must throw exception");
     } catch (err) {
       assert(
-        err.message.includes(
-          "Executing a vector search query with TOP or LIMIT larger than the vectorSearchBufferSize",
-        ),
+        err.message.includes("Executing a vector search query with TOP or OFFSET + LIMIT value"),
       );
     }
   });

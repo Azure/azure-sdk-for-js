@@ -64,7 +64,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
-          `Executing a vector search query with TOP or LIMIT larger than the vectorSearchBufferSize ${maxBufferSize} ` +
+          `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
             `is not allowed`,
         );
       }
