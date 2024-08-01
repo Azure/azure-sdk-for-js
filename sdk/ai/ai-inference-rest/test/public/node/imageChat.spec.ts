@@ -56,8 +56,5 @@ describe("image file test suite", () => {
     assert.isNotEmpty(completion.choices);
     assert.isDefined(completion.choices[0].message);
     assert.isDefined(completion.choices[0].message.content);
-  },
-    {
-      timeout: 50000
-    });
+  });
 });

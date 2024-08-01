@@ -58,7 +58,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/event-hubs": "^5.6.0",
     "@azure/data-tables": "^13.2.2",
     "@azure/logger": "^1.0.0",

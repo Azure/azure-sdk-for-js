@@ -13,6 +13,7 @@ import { createSseStream } from "@azure/core-sse";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { IncomingMessage } from "http";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -21,7 +22,7 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 export async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential()));
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [
@@ -44,7 +45,7 @@ export async function main() {
     throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
   }
 
-  const sses = createSseStream(stream);
+  const sses = createSseStream(stream as IncomingMessage);
 
   for await (const event of sses) {
     if (event.data === "[DONE]") {

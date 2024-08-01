@@ -11,7 +11,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
@@ -221,7 +221,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     controller.signal.onabort = (...params) => {
       this.abortControllers.set(correlationId, undefined);
       if (existingOnAbort) {
-        existingOnAbort(...params);
+        existingOnAbort.apply(controller.signal, params);
       }
     };
     return controller.signal;

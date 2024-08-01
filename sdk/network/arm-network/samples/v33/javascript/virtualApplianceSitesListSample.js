@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Network Virtual Appliance Sites in a Network Virtual Appliance resource.
  *
  * @summary Lists all Network Virtual Appliance Sites in a Network Virtual Appliance resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceSiteList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkVirtualApplianceSiteList.json
  */
 async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualAppliance() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

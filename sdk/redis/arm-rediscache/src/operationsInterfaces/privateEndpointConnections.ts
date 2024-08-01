@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsPutOptionalParams,
   PrivateEndpointConnectionsPutResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     cacheName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the redis cache.
@@ -44,7 +44,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     cacheName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection associated with the redis cache.
@@ -60,7 +60,7 @@ export interface PrivateEndpointConnections {
     cacheName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
+    options?: PrivateEndpointConnectionsPutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsPutResponse>,
@@ -81,7 +81,7 @@ export interface PrivateEndpointConnections {
     cacheName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
+    options?: PrivateEndpointConnectionsPutOptionalParams,
   ): Promise<PrivateEndpointConnectionsPutResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the redis cache.
@@ -95,6 +95,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     cacheName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

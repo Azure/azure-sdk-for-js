@@ -224,7 +224,6 @@ jobs:
               $account = (Get-AzContext).Account
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
-              Update-AzConfig -DisplayBreakingChangeWarning $false
 
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE

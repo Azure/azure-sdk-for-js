@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns list of jobs belonging to a backup vault
  *
  * @summary Returns list of jobs belonging to a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/JobCRUD/ListJobs.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/JobCRUD/ListJobs.json
  */
 async function getJobs() {
   const subscriptionId =

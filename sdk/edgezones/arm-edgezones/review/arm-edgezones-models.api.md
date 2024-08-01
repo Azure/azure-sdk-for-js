@@ -111,7 +111,7 @@ export enum KnownResourceProvisioningState {
 // @public
 export interface Operation {
     actionType?: ActionType;
-    display?: OperationDisplay;
+    readonly display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -119,10 +119,10 @@ export interface Operation {
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public

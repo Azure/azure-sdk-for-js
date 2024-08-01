@@ -1,4 +1,29 @@
 # Release History
+
+## 21.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 21.0.0 (2024-07-24)
+    
+### Features Added
+
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter daemonsetEvictionForEmptyNodes
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter daemonsetEvictionForOccupiedNodes
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter ignoreDaemonsetsUtilization
+  - Enum KnownNetworkPolicy has a new value None
+  - Enum KnownNodeOSUpgradeChannel has a new value SecurityPatch
+
+### Breaking Changes
+
+  - Removed operation ManagedClusters.getOSOptions
+    
     
 ## 20.1.0-beta.1 (2024-07-12)
 Compared with version 20.0.0

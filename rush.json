@@ -2228,9 +2228,9 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-mongocluster",
-      "projectFolder": "sdk/mongocluster/arm-mongocluster",
-      "versionPolicyName": "management"
+      "packageName": "@azure-rest/health-deidentification",
+      "projectFolder": "sdk/healthdataaiservices/azure-health-deidentification",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/ai-inference",
@@ -2238,8 +2238,28 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-computefleet",
+      "projectFolder": "sdk/computefleet/arm-computefleet",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-edgezones",
       "projectFolder": "sdk/edgezones/arm-edgezones",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mongocluster",
+      "projectFolder": "sdk/mongocluster/arm-mongocluster",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabricmanagedclusters",
+      "projectFolder": "sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redhatopenshift",
+      "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
       "versionPolicyName": "management"
     }
   ]
