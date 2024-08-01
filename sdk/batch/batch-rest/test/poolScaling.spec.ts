@@ -9,7 +9,7 @@ import {
   EnablePoolAutoScaleParameters,
   EvaluatePoolAutoScaleParameters,
   isUnexpected,
-} from "../../src/index.js";
+} from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 // eslint-disable-next-line import/no-extraneous-dependencies

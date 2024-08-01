@@ -9,7 +9,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { ClientOptions } from "@azure-rest/core-client";
-import BatchServiceClient, { BatchClient } from "../../../src/index.js";
+import BatchServiceClient, { BatchClient } from "../../src/index.js";
 import {
   fakeTestPasswordPlaceholder1,
   fakeAzureBatchAccount,

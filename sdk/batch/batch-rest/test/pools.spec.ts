@@ -15,7 +15,7 @@ import {
   ResizePoolParameters,
   isUnexpected,
   paginate,
-} from "../../src/index.js";
+} from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { wait } from "./utils/wait.js";
 import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpers.js";

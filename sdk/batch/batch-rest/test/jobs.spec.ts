@@ -10,7 +10,7 @@ import {
   CreatePoolParameters,
   UpdateJobParameters,
   isUnexpected,
-} from "../../src/index.js";
+} from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";

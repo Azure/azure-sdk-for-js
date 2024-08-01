@@ -3,7 +3,7 @@
 
 import { type AzureNamedKeyCredential } from "@azure/core-auth";
 import { HttpHeaders, HttpMethods, PipelinePolicy } from "@azure/core-rest-pipeline";
-// import { createHmac } from "crypto";
+import { createHmac } from "crypto";
 
 export function createBatchSharedKeyCredentialsPolicy(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -41,18 +41,12 @@ export function createBatchSharedKeyCredentialsPolicy(
       stringToSign += getCanonicalizedResource(request.url, accountName);
 
       // Signed with sha256
-      try {
-        const crypto = await import("crypto");
-        const signature = crypto
-          .createHmac("sha256", accountKey)
-          .update(stringToSign, "utf8")
-          .digest("base64");
+      const signature = createHmac("sha256", accountKey)
+        .update(stringToSign, "utf8")
+        .digest("base64");
 
-        request.headers.set("Authorization", `SharedKey ${accountName}:${signature}`);
-        return next(request);
-      } catch {
-        throw new Error("Batch Shared Key authentication is not supported in browser environment.");
-      }
+      request.headers.set("Authorization", `SharedKey ${accountName}:${signature}`);
+      return next(request);
     },
   };
 }
