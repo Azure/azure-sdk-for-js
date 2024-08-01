@@ -18,15 +18,26 @@ import {
   EnvironmentVariableNamesAzureCommon,
   EnvironmentVariableNamesForAzureSearch,
   EnvironmentVariableNamesForCompletions,
-  EnvironmentVariableNamesForDalle,
-  EnvironmentVariableNamesForWhisper,
+  EnvironmentVariableNamesForVision,
+  EnvironmentVariableNamesForAudio,
 } from "./envVars.js";
 import { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import { createClientLogger } from "@azure/logger";
 import { AzureChatExtensionConfiguration } from "../../../src/types/models.js";
 
 const logger = createClientLogger("openai");
-export type DeploymentType = "dalle" | "whisper" | "completions";
+export interface Metadata {
+  foo: string;
+}
+export type DeploymentType = "vision" | "audio" | "completions";
+export interface DeploymentInfo {
+  deploymentName: string;
+  model: ModelInfo;
+}
+interface ModelInfo {
+  name: string;
+  version: string;
+}
 export enum APIVersion {
   Preview = "2024-05-01-preview",
   Stable = "2024-06-01",
@@ -38,18 +49,27 @@ function toString(error: any): string {
 }
 
 export async function withDeployments<T>(
-  deployments: string[],
+  deploymentsInfo: DeploymentInfo[] = [],
   run: (model: string) => Promise<T>,
   validate: (result: T) => void,
-): Promise<string[]> {
+  modelsList?: ModelInfo[],
+): Promise<DeploymentInfo[]> {
   const errors = [];
   const succeeded = [];
-  assert.isNotEmpty(deployments, "No deployments found");
+  assert.isNotEmpty(deploymentsInfo, "No deployments found");
   let i = 0;
-  for (const deployment of deployments) {
+  for (const deployment of deploymentsInfo) {
     try {
-      logger.info(`[${++i}/${deployments.length}] testing with ${deployment}`);
-      const res = await run(deployment);
+      logger.info(
+        `[${++i}/${deploymentsInfo.length}] testing with deployment: ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
+      );
+      if (modelsList && !isModelInList(deployment.model, modelsList)) {
+        logger.info(
+          `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
+        );
+        continue;
+      }
+      const res = await run(deployment.deploymentName);
       validate(res);
       succeeded.push(deployment);
     } catch (e) {
@@ -67,13 +87,12 @@ export async function withDeployments<T>(
         ].includes(error.code) ||
         error.type === "invalid_request_error" ||
         error.name === "AbortError" ||
-        errorStr.includes("JSON parse failure") ||
         errorStr.includes("toolCalls")
       ) {
         logger.info(`Handled error: ${errorStr}`);
         continue;
       }
-      logger.warning(`Error in deployment ${deployment}: ${errorStr}`);
+      logger.warning(`Error in deployment ${deployment.deploymentName}: ${errorStr}`);
       errors.push(errorStr);
     }
   }
@@ -91,30 +110,46 @@ export async function sendRequestWithRecorder(request: PipelineRequest): Promise
   return pipeline.sendRequest(client, request);
 }
 
+function isModelInList(expectedModel: ModelInfo, modelsList: ModelInfo[]): boolean {
+  for (const model of modelsList) {
+    if (expectedModel.name === model.name && expectedModel.version === model.version) {
+      return true;
+    }
+  }
+  return false;
+}
 async function listDeployments(
   subId: string,
   rgName: string,
   accountName: string,
-): Promise<string[]> {
-  const deployments: string[] = [];
+): Promise<DeploymentInfo[]> {
+  const deployments: DeploymentInfo[] = [];
   const mgmtClient = new CognitiveServicesManagementClient(createTestCredential(), subId);
   for await (const deployment of mgmtClient.deployments.list(rgName, accountName)) {
     const deploymentName = deployment.name;
-    if (deploymentName) {
-      deployments.push(deploymentName);
+    const modelName = deployment.properties?.model?.name;
+    const modelVersion = deployment.properties?.model?.version;
+    if (deploymentName && modelName && modelVersion) {
+      deployments.push({ deploymentName, model: { name: modelName, version: modelVersion } });
     }
   }
-  logger.info(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
+  logger.info(`Available deployments (${deployments.length}): ${JSON.stringify(deployments)}`);
   return deployments;
 }
 
-export function updateWithSucceeded(succeeded: string[], deployments: string[]): void {
+export function updateWithSucceeded(
+  succeeded: DeploymentInfo[],
+  deployments: DeploymentInfo[],
+): void {
   if (deployments.length === 0) {
     deployments.push(...succeeded);
   }
 }
 
-export function getSucceeded(deployments: string[], succeededDeployments: string[]): string[] {
+export function getSucceeded(
+  deployments: DeploymentInfo[],
+  succeededDeployments: DeploymentInfo[],
+): DeploymentInfo[] {
   if (succeededDeployments.length > 0) {
     return succeededDeployments;
   }
@@ -127,14 +162,14 @@ function getAccountNameFromResourceType(deploymentType: DeploymentType): string 
       return assertEnvironmentVariable(
         EnvironmentVariableNamesForCompletions.ACCOUNT_NAME_COMPLETIONS,
       );
-    case "dalle":
-      return assertEnvironmentVariable(EnvironmentVariableNamesForDalle.ACCOUNT_NAME_DALLE);
-    case "whisper":
-      return assertEnvironmentVariable(EnvironmentVariableNamesForWhisper.ACCOUNT_NAME_WHISPER);
+    case "vision":
+      return assertEnvironmentVariable(EnvironmentVariableNamesForVision.ACCOUNT_NAME_VISION);
+    case "audio":
+      return assertEnvironmentVariable(EnvironmentVariableNamesForAudio.ACCOUNT_NAME_AUDIO);
   }
 }
 
-export async function getDeployments(deploymentType: DeploymentType): Promise<string[]> {
+export async function getDeployments(deploymentType: DeploymentType): Promise<DeploymentInfo[]> {
   return listDeployments(
     assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.SUBSCRIPTION_ID),
     assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.RESOURCE_GROUP),

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export enum EnvironmentVariableNamesForDalle {
-  ENDPOINT_DALLE = "AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT",
-  ACCOUNT_NAME_DALLE = "ACCOUNT_NAME_DALLE",
+export enum EnvironmentVariableNamesForVision {
+  ENDPOINT_VISION = "AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT",
+  ACCOUNT_NAME_VISION = "ACCOUNT_NAME_VISION",
 }
 
-export enum EnvironmentVariableNamesForWhisper {
-  ENDPOINT_WHISPER = "AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT",
-  ACCOUNT_NAME_WHISPER = "ACCOUNT_NAME_WHISPER",
+export enum EnvironmentVariableNamesForAudio {
+  ENDPOINT_AUDIO = "AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT",
+  ACCOUNT_NAME_AUDIO = "ACCOUNT_NAME_AUDIO",
 }
 
 export enum EnvironmentVariableNamesForCompletions {
@@ -30,6 +30,6 @@ export const EnvironmentVariableNames = {
   ...EnvironmentVariableNamesAzureCommon,
   ...EnvironmentVariableNamesForAzureSearch,
   ...EnvironmentVariableNamesForCompletions,
-  ...EnvironmentVariableNamesForWhisper,
-  ...EnvironmentVariableNamesForDalle,
+  ...EnvironmentVariableNamesForAudio,
+  ...EnvironmentVariableNamesForVision,
 };

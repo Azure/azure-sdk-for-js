@@ -1,5 +1,5 @@
 import { assert } from "vitest";
-import { get } from "./utils.js";
+import { get, Metadata } from "./utils.js";
 import { OpenAI } from "openai";
 import { getImageDimensionsFromResponse } from "./images.js";
 import {
@@ -29,6 +29,48 @@ import {
 } from "openai/resources/index";
 import { ErrorModel } from "@azure-rest/core-client";
 import { ChatCompletion } from "openai/resources/chat/completions.mjs";
+import { Transcription } from "openai/resources/audio/transcriptions.mjs";
+import { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
+
+export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
+  switch (responseFormat) {
+    case "json":
+      assert.isObject(result);
+      assert.isString((result as Transcription).text);
+      break;
+    case "verbose_json":
+      assertVerboseJson(result as unknown as AudioResultVerboseJson);
+      break;
+    case "srt":
+    case "vtt":
+    case "text":
+      assert.isString(result);
+      break;
+  }
+}
+
+function assertSegment(segment: AudioSegment): void {
+  assert.isNumber(segment.start);
+  assert.isNumber(segment.end);
+  assert.isString(segment.text);
+  assert.isNumber(segment.id);
+  assert.isNumber(segment.avg_logprob);
+  assert.isNumber(segment.compression_ratio);
+  assert.isNumber(segment.no_speech_prob);
+  assert.isNumber(segment.seek);
+  assert.isNumber(segment.temperature);
+  assert.isArray(segment.tokens);
+  segment.tokens.forEach((item) => assert.isNumber(item));
+}
+
+function assertVerboseJson(result: AudioResultVerboseJson): void {
+  assert.isString(result.text);
+  assert.isNumber(result.duration);
+  assert.isString(result.language);
+  assert.isString(result.task);
+  assert.isArray(result.segments);
+  result.segments.forEach((item) => assertSegment(item));
+}
 
 export function assertChatCompletions(
   completions: ChatCompletion,
@@ -465,7 +507,7 @@ export function assertAssistantEquality(
   assert.equal(response.name, assistant.name);
   assert.equal(response.instructions, assistant.instructions);
   assert.equal(response.description, assistant.description);
-  assert.equal((response.metadata as any).foo, "bar");
+  assert.equal((response.metadata as Metadata).foo, "bar");
   assert.isNotNull(response.tools[0]);
   const tools = assistant.tools || [];
   assert.equal(response.tools[0].type, tools[0].type);

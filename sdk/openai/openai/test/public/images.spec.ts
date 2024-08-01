@@ -6,6 +6,7 @@ import { createClient } from "./utils/createClient.js";
 import {
   APIMatrix,
   APIVersion,
+  DeploymentInfo,
   getDeployments,
   getSucceeded,
   updateWithSucceeded,
@@ -13,28 +14,23 @@ import {
 } from "./utils/utils.js";
 import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
 import OpenAI, { AzureOpenAI } from "openai";
-import { describe, beforeEach, it } from "vitest";
+import { describe, it, beforeAll } from "vitest";
+import { imageGenerationModels } from "./utils/models.js";
 
 describe("Images", function () {
-  let deployments: string[] = [];
-
-  beforeEach(async function () {
-    if (!deployments.length) {
-      deployments = await getDeployments("dalle");
-    }
-  });
-
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
+      let deployments: DeploymentInfo[] = [];
       let client: AzureOpenAI | OpenAI;
 
-      beforeEach(async function () {
-        client = createClient(apiVersion, "dalle");
+      beforeAll(async function () {
+        client = createClient(apiVersion, "vision");
+        deployments = await getDeployments("vision");
       });
 
       describe("getImages", function () {
-        const imageGenerationDeployments: string[] = [];
-        const prompt = "monkey eating banana";
+        const imageGenerationDeployments: DeploymentInfo[] = [];
+        const prompt = "a flower vase on a table";
         const numberOfImages = 1;
         const height = 1024;
         const width = 1024;
@@ -52,6 +48,7 @@ describe("Images", function () {
                   size,
                 }),
               (item) => assertImagesWithURLs(item, height, width),
+              imageGenerationModels,
             ),
             imageGenerationDeployments,
           );
@@ -70,6 +67,7 @@ describe("Images", function () {
                   response_format: "b64_json",
                 }),
               (item) => assertImagesWithJSON(item, height, width),
+              imageGenerationModels,
             ),
             imageGenerationDeployments,
           );

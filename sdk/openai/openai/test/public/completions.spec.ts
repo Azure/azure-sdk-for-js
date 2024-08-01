@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure-tools/test-utils";
-import { assert, describe, beforeEach, it } from "vitest";
+import { assert, describe, beforeEach, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
-import { APIMatrix, APIVersion } from "./utils/utils.js";
+import { APIMatrix, APIVersion, DeploymentInfo } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
@@ -22,15 +22,13 @@ import {
 } from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import "@azure/openai/types";
-import { RestError } from "@azure/core-rest-pipeline";
+import { functionCallModels } from "./utils/models.js";
 
 describe("Completions", function () {
-  let deployments: string[] = [];
+  let deployments: DeploymentInfo[] = [];
 
-  beforeEach(async function () {
-    if (!deployments.length) {
-      deployments = await getDeployments("completions");
-    }
+  beforeAll(async function () {
+    deployments = await getDeployments("completions");
   });
 
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -175,7 +173,7 @@ describe("Completions", function () {
             required: ["location"],
           },
         };
-        const chatCompletionDeployments: string[] = [];
+        const chatCompletionDeployments: DeploymentInfo[] = [];
 
         describe("getChatCompletions", function () {
           it("returns completions across all models", async function () {
@@ -214,29 +212,25 @@ describe("Completions", function () {
                   if (!responseMessage?.function_call) {
                     assert.fail("Undefined function call");
                   }
-                  // add try catch block to handle the error
-                  try {
-                    const functionArgs = JSON.parse(responseMessage.function_call.arguments);
-                    weatherMessages.push(responseMessage);
-                    weatherMessages.push({
-                      role: "function",
-                      name: responseMessage.function_call.name,
-                      content: JSON.stringify({
-                        location: functionArgs.location,
-                        temperature: "72",
-                        unit: functionArgs.unit,
-                        forecast: ["sunny", "windy"],
-                      }),
-                    });
-                  } catch {
-                    throw new RestError("JSON parse failure");
-                  }
+                  const functionArgs = JSON.parse(responseMessage.function_call.arguments);
+                  weatherMessages.push(responseMessage);
+                  weatherMessages.push({
+                    role: "function",
+                    name: responseMessage.function_call.name,
+                    content: JSON.stringify({
+                      location: functionArgs.location,
+                      temperature: "72",
+                      unit: functionArgs.unit,
+                      forecast: ["sunny", "windy"],
+                    }),
+                  });
                   return client.chat.completions.create({
                     model: deploymentName,
                     messages: weatherMessages,
                   });
                 },
                 (result) => assertChatCompletions(result, { functions: true }),
+                functionCallModels,
               ),
               chatCompletionDeployments,
             );

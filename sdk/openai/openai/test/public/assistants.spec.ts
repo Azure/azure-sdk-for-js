@@ -6,11 +6,8 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { createClient } from "./utils/createClient.js";
 import OpenAI, { AzureOpenAI } from "openai";
-import { APIVersion, handleAssistantsRunFailure } from "./utils/utils.js";
+import { APIVersion, handleAssistantsRunFailure, Metadata } from "./utils/utils.js";
 
-interface Metadata {
-  foo: string;
-}
 describe("OpenAIAssistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
@@ -27,7 +24,7 @@ describe("OpenAIAssistants", () => {
       };
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "dalle");
+        client = createClient(apiVersion, "vision");
       });
 
       describe("all CRUD APIs", function () {
@@ -73,7 +70,7 @@ describe("OpenAIAssistants", () => {
 
           const updateThreadResponse = await client.beta.threads.update(threadResponse.id, thread);
           assert.equal(threadResponse.id, updateThreadResponse.id);
-          assert.equal((updateThreadResponse.metadata as any).foo, newMetadataValue);
+          assert.equal((updateThreadResponse.metadata as Metadata).foo, newMetadataValue);
           const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
           assert.equal(deleteThreadResponse.deleted, true);
         });
@@ -103,7 +100,7 @@ describe("OpenAIAssistants", () => {
           if (messageContent.type === "text") {
             assert.equal(messageContent.text.value, content);
           }
-          assert.equal((messageResponse.metadata as any).foo, metadataValue);
+          assert.equal((messageResponse.metadata as Metadata).foo, metadataValue);
           const getMessageResponse = await client.beta.threads.messages.retrieve(
             threadResponse.id,
             messageResponse.id || "",
@@ -114,7 +111,7 @@ describe("OpenAIAssistants", () => {
           if (messageContent.type === "text") {
             assert.equal(messageContent.text.value, content);
           }
-          assert.equal((getMessageResponse.metadata as any).foo, metadataValue);
+          assert.equal((getMessageResponse.metadata as Metadata).foo, metadataValue);
 
           const newMetadataValue = "other value";
           messageOptions.metadata.foo = newMetadataValue;
@@ -125,7 +122,7 @@ describe("OpenAIAssistants", () => {
             messageOptions,
           );
           assert.equal(messageResponse.id, updateMessageResponse.id);
-          assert.equal((updateMessageResponse.metadata as any).foo, newMetadataValue);
+          assert.equal((updateMessageResponse.metadata as Metadata).foo, newMetadataValue);
 
           const listLength = 1;
           const oneMessageList = await client.beta.threads.messages.list(threadResponse.id, {

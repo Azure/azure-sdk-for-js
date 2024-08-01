@@ -2,19 +2,17 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure-tools/test-utils";
-import { assert, describe, beforeEach, it } from "vitest";
+import { assert, describe, beforeEach, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
-import { APIMatrix, APIVersion, getDeployments } from "./utils/utils.js";
+import { APIMatrix, APIVersion, DeploymentInfo, getDeployments } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
 
 describe("OpenAI", function () {
-  let deployments: string[] = [];
+  let deployments: DeploymentInfo[] = [];
 
-  beforeEach(async function () {
-    if (!deployments.length) {
-      deployments = await getDeployments("completions");
-    }
+  beforeAll(async function () {
+    deployments = await getDeployments("vision");
   });
 
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -22,7 +20,7 @@ describe("OpenAI", function () {
       let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "dalle");
+        client = createClient(apiVersion, "vision");
       });
 
       describe("getChatCompletions", function () {
@@ -51,7 +49,10 @@ describe("OpenAI", function () {
             ],
           });
           assertChatCompletions(res);
-          assert.isTrue(res.choices[0].message?.content?.includes("snow") || res.choices[0].message?.content?.includes("icy"));
+          assert.isTrue(
+            res.choices[0].message?.content?.includes("snow") ||
+              res.choices[0].message?.content?.includes("icy"),
+          );
         });
       });
     });

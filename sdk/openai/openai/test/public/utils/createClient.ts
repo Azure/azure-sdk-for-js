@@ -12,8 +12,8 @@ import { getBearerTokenProvider } from "@azure/identity";
 import {
   EnvironmentVariableNames,
   EnvironmentVariableNamesForCompletions,
-  EnvironmentVariableNamesForDalle,
-  EnvironmentVariableNamesForWhisper,
+  EnvironmentVariableNamesForVision,
+  EnvironmentVariableNamesForAudio,
 } from "./envVars.js";
 import { APIVersion, DeploymentType } from "./utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -21,12 +21,12 @@ import { createTestCredential } from "@azure-tools/test-credential";
 const scope = "https://cognitiveservices.azure.com/.default";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  [EnvironmentVariableNames.ENDPOINT_DALLE]: "https://endpoint/",
-  [EnvironmentVariableNames.ENDPOINT_WHISPER]: "https://endpoint/",
+  [EnvironmentVariableNames.ENDPOINT_VISION]: "https://endpoint/",
+  [EnvironmentVariableNames.ENDPOINT_AUDIO]: "https://endpoint/",
   [EnvironmentVariableNames.ENDPOINT_COMPLETIONS]: "https://endpoint/",
   [EnvironmentVariableNames.RESOURCE_GROUP]: "resource_group",
-  [EnvironmentVariableNames.ACCOUNT_NAME_DALLE]: "account_name",
-  [EnvironmentVariableNames.ACCOUNT_NAME_WHISPER]: "account_name",
+  [EnvironmentVariableNames.ACCOUNT_NAME_VISION]: "account_name",
+  [EnvironmentVariableNames.ACCOUNT_NAME_AUDIO]: "account_name",
   [EnvironmentVariableNames.ACCOUNT_NAME_COMPLETIONS]: "account_name",
   [EnvironmentVariableNames.SUBSCRIPTION_ID]: "subscription_id",
   [EnvironmentVariableNames.AZURE_SEARCH_ENDPOINT]: "azure_search_endpoint",
@@ -47,8 +47,8 @@ const recorderStartOptions: RecorderStartOptions = {
 };
 
 const environmentVariableNamesForResourceType = {
-  dalle: EnvironmentVariableNamesForDalle,
-  whisper: EnvironmentVariableNamesForWhisper,
+  vision: EnvironmentVariableNamesForVision,
+  audio: EnvironmentVariableNamesForAudio,
   completions: EnvironmentVariableNamesForCompletions,
 };
 
@@ -82,16 +82,16 @@ function getEndpointFromResourceType(resourceType: DeploymentType): {
   endpoint: string;
 } {
   switch (resourceType) {
-    case "dalle":
+    case "vision":
       return {
         endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_DALLE,
+          environmentVariableNamesForResourceType[resourceType].ENDPOINT_VISION,
         ),
       };
-    case "whisper":
+    case "audio":
       return {
         endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_WHISPER,
+          environmentVariableNamesForResourceType[resourceType].ENDPOINT_AUDIO,
         ),
       };
     case "completions":
