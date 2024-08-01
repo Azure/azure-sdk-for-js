@@ -359,7 +359,11 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           const endpoint = `sb://${host}/`;
           const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
             host,
-            new DefaultAzureCredential(),
+            new DefaultAzureCredential({
+              // Work around Msi credential issue in live test pipeline by failing
+              // its token retrieval
+              managedIdentityClientId: "fakeMsiClientId",
+            }),
           );
 
           should.equal(

@@ -490,4 +490,5 @@ export enum QueryFeature {
   GroupBy = "GroupBy",
   MultipleAggregates = "MultipleAggregates",
   NonStreamingOrderBy = "NonStreamingOrderBy",
+  ListAndSetAggregate = "ListAndSetAggregate",
 }
