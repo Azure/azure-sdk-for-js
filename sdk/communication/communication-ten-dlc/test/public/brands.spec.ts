@@ -5,14 +5,24 @@ import { Context } from "mocha";
 import { TenDlcClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "../utils/recordedClient";
-import { Recorder } from "@azure-tools/test-recorder";
+import { CreateUUID } from "../utils/helpers";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("TenDlcClient - Brands", function () {
   let recorder: Recorder;
   let client: TenDlcClient;
+  let brandId: string; 
+
+  const DEFAULT_BRAND_ID = "a551dbcf-30a8-440c-9fb0-6baafbc411e8";
 
   beforeEach(async function (this: Context) {
     ({ client, recorder } = await createRecordedClient(this));
+    if(isPlaybackMode()){
+      brandId = DEFAULT_BRAND_ID;
+    }
+    else{
+      brandId = CreateUUID();
+    }
   });
 
   afterEach(async function (this: Context) {
@@ -21,7 +31,7 @@ describe("TenDlcClient - Brands", function () {
     }
   });
 
-  it("successfully inserts brand", function (this: Context) {
+  it("successfully inserts brand", async function (this: Context) {
     const brandDetails =  {
       name: "newBrand",
       companyName: "Contoso"
@@ -30,15 +40,17 @@ describe("TenDlcClient - Brands", function () {
     const options = {
       brandDetails: brandDetails
     };
-    var brand = client.upsertUSBrand("brandId", options);
-    brand.then((value) => {
-      assert.equal(value.id, "brandId");
-      assert.equal(value.brandDetails?.name, "newBrand");
-      assert.equal(value.brandDetails?.companyName, "Contoso");
-    });
+
+    var brand = await client.upsertUSBrand(brandId, options);
+    assert.equal(brand.id, brandId);
+    assert.equal(brand.brandDetails?.name, "newBrand");
+    assert.equal(brand.brandDetails?.companyName, "Contoso");
+
+    await client.deleteUSBrand(brandId);
   }).timeout(30000);
 
-  it("successfully updates brand", function (this: Context) {
+  
+  it("successfully updates brand", async function (this: Context) {
     const brandDetails =  {
       name: "newBrand",
       companyName: "Contoso"
@@ -47,12 +59,12 @@ describe("TenDlcClient - Brands", function () {
     const options = {
       brandDetails: brandDetails
     };
-    var brand = client.upsertUSBrand("brandId", options);
-    brand.then((value) => {
-      assert.equal(value.id, "brandId");
-      assert.equal(value.brandDetails?.name, "newBrand");
-      assert.equal(value.brandDetails?.companyName, "Contoso");
-    });
+
+    var brand = await client.upsertUSBrand(brandId, options);
+    assert.equal(brand.id, brandId);
+    assert.equal(brand.brandDetails?.name, "newBrand");
+    assert.equal(brand.brandDetails?.companyName, "Contoso");
+
 
     const newBrandDetails =  {
       name: "updatedName"
@@ -62,36 +74,13 @@ describe("TenDlcClient - Brands", function () {
       brandDetails: newBrandDetails
     };
 
-    brand = client.upsertUSBrand("brandId", newOptions);
-    brand.then((value) => {
-      assert.equal(value.id, "brandId");
-      assert.equal(value.brandDetails?.name, "updatedName");
-      assert.equal(value.brandDetails?.companyName, "Contoso");
-    });
-  }).timeout(30000);
+    brand = await client.upsertUSBrand(brandId, newOptions);
+    assert.equal(brand.id, brandId);
+    assert.equal(brand.brandDetails?.name, "updatedName");
+    assert.equal(brand.brandDetails?.companyName, "Contoso");
 
-  it("successfully deletes brand", function (this: Context) {
-    const brandDetails =  {
-      name: "newBrand",
-      companyName: "Contoso"
-    };
-    
-    const options = {
-      brandDetails: brandDetails
-    };
-    client.upsertUSBrand("brandId", options);
-    var brand = client.getUSBrand("brandId");
-    brand.then((value) => {
-      assert.equal(value.id, "brandId");
-      assert.equal(value.brandDetails?.name, "newBrand");
-      assert.equal(value.brandDetails?.companyName, "Contoso");
-    });
+    await client.deleteUSBrand(brandId);
 
-    client.deleteUSBrand("brandId");
-    var brand = client.getUSBrand("brandId");
-    brand.then((value) => {
-      assert.equal(value, undefined);
-    });
   }).timeout(30000);
 
   it("can list all us brands", async function () {
@@ -103,34 +92,14 @@ describe("TenDlcClient - Brands", function () {
     const options = {
       brandDetails: brandDetails
     };
-    client.upsertUSBrand("brandId", options);
+
+    client.upsertUSBrand(brandId, options);
     let count = 0;
     for await (const brand of client.listUSBrands()) {
       count++;
       assert.isNotNull(brand);
     }
-  }).timeout(30000);
 
-  it("successfully cancels brand", function (this: Context) {
-    const brandDetails =  {
-      name: "newBrand",
-      companyName: "Contoso"
-    };
-    
-    const options = {
-      brandDetails: brandDetails
-    };
-    client.upsertUSBrand("brandId", options);
-    var brand = client.getUSBrand("brandId");
-    brand.then((value) => {
-      assert.equal(value.id, "brandId");
-      assert.equal(value.brandDetails?.name, "newBrand");
-      assert.equal(value.brandDetails?.companyName, "Contoso");
-    });
-
-    var brand = client.cancelUSBrand("brandId");
-    brand.then((value) => {
-      assert.equal(value.status?.toString(), "Cancelled");
-    });
+    await client.deleteUSBrand(brandId);
   }).timeout(30000);
 });

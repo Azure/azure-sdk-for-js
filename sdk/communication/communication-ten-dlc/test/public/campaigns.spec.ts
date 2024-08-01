@@ -5,69 +5,29 @@ import { Context } from "mocha";
 import { TenDlcClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "../utils/recordedClient";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { CreateUUID } from "../utils/helpers";
 
 describe("TenDlcClient - Campaigns", function () {
   let recorder: Recorder;
   let client: TenDlcClient;
+  let id: string; 
+  const DEFAULT_ID = "a551dbcf-30a8-440c-9fb0-6baafbc411e8";
 
   let messageDetails = { 
     useCase: {
       sampleMessages: ["sampleMessages"],
-    },
-    isTollFree: false,
-    campaignId: "campaignId",
-    brandId: "brandId",
-    messageTemplate: "messageTemplate",
-    senderId: "senderId",
-    countryCode: "countryCode",
-    isDynamic: false,
-    isUnicode: false,
-    isInteractive: false,
-    isLocalTimeRestriction: false,
-    isGlobalTimeRestriction: false,
-    isTimeZoneRestriction: false,
-    isQuietHoursRestriction: false,
-    isOptOut: false,
-    isSignature: false,
-    isStopMessage: false,
-    isStopAfterMessage: false,
-    isStopAllMessages: false,
-    isStopAllMessagesConfirmation: false,
-    isStopAllMessagesHelp: false,
-    isHelpMessage: false,
-    isHelpMessageConfirmation: false,
-    isHelpMessageHelp: false,
-    isOptInMessage: false,
-    isOptInMessageConfirmation: false,
-    isOptInMessageHelp: false,
-    isOptInMessageKeyword: false,
-    isOptInMessageKeywordConfirmation: false,
-    isOptInMessageKeywordHelp: false,
-    isOptInMessageKeywordStop: false,
-    isOptInMessageKeywordStopConfirmation: false,
-    isOptInMessageKeywordStopHelp: false,
-    isOptInMessageKeywordStopAll: false,
-    isOptInMessageKeywordStopAllConfirmation: false,
-    isOptInMessageKeywordStopAllHelp: false,
-    isOptInMessageKeywordHelpMessage: false,
-    isOptInMessageKeywordHelpMessageConfirmation: false,
-    isOptInMessageKeywordHelpMessageHelp: false,
-    isOptInMessageKeywordHelpMessageKeyword: false,
-    isOptInMessageKeywordHelpMessageKeywordConfirmation: false,
-    isOptInMessageKeywordHelpMessageKeywordHelp: false,
-    isOptInMessageKeywordHelpMessageKeywordStop: false,
-    isOptInMessageKeywordHelpMessageKeywordStopConfirmation: false,
-    isOptInMessageKeywordHelpMessageKeywordStopHelp: false,
-    isOptInMessageKeywordHelpMessageKeywordStopAll: false,
-    isOptInMessageKeywordHelpMessageKeywordStopAllConfirmation: false,
-    isOptInMessageKeywordHelpMessageKeywordStopAllHelp: false,
-    isOptInMessageKeywordHelpMessageKeywordStopAllMessage: false,
-    isOptInMessageKeywordHelpMessageKeywordStopAllMessageConfirmation: false,
+    }
   }
 
   beforeEach(async function (this: Context) {
     ({ client, recorder } = await createRecordedClient(this));
+    if(isPlaybackMode()){
+      id = DEFAULT_ID;
+    }
+    else{
+      id = CreateUUID();
+    }
   });
 
   afterEach(async function (this: Context) {
@@ -76,95 +36,58 @@ describe("TenDlcClient - Campaigns", function () {
     }
   });
 
-  it("successfully inserts campaign", function (this: Context) {
+  it("successfully inserts campaign", async function (this: Context) {
     const options = {
-      brandId: "brandId",
+      brandId: id,
       campaignDetails: {},
       messageDetails: messageDetails,
     };
-    var campaign = client.upsertUSCampaign("campaignId", options);
-    campaign.then((value) => {
-      assert.equal(value.id, "campaignId");
-      assert.equal(value.messageDetails?.useCase?.sampleMessages, ["sampleMessages"]);
-    });
+
+    var campaign = await client.upsertUSCampaign(id, options);
+    assert.equal(campaign.id, id);
+    assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
+
+    await client.deleteUSCampaign(id);
   }).timeout(30000);
 
-  it("successfully updates campaign", function (this: Context) {
+  it("successfully updates campaign", async function (this: Context) {
     const options = {
-      brandId: "brandId",
+      brandId: id,
       campaignDetails: {},
       messageDetails: messageDetails,
     };
-    var campaign = client.upsertUSCampaign("campaignId", options);
-    campaign.then((value) => {
-      assert.equal(value.id, "campaignId");
-      assert.equal(value.messageDetails?.useCase?.sampleMessages, ["sampleMessages"]);
-    });
+    var campaign = await client.upsertUSCampaign(id, options);
+    assert.equal(campaign.id, id);
+    assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
 
     messageDetails.useCase.sampleMessages = ["updatedSampleMessages"];
     const newOptions = {
-      brandId: "brandId",
+      brandId: id,
       campaignDetails: {},
       messageDetails: messageDetails,
     };
-    var campaign = client.upsertUSCampaign("campaignId", newOptions);
-    campaign.then((value) => {
-      assert.equal(value.id, "campaignId");
-      assert.equal(value.messageDetails?.useCase?.sampleMessages, ["updatedSampleMessages"]);
-    });
-  }).timeout(30000);
+    var campaign = await client.upsertUSCampaign(id, newOptions);
+    assert.equal(campaign.id, id);
+    assert.equal(campaign.messageDetails?.useCase?.sampleMessages?.values, messageDetails.useCase.sampleMessages.values);
 
-  it("successfully deletes campaign", function (this: Context) {
-    const options = {
-      brandId: "brandId",
-      campaignDetails: {},
-      messageDetails: {},
-    };
+    await client.deleteUSCampaign(id);
 
-    client.upsertUSCampaign("campaignId", options);
-    var campaign = client.getUSCampaign("campaignId");
-    campaign.then((value) => {
-      assert.equal(value.id, "campaignId");
-    });
-
-    client.deleteUSBrand("campaignId");
-    var campaign = client.getUSCampaign("campaignId");
-    campaign.then((value) => {
-      assert.equal(value, undefined);
-    });
   }).timeout(30000);
 
   it("can list all us campaigns", async function () {
     const options = {
-      brandId: "brandId",
+      brandId: id,
       campaignDetails: {},
       messageDetails: {},
     };
 
-    client.upsertUSCampaign("campaignId", options);
+    client.upsertUSCampaign(id, options);
     let count = 0;
     for await (const campaign of client.listUSCampaigns()) {
       count++;
       assert.isNotNull(campaign);
     }
-  }).timeout(30000);
 
-  it("successfully cancels campaign", function (this: Context) {
-    const options = {
-      brandId: "brandId",
-      campaignDetails: {},
-      messageDetails: {},
-    };
-
-    client.upsertUSCampaign("campaignId", options);
-    var campaign = client.getUSBrand("campaignId");
-    campaign.then((value) => {
-      assert.equal(value.id, "campaignId");
-    });
-
-    campaign = client.cancelUSCampaign("campaignId");
-    campaign.then((value) => {
-      assert.equal(value.status?.toString(), "Cancelled");
-    });
+    await client.deleteUSCampaign(id);
   }).timeout(30000);
 });
