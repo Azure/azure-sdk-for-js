@@ -14,7 +14,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force adherence to SemVer guidelines",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

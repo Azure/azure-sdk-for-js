@@ -50,7 +50,7 @@ export function commitAll(message: string): Promise<void> {
     });
 
     command.on("exit", (code) => {
-      code === 0 ? resolve() : reject("git exited nonzero");
+      return code === 0 ? resolve() : reject("git exited nonzero");
     });
     command.on("error", reject);
   });
@@ -70,7 +70,7 @@ export function add(...paths: string[]): Promise<void> {
     });
 
     command.on("exit", (code) => {
-      code === 0 ? resolve() : reject("git exited nonzero");
+      return code === 0 ? resolve() : reject("git exited nonzero");
     });
     command.on("error", reject);
   });
@@ -96,7 +96,7 @@ export function getConfig(
     let output = "";
     command.stdout.on("data", (data) => (output += data.toString()));
     command.on("exit", (code) => {
-      code === 0 ? resolve(output.trim()) : resolve(undefined);
+      return code === 0 ? resolve(output.trim()) : resolve(undefined);
     });
     command.on("error", reject);
   });
@@ -110,7 +110,7 @@ export function checkout(name: string, options: { create?: boolean } = {}): Prom
     });
 
     command.on("exit", (code) => {
-      code === 0 ? resolve() : reject("git exited nonzero");
+      return code === 0 ? resolve() : reject("git exited nonzero");
     });
     command.on("error", reject);
   });
@@ -123,7 +123,7 @@ export function currentBranch(): Promise<string> {
     let output = "";
     command.stdout.on("data", (data) => (output += data.toString()));
     command.on("exit", (code) => {
-      code === 0 ? resolve(output.trim()) : reject("git exited nonzero");
+      return code === 0 ? resolve(output.trim()) : reject("git exited nonzero");
     });
     command.on("error", reject);
   });

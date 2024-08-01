@@ -83,7 +83,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
   }
 
   async cleanup() {
-    this.subscriber && (await this.subscriber.close());
+    await this.subscriber?.close();
     await this.receiver.close();
   }
 

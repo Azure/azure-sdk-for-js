@@ -36,6 +36,7 @@ const markdownConfigs: FlatConfig.ConfigArray = [
       ],
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
   {
@@ -50,6 +51,7 @@ const markdownConfigs: FlatConfig.ConfigArray = [
     ...typescriptEslint.configs.disableTypeChecked,
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
     },
   },
 ];

@@ -40,7 +40,7 @@ export class AzureMonitorStatsbeatExporter
   /**
    * Export Statsbeat metrics.
    */
-  // eslint-disable-next-line @typescript-eslint/require-await
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-misused-promises
   async export(
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void,

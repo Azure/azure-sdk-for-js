@@ -20,7 +20,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json to specify types according to package directory",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

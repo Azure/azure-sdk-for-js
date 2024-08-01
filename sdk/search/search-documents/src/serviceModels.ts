@@ -1116,7 +1116,6 @@ export interface SynonymMap {
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
@@ -1124,7 +1123,6 @@ export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
 /**
@@ -1132,7 +1130,6 @@ export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchI
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 /**
