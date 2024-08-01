@@ -1,21 +1,14 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
  * @summary Shows various ways to manage indexing items or changing container index policies.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import {
-  CosmosClient,
-  IndexKind,
-  DataType,
-  ContainerDefinition,
-  IndexingMode,
-} from "@azure/cosmos";
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+const { CosmosClient, IndexKind, DataType, IndexingMode } = require("@azure/cosmos");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -27,7 +20,7 @@ logSampleHeader("Index Management");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run(): Promise<void> {
+async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   // We're using the default indexing policy because by default indexingMode == consistent & automatic == true
@@ -228,7 +221,7 @@ async function run(): Promise<void> {
       .fetchAll();
     console.log(result.resources);
     throw new Error("Should've produced an error");
-  } catch (err: any) {
+  } catch (err) {
     if (err instanceof Error) {
       if (err && err.message !== undefined) {
         console.log("Threw, as expected");
@@ -244,7 +237,7 @@ async function run(): Promise<void> {
 
   logStep("Composite Indexes");
   console.log("create container with composite indexes");
-  const containerDefWithCompositeIndexes: ContainerDefinition = {
+  const containerDefWithCompositeIndexes = {
     id: "containerWithCompositeIndexingPolicy",
     indexingPolicy: {
       automatic: true,

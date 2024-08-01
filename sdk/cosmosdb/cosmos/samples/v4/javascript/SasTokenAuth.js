@@ -5,16 +5,14 @@
  * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import {
+const {
   CosmosClient,
-  SasTokenProperties,
   createAuthorizationSasToken,
   SasTokenPermissionKind,
-} from "@azure/cosmos";
-import { handleError, finish, logStep } from "./Shared/handleError";
+} = require("@azure/cosmos");
+const { handleError, finish, logStep } = require("./Shared/handleError");
 const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const sasToken = "your-sas-token";
@@ -36,7 +34,7 @@ async function run() {
     controlPlaneWriterScope: 0,
     dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
     dataPlaneWriterScope: 0,
-  } as unknown as SasTokenProperties;
+  };
 
   const key = await createAuthorizationSasToken(masterKey, sasTokenProperties);
 
@@ -66,7 +64,7 @@ async function run() {
   // read all items in the Items container
   const { resources: items } = await container.items.query(querySpec).fetchAll();
 
-  items.forEach((item: { id: any; description: any }) => {
+  items.forEach((item) => {
     console.log(`${item.id} - ${item.description}`);
   });
 

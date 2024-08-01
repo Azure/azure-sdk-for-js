@@ -15,6 +15,7 @@ import {
   OperationInput,
   Container,
   PatchOperationType,
+  GatewayStatistics,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -122,9 +123,11 @@ function displayCosmosDiagnosticsObject(diagnostics: any, target: string) {
   );
   console.log(`    ## Location endpoints contacted during operation - `);
 
-  diagnostics.clientSideRequestStatistics.locationEndpointsContacted.forEach((url, index) => {
-    console.log(`    #### ${index}: ${url}`);
-  });
+  diagnostics.clientSideRequestStatistics.locationEndpointsContacted.forEach(
+    (url: string, index: number) => {
+      console.log(`    #### ${index}: ${url}`);
+    },
+  );
   const failedAttempts = diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts;
   console.log(`    ## Attempts failied during during operation - ${failedAttempts.length}`);
 
@@ -132,13 +135,13 @@ function displayCosmosDiagnosticsObject(diagnostics: any, target: string) {
     diagnostics.clientSideRequestStatistics.metadataDiagnostics.metadataLookups;
   console.log(`    ## Metadata lookups during during operation - ${metadataLookups.length}`);
 
-  metadataLookups.forEach((lookup, index) => {
+  metadataLookups.forEach((lookup: number, index: number) => {
     console.log(`    #### lookup ${index} : ${JSON.stringify(lookup)}`);
   });
 
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   console.log(`    ## gatewayStatistics during during operation - ${gatewayStatistics.length}`);
-  metadataLookups.forEach((gatewayStatistics, index) => {
+  metadataLookups.forEach((gatewayStatistics: GatewayStatistics, index: number) => {
     console.log(`    #### gatewayStatistics ${index} : ${JSON.stringify(gatewayStatistics)}`);
   });
   console.log("######################################################################");

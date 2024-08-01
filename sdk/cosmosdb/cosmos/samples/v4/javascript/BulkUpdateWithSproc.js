@@ -5,14 +5,13 @@
  * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "@azure/cosmos";
-import { randomUUID } from "@azure/core-util";
+const { CosmosClient } = require("@azure/cosmos");
+const { randomUUID } = require("@azure/core-util");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -20,19 +19,19 @@ const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy
-let getContext: any;
+let getContext;
 
-function body(continuation: string): void {
+function body(continuation) {
   const collection = getContext().getCollection();
   const response = getContext().getResponse();
-  const responseBody: any = { updatedDocumentIds: [] }; // Setup Initial Response
+  const responseBody = { updatedDocumentIds: [] }; // Setup Initial Response
 
   // Find all documents that need to be updated
   collection.queryDocuments(
     collection.getSelfLink(),
     "SELECT * FROM root r",
     { pageSize: 2, continuation }, // Setting this low to show how continuation tokens work
-    function (err: any, feed: any, options: any) {
+    function (err, feed, options) {
       if (err) throw err;
       // Set continuation token on response if we get one
       responseBody.continuation = options.continuation;
@@ -41,7 +40,7 @@ function body(continuation: string): void {
     },
   );
 
-  function updateDocs(documents: any, responseBodyParam: any): void {
+  function updateDocs(documents, responseBodyParam) {
     if (documents.length === 0) {
       // If no documents are left to update, we are done
       response.setBody(responseBodyParam);
@@ -49,7 +48,7 @@ function body(continuation: string): void {
       // Grab the next document to update
       const document = documents.pop();
       document.state = "open";
-      collection.replaceDocument(document._self, document, {}, function (err: any) {
+      collection.replaceDocument(document._self, document, {}, function (err) {
         if (err) throw err;
         // If we have successfully updated the document, include it in the returned document ids
         responseBodyParam.updatedDocumentIds.push(document.id);
@@ -63,7 +62,7 @@ function body(continuation: string): void {
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run(): Promise<void> {
+async function run() {
   // ensuring a database & container exists for us to work with
   logStep("Create database '" + databaseId + "' and container '" + containerId + "'");
   const { database } = await client.databases.createIfNotExists({ id: databaseId }, {});
@@ -83,11 +82,11 @@ async function run(): Promise<void> {
   });
 
   logStep("Execute stored procedure and follow continuation tokens");
-  let continuation: string | undefined = undefined;
+  let continuation = undefined;
   let totalUpdatedDocuments = 0;
   for (;;) {
     const response = await storedProcedure.execute(null, [continuation]);
-    const result: any = response.resource;
+    const result = response.resource;
     totalUpdatedDocuments = totalUpdatedDocuments + result.updatedDocumentIds.length;
     console.log(`Updated Documents: ${result.updatedDocumentIds}`);
     continuation = result.continuation;

@@ -1,23 +1,19 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
  * @summary Demonstrates container create, read, delete and reading all containers belonging to a database.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
-import {
-  ContainerDefinition,
+const { finish, handleError, logStep, logSampleHeader } = require("./Shared/handleError");
+const {
   CosmosClient,
-  IndexingPolicy,
-  SpatialIndex,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
-} from "@azure/cosmos";
+} = require("@azure/cosmos");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -28,7 +24,7 @@ logSampleHeader("Container Management");
 const client = new CosmosClient({ endpoint, key });
 
 // ensuring a database exists for us to work with
-async function run(): Promise<void> {
+async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   logStep(`Create container with id : ${containerId}`);
@@ -131,7 +127,7 @@ async function run(): Promise<void> {
     ],
   };
 
-  const indexingPolicy: IndexingPolicy = {
+  const indexingPolicy = {
     automatic: true,
     indexingMode: "consistent",
     compositeIndexes: [
@@ -140,7 +136,7 @@ async function run(): Promise<void> {
         { path: "/stringField", order: "descending" },
       ],
     ],
-    spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }] as SpatialIndex[],
+    spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }],
     vectorIndexes: [
       { path: "/vector1", type: VectorIndexType.Flat },
       { path: "/vector2", type: VectorIndexType.QuantizedFlat },
@@ -148,7 +144,7 @@ async function run(): Promise<void> {
     ],
   };
 
-  const containerDefinition: ContainerDefinition = {
+  const containerDefinition = {
     id: "ContainerWithVectorPolicy",
     partitionKey: { paths: ["/id"] },
     indexingPolicy: indexingPolicy,

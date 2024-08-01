@@ -1,17 +1,16 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { CosmosClient, PatchOperation, PriorityLevel } from "@azure/cosmos";
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+const { CosmosClient, PriorityLevel } = require("@azure/cosmos");
 
-import { Families } from "./Data/Families.json";
+const { Families } = require("./Data/Families.json");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -23,14 +22,14 @@ logSampleHeader("Item Management");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run(): Promise<void> {
+async function run() {
   // ensuring a database & container exists for us to work with
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({ id: containerId });
 
   logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
 
-  await Promise.all(Families.map((itemDef: any) => container.items.create(itemDef)));
+  await Promise.all(Families.map((itemDef) => container.items.create(itemDef)));
   console.log(Families.length + " items created");
 
   logStep("List items in container '" + container.id + "'");
@@ -39,7 +38,7 @@ async function run(): Promise<void> {
   for (const itemDef of itemDefList) {
     console.log(itemDef.id);
   }
-  const id = itemDefList[0]!.id;
+  const id = itemDefList[0].id;
   if (typeof id === "undefined") {
     throw new Error("Id is undefined");
   }
@@ -143,7 +142,7 @@ async function run(): Promise<void> {
   try {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
-  } catch (err: any) {
+  } catch (err) {
     if (err) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
@@ -153,9 +152,7 @@ async function run(): Promise<void> {
 
   const upsertSource = itemDefList[1];
   logStep(
-    `Upserting person ${upsertSource && upsertSource.id} with id ${
-      upsertSource && upsertSource.id
-    }...`,
+    `Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource && upsertSource.id}...`,
   );
 
   // a non-identity change will cause an update on upsert
@@ -179,7 +176,7 @@ async function run(): Promise<void> {
   logStep("Patching an item with single patch operation");
   const patchSource = itemDefList.find((t) => t.id == "AndersenFamily");
   console.log(JSON.stringify(patchSource));
-  const replaceOperation: PatchOperation[] = [
+  const replaceOperation = [
     {
       op: "replace",
       path: "/lastName",
@@ -191,11 +188,11 @@ async function run(): Promise<void> {
     if (typeof id === "undefined") {
       throw new Error("ID for old offer is undefined");
     }
-    const { resource: patchSource1 } = await container.item(patchId!).patch(replaceOperation);
+    const { resource: patchSource1 } = await container.item(patchId).patch(replaceOperation);
     if (patchSource1)
       console.log(`Patched ${patchSource.lastName} to new ${patchSource1.lastName}.`);
     logStep("Patching an item with multiple patch operations");
-    const multipleOperations: PatchOperation[] = [
+    const multipleOperations = [
       {
         op: "add",
         path: "/aka",
@@ -221,13 +218,13 @@ async function run(): Promise<void> {
         value: 5,
       },
     ];
-    const { resource: patchSource2 } = await container.item(patchId!).patch(multipleOperations);
+    const { resource: patchSource2 } = await container.item(patchId).patch(multipleOperations);
     if (patchSource2) {
       console.log(`Patched ${JSON.stringify(patchSource)} to new ${JSON.stringify(patchSource2)}.`);
     }
 
     logStep("Conditionally Patching an item using it's id");
-    const operations: PatchOperation[] = [
+    const operations = [
       {
         op: "add",
         path: "/newImproved",
@@ -236,7 +233,7 @@ async function run(): Promise<void> {
     ];
     const condition = "from c where NOT IS_DEFINED(c.newImproved)";
     const { resource: patchSource3 } = await container
-      .item(patchId!)
+      .item(patchId)
       .patch({ condition, operations });
     if (patchSource3) {
       console.log(`Patched ${JSON.stringify(patchSource)} to new ${JSON.stringify(patchSource3)}.`);
