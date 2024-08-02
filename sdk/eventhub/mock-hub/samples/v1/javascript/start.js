@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { readFileSync } from "fs";
-import { resolve as resolvePath } from "path";
-import { MockEventHub } from "@azure/mock-hub";
+/**
+ * @summary Demonstrates how to start mock hub.
+ */
+
+const { readFileSync } = require("fs");
+const { resolve: resolvePath } = require("path");
+const { MockEventHub } = require("@azure/mock-hub");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv/config");
 
-export async function main(): Promise<void> {
+async function main() {
   const service = new MockEventHub({
     name: "mock-hub",
     partitionCount: 4,
@@ -18,8 +21,8 @@ export async function main(): Promise<void> {
     port: 5671,
     tlsOptions: {
       pfx: readFileSync(resolvePath(__dirname, "certs", "my-cert.pfx")),
-      passphrase: process.env["CERT_PASSPHRASE"]
-    }
+      passphrase: process.env["CERT_PASSPHRASE"],
+    },
   });
 
   await service.start();
@@ -33,3 +36,5 @@ export async function main(): Promise<void> {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
+
+module.exports = { main };

@@ -16,7 +16,7 @@ import {
 } from "rhea";
 import { EventEmitter } from "events";
 import { ListenOptions } from "net";
-import { convertBufferToMessages } from "../utils/convertBufferToMessage";
+import { convertBufferToMessages } from "../utils/convertBufferToMessage.js";
 
 export interface MockServerOptions {
   /**

@@ -22816,23 +22816,42 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-99HD352RDUUKNCbn1Y3NJ+sjxL5Jxnb8R5gSAHKabo7/MvXokFdvuB+47zrQt34kQszVTbf+g6ijNV+bKVpg7w==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-sojeKviiN1KL05kdwezTI4gIlst0VvHHJVcCJvowF05oip1cJb6KnriUSuFKli+mrk6K78Pnz9VAD36WXTZ/pA==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
       '@types/node': 18.19.42
+      '@vitest/browser': 2.0.5(playwright@1.45.3)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
+      playwright: 1.45.3
       rhea: 3.0.2
-      rimraf: 5.0.10
+      rimraf: 6.0.1
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
+      tshy: 3.0.2
       tslib: 2.6.3
       typescript: 5.5.4
+      vitest: 2.0.5(@types/node@18.19.42)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/monitor-ingestion.tgz:

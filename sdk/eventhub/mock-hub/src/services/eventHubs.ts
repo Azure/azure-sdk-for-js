@@ -18,21 +18,20 @@ import {
   ReceiverOpenEvent,
   SenderCloseEvent,
   SenderOpenEvent,
-} from "../server/mockServer";
+} from "../server/mockServer.js";
 import {
   generateBadPartitionInfoResponse,
   generatePartitionInfoResponse,
   isPartitionInfo,
-} from "../messages/event-hubs/partitionInfo";
+} from "../messages/event-hubs/partitionInfo.js";
 import {
   generateHubRuntimeInfoResponse,
   isHubRuntimeInfo,
-} from "../messages/event-hubs/runtimeInfo";
-import { MessageStore } from "../storage/messageStore";
-import { StreamingPartitionSender } from "../sender/streamingPartitionSender";
-import { URL } from "url";
-import { createCbsAccepted } from "../messages/cbs/cbsAccepted";
-import { getEventPosition } from "../utils/eventPosition";
+} from "../messages/event-hubs/runtimeInfo.js";
+import { MessageStore } from "../storage/messageStore.js";
+import { StreamingPartitionSender } from "../sender/streamingPartitionSender.js";
+import { createCbsAccepted } from "../messages/cbs/cbsAccepted.js";
+import { getEventPosition } from "../utils/eventPosition.js";
 
 export interface IMockEventHub {
   readonly partitionIds: string[];

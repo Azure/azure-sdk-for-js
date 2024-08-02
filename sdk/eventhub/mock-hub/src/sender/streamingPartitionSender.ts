@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { DeliveryAnnotations, Sender, SenderEvents, types } from "rhea";
-import { MessageRecord, MessageStore } from "../storage/messageStore";
-import { EventPosition } from "../utils/eventPosition";
-import { Message } from "rhea";
+import { DeliveryAnnotations, Message, Sender, SenderEvents, types } from "rhea";
+import { MessageRecord, MessageStore } from "../storage/messageStore.js";
+import { EventPosition } from "../utils/eventPosition.js";
 
 /**
  * The StreamingPartitionSender is responsible for sending stored events to a client
