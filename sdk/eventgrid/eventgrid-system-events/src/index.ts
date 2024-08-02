@@ -316,6 +316,9 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ServiceApiVersions,
   MediaJobOutputUnion,
+  AcsMessageAnalysisCompletedEventData,
+  AcsMessageLanguageDetection,
+  AcsMessageSentiment,
 } from "./cadl-generated";
 
 export {

@@ -1202,6 +1202,40 @@ export interface AcsMessageInteractiveListReplyContent {
   description?: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageAnalysisCompleted event. */
+export interface AcsMessageAnalysisCompletedEventData extends AcsMessageEventData {
+  /** The original message received. */
+  originalMessage: string;
+  /** The analysed message channel kind. */
+  channelKind: "whatsapp";
+  /** The intent of the analysed message. */
+  intentAnalysis: string;
+  /** List of key phrases extracted. */
+  keyPhraseExtraction: string[];
+  /** The analysed message language detection. */
+  languageDetection: AcsMessageLanguageDetection;
+  /** The analysed message sentiment. */
+  sentiment: AcsMessageSentiment;
+}
+
+/** Message Analysis Language Detection */
+export interface AcsMessageLanguageDetection {
+  /** The language of the message. */
+  language: string;
+  /** The confidence score of the language detected. */
+  confidenceScore: string;
+  /** The translation of the message. */
+  translation: string;
+}
+
+/** Message Analysis Sentiment */
+export interface AcsMessageSentiment {
+  /** The score of the analysis. */
+  score: number;
+  /** The description of the analysis. */
+  description: string;
+}
+
 /** The content of the event request message. */
 export interface ContainerRegistryEventData {
   /** The event ID. */

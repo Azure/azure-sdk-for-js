@@ -4,11 +4,10 @@
 
 ### Features Added
 
-### Breaking Changes
+- Several properties of `unknown` type have been changed to `any` type.
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.Communication.AdvancedMessageAnalysisCompleted`
 
 ## 1.0.0-beta.2 (2024-07-16)
 
