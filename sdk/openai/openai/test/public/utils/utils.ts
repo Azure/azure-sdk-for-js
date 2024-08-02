@@ -87,6 +87,7 @@ export async function withDeployments<T>(
         ].includes(error.code) ||
         error.type === "invalid_request_error" ||
         error.name === "AbortError" ||
+        errorStr.includes("Connection error") ||
         errorStr.includes("toolCalls")
       ) {
         logger.info(`Handled error: ${errorStr}`);
