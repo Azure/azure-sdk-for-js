@@ -58,7 +58,7 @@ export function createTestCredential(
     return createBrowserRelayCredential(tokenCredentialOptions);
   } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
-    const serviceConnectionID = process.env.AZURE_SERVICE_CONNECTION_ID;
+    const serviceConnectionID = process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
     const clientID = process.env.AZURESUBSCRIPTION_CLIENT_ID;
     const tenantID = process.env.AZURESUBSCRIPTION_TENANT_ID;
     const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
