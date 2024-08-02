@@ -100,14 +100,44 @@ describe("Live Metrics filtering - Validator", () => {
     };
 
     let emptyComparand: FilterInfo = {
-      fieldName: "InvalidFieldName",
+      fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Equal,
       comparand: ""
     };
 
-    let invalidAnyFieldPredicate: FilterInfo = {
-      fieldName: KnownRequestColumns.Url,
+    let invalidAnyFieldEqual: FilterInfo = {
+      fieldName: "*",
       predicate: KnownPredicateType.Equal,
+      comparand: "5"
+    };
+
+    let invalidAnyFieldNotEqual: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.NotEqual,
+      comparand: "5"
+    };
+
+    let invalidAnyFieldLessThan: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.LessThan,
+      comparand: "5"
+    };
+
+    let invalidAnyFieldLessThanOrEqual: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.LessThanOrEqual,
+      comparand: "5"
+    };
+
+    let invalidAnyFieldGreaterThan: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.GreaterThan,
+      comparand: "5"
+    };
+
+    let invalidAnyFieldGreaterThanOrEqual: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.GreaterThanOrEqual,
       comparand: "5"
     };
 
@@ -131,6 +161,30 @@ describe("Live Metrics filtering - Validator", () => {
 
     let invalidStringFieldPredicate4: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
+      predicate: KnownPredicateType.LessThanOrEqual,
+      comparand: "hi"
+    }
+
+    let invalidCustomDimLess: FilterInfo = {
+      fieldName: "CustomDimensions.property",
+      predicate: KnownPredicateType.LessThan,
+      comparand: "hi"
+    }
+
+    let invalidCustomDimGreater: FilterInfo = {
+      fieldName: "CustomDimensions.property",
+      predicate: KnownPredicateType.GreaterThan,
+      comparand: "hi"
+    }
+
+    let invalidCustomDimGreaterThanOrEqual: FilterInfo = {
+      fieldName: "CustomDimensions.property",
+      predicate: KnownPredicateType.GreaterThanOrEqual,
+      comparand: "hi"
+    }
+
+    let invalidCustomDimLessThanOrEqual: FilterInfo = {
+      fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.LessThanOrEqual,
       comparand: "hi"
     }
@@ -165,10 +219,55 @@ describe("Live Metrics filtering - Validator", () => {
       comparand: "hi"
     }
 
+    let successLessThan: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.LessThan,
+      comparand: "true"
+    };
+
+    let successLessThanOrEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.LessThanOrEqual,
+      comparand: "true"
+    };
+
+    let successFieldGreaterThan: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.GreaterThan,
+      comparand: "true"
+    };
+
+    let successGreaterThanOrEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.GreaterThanOrEqual,
+      comparand: "true"
+    };
+
+    let successContains: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.Contains,
+      comparand: "true"
+    };
+
+    let successNotContain: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.DoesNotContain,
+      comparand: "true"
+    };
+
+    let invalidBool: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.Equal,
+      comparand: "hi"
+    };
+
     let filterInfoList: FilterInfo[] =
-      [emptyFilterName, emptyComparand, invalidAnyFieldPredicate, invalidStringFieldPredicate, invalidStringFieldPredicate2,
-        invalidStringFieldPredicate3, invalidStringFieldPredicate4, invalidNumericFieldPredicate, invalidNumericFieldPredicate2,
-        invalidNumericFieldComparand, invalidDurationComparand];
+      [emptyFilterName, emptyComparand, invalidAnyFieldEqual, invalidAnyFieldNotEqual, invalidAnyFieldLessThan, invalidAnyFieldLessThanOrEqual,
+        invalidAnyFieldGreaterThan, invalidAnyFieldGreaterThanOrEqual, invalidStringFieldPredicate, invalidStringFieldPredicate2,
+        invalidStringFieldPredicate3, invalidStringFieldPredicate4, invalidCustomDimGreater, invalidCustomDimGreaterThanOrEqual,
+        invalidCustomDimLess, invalidCustomDimLessThanOrEqual, invalidNumericFieldPredicate, invalidNumericFieldPredicate2,
+        invalidNumericFieldComparand, invalidDurationComparand, successLessThan, successLessThanOrEqual, successFieldGreaterThan,
+        successGreaterThanOrEqual, successContains, successNotContain, invalidBool];
 
     let derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
@@ -202,10 +301,176 @@ describe("Live Metrics filtering - Validator", () => {
 
   it("The validator rejects an entire derivedMetricInfo if one out of multiple filters is invalid", () => {
 
+    let invalidFilter: FilterInfo = {
+      fieldName: KnownRequestColumns.Duration,
+      predicate: KnownPredicateType.NotEqual,
+      comparand: "invalid timestamp"
+    }
+
+    let validFilter: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.Equal,
+      comparand: "200"
+    }
+
+    let conjunctionGroup: FilterConjunctionGroupInfo = {
+      filters: [validFilter, invalidFilter]
+    };
+
+    let derivedMetricInfo: DerivedMetricInfo = {
+      id: "random-id",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [conjunctionGroup],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    assert.throws(() => Validator.validateFilters(derivedMetricInfo), UnexpectedFilterCreateError);
+  });
+
+  it("The validator accepts valid filters", () => {
+    let anyFieldContains: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.Contains,
+      comparand: "hi"
+    }
+
+    let anyFieldDoesNotContain: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.DoesNotContain,
+      comparand: "hi"
+    }
+
+    let stringNotEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.Url,
+      predicate: KnownPredicateType.NotEqual,
+      comparand: "hi"
+    }
+
+    let stringEquals: FilterInfo = {
+      fieldName: KnownRequestColumns.Url,
+      predicate: KnownPredicateType.Equal,
+      comparand: "hi"
+    }
+
+    let stringContain: FilterInfo = {
+      fieldName: KnownRequestColumns.Url,
+      predicate: KnownPredicateType.Contains,
+      comparand: "hi"
+    }
+
+    let stringNotContain: FilterInfo = {
+      fieldName: KnownRequestColumns.Url,
+      predicate: KnownPredicateType.DoesNotContain,
+      comparand: "hi"
+    }
+
+    let customDimNotEqual: FilterInfo = {
+      fieldName: "CustomDimensions.property",
+      predicate: KnownPredicateType.NotEqual,
+      comparand: "hi"
+    }
+
+    let customDimEquals: FilterInfo = {
+      fieldName: "CustomDimensions.property",
+      predicate: KnownPredicateType.Equal,
+      comparand: "hi"
+    }
+
+    let customDimContain: FilterInfo = {
+      fieldName: "CustomDimensions.property",
+      predicate: KnownPredicateType.Contains,
+      comparand: "hi"
+    }
+
+    let customDimNotContain: FilterInfo = {
+      fieldName: "CustomDimensions.property",
+      predicate: KnownPredicateType.DoesNotContain,
+      comparand: "hi"
+    }
+
+    let numericEquals: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.Equal,
+      comparand: "5"
+    }
+
+    let numericNotEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.NotEqual,
+      comparand: "5"
+    }
+
+    let numericLessThan: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.LessThan,
+      comparand: "5"
+    }
+
+    let numericGreaterThan: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.GreaterThan,
+      comparand: "5"
+    }
+
+    let numericLessThanOrEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.LessThanOrEqual,
+      comparand: "5"
+    }
+
+    let numericGreaterThanOrEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.GreaterThanOrEqual,
+      comparand: "5"
+    }
+
+    let durationEquals: FilterInfo = {
+      fieldName: KnownRequestColumns.Duration,
+      predicate: KnownPredicateType.Equal,
+      comparand: "0.0:0:0.2" // 200 ms in iso 8601 format
+    }
+
+    let successEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.Equal,
+      comparand: "true"
+    };
+
+    let successNotEqual: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.NotEqual,
+      comparand: "false"
+    };
+
+    let filterInfoList: FilterInfo[] = [anyFieldContains, anyFieldDoesNotContain, stringNotEqual, stringEquals,
+      stringContain, stringNotContain, numericEquals, numericNotEqual, numericLessThan, numericLessThanOrEqual,
+      numericGreaterThan, numericGreaterThanOrEqual, customDimContain, customDimNotContain, customDimEquals,
+      customDimNotEqual, durationEquals, successEqual, successNotEqual];
+
+    let derivedMetricInfo: DerivedMetricInfo = {
+      id: "random-id",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    filterInfoList.forEach(filter => {
+      let conjunctionGroup: FilterConjunctionGroupInfo = {
+        filters: [filter]
+      };
+
+      derivedMetricInfo.filterGroups = [conjunctionGroup];
+      Validator.validateFilters(derivedMetricInfo);
+    });
   });
 
   // multiple filterconjuncitongroups?
-  // custom dimensions
+  // custom dimensions span/log parsing
+  // any field span/log parsing
 
 
 

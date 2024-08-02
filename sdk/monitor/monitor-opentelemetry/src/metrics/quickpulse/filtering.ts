@@ -6,22 +6,6 @@ import {
   CollectionConfigurationError,
 } from "../../generated";
 
-export interface RequestMetric {
-
-}
-
-export interface DependencyMetric {
-
-}
-
-export interface ExceptionMetric {
-
-}
-
-export interface TraceMetric {
-
-}
-
 export class TelemetryTypeError extends Error {
   constructor(message: string) {
     super(message);
@@ -60,6 +44,9 @@ export enum KnownDependencyColumns {
   Type = "Type",
   Data = "Data",
 }
+
+const knownStringColumns = new Set<string>([KnownRequestColumns.Url, KnownRequestColumns.Name, KnownDependencyColumns.Target,
+KnownDependencyColumns.Type, KnownDependencyColumns.Data, "Message", "Exception.Message", "Exception.StackTrace"]);
 
 export class Validator {
 
@@ -132,7 +119,7 @@ export class Validator {
     if (!(filter.predicate in KnownPredicateType)) {
       throw new UnexpectedFilterCreateError(`'${filter.predicate}' is not a valid predicate.`);
     } else if (filter.comparand === "") {
-      throw new UnexpectedFilterCreateError('A filter must have a comparand.');
+      throw new UnexpectedFilterCreateError(`A filter must have a comparand. FilterName: '${filter.fieldName}' Predicate: '${filter.predicate}' Comparand: '${filter.comparand}'`);
     } else if (filter.fieldName === "*" && !(filter.predicate === KnownPredicateType.Contains || filter.predicate === KnownPredicateType.DoesNotContain)) {
       throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '*'`);
     } else if (filter.fieldName === KnownDependencyColumns.ResultCode || filter.fieldName === KnownRequestColumns.ResponseCode || filter.fieldName === KnownDependencyColumns.Duration) {
@@ -148,13 +135,22 @@ export class Validator {
       } else if (isNaN(parseFloat(filter.comparand))) {
         throw new UnexpectedFilterCreateError(`The comparand '${filter.comparand}' can't be converted to a double.`);
       }
-    } else if (!(filter.predicate === KnownPredicateType.Contains ||
-      filter.predicate === KnownPredicateType.DoesNotContain ||
-      filter.comparand === KnownPredicateType.Equal ||
-      filter.comparand === KnownPredicateType.NotEqual)) {
-      // if we are at this point, we are looking at a fieldName whose comparand should be interpreted as a string.
-      // custom dimension comparands also fall into this category.
-      throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'. If this is a custom dimension, it would be treated as string.`);
+    } else if (knownStringColumns.has(filter.fieldName) || filter.fieldName.startsWith("CustomDimensions.")) {
+      if (filter.predicate === KnownPredicateType.GreaterThan ||
+        filter.predicate === KnownPredicateType.GreaterThanOrEqual ||
+        filter.predicate === KnownPredicateType.LessThan ||
+        filter.predicate === KnownPredicateType.LessThanOrEqual) {
+        throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'. If this is a custom dimension, it would be treated as string.`);
+      }
+    } else if (filter.fieldName === KnownRequestColumns.Success) {
+      if (filter.predicate !== KnownPredicateType.Equal && filter.predicate !== KnownPredicateType.NotEqual) {
+        throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'.`);
+      }
+      filter.comparand = filter.comparand.toLowerCase();
+      if (filter.comparand !== "true" && filter.comparand !== "false") {
+        throw new UnexpectedFilterCreateError(`The comparand '${filter.comparand}' is not a valid boolean value for the fieldName Success.`);
+      }
+
     }
   }
 
@@ -203,4 +199,14 @@ export class CollectionConfigurationErrorTracker {
   public clearValidationTimeErrors(): void {
     this.validationTimeErrors = [];
   }
+}
+
+export class DerivedMetric {
+  private derivedMetricInfo: DerivedMetricInfo;
+  private projection: number = 0.0;
+
+  constructor(derivedMetricInfo: DerivedMetricInfo) {
+    this.derivedMetricInfo = derivedMetricInfo;
+  }
+
 }

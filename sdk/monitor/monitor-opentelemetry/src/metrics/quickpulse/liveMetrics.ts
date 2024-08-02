@@ -144,7 +144,7 @@ export class LiveMetrics {
     const version = getSdkVersion();
     this.baseMonitoringDataPoint = {
       version: version,
-      invariantVersion: 2, // implementation note: need to change
+      invariantVersion: 5, // implementation note: need to change
       instance: instance,
       roleName: roleName,
       machineName: machineName,
@@ -208,7 +208,6 @@ export class LiveMetrics {
   private async quickPulseDone(response: PublishResponse | IsSubscribedResponse | undefined) {
     if (!response) {
       if (!this.isCollectingData) {
-        this.etag = "";
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
           this.pingInterval = FALLBACK_INTERVAL;
         }
@@ -232,6 +231,7 @@ export class LiveMetrics {
 
       // If collecting was stoped
       if (!this.isCollectingData && this.meterProvider) {
+        this.etag = "";
         this.deactivateMetrics();
         this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
         this.handle.unref();

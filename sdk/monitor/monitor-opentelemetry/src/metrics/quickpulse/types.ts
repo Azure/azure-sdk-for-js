@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { MonitoringDataPoint, PublishResponse } from "../../generated";
+import { KeyValuePairString, MonitoringDataPoint, PublishResponse } from "../../generated";
 import {
   DocumentIngress,
   CollectionConfigurationError
@@ -58,4 +58,39 @@ export enum QuickPulseMetricNames {
   DEPENDENCY_DURATION = "\\ApplicationInsights\\Dependency Call Duration",
   // Exception
   EXCEPTION_RATE = "\\ApplicationInsights\\Exceptions/Sec",
+}
+
+export interface RequestData {
+  Url: string;
+  Duration: number;
+  ResponseCode: number;
+  Success: boolean;
+  Name: string;
+  CustomDimensions: KeyValuePairString[];
+
+}
+
+export interface DependencyData {
+  //  Target site of a dependency call. Examples are server name, host address.
+  Target: string;
+  Duration: number;
+  Success: boolean;
+  Name: string;
+  ResultCode: number;
+  // Dependency type name. Very low cardinality value for logical grouping of dependencies and interpretation of other fields like commandName and resultCode.Examples are SQL, Azure table, and HTTP. 
+  Type: string;
+  // Command initiated by this dependency call. Examples are SQL statement and HTTP URL with all query parameters.
+  Data: string;
+  CustomDimensions: KeyValuePairString[];
+}
+
+export interface ExceptionData {
+  Message: string;
+  StackTrace: string;
+  CustomDimensions: KeyValuePairString[];
+}
+
+export interface TraceData {
+  Message: string;
+  CustomDimensions: KeyValuePairString[];
 }

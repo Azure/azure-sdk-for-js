@@ -50,7 +50,14 @@ import {
   AttachTypePrefix,
 } from "../../types";
 import { Resource } from "@opentelemetry/resources";
-import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "./types";
+import {
+  QuickPulseMetricNames,
+  QuickPulseOpenTelemetryMetricNames,
+  RequestData,
+  DependencyData,
+  ExceptionData,
+  TraceData,
+} from "./types";
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
 import { LogAttributes } from "@opentelemetry/api-logs";
@@ -215,6 +222,54 @@ export function resourceMetricsToQuickpulseDataPoint(
 function getIso8601Duration(milliseconds: number) {
   const seconds = milliseconds / 1000;
   return `PT${seconds}S`;
+}
+
+export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData {
+  const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+  const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
+  let url = getUrl(span.attributes);
+  let code = 0;
+  let customDims = createPropertiesFromAttributes(span.attributes);
+  let duration = hrTimeToMilliseconds(span.duration);
+
+  if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
+    //request
+    if (httpMethod) {
+      const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
+      if (httpStatusCode) {
+        code = Number(httpStatusCode);
+      }
+    } else if (grpcStatusCode) {
+      code = Number(grpcStatusCode);
+    }
+    return {
+      Url: url,
+      Duration: duration,
+      ResponseCode: code,
+      Success: code < 400, // double check
+      Name: span.name,
+      CustomDimensions: customDims,
+    };
+  } else {
+    //dependency
+    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
+    if (httpStatusCode) {
+      code = Number(httpStatusCode);
+    }
+
+    return {
+      Target: "", // will find a way to populate later
+      Duration: duration,
+      Success: code < 400, // double check
+      Name: span.name,
+      ResultCode: code,
+      Type: "", // will find a way to populate later
+      Data: "", // will find a way to populate later
+      CustomDimensions: customDims,
+    };
+  }
+
+
 }
 
 export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency {
