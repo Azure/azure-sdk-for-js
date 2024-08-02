@@ -2433,9 +2433,6 @@ export interface StorageAsyncOperationInitiatedEventData {
 }
 
 // @public
-export type StorageBlobAccessTier = "Hot" | "Cool" | "Cold" | "Archive";
-
-// @public
 export interface StorageBlobCreatedEventData {
     api?: string;
     blobType?: string;
@@ -2489,14 +2486,12 @@ export interface StorageBlobRenamedEventData {
 
 // @public
 export interface StorageBlobTierChangedEventData {
-    accessTier: StorageBlobAccessTier;
     api?: string;
     blobType?: string;
     clientRequestId?: string;
     contentLength?: number;
     contentType?: string;
     identity?: string;
-    previousTier: StorageBlobAccessTier;
     requestId?: string;
     sequencer?: string;
     storageDiagnostics: Record<string, any>;

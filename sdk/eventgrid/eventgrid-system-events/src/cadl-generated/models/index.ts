@@ -326,5 +326,5 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ServiceApiVersions,
   MediaJobOutputUnion,
-} from "./models.js";
-export * from "./options.js";
+} from "./models";
+// export * from "./options";
