@@ -22,7 +22,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -37,11 +37,12 @@ describe("AzurePipelinesCredential", function () {
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
     const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
+    console.log("clientId=", clientId);
     const credential = new AzurePipelinesCredential(
       tenantId,
       clientId,
       "existingServiceConnectionId",
-      systemAccessToken
+      systemAccessToken,
     );
     try {
       await credential.getToken(scope);
@@ -53,7 +54,7 @@ describe("AzurePipelinesCredential", function () {
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -67,14 +68,14 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       "clientId",
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const regExp: RegExp =
       /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -88,7 +89,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "systemAccessToken"
+      "systemAccessToken",
     );
     await assert.isRejected(credential.getToken(scope), /Status code: 302/);
   });
