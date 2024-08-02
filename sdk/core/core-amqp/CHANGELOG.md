@@ -1,5 +1,15 @@
 # Release History
 
+## 4.3.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.3.2 (2024-08-01)
 
 - Adding React-Native support at top level [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
