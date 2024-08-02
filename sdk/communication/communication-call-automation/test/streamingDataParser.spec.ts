@@ -3,7 +3,7 @@
 
 import { AudioData, AudioMetadata } from "../src/models/audio";
 import { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription";
-import { streamingData } from "../src/utli/streamingDataParser";
+import { streamingData } from "../src/streamingDataParser";
 import { assert } from "chai";
 
 describe("Stream data parser unit tests", function () {

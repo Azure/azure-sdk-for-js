@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { createIdentifierFromRawId } from "@azure/communication-common";
-import { TranscriptionMetadata, TranscriptionData } from "../models/transcription";
-import { AudioData, AudioMetadata } from "../models/audio";
+import { TranscriptionMetadata, TranscriptionData } from "./models/transcription";
+import { AudioData, AudioMetadata } from "./models/audio";
 
 /** Parse the incoming package. */
 export function streamingData(
@@ -64,7 +64,10 @@ export function streamingData(
         data: jsonObject.audioData.data,
         timestamp: jsonObject.audioData.timestamp,
         isSilent: jsonObject.audioData.silent,
-        participant: createIdentifierFromRawId(jsonObject.audioData.participantRawID),
+        participant:
+          jsonObject.audioData.participantRawID !== undefined
+            ? createIdentifierFromRawId(jsonObject.audioData.participantRawID)
+            : undefined,
       };
       return audioData;
     }
