@@ -4,6 +4,7 @@
 import {
   AzureCliCredential,
   AzureDeveloperCliCredential,
+  AzurePipelinesCredential,
   AzurePowerShellCredential,
   ChainedTokenCredential,
   DefaultAzureCredentialClientIdOptions,
@@ -16,6 +17,7 @@ import { NoOpCredential } from "./noOpCredential";
 import { TokenCredential } from "@azure/core-auth";
 import { isBrowser } from "@azure/core-util";
 import { createBrowserRelayCredential } from "./browserRelayCredential";
+import { RestError } from "../../../core/core-rest-pipeline/dist/commonjs";
 
 /**
  * Alias of the different possible options shapes for the DefaultAzureCredential constructor.
@@ -57,6 +59,19 @@ export function createTestCredential(
     return createBrowserRelayCredential(tokenCredentialOptions);
   } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
+    const serviceConnectionID = process.env.AZURE_SERVICE_CONNECTION_ID;
+    const clientID = process.env.AZURESUBSCRIPTION_CLIENT_ID;
+    const tenantID = process.env.AZURESUBSCRIPTION_TENANT_ID;
+    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
+
+    // If we have a system access token, we are in Azure Pipelines
+    if (systemAccessToken) {
+      if (serviceConnectionID && clientID && tenantID){
+        return new AzurePipelinesCredential(tenantID, clientID, serviceConnectionID, systemAccessToken, dacOptions);
+      }
+      throw new RestError(`Running in Azure Pipelines environment. Missing environment variables: 
+        serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
+    }
     return new ChainedTokenCredential(
       new AzurePowerShellCredential(dacOptions),
       new AzureCliCredential(dacOptions),
