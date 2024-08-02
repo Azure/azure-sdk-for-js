@@ -8,7 +8,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "dependencies": {
     "@azure/core-lro": "^2.5.3",
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-paging": "^1.2.0",
     "@azure/core-client": "^1.7.0",
     "@azure/core-auth": "^1.3.0",

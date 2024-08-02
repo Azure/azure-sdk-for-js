@@ -1,45 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiString from "chai-string";
-chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
-import { EnvVarKeys, getEnvVars, addToOffset } from "./utils/testUtils";
-import { BlobCheckpointStore } from "../src";
-import { ContainerClient, RestError } from "@azure/storage-blob";
+import { addToOffset } from "../util/testUtils.js";
+import { BlobCheckpointStore } from "../../src/index.js";
+import { ContainerClient } from "@azure/storage-blob";
 import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
-import { Guid } from "guid-typescript";
-import { parseIntOrThrow } from "../src/blobCheckpointStore";
-import { fail } from "assert";
-const env = getEnvVars();
+import { parseIntOrThrow } from "../../src/blobCheckpointStore.js";
+import { describe, it, beforeEach, afterEach } from "vitest";
+import { assert, expect, should } from "../util/chai.js";
+import { createContainer } from "../util/clients.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 
-describe("Blob Checkpoint Store", function (): void {
-  const TEST_FAILURE = "Test failure";
-  const service = {
-    storageConnectionString: env[EnvVarKeys.STORAGE_CONNECTION_STRING],
-  };
-  let containerClient: ContainerClient;
-  before("validate environment", async function (): Promise<void> {
-    should.exist(
-      env[EnvVarKeys.STORAGE_CONNECTION_STRING],
-      "define STORAGE_CONNECTION_STRING in your environment before running integration tests.",
-    );
+async function expectAbortError(promise: Promise<unknown>): Promise<void> {
+  await expect(promise).to.be.rejected.then((err) => {
+    expect(err).to.have.property("name").and.equal("AbortError");
+    return err;
   });
+}
 
-  beforeEach(async () => {
-    containerClient = new ContainerClient(
-      service.storageConnectionString,
-      `container-${Guid.create()}`,
-    );
+describe("Blob Checkpoint Store", function () {
+  let containerClient: ContainerClient;
+
+  beforeEach(async function () {
+    containerClient = createContainer().container;
     await containerClient.create();
   });
 
-  afterEach(async () => {
+  afterEach(async function () {
     await containerClient.delete();
   });
 
@@ -51,21 +40,16 @@ describe("Blob Checkpoint Store", function (): void {
       const abortController = new AbortController();
       setTimeout(() => abortController.abort(), 0);
       const signal = abortController.signal;
-
-      try {
-        await checkpointStore.listOwnership(
+      await expectAbortError(
+        checkpointStore.listOwnership(
           "testNamespace.servicebus.windows.net",
           "testEventHub",
           "testConsumerGroup",
           {
             abortSignal: signal,
           },
-        );
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+        ),
+      );
     });
 
     it("supports cancellation via abortSignal (pre-cancelled)", async function () {
@@ -76,24 +60,20 @@ describe("Blob Checkpoint Store", function (): void {
       abortController.abort();
       const signal = abortController.signal;
 
-      try {
-        await checkpointStore.listOwnership(
+      await expectAbortError(
+        checkpointStore.listOwnership(
           "testNamespace.servicebus.windows.net",
           "testEventHub",
           "testConsumerGroup",
           {
             abortSignal: signal,
           },
-        );
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+        ),
+      );
     });
   });
 
-  it("listOwnership should return an empty array", async function (): Promise<void> {
+  it("listOwnership should return an empty array", async function () {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -111,9 +91,8 @@ describe("Blob Checkpoint Store", function (): void {
       const abortController = new AbortController();
       setTimeout(() => abortController.abort(), 0);
       const signal = abortController.signal;
-
-      try {
-        await checkpointStore.claimOwnership(
+      await expectAbortError(
+        checkpointStore.claimOwnership(
           [
             {
               partitionId: "0",
@@ -126,12 +105,8 @@ describe("Blob Checkpoint Store", function (): void {
           {
             abortSignal: signal,
           },
-        );
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+        ),
+      );
     });
 
     it("supports cancellation via abortSignal (pre-cancelled)", async function () {
@@ -141,9 +116,8 @@ describe("Blob Checkpoint Store", function (): void {
       const abortController = new AbortController();
       abortController.abort();
       const signal = abortController.signal;
-
-      try {
-        await checkpointStore.claimOwnership(
+      await expectAbortError(
+        checkpointStore.claimOwnership(
           [
             {
               partitionId: "0",
@@ -156,12 +130,8 @@ describe("Blob Checkpoint Store", function (): void {
           {
             abortSignal: signal,
           },
-        );
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+        ),
+      );
     });
   });
 
@@ -209,9 +179,8 @@ describe("Blob Checkpoint Store", function (): void {
 
     // now let's induce a bad failure (removing the container)
     await containerClient.delete();
-
-    try {
-      await checkpointStore.claimOwnership([
+    await expect(
+      checkpointStore.claimOwnership([
         {
           partitionId: "0",
           consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
@@ -219,16 +188,18 @@ describe("Blob Checkpoint Store", function (): void {
           eventHubName: "ehname",
           ownerId: "me",
         },
-      ]);
-      fail("Should have thrown an error - this isn't a normal claim collision issue");
-    } catch (err: any) {
-      should.equal(err instanceof RestError, true, "Error is unexpected type.");
+      ]),
+    ).to.be.rejected.then((err) => {
+      if (!isRestError(err)) {
+        assert.fail("Error is not a RestError");
+      }
       // 404 because the container is missing (since we deleted it up above)
-      (err as RestError).statusCode!.should.equal(404);
-    }
+      err.statusCode!.should.equal(404);
+      return err;
+    });
   });
 
-  it("claimOwnership call should succeed, if it has been called for the first time", async function (): Promise<void> {
+  it("claimOwnership call should succeed, if it has been called for the first time", async function () {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -284,7 +255,7 @@ describe("Blob Checkpoint Store", function (): void {
     );
   });
 
-  it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function (): Promise<void> {
+  it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function () {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -340,7 +311,7 @@ describe("Blob Checkpoint Store", function (): void {
     );
   });
 
-  it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function (): Promise<void> {
+  it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function () {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -423,21 +394,16 @@ describe("Blob Checkpoint Store", function (): void {
       const abortController = new AbortController();
       setTimeout(() => abortController.abort(), 0);
       const signal = abortController.signal;
-
-      try {
-        await checkpointStore.listCheckpoints(
+      await expectAbortError(
+        checkpointStore.listCheckpoints(
           "testNamespace.servicebus.windows.net",
           "testEventHub",
           "testConsumerGroup",
           {
             abortSignal: signal,
           },
-        );
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+        ),
+      );
     });
 
     it("supports cancellation via abortSignal (pre-cancelled)", async function () {
@@ -447,21 +413,16 @@ describe("Blob Checkpoint Store", function (): void {
       const abortController = new AbortController();
       abortController.abort();
       const signal = abortController.signal;
-
-      try {
-        await checkpointStore.listCheckpoints(
+      await expectAbortError(
+        checkpointStore.listCheckpoints(
           "testNamespace.servicebus.windows.net",
           "testEventHub",
           "testConsumerGroup",
           {
             abortSignal: signal,
           },
-        );
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+        ),
+      );
     });
   });
 
@@ -592,13 +553,13 @@ describe("Blob Checkpoint Store", function (): void {
         partitionId: "0",
         sequenceNumber: 1,
       };
-
-      try {
-        await checkpointStore.updateCheckpoint(checkpoint);
-        throw new Error("Test failure");
-      } catch (err: any) {
-        err.message.should.not.equal("Test failure");
-      }
+      await expect(checkpointStore.updateCheckpoint(checkpoint)).to.be.rejected.then((err) => {
+        if (!isRestError(err)) {
+          assert.fail("Error is not a RestError");
+        }
+        err.statusCode!.should.equal(404);
+        return err;
+      });
     });
 
     it("supports cancellation via abortSignal", async function () {
@@ -618,14 +579,7 @@ describe("Blob Checkpoint Store", function (): void {
         partitionId: "0",
         sequenceNumber: 1,
       };
-
-      try {
-        await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+      await expectAbortError(checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal }));
     });
 
     it("supports cancellation via abortSignal (pre-cancelled)", async function () {
@@ -646,17 +600,11 @@ describe("Blob Checkpoint Store", function (): void {
         sequenceNumber: 1,
       };
 
-      try {
-        await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
-        throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.name, "AbortError");
-        should.not.equal(err.message, TEST_FAILURE);
-      }
+      await expectAbortError(checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal }));
     });
   });
 
-  it("Claiming ownership with an empty owner id should be fine (ie, unclaiming)", async function (): Promise<void> {
+  it("Claiming ownership with an empty owner id should be fine (ie, unclaiming)", async function () {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -746,15 +694,18 @@ describe("Blob Checkpoint Store", function (): void {
     const blobClient = containerClient.getBlobClient(checkpointBlobPath);
     await blobClient.setMetadata({});
 
-    const listCheckpointsPromise = checkpointStore.listCheckpoints(
-      commonData.fullyQualifiedNamespace,
-      commonData.eventHubName,
-      commonData.consumerGroup,
-    );
-
-    await listCheckpointsPromise.should.be.rejectedWith(
-      `Missing metadata property 'offset' on blob 'test/test/test/checkpoint/100`,
-    );
+    await expect(
+      checkpointStore.listCheckpoints(
+        commonData.fullyQualifiedNamespace,
+        commonData.eventHubName,
+        commonData.consumerGroup,
+      ),
+    ).to.be.rejected.then((err) => {
+      expect(err.message).to.equal(
+        `Missing metadata property 'offset' on blob '${checkpointBlobPath}'`,
+      );
+      return err;
+    });
   });
 
   it("zero is a perfectly valid value to checkpoint with", async () => {
@@ -787,7 +738,7 @@ describe("Blob Checkpoint Store", function (): void {
   });
 
   it("blob prefix is always lowercased for case-insensitive fields", () => {
-    chai.assert.equal(
+    assert.equal(
       "namespace/eventhubname/consumergroupname/ownership/",
       BlobCheckpointStore["getBlobPrefix"]({
         type: "ownership",
@@ -798,7 +749,7 @@ describe("Blob Checkpoint Store", function (): void {
       }),
     );
 
-    chai.assert.equal(
+    assert.equal(
       "namespace/eventhubname/consumergroupname/checkpoint/0",
       BlobCheckpointStore["getBlobPrefix"]({
         type: "checkpoint",
@@ -827,4 +778,4 @@ describe("Blob Checkpoint Store", function (): void {
       "Missing metadata property 'fieldname' on blob 'blobname'",
     );
   });
-}).timeout(90000);
+});

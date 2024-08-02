@@ -24,9 +24,10 @@
     }
   },
   "variables": {
-    "apiVersion": "2022-10-01-preview",
-    "storageApiVersion": "2019-04-01",
-    "iotApiVersion": "2018-04-01",
+    "apiVersion": "2024-01-01",
+    "storageApiVersion": "2023-05-01",
+    "iotApiVersion": "2023-06-30",
+    "authorizationApiVersion": "2022-04-01",
     "namespaceName": "[parameters('baseName')]",
     "storageAccountName": "[concat('storage', parameters('baseName'))]",
     "containerName": "container",
@@ -37,7 +38,6 @@
     "retentionTimeInDays": 1,
     "partitionCount": 4,
     "location": "[resourceGroup().location]",
-    "authorizationApiVersion": "2018-01-01-preview",
     "eventHubsDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec')]",
     "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
     "blobDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]"
@@ -251,9 +251,17 @@
       "type": "string",
       "value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).value[0].primaryKey)]"
     },
-    "STORAGE_CONNECTION_STRING": {
+    "STORAGE_ENDPOINT": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+      "value": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))).primaryEndpoints.blob]"
+    },
+    "STORAGE_CONTAINER_NAME": {
+      "type": "string",
+      "value": "[variables('containerName')]"
+    },
+    "STORAGE_CONTAINER_URL": {
+      "type": "string",
+      "value": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))).primaryEndpoints.blob, variables('containerName'))]"
     }
   }
 }
