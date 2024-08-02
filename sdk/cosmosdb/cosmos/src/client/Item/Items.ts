@@ -129,7 +129,7 @@ export class Items {
         options: innerOptions,
         partitionKey: options.partitionKey,
         diagnosticNode,
-        correlatedActivityId,
+        correlatedActivityId: correlatedActivityId,
       });
       return response;
     };
