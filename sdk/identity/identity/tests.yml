@@ -7,6 +7,7 @@ extends:
       ServiceDirectory: identity
       TimeoutInMinutes: 120
       SupportedClouds: 'Public,UsGov,China,Canary'
+      UseFederatedAuth: false
       CloudConfig:
         Public:
           ServiceConnection: azure-sdk-tests
@@ -27,3 +28,4 @@ extends:
         AZURE_CLIENT_ID: $(IDENTITY_CLIENT_ID)
         AZURE_CLIENT_SECRET: $(IDENTITY_CLIENT_SECRET)
         AZURE_TENANT_ID: $(IDENTITY_TENANT_ID)
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
