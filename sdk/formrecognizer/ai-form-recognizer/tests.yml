@@ -27,7 +27,3 @@ extends:
         China:
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           Location: "chinaeast2"
-      EnvVars:
-        AZURE_CLIENT_ID: $(FORMRECOGNIZER_CLIENT_ID)
-        AZURE_TENANT_ID: $(FORMRECOGNIZER_TENANT_ID)
-        AZURE_CLIENT_SECRET: $(FORMRECOGNIZER_CLIENT_SECRET)

@@ -8,9 +8,6 @@ extends:
       TimeoutInMinutes: 60
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
-        AZURE_CLIENT_ID: $(TEXTANALYTICS_CLIENT_ID)
-        AZURE_TENANT_ID: $(TEXTANALYTICS_TENANT_ID)
-        AZURE_CLIENT_SECRET: $(TEXTANALYTICS_CLIENT_SECRET)
         ENDPOINT: $(js-textanalytics-test-service-endpoint)
         LANGUAGE_API_KEY: $(js-textanalytics-api-key-new)
         LANGUAGE_API_KEY_ALT: $(js-textanalytics-api-key-alt)
