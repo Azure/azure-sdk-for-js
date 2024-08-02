@@ -17,6 +17,12 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3478", // .accountname in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2030", // .operation-location in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createClient(
@@ -26,11 +32,11 @@ export async function createClient(
   const credential = isPlaybackMode()
     ? new NoOpCredential()
     : new UsernamePasswordCredential(
-        env["AZURE_TENANT_ID"] ?? "",
-        env["AZURE_CLIENT_ID"] ?? "",
-        env["USERNAME"] ?? "",
-        env["PASSWORD"] ?? "",
-      );
+      env["AZURE_TENANT_ID"] ?? "",
+      env["AZURE_CLIENT_ID"] ?? "",
+      env["USERNAME"] ?? "",
+      env["PASSWORD"] ?? "",
+    );
   await recorder.start(recorderEnvSetup);
   return PurviewWorkflow(
     env.ENDPOINT ?? "",
