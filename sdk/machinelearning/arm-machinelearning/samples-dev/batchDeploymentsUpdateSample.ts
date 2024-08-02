@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Update a batch inference deployment (asynchronous).
  *
  * @summary Update a batch inference deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/BatchDeployment/update.json
  */
-async function updateBatchDeployment() {
+async function updateWorkspaceBatchDeployment() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -35,7 +35,10 @@ async function updateBatchDeployment() {
   const body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties =
     { properties: { description: "string" }, tags: {} };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.batchDeployments.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -47,7 +50,7 @@ async function updateBatchDeployment() {
 }
 
 async function main() {
-  updateBatchDeployment();
+  updateWorkspaceBatchDeployment();
 }
 
 main().catch(console.error);

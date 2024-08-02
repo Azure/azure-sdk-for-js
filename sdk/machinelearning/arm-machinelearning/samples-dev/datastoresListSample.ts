@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DatastoresListOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List datastores.
  *
  * @summary List datastores.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/list.json
  */
 async function listDatastores() {
   const subscriptionId =
@@ -45,7 +45,10 @@ async function listDatastores() {
     orderByAsc,
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.datastores.list(
     resourceGroupName,

@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to List environment containers.
  *
  * @summary List environment containers.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/EnvironmentContainer/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/EnvironmentContainer/list.json
  */
-async function listEnvironmentContainer() {
+async function listWorkspaceEnvironmentContainer() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -28,7 +28,10 @@ async function listEnvironmentContainer() {
     process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.environmentContainers.list(
     resourceGroupName,
@@ -40,7 +43,7 @@ async function listEnvironmentContainer() {
 }
 
 async function main() {
-  listEnvironmentContainer();
+  listWorkspaceEnvironmentContainer();
 }
 
 main().catch(console.error);

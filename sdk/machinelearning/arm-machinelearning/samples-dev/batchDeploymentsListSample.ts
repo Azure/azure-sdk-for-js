@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BatchDeploymentsListOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Lists Batch inference deployments in the workspace.
  *
  * @summary Lists Batch inference deployments in the workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchDeployment/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/BatchDeployment/list.json
  */
-async function listBatchDeployment() {
+async function listWorkspaceBatchDeployment() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -35,7 +35,10 @@ async function listBatchDeployment() {
   const top = 1;
   const options: BatchDeploymentsListOptionalParams = { orderBy, top };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.batchDeployments.list(
     resourceGroupName,
@@ -49,7 +52,7 @@ async function listBatchDeployment() {
 }
 
 async function main() {
-  listBatchDeployment();
+  listWorkspaceBatchDeployment();
 }
 
 main().catch(console.error);

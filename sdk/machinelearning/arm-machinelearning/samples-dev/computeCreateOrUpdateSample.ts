@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ComputeResource,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/KubernetesCompute.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/KubernetesCompute.json
  */
 async function attachAKubernetesCompute() {
   const subscriptionId =
@@ -54,7 +54,10 @@ async function attachAKubernetesCompute() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -68,7 +71,7 @@ async function attachAKubernetesCompute() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/BasicAmlCompute.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/BasicAmlCompute.json
  */
 async function createAAmlCompute() {
   const subscriptionId =
@@ -101,7 +104,10 @@ async function createAAmlCompute() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -115,7 +121,7 @@ async function createAAmlCompute() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/BasicDataFactoryCompute.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/BasicDataFactoryCompute.json
  */
 async function createADataFactoryCompute() {
   const subscriptionId =
@@ -130,7 +136,10 @@ async function createADataFactoryCompute() {
     properties: { computeType: "DataFactory" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -144,7 +153,7 @@ async function createADataFactoryCompute() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/BasicAKSCompute.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/BasicAKSCompute.json
  */
 async function createAnAksCompute() {
   const subscriptionId =
@@ -159,7 +168,10 @@ async function createAnAksCompute() {
     properties: { computeType: "AKS" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -173,7 +185,7 @@ async function createAnAksCompute() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/ComputeInstance.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/ComputeInstance.json
  */
 async function createAnComputeInstanceCompute() {
   const subscriptionId =
@@ -190,6 +202,35 @@ async function createAnComputeInstanceCompute() {
       properties: {
         applicationSharingPolicy: "Personal",
         computeInstanceAuthorizationType: "personal",
+        customServices: [
+          {
+            name: "rstudio",
+            docker: { privileged: true },
+            endpoints: [
+              {
+                name: "connect",
+                published: 8787,
+                target: 8787,
+                protocol: "http",
+              },
+            ],
+            environmentVariables: {
+              testVariable: { type: "local", value: "test_value" },
+            },
+            image: {
+              type: "docker",
+              reference: "ghcr.io/azure/rocker-rstudio-ml-verse:latest",
+            },
+            volumes: [
+              {
+                type: "bind",
+                readOnly: false,
+                source: "/home/azureuser/cloudfiles",
+                target: "/home/azureuser/cloudfiles",
+              },
+            ],
+          },
+        ],
         personalComputeInstanceSettings: {
           assignedUser: {
             objectId: "00000000-0000-0000-0000-000000000000",
@@ -203,7 +244,10 @@ async function createAnComputeInstanceCompute() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -217,7 +261,7 @@ async function createAnComputeInstanceCompute() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/ComputeInstanceWithSchedules.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/ComputeInstanceWithSchedules.json
  */
 async function createAnComputeInstanceComputeWithSchedules() {
   const subscriptionId =
@@ -245,7 +289,6 @@ async function createAnComputeInstanceComputeWithSchedules() {
             {
               action: "Stop",
               cron: {
-                triggerType: "Cron",
                 expression: "0 18 * * *",
                 startTime: "2021-04-23T01:30:00",
                 timeZone: "Pacific Standard Time",
@@ -261,7 +304,10 @@ async function createAnComputeInstanceComputeWithSchedules() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -275,7 +321,7 @@ async function createAnComputeInstanceComputeWithSchedules() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/ComputeInstanceMinimal.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/ComputeInstanceMinimal.json
  */
 async function createAnComputeInstanceComputeWithMinimalInputs() {
   const subscriptionId =
@@ -293,7 +339,10 @@ async function createAnComputeInstanceComputeWithMinimalInputs() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -307,7 +356,7 @@ async function createAnComputeInstanceComputeWithMinimalInputs() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/AmlCompute.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/AmlCompute.json
  */
 async function updateAAmlCompute() {
   const subscriptionId =
@@ -332,7 +381,10 @@ async function updateAAmlCompute() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -346,7 +398,7 @@ async function updateAAmlCompute() {
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/AKSCompute.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/AKSCompute.json
  */
 async function updateAnAksCompute() {
   const subscriptionId =
@@ -367,7 +419,10 @@ async function updateAnAksCompute() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,

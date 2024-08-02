@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to Get container.
  *
  * @summary Get container.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/DataContainer/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/DataContainer/get.json
  */
-async function getDataContainer() {
+async function getWorkspaceDataContainer() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -29,7 +29,10 @@ async function getDataContainer() {
   const workspaceName = "workspace123";
   const name = "datacontainer123";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.dataContainers.get(
     resourceGroupName,
     workspaceName,
@@ -39,7 +42,7 @@ async function getDataContainer() {
 }
 
 async function main() {
-  getDataContainer();
+  getWorkspaceDataContainer();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartialMinimalTrackedResourceWithSku,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update Online Deployment (asynchronous).
  *
  * @summary Update Online Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/KubernetesOnlineDeployment/update.json
  */
 async function updateKubernetesOnlineDeployment() {
   const subscriptionId =
@@ -43,7 +43,10 @@ async function updateKubernetesOnlineDeployment() {
     tags: {},
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.onlineDeployments.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -58,7 +61,7 @@ async function updateKubernetesOnlineDeployment() {
  * This sample demonstrates how to Update Online Deployment (asynchronous).
  *
  * @summary Update Online Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/update.json
  */
 async function updateManagedOnlineDeployment() {
   const subscriptionId =
@@ -80,7 +83,10 @@ async function updateManagedOnlineDeployment() {
     tags: {},
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.onlineDeployments.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,

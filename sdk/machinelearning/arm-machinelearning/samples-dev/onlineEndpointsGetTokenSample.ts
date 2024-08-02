@@ -8,19 +8,19 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Retrieve a valid AAD token for an Endpoint using AMLToken-based authentication.
+ * This sample demonstrates how to Retrieve a valid AML token for an Endpoint using AMLToken-based authentication.
  *
- * @summary Retrieve a valid AAD token for an Endpoint using AMLToken-based authentication.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineEndpoint/getToken.json
+ * @summary Retrieve a valid AML token for an Endpoint using AMLToken-based authentication.
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/OnlineEndpoint/getToken.json
  */
-async function getTokenOnlineEndpoint() {
+async function getTokenWorkspaceOnlineEndpoint() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -29,7 +29,10 @@ async function getTokenOnlineEndpoint() {
   const workspaceName = "my-aml-workspace";
   const endpointName = "testEndpointName";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.onlineEndpoints.getToken(
     resourceGroupName,
     workspaceName,
@@ -39,7 +42,7 @@ async function getTokenOnlineEndpoint() {
 }
 
 async function main() {
-  getTokenOnlineEndpoint();
+  getTokenWorkspaceOnlineEndpoint();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   WorkspaceConnectionsListOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/WorkspaceConnection/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/WorkspaceConnection/list.json
  */
 async function listWorkspaceConnections() {
   const subscriptionId =
@@ -34,7 +34,10 @@ async function listWorkspaceConnections() {
   const category = "ContainerRegistry";
   const options: WorkspaceConnectionsListOptionalParams = { target, category };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.workspaceConnections.list(
     resourceGroupName,

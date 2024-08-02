@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to Delete version.
  *
  * @summary Delete version.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/EnvironmentVersion/delete.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/EnvironmentVersion/delete.json
  */
-async function deleteEnvironmentVersion() {
+async function deleteWorkspaceEnvironmentVersion() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -30,7 +30,10 @@ async function deleteEnvironmentVersion() {
   const name = "string";
   const version = "string";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.environmentVersions.delete(
     resourceGroupName,
     workspaceName,
@@ -41,7 +44,7 @@ async function deleteEnvironmentVersion() {
 }
 
 async function main() {
-  deleteEnvironmentVersion();
+  deleteWorkspaceEnvironmentVersion();
 }
 
 main().catch(console.error);

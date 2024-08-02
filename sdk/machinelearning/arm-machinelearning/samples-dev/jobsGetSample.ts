@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Job by name/id.
  *
  * @summary Gets a Job by name/id.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/AutoMLJob/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/AutoMLJob/get.json
  */
 async function getAutoMlJob() {
   const subscriptionId =
@@ -29,7 +29,10 @@ async function getAutoMlJob() {
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.get(resourceGroupName, workspaceName, id);
   console.log(result);
 }
@@ -38,7 +41,7 @@ async function getAutoMlJob() {
  * This sample demonstrates how to Gets a Job by name/id.
  *
  * @summary Gets a Job by name/id.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/CommandJob/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/CommandJob/get.json
  */
 async function getCommandJob() {
   const subscriptionId =
@@ -49,7 +52,10 @@ async function getCommandJob() {
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.get(resourceGroupName, workspaceName, id);
   console.log(result);
 }
@@ -58,7 +64,7 @@ async function getCommandJob() {
  * This sample demonstrates how to Gets a Job by name/id.
  *
  * @summary Gets a Job by name/id.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/PipelineJob/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/PipelineJob/get.json
  */
 async function getPipelineJob() {
   const subscriptionId =
@@ -69,7 +75,10 @@ async function getPipelineJob() {
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.get(resourceGroupName, workspaceName, id);
   console.log(result);
 }
@@ -78,7 +87,7 @@ async function getPipelineJob() {
  * This sample demonstrates how to Gets a Job by name/id.
  *
  * @summary Gets a Job by name/id.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/SweepJob/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/SweepJob/get.json
  */
 async function getSweepJob() {
   const subscriptionId =
@@ -89,7 +98,10 @@ async function getSweepJob() {
   const workspaceName = "my-aml-workspace";
   const id = "string";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.get(resourceGroupName, workspaceName, id);
   console.log(result);
 }

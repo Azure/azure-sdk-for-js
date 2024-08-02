@@ -11,7 +11,7 @@
 import {
   Datastore,
   DatastoresCreateOrUpdateOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
   const subscriptionId =
@@ -52,7 +52,10 @@ async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.datastores.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -67,7 +70,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
   const subscriptionId =
@@ -100,7 +103,10 @@ async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.datastores.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -115,7 +121,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
   const subscriptionId =
@@ -144,7 +150,10 @@ async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.datastores.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -159,7 +168,7 @@ async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
   const subscriptionId =
@@ -188,7 +197,10 @@ async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
   };
   const options: DatastoresCreateOrUpdateOptionalParams = { skipValidation };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.datastores.createOrUpdate(
     resourceGroupName,
     workspaceName,

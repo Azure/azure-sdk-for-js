@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ComponentVersionsListOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to List component versions.
  *
  * @summary List component versions.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/ComponentVersion/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/ComponentVersion/list.json
  */
-async function listComponentVersion() {
+async function listWorkspaceComponentVersion() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -35,7 +35,10 @@ async function listComponentVersion() {
   const top = 1;
   const options: ComponentVersionsListOptionalParams = { orderBy, top };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.componentVersions.list(
     resourceGroupName,
@@ -49,7 +52,7 @@ async function listComponentVersion() {
 }
 
 async function main() {
-  listComponentVersion();
+  listWorkspaceComponentVersion();
 }
 
 main().catch(console.error);

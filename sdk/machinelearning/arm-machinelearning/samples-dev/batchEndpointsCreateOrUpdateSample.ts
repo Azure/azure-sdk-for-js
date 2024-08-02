@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BatchEndpoint,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Creates a batch inference endpoint (asynchronous).
  *
  * @summary Creates a batch inference endpoint (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchEndpoint/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/BatchEndpoint/createOrUpdate.json
  */
-async function createOrUpdateBatchEndpoint() {
+async function createOrUpdateWorkspaceBatchEndpoint() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -54,7 +54,10 @@ async function createOrUpdateBatchEndpoint() {
     tags: {},
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.batchEndpoints.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -65,7 +68,7 @@ async function createOrUpdateBatchEndpoint() {
 }
 
 async function main() {
-  createOrUpdateBatchEndpoint();
+  createOrUpdateWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

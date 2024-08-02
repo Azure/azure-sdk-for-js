@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ComponentVersion,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Create or update version.
  *
  * @summary Create or update version.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/ComponentVersion/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/ComponentVersion/createOrUpdate.json
  */
-async function createOrUpdateComponentVersion() {
+async function createOrUpdateWorkspaceComponentVersion() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -42,7 +42,10 @@ async function createOrUpdateComponentVersion() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.componentVersions.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -54,7 +57,7 @@ async function createOrUpdateComponentVersion() {
 }
 
 async function main() {
-  createOrUpdateComponentVersion();
+  createOrUpdateWorkspaceComponentVersion();
 }
 
 main().catch(console.error);

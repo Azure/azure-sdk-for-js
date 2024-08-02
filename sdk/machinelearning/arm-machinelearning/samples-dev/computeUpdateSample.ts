@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterUpdateParameters,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates properties of a compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation.
  *
  * @summary Updates properties of a compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/patch.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/patch.json
  */
 async function updateAAmlCompute() {
   const subscriptionId =
@@ -41,7 +41,10 @@ async function updateAAmlCompute() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.computeOperations.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,

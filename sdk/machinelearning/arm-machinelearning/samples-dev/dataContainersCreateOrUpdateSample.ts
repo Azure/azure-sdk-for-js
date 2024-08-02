@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DataContainer,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Create or update container.
  *
  * @summary Create or update container.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/DataContainer/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/DataContainer/createOrUpdate.json
  */
-async function createOrUpdateDataContainer() {
+async function createOrUpdateWorkspaceDataContainer() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -40,7 +40,10 @@ async function createOrUpdateDataContainer() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.dataContainers.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -51,7 +54,7 @@ async function createOrUpdateDataContainer() {
 }
 
 async function main() {
-  createOrUpdateDataContainer();
+  createOrUpdateWorkspaceDataContainer();
 }
 
 main().catch(console.error);

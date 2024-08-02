@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   JobBase,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -19,9 +19,11 @@ dotenv.config();
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
  *
  * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/AutoMLJob/createOrUpdate.json
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/AutoMLJob/createOrUpdate.json
  */
 async function createOrUpdateAutoMlJob() {
   const subscriptionId =
@@ -78,7 +80,10 @@ async function createOrUpdateAutoMlJob() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -90,9 +95,11 @@ async function createOrUpdateAutoMlJob() {
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
  *
  * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/CommandJob/createOrUpdate.json
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/CommandJob/createOrUpdate.json
  */
 async function createOrUpdateCommandJob() {
   const subscriptionId =
@@ -155,7 +162,10 @@ async function createOrUpdateCommandJob() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -167,9 +177,11 @@ async function createOrUpdateCommandJob() {
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
  *
  * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/PipelineJob/createOrUpdate.json
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/PipelineJob/createOrUpdate.json
  */
 async function createOrUpdatePipelineJob() {
   const subscriptionId =
@@ -215,7 +227,10 @@ async function createOrUpdatePipelineJob() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -227,9 +242,11 @@ async function createOrUpdatePipelineJob() {
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
  *
  * @summary Creates and executes a Job.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/SweepJob/createOrUpdate.json
+For update case, the Tags in the definition passed in will replace Tags in the existing job.
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/SweepJob/createOrUpdate.json
  */
 async function createOrUpdateSweepJob() {
   const subscriptionId =
@@ -287,7 +304,10 @@ async function createOrUpdateSweepJob() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.jobs.createOrUpdate(
     resourceGroupName,
     workspaceName,

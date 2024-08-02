@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   JobsListOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists Jobs in the workspace.
  *
  * @summary Lists Jobs in the workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/AutoMLJob/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/AutoMLJob/list.json
  */
 async function listAutoMlJob() {
   const subscriptionId =
@@ -31,7 +31,10 @@ async function listAutoMlJob() {
     process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.jobs.list(resourceGroupName, workspaceName)) {
     resArray.push(item);
@@ -43,7 +46,7 @@ async function listAutoMlJob() {
  * This sample demonstrates how to Lists Jobs in the workspace.
  *
  * @summary Lists Jobs in the workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/CommandJob/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/CommandJob/list.json
  */
 async function listCommandJob() {
   const subscriptionId =
@@ -56,7 +59,10 @@ async function listCommandJob() {
   const tag = "string";
   const options: JobsListOptionalParams = { jobType, tag };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.jobs.list(
     resourceGroupName,
@@ -72,7 +78,7 @@ async function listCommandJob() {
  * This sample demonstrates how to Lists Jobs in the workspace.
  *
  * @summary Lists Jobs in the workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/PipelineJob/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/PipelineJob/list.json
  */
 async function listPipelineJob() {
   const subscriptionId =
@@ -85,7 +91,10 @@ async function listPipelineJob() {
   const tag = "string";
   const options: JobsListOptionalParams = { jobType, tag };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.jobs.list(
     resourceGroupName,
@@ -101,7 +110,7 @@ async function listPipelineJob() {
  * This sample demonstrates how to Lists Jobs in the workspace.
  *
  * @summary Lists Jobs in the workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/SweepJob/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/SweepJob/list.json
  */
 async function listSweepJob() {
   const subscriptionId =
@@ -114,7 +123,10 @@ async function listSweepJob() {
   const tag = "string";
   const options: JobsListOptionalParams = { jobType, tag };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.jobs.list(
     resourceGroupName,

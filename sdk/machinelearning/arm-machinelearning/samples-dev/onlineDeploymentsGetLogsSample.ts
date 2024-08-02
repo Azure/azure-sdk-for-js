@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DeploymentLogsRequest,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Polls an Endpoint operation.
  *
  * @summary Polls an Endpoint operation.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/getLogs.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/getLogs.json
  */
 async function getOnlineDeploymentLogs() {
   const subscriptionId =
@@ -37,7 +37,10 @@ async function getOnlineDeploymentLogs() {
     tail: 0,
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.onlineDeployments.getLogs(
     resourceGroupName,
     workspaceName,

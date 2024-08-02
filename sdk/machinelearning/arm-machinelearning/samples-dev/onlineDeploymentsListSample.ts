@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   OnlineDeploymentsListOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List Inference Endpoint Deployments.
  *
  * @summary List Inference Endpoint Deployments.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/list.json
  */
 async function listOnlineDeployments() {
   const subscriptionId =
@@ -35,7 +35,10 @@ async function listOnlineDeployments() {
   const top = 1;
   const options: OnlineDeploymentsListOptionalParams = { orderBy, top };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.onlineDeployments.list(
     resourceGroupName,

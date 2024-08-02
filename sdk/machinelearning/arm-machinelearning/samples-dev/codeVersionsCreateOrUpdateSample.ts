@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CodeVersion,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Create or update version.
  *
  * @summary Create or update version.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/CodeVersion/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/CodeVersion/createOrUpdate.json
  */
-async function createOrUpdateCodeVersion() {
+async function createOrUpdateWorkspaceCodeVersion() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -42,7 +42,10 @@ async function createOrUpdateCodeVersion() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.codeVersions.createOrUpdate(
     resourceGroupName,
     workspaceName,
@@ -54,7 +57,7 @@ async function createOrUpdateCodeVersion() {
 }
 
 async function main() {
-  createOrUpdateCodeVersion();
+  createOrUpdateWorkspaceCodeVersion();
 }
 
 main().catch(console.error);

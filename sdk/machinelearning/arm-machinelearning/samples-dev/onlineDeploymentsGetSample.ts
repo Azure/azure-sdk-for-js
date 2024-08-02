@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get Inference Deployment Deployment.
  *
  * @summary Get Inference Deployment Deployment.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/KubernetesOnlineDeployment/get.json
  */
 async function getKubernetesOnlineDeployment() {
   const subscriptionId =
@@ -30,7 +30,10 @@ async function getKubernetesOnlineDeployment() {
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.onlineDeployments.get(
     resourceGroupName,
     workspaceName,
@@ -44,7 +47,7 @@ async function getKubernetesOnlineDeployment() {
  * This sample demonstrates how to Get Inference Deployment Deployment.
  *
  * @summary Get Inference Deployment Deployment.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/get.json
  */
 async function getManagedOnlineDeployment() {
   const subscriptionId =
@@ -56,7 +59,10 @@ async function getManagedOnlineDeployment() {
   const endpointName = "testEndpointName";
   const deploymentName = "testDeploymentName";
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.onlineDeployments.get(
     resourceGroupName,
     workspaceName,

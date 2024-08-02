@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartialMinimalTrackedResourceWithIdentity,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,9 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Update a batch inference endpoint (asynchronous).
  *
  * @summary Update a batch inference endpoint (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchEndpoint/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/BatchEndpoint/update.json
  */
-async function updateBatchEndpoint() {
+async function updateWorkspaceBatchEndpoint() {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -39,7 +39,10 @@ async function updateBatchEndpoint() {
     tags: {},
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.batchEndpoints.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
@@ -50,7 +53,7 @@ async function updateBatchEndpoint() {
 }
 
 async function main() {
-  updateBatchEndpoint();
+  updateWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

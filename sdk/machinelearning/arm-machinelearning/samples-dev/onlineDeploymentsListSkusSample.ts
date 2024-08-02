@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   OnlineDeploymentsListSkusOptionalParams,
-  AzureMachineLearningWorkspaces,
+  AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List Inference Endpoint Deployment Skus.
  *
  * @summary List Inference Endpoint Deployment Skus.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/listSkus.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/KubernetesOnlineDeployment/listSkus.json
  */
 async function listKubernetesOnlineDeploymentSkus() {
   const subscriptionId =
@@ -35,7 +35,10 @@ async function listKubernetesOnlineDeploymentSkus() {
   const count = 1;
   const options: OnlineDeploymentsListSkusOptionalParams = { count };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.onlineDeployments.listSkus(
     resourceGroupName,
@@ -53,7 +56,7 @@ async function listKubernetesOnlineDeploymentSkus() {
  * This sample demonstrates how to List Inference Endpoint Deployment Skus.
  *
  * @summary List Inference Endpoint Deployment Skus.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/listSkus.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/listSkus.json
  */
 async function listManagedOnlineDeploymentSkus() {
   const subscriptionId =
@@ -67,7 +70,10 @@ async function listManagedOnlineDeploymentSkus() {
   const count = 1;
   const options: OnlineDeploymentsListSkusOptionalParams = { count };
   const credential = new DefaultAzureCredential();
-  const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+  const client = new AzureMachineLearningServicesManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.onlineDeployments.listSkus(
     resourceGroupName,
