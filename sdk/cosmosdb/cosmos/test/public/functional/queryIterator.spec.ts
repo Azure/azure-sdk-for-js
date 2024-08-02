@@ -6,7 +6,11 @@ import assert from "assert";
 import { Container, CosmosClient, FeedOptions, OperationType, ResourceType } from "../../../src";
 import { endpoint } from "../../public/common/_testConfig";
 import { masterKey } from "../../public/common/_fakeTestSecrets";
-import { getTestContainer, removeAllDatabases } from "../../public/common/TestHelpers";
+import {
+  getTestContainer,
+  isValidV4UUID,
+  removeAllDatabases,
+} from "../../public/common/TestHelpers";
 
 describe("Correlated Activity Id", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);
@@ -52,13 +56,13 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     const fetchNextResult = await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
     assert.equal(fetchNextResult.correlatedActivityId, correlatedIdFetchNext);
     capturedCorrelatedActivityIds = [];
     const fetchAllResult = await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
     assert.equal(fetchAllResult.correlatedActivityId, correlatedIdFetchAll);
     assert.ok(correlatedIdFetchAll !== correlatedIdFetchNext);
@@ -75,7 +79,7 @@ describe("Correlated Activity Id", function () {
       await queryIterator.fetchNext();
     }
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -92,7 +96,7 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -109,7 +113,7 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -125,7 +129,7 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -141,7 +145,7 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -149,14 +153,14 @@ describe("Correlated Activity Id", function () {
     );
   });
 
-  it("getAsyncIterator should pass correlation Id to request header", async () => {
+  it("getAsyncIterator should pass correlation ID to request header", async () => {
     const queryIterator = container.items.readAll();
     capturedCorrelatedActivityIds = [];
     for await (const response of queryIterator.getAsyncIterator()) {
       assert.equal(response.correlatedActivityId, capturedCorrelatedActivityIds[0]);
     }
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -169,7 +173,7 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -177,7 +181,7 @@ describe("Correlated Activity Id", function () {
       // The loop is intentionally empty
     }
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
     assert.ok(correlatedIdFetchAll !== correlatedIdAsyncIterator);
   });
@@ -187,7 +191,7 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -195,7 +199,7 @@ describe("Correlated Activity Id", function () {
       // The loop is intentionally empty
     }
     assert.ok(capturedCorrelatedActivityIds.length);
-    assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
     assert.ok(correlatedIdFetchNext !== correlatedIdAsyncIterator);
   });
@@ -237,24 +241,15 @@ describe("Correlated Activity Id", function () {
       }
     } catch (err) {
       assert.ok(capturedCorrelatedActivityIds.length);
-      assert.ok(isValidUUID(capturedCorrelatedActivityIds));
+      assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
       assert.equal(
         err.headers["x-ms-cosmos-correlated-activityid"],
         capturedCorrelatedActivityIds[0],
       );
     }
   });
-
-  after(async function () {
-    await removeAllDatabases();
-  });
 });
-function isValidUUID(capturedCorrelatedIdsList: any[]): boolean {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  for (const uuid of capturedCorrelatedIdsList) {
-    if (!uuidRegex.test(uuid)) {
-      return false;
-    }
-  }
-  return true;
-}
+
+after(async function () {
+  await removeAllDatabases();
+});
