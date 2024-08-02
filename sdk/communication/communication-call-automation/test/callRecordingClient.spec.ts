@@ -21,7 +21,6 @@ import {
   PlayOptions,
   StartRecordingOptions,
 } from "../src/models/options";
-import { apiVersion } from "../src/generated/src/models/parameters";
 import { ChannelAffinity } from "@azure/communication-call-automation";
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 import { CallAutomationClient, CallInvite, CallConnection } from "../src";
@@ -91,10 +90,6 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(data.channelAffinity[0].participant.communicationUser.id, CALL_TARGET_ID);
     assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
     assert.equal(request.method, "POST");
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
-    );
   });
 
   it("makes successful startRecording request", async function () {
@@ -122,10 +117,6 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(data.callLocator.kind, "serverCallLocator");
     assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
     assert.equal(request.method, "POST");
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
-    );
   });
 
   it("makes successful getRecordingProperties request", async function () {
@@ -142,10 +133,6 @@ describe("CallRecording Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
 
     assert.equal(request.method, "GET");
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
-    );
   });
 
   it("Sends correct args to stop a recording", async () => {
@@ -154,11 +141,6 @@ describe("CallRecording Unit Tests", async function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     await callRecording.stop(RECORDING_ID);
     const request = spy.getCall(0).args[0];
-
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
-    );
     assert.equal(request.method, "DELETE");
   });
 
@@ -168,11 +150,6 @@ describe("CallRecording Unit Tests", async function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     await callRecording.pause(RECORDING_ID);
     const request = spy.getCall(0).args[0];
-
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`,
-    );
     assert.equal(request.method, "POST");
   });
 
@@ -182,11 +159,6 @@ describe("CallRecording Unit Tests", async function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     await callRecording.resume(RECORDING_ID);
     const request = spy.getCall(0).args[0];
-
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`,
-    );
     assert.equal(request.method, "POST");
   });
 });

@@ -57,6 +57,8 @@ const envSetupForPlayback: Record<string, string> = {
   SERVICEBUS_STRING:
     "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
   FILE_SOURCE_URL: "https://example.com/audio/test.wav",
+  TRANSPORT_URL: "https://REDACTED",
+  COGNITIVE_SERVICE_ENDPOINT: "https://REDACTED.cognitiveservices.azure.com/",
 };
 
 const fakeToken = generateToken();
@@ -69,7 +71,12 @@ const serviceBusConnectionString: string = !isPlaybackMode()
 export const fileSourceUrl: string = !isPlaybackMode()
   ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["FILE_SOURCE_URL"];
-
+export const transportUrl: string = !isPlaybackMode()
+  ? (env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"])
+  : envSetupForPlayback["TRANSPORT_URL"];
+export const cognitiveServiceEndpoint: string = !isPlaybackMode()
+  ? (env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"])
+  : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
@@ -122,6 +129,7 @@ export const recorderOptions: RecorderStartOptions = {
       },
     ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+    uriSanitizers: [{ regex: true, value: "https://endpoint", target: "https://([^/?]+)" }],
   },
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
@@ -278,14 +286,7 @@ export function persistEvents(testName: string): void {
     const sanatizedEvents: any[] = [];
     for (const event of eventsToPersist) {
       const jsonData = JSON.parse(event);
-      sanitizeObject(jsonData, [
-        "rawId",
-        "id",
-        "incomingCallContext",
-        "value",
-        "correlationId",
-        "serverCallId",
-      ]);
+      sanitizeObject(jsonData, ["rawId", "id", "incomingCallContext", "value", "serverCallId"]);
       sanatizedEvents.push(jsonData);
     }
 
