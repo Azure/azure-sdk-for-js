@@ -32,11 +32,11 @@ export async function createClient(
   const credential = isPlaybackMode()
     ? new NoOpCredential()
     : new UsernamePasswordCredential(
-      env["AZURE_TENANT_ID"] ?? "",
-      env["AZURE_CLIENT_ID"] ?? "",
-      env["USERNAME"] ?? "",
-      env["PASSWORD"] ?? "",
-    );
+        env["AZURE_TENANT_ID"] ?? "",
+        env["AZURE_CLIENT_ID"] ?? "",
+        env["USERNAME"] ?? "",
+        env["PASSWORD"] ?? "",
+      );
   await recorder.start(recorderEnvSetup);
   return PurviewWorkflow(
     env.ENDPOINT ?? "",
