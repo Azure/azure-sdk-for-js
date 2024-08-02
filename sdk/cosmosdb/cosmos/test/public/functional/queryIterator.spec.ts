@@ -248,8 +248,7 @@ describe("Correlated Activity Id", function () {
       );
     }
   });
-});
-
-after(async function () {
-  await removeAllDatabases();
+  after(async function () {
+    await removeAllDatabases();
+  });
 });
