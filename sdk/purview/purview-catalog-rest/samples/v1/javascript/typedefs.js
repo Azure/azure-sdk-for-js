@@ -7,7 +7,7 @@
  * @summary gets a list of typedefs for entities
  */
 
-const PurviewCatalog = require("@azure-rest/purview-catalog");
+const PurviewCatalog = require("@azure-rest/purview-catalog").default;
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 
