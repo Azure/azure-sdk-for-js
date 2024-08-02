@@ -16,7 +16,6 @@ import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/e
 import { Guid } from "guid-typescript";
 import { parseIntOrThrow } from "../src/blobCheckpointStore";
 import { fail } from "assert";
-import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("Blob Checkpoint Store", function (): void {
