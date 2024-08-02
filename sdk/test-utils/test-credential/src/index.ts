@@ -17,7 +17,6 @@ import { NoOpCredential } from "./noOpCredential";
 import { TokenCredential } from "@azure/core-auth";
 import { isBrowser } from "@azure/core-util";
 import { createBrowserRelayCredential } from "./browserRelayCredential";
-import { RestError } from "../../../core/core-rest-pipeline/dist/commonjs";
 
 /**
  * Alias of the different possible options shapes for the DefaultAzureCredential constructor.
@@ -69,7 +68,7 @@ export function createTestCredential(
       if (serviceConnectionID && clientID && tenantID){
         return new AzurePipelinesCredential(tenantID, clientID, serviceConnectionID, systemAccessToken, dacOptions);
       }
-      throw new RestError(`Running in Azure Pipelines environment. Missing environment variables: 
+      throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
         serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
     }
     return new ChainedTokenCredential(
