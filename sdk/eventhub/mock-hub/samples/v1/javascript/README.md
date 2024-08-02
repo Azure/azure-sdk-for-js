@@ -57,7 +57,7 @@ npx cross-env CERT_PASSPHRASE="<cert passphrase>" node start.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [start]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/samples/v1/javascript/start.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/mock-hub
+[apiref]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/mock-hub/README.md

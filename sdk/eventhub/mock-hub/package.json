@@ -57,9 +57,6 @@
       "esm",
       "commonjs"
     ],
-    "esmDialects": [
-      "browser"
-    ],
     "selfLink": false
   },
   "devDependencies": {
@@ -67,7 +64,6 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
@@ -79,9 +75,9 @@
     "vitest": "^2.0.5"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "rhea": "^3.0.0",
-    "tslib": "^2.2.0"
+    "@azure/abort-controller": "^2.1.2",
+    "rhea": "^3.0.2",
+    "tslib": "^2.6.3"
   },
   "//sampleConfiguration": {
     "productName": "Internal Mock Hub",
@@ -97,10 +93,6 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"

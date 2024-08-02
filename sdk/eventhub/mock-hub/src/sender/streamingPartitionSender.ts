@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { DeliveryAnnotations, Message, Sender, SenderEvents, types } from "rhea";
+import rhea from "rhea";
 import { MessageRecord, MessageStore } from "../storage/messageStore.js";
 import { EventPosition } from "../utils/eventPosition.js";
 
@@ -15,7 +15,7 @@ export class StreamingPartitionSender {
   private _messageStore: MessageStore;
   private _messageIterator: ReturnType<MessageStore["getMessageIterator"]>;
   private _partitionId: string;
-  private _sender: Sender;
+  private _sender: rhea.Sender;
   private _abortController = new AbortController();
   private _enableRuntimeMetric: boolean;
 
@@ -29,7 +29,7 @@ export class StreamingPartitionSender {
    */
   constructor(
     messageStore: MessageStore,
-    sender: Sender,
+    sender: rhea.Sender,
     partitionId: string,
     startPosition: EventPosition,
     enableRuntimeMetric: boolean,
@@ -74,7 +74,7 @@ export class StreamingPartitionSender {
 
         // Set the message's message annotations.
         const messageAnnotations = value.message.message_annotations ?? {};
-        messageAnnotations["x-opt-sequence-number"] = types.wrap_long(value.sequenceNumber);
+        messageAnnotations["x-opt-sequence-number"] = rhea.types.wrap_long(value.sequenceNumber);
         messageAnnotations["x-opt-offset"] = `${value.offset}`;
         messageAnnotations["x-opt-enqueued-time"] = value.enqueuedTime;
         if (value.partitionKey) {
@@ -82,11 +82,11 @@ export class StreamingPartitionSender {
         }
 
         // Set the `PartitionInfo` if `enableRuntimeMetric` is turned on.
-        const deliveryAnnotations: DeliveryAnnotations = {};
+        const deliveryAnnotations: rhea.DeliveryAnnotations = {};
         if (this._enableRuntimeMetric) {
           const partitionInfo = this._messageStore.getPartitionInfo(this._partitionId);
           deliveryAnnotations["last_enqueued_offset"] = partitionInfo.lastEnqueuedOffset;
-          deliveryAnnotations["last_enqueued_sequence_number"] = types.wrap_long(
+          deliveryAnnotations["last_enqueued_sequence_number"] = rhea.types.wrap_long(
             partitionInfo.lastEnqueuedSequenceNumber,
           );
           deliveryAnnotations["last_enqueued_time_utc"] = partitionInfo.lastEnqueuedTimeUtc;
@@ -98,7 +98,7 @@ export class StreamingPartitionSender {
           await this._waitForSendable(sender, abortSignal);
         }
 
-        const outgoingMessage: Message = {
+        const outgoingMessage: rhea.Message = {
           ...value.message,
         };
         if (Object.keys(messageAnnotations).length) {
@@ -117,10 +117,11 @@ export class StreamingPartitionSender {
     } while (!abortSignal.aborted && !nextResult?.done);
   }
 
-  private _waitForSendable(sender: Sender, abortSignal: AbortSignalLike): Promise<void> {
+  private _waitForSendable(sender: rhea.Sender, abortSignal: AbortSignalLike): Promise<void> {
     return new Promise((resolve, reject) => {
       const onAbort = (): void => {
-        sender.removeListener(SenderEvents.sendable, onSendable);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        sender.removeListener(rhea.SenderEvents.sendable, onSendable);
         abortSignal.removeEventListener("abort", onAbort);
         reject(new AbortError("Cancelled operation."));
       };
@@ -130,7 +131,7 @@ export class StreamingPartitionSender {
         resolve();
       };
 
-      sender.once(SenderEvents.sendable, onSendable);
+      sender.once(rhea.SenderEvents.sendable, onSendable);
 
       abortSignal.addEventListener("abort", onAbort);
     });

@@ -22816,14 +22816,13 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-sojeKviiN1KL05kdwezTI4gIlst0VvHHJVcCJvowF05oip1cJb6KnriUSuFKli+mrk6K78Pnz9VAD36WXTZ/pA==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-fdZiN6hEOeSRR4qPmBE/oL2xfaxf9zruzdqq5+pt2u5+pbiXxd0fO6dLVijZ0znR/0AsfdVM/JAzxxB4tkIFXQ==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
       '@types/node': 18.19.42
-      '@vitest/browser': 2.0.5(playwright@1.45.3)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -22838,20 +22837,17 @@ packages:
       vitest: 2.0.5(@types/node@18.19.42)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
+      - '@vitest/browser'
       - '@vitest/ui'
-      - bufferutil
       - happy-dom
       - jsdom
       - less
       - lightningcss
-      - safaridriver
       - sass
       - stylus
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
-      - webdriverio
     dev: false
 
   file:projects/monitor-ingestion.tgz:
