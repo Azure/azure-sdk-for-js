@@ -338,8 +338,11 @@ export interface CommunicationIdentifierModel {
 }
 
 /** Communication model identifier kind */
-/** "unknown", "communicationUser", "phoneNumber", "microsoftTeamsUser" */
-export type CommunicationIdentifierModelKind = string;
+export type CommunicationIdentifierModelKind =
+  | "unknown"
+  | "communicationUser"
+  | "phoneNumber"
+  | "microsoftTeamsUser";
 
 /** A user that got created with an Azure Communication Services resource. */
 export interface CommunicationUserIdentifierModel {
@@ -364,8 +367,7 @@ export interface MicrosoftTeamsUserIdentifierModel {
 }
 
 /** Communication cloud environment model. */
-/** "public", "dod", "gcch" */
-export type CommunicationCloudEnvironmentModel = string;
+export type CommunicationCloudEnvironmentModel = "public" | "dod" | "gcch";
 
 /** A Microsoft Teams application. */
 export interface MicrosoftTeamsAppIdentifierModel {
@@ -705,14 +707,11 @@ export interface AcsRecordingChunkInfo {
 }
 
 /** Recording content type */
-/** "AudioVideo", "Audio" */
-export type RecordingContentType = string;
+export type RecordingContentType = "AudioVideo" | "Audio";
 /** Recording channel type */
-/** "Mixed", "Unmixed" */
-export type RecordingChannelType = string;
+export type RecordingChannelType = "Mixed" | "Unmixed";
 /** Recording format type */
-/** "Wav", "Mp3", "Mp4" */
-export type RecordingFormatType = string;
+export type RecordingFormatType = "Wav" | "Mp3" | "Mp4";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailDeliveryReportReceived event. */
 export interface AcsEmailDeliveryReportReceivedEventData {
@@ -731,8 +730,13 @@ export interface AcsEmailDeliveryReportReceivedEventData {
 }
 
 /** The status of the email. Any value other than Delivered is considered failed. */
-/** "Bounced", "Delivered", "Failed", "FilteredSpam", "Quarantined", "Suppressed" */
-export type AcsEmailDeliveryReportStatus = string;
+export type AcsEmailDeliveryReportStatus =
+  | "Bounced"
+  | "Delivered"
+  | "Failed"
+  | "FilteredSpam"
+  | "Quarantined"
+  | "Suppressed";
 
 /** Detailed information about the status if any */
 export interface AcsEmailDeliveryReportStatusDetails {
@@ -759,8 +763,7 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
 }
 
 /** The type of engagement user have with email. */
-/** "view", "click" */
-export type AcsUserEngagement = string;
+export type AcsUserEngagement = "view" | "click";
 
 /** Schema of common properties of all Router events */
 export interface AcsRouterEventData {
@@ -851,11 +854,15 @@ export interface AcsRouterWorkerSelector {
 }
 
 /** Router Job Worker Selector Label Operator */
-/** "Equal", "NotEqual", "Greater", "Less", "GreaterThanOrEqual", "LessThanOrEqual" */
-export type AcsRouterLabelOperator = string;
+export type AcsRouterLabelOperator =
+  | "Equal"
+  | "NotEqual"
+  | "Greater"
+  | "Less"
+  | "GreaterThanOrEqual"
+  | "LessThanOrEqual";
 /** Router Worker Selector State */
-/** "active", "expired" */
-export type AcsRouterWorkerSelectorState = string;
+export type AcsRouterWorkerSelectorState = "active" | "expired";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClosed event */
 export interface AcsRouterJobClosedEventData extends AcsRouterJobEventData {
@@ -913,8 +920,19 @@ export interface AcsRouterJobReceivedEventData extends AcsRouterJobEventData {
 }
 
 /** Acs Router Job Status */
-/** "PendingClassification", "Queued", "Assigned", "Completed", "Closed", "Cancelled", "ClassificationFailed", "Created", "PendingSchedule", "Scheduled", "ScheduleFailed", "WaitingForActivation" */
-export type AcsRouterJobStatus = string;
+export type AcsRouterJobStatus =
+  | "PendingClassification"
+  | "Queued"
+  | "Assigned"
+  | "Completed"
+  | "Closed"
+  | "Cancelled"
+  | "ClassificationFailed"
+  | "Created"
+  | "PendingSchedule"
+  | "Scheduled"
+  | "ScheduleFailed"
+  | "WaitingForActivation";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobSchedulingFailed event */
 export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEventData {
@@ -1086,8 +1104,13 @@ export interface AcsRouterWorkerUpdatedEventData {
 }
 
 /** Worker properties that can be updated */
-/** "AvailableForOffers", "TotalCapacity", "QueueAssignments", "Labels", "Tags", "ChannelConfigurations" */
-export type AcsRouterUpdatedWorkerProperty = string;
+export type AcsRouterUpdatedWorkerProperty =
+  | "AvailableForOffers"
+  | "TotalCapacity"
+  | "QueueAssignments"
+  | "Labels"
+  | "Tags"
+  | "ChannelConfigurations";
 
 /** Schema of common properties of all chat thread events */
 export interface AcsMessageEventData {
@@ -1120,11 +1143,15 @@ export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEven
 }
 
 /** Message delivery status */
-/** "read", "delivered", "failed", "sent", "warning", "unknown" */
-export type AcsMessageDeliveryStatus = string;
+export type AcsMessageDeliveryStatus =
+  | "read"
+  | "delivered"
+  | "failed"
+  | "sent"
+  | "warning"
+  | "unknown";
 /** Message channel kind */
-/** "whatsapp" */
-export type AcsMessageChannelKind = string;
+export type AcsMessageChannelKind = "whatsapp";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
 export interface AcsMessageReceivedEventData extends AcsMessageEventData {
@@ -1181,8 +1208,7 @@ export interface AcsMessageInteractiveContent {
 }
 
 /** Interactive reply kind */
-/** "buttonReply", "listReply", "unknown" */
-export type AcsInteractiveReplyKind = string;
+export type AcsInteractiveReplyKind = "buttonReply" | "listReply" | "unknown";
 
 /** Message Interactive button reply content for a user to business message */
 export interface AcsMessageInteractiveButtonReplyContent {
@@ -1378,8 +1404,7 @@ export interface DataBoxCopyStartedEventData {
 }
 
 /** Schema of DataBox Stage Name enumeration. */
-/** "CopyStarted", "CopyCompleted", "OrderCompleted" */
-export type DataBoxStageName = string;
+export type DataBoxStageName = "CopyStarted" | "CopyCompleted" | "OrderCompleted";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyCompleted event. */
 export interface DataBoxCopyCompletedEventData {
@@ -1582,8 +1607,168 @@ export interface HealthcareFhirResourceCreatedEventData {
 }
 
 /** Schema of FHIR resource type enumeration. */
-/** "Account", "ActivityDefinition", "AdverseEvent", "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BiologicallyDerivedProduct", "BodySite", "BodyStructure", "Bundle", "CapabilityStatement", "CarePlan", "CareTeam", "CatalogEntry", "ChargeItem", "ChargeItemDefinition", "Claim", "ClaimResponse", "ClinicalImpression", "CodeSystem", "Communication", "CommunicationRequest", "CompartmentDefinition", "Composition", "ConceptMap", "Condition", "Consent", "Contract", "Coverage", "CoverageEligibilityRequest", "CoverageEligibilityResponse", "DataElement", "DetectedIssue", "Device", "DeviceComponent", "DeviceDefinition", "DeviceMetric", "DeviceRequest", "DeviceUseStatement", "DiagnosticReport", "DocumentManifest", "DocumentReference", "DomainResource", "EffectEvidenceSynthesis", "EligibilityRequest", "EligibilityResponse", "Encounter", "Endpoint", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "EventDefinition", "Evidence", "EvidenceVariable", "ExampleScenario", "ExpansionProfile", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "GraphDefinition", "Group", "GuidanceResponse", "HealthcareService", "ImagingManifest", "ImagingStudy", "Immunization", "ImmunizationEvaluation", "ImmunizationRecommendation", "ImplementationGuide", "InsurancePlan", "Invoice", "Library", "Linkage", "List", "Location", "Measure", "MeasureReport", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationKnowledge", "MedicationRequest", "MedicationStatement", "MedicinalProduct", "MedicinalProductAuthorization", "MedicinalProductContraindication", "MedicinalProductIndication", "MedicinalProductIngredient", "MedicinalProductInteraction", "MedicinalProductManufactured", "MedicinalProductPackaged", "MedicinalProductPharmaceutical", "MedicinalProductUndesirableEffect", "MessageDefinition", "MessageHeader", "MolecularSequence", "NamingSystem", "NutritionOrder", "Observation", "ObservationDefinition", "OperationDefinition", "OperationOutcome", "Organization", "OrganizationAffiliation", "Parameters", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "PlanDefinition", "Practitioner", "PractitionerRole", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireResponse", "ReferralRequest", "RelatedPerson", "RequestGroup", "ResearchDefinition", "ResearchElementDefinition", "ResearchStudy", "ResearchSubject", "Resource", "RiskAssessment", "RiskEvidenceSynthesis", "Schedule", "SearchParameter", "Sequence", "ServiceDefinition", "ServiceRequest", "Slot", "Specimen", "SpecimenDefinition", "StructureDefinition", "StructureMap", "Subscription", "Substance", "SubstanceNucleicAcid", "SubstancePolymer", "SubstanceProtein", "SubstanceReferenceInformation", "SubstanceSourceMaterial", "SubstanceSpecification", "SupplyDelivery", "SupplyRequest", "Task", "TerminologyCapabilities", "TestReport", "TestScript", "ValueSet", "VerificationResult", "VisionPrescription" */
-export type HealthcareFhirResourceType = string;
+export type HealthcareFhirResourceType =
+  | "Account"
+  | "ActivityDefinition"
+  | "AdverseEvent"
+  | "AllergyIntolerance"
+  | "Appointment"
+  | "AppointmentResponse"
+  | "AuditEvent"
+  | "Basic"
+  | "Binary"
+  | "BiologicallyDerivedProduct"
+  | "BodySite"
+  | "BodyStructure"
+  | "Bundle"
+  | "CapabilityStatement"
+  | "CarePlan"
+  | "CareTeam"
+  | "CatalogEntry"
+  | "ChargeItem"
+  | "ChargeItemDefinition"
+  | "Claim"
+  | "ClaimResponse"
+  | "ClinicalImpression"
+  | "CodeSystem"
+  | "Communication"
+  | "CommunicationRequest"
+  | "CompartmentDefinition"
+  | "Composition"
+  | "ConceptMap"
+  | "Condition"
+  | "Consent"
+  | "Contract"
+  | "Coverage"
+  | "CoverageEligibilityRequest"
+  | "CoverageEligibilityResponse"
+  | "DataElement"
+  | "DetectedIssue"
+  | "Device"
+  | "DeviceComponent"
+  | "DeviceDefinition"
+  | "DeviceMetric"
+  | "DeviceRequest"
+  | "DeviceUseStatement"
+  | "DiagnosticReport"
+  | "DocumentManifest"
+  | "DocumentReference"
+  | "DomainResource"
+  | "EffectEvidenceSynthesis"
+  | "EligibilityRequest"
+  | "EligibilityResponse"
+  | "Encounter"
+  | "Endpoint"
+  | "EnrollmentRequest"
+  | "EnrollmentResponse"
+  | "EpisodeOfCare"
+  | "EventDefinition"
+  | "Evidence"
+  | "EvidenceVariable"
+  | "ExampleScenario"
+  | "ExpansionProfile"
+  | "ExplanationOfBenefit"
+  | "FamilyMemberHistory"
+  | "Flag"
+  | "Goal"
+  | "GraphDefinition"
+  | "Group"
+  | "GuidanceResponse"
+  | "HealthcareService"
+  | "ImagingManifest"
+  | "ImagingStudy"
+  | "Immunization"
+  | "ImmunizationEvaluation"
+  | "ImmunizationRecommendation"
+  | "ImplementationGuide"
+  | "InsurancePlan"
+  | "Invoice"
+  | "Library"
+  | "Linkage"
+  | "List"
+  | "Location"
+  | "Measure"
+  | "MeasureReport"
+  | "Media"
+  | "Medication"
+  | "MedicationAdministration"
+  | "MedicationDispense"
+  | "MedicationKnowledge"
+  | "MedicationRequest"
+  | "MedicationStatement"
+  | "MedicinalProduct"
+  | "MedicinalProductAuthorization"
+  | "MedicinalProductContraindication"
+  | "MedicinalProductIndication"
+  | "MedicinalProductIngredient"
+  | "MedicinalProductInteraction"
+  | "MedicinalProductManufactured"
+  | "MedicinalProductPackaged"
+  | "MedicinalProductPharmaceutical"
+  | "MedicinalProductUndesirableEffect"
+  | "MessageDefinition"
+  | "MessageHeader"
+  | "MolecularSequence"
+  | "NamingSystem"
+  | "NutritionOrder"
+  | "Observation"
+  | "ObservationDefinition"
+  | "OperationDefinition"
+  | "OperationOutcome"
+  | "Organization"
+  | "OrganizationAffiliation"
+  | "Parameters"
+  | "Patient"
+  | "PaymentNotice"
+  | "PaymentReconciliation"
+  | "Person"
+  | "PlanDefinition"
+  | "Practitioner"
+  | "PractitionerRole"
+  | "Procedure"
+  | "ProcedureRequest"
+  | "ProcessRequest"
+  | "ProcessResponse"
+  | "Provenance"
+  | "Questionnaire"
+  | "QuestionnaireResponse"
+  | "ReferralRequest"
+  | "RelatedPerson"
+  | "RequestGroup"
+  | "ResearchDefinition"
+  | "ResearchElementDefinition"
+  | "ResearchStudy"
+  | "ResearchSubject"
+  | "Resource"
+  | "RiskAssessment"
+  | "RiskEvidenceSynthesis"
+  | "Schedule"
+  | "SearchParameter"
+  | "Sequence"
+  | "ServiceDefinition"
+  | "ServiceRequest"
+  | "Slot"
+  | "Specimen"
+  | "SpecimenDefinition"
+  | "StructureDefinition"
+  | "StructureMap"
+  | "Subscription"
+  | "Substance"
+  | "SubstanceNucleicAcid"
+  | "SubstancePolymer"
+  | "SubstanceProtein"
+  | "SubstanceReferenceInformation"
+  | "SubstanceSourceMaterial"
+  | "SubstanceSpecification"
+  | "SupplyDelivery"
+  | "SupplyRequest"
+  | "Task"
+  | "TerminologyCapabilities"
+  | "TestReport"
+  | "TestScript"
+  | "ValueSet"
+  | "VerificationResult"
+  | "VisionPrescription";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceUpdated event. */
 export interface HealthcareFhirResourceUpdatedEventData {
@@ -1931,8 +2116,14 @@ export interface MediaJobStateChangeEventData {
 }
 
 /** State of a Media Job. */
-/** "Canceled", "Canceling", "Error", "Finished", "Processing", "Queued", "Scheduled" */
-export type MediaJobState = string;
+export type MediaJobState =
+  | "Canceled"
+  | "Canceling"
+  | "Error"
+  | "Finished"
+  | "Processing"
+  | "Queued"
+  | "Scheduled";
 
 /** Details of JobOutput errors. */
 export interface MediaJobError {
@@ -1949,14 +2140,27 @@ export interface MediaJobError {
 }
 
 /** Media Job Error Codes. */
-/** "ServiceError", "ServiceTransientError", "DownloadNotAccessible", "DownloadTransientError", "UploadNotAccessible", "UploadTransientError", "ConfigurationUnsupported", "ContentMalformed", "ContentUnsupported", "IdentityUnsupported" */
-export type MediaJobErrorCode = string;
+export type MediaJobErrorCode =
+  | "ServiceError"
+  | "ServiceTransientError"
+  | "DownloadNotAccessible"
+  | "DownloadTransientError"
+  | "UploadNotAccessible"
+  | "UploadTransientError"
+  | "ConfigurationUnsupported"
+  | "ContentMalformed"
+  | "ContentUnsupported"
+  | "IdentityUnsupported";
 /** Error categories for Media Job Errors. */
-/** "Service", "Download", "Upload", "Configuration", "Content", "Account" */
-export type MediaJobErrorCategory = string;
+export type MediaJobErrorCategory =
+  | "Service"
+  | "Download"
+  | "Upload"
+  | "Configuration"
+  | "Content"
+  | "Account";
 /** Media Job Retry Options. */
-/** "DoNotRetry", "MayRetry" */
-export type MediaJobRetry = string;
+export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 
 /** Details of JobOutput errors. */
 export interface MediaJobErrorDetail {
@@ -2871,6 +3075,10 @@ export interface StorageBlobTierChangedEventData {
   contentLength?: number;
   /** The type of blob. */
   blobType?: string;
+  /** The current tier of the blob. */
+  accessTier: StorageBlobAccessTier;
+  /** The previous tier of the blob. */
+  previousTier: StorageBlobAccessTier;
   /** The path to the blob. */
   url?: string;
   /** An opaque string value representing the logical sequence of events for any particular blob name. Users can use standard string comparison to understand the relative sequence of two events on the same blob name. */
@@ -2880,6 +3088,9 @@ export interface StorageBlobTierChangedEventData {
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
   storageDiagnostics: Record<string, any>;
 }
+
+/** The access tier of the blob */
+export type StorageBlobAccessTier = "Hot" | "Cool" | "Cold" | "Archive";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.AsyncOperationInitiated event. */
 export interface StorageAsyncOperationInitiatedEventData {
@@ -2938,8 +3149,7 @@ export interface StorageTaskCompletedEventData {
 }
 
 /** The status for a storage task. */
-/** "Succeeded", "Failed" */
-export type StorageTaskCompletedStatus = string;
+export type StorageTaskCompletedStatus = "Succeeded" | "Failed";
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskQueued event. */
 export interface StorageTaskQueuedEventData {
@@ -2972,8 +3182,7 @@ export interface StorageTaskAssignmentCompletedEventData {
 }
 
 /** The status for a storage task. */
-/** "Succeeded", "Failed" */
-export type StorageTaskAssignmentCompletedStatus = string;
+export type StorageTaskAssignmentCompletedStatus = "Succeeded" | "Failed";
 
 /** Detail of action on the app. */
 export interface AppEventTypeDetail {
@@ -2982,8 +3191,13 @@ export interface AppEventTypeDetail {
 }
 
 /** Type of action of the operation */
-/** "Restarted", "Stopped", "ChangedAppSettings", "Started", "Completed", "Failed" */
-export type AppAction = string;
+export type AppAction =
+  | "Restarted"
+  | "Stopped"
+  | "ChangedAppSettings"
+  | "Started"
+  | "Completed"
+  | "Failed";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.AppUpdated event. */
 export interface WebAppUpdatedEventData {
@@ -3232,14 +3446,11 @@ export interface AppServicePlanEventTypeDetail {
 }
 
 /** Kind of environment where app service plan is. */
-/** "Public", "AseV1", "AseV2" */
-export type StampKind = string;
+export type StampKind = "Public" | "AseV1" | "AseV2";
 /** Type of action on the app service plan. */
-/** "Updated" */
-export type AppServicePlanAction = string;
+export type AppServicePlanAction = "Updated";
 /** Asynchronous operation status of the operation on the app service plan. */
-/** "Started", "Completed", "Failed" */
-export type AsyncStatus = string;
+export type AsyncStatus = "Started" | "Completed" | "Failed";
 
 /** sku of app service plan. */
 export interface WebAppServicePlanUpdatedEventDataSku {
@@ -3322,8 +3533,7 @@ export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridM
 }
 
 /** EventGrid MQTT Client State */
-/** "Enabled", "Disabled" */
-export type EventGridMqttClientState = string;
+export type EventGridMqttClientState = "Enabled" | "Disabled";
 
 /** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
 export interface EventGridMqttClientDeletedEventData extends EventGridMqttClientEventData {}
@@ -3365,8 +3575,18 @@ export interface EventGridMqttClientSessionDisconnectedEventData
 }
 
 /** EventGrid MQTT Client Disconnection Reason */
-/** "ClientAuthenticationError", "ClientAuthorizationError", "ClientError", "ClientInitiatedDisconnect", "ConnectionLost", "IpForbidden", "QuotaExceeded", "ServerError", "ServerInitiatedDisconnect", "SessionOverflow", "SessionTakenOver" */
-export type EventGridMqttClientDisconnectionReason = string;
+export type EventGridMqttClientDisconnectionReason =
+  | "ClientAuthenticationError"
+  | "ClientAuthorizationError"
+  | "ClientError"
+  | "ClientInitiatedDisconnect"
+  | "ConnectionLost"
+  | "IpForbidden"
+  | "QuotaExceeded"
+  | "ServerError"
+  | "ServerInitiatedDisconnect"
+  | "SessionOverflow"
+  | "SessionTakenOver";
 
 /** Describes the schema of the common properties across all ARN system topic events */
 export interface ResourceNotificationsResourceUpdatedEventData {
@@ -3456,7 +3676,7 @@ export interface ResourceNotificationsResourceDeletedDetails {
 export interface ResourceNotificationsResourceManagementDeletedEventData
   extends ResourceNotificationsResourceDeletedEventData {}
 
-/** "2024-01-01" */
-export type ServiceApiVersions = "2024-01-01";
+/** Type of ServiceApiVersions */
+export type ServiceApiVersions = "2018-01-01" | "2024-01-01";
 /** Alias for MediaJobOutputUnion */
 export type MediaJobOutputUnion = MediaJobOutputAsset | MediaJobOutput;

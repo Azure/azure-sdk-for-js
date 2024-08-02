@@ -177,7 +177,7 @@ export interface AcsEmailDeliveryReportReceivedEventData {
 }
 
 // @public
-export type AcsEmailDeliveryReportStatus = string;
+export type AcsEmailDeliveryReportStatus = "Bounced" | "Delivered" | "Failed" | "FilteredSpam" | "Quarantined" | "Suppressed";
 
 // @public
 export interface AcsEmailDeliveryReportStatusDetails {
@@ -213,7 +213,7 @@ export interface AcsIncomingCallEventData {
 }
 
 // @public
-export type AcsInteractiveReplyKind = string;
+export type AcsInteractiveReplyKind = "buttonReply" | "listReply" | "unknown";
 
 // @public
 export interface AcsMessageButtonContent {
@@ -228,7 +228,7 @@ export interface AcsMessageChannelEventError {
 }
 
 // @public
-export type AcsMessageChannelKind = string;
+export type AcsMessageChannelKind = "whatsapp";
 
 // @public
 export interface AcsMessageContext {
@@ -237,7 +237,7 @@ export interface AcsMessageContext {
 }
 
 // @public
-export type AcsMessageDeliveryStatus = string;
+export type AcsMessageDeliveryStatus = "read" | "delivered" | "failed" | "sent" | "warning" | "unknown";
 
 // @public
 export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEventData {
@@ -418,7 +418,7 @@ export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEvent
 }
 
 // @public
-export type AcsRouterJobStatus = string;
+export type AcsRouterJobStatus = "PendingClassification" | "Queued" | "Assigned" | "Completed" | "Closed" | "Cancelled" | "ClassificationFailed" | "Created" | "PendingSchedule" | "Scheduled" | "ScheduleFailed" | "WaitingForActivation";
 
 // @public
 export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
@@ -442,7 +442,7 @@ export interface AcsRouterJobWorkerSelectorsExpiredEventData extends AcsRouterJo
 }
 
 // @public
-export type AcsRouterLabelOperator = string;
+export type AcsRouterLabelOperator = "Equal" | "NotEqual" | "Greater" | "Less" | "GreaterThanOrEqual" | "LessThanOrEqual";
 
 // @public
 export interface AcsRouterQueueDetails {
@@ -452,7 +452,7 @@ export interface AcsRouterQueueDetails {
 }
 
 // @public
-export type AcsRouterUpdatedWorkerProperty = string;
+export type AcsRouterUpdatedWorkerProperty = "AvailableForOffers" | "TotalCapacity" | "QueueAssignments" | "Labels" | "Tags" | "ChannelConfigurations";
 
 // @public
 export interface AcsRouterWorkerDeletedEventData extends AcsRouterWorkerEventData {
@@ -532,7 +532,7 @@ export interface AcsRouterWorkerSelector {
 }
 
 // @public
-export type AcsRouterWorkerSelectorState = string;
+export type AcsRouterWorkerSelectorState = "active" | "expired";
 
 // @public
 export interface AcsRouterWorkerUpdatedEventData {
@@ -580,7 +580,7 @@ export interface AcsUserDisconnectedEventData {
 }
 
 // @public
-export type AcsUserEngagement = string;
+export type AcsUserEngagement = "view" | "click";
 
 // @public
 export interface ApiCenterApiDefinitionAddedEventData {
@@ -733,7 +733,7 @@ export interface ApiManagementUserUpdatedEventData {
 }
 
 // @public
-export type AppAction = string;
+export type AppAction = "Restarted" | "Stopped" | "ChangedAppSettings" | "Started" | "Completed" | "Failed";
 
 // @public
 export interface AppConfigurationKeyValueDeletedEventData {
@@ -772,7 +772,7 @@ export interface AppEventTypeDetail {
 }
 
 // @public
-export type AppServicePlanAction = string;
+export type AppServicePlanAction = "Updated";
 
 // @public
 export interface AppServicePlanEventTypeDetail {
@@ -782,7 +782,7 @@ export interface AppServicePlanEventTypeDetail {
 }
 
 // @public
-export type AsyncStatus = string;
+export type AsyncStatus = "Started" | "Completed" | "Failed";
 
 // @public
 export interface AvsClusterCreatedEventData extends AvsClusterEventData {
@@ -871,7 +871,7 @@ export interface CloudEvent<T> {
 }
 
 // @public
-export type CommunicationCloudEnvironmentModel = string;
+export type CommunicationCloudEnvironmentModel = "public" | "dod" | "gcch";
 
 // @public
 export interface CommunicationIdentifierModel {
@@ -884,7 +884,7 @@ export interface CommunicationIdentifierModel {
 }
 
 // @public
-export type CommunicationIdentifierModelKind = string;
+export type CommunicationIdentifierModelKind = "unknown" | "communicationUser" | "phoneNumber" | "microsoftTeamsUser";
 
 // @public
 export interface CommunicationUserIdentifierModel {
@@ -1037,7 +1037,7 @@ export interface DataBoxOrderCompletedEventData {
 }
 
 // @public
-export type DataBoxStageName = string;
+export type DataBoxStageName = "CopyStarted" | "CopyCompleted" | "OrderCompleted";
 
 // @public
 export interface DeviceConnectionStateEvent {
@@ -1128,7 +1128,7 @@ export interface EventGridMqttClientDeletedEventData extends EventGridMqttClient
 }
 
 // @public
-export type EventGridMqttClientDisconnectionReason = string;
+export type EventGridMqttClientDisconnectionReason = "ClientAuthenticationError" | "ClientAuthorizationError" | "ClientError" | "ClientInitiatedDisconnect" | "ConnectionLost" | "IpForbidden" | "QuotaExceeded" | "ServerError" | "ServerInitiatedDisconnect" | "SessionOverflow" | "SessionTakenOver";
 
 // @public
 export interface EventGridMqttClientEventData {
@@ -1151,7 +1151,7 @@ export interface EventGridMqttClientSessionDisconnectedEventData extends EventGr
 }
 
 // @public
-export type EventGridMqttClientState = string;
+export type EventGridMqttClientState = "Enabled" | "Disabled";
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
@@ -1213,7 +1213,7 @@ export interface HealthcareFhirResourceDeletedEventData {
 }
 
 // @public
-export type HealthcareFhirResourceType = string;
+export type HealthcareFhirResourceType = "Account" | "ActivityDefinition" | "AdverseEvent" | "AllergyIntolerance" | "Appointment" | "AppointmentResponse" | "AuditEvent" | "Basic" | "Binary" | "BiologicallyDerivedProduct" | "BodySite" | "BodyStructure" | "Bundle" | "CapabilityStatement" | "CarePlan" | "CareTeam" | "CatalogEntry" | "ChargeItem" | "ChargeItemDefinition" | "Claim" | "ClaimResponse" | "ClinicalImpression" | "CodeSystem" | "Communication" | "CommunicationRequest" | "CompartmentDefinition" | "Composition" | "ConceptMap" | "Condition" | "Consent" | "Contract" | "Coverage" | "CoverageEligibilityRequest" | "CoverageEligibilityResponse" | "DataElement" | "DetectedIssue" | "Device" | "DeviceComponent" | "DeviceDefinition" | "DeviceMetric" | "DeviceRequest" | "DeviceUseStatement" | "DiagnosticReport" | "DocumentManifest" | "DocumentReference" | "DomainResource" | "EffectEvidenceSynthesis" | "EligibilityRequest" | "EligibilityResponse" | "Encounter" | "Endpoint" | "EnrollmentRequest" | "EnrollmentResponse" | "EpisodeOfCare" | "EventDefinition" | "Evidence" | "EvidenceVariable" | "ExampleScenario" | "ExpansionProfile" | "ExplanationOfBenefit" | "FamilyMemberHistory" | "Flag" | "Goal" | "GraphDefinition" | "Group" | "GuidanceResponse" | "HealthcareService" | "ImagingManifest" | "ImagingStudy" | "Immunization" | "ImmunizationEvaluation" | "ImmunizationRecommendation" | "ImplementationGuide" | "InsurancePlan" | "Invoice" | "Library" | "Linkage" | "List" | "Location" | "Measure" | "MeasureReport" | "Media" | "Medication" | "MedicationAdministration" | "MedicationDispense" | "MedicationKnowledge" | "MedicationRequest" | "MedicationStatement" | "MedicinalProduct" | "MedicinalProductAuthorization" | "MedicinalProductContraindication" | "MedicinalProductIndication" | "MedicinalProductIngredient" | "MedicinalProductInteraction" | "MedicinalProductManufactured" | "MedicinalProductPackaged" | "MedicinalProductPharmaceutical" | "MedicinalProductUndesirableEffect" | "MessageDefinition" | "MessageHeader" | "MolecularSequence" | "NamingSystem" | "NutritionOrder" | "Observation" | "ObservationDefinition" | "OperationDefinition" | "OperationOutcome" | "Organization" | "OrganizationAffiliation" | "Parameters" | "Patient" | "PaymentNotice" | "PaymentReconciliation" | "Person" | "PlanDefinition" | "Practitioner" | "PractitionerRole" | "Procedure" | "ProcedureRequest" | "ProcessRequest" | "ProcessResponse" | "Provenance" | "Questionnaire" | "QuestionnaireResponse" | "ReferralRequest" | "RelatedPerson" | "RequestGroup" | "ResearchDefinition" | "ResearchElementDefinition" | "ResearchStudy" | "ResearchSubject" | "Resource" | "RiskAssessment" | "RiskEvidenceSynthesis" | "Schedule" | "SearchParameter" | "Sequence" | "ServiceDefinition" | "ServiceRequest" | "Slot" | "Specimen" | "SpecimenDefinition" | "StructureDefinition" | "StructureMap" | "Subscription" | "Substance" | "SubstanceNucleicAcid" | "SubstancePolymer" | "SubstanceProtein" | "SubstanceReferenceInformation" | "SubstanceSourceMaterial" | "SubstanceSpecification" | "SupplyDelivery" | "SupplyRequest" | "Task" | "TerminologyCapabilities" | "TestReport" | "TestScript" | "ValueSet" | "VerificationResult" | "VisionPrescription";
 
 // @public
 export interface HealthcareFhirResourceUpdatedEventData {
@@ -1863,10 +1863,10 @@ export interface MediaJobError {
 }
 
 // @public
-export type MediaJobErrorCategory = string;
+export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content" | "Account";
 
 // @public
-export type MediaJobErrorCode = string;
+export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported" | "IdentityUnsupported";
 
 // @public
 export interface MediaJobErrorDetail {
@@ -1945,14 +1945,14 @@ export interface MediaJobProcessingEventData extends MediaJobStateChangeEventDat
 }
 
 // @public
-export type MediaJobRetry = string;
+export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 
 // @public
 export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {
 }
 
 // @public
-export type MediaJobState = string;
+export type MediaJobState = "Canceled" | "Canceling" | "Error" | "Finished" | "Processing" | "Queued" | "Scheduled";
 
 // @public
 export interface MediaJobStateChangeEventData {
@@ -2118,13 +2118,13 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
 }
 
 // @public
-export type RecordingChannelType = string;
+export type RecordingChannelType = "Mixed" | "Unmixed";
 
 // @public
-export type RecordingContentType = string;
+export type RecordingContentType = "AudioVideo" | "Audio";
 
 // @public
-export type RecordingFormatType = string;
+export type RecordingFormatType = "Wav" | "Mp3" | "Mp4";
 
 // @public
 export interface RedisExportRDBCompletedEventData {
@@ -2356,7 +2356,7 @@ export interface ResourceWriteSuccessEventData {
 }
 
 // @public
-export type ServiceApiVersions = "2024-01-01";
+export type ServiceApiVersions = "2018-01-01" | "2024-01-01";
 
 // @public
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
@@ -2416,7 +2416,7 @@ export interface SignalRServiceClientConnectionDisconnectedEventData {
 }
 
 // @public
-export type StampKind = string;
+export type StampKind = "Public" | "AseV1" | "AseV2";
 
 // @public
 export interface StorageAsyncOperationInitiatedEventData {
@@ -2431,6 +2431,9 @@ export interface StorageAsyncOperationInitiatedEventData {
     storageDiagnostics: Record<string, any>;
     url?: string;
 }
+
+// @public
+export type StorageBlobAccessTier = "Hot" | "Cool" | "Cold" | "Archive";
 
 // @public
 export interface StorageBlobCreatedEventData {
@@ -2486,12 +2489,14 @@ export interface StorageBlobRenamedEventData {
 
 // @public
 export interface StorageBlobTierChangedEventData {
+    accessTier: StorageBlobAccessTier;
     api?: string;
     blobType?: string;
     clientRequestId?: string;
     contentLength?: number;
     contentType?: string;
     identity?: string;
+    previousTier: StorageBlobAccessTier;
     requestId?: string;
     sequencer?: string;
     storageDiagnostics: Record<string, any>;
@@ -2559,7 +2564,7 @@ export interface StorageTaskAssignmentCompletedEventData {
 }
 
 // @public
-export type StorageTaskAssignmentCompletedStatus = string;
+export type StorageTaskAssignmentCompletedStatus = "Succeeded" | "Failed";
 
 // @public
 export interface StorageTaskAssignmentQueuedEventData {
@@ -2577,7 +2582,7 @@ export interface StorageTaskCompletedEventData {
 }
 
 // @public
-export type StorageTaskCompletedStatus = string;
+export type StorageTaskCompletedStatus = "Succeeded" | "Failed";
 
 // @public
 export interface StorageTaskQueuedEventData {

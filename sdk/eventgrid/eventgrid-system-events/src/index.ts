@@ -316,6 +316,7 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ServiceApiVersions,
   MediaJobOutputUnion,
+  StorageBlobAccessTier,
 } from "./cadl-generated";
 
 export {

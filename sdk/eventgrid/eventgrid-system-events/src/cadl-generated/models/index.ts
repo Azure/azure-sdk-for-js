@@ -277,6 +277,7 @@ export {
   StorageLifecyclePolicyCompletedEventData,
   StorageLifecyclePolicyActionSummaryDetail,
   StorageBlobTierChangedEventData,
+  StorageBlobAccessTier,
   StorageAsyncOperationInitiatedEventData,
   StorageBlobInventoryPolicyCompletedEventData,
   StorageTaskCompletedEventData,
