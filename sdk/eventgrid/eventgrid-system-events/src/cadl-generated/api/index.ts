@@ -3,6 +3,6 @@
 
 export {
   createSystemEvents,
-  SystemEventsClientOptions,
+  SystemEventsClientOptionalParams,
   SystemEventsContext,
-} from "./SystemEventsContext";
+} from "./systemEventsContext";
