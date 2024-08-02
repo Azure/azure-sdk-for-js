@@ -65,8 +65,14 @@ export function createTestCredential(
 
     // If we have a system access token, we are in Azure Pipelines
     if (systemAccessToken) {
-      if (serviceConnectionID && clientID && tenantID){
-        return new AzurePipelinesCredential(tenantID, clientID, serviceConnectionID, systemAccessToken, dacOptions);
+      if (serviceConnectionID && clientID && tenantID) {
+        return new AzurePipelinesCredential(
+          tenantID,
+          clientID,
+          serviceConnectionID,
+          systemAccessToken,
+          dacOptions,
+        );
       }
       throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
         serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
