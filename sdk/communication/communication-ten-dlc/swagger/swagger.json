@@ -1,0 +1,1243 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TenDLC Client",
+    "description": "The TenDLC program enables A2P SMS messaging for Local numbers.",
+    "version": "2024-05-01-preview"
+  },
+  "paths": {
+    "/tendlc/countries/US/brands/{brandId}": {
+      "patch": {
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_UpsertUSBrand",
+        "consumes": [
+          "application/merge-patch+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "brandId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/USBrand"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USBrand"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/USBrand"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update a 10DLC brand": {
+            "$ref": "./examples/UpsertTenDlcUSBrand.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_DeleteUSBrand",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "brandId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a 10DLC brand": {
+            "$ref": "./examples/DeleteTenDlcUSBrand.json"
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_GetUSBrand",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "brandId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USBrand"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get information about a specific 10DLC brand": {
+            "$ref": "./examples/GetTenDlcUSBrand.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/brands/{brandId}:submit": {
+      "post": {
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_SubmitUSBrand",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "brandId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USBrand"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Submit a 10DLC brand": {
+            "$ref": "./examples/SubmitTenDlcUSBrand.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/brands": {
+      "get": {
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_GetUSBrands",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USBrands"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "brands"
+        },
+        "x-ms-examples": {
+          "Get information about 10DLC brands for a resource": {
+            "$ref": "./examples/GetTenDlcUSBrands.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/brands/{brandId}:cancel": {
+      "post": {
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_CancelUSBrand",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "brandId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USBrand"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Cancel 10DLC brand": {
+            "$ref": "./examples/CancelTenDlcUSBrand.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/campaigns/{campaignId}": {
+      "patch": {
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_UpsertUSCampaign",
+        "consumes": [
+          "application/merge-patch+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/USCampaign"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USCampaign"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/USCampaign"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update a 10DLC campaign": {
+            "$ref": "./examples/UpsertTenDlcUSCampaign.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_DeleteUSCampaign",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a 10DLC campaign": {
+            "$ref": "./examples/DeleteTenDlcUSCampaign.json"
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_GetUSCampaign",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USCampaign"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get information about a specific 10DLC campaign": {
+            "$ref": "./examples/GetTenDlcUSCampaign.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/campaigns/{campaignId}:submit": {
+      "post": {
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_SubmitUSCampaign",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USCampaign"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Submit a 10DLC campaign": {
+            "$ref": "./examples/SubmitTenDlcUSCampaign.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/campaigns": {
+      "get": {
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_GetUSCampaigns",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USCampaigns"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "campaigns"
+        },
+        "x-ms-examples": {
+          "Get information about 10DLC campaigns for a resource": {
+            "$ref": "./examples/GetTenDlcUSCampaigns.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/campaigns/{campaignId}:cancel": {
+      "post": {
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_CancelUSCampaign",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USCampaign"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Cancel 10DLC campaign": {
+            "$ref": "./examples/CancelTenDlcUSCampaign.json"
+          }
+        }
+      }
+    },
+    "/tendlc/costs": {
+      "get": {
+        "tags": [
+          "10DLC - Costs"
+        ],
+        "summary": "Retrieves a collection of eligible 10DLC costs with pagination.",
+        "description": "This method supports pagination via the \"skip\" and \"top\" query parameters.",
+        "operationId": "TenDlc_GetCosts",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of items to skip in the result set (default: 0).",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "description": "The maximum number of items to return in the result set (default: 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the paginated collection of eligible 10DLC costs.",
+            "schema": {
+              "$ref": "#/definitions/TenDlcCosts"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "costs"
+        },
+        "x-ms-examples": {
+          "List 10DLC costs": {
+            "$ref": "./examples/GetTenDlcCosts.json"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "line1": {
+          "description": "Address line 1",
+          "type": "string"
+        },
+        "line2": {
+          "description": "Address line 2",
+          "type": "string"
+        },
+        "city": {
+          "description": "The City for US addresses, for example",
+          "type": "string"
+        },
+        "state": {
+          "description": "The State for US addresses, for example",
+          "type": "string"
+        },
+        "postalCode": {
+          "description": "Postal code",
+          "type": "string"
+        },
+        "country": {
+          "description": "Country",
+          "type": "string"
+        }
+      }
+    },
+    "BrandDetails": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Gets or sets Name",
+          "type": "string"
+        },
+        "companyName": {
+          "description": "Gets or sets Company Name",
+          "type": "string"
+        },
+        "companyVertical": {
+          "description": "Category of companies motive/use case",
+          "enum": [
+            "Agriculture",
+            "Communication",
+            "Construction",
+            "Education",
+            "Energy",
+            "Entertainment",
+            "Financial",
+            "Gambling",
+            "Government",
+            "Healthcare",
+            "Hospitality",
+            "HumanResources",
+            "Insurance",
+            "Legal",
+            "Manufacturing",
+            "Ngo",
+            "Political",
+            "Postal",
+            "Professional",
+            "RealEstate",
+            "Retail",
+            "Technology",
+            "Transportation"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CompanyVertical",
+            "modelAsString": true
+          }
+        },
+        "contactInformation": {
+          "$ref": "#/definitions/ContactInformation"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "entityType": {
+          "description": "Legal structure or form a company takes",
+          "enum": [
+            "PrivateProfit",
+            "PublicProfit",
+            "NonProfit",
+            "Government"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "EntityType",
+            "modelAsString": true
+          }
+        },
+        "stockExchange": {
+          "description": "Marketplace where stocks, bonds, etc... are bought and sold",
+          "enum": [
+            "Nasdaq",
+            "Nyse",
+            "Amex",
+            "Amx",
+            "Asx",
+            "B3",
+            "Bme",
+            "Bse",
+            "Fra",
+            "Icex",
+            "Jpx",
+            "Jse",
+            "Krx",
+            "Lon",
+            "Nse",
+            "Omx",
+            "Sehk",
+            "Sgx",
+            "Sse",
+            "Sto",
+            "Swx",
+            "Szse",
+            "Tsx",
+            "Twse",
+            "Vse",
+            "Other"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "StockExchange",
+            "modelAsString": true
+          }
+        },
+        "stockSymbol": {
+          "description": "Stock Exchange",
+          "type": "string"
+        },
+        "alternateBusinessIdType": {
+          "description": "Alternate Business Id Type",
+          "enum": [
+            "Duns",
+            "Lei",
+            "Giin"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AlternateBusinessIdType",
+            "modelAsString": true
+          }
+        },
+        "alternateBusinessId": {
+          "description": "Alternate Business Id",
+          "type": "string"
+        },
+        "taxNumber": {
+          "description": "Business Id that corresponds to your business",
+          "type": "string"
+        },
+        "taxNumberIssuingCountry": {
+          "description": "Tax Issuing Country",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "description": "URL",
+          "type": "string"
+        }
+      }
+    },
+    "CampaignDetails": {
+      "type": "object",
+      "properties": {
+        "callToAction": {
+          "description": "Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type",
+          "type": "string"
+        },
+        "description": {
+          "description": "Describes how and why the number will be used for messaging as part of the program.",
+          "type": "string"
+        }
+      }
+    },
+    "ContactInformation": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "format": "tel",
+          "description": "Contact phone number for the authorized user for the customer. Use E164 format. e.g. +14086111111",
+          "type": "string"
+        },
+        "email": {
+          "format": "email",
+          "description": "Contact email address number for the authorized user for the customer",
+          "type": "string"
+        }
+      }
+    },
+    "MessageDetails": {
+      "type": "object",
+      "properties": {
+        "useCase": {
+          "$ref": "#/definitions/UseCase"
+        },
+        "helpAnswerToUserRequired": {
+          "description": "Boolean to determine if HelpAnswerToUser is required",
+          "type": "boolean"
+        },
+        "helpAnswerToUser": {
+          "description": "Message text for mobile terminated message associated with HELP keyword\r\ne.g 'This is the HELP message test.'.",
+          "type": "string"
+        },
+        "optOutAnswerToUserRequired": {
+          "description": "Boolean to determine if optOutAnswerToUser is required",
+          "type": "boolean"
+        },
+        "optOutAnswerToUser": {
+          "description": "\"Message text for mobile terminated message associated with STOP keyword\r\ne.g. 'This is the STOP message test.'.",
+          "type": "string"
+        },
+        "optInMessageToUserRequired": {
+          "description": "Boolean to determine if optInMessage is required",
+          "type": "boolean"
+        },
+        "optInMessageToUser": {
+          "type": "string"
+        },
+        "hasEmbeddedLink": {
+          "type": "boolean"
+        },
+        "hasEmbeddedPhone": {
+          "type": "boolean"
+        },
+        "termsAndConditionsAccepted": {
+          "type": "boolean"
+        },
+        "hasAgeGatedContent": {
+          "type": "boolean"
+        },
+        "hasDirectLending": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ReviewNote": {
+      "description": "Holds a note about a Program Brief that has gone thru stages of review process.",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Note related to a Brand or Campaign that may imply changes needed from the client.",
+          "type": "string"
+        },
+        "date": {
+          "format": "date-time",
+          "description": "Date and time when the note was added to the Brand or Campaign.",
+          "type": "string"
+        }
+      }
+    },
+    "TenDlcCost": {
+      "description": "The cost of a 10DLC Brand or Campaign",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The type of cost.",
+          "enum": [
+            "Brand",
+            "StandardCampaign"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TenDlcCostType",
+            "modelAsString": true
+          }
+        },
+        "amount": {
+          "format": "double",
+          "description": "The cost amount.",
+          "type": "number"
+        },
+        "currencyCode": {
+          "description": "The ISO 4217 currency code for the cost amount, e.g. USD.",
+          "type": "string"
+        },
+        "countryCode": {
+          "description": "The ISO 3166-2 code of the phone number's country, e.g. US.",
+          "type": "string"
+        },
+        "billingFrequency": {
+          "description": "The frequency with which the cost gets billed.",
+          "enum": [
+            "Monthly",
+            "Once"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BillingFrequency",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "TenDlcCosts": {
+      "description": "A wrapper for a list of 10DLC cost entities",
+      "type": "object",
+      "properties": {
+        "costs": {
+          "description": "List of 10DLC costs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TenDlcCost"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page of local 10DLC costs results.",
+          "type": "string"
+        }
+      }
+    },
+    "USBrand": {
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "Unique identifier that corresponds to a brand",
+          "type": "string"
+        },
+        "statusUpdatedDate": {
+          "format": "date-time",
+          "description": "Last date and time when the 10DLC status was updated",
+          "type": "string"
+        },
+        "status": {
+          "description": "10 Dlc status e.g. 'submitted', 'approved', etc",
+          "enum": [
+            "Draft",
+            "Submitted",
+            "Cancelled",
+            "PendingCancellation",
+            "Denied",
+            "Approved"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BrandStatus",
+            "modelAsString": true
+          }
+        },
+        "costs": {
+          "description": "Represents the costs tied to the brand",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TenDlcCost"
+          }
+        },
+        "submissionDate": {
+          "format": "date-time",
+          "description": "Date and time when the 10DLC was submitted",
+          "type": "string"
+        },
+        "reviewNotes": {
+          "description": "Notes added to the 10DLC Brand after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReviewNote"
+          }
+        },
+        "brandDetails": {
+          "$ref": "#/definitions/BrandDetails"
+        }
+      }
+    },
+    "USCampaign": {
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "Unique identifier that corresponds to a campaign",
+          "type": "string"
+        },
+        "brandId": {
+          "format": "uuid",
+          "description": "Unique identifier that corresponds to a brand",
+          "type": "string"
+        },
+        "status": {
+          "description": "10 Dlc status e.g. 'submitted', 'approved', etc",
+          "enum": [
+            "Draft",
+            "Submitted",
+            "Cancelled",
+            "PendingCancellation",
+            "Denied",
+            "Approved"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "CampaignStatus",
+            "modelAsString": true
+          }
+        },
+        "statusUpdatedDate": {
+          "format": "date-time",
+          "description": "Last date and time when the 10DLC status was updated",
+          "type": "string"
+        },
+        "costs": {
+          "description": "Represents the costs tied to the campaign",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TenDlcCost"
+          }
+        },
+        "submissionDate": {
+          "format": "date-time",
+          "description": "Date and time when the 10DLC was submitted",
+          "type": "string"
+        },
+        "reviewNotes": {
+          "description": "Notes added to the 10DLC Campaign after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReviewNote"
+          }
+        },
+        "phoneNumberCount": {
+          "format": "int32",
+          "description": "Count of local phone numbers currently associated to the 10DLC Campaign.",
+          "type": "integer"
+        },
+        "campaignDetails": {
+          "$ref": "#/definitions/CampaignDetails"
+        },
+        "messageDetails": {
+          "$ref": "#/definitions/MessageDetails"
+        }
+      }
+    },
+    "UseCase": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "description": "Type of user content",
+          "enum": [
+            "TwoFactorAuthentication",
+            "AccountNotification",
+            "CustomerCare",
+            "DeliveryNotification",
+            "FraudAlert",
+            "HigherEducation",
+            "LowVolume",
+            "Marketing",
+            "Mixed",
+            "PollingVoting",
+            "PublicServiceAnnouncement",
+            "SecurityAlert"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ContentType",
+            "modelAsString": true
+          }
+        },
+        "subContentTypes": {
+          "description": "Type of user sub-content",
+          "type": "array",
+          "items": {
+            "enum": [
+              "TwoFactorAuthentication",
+              "AccountNotification",
+              "CustomerCare",
+              "DeliveryNotification",
+              "FraudAlert",
+              "HigherEducation",
+              "Marketing",
+              "PollingVoting",
+              "PublicServiceAnnouncement",
+              "SecurityAlert"
+            ],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "SubContentType",
+              "modelAsString": true
+            }
+          }
+        },
+        "sampleMessages": {
+          "description": "Sample messages that a user might send, as a proof of concept",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "USBrands": {
+      "description": "A wrapper for a list of USBrands.",
+      "type": "object",
+      "properties": {
+        "brands": {
+          "description": "List of USBrands",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/USBrand"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page",
+          "type": "string"
+        }
+      }
+    },
+    "USCampaigns": {
+      "description": "A wrapper for a list of USCampaigns",
+      "type": "object",
+      "properties": {
+        "campaigns": {
+          "description": "List of USCampaigns",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/USCampaign"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page",
+          "type": "string"
+        }
+      }
+    },
+    "CommunicationErrorResponse": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "description": "The Communication Services error.",
+          "$ref": "#/definitions/CommunicationError"
+        }
+      }
+    },
+    "CommunicationError": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        },
+        "target": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The error target."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommunicationError"
+          },
+          "readOnly": true,
+          "description": "Further details about specific errors that led to this error."
+        },
+        "innererror": {
+          "x-ms-client-name": "innerError",
+          "readOnly": true,
+          "$ref": "#/definitions/CommunicationError",
+          "description": "The inner error if any."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "in": "query",
+      "name": "api-version",
+      "description": "Version of API to invoke",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "client"
+    },
+    "Endpoint": {
+      "in": "path",
+      "name": "endpoint",
+      "description": "The communication resource, for example https://resourcename.communication.azure.com",
+      "required": true,
+      "type": "string",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "client",
+      "format": "url"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "description": "Azure Active Directory OAuth2 Flow"
+    }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
+  }
+}

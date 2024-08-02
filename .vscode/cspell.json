@@ -200,9 +200,21 @@
       "filename": "sdk/communication/communication-email/review/**/*.md",
       "words": ["rpmsg", "xlsb"]
     },
+    
     {
       "filename": "sdk/containerregistry/container-registry/review/**/*.md",
       "words": ["Illumos", "illumos", "mipsle", "riscv"]
+    },
+    {
+      "filename": "sdk/communication/communication-ten-dlc/review/**/*.md",
+      "words": [
+        "GIIN",
+        "Ucaas",
+        "Icex",
+        "Sehk",
+        "Szse",
+        "Twse"
+      ]
     },
     {
       "filename": "sdk/core/core-amqp/review/**/*.md",
