@@ -8,7 +8,11 @@
  * @azsdk-weight 10
  */
 
-import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
+import AzureLoadTesting, {
+  isUnexpected,
+  getLongRunningPoller,
+  AppComponent,
+} from "@azure-rest/load-testing";
 import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
@@ -74,22 +78,19 @@ async function main() {
     );
 
   // Creating/Updating app component
+  let appCompResourceId = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
+  let appComponent: AppComponent = {
+    resourceName: "App-Service-Sample-Demo",
+    resourceType: "Microsoft.Web/sites",
+  };
+  let components: Record<string, AppComponent> = {};
+  components[appCompResourceId] = appComponent;
   const appComponentCreationResult = await client
     .path("/tests/{testId}/app-components", testId)
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: testCreationResult.body.testId,
-        components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-            {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-              resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
-            },
-        },
+        components: components,
       },
     });
 
@@ -103,7 +104,6 @@ async function main() {
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 

@@ -43,7 +43,6 @@ async function main() {
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 

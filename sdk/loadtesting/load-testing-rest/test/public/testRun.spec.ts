@@ -3,13 +3,13 @@
 
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder, createClient } from "./utils/recordedClient";
+import { createRecorder, createClient } from "./utils/recordedClient.js";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import * as fs from "fs";
-import { AzureLoadTestingClient, isUnexpected } from "../../src";
+import { AppComponent, AzureLoadTestingClient, isUnexpected } from "../../src/index.js";
 import { isNode } from "@azure/core-util";
-import { getLongRunningPoller } from "../../src/pollingHelper";
+import { getLongRunningPoller } from "../../src/pollingHelper.js";
 
 describe("Test Run Creation", () => {
   let recorder: Recorder;
@@ -71,7 +71,6 @@ describe("Test Run Creation", () => {
       body: {
         testId: "abc",
         displayName: "sample123",
-        virtualUsers: 10,
       },
     });
 
@@ -79,7 +78,6 @@ describe("Test Run Creation", () => {
       throw testRunCreationResult.body.error;
     }
 
-    testRunCreationResult.body.testRunId = "adjwfjsdmf";
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
     await testRunPoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
@@ -96,7 +94,6 @@ describe("Test Run Creation", () => {
         body: {
           testId: "abc",
           displayName: "sample123",
-          virtualUsers: 10,
         },
       });
 
@@ -123,7 +120,6 @@ describe("Test Run Creation", () => {
       body: {
         testId: "abc",
         displayName: "sample123",
-        virtualUsers: 10,
       },
     });
 
@@ -146,19 +142,17 @@ describe("Test Run Creation", () => {
   });
 
   it("should create a app component for test run", async () => {
+    const appCompResourceId: string = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo`;
+    const appComponent: AppComponent = {
+      resourceName: "App-Service-Sample-Demo",
+      resourceType: "Microsoft.Web/sites",
+    };
+    const components: Record<string, AppComponent> = {};
+    components[appCompResourceId] = appComponent;
     const result = await client.path("/test-runs/{testRunId}/app-components", "abcde").patch({
       contentType: "application/merge-patch+json",
       body: {
-        components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-            {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-              resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
-            },
-        },
+        components: components,
       },
     });
 
@@ -173,6 +167,100 @@ describe("Test Run Creation", () => {
 
   it("should get a test run server metrics config", async () => {
     const result = await client.path("/test-runs/{testRunId}/server-metrics-config", "abcde").get();
+
+    assert.include(["200"], result.status);
+  });
+
+  it("should delete a test run", async () => {
+    const result = await client.path("/test-runs/{testRunId}", "abcde").delete();
+
+    assert.include(["204"], result.status);
+  });
+
+  it("should delete the test", async () => {
+    const result = await client.path("/tests/{testId}", "abc").delete();
+
+    assert.include(["204"], result.status);
+  });
+});
+
+describe("Test Run Stop Scenarios", () => {
+  let recorder: Recorder;
+  let client: AzureLoadTestingClient;
+  let readStreamTestFile: fs.ReadStream;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    if (!isNode || isPlaybackMode()) {
+      this.skip();
+    }
+    client = createClient(recorder);
+    readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("should create a loadtest", async () => {
+    const result = await client.path("/tests/{testId}", "abc").patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        displayName: "sample_test",
+        description: "",
+        loadTestConfiguration: {
+          engineInstances: 1,
+          splitAllCSVs: false,
+        },
+      },
+    });
+
+    assert.include(["200", "201"], result.status);
+  });
+
+  it("should upload the test file with LRO", async () => {
+    const fileUploadResult = await client
+      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
+      .put({
+        contentType: "application/octet-stream",
+        body: readStreamTestFile,
+      });
+
+    if (isUnexpected(fileUploadResult)) {
+      throw fileUploadResult.body.error;
+    }
+
+    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    await fileValidatePoller.pollUntilDone({
+      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+    });
+    assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
+  });
+
+  it("should be able to create a test run", async () => {
+    const testRunCreationResult = await client.path("/test-runs/{testRunId}", "abcde").patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        testId: "abc",
+        displayName: "sample123",
+      },
+    });
+
+    if (isUnexpected(testRunCreationResult)) {
+      throw testRunCreationResult.body.error;
+    }
+
+    assert.include(["200", "201"], testRunCreationResult.status);
+  });
+
+  it("should get a test run", async () => {
+    const result = await client.path("/test-runs/{testRunId}", "abcde").get();
+
+    assert.include(["200"], result.status);
+  });
+
+  it("should be able to stop a test run", async () => {
+    const result = await client.path("/test-runs/{testRunId}:stop", "abcde").post();
 
     assert.include(["200"], result.status);
   });
