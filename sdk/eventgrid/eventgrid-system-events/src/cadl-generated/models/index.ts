@@ -277,7 +277,6 @@ export {
   StorageLifecyclePolicyCompletedEventData,
   StorageLifecyclePolicyActionSummaryDetail,
   StorageBlobTierChangedEventData,
-  StorageBlobAccessTier,
   StorageAsyncOperationInitiatedEventData,
   StorageBlobInventoryPolicyCompletedEventData,
   StorageTaskCompletedEventData,
@@ -327,5 +326,5 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ServiceApiVersions,
   MediaJobOutputUnion,
-} from "./models";
-// export * from "./options";
+} from "./models.js";
+export * from "./options.js";

@@ -8,7 +8,7 @@ import getClient from "../rest/index";
 /** Optional parameters for the client. */
 export interface SystemEventsClientOptionalParams extends ClientOptions {}
 
-export { SystemEventsContext } from "../rest/index.js";
+export { SystemEventsContext } from "../rest/index";
 
 /** Azure Messaging EventGrid SystemEvents */
 export function createSystemEvents(

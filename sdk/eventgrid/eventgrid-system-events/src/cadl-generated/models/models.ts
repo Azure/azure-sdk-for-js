@@ -3075,10 +3075,6 @@ export interface StorageBlobTierChangedEventData {
   contentLength?: number;
   /** The type of blob. */
   blobType?: string;
-  /** The current tier of the blob. */
-  accessTier: StorageBlobAccessTier;
-  /** The previous tier of the blob. */
-  previousTier: StorageBlobAccessTier;
   /** The path to the blob. */
   url?: string;
   /** An opaque string value representing the logical sequence of events for any particular blob name. Users can use standard string comparison to understand the relative sequence of two events on the same blob name. */
@@ -3088,9 +3084,6 @@ export interface StorageBlobTierChangedEventData {
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
   storageDiagnostics: Record<string, any>;
 }
-
-/** The access tier of the blob */
-export type StorageBlobAccessTier = "Hot" | "Cool" | "Cold" | "Archive";
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.AsyncOperationInitiated event. */
 export interface StorageAsyncOperationInitiatedEventData {
