@@ -243,7 +243,7 @@
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('namespaceName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
-    "IOTHUB_CONNECTION_STRING": {
+    "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING": {
       "type": "string",
       "value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).value[0].primaryKey)]"
     },
