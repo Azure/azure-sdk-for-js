@@ -227,10 +227,6 @@
     }
   ],
   "outputs": {
-    "STORAGE_ACCOUNT_NAME": {
-      "type": "string",
-      "value": "[variables('storageAccountName')]"
-    },
     "EVENTHUB_FQDN": {
       "type": "string",
       "value": "[replace(replace(reference(resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
@@ -243,9 +239,21 @@
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('namespaceName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
-    "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING": {
+    "IOTHUB_CONNECTION_STRING": {
       "type": "string",
       "value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).value[0].primaryKey)]"
+    },
+    "IOTHUB_EVENTHUB_FQDN": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).eventHubEndpoints.events.endpoint]"
+    },
+    "IOTHUB_EVENTHUB_NAME": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).eventHubEndpoints.events.path]"
+    },
+    "STORAGE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
     },
     "STORAGE_ENDPOINT": {
       "type": "string",
