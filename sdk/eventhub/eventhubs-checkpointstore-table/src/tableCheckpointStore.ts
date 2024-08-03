@@ -259,7 +259,7 @@ export class TableCheckpointStore implements CheckpointStore {
       return;
     } catch (err: any) {
       logger.verbose(
-        `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
+        `Error occurred while updating the checkpoint for partition: ${checkpoint.partitionId}.`,
         err.message,
       );
       throw err;

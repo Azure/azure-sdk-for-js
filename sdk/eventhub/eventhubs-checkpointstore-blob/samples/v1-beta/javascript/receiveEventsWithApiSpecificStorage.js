@@ -15,8 +15,8 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
-const { ContainerClient } = require("@azure/storage-blob");
-const { createCustomPipeline } = require("./createCustomPipeline");
+const { BlobServiceClient } = require("@azure/storage-blob");
+const { createCustomPipeline } = require("./createCustomPipeline.js");
 
 require("dotenv/config");
 
@@ -24,16 +24,16 @@ const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<fully qualifie
 const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
 const consumerGroup =
   process.env["EVENTHUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
-const storageContainerUrl =
-  process.env["STORAGE_CONTAINER_URL"] ||
-  "https://<storageaccount>.blob.core.windows.net/<containername>";
+const storageEndpoint =
+  process.env["STORAGE_ENDPOINT"] || "https://<storageaccount>.blob.core.windows.net";
 
 async function main() {
   const credential = new DefaultAzureCredential();
   // The `containerClient` will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage.
   const storageContainerPipeline = createCustomPipeline(credential);
-  const containerClient = new ContainerClient(storageContainerUrl, storageContainerPipeline);
+  const storageClient = new BlobServiceClient(storageEndpoint, storageContainerPipeline);
+  const containerClient = storageClient.getContainerClient("checkpointstore");
 
   if (!containerClient.exists()) {
     await containerClient.create();

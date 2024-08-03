@@ -10,23 +10,31 @@ export interface OperationOutput {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplayOutput;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly display?: OperationDisplayOutput;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   *
+   * Possible values: "user", "system", "user,system"
+   */
   readonly origin?: OriginOutput;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  /**
+   * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   *
+   * Possible values: "Internal"
+   */
   actionType?: ActionTypeOutput;
 }
 
 /** Localized display information for and operation. */
 export interface OperationDisplayOutput {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  readonly provider?: string;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  readonly resource?: string;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  readonly operation?: string;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  readonly description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
@@ -65,9 +73,17 @@ export interface ExtendedZoneOutput extends ProxyResourceOutput {
 
 /** The properties of an Extended Zone resource. */
 export interface ExtendedZonePropertiesOutput {
-  /** Status of the last operation performed by the subscription on the Edge Zone resource */
+  /**
+   * Status of the last operation performed by the subscription on the Edge Zone resource
+   *
+   * Possible values: "Provisioning", "Updating", "Deleting", "Accepted"
+   */
   readonly provisioningState?: ProvisioningStateOutput;
-  /** Indicates the Azure Extended Zone registration’s approval status. */
+  /**
+   * Indicates the Azure Extended Zone registration’s approval status.
+   *
+   * Possible values: "NotRegistered", "PendingRegister", "Registered", "PendingUnregister"
+   */
   readonly registrationState?: RegistrationStateOutput;
   /** Display name of the Azure Extended Zone. */
   readonly displayName: string;
@@ -108,13 +124,21 @@ export interface ResourceOutput {
 export interface SystemDataOutput {
   /** The identity that created the resource. */
   createdBy?: string;
-  /** The type of identity that created the resource. */
+  /**
+   * The type of identity that created the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   createdByType?: CreatedByTypeOutput;
   /** The timestamp of resource creation (UTC). */
   createdAt?: string;
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
+  /**
+   * The type of identity that last modified the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   lastModifiedByType?: CreatedByTypeOutput;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
@@ -228,7 +252,11 @@ export interface PrivateEndpointConnectionPropertiesOutput {
   privateEndpoint?: PrivateEndpointOutput;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
-  /** The provisioning state of the private endpoint connection resource. */
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   *
+   * Possible values: "Succeeded", "Creating", "Deleting", "Failed"
+   */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningStateOutput;
 }
 
@@ -240,7 +268,11 @@ export interface PrivateEndpointOutput {
 
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionStateOutput {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+   *
+   * Possible values: "Pending", "Approved", "Rejected"
+   */
   status?: PrivateEndpointServiceConnectionStatusOutput;
   /** The reason for approval/rejection of the connection. */
   description?: string;

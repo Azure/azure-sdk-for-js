@@ -9,7 +9,7 @@ export default defineConfig({
     typecheck: {
       enabled: true,
     },
-    reporters: ["basic", "junit"],
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.xml",
     },

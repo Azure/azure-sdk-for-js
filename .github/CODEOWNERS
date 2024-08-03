@@ -114,10 +114,10 @@
 # AzureSdkOwners: @timovv @jeremymeng
 
 # ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners: @sajeetharan @simorenoh @v1k1
+# ServiceOwners: @sajeetharan @simorenoh 
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
+/sdk/cosmosdb/ @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 # PRLabel: %Digital Twins
 # ServiceLabel: %Digital Twins
@@ -386,6 +386,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao

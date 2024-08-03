@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",

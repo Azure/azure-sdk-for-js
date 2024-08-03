@@ -10,56 +10,56 @@ import {
 } from "./outputModels.js";
 
 /** Azure operation completed successfully. */
-export interface List200Response extends HttpResponse {
+export interface OperationsList200Response extends HttpResponse {
   status: "200";
   body: OperationListResultOutput;
 }
 
-export interface ListDefaultResponse extends HttpResponse {
+export interface OperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Azure operation completed successfully. */
-export interface Get200Response extends HttpResponse {
+export interface ExtendedZonesGet200Response extends HttpResponse {
   status: "200";
   body: ExtendedZoneOutput;
 }
 
-export interface GetDefaultResponse extends HttpResponse {
+export interface ExtendedZonesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Azure operation completed successfully. */
-export interface ListBySubscription200Response extends HttpResponse {
+export interface ExtendedZonesListBySubscription200Response extends HttpResponse {
   status: "200";
   body: ExtendedZoneListResultOutput;
 }
 
-export interface ListBySubscriptionDefaultResponse extends HttpResponse {
+export interface ExtendedZonesListBySubscriptionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Azure operation completed successfully. */
-export interface Register200Response extends HttpResponse {
+export interface ExtendedZonesRegister200Response extends HttpResponse {
   status: "200";
   body: ExtendedZoneOutput;
 }
 
-export interface RegisterDefaultResponse extends HttpResponse {
+export interface ExtendedZonesRegisterDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Azure operation completed successfully. */
-export interface Unregister200Response extends HttpResponse {
+export interface ExtendedZonesUnregister200Response extends HttpResponse {
   status: "200";
   body: ExtendedZoneOutput;
 }
 
-export interface UnregisterDefaultResponse extends HttpResponse {
+export interface ExtendedZonesUnregisterDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

@@ -2,23 +2,23 @@
     
 ## 1.3.0-beta.1 (2023-07-06)
     
-**Features**
+### Features Added
 
   - Interface StorageAccount has a new optional parameter enableSecureChannel
     
 ## 1.2.1 (2023-01-10)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 1.2.0 (2022-08-01)
 
-**Features**
+### Features Added
 
   - Added Interface Application
   - Added Interface Cluster
@@ -31,7 +31,7 @@
     
 ## 1.1.1 (2022-04-26)
 
-**Features**
+### Features Added
 
   - Bug fix
 
