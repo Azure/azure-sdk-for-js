@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureNamedKeyCredential, TableClient, TableServiceClient } from "@azure/data-tables";
-import { Checkpoint, PartitionOwnership } from "@azure/event-hubs";
-import { CheckpointEntity, PartitionOwnershipEntity } from "../src/tableCheckpointStore";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { TableCheckpointStore } from "../src";
-import chai from "chai";
+import type { TableClient, TableServiceClient } from "@azure/data-tables";
+import type { Checkpoint, PartitionOwnership } from "@azure/event-hubs";
+import type { CheckpointEntity, PartitionOwnershipEntity } from "../../src/tableCheckpointStore.js";
+import { TableCheckpointStore } from "../../src/index.js";
 import debugModule from "debug";
+import { afterEach, beforeEach, describe, it } from "vitest";
+import { should } from "../util/chai.js";
+import { createClients } from "../util/clients.js";
 
-const should = chai.should();
 const debug = debugModule("azure:event-hubs:tableCheckpointStore");
-
-const env = getEnvVars();
 
 /* test to show that test framework is set up well */
 describe("TableCheckpointStore", () => {
@@ -21,39 +19,24 @@ describe("TableCheckpointStore", () => {
   });
 });
 
-const service = {
-  storageAccountName: env[EnvVarKeys.STORAGE_ACCOUNT_NAME],
-  storageAccountKey: env[EnvVarKeys.STORAGE_ACCOUNT_KEY],
-};
-
-const credential = new AzureNamedKeyCredential(
-  service.storageAccountName,
-  service.storageAccountKey,
-);
-const serviceClient = new TableServiceClient(
-  `https://${service.storageAccountName}.table.core.windows.net`,
-  credential,
-);
-
-describe("TableCheckpointStore", function (): void {
+describe("TableCheckpointStore", function () {
   let client: TableClient;
+  let serviceClient: TableServiceClient;
   let tableName: string;
-  beforeEach("creating table", async () => {
-    tableName = `table${new Date().getTime()}${Math.floor(Math.random() * 10) + 1}`;
-    client = new TableClient(
-      `https://${service.storageAccountName}.table.core.windows.net`,
-      tableName,
-      credential,
-    );
+  beforeEach(async function () {
+    const { serviceClient: sClient, tableClient: tClient, tableName: tName } = createClients();
+    client = tClient;
+    serviceClient = sClient;
+    tableName = tName;
     await serviceClient.createTable(tableName);
   });
-  afterEach(async () => {
+  afterEach(async function () {
     await serviceClient.deleteTable(tableName);
   });
 
   describe("Runs tests on table with no entities", function () {
     describe("listOwnership", function () {
-      it("listOwnership should return an empty array", async function (): Promise<void> {
+      it("listOwnership should return an empty array", async function () {
         const checkpointStore = new TableCheckpointStore(client);
         const listOwnership = await checkpointStore.listOwnership(
           "test.servicebus.windows.net",
@@ -65,7 +48,7 @@ describe("TableCheckpointStore", function (): void {
     });
 
     describe("listCheckpoints", function () {
-      it("listCheckpoint should return an empty array", async function (): Promise<void> {
+      it("listCheckpoint should return an empty array", async function () {
         const checkpointStore = new TableCheckpointStore(client);
         const checkpoints = await checkpointStore.listCheckpoints(
           "test.servicebus.windows.net",
@@ -142,7 +125,7 @@ describe("TableCheckpointStore", function (): void {
     });
 
     describe("claimOwnership", function () {
-      it("claimOwnership call should succeed, if it has been called for the first time", async function (): Promise<void> {
+      it("claimOwnership call should succeed, if it has been called for the first time", async function () {
         const checkpointStore = new TableCheckpointStore(client);
         const listOwnership = await checkpointStore.listOwnership(
           "testNamespace.servicebus.windows.net",
@@ -208,7 +191,7 @@ describe("TableCheckpointStore", function (): void {
     const namespace = "blue.servicebus.windows.net";
     const eventHubName = "blueHub";
     const consumerGroup = "$default";
-    beforeEach("creating table", async () => {
+    beforeEach(async function () {
       /* Checkpoint */
       const checkpoint_entity: CheckpointEntity = {
         partitionKey: `${namespace} ${eventHubName} ${consumerGroup} Checkpoint`,
@@ -292,7 +275,7 @@ describe("TableCheckpointStore", function (): void {
           shouldNotThrowButNothingWillClaim.length.should.equal(0);
         });
 
-        it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function (): Promise<void> {
+        it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function () {
           const checkpointStore = new TableCheckpointStore(client);
           const listOwnership = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
@@ -357,7 +340,7 @@ describe("TableCheckpointStore", function (): void {
           );
         });
 
-        it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function (): Promise<void> {
+        it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function () {
           const checkpointStore = new TableCheckpointStore(client);
           const listOwnership = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
