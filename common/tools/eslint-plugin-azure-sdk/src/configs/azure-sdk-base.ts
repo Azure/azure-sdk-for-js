@@ -9,6 +9,7 @@ export default {
   },
   plugins: [
     "@typescript-eslint",
+    "eslint-plugin-n",
     "no-only-tests",
     "promise",
     "eslint-plugin-tsdoc",
@@ -33,6 +34,7 @@ export default {
       extends: [
         "eslint:recommended",
         "plugin:promise/recommended",
+        "plugin:n/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "prettier",
@@ -65,6 +67,7 @@ export default {
         "no-unused-expressions": "error",
         "no-useless-constructor": "off",
         "no-use-before-define": "off",
+        "n/exports-style": ["error", "module.exports"],
         "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
         "no-var": "error",
         "one-var-declaration-per-line": "error",
