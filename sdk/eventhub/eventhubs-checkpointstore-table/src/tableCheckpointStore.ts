@@ -3,7 +3,7 @@
 
 import { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
 import { TableClient, TableInsertEntityHeaders, odata } from "@azure/data-tables";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./log.js";
 
 /**
  *
