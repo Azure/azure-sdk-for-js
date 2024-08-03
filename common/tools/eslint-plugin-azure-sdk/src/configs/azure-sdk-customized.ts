@@ -112,7 +112,15 @@ const nCustomization = {
     n,
   },
   rules: {
-    "n/exports-style": ["error", "module.exports"]
+    "n/exports-style": ["error", "module.exports"],
+    "n/no-missing-import": "off",
+    "n/no-missing-require": "off",
+    "n/hashbang": "warn",
+    "n/no-unsupported-features/node-builtins": "warn",
+    "n/no-deprecated-api": "warn",
+    "n/no-process-exit": "warn",
+    "n/no-unpublished-import": "off",
+    "n/no-unpublished-require": "off",
   },
 }
 
@@ -187,6 +195,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       main: "src/index.ts",
     },
   },
+  n.configs["flat/recommended"],
   nCustomization as unknown as FlatConfig.Config,
   noOnlyTestsCustomization as FlatConfig.Config,
   tsdocCustomization as FlatConfig.Config,
