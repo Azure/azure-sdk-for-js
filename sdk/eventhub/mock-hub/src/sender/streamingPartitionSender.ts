@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import rhea from "rhea";
 import { MessageRecord, MessageStore } from "../storage/messageStore.js";
 import { EventPosition } from "../utils/eventPosition.js";
@@ -117,7 +117,7 @@ export class StreamingPartitionSender {
     } while (!abortSignal.aborted && !nextResult?.done);
   }
 
-  private _waitForSendable(sender: rhea.Sender, abortSignal: AbortSignalLike): Promise<void> {
+  private _waitForSendable(sender: rhea.Sender, abortSignal: AbortSignal): Promise<void> {
     return new Promise((resolve, reject) => {
       const onAbort = (): void => {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
