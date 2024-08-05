@@ -45,12 +45,11 @@ export class PlaywrightServiceInitialize {
     const response = (await prompts.prompt(questions, {
       onCancel: this.promptOnCancel,
     })) as OverridePromptResponse;
-    console.log();
     if (response.canOverride) return true;
     // eslint-disable-next-line no-return-await
     if (!response.confirmationForExit) return await this.checkIfServiceConfigCanBeAdded();
 
-    console.log(Messages.SETUP_PROCESS_EXIT_MESSAGE);
+    console.log(`\n${Messages.SETUP_PROCESS_EXIT_MESSAGE}`);
     return false;
   };
 
@@ -72,18 +71,14 @@ export class PlaywrightServiceInitialize {
       `test -c ${this.getServiceConfigFileName()} --workers=20`,
     );
 
-    console.log();
-
-    console.log(`\nTo run playwrights tests using Playwright Service\n`);
+    console.log(`\n\nTo run playwrights tests using Playwright Service\n`);
     console.log(`\t${runCommand}\n`);
 
     console.log(`\nTo run playwrights tests using Playwright Service with high parallelism\n`);
     console.log(`\t${runCommandParallelWorkers}\n`);
-    console.log();
 
-    console.log("Playwright Service Portal - https://playwright.microsoft.com/");
-    console.log("Getting Started - https://aka.ms/mpt/quickstart");
-    console.log();
+    console.log("\nPlaywright Service Portal - https://playwright.microsoft.com/");
+    console.log("Getting Started - https://aka.ms/mpt/quickstart\n");
   };
 
   private installServicePackage = async (): Promise<void> => {

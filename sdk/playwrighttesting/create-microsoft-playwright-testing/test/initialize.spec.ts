@@ -149,9 +149,9 @@ describe("PlaywrightServiceInitialize", () => {
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(9);
-    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${npmRunCommand}\n`);
-    expect(consoleLogStub.getCall(4).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
+    expect(consoleLogStub.callCount).to.equal(6);
+    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
+    expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
     delete process.env["npm_config_user_agent"];
   });
 
@@ -168,9 +168,9 @@ describe("PlaywrightServiceInitialize", () => {
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(9);
-    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${npmRunCommand}\n`);
-    expect(consoleLogStub.getCall(4).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
+    expect(consoleLogStub.callCount).to.equal(6);
+    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
+    expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
     delete process.env["npm_config_user_agent"];
   });
 
@@ -187,9 +187,9 @@ describe("PlaywrightServiceInitialize", () => {
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(9);
-    expect(consoleLogStub.getCall(2).args[0]).to.equal(`\t${npmRunCommand}\n`);
-    expect(consoleLogStub.getCall(4).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
+    expect(consoleLogStub.callCount).to.equal(6);
+    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
+    expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
     delete process.env["npm_config_user_agent"];
   });
 });
