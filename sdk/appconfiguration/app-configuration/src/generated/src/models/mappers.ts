@@ -371,7 +371,7 @@ export const LabelListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Label",
+              className: "SettingLabel",
             },
           },
         },
@@ -386,10 +386,10 @@ export const LabelListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const Label: coreClient.CompositeMapper = {
+export const SettingLabel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Label",
+    className: "SettingLabel",
     modelProperties: {
       name: {
         serializedName: "name",

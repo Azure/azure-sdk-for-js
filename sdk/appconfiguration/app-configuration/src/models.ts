@@ -10,6 +10,7 @@ import {
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   ConfigurationSnapshotStatus,
+  SettingLabel,
 } from "./generated/src";
 
 /**
@@ -174,17 +175,6 @@ export interface OptionalSnapshotFields {
    * Which fields to return for each ConfigurationSetting
    */
   fields?: (keyof ConfigurationSnapshot)[];
-}
-
-/**
- * Label details, with name property that can only be populated by the server
- */
-export interface SettingLabel {
-  /**
-   * The name of the label.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
 }
 
 /**
@@ -553,4 +543,5 @@ export {
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
+  SettingLabel
 } from "./generated/src";

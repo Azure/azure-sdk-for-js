@@ -142,12 +142,13 @@ export interface SnapshotUpdateParameters {
 /** The result of a list request. */
 export interface LabelListResult {
   /** The collection value. */
-  items?: Label[];
+  items?: SettingLabel[];
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string;
 }
 
-export interface Label {
+/** Label details, with name property that can only be populated by the server */
+export interface SettingLabel {
   /**
    * The name of the label.
    * NOTE: This property will not be serialized. It can only be populated by the server.
