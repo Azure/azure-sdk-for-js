@@ -35,6 +35,7 @@ import {
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
   SetReadOnlyResponse,
+  SettingLabel,
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
@@ -49,7 +50,6 @@ import {
   ConfigurationSnapshot,
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
-  Label,
 } from "./generated/src/models";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
@@ -443,7 +443,7 @@ export class AppConfigurationClient {
    */
   listLabels(
     options: ListLabelsOptions = {},
-  ): PagedAsyncIterableIterator<Label, ListLabelsPage, PageSettings> {
+  ): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings> {
     const pagedResult: PagedResult<ListLabelsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
       getPage: async (pageLink: string | undefined) => {

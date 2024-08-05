@@ -12,7 +12,7 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-11-01/appconfiguration.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-10-01/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
@@ -40,17 +40,6 @@ directive:
           delete $["/locks/{key}"][verb]["responses"]["404"]
           delete $["/locks/{key}"][verb]["responses"]["412"]
       });
-```
-
-### Make .key a required field
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["definitions"]["KeyValue"]
-    transform: >
-      $.required = $.required || [];
-      $.required.push('key');
 ```
 
 ### Add 304 response to GetKeyValueOperation
@@ -113,8 +102,8 @@ directive:
       $.expires["x-ms-client-name"] = "expiresOn";
       $.retention_period["x-ms-client-name"] = "retentionPeriodInSeconds";
       $.size["x-ms-client-name"] = "sizeInBytes";
-      $.composition_type["x-ms-enum"].name = "SnapshotComposition";
-      $.status["x-ms-enum"].name = "ConfigurationSnapshotStatus";
+      $.composition_type["x-ms-enum-name"] = "SnapshotComposition";
+      $.status["x-ms-enum-name"] = "ConfigurationSnapshotStatus";
 ```
 ### Rename Properties key -> keyFilter, label -> labelFilter for KeyValueFilter
 
@@ -127,6 +116,7 @@ directive:
       $.label["x-ms-client-name"] = "labelFilter";
       $.tags["x-ms-client-name"] = "tagsFilter";
 ```
+
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter
 ```yaml
 directive:
@@ -136,18 +126,7 @@ directive:
       $["x-ms-client-name"] = "ConfigurationSettingsFilter";
 ```
 
-### Make .name a required field
-```yaml
-directive:
-  - from: swagger-document
-    where: $["definitions"]["Snapshot"]
-    transform: >
-      $.required = $.required || [];
-      $.required.push('name');
-```
-
 ### Add description for snapshot
-
 ```yaml
 directive:
   - from: swagger-document

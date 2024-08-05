@@ -36,7 +36,7 @@ export class AppConfigurationClient {
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
-    listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<Label, ListLabelsPage, PageSettings>;
+    listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
@@ -210,11 +210,6 @@ export enum KnownSnapshotComposition {
     KeyLabel = "key_label"
 }
 
-// @public (undocumented)
-export interface Label {
-    readonly name?: string;
-}
-
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
     items: ConfigurationSetting[];
@@ -237,7 +232,7 @@ export interface ListLabelsOptions extends OperationOptions, OptionalLabelsField
 
 // @public
 export interface ListLabelsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
-    items: Label[];
+    items: SettingLabel[];
 }
 
 // @public
@@ -279,7 +274,7 @@ export interface OptionalFields {
 
 // @public
 export interface OptionalLabelsFields {
-    fields?: (keyof Label)[];
+    fields?: (keyof SettingLabel)[];
 }
 
 // @public
@@ -329,6 +324,11 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 
 // @public
 export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface SettingLabel {
+    readonly name?: string;
 }
 
 // @public

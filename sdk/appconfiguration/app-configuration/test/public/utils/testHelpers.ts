@@ -6,7 +6,7 @@ import {
   AppConfigurationClientOptions,
   ListSnapshotsPage,
   ConfigurationSnapshot,
-  Label,
+  SettingLabel,
   ListLabelsPage,
 } from "../../../src";
 import {
@@ -149,16 +149,16 @@ export async function toSortedSnapshotArray(
 }
 
 export async function toSortedLabelsArray(
-  pagedIterator: PagedAsyncIterableIterator<Label, ListLabelsPage, PageSettings>,
-  compareFn?: (a: Label, b: Label) => number,
-): Promise<Label[]> {
-  const labels: Label[] = [];
+  pagedIterator: PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>,
+  compareFn?: (a: SettingLabel, b: SettingLabel) => number,
+): Promise<SettingLabel[]> {
+  const labels: SettingLabel[] = [];
 
   for await (const label of pagedIterator) {
     labels.push(label);
   }
 
-  let labelsViaPageIterator: Label[] = [];
+  let labelsViaPageIterator: SettingLabel[] = [];
 
   for await (const page of pagedIterator.byPage()) {
     labelsViaPageIterator = labelsViaPageIterator.concat(page.items);
