@@ -6,8 +6,6 @@
 
 - Add support for Azure Functions v4 types.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Live Metrics instrumentation key should be set when env var is used to set the connection string.
