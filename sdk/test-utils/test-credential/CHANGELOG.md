@@ -8,8 +8,7 @@ Updates the `createTestCredential` method to consume `AzurePipelineCredential` w
 
 - `NoOpCredential` is offered for playback.
 - In record and live modes:
-  - `AzurePipelinesCredential` is run when the environment is Azure Pipelines with service connection.
-  - `ChainedTokenCredential` is offered in Node. The credential will try `AzurePowershelLCredential`, `AzureCliCredential`, `EnvironmentCredential`, and `AzureDeveloperCliCredential` in the listed order.
+  - In Node, `AzurePipelinesCredential` is run when the environment is Azure Pipelines with service connection. Otherwise `ChainedTokenCredential` is offered. The credential will try `AzurePowershelLCredential`, `AzureCliCredential`, `EnvironmentCredential`, and `AzureDeveloperCliCredential` in the listed order.
   - In the browser, a custom credential is provided that fetches tokens from a locally running Node server. The server is provided in the dev-tool package, and must be running while the browser
     tests are running for the credential to work. The server uses `ChainedTokenCredential` on the host machine to generate tokens.
 - [`User Auth` and `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) are preferred in record mode to record the tests.

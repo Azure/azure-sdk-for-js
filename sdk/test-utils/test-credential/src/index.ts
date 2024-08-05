@@ -11,7 +11,6 @@ import {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
   EnvironmentCredential,
-  logger,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
@@ -55,18 +54,17 @@ export function createTestCredential(
 ): TokenCredential {
   if (isPlaybackMode()) {
     return new NoOpCredential();
-
-  // If we have a system access token, we are in Azure Pipelines
-  } else if (process.env.SYSTEM_ACCESSTOKEN){
+  } else if (isBrowser) {
+    return createBrowserRelayCredential(tokenCredentialOptions);
+  } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
-    const serviceConnectionID = process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
-    const clientID = process.env.AZURESUBSCRIPTION_CLIENT_ID;
-    const tenantID = process.env.AZURESUBSCRIPTION_TENANT_ID;
     const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
-
     // If we have a system access token, we are in Azure Pipelines
+    if (systemAccessToken) {
+      const serviceConnectionID = process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
+      const clientID = process.env.AZURESUBSCRIPTION_CLIENT_ID;
+      const tenantID = process.env.AZURESUBSCRIPTION_TENANT_ID;
       if (serviceConnectionID && clientID && tenantID) {
-        logger.info("Running in Azure Pipelines environement with Azure pipeline credential")
         return new AzurePipelinesCredential(
           tenantID,
           clientID,
@@ -77,12 +75,7 @@ export function createTestCredential(
       }
       throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
         serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
-  
-  } else if (isBrowser) {
-    return createBrowserRelayCredential(tokenCredentialOptions);
-  } else {
-
-    const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
+    }
     return new ChainedTokenCredential(
       new AzurePowerShellCredential(dacOptions),
       new AzureCliCredential(dacOptions),
