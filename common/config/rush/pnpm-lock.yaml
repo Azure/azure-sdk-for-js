@@ -5782,6 +5782,14 @@ packages:
       - utf-8-validate
     dev: false
 
+  /enhanced-resolve@5.17.1:
+    resolution: {integrity: sha512-LMHl3dXhTcfv8gM4kEzIUeTQ+7fpdA0l2tUf34BddXPkz2A5xJ5L/Pchd5BL6rdccM9QGvu0sWZzK1Z1t4wwyg==}
+    engines: {node: '>=10.13.0'}
+    dependencies:
+      graceful-fs: 4.2.11
+      tapable: 2.2.1
+    dev: false
+
   /ent@2.2.1:
     resolution: {integrity: sha512-QHuXVeZx9d+tIQAz/XztU0ZwZf2Agg9CcXcgE1rurqvdBeDBrpSwjl8/6XUqMg7tw2Y7uAdKb2sRv+bSEFqQ5A==}
     engines: {node: '>= 0.4'}
@@ -5988,6 +5996,16 @@ packages:
       source-map: 0.6.1
     dev: false
 
+  /eslint-compat-utils@0.5.1(eslint@8.57.0):
+    resolution: {integrity: sha512-3z3vFexKIEnjHE3zCMRo6fn/e44U7T1khUjg+Hp0ZQMCigh28rALD0nPFBcGZuiLC5rLZa2ubQHDRln09JfU2Q==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      eslint: '>=6.0.0'
+    dependencies:
+      eslint: 8.57.0
+      semver: 7.6.3
+    dev: false
+
   /eslint-config-prettier@9.1.0(eslint@8.57.0):
     resolution: {integrity: sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==}
     hasBin: true
@@ -6016,6 +6034,18 @@ packages:
     dependencies:
       debug: 3.2.7
       eslint: 8.57.0
+    dev: false
+
+  /eslint-plugin-es-x@7.8.0(eslint@8.57.0):
+    resolution: {integrity: sha512-7Ds8+wAAoV3T+LAKeu39Y5BzXCrGKrcISfgKEqTS4BDN8SFEDQd0S43jiQ8vIa3wUKD07qitZdfzlenSi8/0qQ==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      eslint: '>=8'
+    dependencies:
+      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
+      '@eslint-community/regexpp': 4.11.0
+      eslint: 8.57.0
+      eslint-compat-utils: 0.5.1(eslint@8.57.0)
     dev: false
 
   /eslint-plugin-es@3.0.1(eslint@8.57.0):
@@ -6065,6 +6095,23 @@ packages:
       mdast-util-from-markdown: 0.8.5
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /eslint-plugin-n@17.10.2(eslint@8.57.0):
+    resolution: {integrity: sha512-e+s4eAf5NtJaxPhTNu3qMO0Iz40WANS93w9LQgYcvuljgvDmWi/a3rh+OrNyMHeng6aOWGJO0rCg5lH4zi8yTw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: '>=8.23.0'
+    dependencies:
+      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
+      enhanced-resolve: 5.17.1
+      eslint: 8.57.0
+      eslint-plugin-es-x: 7.8.0(eslint@8.57.0)
+      get-tsconfig: 4.7.6
+      globals: 15.9.0
+      ignore: 5.3.1
+      minimatch: 9.0.5
+      semver: 7.6.3
     dev: false
 
   /eslint-plugin-no-only-tests@3.1.0:
@@ -6870,6 +6917,11 @@ packages:
 
   /globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
+    engines: {node: '>=18'}
+    dev: false
+
+  /globals@15.9.0:
+    resolution: {integrity: sha512-SmSKyLLKFbSr6rptvP8izbyxJL4ILwqO9Jg23UA0sDlGlu58V59D1//I3vlc0KJphVdUR7vMjHIplYnzBxorQA==}
     engines: {node: '>=18'}
     dev: false
 
@@ -10493,6 +10545,11 @@ packages:
       path-scurry: 2.0.0
       rimraf: 6.0.1
       tshy: 3.0.2
+    dev: false
+
+  /tapable@2.2.1:
+    resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
+    engines: {node: '>=6'}
     dev: false
 
   /tar-fs@2.1.1:
@@ -21357,7 +21414,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk-helper.tgz:
-    resolution: {integrity: sha512-HZSZwM2kREsmTzXgobwwjDzZdufQgu435fbZAD2CrKA3Skk0K2nA90/36qQqr4u3llrp3z3FM6s/986ta6xlLg==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
+    resolution: {integrity: sha512-xHpH9pq2/ySvOp5t8KNaBzNF4pcAysfUMzfOf2o+7xWwVgHaunwEpXKw6fg1zJoaJM06sjh8TpL2rTcka9yzRg==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk-helper'
     version: 0.0.0
     dependencies:
@@ -21373,6 +21430,7 @@ packages:
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
       eslint-plugin-markdown: 5.1.0(eslint@8.57.0)
+      eslint-plugin-n: 17.10.2(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.6.0(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
@@ -21385,7 +21443,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-isOz6t8cgi5LXxv98YSOdVkArSAB2F8GsktBshD2+fjY/nCL4AJY+0rWYuXEl9AG/f//yJXvjC+l4XOyJsvC0g==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-A0owIVA9YqDG8X7LQ+phP23yxojh7pQ/JoIX2xNdF1ItiZFy+5IIyAUN5QmqC7uShmAPQqL80G+J438xMuF0Ig==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -21408,6 +21466,7 @@ packages:
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
       eslint-plugin-markdown: 5.1.0(eslint@8.57.0)
+      eslint-plugin-n: 17.10.2(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.6.0(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
@@ -22849,7 +22908,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-7urZaq2mi2Ya5sAhpUBebjCHGTIhWXGVVTDchPUnFYWtiX9KugSP0MXIJAqZK6pdRdWRkW4J8J+NByEWp84LIA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-aMvFIVpBs0KJZonV1omJln3lR47yFT/PRhbT8sVARBMoN6onDj5PcN5JfL+p+ZFKEaYcS4rz0GohigC5AZe4ug==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -22884,7 +22943,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-lMoB2O2cVNo9+d1t79HPofu6VGjpr5HQ2JloulvDCQ2WQ8cdckvDW4K6uaad7tcVjwSpKtLkuBmSY9oGGiYKcA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-5Gl35CDEuoqfATvL1SM2nAgJx8BY0l19+YfQxqq/+kwmgI2PRDPmJBynU3ydy7O+QQoVgQ/03F6E3Vu0dExI9Q==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
