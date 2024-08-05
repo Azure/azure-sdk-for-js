@@ -40,7 +40,7 @@ describe("ClientSecretCredential", function () {
 
   it("authenticates when cae enabled", async function () {
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
+      env.AZURE_TENANT_ID! || PlaybackTenantId,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
       recorder.configureClientOptions({})
@@ -53,7 +53,7 @@ describe("ClientSecretCredential", function () {
 
   it("allows cancelling the authentication", async function () {
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
+      env.AZURE_TENANT_ID! || PlaybackTenantId,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
       recorder.configureClientOptions({
@@ -83,7 +83,7 @@ describe("ClientSecretCredential", function () {
     await assert.supportsTracing(
       async (tracingOptions) => {
         const credential = new ClientSecretCredential(
-          env.AZURE_TENANT_ID!,
+          env.AZURE_TENANT_ID! || PlaybackTenantId,
           env.AZURE_CLIENT_ID!,
           env.AZURE_CLIENT_SECRET!,
           recorder.configureClientOptions({})
@@ -105,7 +105,7 @@ describe("ClientSecretCredential", function () {
     }
 
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
+      env.AZURE_TENANT_ID! || PlaybackTenantId,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
       recorder.configureClientOptions({
