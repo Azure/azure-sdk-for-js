@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates listing labels for a configuration setting.
+ * @summary Demonstrates listing labels for a configuration setting store.
  * @azsdk-weight 40
  */
 import { AppConfigurationClient } from "@azure/app-configuration";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates listing labels for a configuration setting.
+ * @summary Demonstrates listing labels for a configuration setting store.
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";

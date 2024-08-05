@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates listing labels for a configuration setting.
+ * @summary Demonstrates listing labels for a configuration setting store.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
 const { DefaultAzureCredential } = require("@azure/identity");

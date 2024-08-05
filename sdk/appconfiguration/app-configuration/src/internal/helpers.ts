@@ -463,5 +463,3 @@ export function hasUnderscoreResponse<T extends object>(
 ): result is T & HttpResponseField<any> {
   return Object.prototype.hasOwnProperty.call(result, "_response");
 }
-
-// TODO: Transform an object to a list of string with key and value formatted as "key=value"
