@@ -13,7 +13,7 @@ import type { TestResult } from '@playwright/test/reporter';
 
 // @public
 class MPTReporter implements Reporter {
-    constructor(obj: Partial<MPTReporterConfig>);
+    constructor(config: Partial<MPTReporterConfig>);
     onBegin(config: FullConfig, suite: Suite): void;
     onEnd(result: FullResult): Promise<void>;
     onTestEnd(test: TestCase, result: TestResult): void;

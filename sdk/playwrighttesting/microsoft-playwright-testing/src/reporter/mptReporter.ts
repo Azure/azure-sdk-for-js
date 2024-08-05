@@ -69,9 +69,9 @@ class MPTReporter implements Reporter {
   };
   private testRunUrl: string = "";
 
-  constructor(obj: Partial<MPTReporterConfig>) {
-    if (obj?.enableGitHubSummary !== undefined) {
-      this.enableGitHubSummary = obj.enableGitHubSummary;
+  constructor(config: Partial<MPTReporterConfig>) {
+    if (config?.enableGitHubSummary !== undefined) {
+      this.enableGitHubSummary = config.enableGitHubSummary;
     }
   }
   private _addError(errorMessage: string): void {
