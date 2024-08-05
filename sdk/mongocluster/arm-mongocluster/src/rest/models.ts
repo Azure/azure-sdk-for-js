@@ -9,7 +9,11 @@ export interface MongoCluster extends TrackedResource {
 
 /** The properties of a mongo cluster. */
 export interface MongoClusterProperties {
-  /** The mode to create a mongo cluster. */
+  /**
+   * The mode to create a mongo cluster.
+   *
+   * Possible values: "Default", "PointInTimeRestore"
+   */
   createMode?: CreateMode;
   /** The parameters to create a point-in-time restore mongo cluster. */
   restoreParameters?: MongoClusterRestoreParameters;
@@ -19,7 +23,11 @@ export interface MongoClusterProperties {
   administratorLoginPassword?: string;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /**
+   * Whether or not public endpoint access is allowed for this mongo cluster.
+   *
+   * Possible values: "Enabled", "Disabled"
+   */
   publicNetworkAccess?: PublicNetworkAccess;
   /** The list of node group specs in the cluster. */
   nodeGroupSpecs?: Array<NodeGroupSpec>;
@@ -41,7 +49,11 @@ export interface NodeGroupSpec {
   diskSizeGB?: number;
   /** Whether high availability is enabled on the node group. */
   enableHa?: boolean;
-  /** The node type deployed in the node group. */
+  /**
+   * The node type deployed in the node group.
+   *
+   * Possible values: "Shard"
+   */
   kind?: NodeKind;
   /** The number of nodes in the node group. */
   nodeCount?: number;
@@ -66,7 +78,11 @@ export interface PrivateEndpoint {}
 
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+   *
+   * Possible values: "Pending", "Approved", "Rejected"
+   */
   status?: PrivateEndpointServiceConnectionStatus;
   /** The reason for approval/rejection of the connection. */
   description?: string;
@@ -81,13 +97,21 @@ export interface Resource {}
 export interface SystemData {
   /** The identity that created the resource. */
   createdBy?: string;
-  /** The type of identity that created the resource. */
+  /**
+   * The type of identity that created the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   createdByType?: CreatedByType;
   /** The timestamp of resource creation (UTC). */
   createdAt?: Date | string;
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
+  /**
+   * The type of identity that last modified the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date | string;
@@ -209,6 +233,7 @@ export interface PrivateLinkResource extends Resource {
 export interface MongoClusterUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
   properties?: MongoClusterUpdateProperties;
 }
 
@@ -220,7 +245,11 @@ export interface MongoClusterUpdateProperties {
   administratorLoginPassword?: string;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /**
+   * Whether or not public endpoint access is allowed for this mongo cluster.
+   *
+   * Possible values: "Enabled", "Disabled"
+   */
   publicNetworkAccess?: PublicNetworkAccess;
   /** The list of node group specs in the cluster. */
   nodeGroupSpecs?: Array<NodeGroupSpec>;
