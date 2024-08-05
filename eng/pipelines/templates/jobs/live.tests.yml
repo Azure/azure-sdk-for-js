@@ -212,11 +212,6 @@ jobs:
 
       # ===== BEGIN LIVE TEST RUNS =====
 
-      - pwsh: |
-          eng/common/scripts/Import-AzModules.ps1
-          Update-AzConfig -DisplayBreakingChangeWarning $false
-        displayName: "Workaround https://github.com/Azure/azure-sdk-for-js/issues/30356"
-
       - ${{ if eq('true', parameters.UseFederatedAuth) }}:
         - task: AzurePowerShell@5
           inputs:

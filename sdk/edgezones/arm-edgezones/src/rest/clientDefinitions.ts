@@ -2,83 +2,89 @@
 // Licensed under the MIT license.
 
 import {
-  ListParameters,
-  GetParameters,
-  ListBySubscriptionParameters,
-  RegisterParameters,
-  UnregisterParameters,
+  OperationsListParameters,
+  ExtendedZonesGetParameters,
+  ExtendedZonesListBySubscriptionParameters,
+  ExtendedZonesRegisterParameters,
+  ExtendedZonesUnregisterParameters,
 } from "./parameters.js";
 import {
-  List200Response,
-  ListDefaultResponse,
-  Get200Response,
-  GetDefaultResponse,
-  ListBySubscription200Response,
-  ListBySubscriptionDefaultResponse,
-  Register200Response,
-  RegisterDefaultResponse,
-  Unregister200Response,
-  UnregisterDefaultResponse,
+  OperationsList200Response,
+  OperationsListDefaultResponse,
+  ExtendedZonesGet200Response,
+  ExtendedZonesGetDefaultResponse,
+  ExtendedZonesListBySubscription200Response,
+  ExtendedZonesListBySubscriptionDefaultResponse,
+  ExtendedZonesRegister200Response,
+  ExtendedZonesRegisterDefaultResponse,
+  ExtendedZonesUnregister200Response,
+  ExtendedZonesUnregisterDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface List {
+export interface OperationsList {
   /** List the operations for the provider */
-  get(options?: ListParameters): StreamableMethod<List200Response | ListDefaultResponse>;
+  get(
+    options?: OperationsListParameters,
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
-export interface Get {
+export interface ExtendedZonesGet {
   /** Gets an Azure Extended Zone for a subscription */
-  get(options?: GetParameters): StreamableMethod<Get200Response | GetDefaultResponse>;
+  get(
+    options?: ExtendedZonesGetParameters,
+  ): StreamableMethod<ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse>;
 }
 
-export interface ListBySubscription {
+export interface ExtendedZonesListBySubscription {
   /** Lists the Azure Extended Zones available to a subscription */
   get(
-    options?: ListBySubscriptionParameters,
-  ): StreamableMethod<ListBySubscription200Response | ListBySubscriptionDefaultResponse>;
+    options?: ExtendedZonesListBySubscriptionParameters,
+  ): StreamableMethod<
+    ExtendedZonesListBySubscription200Response | ExtendedZonesListBySubscriptionDefaultResponse
+  >;
 }
 
-export interface Register {
+export interface ExtendedZonesRegister {
   /** Registers a subscription for an Extended Zone */
   post(
-    options: RegisterParameters,
-  ): StreamableMethod<Register200Response | RegisterDefaultResponse>;
+    options: ExtendedZonesRegisterParameters,
+  ): StreamableMethod<ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse>;
 }
 
-export interface Unregister {
+export interface ExtendedZonesUnregister {
   /** Unregisters a subscription for an Extended Zone */
   post(
-    options: UnregisterParameters,
-  ): StreamableMethod<Unregister200Response | UnregisterDefaultResponse>;
+    options: ExtendedZonesUnregisterParameters,
+  ): StreamableMethod<ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse>;
 }
 
 export interface Routes {
   /** Resource for '/providers/Microsoft.EdgeZones/operations' has methods for the following verbs: get */
-  (path: "/providers/Microsoft.EdgeZones/operations"): List;
+  (path: "/providers/Microsoft.EdgeZones/operations"): OperationsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.EdgeZones/extendedZones/\{extendedZoneName\}' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}",
     subscriptionId: string,
     extendedZoneName: string,
-  ): Get;
+  ): ExtendedZonesGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.EdgeZones/extendedZones' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones",
     subscriptionId: string,
-  ): ListBySubscription;
+  ): ExtendedZonesListBySubscription;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.EdgeZones/extendedZones/\{extendedZoneName\}/register' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/register",
     subscriptionId: string,
     extendedZoneName: string,
-  ): Register;
+  ): ExtendedZonesRegister;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.EdgeZones/extendedZones/\{extendedZoneName\}/unregister' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/unregister",
     subscriptionId: string,
     extendedZoneName: string,
-  ): Unregister;
+  ): ExtendedZonesUnregister;
 }
 
 export type EdgeZonesContext = Client & {

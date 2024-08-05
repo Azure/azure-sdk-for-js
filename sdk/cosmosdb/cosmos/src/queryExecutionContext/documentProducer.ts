@@ -112,7 +112,7 @@ export class DocumentProducer {
       options,
       diagnosticNode,
       partitionKeyRangeId: this.targetPartitionKeyRange["id"],
-      correlatedActivityId,
+      correlatedActivityId: correlatedActivityId,
     });
   };
 

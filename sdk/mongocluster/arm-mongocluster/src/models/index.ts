@@ -75,8 +75,4 @@ export {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateLinksListByMongoClusterOptionalParams,
 } from "./options.js";
-export {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./pagingTypes.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes.js";

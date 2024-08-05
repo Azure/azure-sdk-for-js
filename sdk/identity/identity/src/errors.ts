@@ -75,8 +75,9 @@ export const CredentialUnavailableErrorName = "CredentialUnavailableError";
  * an error that should halt the chain, it's caught and the chain continues
  */
 export class CredentialUnavailableError extends Error {
-  constructor(message?: string) {
-    super(message);
+  constructor(message?: string, options?: { cause?: unknown }) {
+    // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
+    super(message, options);
     this.name = CredentialUnavailableErrorName;
   }
 }
@@ -103,7 +104,11 @@ export class AuthenticationError extends Error {
   public readonly errorResponse: ErrorResponse;
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor(statusCode: number, errorBody: object | string | undefined | null) {
+  constructor(
+    statusCode: number,
+    errorBody: object | string | undefined | null,
+    options?: { cause?: unknown },
+  ) {
     let errorResponse: ErrorResponse = {
       error: "unknown",
       errorDescription: "An unknown error occurred and no additional details are available.",
@@ -120,8 +125,8 @@ export class AuthenticationError extends Error {
       } catch (e: any) {
         if (statusCode === 400) {
           errorResponse = {
-            error: "authority_not_found",
-            errorDescription: "The specified authority URL was not found.",
+            error: "invalid_request",
+            errorDescription: `The service indicated that the request was invalid.\n\n${errorBody}`,
           };
         } else {
           errorResponse = {
@@ -138,7 +143,9 @@ export class AuthenticationError extends Error {
     }
 
     super(
-      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`,
+      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription},`,
+      // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
+      options,
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
@@ -201,6 +208,10 @@ export interface AuthenticationRequiredErrorOptions {
    * The message of the error.
    */
   message?: string;
+  /**
+   * The underlying cause, if any, that caused the authentication to fail.
+   */
+  cause?: unknown;
 }
 
 /**
@@ -222,7 +233,13 @@ export class AuthenticationRequiredError extends Error {
      */
     options: AuthenticationRequiredErrorOptions,
   ) {
-    super(options.message);
+    super(
+      options.message,
+      // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
+      {
+        cause: options.cause,
+      },
+    );
     this.scopes = options.scopes;
     this.getTokenOptions = options.getTokenOptions;
     this.name = "AuthenticationRequiredError";

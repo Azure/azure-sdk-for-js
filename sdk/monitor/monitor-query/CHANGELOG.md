@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.1 (2024-07-31)
+
+### Bugs Fixed
+
+- Fixed the `audience` values for `MetricsQueryClient` and `MetricsClient`.
+
 ## 1.3.0 (2024-06-11)
 
 ### Features Added
