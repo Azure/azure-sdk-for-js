@@ -30,7 +30,7 @@ function isAmqpError(err) {
   return rheaPromise.isAmqpError(err);
 }
 
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 const iotHubConnectionString =
   process.env["IOTHUB_CONNECTION_STRING"] || "<your iot hub connection string>";
 
