@@ -79,9 +79,9 @@ export class ApplicationInsightsSampler implements Sampler {
   }
 
   private _getSamplingHashCode(input: string): number {
-    var csharpMin = -2147483648;
-    var csharpMax = 2147483647;
-    var hash = 5381;
+    const csharpMin = -2147483648;
+    const csharpMax = 2147483647;
+    let hash = 5381;
 
     if (!input) {
       return 0;
@@ -91,7 +91,7 @@ export class ApplicationInsightsSampler implements Sampler {
       input = input + input;
     }
 
-    for (var i = 0; i < input.length; i++) {
+    for (let i = 0; i < input.length; i++) {
       // JS doesn't respond to integer overflow by wrapping around. Simulate it with bitwise operators ( | 0)
       hash = ((((hash << 5) + hash) | 0) + input.charCodeAt(i)) | 0;
     }

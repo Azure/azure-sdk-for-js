@@ -60,7 +60,7 @@ export class ConnectionStringParser {
         : DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
         diag.warn(
-          `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`,
+          `Connection String contains an unsupported 'Authorization' value: ${result.authorization}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`,
         );
       }
     } else {

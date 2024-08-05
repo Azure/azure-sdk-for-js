@@ -61,10 +61,10 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     }
     // JSON file
     else {
-      let configFileName = "applicationinsights.json";
-      let rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
+      const configFileName = "applicationinsights.json";
+      const rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
       this._tempDir = path.join(rootPath, configFileName); // default
-      let configFile = process.env[ENV_CONFIGURATION_FILE];
+      const configFile = process.env[ENV_CONFIGURATION_FILE];
       if (configFile) {
         if (path.isAbsolute(configFile)) {
           this._tempDir = configFile;

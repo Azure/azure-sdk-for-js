@@ -41,7 +41,7 @@ describe("Main functions", () => {
   });
 
   it("useAzureMonitor", () => {
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -53,7 +53,7 @@ describe("Main functions", () => {
   });
 
   it("should shutdown azureMonitor - sync", () => {
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -65,7 +65,7 @@ describe("Main functions", () => {
   });
 
   it("should shutdown azureMonitor - async", async () => {
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -77,7 +77,7 @@ describe("Main functions", () => {
   });
 
   it("should add custom spanProcessors", () => {
-    let processor: SpanProcessor = {
+    const processor: SpanProcessor = {
       forceFlush: () => {
         return Promise.resolve();
       },
@@ -93,21 +93,21 @@ describe("Main functions", () => {
     };
     const spyOnStart = sandbox.spy(processor, "onStart");
     const spyOnEnd = sandbox.spy(processor, "onEnd");
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
       spanProcessors: [processor],
     };
     useAzureMonitor(config);
-    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    const span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
     assert.ok(spyOnStart.called);
     assert.ok(spyOnEnd.called);
   });
 
   it("should add custom logProcessors", () => {
-    let processor: LogRecordProcessor = {
+    const processor: LogRecordProcessor = {
       forceFlush: () => {
         return Promise.resolve();
       },
@@ -120,7 +120,7 @@ describe("Main functions", () => {
       },
     };
     const spyonEmit = sandbox.spy(processor, "onEmit");
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -132,7 +132,7 @@ describe("Main functions", () => {
   });
 
   it("should set statsbeat features", () => {
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -156,7 +156,7 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const features = Number(output["feature"]);
     const instrumentations = Number(output["instrumentation"]);
     assert.ok(!(features & StatsbeatFeature.AAD_HANDLING), "AAD_HANDLING is set");
@@ -176,13 +176,13 @@ describe("Main functions", () => {
 
   it("should set shim feature in statsbeat if env var is populated", () => {
     getInstance()["initializedByShim"] = true;
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
     useAzureMonitor(config);
-    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const features = Number(output["feature"]);
     assert.ok(features & StatsbeatFeature.SHIM, `SHIM is not set ${features}`);
   });
@@ -195,13 +195,13 @@ describe("Main functions", () => {
     current |= StatsbeatFeature.LIVE_METRICS;
     env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
     process.env = env;
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
     useAzureMonitor(config);
-    let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const numberOutput = Number(output["feature"]);
     assert.ok(numberOutput & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING not set");
     assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
@@ -215,7 +215,7 @@ describe("Main functions", () => {
     const env = <{ [id: string]: string }>{};
     env.WEBSITE_SITE_NAME = "test-azure-app-service";
     process.env = env;
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -229,7 +229,7 @@ describe("Main functions", () => {
     const env = <{ [id: string]: string }>{};
     env.FUNCTIONS_WORKER_RUNTIME = "test-azure-functions";
     process.env = env;
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -243,7 +243,7 @@ describe("Main functions", () => {
     const env = <{ [id: string]: string }>{};
     env.AKS_ARM_NAMESPACE_ID = "test-AKS";
     process.env = env;
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -257,13 +257,13 @@ describe("Main functions", () => {
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "os";
     process.env = env;
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
     useAzureMonitor(config);
-    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    const span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
@@ -281,13 +281,13 @@ describe("Main functions", () => {
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "blah,host";
     process.env = env;
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
     useAzureMonitor(config);
-    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    const span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
@@ -301,13 +301,13 @@ describe("Main functions", () => {
   });
 
   it("should not use process resource detector if OTEL_NODE_RESOURCE_DETECTORS not specified", () => {
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
     useAzureMonitor(config);
-    let span = trace.getTracer("testTracer").startSpan("testSpan");
+    const span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.

@@ -9,7 +9,7 @@ import sinon from "sinon";
 describe("#Logger", () => {
   describe("#SetLogLevel", () => {
     let sinonSandbox: sinon.SinonSandbox;
-    let originalEnv: NodeJS.ProcessEnv = process.env;
+    const originalEnv: NodeJS.ProcessEnv = process.env;
     beforeEach(() => {
       sinonSandbox = sinon.createSandbox();
       // @ts-ignore Need to set the static Looger instance to undefined to reset the singleton

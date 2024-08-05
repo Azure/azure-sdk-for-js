@@ -11,8 +11,8 @@ import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecor
 describe("AzureBatchLogRecordProcessor", () => {
   describe("#trace based sampling", async () => {
     it("sampled out", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
+      const memoryLogExporter = new InMemoryLogRecordExporter();
+      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
       });
       const loggerProvider = new LoggerProvider();
@@ -34,8 +34,8 @@ describe("AzureBatchLogRecordProcessor", () => {
     });
 
     it("sampled in", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
+      const memoryLogExporter = new InMemoryLogRecordExporter();
+      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
       });
       const loggerProvider = new LoggerProvider();
@@ -57,8 +57,8 @@ describe("AzureBatchLogRecordProcessor", () => {
     });
 
     it("enableTraceBasedSamplingForLogs=false", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
+      const memoryLogExporter = new InMemoryLogRecordExporter();
+      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: false,
       });
       const loggerProvider = new LoggerProvider();
@@ -80,8 +80,8 @@ describe("AzureBatchLogRecordProcessor", () => {
     });
 
     it("should serialize nested log attributes", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
+      const memoryLogExporter = new InMemoryLogRecordExporter();
+      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: false,
       });
       const loggerProvider = new LoggerProvider();

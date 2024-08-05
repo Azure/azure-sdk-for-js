@@ -145,11 +145,11 @@ export function resourceMetricsToQuickpulseDataPoint(
   baseMonitoringDataPoint: MonitoringDataPoint,
   documents: DocumentIngress[],
 ): MonitoringDataPoint[] {
-  let metricPoints: MetricPoint[] = [];
+  const metricPoints: MetricPoint[] = [];
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
-        let metricPoint: MetricPoint = {
+        const metricPoint: MetricPoint = {
           weight: 4,
           name: "",
           value: 0,
@@ -200,7 +200,7 @@ export function resourceMetricsToQuickpulseDataPoint(
       });
     });
   });
-  let quickpulseDataPoint: MonitoringDataPoint = {
+  const quickpulseDataPoint: MonitoringDataPoint = {
     ...baseMonitoringDataPoint,
     timestamp: new Date(),
     metrics: metricPoints,

@@ -72,7 +72,7 @@ describe("Library/Config", () => {
     it("JSON config values take precedence over others", () => {
       const env = <{ [id: string]: string }>{};
 
-      let jsonOptions = {
+      const jsonOptions = {
         azureMonitorExporterOptions: {
           connectionString: "testConnString",
           storageDirectory: "teststorageDirectory",
@@ -92,7 +92,7 @@ describe("Library/Config", () => {
       env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
       process.env = env;
 
-      let options: AzureMonitorOpenTelemetryOptions = {
+      const options: AzureMonitorOpenTelemetryOptions = {
         azureMonitorExporterOptions: {
           connectionString: "testConnStringOther",
           storageDirectory: "teststorageDirectoryOther",
@@ -190,7 +190,7 @@ describe("Library/Config", () => {
     it("Partial configurations are supported", () => {
       const env = <{ [id: string]: string }>{};
 
-      let jsonOptions = {
+      const jsonOptions = {
         azureMonitorExporterOptions: {
           storageDirectory: "teststorageDirectory",
         },
@@ -202,7 +202,7 @@ describe("Library/Config", () => {
       env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
       process.env = env;
 
-      let options: AzureMonitorOpenTelemetryOptions = {
+      const options: AzureMonitorOpenTelemetryOptions = {
         azureMonitorExporterOptions: {
           connectionString: "testConnectionString",
         },
@@ -298,11 +298,11 @@ describe("OpenTelemetry Resource", () => {
   });
 
   it("should allow custom resource to be configured", () => {
-    let customAttributes: any = {};
+    const customAttributes: any = {};
     customAttributes[SemanticResourceAttributes.SERVICE_NAME] = "testServiceName";
     customAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testServiceInstanceId";
     customAttributes[SemanticResourceAttributes.CONTAINER_ID] = "testContainerId";
-    let customResource = new Resource(customAttributes);
+    const customResource = new Resource(customAttributes);
     const config = new InternalConfig();
     config.resource = customResource;
     assert.deepStrictEqual(

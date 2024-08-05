@@ -120,7 +120,7 @@ export class LiveMetrics {
    */
   constructor(config: InternalConfig) {
     this.config = config;
-    let idGenerator = new RandomIdGenerator();
+    const idGenerator = new RandomIdGenerator();
     const streamId = idGenerator.generateTraceId();
     const machineName = os.hostname();
     const instance = getCloudRoleInstance(this.config.resource);
@@ -144,7 +144,7 @@ export class LiveMetrics {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
     });
-    let exporterOptions: QuickpulseExporterOptions = {
+    const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       postCallback: this.quickPulseDone.bind(this),
@@ -167,12 +167,12 @@ export class LiveMetrics {
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
-        let params: IsSubscribedOptionalParams = {
+        const params: IsSubscribedOptionalParams = {
           transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
         };
         await context.with(suppressTracing(context.active()), async () => {
-          let response = await this.pingSender.isSubscribed(params);
+          const response = await this.pingSender.isSubscribed(params);
           this.quickPulseDone(response);
         });
       } catch (error) {
@@ -376,10 +376,10 @@ export class LiveMetrics {
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
       // Add document and calculate metrics
-      let document: Request | RemoteDependency = getSpanDocument(span);
+      const document: Request | RemoteDependency = getSpanDocument(span);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
-      let success = span.status.code !== SpanStatusCode.ERROR;
+      const success = span.status.code !== SpanStatusCode.ERROR;
 
       if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
         this.totalRequestCount++;
@@ -411,7 +411,7 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      let document: Trace | Exception = getLogDocument(logRecord);
+      const document: Trace | Exception = getLogDocument(logRecord);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
         this.totalExceptionCount++;
@@ -527,8 +527,8 @@ export class LiveMetrics {
   }
 
   private getCommitedMemory(observableResult: ObservableResult) {
-    var freeMem = os.freemem();
-    var committedMemory = os.totalmem() - freeMem;
+    const freeMem = os.freemem();
+    const committedMemory = os.totalmem() - freeMem;
     observableResult.observe(committedMemory);
   }
 

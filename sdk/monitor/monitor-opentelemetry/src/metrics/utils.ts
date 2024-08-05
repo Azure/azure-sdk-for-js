@@ -37,7 +37,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
@@ -51,7 +51,7 @@ export function getDependencyDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getExceptionDimensions(resource: Resource): Attributes {
@@ -140,8 +140,8 @@ export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
 export function convertDimensions(
   dimensions: MetricDependencyDimensions | MetricRequestDimensions,
 ): Attributes {
-  let convertedDimensions: any = {};
-  for (let dim in dimensions) {
+  const convertedDimensions: any = {};
+  for (const dim in dimensions) {
     convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (
       dimensions as any
     )[dim];

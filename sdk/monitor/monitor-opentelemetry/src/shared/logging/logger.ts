@@ -60,7 +60,7 @@ export class Logger {
       suppressOverrideMessage: true,
     });
 
-    let azureLogLevelEnv =
+    const azureLogLevelEnv =
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL || process.env.AZURE_LOG_LEVEL;
     let azureLogLevel: AzureLogLevel = "warning"; // default
     switch (azureLogLevelEnv) {

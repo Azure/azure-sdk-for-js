@@ -63,7 +63,7 @@ export class QuickpulseSender {
     optionalParams: IsSubscribedOptionalParams,
   ): Promise<IsSubscribedResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.isSubscribed(
+      const response = await this.quickpulseClient.isSubscribed(
         this.endpointUrl,
         this.instrumentationKey,
         optionalParams,
@@ -82,7 +82,7 @@ export class QuickpulseSender {
    */
   async publish(optionalParams: PublishOptionalParams): Promise<PublishResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.publish(
+      const response = await this.quickpulseClient.publish(
         this.endpointUrl,
         this.instrumentationKey,
         optionalParams,

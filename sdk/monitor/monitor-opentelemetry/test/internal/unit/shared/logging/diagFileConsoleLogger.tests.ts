@@ -101,12 +101,12 @@ describe("Library/DiagFileConsoleLogger", () => {
           assert.ok(readStub.calledOnce, "readStub calledOnce"); // Read content to create backup
           assert.ok(appendStub.notCalled, "appendStub notCalled");
           assert.ok(writeStub.calledTwice, "writeStub calledTwice");
-          //assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
+          // assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
           assert.ok(
             writeStub.args[0][0].toString().indexOf(".applicationinsights.log") > 0,
             ".applicationinsights.log present in backup file name",
           ); // First call is for backup file
-          //assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
+          // assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
           assert.equal(writeStub.args[1][1], "backupTestMessage\r\n");
           done();
         })

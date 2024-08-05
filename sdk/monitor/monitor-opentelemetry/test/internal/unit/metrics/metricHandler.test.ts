@@ -57,7 +57,7 @@ describe("MetricHandler", () => {
 
   it("should observe instruments during collection", async () => {
     createHandler();
-    let counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+    const counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
       description: "testDescription",
     });
     counter.add(2);

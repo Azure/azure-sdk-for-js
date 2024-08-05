@@ -63,12 +63,12 @@ describe("Library/TraceHandler", () => {
     trace.setGlobalTracerProvider(tracerProvider);
 
     // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
-    http = require("http") as any;
+    http = require("http");
     createMockServers();
   }
 
   let mockHttpServer: any;
-  let mockHttpServerPort = 8085;
+  const mockHttpServerPort = 8085;
 
   function createMockServers() {
     mockHttpServer = http.createServer((req: any, res: any) => {
@@ -188,7 +188,7 @@ describe("Library/TraceHandler", () => {
 
     it("Custom Span processors", (done) => {
       createHandler({ enabled: true });
-      let customSpanProcessor: SpanProcessor = {
+      const customSpanProcessor: SpanProcessor = {
         forceFlush: () => {
           return Promise.resolve();
         },

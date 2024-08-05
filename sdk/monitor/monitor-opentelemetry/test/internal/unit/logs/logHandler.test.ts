@@ -74,7 +74,7 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(result[0][0][0].body, "testLog");
           done();
@@ -123,7 +123,7 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
@@ -146,7 +146,7 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
@@ -172,7 +172,7 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
@@ -187,13 +187,13 @@ describe("LogHandler", () => {
     });
 
     it("should add bunyan instrumentation", () => {
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.bunyan = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
       assert.strictEqual(
         logHandler.getInstrumentations()[0].instrumentationName,
@@ -203,13 +203,13 @@ describe("LogHandler", () => {
     });
 
     it("should add winston instrumentation", () => {
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.winston = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
       assert.strictEqual(
         logHandler.getInstrumentations()[0].instrumentationName,
@@ -220,13 +220,13 @@ describe("LogHandler", () => {
 
     it("should set bunyan log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "DEBUG";
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.bunyan = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.strictEqual(
         (logHandler.getInstrumentations()[0].getConfig() as BunyanInstrumentationConfig)
           .logSeverity,
@@ -236,13 +236,13 @@ describe("LogHandler", () => {
 
     it("should set winston log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "ERROR";
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.winston = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.strictEqual(
         (logHandler.getInstrumentations()[0].getConfig() as WinstonInstrumentationConfig)
           .logSeverity,

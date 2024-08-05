@@ -43,10 +43,10 @@ describe("#LiveMetrics", () => {
     autoCollect["isCollectingData"] = true;
     autoCollect.activateMetrics({ collectionInterval: 100 });
 
-    let loggerProvider = new LoggerProvider();
-    let logger = loggerProvider.getLogger("testLogger") as any;
+    const loggerProvider = new LoggerProvider();
+    const logger = loggerProvider.getLogger("testLogger") as any;
 
-    let traceLog = new LogRecord(
+    const traceLog = new LogRecord(
       logger["_sharedState"],
       { name: "test" },
       {
@@ -60,7 +60,7 @@ describe("#LiveMetrics", () => {
     for (let i = 0; i < 5; i++) {
       autoCollect.recordLog(traceLog as any);
     }
-    let clientSpan: any = {
+    const clientSpan: any = {
       kind: SpanKind.CLIENT,
       duration: millisToHrTime(12345678),
       attributes: {
@@ -75,7 +75,7 @@ describe("#LiveMetrics", () => {
     };
     autoCollect.recordSpan(clientSpan);
 
-    let serverSpan: any = {
+    const serverSpan: any = {
       kind: SpanKind.SERVER,
       duration: millisToHrTime(98765432),
       attributes: {
