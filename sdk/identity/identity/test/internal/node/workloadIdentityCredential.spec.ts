@@ -18,12 +18,13 @@ import { assert } from "@azure-tools/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import path from "path";
 import sinon from "sinon";
+import { PlaybackTenantId } from "../../msalTestUtils";
 
 describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
 
   const scope = "https://vault.azure.net/.default";
-  const tenantId = env.AZURE_TENANT_ID ?? "tenantId";
+  const tenantId = env.AZURE_TENANT_ID ?? PlaybackTenantId;
   const clientId = env.AZURE_CLIENT_ID ?? "clientId";
   const tokenFilePath =
     env.AZURE_FEDERATED_TOKEN_FILE || path.join("assets", "fake-federated-token-file.txt");
@@ -91,7 +92,7 @@ describe("WorkloadIdentityCredential", function () {
           clientId,
           tenantId,
           tokenFilePath,
-        },
+        }
       );
     } catch (e) {
       console.log(e);
@@ -116,7 +117,7 @@ describe("WorkloadIdentityCredential", function () {
           clientId: "workloadIdentityClientId",
           tenantId,
           tokenFilePath,
-        },
+        }
       );
     } catch (e) {
       console.log(e);
@@ -129,7 +130,7 @@ describe("WorkloadIdentityCredential", function () {
 function validateWorkloadIdentityCredential(
   credential: WorkloadIdentityCredential,
   token: AccessToken,
-  options: { clientId: string; tenantId: string; tokenFilePath: string },
+  options: { clientId: string; tenantId: string; tokenFilePath: string }
 ): void {
   const { tenantId: expectedTenantId, tokenFilePath: expectedFederatedTokenFilePath } = options;
   const actualFederatedTokenFilePath = credential["federatedTokenFilePath"];
