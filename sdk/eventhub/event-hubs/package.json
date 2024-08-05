@@ -76,8 +76,6 @@
       ]
     },
     "skip": [
-      "iothubConnectionString.js",
-      "iothubConnectionStringWebsockets.js",
       "useWithIotHub.js"
     ],
     "productName": "Azure Event Hubs",
