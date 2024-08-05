@@ -8,12 +8,12 @@ import {
   EventHubBufferedProducerClientOptions,
   EventHubProducerClient,
   OperationOptions,
-} from "./index";
+} from "./index.js";
 import { isDefined, isObjectWithProperties, AbortOptions } from "@azure/core-util";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AwaitableQueue } from "./impl/awaitableQueue";
-import { getPromiseParts } from "./util/getPromiseParts";
-import { logger } from "./logger";
+import { AwaitableQueue } from "./impl/awaitableQueue.js";
+import { getPromiseParts } from "./util/getPromiseParts.js";
+import { logger } from "./logger.js";
 import { cancelablePromiseRace } from "@azure/core-util";
 
 export interface BatchingPartitionChannelProps {

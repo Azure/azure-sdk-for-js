@@ -1,173 +1,135 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
   MessagingError,
-} from "../../src";
-import { createReceiver } from "../../src/partitionReceiver";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { createMockServer } from "../public/utils/mockService";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+} from "../../src/index.js";
+import { createReceiver } from "../../src/partitionReceiver.js";
 import { translate } from "@azure/core-amqp";
+import "../utils/chai.js";
+import { describe, it, beforeEach, afterEach } from "vitest";
+import { createConsumer, createProducer } from "../utils/clients.js";
 
-const should = chai.should();
-chai.use(chaiAsPromised);
+describe("EventHubConsumerClient", function () {
+  let producerClient: EventHubProducerClient;
+  let consumerClient: EventHubConsumerClient;
+  let partitionIds: string[];
 
-testWithServiceTypes((serviceVersion) => {
-  const env = getEnvVars();
-  if (serviceVersion === "mock") {
-    let service: ReturnType<typeof createMockServer>;
-    before("Starting mock service", () => {
-      service = createMockServer();
-      return service.start();
-    });
+  beforeEach(async function () {
+    producerClient = createProducer().producer;
+    consumerClient = createConsumer().consumer;
+    partitionIds = await producerClient.getPartitionIds({});
+  });
 
-    after("Stopping mock service", () => {
-      return service?.stop();
-    });
-  }
+  afterEach(async function () {
+    await producerClient.close();
+    await consumerClient.close();
+  });
 
-  describe("EventHubConsumerClient", function (): void {
-    const service = {
-      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME],
-    };
-    let producerClient: EventHubProducerClient;
-    let consumerClient: EventHubConsumerClient;
-    let partitionIds: string[];
-    before("validate environment", async function (): Promise<void> {
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests.",
-      );
-    });
+  describe("EventHubConsumer receiveBatch", function () {
+    it("should not lose messages on error", async function () {
+      const partitionId = partitionIds[0];
+      const { lastEnqueuedSequenceNumber } =
+        await producerClient.getPartitionProperties(partitionId);
 
-    beforeEach("Creating the clients", async () => {
-      producerClient = new EventHubProducerClient(service.connectionString, service.path);
-      consumerClient = new EventHubConsumerClient(
+      // Ensure the receiver only looks at new messages.
+      const startPosition: EventPosition = {
+        sequenceNumber: lastEnqueuedSequenceNumber,
+        isInclusive: false,
+      };
+
+      // Send a message we expect to receive.
+      const message: EventData = { body: "remember me!" };
+      await producerClient.sendBatch([message], { partitionId });
+
+      // Disable retries to make it easier to test scenario.
+      const receiver = createReceiver(
+        consumerClient["_context"],
         EventHubConsumerClient.defaultConsumerGroupName,
-        service.connectionString,
-        service.path,
+        "Consumer",
+        partitionId,
+        startPosition,
+        {
+          retryOptions: {
+            maxRetries: 0,
+          },
+        },
       );
-      partitionIds = await producerClient.getPartitionIds({});
-    });
 
-    afterEach("Closing the clients", async () => {
-      await producerClient.close();
-      await consumerClient.close();
-    });
-
-    describe("EventHubConsumer receiveBatch", function (): void {
-      it("should not lose messages on error", async () => {
-        const partitionId = partitionIds[0];
-        const { lastEnqueuedSequenceNumber } =
-          await producerClient.getPartitionProperties(partitionId);
-
-        // Ensure the receiver only looks at new messages.
-        const startPosition: EventPosition = {
-          sequenceNumber: lastEnqueuedSequenceNumber,
-          isInclusive: false,
-        };
-
-        // Send a message we expect to receive.
-        const message: EventData = { body: "remember me!" };
-        await producerClient.sendBatch([message], { partitionId });
-
-        // Disable retries to make it easier to test scenario.
-        const receiver = createReceiver(
-          consumerClient["_context"],
-          EventHubConsumerClient.defaultConsumerGroupName,
-          "Consumer",
-          partitionId,
-          startPosition,
-          {
-            retryOptions: {
-              maxRetries: 0,
-            },
-          },
-        );
-
-        // Periodically check that the receiver's checkpoint has been updated.
-        const checkpointInterval = setInterval(() => {
-          if (receiver.checkpoint > -1) {
-            clearInterval(checkpointInterval);
-            const error = translate(new Error("I break receivers for fun."));
-            receiver["_onError"]!(error);
-          }
-        }, 10);
-
-        try {
-          // There is only 1 message.
-          // We expect to see an error.
-          await receiver.receiveBatch(2, 60);
-          throw new Error(`Test failure`);
-        } catch (err: any) {
-          err.message.should.not.equal("Test failure");
-          receiver.checkpoint.should.be.greaterThan(-1, "Did not see a message come through.");
-        } finally {
+      // Periodically check that the receiver's checkpoint has been updated.
+      const checkpointInterval = setInterval(() => {
+        if (receiver.checkpoint > -1) {
           clearInterval(checkpointInterval);
+          const error = translate(new Error("I break receivers for fun."));
+          receiver["_onError"]!(error);
         }
+      }, 10);
 
-        const events = await receiver.receiveBatch(1);
-        events.length.should.equal(1, "Unexpected number of events received.");
-        events[0].body.should.equal(message.body, "Unexpected message received.");
-      });
-
-      it("should not lose messages between retries", async () => {
-        const partitionId = partitionIds[0];
-        const { lastEnqueuedSequenceNumber } =
-          await producerClient.getPartitionProperties(partitionId);
-
-        // Ensure the receiver only looks at new messages.
-        const startPosition: EventPosition = {
-          sequenceNumber: lastEnqueuedSequenceNumber,
-          isInclusive: false,
-        };
-
-        // Send a message we expect to receive.
-        const message: EventData = { body: "remember me!" };
-        await producerClient.sendBatch([message], { partitionId });
-
-        // Disable retries to make it easier to test scenario.
-        const receiver = createReceiver(
-          consumerClient["_context"],
-          EventHubConsumerClient.defaultConsumerGroupName,
-          "Consumer",
-          partitionId,
-          startPosition,
-          {
-            retryOptions: {
-              maxRetries: 1,
-            },
-          },
-        );
-
-        // Periodically check that the receiver's checkpoint has been updated.
-        const checkpointInterval = setInterval(() => {
-          if (receiver.checkpoint > -1) {
-            clearInterval(checkpointInterval);
-            const error = translate(new Error("I break receivers for fun.")) as MessagingError;
-            error.retryable = true;
-            receiver["_onError"]!(error);
-          }
-        }, 10);
-
+      try {
         // There is only 1 message.
-        const events = await receiver.receiveBatch(2, 20);
+        // We expect to see an error.
+        await receiver.receiveBatch(2, 60);
+        throw new Error(`Test failure`);
+      } catch (err: any) {
+        err.message.should.not.equal("Test failure");
+        receiver.checkpoint.should.be.greaterThan(-1, "Did not see a message come through.");
+      } finally {
+        clearInterval(checkpointInterval);
+      }
 
-        events.length.should.equal(1, "Unexpected number of events received.");
-        events[0].body.should.equal(message.body, "Unexpected message received.");
-      });
+      const events = await receiver.receiveBatch(1);
+      events.length.should.equal(1, "Unexpected number of events received.");
+      events[0].body.should.equal(message.body, "Unexpected message received.");
     });
-  }).timeout(90000);
+
+    it("should not lose messages between retries", async function () {
+      const partitionId = partitionIds[0];
+      const { lastEnqueuedSequenceNumber } =
+        await producerClient.getPartitionProperties(partitionId);
+
+      // Ensure the receiver only looks at new messages.
+      const startPosition: EventPosition = {
+        sequenceNumber: lastEnqueuedSequenceNumber,
+        isInclusive: false,
+      };
+
+      // Send a message we expect to receive.
+      const message: EventData = { body: "remember me!" };
+      await producerClient.sendBatch([message], { partitionId });
+
+      // Disable retries to make it easier to test scenario.
+      const receiver = createReceiver(
+        consumerClient["_context"],
+        EventHubConsumerClient.defaultConsumerGroupName,
+        "Consumer",
+        partitionId,
+        startPosition,
+        {
+          retryOptions: {
+            maxRetries: 1,
+          },
+        },
+      );
+
+      // Periodically check that the receiver's checkpoint has been updated.
+      const checkpointInterval = setInterval(() => {
+        if (receiver.checkpoint > -1) {
+          clearInterval(checkpointInterval);
+          const error = translate(new Error("I break receivers for fun.")) as MessagingError;
+          error.retryable = true;
+          receiver["_onError"]!(error);
+        }
+      }, 10);
+
+      // There is only 1 message.
+      const events = await receiver.receiveBatch(2, 20);
+
+      events.length.should.equal(1, "Unexpected number of events received.");
+      events[0].body.should.equal(message.body, "Unexpected message received.");
+    });
+  });
 });

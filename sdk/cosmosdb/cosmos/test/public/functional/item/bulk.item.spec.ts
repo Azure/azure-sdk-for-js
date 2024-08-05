@@ -376,7 +376,7 @@ describe("test bulk operations", async function () {
               if (context.operationType === "batch" && responseIndex < 1) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
-                error.subStatusCode = SubStatusCodes.PartitionKeyRangeGone;
+                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
                 responseIndex++;
                 throw error;
               }
@@ -1108,7 +1108,7 @@ describe("test bulk operations", async function () {
               if (context.operationType === "batch" && responseIndex % 50 === 0) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
-                error.subStatusCode = SubStatusCodes.PartitionKeyRangeGone;
+                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
                 responseIndex++;
                 throw error;
               }
