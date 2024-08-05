@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { expect } from "chai";
+import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
 import * as utils from "../../src/utils/utils";
 import {

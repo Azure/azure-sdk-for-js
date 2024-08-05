@@ -6,7 +6,7 @@ import {
   ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
-import { expect } from "chai";
+import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
 
 describe("PlaywrightServiceConfig", () => {

@@ -7,7 +7,7 @@ import {
 } from "../../src/common/constants";
 import * as utils from "../../src/utils/utils";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken";
-import { expect } from "chai";
+import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
 
 describe("EntraIdAccessToken", () => {

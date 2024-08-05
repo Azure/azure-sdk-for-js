@@ -86,13 +86,10 @@
     "eslint": "^8.16.0",
     "sinon": "^17.0.0",
     "@types/sinon": "^17.0.0",
-    "chai": "^4.2.0",
-    "@types/chai": "^4.1.6",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
     "cross-env": "^7.0.2",
-    "chai-as-promised": "^7.1.1",
-    "@types/chai-as-promised": "^7.1.0"
+    "@azure-tools/test-utils": "^1.0.1"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {

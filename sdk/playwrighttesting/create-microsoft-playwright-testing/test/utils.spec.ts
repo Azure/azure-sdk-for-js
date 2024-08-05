@@ -1,5 +1,5 @@
-import { expect } from "chai";
 import sinon from "sinon";
+import { expect } from "@azure-tools/test-utils";
 import child_process from "child_process";
 import fs, { PathLike } from "fs";
 import {

@@ -11,7 +11,7 @@ import { ServiceErrorMessageConstants } from "../../src/common/messages";
 import * as utils from "../../src/utils/utils";
 import { getServiceConfig } from "../../src/core/playwrightService";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
-import { expect } from "chai";
+import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
 
 const samplePlaywrightConfigInput = {

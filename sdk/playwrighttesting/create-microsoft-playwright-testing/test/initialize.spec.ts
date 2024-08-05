@@ -1,13 +1,8 @@
-import chai from "chai";
 import sinon from "sinon";
+import { expect } from "@azure-tools/test-utils";
 import fs from "fs";
-import chaiAsPromised from "chai-as-promised";
 import { PlaywrightServiceInitialize } from "../src/initialize";
 import * as utils from "../src/utils";
-
-chai.use(chaiAsPromised);
-
-const { expect } = chai;
 
 describe("PlaywrightServiceInitialize", () => {
   let sandbox: sinon.SinonSandbox;

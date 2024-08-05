@@ -17,12 +17,7 @@ import {
 } from "../../src/utils/utils";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
 import sinon from "sinon";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-
-chai.use(chaiAsPromised);
-
-const { expect } = chai;
+import { expect } from "@azure-tools/test-utils";
 
 describe("Service Utils", () => {
   let sandbox: sinon.SinonSandbox;
