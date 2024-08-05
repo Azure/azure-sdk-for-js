@@ -4,10 +4,11 @@
 
 ### Breaking Changes
 
-Updates the `createTestCredential` method to consume `ChainedTokenCredential` instead of `ClientSecretCredential` in order to offer autonomy to the devs and to move away from client secrets in environment varaibles.
+Updates the `createTestCredential` method to consume `AzurePipelineCredential` when it is running in Azure Pipeline environment or `ChainedTokenCredential` otherwise instead of `ClientSecretCredential`. This offers autonomy to the devs, increases security running in Dev Ops environment, and moves away from client secrets in environment variables.
 
 - `NoOpCredential` is offered for playback.
 - In record and live modes:
+  - `AzurePipelinesCredential` is run when the environment is Azure Pipelines with service connection.
   - `ChainedTokenCredential` is offered in Node. The credential will try `AzurePowershelLCredential`, `AzureCliCredential`, `EnvironmentCredential`, and `AzureDeveloperCliCredential` in the listed order.
   - In the browser, a custom credential is provided that fetches tokens from a locally running Node server. The server is provided in the dev-tool package, and must be running while the browser
     tests are running for the credential to work. The server uses `ChainedTokenCredential` on the host machine to generate tokens.

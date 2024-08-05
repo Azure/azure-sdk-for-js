@@ -11,6 +11,7 @@ import {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
   EnvironmentCredential,
+  logger,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
@@ -65,6 +66,7 @@ export function createTestCredential(
 
     // If we have a system access token, we are in Azure Pipelines
       if (serviceConnectionID && clientID && tenantID) {
+        logger.info("Running in Azure Pipelines environement with Azure pipeline credential")
         return new AzurePipelinesCredential(
           tenantID,
           clientID,
