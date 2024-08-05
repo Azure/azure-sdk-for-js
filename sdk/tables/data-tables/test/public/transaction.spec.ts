@@ -24,7 +24,7 @@ describe("concurrent batch operations", function () {
   let unRecordedClient: TableClient;
   before(async function () {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(concurrentTableName);
       await unRecordedClient.createTable();
     }
   });
@@ -36,7 +36,7 @@ describe("concurrent batch operations", function () {
   });
   beforeEach(async function (this: Context) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+    unRecordedClient = await createTableClient(concurrentTableName);
   });
 
   afterEach(async function () {
@@ -74,7 +74,7 @@ describe(`batch operations`, function () {
   beforeEach(async function (this: Context) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
     recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+    client = await createTableClient(tableName, recorder);
   });
 
   afterEach(async function () {
@@ -84,7 +84,7 @@ describe(`batch operations`, function () {
 
   before(async function () {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName);
       await unRecordedClient.createTable();
     }
   });
@@ -295,7 +295,7 @@ describe("Handle suberror", function () {
   beforeEach(async function (this: Context) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
     recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+    client = await createTableClient(tableName, recorder);
   });
 
   afterEach(async function () {

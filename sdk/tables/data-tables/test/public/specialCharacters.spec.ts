@@ -45,7 +45,7 @@ describe("SpecialCharacters", function () {
 
   describe("Single operations", function () {
     beforeEach(async function (this: Context) {
-      client = await createTableClient(tableName, "TokenCredential");
+      client = await createTableClient(tableName);
     });
 
     specialCharacters.forEach(({ char, name }) => {
@@ -126,7 +126,7 @@ describe("SpecialCharacters", function () {
 
   describe("Batch", function () {
     beforeEach(async function (this: Context) {
-      client = await createTableClient(`${tableName}Batch`, "TokenCredential");
+      client = await createTableClient(`${tableName}Batch`);
     });
 
     const partitionKey = `foo'`;

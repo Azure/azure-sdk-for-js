@@ -159,7 +159,16 @@ export function deserialize<T extends object = Record<string, any>>(
   return deserialized;
 }
 
-function inferTypedObject(propertyName: string, value: number | string | boolean) {
+type InferResult =
+  | string
+  | number
+  | boolean
+  | {
+      value: string;
+      type: string;
+    };
+
+function inferTypedObject(propertyName: string, value: number | string | boolean): InferResult {
   // We need to skip service metadata fields such as partitionKey and rowKey and use the same value returned by the service
   if (propertyCaseMap.has(propertyName)) {
     return value;
