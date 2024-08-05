@@ -236,9 +236,7 @@ export class AuthenticationRequiredError extends Error {
     super(
       options.message,
       // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
-      {
-        cause: options.cause,
-      },
+      options.cause ? { cause: options.cause } : undefined,
     );
     this.scopes = options.scopes;
     this.getTokenOptions = options.getTokenOptions;
