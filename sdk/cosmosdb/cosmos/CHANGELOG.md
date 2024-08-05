@@ -58,7 +58,7 @@ const indexingPolicy = {
 // define and create container with vector Embedding Policy
 const containerDefinition = {
   id: containerId,
-  partitionKey: { path: "/id" },
+  partitionKey: { paths: ["/id"] },
   indexingPolicy: indexingPolicy,
   vectorEmbeddingPolicy: vectorEmbeddingPolicy,
 };
