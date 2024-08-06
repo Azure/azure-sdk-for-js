@@ -46,8 +46,7 @@ export class PlaywrightServiceInitialize {
       onCancel: this.promptOnCancel,
     })) as OverridePromptResponse;
     if (response.canOverride) return true;
-    // eslint-disable-next-line no-return-await
-    if (!response.confirmationForExit) return await this.checkIfServiceConfigCanBeAdded();
+    if (!response.confirmationForExit) return this.checkIfServiceConfigCanBeAdded();
 
     console.log(`\n${Messages.SETUP_PROCESS_EXIT_MESSAGE}`);
     return false;

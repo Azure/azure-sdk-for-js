@@ -16,8 +16,7 @@ const playwrightServiceGlobalSetupWrapper = async (config: FullConfig): Promise<
 
   await playwrightServiceEntra.globalSetup();
   if (customerGlobalSetupFunc) {
-    // eslint-disable-next-line no-return-await
-    return await customerGlobalSetupFunc(config);
+    return customerGlobalSetupFunc(config);
   }
 };
 

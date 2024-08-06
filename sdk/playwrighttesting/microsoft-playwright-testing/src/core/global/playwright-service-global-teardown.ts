@@ -15,7 +15,6 @@ const playwrightServiceGlobalTeardownWrapper = async (config: FullConfig): Promi
   );
 
   playwrightServiceEntra.globalTeardown();
-  // eslint-disable-next-line no-return-await
   if (customerGlobalTeardownFunc) {
     await customerGlobalTeardownFunc(config);
   }
