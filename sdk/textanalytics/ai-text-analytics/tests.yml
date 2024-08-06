@@ -7,13 +7,19 @@ extends:
       ServiceDirectory: textanalytics
       TimeoutInMinutes: 60
       SupportedClouds: 'Public,UsGov,China'
-      EnvVars:
-        ENDPOINT: $(js-textanalytics-test-service-endpoint)
-        LANGUAGE_API_KEY: $(js-textanalytics-api-key-new)
-        LANGUAGE_API_KEY_ALT: $(js-textanalytics-api-key-alt)
-        LANGUAGE_CUSTOM_ENTITY_RECOGNITION_PROJECT_NAME: $(js-recognize-custom-entities-project-name)
-        LANGUAGE_CUSTOM_ENTITY_RECOGNITION_DEPLOYMENT_NAME: $(js-recognize-custom-entities-deployment-name)
-        LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_PROJECT_NAME: $(js-single-category-classify-project-name)
-        LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_DEPLOYMENT_NAME: $(js-single-category-classify-deployment-name)
-        LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME: $(js-multi-category-classify-project-name)
-        LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME: $(js-multi-category-classify-deployment-name)
+      CloudConfig:
+        Public:
+          ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzurePublicMsft.json
+          Location: "${{ parameters.Location }}"
+        UsGov:
+          ServiceConnection: usgov_azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
+          Location: "usgovvirginia"
+        China:
+          ServiceConnection: china_azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzureChinaMsft.json
+          Location: "chinaeast2"
