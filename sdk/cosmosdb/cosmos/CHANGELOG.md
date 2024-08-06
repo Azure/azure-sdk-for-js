@@ -146,7 +146,6 @@ await database.containers.createIfNotExists(containerDefinition);
 
 - Fix Bulk operations(Read, Delete, and Patch) failing due to wrong format of partition key in non-partitioned container.
 
-### Other Changes
 
 ## 4.0.0 (2023-09-12)
 
