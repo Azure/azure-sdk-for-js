@@ -37,6 +37,7 @@ describe("Log Exporter Scenarios", () => {
         .run()
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
+          // eslint-disable-next-line promise/always-return
           return scenario.flush().then(() => {
             setTimeout(() => {
               assertLogExpectation(ingest, scenario.expectation);

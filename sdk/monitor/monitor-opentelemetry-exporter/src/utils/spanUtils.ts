@@ -86,7 +86,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         try {
           const url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex: any) {}
+        } catch { /* no-op */ }
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -183,7 +183,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       try {
         const dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {}
+      } catch { /* no-op */ }
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span.attributes);
@@ -208,7 +208,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (ex: any) {}
+      } catch { /* no-op */ }
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -245,7 +245,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // grpc Dependency
   else if (rpcSystem) {
-    if (rpcSystem == DependencyTypes.Wcf) {
+    if (rpcSystem === DependencyTypes.Wcf) {
       remoteDependencyData.type = DependencyTypes.Wcf;
     } else {
       remoteDependencyData.type = DependencyTypes.Grpc;
