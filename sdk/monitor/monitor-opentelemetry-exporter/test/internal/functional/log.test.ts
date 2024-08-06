@@ -11,7 +11,7 @@ import { TelemetryItem as Envelope } from "../../../src/generated";
 describe("Log Exporter Scenarios", () => {
   describe(LogBasicScenario.prototype.constructor.name, () => {
     const scenario = new LogBasicScenario();
-    let ingest: Envelope[] = [];
+    const ingest: Envelope[] = [];
 
     before(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
