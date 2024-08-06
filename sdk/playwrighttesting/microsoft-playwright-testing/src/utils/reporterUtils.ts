@@ -12,7 +12,7 @@ import type {
   TestStatus,
 } from "@playwright/test/reporter";
 import { exec } from "child_process";
-import Debug from "debug";
+import { reporterLogger } from "../common/logger";
 import { createHash, randomUUID } from "crypto";
 import { IBackOffOptions } from "../common/types";
 import fs from "fs";
@@ -27,8 +27,6 @@ import { TestResult as MPTTestResult, RawTestResult } from "../model/testResult"
 import { TestRun, TestRunConfig } from "../model/testRun";
 import { CIInfo, CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
-
-const debug = Debug(Constants.DEBUG_NAMESPACE);
 
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
@@ -206,7 +204,7 @@ class ReporterUtils {
         fs.writeFileSync(process.env["GITHUB_STEP_SUMMARY"], markdownContent);
       }
     } catch (err) {
-      debug(`\nCould not generate markdown summary - ${err}`);
+      reporterLogger.error(`\nCould not generate markdown summary - ${err}`);
     }
   }
 
@@ -581,7 +579,7 @@ class ReporterUtils {
       gitCommitMessage = await this.runCommand(Constants.GIT_COMMIT_MESSAGE_COMMAND);
       return gitCommitMessage;
     } catch (err) {
-      debug(`\nError in getting git commit message: ${err}.`);
+      reporterLogger.error(`\nError in getting git commit message: ${err}.`);
       return "";
     }
   }

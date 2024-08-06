@@ -69,15 +69,13 @@
   "dependencies": {
     "@azure/identity": "^4.3.1",
     "@azure/storage-blob": "^12.15.0",
-    "axios": "^1.6.0",
-    "uuid": "^9.0.1",
-    "debug": "^4.3.4"
+    "@azure/core-rest-pipeline": "^1.16.3",
+    "@azure/logger": "^1.1.4"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
     "@types/node": "^20.12.12",
     "@playwright/test": "^1.43.1",
-    "@types/uuid": "^9.0.3",
     "@azure/dev-tool": "^1.0.0",
     "rimraf": "^5.0.5",
     "typescript": "^5.5.3",

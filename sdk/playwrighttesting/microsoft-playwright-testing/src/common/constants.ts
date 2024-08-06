@@ -71,7 +71,6 @@ export class Constants {
   public static readonly GIT_VERSION_COMMAND = "git --version";
   public static readonly GIT_REV_PARSE = "git rev-parse --is-inside-work-tree";
   public static readonly GIT_COMMIT_MESSAGE_COMMAND = 'git log -1 --pretty=format:"%s"';
-  public static readonly DEBUG_NAMESPACE = "mpt:reporter";
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
   public static readonly API_VERSION = "2024-05-20-preview";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
@@ -99,10 +98,5 @@ export class Constants {
 }
 
 export const BackoffConstants = {
-  MAX_DELAY: Infinity,
-  NUMBER_OF_ATTEMPTS: 10,
-  RETRY: (): boolean => true,
-  JITTER: "none" as JitterType,
-  TIME_MULTIPLE: 2,
-  STARTING_DELAY: 100,
+  MAX_RETRIES: 10,
 };

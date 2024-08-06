@@ -1,39 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { randomUUID } from "crypto";
-import { Agent } from "https";
-
-const httpsAgent = new Agent({
-  keepAlive: true,
-  timeout: 60000,
-});
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineResponse,
+  HttpMethods,
+  createPipelineFromOptions,
+} from "@azure/core-rest-pipeline";
+import { BackoffConstants } from "./constants";
+import { reporterLogger } from "./logger";
 
 export class HttpService {
   public async callAPI(
-    method: Method,
+    method: HttpMethods,
     url: string,
     data: any | null,
     token: string,
     correlationId: string,
-  ): Promise<AxiosResponse> {
-    const config: AxiosRequestConfig = {
+  ): Promise<PipelineResponse> {
+    const pipeline = createPipelineFromOptions({
+      loggingOptions: {
+        logger: reporterLogger.info,
+      },
+      retryOptions: {
+        maxRetries: BackoffConstants.MAX_RETRIES,
+      },
+    });
+
+    const httpClient = createDefaultHttpClient();
+    const request = createPipelineRequest({
       url,
       method,
-      headers: {
+      headers: createHttpHeaders({
         "Content-Type": "application/json",
         Accept: "*/*",
         Authorization: `Bearer ${token}`,
         "x-ms-client-request-id": `${randomUUID()}`,
         "x-correlation-id": correlationId,
-      },
-      httpsAgent: httpsAgent,
-    };
+      }),
+    });
+
     if (data) {
-      config.data = data;
+      request.body = data;
     }
-    // eslint-disable-next-line no-return-await
-    return await axios(config);
+    return pipeline.sendRequest(httpClient, request);
   }
 }

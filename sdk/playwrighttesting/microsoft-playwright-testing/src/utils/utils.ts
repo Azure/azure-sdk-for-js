@@ -5,7 +5,7 @@ import type { JwtPayload } from "../common/types";
 import { API_VERSION, ServiceEnvironmentVariable } from "../common/constants";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken";
-import playwrightServiceDebugLogger from "../common/debugLogger";
+import { coreLogger } from "../common/logger";
 import type { TokenCredential } from "@azure/identity";
 import ReporterUtils from "./reporterUtils";
 import { CIInfoProvider } from "./cIInfoProvider";
@@ -70,7 +70,7 @@ export const validateMptPAT = (): void => {
       exitWithFailureMessage(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
     }
   } catch (err) {
-    playwrightServiceDebugLogger(err);
+    coreLogger.error(err);
     exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
   }
 };

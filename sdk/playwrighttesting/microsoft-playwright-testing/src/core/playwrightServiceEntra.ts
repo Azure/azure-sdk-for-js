@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { EntraIdAccessTokenConstants } from "../common/constants";
-import playwrightServiceDebugLogger from "../common/debugLogger";
+import { coreLogger } from "../common/logger";
 import { validateMptPAT } from "../utils/utils";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken";
 import type { TokenCredential } from "@azure/identity";
@@ -28,7 +28,7 @@ class PlaywrightServiceEntra {
   }
 
   public globalSetup = async (): Promise<void> => {
-    playwrightServiceDebugLogger("Entra id access token setup start");
+    coreLogger.info("Entra id access token setup start");
     const operationResult = await this._entraIdAccessToken.fetchEntraIdAccessToken();
     if (operationResult) {
       this.entraIdGlobalSetupRotationHandler();
@@ -38,10 +38,10 @@ class PlaywrightServiceEntra {
   };
 
   public globalTeardown = (): void => {
-    playwrightServiceDebugLogger("Entra id access token teardown start");
+    coreLogger.info("Entra id access token teardown start");
     if (this._entraIdAccessTokenRotationInterval) {
       clearInterval(this._entraIdAccessTokenRotationInterval);
-      playwrightServiceDebugLogger("Entra id access token roation interval cleared");
+      coreLogger.info("Entra id access token roation interval cleared");
     }
   };
 
@@ -50,11 +50,11 @@ class PlaywrightServiceEntra {
       this.entraIdAccessTokenRotation,
       EntraIdAccessTokenConstants.ROTATION_INTERVAL_PERIOD_IN_MINUTES * 60 * 1000,
     );
-    playwrightServiceDebugLogger("Entra id access token rotation handler setup done");
+    coreLogger.info("Entra id access token rotation handler setup done");
   };
 
   private entraIdAccessTokenRotation = async (): Promise<void> => {
-    playwrightServiceDebugLogger("Entra id access token rotation handler");
+    coreLogger.info("Entra id access token rotation handler");
     if (this._entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
       await this._entraIdAccessToken.fetchEntraIdAccessToken();
     }

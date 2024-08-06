@@ -9,7 +9,7 @@ import type {
   Reporter,
   Suite,
 } from "@playwright/test/reporter";
-import Debug from "debug";
+import { reporterLogger } from "../common/logger";
 import { Constants } from "../common/constants";
 import { EnvironmentVariables } from "../common/environmentVariables";
 import { MultiMap } from "../common/multimap";
@@ -24,8 +24,6 @@ import ReporterUtils from "../utils/reporterUtils";
 import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
 import { MPTReporterConfig } from "../common/types";
-
-const debug = Debug(Constants.DEBUG_NAMESPACE);
 
 /**
  * @public
@@ -117,13 +115,13 @@ class MPTReporter implements Reporter {
         const currResultBatch: MPTTestResult[] = [...this.testResultBatch];
         if (this.isTestRunStartSuccess) {
           this._testEndPromises.push(this.serviceClient.postTestResults(currResultBatch));
-          debug(`\nAdded test results batch for upload.`);
+          reporterLogger.info(`\nAdded test results batch for upload.`);
           this.testResultBatch.clear();
         }
       }
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
-      debug(`\nError in uploading test results: ${err.message}.`);
+      reporterLogger.error(`\nError in uploading test results: ${err.message}.`);
     }
   }
 
@@ -158,7 +156,7 @@ class MPTReporter implements Reporter {
         }
         return value.status;
       });
-      debug(`\nTest result processing completed.`);
+      reporterLogger.info(`\nTest result processing completed.`);
       return values;
     });
     try {
@@ -168,7 +166,7 @@ class MPTReporter implements Reporter {
         this.errorMessages,
         this.uploadMetadata,
       );
-      debug(`\nTest run successfully uploaded.`);
+      reporterLogger.info(`\nTest run successfully uploaded.`);
 
       if (this.enableGitHubSummary) {
         this.reporterUtils.generateMarkdownSummary(this.testRunUrl);
@@ -177,7 +175,7 @@ class MPTReporter implements Reporter {
       process.stdout.write(`\nTest report: ${this.testRunUrl}`);
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
-      debug(`\nError in completing test run: ${err.message}`);
+      reporterLogger.error(`\nError in completing test run: ${err.message}`);
       process.stdout.write(`\nUnable to complete test results upload.`);
     }
   }
@@ -185,7 +183,9 @@ class MPTReporter implements Reporter {
   private async _onBegin(): Promise<boolean> {
     try {
       const testRunResponse: TestRun = await this.serviceClient.patchTestRun(this.ciInfo);
-      debug(`\nTest run report successfully initialized: ${testRunResponse.displayName}.`);
+      reporterLogger.info(
+        `\nTest run report successfully initialized: ${testRunResponse.displayName}.`,
+      );
       this.testRun = testRunResponse;
       const shardResponse = await this.serviceClient.patchTestRunShardStart();
       this.shard = shardResponse;
@@ -202,7 +202,7 @@ class MPTReporter implements Reporter {
       return true;
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
-      debug(`\nError in initializing test run report: ${err.message}.`);
+      reporterLogger.error(`\nError in initializing test run report: ${err.message}.`);
       return false;
     }
   }
@@ -239,7 +239,7 @@ class MPTReporter implements Reporter {
       );
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
-      debug(`\nError in processing test result: ${err.message}.`);
+      reporterLogger.error(`\nError in processing test result: ${err.message}.`);
     }
   }
 
@@ -253,12 +253,12 @@ class MPTReporter implements Reporter {
       // Upload the remaining test results
       if (this.testResultBatch.size > 0) {
         await this.serviceClient.postTestResults([...this.testResultBatch]);
-        debug(`\nUploaded test results batch successfully.`);
+        reporterLogger.info(`\nUploaded test results batch successfully.`);
         this.testResultBatch.clear();
       }
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
-      debug(`\nError in uploading test run information: ${err.message}`);
+      reporterLogger.error(`\nError in uploading test run information: ${err.message}`);
     }
   }
 
@@ -282,7 +282,7 @@ class MPTReporter implements Reporter {
         ) {
           // Renew the sas uri
           this.sasUri = await this.serviceClient.getStorageUri();
-          debug(
+          reporterLogger.info(
             `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
           );
         }
@@ -303,7 +303,7 @@ class MPTReporter implements Reporter {
       );
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
-      debug(`\nError in uploading test result attachments: ${err.message}`);
+      reporterLogger.error(`\nError in uploading test result attachments: ${err.message}`);
     }
   }
 
@@ -314,7 +314,7 @@ class MPTReporter implements Reporter {
       this.isTokenValid = false;
       return;
     }
-    debug(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
+    reporterLogger.info(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
     if (this.envVariables.accessToken === undefined || this.envVariables.accessToken === "") {
       process.stdout.write(
         `\nAccess Token not found. Please provide the Access Token in the environment variable.`,
