@@ -1,33 +1,13 @@
 {
+  "extends": "../../../tsconfig",
   "compilerOptions": {
-    "target": "ES2019",
-    "lib": ["ESNext"],
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "strict": true,
-    "allowJs": false,
-    "resolveJsonModule": true,
-    "noImplicitOverride": true,
-    "useUnknownInCatchVariables": true,
-    "declaration": true,
-    "moduleResolution": "node",
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
     "outDir": "./dist",
-    "declarationMap": true,
-    "inlineSources": true,
-    "sourceMap": true,
-    "alwaysStrict": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictFunctionTypes": true,
-    "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "useDefineForClassFields": true
+    "importHelpers": true,
+    "module": "CommonJS", // Based on - https://github.com/microsoft/playwright/blob/main/tsconfig.json
+    "skipLibCheck": true, // one of the dev dependencies causes errors
+    "paths": {
+      "@azure/microsoft-playwright-testing": ["./src/index"]
+    }
   },
-  "exclude": ["test", "dist", "node_modules", "samples"]
+  "exclude": ["dist", "node_modules", "test", "samples"]
 }

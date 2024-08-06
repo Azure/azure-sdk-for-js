@@ -88,11 +88,11 @@ export const fetchOrValidateAccessToken = async (credential?: TokenCredential): 
 
 export const emitReportingUrl = (): void => {
   const regex =
-    /wss:\/\/(?<region>[\w-]+)\.api\.(?<domain>playwright(?:-test|-int)?\.io|playwright\.microsoft\.com)\//;
+    /wss:\/\/([\w-]+)\.api\.(playwright(?:-test|-int)?\.io|playwright\.microsoft\.com)\//;
   const url = getServiceBaseURL();
   const match = url?.match(regex);
-  if (match && match.groups) {
-    const { region, domain } = match.groups;
+  if (match && match.length >= 3) {
+    const [_, region, domain] = match;
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL] =
       `https://${region}.reporting.api.${domain}`;
   }

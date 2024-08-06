@@ -13,7 +13,6 @@ import {
   exitWithFailureMessage,
   fetchOrValidateAccessToken,
   emitReportingUrl,
-  parseJwt,
 } from "../../src/utils/utils";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
 import sinon from "sinon";

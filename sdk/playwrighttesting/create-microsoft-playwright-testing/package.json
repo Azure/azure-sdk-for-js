@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "prompts": "^2.4.2",
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",

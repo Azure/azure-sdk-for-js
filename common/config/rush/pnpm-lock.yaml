@@ -21676,7 +21676,7 @@ packages:
     dev: false
 
   file:projects/microsoft-playwright-testing.tgz:
-    resolution: {integrity: sha512-XItmkHOplSM0YCydqfuTdmhslVm074VECCNwtyFtnTuo9DCPcNwXgSLQapVA2D5ZL5P1RcwgHKiI+b6fneHrCQ==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-JgaBN4KLcfr/IHlAn/EGY2uiz+vhX9ZzVP9lQvqWDcJ6uQXGkTcxeK0kMmx0b3G87D4hc2p/S52JgTB6rVLSfQ==, tarball: file:projects/microsoft-playwright-testing.tgz}
     name: '@rush-temp/microsoft-playwright-testing'
     version: 0.0.0
     dependencies:
@@ -21695,6 +21695,7 @@ packages:
       mocha: 10.7.0
       rimraf: 5.0.10
       sinon: 17.0.1
+      tslib: 2.6.3
       typescript: 5.5.4
       uuid: 9.0.1
     transitivePeerDependencies:

@@ -42,11 +42,12 @@ export class ServiceClient {
       );
     } else if (response.status === 403) {
       process.stdout.write(
-        `\n${Constants.FORBIDDEN_403_ERROR_MESSAGE.replaceAll("{workspaceId}", this.envVariables.accountId!)}`,
+        `\n${Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(new RegExp("{workspaceId}", "g"), this.envVariables.accountId!)}`,
       );
     } else {
       throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
     }
+    return; // Not all code paths return a value (warning fix).
   }
 
   async getTestRun(): Promise<TestRun> {
