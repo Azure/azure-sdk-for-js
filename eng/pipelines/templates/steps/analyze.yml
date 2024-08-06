@@ -58,6 +58,10 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install dependencies"
+
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
