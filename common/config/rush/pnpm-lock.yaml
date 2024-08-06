@@ -20146,7 +20146,7 @@ packages:
     dev: false
 
   file:projects/create-microsoft-playwright-testing.tgz:
-    resolution: {integrity: sha512-jMVOtuKkn+jMVDhsw8SV52lNfW71kvNqoWKG57cJISCaEhR2PF4RxtcDFws7ng8oVorAw9XyIm4VosUKeT8M9Q==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-5wBsUFiM80FWzvDxfLERb9eIEYi9u1GipbXoGaZGr/q2uYf/S7m2acey0Lf8yLH8YQGEIT5Ak8pvS1CGcvBMKw==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
     name: '@rush-temp/create-microsoft-playwright-testing'
     version: 0.0.0
     dependencies:
@@ -20160,6 +20160,7 @@ packages:
       prompts: 2.4.2
       rimraf: 5.0.10
       sinon: 17.0.1
+      tslib: 2.6.3
       typescript: 5.5.4
     transitivePeerDependencies:
       - supports-color
@@ -21675,7 +21676,7 @@ packages:
     dev: false
 
   file:projects/microsoft-playwright-testing.tgz:
-    resolution: {integrity: sha512-zFvoQDHgEM+AqiBB1RzbE6D0p1e53wx+e/RggenvYnvAKxN0NnLaGdGN6uF0Sch60CZO5XwGbqJ4jOexvZJy8Q==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-XItmkHOplSM0YCydqfuTdmhslVm074VECCNwtyFtnTuo9DCPcNwXgSLQapVA2D5ZL5P1RcwgHKiI+b6fneHrCQ==, tarball: file:projects/microsoft-playwright-testing.tgz}
     name: '@rush-temp/microsoft-playwright-testing'
     version: 0.0.0
     dependencies:

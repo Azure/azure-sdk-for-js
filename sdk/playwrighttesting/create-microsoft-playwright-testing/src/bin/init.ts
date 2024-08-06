@@ -9,7 +9,7 @@ import {
   parseCLIArguments,
 } from "../utils";
 
-const init = async (): Promise<void> => {
+export const init = async (): Promise<void> => {
   const options = parseCLIArguments();
   const { config: playwrightConfigFile } = options;
   let playwrightServiceInitConfig: PlaywrightServiceInitConfig;
@@ -28,10 +28,3 @@ const init = async (): Promise<void> => {
   const playwrightServiceInitialize = new PlaywrightServiceInitialize(playwrightServiceInitConfig);
   await playwrightServiceInitialize.addServiceSupportToTestSuite();
 };
-
-(async () => {
-  await init();
-})().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});

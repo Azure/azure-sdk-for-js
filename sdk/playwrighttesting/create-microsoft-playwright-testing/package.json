@@ -57,7 +57,8 @@
     "extract-api": "echo skipped"
   },
   "dependencies": {
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",

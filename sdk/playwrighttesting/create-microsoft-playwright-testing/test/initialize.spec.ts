@@ -6,15 +6,18 @@ import * as utils from "../src/utils";
 
 describe("PlaywrightServiceInitialize", () => {
   let sandbox: sinon.SinonSandbox;
+  let npmConfigUserAgentInitialValue: string | undefined = process.env["npm_config_user_agent"];
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(console, "error");
     sandbox.stub(console, "log");
+    process.env["npm_config_user_agent"] = npmConfigUserAgentInitialValue;
   });
 
   afterEach(() => {
     sandbox.restore();
+    delete process.env["npm_config_user_agent"];
   });
 
   it("should install service package (npm)", async () => {
@@ -29,7 +32,6 @@ describe("PlaywrightServiceInitialize", () => {
     expect(
       executeCommandStub.calledWith("npm install --save-dev @azure/microsoft-playwright-testing"),
     ).to.be.true;
-    delete process.env["npm_config_user_agent"];
   });
 
   it("should install service package (yarn)", async () => {
@@ -43,7 +45,6 @@ describe("PlaywrightServiceInitialize", () => {
     expect(executeCommandStub.called).to.be.true;
     expect(executeCommandStub.calledWith("yarn add --dev @azure/microsoft-playwright-testing")).to
       .be.true;
-    delete process.env["npm_config_user_agent"];
   });
 
   it("should install service package (pnpm - no workspace)", async () => {
@@ -57,7 +58,6 @@ describe("PlaywrightServiceInitialize", () => {
     expect(executeCommandStub.called).to.be.true;
     expect(executeCommandStub.calledWith("pnpm add --save-dev @azure/microsoft-playwright-testing"))
       .to.be.true;
-    delete process.env["npm_config_user_agent"];
   });
 
   it("should install service package (pnpm - workspace)", async () => {
@@ -73,7 +73,6 @@ describe("PlaywrightServiceInitialize", () => {
     expect(
       executeCommandStub.calledWith("pnpm add --save-dev -w @azure/microsoft-playwright-testing"),
     ).to.be.true;
-    delete process.env["npm_config_user_agent"];
   });
 
   it("should throw error if install service package fails", async () => {
@@ -147,7 +146,6 @@ describe("PlaywrightServiceInitialize", () => {
     expect(consoleLogStub.callCount).to.equal(6);
     expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
     expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
-    delete process.env["npm_config_user_agent"];
   });
 
   it("should provide additional information (yarn)", () => {
@@ -166,7 +164,6 @@ describe("PlaywrightServiceInitialize", () => {
     expect(consoleLogStub.callCount).to.equal(6);
     expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
     expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
-    delete process.env["npm_config_user_agent"];
   });
 
   it("should provide additional information (pnpm)", () => {
@@ -185,6 +182,5 @@ describe("PlaywrightServiceInitialize", () => {
     expect(consoleLogStub.callCount).to.equal(6);
     expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
     expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
-    delete process.env["npm_config_user_agent"];
   });
 });

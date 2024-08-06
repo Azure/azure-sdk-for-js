@@ -20,37 +20,36 @@ export const executeCommand = (command: string): Promise<string> => {
 };
 
 export const getLanguageAndConfigInfoFromDirectory = (): PlaywrightServiceInitConfig => {
-  const playwrightServiceInitConfig: PlaywrightServiceInitConfig = {
-    playwrightConfigFile: null,
-    projectLanguage: null,
-  };
   if (fs.existsSync("playwright.config.js")) {
-    playwrightServiceInitConfig.playwrightConfigFile = "playwright.config.js";
-    playwrightServiceInitConfig.projectLanguage = Languages.JavaScript;
+    return {
+      playwrightConfigFile: "playwright.config.js",
+      projectLanguage: Languages.JavaScript,
+    };
   } else if (fs.existsSync("playwright.config.ts")) {
-    playwrightServiceInitConfig.playwrightConfigFile = "playwright.config.ts";
-    playwrightServiceInitConfig.projectLanguage = Languages.TypeScript;
+    return {
+      playwrightConfigFile: "playwright.config.ts",
+      projectLanguage: Languages.TypeScript,
+    };
   } else {
     throw new Error(ErrorMessages.NO_CONFIGURATION_FILE_FOUND);
   }
-  return playwrightServiceInitConfig;
 };
 
 export const getLanguageAndConfigInfoFromConfigurationFile = (
   playwrightConfigFile: string,
 ): PlaywrightServiceInitConfig => {
-  const playwrightServiceInitConfig: PlaywrightServiceInitConfig = {
-    playwrightConfigFile: null,
-    projectLanguage: null,
-  };
-  playwrightServiceInitConfig.playwrightConfigFile = playwrightConfigFile;
   const extension = extname(playwrightConfigFile);
   if (extension === Extensions.TypeScript) {
-    playwrightServiceInitConfig.projectLanguage = Languages.TypeScript;
+    return {
+      playwrightConfigFile,
+      projectLanguage: Languages.TypeScript,
+    };
   } else if (extension === Extensions.JavaScript) {
-    playwrightServiceInitConfig.projectLanguage = Languages.JavaScript;
+    return {
+      playwrightConfigFile,
+      projectLanguage: Languages.JavaScript,
+    };
   } else throw new Error(ErrorMessages.UNSUPPORTED_CONFIGURATION_FILE);
-  return playwrightServiceInitConfig;
 };
 
 export const getFileReferenceForImport = (filePath: string): string => {
@@ -81,7 +80,7 @@ Options:
 export const parseCLIArguments = (): CLIArguments => {
   const args = process.argv.slice(2);
   const cliArguments: CLIArguments = {
-    config: null,
+    config: "",
   };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "-c" || args[i] === "--config") {
