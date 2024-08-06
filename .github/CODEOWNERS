@@ -553,6 +553,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
 
 # ServiceLabel: %Health Deidentification
