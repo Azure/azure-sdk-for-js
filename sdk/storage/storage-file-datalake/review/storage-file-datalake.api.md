@@ -289,6 +289,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
+    // (undocumented)
+    generateSasStringToSign(options: DirectoryGenerateSasUrlOptions): string;
     generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;

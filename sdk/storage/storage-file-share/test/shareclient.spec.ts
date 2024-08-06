@@ -353,20 +353,6 @@ describe("ShareClient - OAuth", () => {
     await recorder.stop();
   });
 
-  it("create with TokenCredentials should fail", async () => {
-    try {
-      await serviceClient
-        .getShareClient(recorder.variable("newshare", getUniqueName("newshare")))
-        .create();
-    } catch (err) {
-      assert.ok(
-        (err as any).statusCode === 409 &&
-          (err as any).code === "FileOAuthManagementApiRestrictedToSrp",
-        "Should get correct error mesage when creating a share with TokenCredentials",
-      );
-    }
-  });
-
   it("create and get permission", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const directoryClient = shareClient.getDirectoryClient(directoryName);

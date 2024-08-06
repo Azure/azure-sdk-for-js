@@ -3,7 +3,7 @@
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { logger } from "./log";
-import { ShareTokenIntent } from "./generatedModels";
+import { FilePermissionFormat, ShareTokenIntent } from "./generatedModels";
 import { StoragePipelineOptions } from "./Pipeline";
 
 export interface Metadata {
@@ -76,13 +76,22 @@ export type FileAttributesPreserveType = "preserve";
 export interface FileAndDirectoryCreateCommonOptions {
   /**
    * The permission(security descriptor) to be set for the file or directory in the
-   * Security Descriptor Definition Language (SDDL). If specified, it must have an owner, group, and discretionary access control list (DACL).
+   * Security Descriptor Definition Language (SDDL) or binary. 
+   * If specified, it must have an owner, group, and discretionary access control list (DACL).
    * A value of inherit may be passed to inherit from the parent directory.
    *
    * Note that only one of filePermission or filePermissionKey can be specified.
    * And if both are not specified, inherit will be set to filePermission as default value by client library.
    */
   filePermission?: string | FilePermissionInheritType;
+
+  /** 
+   * Optional. Available for version 2023-06-01 and later. 
+   * Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. 
+   * If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. 
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission 
+   */
+  filePermissionFormat?: FilePermissionFormat;
 
   /**
    * The key of the permission to be set for the file or directory. This can be created using the Create-Permission API.
@@ -129,6 +138,14 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
    * And if both are not specified, preserve will be set to filePermission as default value by client library.
    */
   filePermission?: string | FilePermissionInheritType | FilePermissionPreserveType;
+  
+  /** 
+   * Optional. Available for version 2023-06-01 and later. 
+   * Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. 
+   * If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. 
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission 
+   */
+  filePermissionFormat?: FilePermissionFormat;
 
   /**
    * The key of the permission to be set for the file or directory. This can be created using the Create-Permission API.
