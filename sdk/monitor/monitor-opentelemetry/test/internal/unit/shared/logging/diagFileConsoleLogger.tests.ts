@@ -163,18 +163,16 @@ describe("Library/DiagFileConsoleLogger", () => {
     });
 
     it("should remove backup files", (done) => {
-      sandbox
-        .stub(fileHelper, "readdirAsync")
-        .callsFake(
-          // eslint-disable-next-line @typescript-eslint/require-await
-          async () =>
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            [
-              "applicationinsights.log",
-              "123.applicationinsights.log",
-              "456.applicationinsights.log",
-            ] as any,
-        );
+      sandbox.stub(fileHelper, "readdirAsync").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () =>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          [
+            "applicationinsights.log",
+            "123.applicationinsights.log",
+            "456.applicationinsights.log",
+          ] as any,
+      );
       logger["_maxHistory"] = 0;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
       logger["_fileCleanupTask"]()
@@ -189,18 +187,16 @@ describe("Library/DiagFileConsoleLogger", () => {
     });
 
     it("cleanup should keep configured number of backups", (done) => {
-      sandbox
-        .stub(fileHelper, "readdirAsync")
-        .callsFake(
-          // eslint-disable-next-line @typescript-eslint/require-await
-          async () =>
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            [
-              "applicationinsights.log",
-              "123.applicationinsights.log",
-              "456.applicationinsights.log",
-            ] as any,
-        );
+      sandbox.stub(fileHelper, "readdirAsync").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () =>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          [
+            "applicationinsights.log",
+            "123.applicationinsights.log",
+            "456.applicationinsights.log",
+          ] as any,
+      );
       logger["_maxHistory"] = 1;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
       logger["_fileCleanupTask"]()

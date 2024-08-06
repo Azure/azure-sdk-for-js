@@ -623,9 +623,9 @@ describe("OpenTelemetry Resource", () => {
           config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
           CloudPlatformValues.AZURE_VM,
         );
-        resolve()
+        resolve();
       }, 150);
-    }); 
+    });
     scope.done();
   });
 
