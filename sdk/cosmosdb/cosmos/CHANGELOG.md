@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.0 (Unreleased)
+## 4.1.0 (2024-08-07)
 
 ### Features Added
 
@@ -13,7 +13,6 @@
 - Split proof Bulk API: Earlier, whenever Bulk API encountered a partition split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition split. [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
 - Improved samples: The samples have been updated in this release, now organized into two folders: `v3` for features up to the v3 release, and `v4` for features up to the v4 release.
 - Added support for MakeList and MakeSet query aggregators
-
 
 #### Vector Search
 
@@ -65,7 +64,7 @@ const containerDefinition = {
 await database.containers.createIfNotExists(containerDefinition);
 ```
 
-- Vector Search queries without TOP or LIMIT+OFFSET are blocked by default, with an option to disable this check using ```allowUnboundedNonStreamingQueries``` in query FeedOptions. Also added an internal buffer size check to prevent excessive memory consumption, throwing errors if the buffer size exceeds the default. The max buffer size can be increased using the ```vectorSearchBufferSize``` option from query FeedOptions.
+- Vector Search queries without TOP or LIMIT+OFFSET are blocked by default, with an option to disable this check using `allowUnboundedNonStreamingQueries` in query FeedOptions. Also added an internal buffer size check to prevent excessive memory consumption, throwing errors if the buffer size exceeds the default. The max buffer size can be increased using the `vectorSearchBufferSize` option from query FeedOptions.
 
 #### Change Feed - All versions and deletes mode
 
