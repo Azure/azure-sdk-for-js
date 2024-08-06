@@ -63,7 +63,7 @@ describe("AppContainer test", () => {
     await recorder.stop();
   });
 
-  it.only("operations list test", async function () {
+  it("operations list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
