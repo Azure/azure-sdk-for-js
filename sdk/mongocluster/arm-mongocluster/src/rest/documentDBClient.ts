@@ -19,14 +19,10 @@ export interface DocumentDBContextOptions extends ClientOptions {
  */
 export default function createClient(
   credentials: TokenCredential,
-  {
-    apiVersion = "2024-03-01-preview",
-    ...options
-  }: DocumentDBContextOptions = {},
+  { apiVersion = "2024-03-01-preview", ...options }: DocumentDBContextOptions = {},
 ): DocumentDBContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-  const userAgentInfo = `azsdk-js-arm-mongocluster/1.0.0-beta.1`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const userAgentInfo = `azsdk-js-arm-mongocluster/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -43,11 +39,7 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as DocumentDBContext;
+  const client = getClient(endpointUrl, credentials, options) as DocumentDBContext;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

@@ -1,92 +1,56 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubBufferedProducerClient } from "../../src";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { createStubInstance, SinonStubbedInstance, stub } from "sinon";
-import chai from "chai";
-import { createMockServer } from "../public/utils/mockService";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { delay } from "@azure/core-amqp";
-import { BatchingPartitionChannel } from "../../src/batchingPartitionChannel";
-import { PartitionAssigner } from "../../src/impl/partitionAssigner";
+import type { EventHubBufferedProducerClient } from "../../src/index.js";
+import { createBufferedProducer } from "../utils/clients.js";
+import { describe, it, afterEach, vi, beforeEach, beforeAll, afterAll } from "vitest";
+import { assert, expect } from "../utils/chai.js";
 
-const should = chai.should();
-const assert: typeof chai.assert = chai.assert;
+describe("EventHubBufferedProducerClient unit tests", function () {
+  let client: EventHubBufferedProducerClient;
 
-testWithServiceTypes((serviceVersion) => {
-  const env = getEnvVars();
-  if (serviceVersion === "mock") {
-    let service: ReturnType<typeof createMockServer>;
-    before("Starting mock service", () => {
-      service = createMockServer();
-      return service.start();
-    });
+  beforeAll(async function () {
+    vi.useFakeTimers();
+  });
 
-    after("Stopping mock service", () => {
-      return service?.stop();
-    });
-  }
+  afterAll(async function () {
+    vi.restoreAllMocks();
+    vi.useRealTimers();
+  });
 
-  describe("EventHubBufferedProducerClient unit tests", () => {
-    const service = {
-      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]!,
-    };
-    let client: EventHubBufferedProducerClient | undefined;
+  beforeEach(async function () {
+    client = createBufferedProducer().producer;
+  });
 
-    before(() => {
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests.",
-      );
-    });
+  afterEach(async function () {
+    await client.close({ flush: false });
+  });
 
-    afterEach("Ensure client is closed between tests.", async () => {
-      if (client) {
-        await client.close();
-        client = undefined;
-      }
-    });
+  it("should update partition ids periodically", async function () {
+    const iDs1 = ["0", "1"];
+    const iDs2 = ["0", "1", "2"];
+    const iDs3 = ["0"];
+    const timeInterval = 100;
 
-    it("should update partition ids periodically", async function () {
-      const fakeGetPartitionIds = stub();
-      fakeGetPartitionIds.onCall(0).resolves(["0", "1"]);
-      fakeGetPartitionIds.onCall(1).resolves(["0", "1", "2"]);
-      fakeGetPartitionIds.onCall(2).resolves(["0"]);
-      const fakeGetPartitionChannel = (
-        _id: string,
-      ): SinonStubbedInstance<BatchingPartitionChannel> => {
-        return createStubInstance(BatchingPartitionChannel);
-      };
-      const fakePartitionAssigner = createStubInstance(PartitionAssigner);
+    vi.spyOn(client, "getPartitionIds")
+      .mockResolvedValueOnce(iDs1)
+      .mockResolvedValueOnce(iDs2)
+      .mockResolvedValueOnce(iDs3);
 
-      client = new EventHubBufferedProducerClient(service.connectionString, service.path, {
-        async onSendEventsErrorHandler(_context) {
-          /* no-op */
-        },
-      });
+    const spy = vi.spyOn(client["_partitionAssigner"], "setPartitionIds");
+    client["_backgroundManagementInterval"] = timeInterval;
 
-      (client as any)["getPartitionIds"] = fakeGetPartitionIds;
-      (client as any)["_getPartitionChannel"] = fakeGetPartitionChannel;
-      (client as any)["_partitionAssigner"] = fakePartitionAssigner;
-      (client as any)["_backgroundManagementInterval"] = 100; // shorten the interval for testing
+    await client.enqueueEvent({ body: 1 });
 
-      await client.enqueueEvent({ body: 1 });
-      assert.deepStrictEqual((client as any)["_partitionIds"] as string[], ["0", "1"]);
-      assert.ok(fakePartitionAssigner.setPartitionIds.calledWith(["0", "1"]));
+    assert.deepStrictEqual(client["_partitionIds"], iDs1);
+    expect(spy).toHaveBeenNthCalledWith(1, iDs1);
+    await vi.advanceTimersByTimeAsync(timeInterval);
 
-      await delay(150);
-      assert.deepStrictEqual((client as any)["_partitionIds"] as string[], ["0", "1", "2"]);
-      assert.ok(fakePartitionAssigner.setPartitionIds.calledWith(["0", "1", "2"]));
+    assert.deepStrictEqual(client["_partitionIds"], iDs2);
+    expect(spy).toHaveBeenNthCalledWith(2, iDs2);
+    await vi.advanceTimersByTimeAsync(timeInterval);
 
-      await delay(270);
-      assert.deepStrictEqual((client as any)["_partitionIds"] as string[], ["0"]);
-      assert.ok(fakePartitionAssigner.setPartitionIds.calledWith(["0"]));
-    });
+    assert.deepStrictEqual(client["_partitionIds"], iDs3);
+    expect(spy).toHaveBeenNthCalledWith(3, iDs3);
   });
 });

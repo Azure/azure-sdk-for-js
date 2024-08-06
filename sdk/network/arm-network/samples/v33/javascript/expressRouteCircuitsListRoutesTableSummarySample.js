@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
  *
  * @summary Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ExpressRouteCircuitRouteTableSummaryList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ExpressRouteCircuitRouteTableSummaryList.json
  */
 async function listRouteTableSummary() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

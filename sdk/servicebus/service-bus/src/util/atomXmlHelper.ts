@@ -86,7 +86,7 @@ export async function executeAtomXmlOperation(
     }
   }
 
-  logger.verbose(`Executing ATOM based HTTP request: ${request.body}`);
+  logger.verbose(`Executing ATOM based HTTP request body: ${request.body}`);
 
   const reqPrepareOptions = {
     headers: operationOptions.requestOptions?.customHeaders,

@@ -5,7 +5,6 @@ extends:
     parameters:
       PackageName: "@azure-rest/confidential-ledger"
       ServiceDirectory: confidentialledger
-      UseFederatedAuth: true
       EnvVars:
         AZURE_CLIENT_OID: $(CONFIDENTIALLEDGER_CLIENT_OID)
         LEDGER_URI: $(LEDGER_URI)

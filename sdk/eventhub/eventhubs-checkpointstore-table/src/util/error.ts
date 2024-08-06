@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "../log";
+import { logErrorStackTrace, logger } from "../log.js";
 
 /**
  * @internal

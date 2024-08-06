@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PrivateLinkResource,
-  _PrivateLinkResourceListResult,
-} from "../../models/models.js";
+import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
@@ -29,8 +26,7 @@ export function _privateLinksListByMongoClusterSend(
     requestOptions: {},
   },
 ): StreamableMethod<
-  | PrivateLinksListByMongoCluster200Response
-  | PrivateLinksListByMongoClusterDefaultResponse
+  PrivateLinksListByMongoCluster200Response | PrivateLinksListByMongoClusterDefaultResponse
 > {
   return context
     .path(
@@ -43,43 +39,43 @@ export function _privateLinksListByMongoClusterSend(
 }
 
 export async function _privateLinksListByMongoClusterDeserialize(
-  result:
-    | PrivateLinksListByMongoCluster200Response
-    | PrivateLinksListByMongoClusterDefaultResponse,
+  result: PrivateLinksListByMongoCluster200Response | PrivateLinksListByMongoClusterDefaultResponse,
 ): Promise<_PrivateLinkResourceListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      id: p["id"],
-      name: p["name"],
-      type: p["type"],
-      systemData: !p.systemData
-        ? undefined
-        : {
-            createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
-            createdAt:
-              p.systemData?.["createdAt"] !== undefined
-                ? new Date(p.systemData?.["createdAt"])
-                : undefined,
-            lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
-            lastModifiedAt:
-              p.systemData?.["lastModifiedAt"] !== undefined
-                ? new Date(p.systemData?.["lastModifiedAt"])
-                : undefined,
-          },
-      properties: !p.properties
-        ? undefined
-        : {
-            groupId: p.properties?.["groupId"],
-            requiredMembers: p.properties?.["requiredMembers"],
-            requiredZoneNames: p.properties?.["requiredZoneNames"],
-          },
-    })),
+    value: result.body["value"].map((p) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              groupId: p.properties?.["groupId"],
+              requiredMembers: p.properties?.["requiredMembers"],
+              requiredZoneNames: p.properties?.["requiredZoneNames"],
+            },
+      };
+    }),
     nextLink: result.body["nextLink"],
   };
 }

@@ -4,9 +4,8 @@
 ################
 # Orphaned paths
 ################
-# As of 1/30/2023 these paths have no owners:
 
-# /**
+/** @xirzec @jeremymeng @Azure/azure-sdk-eng
 
 ################
 # Misc.
@@ -115,10 +114,10 @@
 # AzureSdkOwners: @timovv @jeremymeng
 
 # ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners: @sajeetharan @simorenoh @v1k1
+# ServiceOwners: @sajeetharan @simorenoh 
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
+/sdk/cosmosdb/ @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 # PRLabel: %Digital Twins
 # ServiceLabel: %Digital Twins
@@ -244,7 +243,7 @@
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
-sdk/ai/ai-inference-rest @glharper @dargilco
+sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
@@ -389,6 +388,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -512,6 +514,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -549,6 +554,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
+
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
@@ -761,6 +770,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -816,6 +828,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric-rest/ @qiaozha @MaryGao
@@ -1542,8 +1557,13 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
 /rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-js-dev
-/tsconfig.json @mikeharder @ckairen @jeremymeng @deyaaeldeen
-/**/tsconfig.json @jeremymeng @deyaaeldeen @Azure/azure-sdk-for-js-core
+
+/tsconfig.json @mikeharder @ckairen @Azure/azure-sdk-for-js-core
+/**/tsconfig.json @Azure/azure-sdk-for-js-core
+
+# Managment tsconfig.json
+/sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+
 /.scripts/ @mikeharder @ckairen
 /vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 /vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
