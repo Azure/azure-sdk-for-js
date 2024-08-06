@@ -65,6 +65,8 @@ const containerDefinition = {
 await database.containers.createIfNotExists(containerDefinition);
 ```
 
+- Vector Search queries without TOP or LIMIT+OFFSET are blocked by default, with an option to disable this check using ```allowUnboundedNonStreamingQueries``` in query FeedOptions. Also added an internal buffer size check to prevent excessive memory consumption, throwing errors if the buffer size exceeds the default. The max buffer size can be increased using the ```vectorSearchBufferSize``` option from query FeedOptions.
+
 #### Change Feed - All versions and deletes mode
 
 - The AllVersionsAndDeletes mode is only supported with `ChangeFeedStartFrom.Now` and `ChangeFeedStartFrom.Continuation`.
