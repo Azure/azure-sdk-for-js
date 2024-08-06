@@ -61,8 +61,8 @@ export class Logger {
     });
 
     let azureLogLevelEnv =
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL || process.env.AZURE_LOG_LEVEL;
-    let azureLogLevel: AzureLogLevel = "warning"; // default
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    let azureLogLevel: AzureLogLevel = process.env.AZURE_LOG_LEVEL || "warning"; // default
     switch (azureLogLevelEnv) {
       // Application Insights levels
       case "VERBOSE":
