@@ -126,7 +126,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         done();
       });
 
-      it("should add correct long interval properties to the custom metric",  () => {
+      it("should add correct long interval properties to the custom metric", () => {
         // const exporter = new TestExporter();
         // const statsbeatMetrics = exporter["sender"]["networkStatsbeatMetrics"];
         const longIntervalStatsbeatMetrics = getInstance(options);
