@@ -145,7 +145,7 @@ export function createTokenCycler(
      */
     get mustRefresh(): boolean {
       return (
-        token === null || (token.refreshesOnTimestamp && token.refreshesOnTimestamp < Date.now()) || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
+        token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
       );
     },
   };
