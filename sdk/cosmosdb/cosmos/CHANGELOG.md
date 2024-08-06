@@ -58,12 +58,14 @@ const indexingPolicy = {
 // define and create container with vector Embedding Policy
 const containerDefinition = {
   id: containerId,
-  partitionKey: { path: "/id" },
+  partitionKey: { paths: ["/id"] },
   indexingPolicy: indexingPolicy,
   vectorEmbeddingPolicy: vectorEmbeddingPolicy,
 };
 await database.containers.createIfNotExists(containerDefinition);
 ```
+
+- Vector Search queries without TOP or LIMIT+OFFSET are blocked by default, with an option to disable this check using ```allowUnboundedNonStreamingQueries``` in query FeedOptions. Also added an internal buffer size check to prevent excessive memory consumption, throwing errors if the buffer size exceeds the default. The max buffer size can be increased using the ```vectorSearchBufferSize``` option from query FeedOptions.
 
 #### Change Feed - All versions and deletes mode
 
