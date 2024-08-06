@@ -109,5 +109,5 @@
     ],
     "selfLink": false
   },
-   "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js"
 }
