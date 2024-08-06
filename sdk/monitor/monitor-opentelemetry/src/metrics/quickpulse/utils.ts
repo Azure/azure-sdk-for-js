@@ -57,6 +57,7 @@ import {
   DependencyData,
   ExceptionData,
   TraceData,
+  TelemetryData,
 } from "./types";
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
@@ -272,7 +273,50 @@ export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData
 
 }
 
-export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency {
+export function isRequestData(data: TelemetryData): data is RequestData {
+  return (data as RequestData).Url !== undefined;
+}
+
+export function isDependencyData(data: TelemetryData): data is DependencyData {
+  return (data as DependencyData).Target !== undefined;
+}
+
+export function isTraceData(data: TelemetryData): data is TraceData {
+  return (data as TraceData).Message !== undefined;
+}
+
+export function isExceptionData(data: TelemetryData): data is ExceptionData {
+  return (data as ExceptionData).StackTrace !== undefined;
+}
+
+export function getSpanDocument(telemetryData: TelemetryData): Request | RemoteDependency {
+  let document: Request | RemoteDependency = {
+    documentType: KnownDocumentType.Request,
+  };
+
+  if (isRequestData(telemetryData)) {
+    document = {
+      documentType: KnownDocumentType.Request,
+      name: telemetryData.Name,
+      url: telemetryData.Url,
+      responseCode: String(telemetryData.ResponseCode),
+      duration: getIso8601Duration(telemetryData.Duration),
+    };
+  } else if (isDependencyData(telemetryData)) {
+    document = {
+      documentType: KnownDocumentType.RemoteDependency,
+      name: telemetryData.Name,
+      commandName: telemetryData.Data,
+      resultCode: String(telemetryData.ResultCode),
+      duration: getIso8601Duration(telemetryData.Duration),
+    };
+  }
+
+  document.properties = telemetryData.CustomDimensions;
+  return document;
+}
+
+/*export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency {
   let document: Request | RemoteDependency = {
     documentType: KnownDocumentType.Request,
   };
@@ -315,7 +359,7 @@ export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency 
   }
   document.properties = createPropertiesFromAttributes(span.attributes);
   return document;
-}
+}*/
 
 // implementation note: create new util function for getting RequestMetric & RemoteDependencyMetric columns w/ customdims
 // implementation note: create new util function for getting TraceMetric & ExceptionMetric columns w/ customdims

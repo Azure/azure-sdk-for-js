@@ -4,7 +4,15 @@ import {
   FilterInfo,
   KnownPredicateType,
   CollectionConfigurationError,
+  DocumentStreamInfo,
 } from "../../generated";
+import { TelemetryData } from "./types";
+import {
+  isRequestData,
+  isDependencyData,
+  isExceptionData,
+  isTraceData,
+} from "./utils";
 
 export class TelemetryTypeError extends Error {
   constructor(message: string) {
@@ -156,9 +164,6 @@ export class Validator {
 
 }
 
-
-
-
 export class CollectionConfigurationErrorTracker {
 
 
@@ -201,12 +206,74 @@ export class CollectionConfigurationErrorTracker {
   }
 }
 
-export class DerivedMetric {
-  private derivedMetricInfo: DerivedMetricInfo;
-  private projection: number = 0.0;
+export class Filter {
 
-  constructor(derivedMetricInfo: DerivedMetricInfo) {
-    this.derivedMetricInfo = derivedMetricInfo;
+  public static checkMetricFilters(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): boolean {
+    // Haven't yet seen any case where there is more than one filter group in a derived metric info.
+    // Just to be safe, handling the multiple filter conjunction group case as an or operation.
+    let matched = false;
+    derivedMetricInfo.filterGroups.forEach((filterConjunctionGroup) => {
+      matched = matched || this.checkFilterConjunctionGroup(filterConjunctionGroup.filters, data);
+    });
+    return matched;
   }
 
+  public static checkDocumentFilters(documentStreamInfo: DocumentStreamInfo, data: TelemetryData): boolean {
+    return true; // to be implemented
+  }
+
+  private static checkFilterConjunctionGroup(filters: FilterInfo[], data: TelemetryData): boolean {
+    // All of the filters need to match for this to return true (and operation).
+    filters.forEach((filter) => {
+      if (!this.checkFilter(filter, data)) {
+        return false;
+      }
+    });
+    return true;
+  }
+
+  private static checkFilter(filter: FilterInfo, data: TelemetryData): boolean {
+
+    if (filter.fieldName === "*") { // Any field
+      return this.checkAnyFieldFilter(filter, data);
+    } else if (filter.fieldName.startsWith("CustomDimensions.")) {
+      return this.checkCustomDimFilter(filter, data);
+    } else {
+      let dataValue: string | number | boolean;
+      // use filter.fieldname to get the property of data to query
+      // query that property to get its value
+      // depending on the filter name & predicate, try a certain comparison function
+
+      return false;
+    }
+  }
+
+  private static checkAnyFieldFilter(filter: FilterInfo, data: TelemetryData): boolean {
+    return true; // to be implemented
+  }
+
+  private static checkCustomDimFilter(filter: FilterInfo, data: TelemetryData): boolean {
+    return true;
+    // to be implemented
+  }
+}
+
+export class Projection {
+  private projectionMap: Map<string, number>;
+
+  constructor() {
+    this.projectionMap = new Map<string, number>();
+  }
+
+  public calculateProjection(derivedMetricInfo: DerivedMetricInfo): void {
+
+  }
+
+  public getMetricValues(): Map<string, number> {
+    return this.projectionMap;
+  }
+
+  public clearProjection(): void {
+    this.projectionMap.clear();
+  }
 }

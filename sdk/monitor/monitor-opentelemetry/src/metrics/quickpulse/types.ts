@@ -59,18 +59,18 @@ export enum QuickPulseMetricNames {
   // Exception
   EXCEPTION_RATE = "\\ApplicationInsights\\Exceptions/Sec",
 }
-
-export interface RequestData {
+export interface TelemetryData {
+  CustomDimensions: KeyValuePairString[];
+}
+export interface RequestData extends TelemetryData {
   Url: string;
   Duration: number;
   ResponseCode: number;
   Success: boolean;
   Name: string;
-  CustomDimensions: KeyValuePairString[];
-
 }
 
-export interface DependencyData {
+export interface DependencyData extends TelemetryData {
   //  Target site of a dependency call. Examples are server name, host address.
   Target: string;
   Duration: number;
@@ -81,16 +81,13 @@ export interface DependencyData {
   Type: string;
   // Command initiated by this dependency call. Examples are SQL statement and HTTP URL with all query parameters.
   Data: string;
-  CustomDimensions: KeyValuePairString[];
 }
 
-export interface ExceptionData {
+export interface ExceptionData extends TelemetryData {
   Message: string;
   StackTrace: string;
-  CustomDimensions: KeyValuePairString[];
 }
 
-export interface TraceData {
+export interface TraceData extends TelemetryData {
   Message: string;
-  CustomDimensions: KeyValuePairString[];
 }

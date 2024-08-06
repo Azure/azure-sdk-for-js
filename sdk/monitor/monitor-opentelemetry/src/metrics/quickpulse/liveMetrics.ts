@@ -39,6 +39,7 @@ import {
   getCloudRoleInstance,
   getLogDocument,
   getSdkVersion,
+  getSpanColumns,
   getSpanDocument,
   getTransmissionTime,
 } from "./utils";
@@ -46,7 +47,12 @@ import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
-import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
+import {
+  QuickPulseOpenTelemetryMetricNames,
+  QuickpulseExporterOptions,
+  RequestData,
+  DependencyData
+} from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 import { getInstance } from "../../utils/statsbeat";
 import { CollectionConfigurationError } from "../../generated";
@@ -411,9 +417,25 @@ export class LiveMetrics {
 
       // implementation note: apply metric filter logic here for request, dependency, and exception
       console.log(span);
+      let columns: RequestData | DependencyData = getSpanColumns(span);
+      /**
+       * If request, get derived metric infos for request
+       * If dependency, get derived metric infos for dependency
+       * 
+       * for each derived metric info:
+       *  Does the given data match all of the filters? If yes,
+       *    Use this to calculate value for a metric projection
+       * 
+       * ____
+       * 
+       * 
+       * 
+       * Projection class:
+       *  private Map<string, number> metricValues
+       *  
+       */
 
-
-      let document: Request | RemoteDependency = getSpanDocument(span);
+      let document: Request | RemoteDependency = getSpanDocument(columns);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
       let success = span.status.code !== SpanStatusCode.ERROR;
