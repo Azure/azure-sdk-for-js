@@ -8,7 +8,7 @@ import { AzureMonitorBaseExporter } from "./base";
 import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
-import { createResourceMetricEnvelope } from "../utils/common";
+import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common";
 import { HttpSender } from "../platform";
 
 /**
@@ -54,7 +54,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 
     diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
 
-    if (spans.length > 0) {
+    if (spans.length > 0 && shouldCreateResourceMetric()) {
       const envelopes: Envelope[] = [];
       const resourceMetricEnvelope = createResourceMetricEnvelope(
         spans[0].resource,
