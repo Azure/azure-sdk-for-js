@@ -256,5 +256,5 @@ export function createResourceMetricEnvelope(
 }
 
 export function shouldCreateResourceMetric(): boolean {
-  return process.env.ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED?.toLowerCase() === "true";
+  return !(process.env.ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED?.toLowerCase() === "true");
 }
