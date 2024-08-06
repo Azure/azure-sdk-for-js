@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "importHelpers": true,
+    "module": "CommonJS",
     "paths": {
       "@azure/create-microsoft-playwright-testing": ["./src/index"]
     }
