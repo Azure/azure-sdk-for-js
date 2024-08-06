@@ -5,24 +5,24 @@ import type { TestStatus } from "@playwright/test";
 import { RawTestStep } from "../common/types";
 
 export class TestResult {
-  testId: string;
-  testExecutionId: string;
-  testCombinationId: string;
-  runId: string;
-  shardId: string;
-  accountId: string;
-  suiteId: string;
-  testTitle: string;
-  suiteTitle: string;
-  fileName: string;
-  lineNumber: number;
-  retry: number;
-  status: TestStatus;
-  tags: string[];
-  annotations: string[];
-  webTestConfig: WebTestConfig;
-  resultsSummary: TestResultsSummary;
-  artifactsPath: string[];
+  testId!: string;
+  testExecutionId!: string;
+  testCombinationId!: string;
+  runId!: string;
+  shardId!: string;
+  accountId!: string;
+  suiteId!: string;
+  testTitle!: string;
+  suiteTitle!: string;
+  fileName!: string;
+  lineNumber!: number;
+  retry!: number;
+  status!: TestStatus;
+  tags!: string[];
+  annotations!: string[];
+  webTestConfig!: WebTestConfig;
+  resultsSummary!: TestResultsSummary;
+  artifactsPath!: string[];
 }
 
 export type WebTestConfig = {

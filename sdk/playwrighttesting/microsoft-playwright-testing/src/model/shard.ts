@@ -4,16 +4,16 @@
 import { TestRunConfig } from "./testRun";
 
 export class Shard {
-  id: string;
-  summary: TestRunSummary;
-  resultsSummary: TestRunResultsSummary;
-  testRunConfig: TestRunConfig;
-  uploadCompleted: boolean;
+  id!: string;
+  summary!: TestRunSummary;
+  resultsSummary!: TestRunResultsSummary;
+  testRunConfig!: TestRunConfig;
+  uploadCompleted!: boolean;
 }
 
 export class TestRunSummary {
-  status: string;
-  startTime: string;
+  status!: string;
+  startTime!: string;
   endTime?: string;
   totalTime?: number;
   errorMessages?: string[];

@@ -64,14 +64,14 @@ class ReporterUtils {
     }
     testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? randomUUID() : runName;
     testRun.creatorName = this.envVariables.userName;
-    testRun.creatorId = this.envVariables.userId;
+    testRun.creatorId = this.envVariables.userId!;
     testRun.startTime = ReporterUtils.timestampToRFC3339(this.startTime);
     testRun.ciConfig = {
-      ciProviderName: ciInfo?.provider,
-      branch: ciInfo?.branch,
-      author: ciInfo?.author,
-      commitId: ciInfo?.commitId,
-      revisionUrl: ciInfo?.revisionUrl,
+      ciProviderName: ciInfo.provider!,
+      branch: ciInfo.branch!,
+      author: ciInfo.author!,
+      commitId: ciInfo.commitId!,
+      revisionUrl: ciInfo.revisionUrl!,
     };
     testRun.testRunConfig = this.getTestRunConfig();
     testRun.cloudReportingEnabled = "true";
@@ -142,28 +142,28 @@ class ReporterUtils {
         break;
     }
 
-    let browserName = test.parent.project().use.browserName?.toLowerCase();
+    let browserName = test.parent.project()!.use.browserName?.toLowerCase();
     if (!browserName) {
-      browserName = test.parent.project().use.defaultBrowserType?.toLowerCase();
+      browserName = test.parent.project()!.use.defaultBrowserType?.toLowerCase();
     }
     const testResult = new MPTTestResult();
     testResult.runId = this.envVariables.runId;
     testResult.shardId = this.envVariables.runId + "_" + this.envVariables.shardId;
-    testResult.accountId = this.envVariables.accountId;
+    testResult.accountId = this.envVariables.accountId!;
     testResult.suiteId = ReporterUtils.calculateSha1(`${test.parent.title}-${test.location.file}`);
     testResult.testId = testResult.suiteId.concat(`-${ReporterUtils.calculateSha1(test.title)}`);
     testResult.testCombinationId = test.id;
     testResult.testExecutionId = randomUUID();
     testResult.testTitle = test.title;
-    testResult.suiteTitle = this.extractRootParentTitle(test.parent);
+    testResult.suiteTitle = this.extractRootParentTitle(test.parent)!;
     testResult.fileName = test.location.file;
     testResult.status = this.getTestStatus(test, result);
     testResult.lineNumber = test.location.line;
     testResult.retry = result.retry ? result.retry : 0;
     testResult.webTestConfig = {
       jobName: jobName,
-      projectName: test.parent.project().name,
-      browserName: browserName,
+      projectName: test.parent.project()!.name,
+      browserName: browserName!,
       os: os.type(),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
@@ -178,7 +178,7 @@ class ReporterUtils {
       .filter((attachment) => attachment?.path !== null && attachment?.path !== undefined) // Filter attachments with defined and non-null path property
       .map(
         (attachment) =>
-          `${testResult.testExecutionId}/${ReporterUtils.getFileRelativePath(attachment.path)}`,
+          `${testResult.testExecutionId}/${ReporterUtils.getFileRelativePath(attachment.path!)}`,
       );
     return testResult;
   }
@@ -201,7 +201,7 @@ class ReporterUtils {
   
 #### For more details, visit the [service dashboard](${testRunUrl}).
     `;
-        fs.writeFileSync(process.env["GITHUB_STEP_SUMMARY"], markdownContent);
+        fs.writeFileSync(process.env["GITHUB_STEP_SUMMARY"]!, markdownContent);
       }
     } catch (err) {
       reporterLogger.error(`\nCould not generate markdown summary - ${err}`);
@@ -249,7 +249,7 @@ class ReporterUtils {
   */
 
   public static getTokenDetails<T>(accessToken: string, tokenType: TokenType): T {
-    const token = accessToken.split(".")[1];
+    const token = accessToken.split(".")[1]!;
     const _token = Buffer.from(token, "base64");
     const tokenDetails = JSON.parse(_token.toString());
 
@@ -272,7 +272,7 @@ class ReporterUtils {
       }
 
       // Base64 decode the payload
-      const payload = parts[1];
+      const payload = parts[1]!;
       const decodedPayload = Buffer.from(payload, "base64");
 
       // Parse the decoded payload as JSON
@@ -296,13 +296,13 @@ class ReporterUtils {
       let parts = filePath.split("/");
 
       if (parts.length > 1) {
-        return parts[parts.length - 1];
+        return parts[parts.length - 1]!;
       }
 
       parts = filePath.split("\\");
 
       if (parts.length > 1) {
-        return parts[parts.length - 1];
+        return parts[parts.length - 1]!;
       }
     }
 
@@ -354,26 +354,26 @@ class ReporterUtils {
     accountId: string;
   } | null {
     // Service URL format: wss://<region>.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
-    const url = process.env["PLAYWRIGHT_SERVICE_URL"];
+    const url = process.env["PLAYWRIGHT_SERVICE_URL"]!;
     if (!ReporterUtils.isNullOrEmpty(url)) {
       const parts = url.split("/");
 
       if (parts.length > 2) {
-        const subdomainParts = parts[2].split(".");
+        const subdomainParts = parts[2]!.split(".");
         const region = subdomainParts.length > 0 ? subdomainParts[0] : null;
         const accountId = parts[4];
 
-        return { region, accountId };
+        return { region: region!, accountId: accountId! };
       }
     }
     return null;
   }
 
-  public static getRegionFromAccountID(accountId: string): string {
+  public static getRegionFromAccountID(accountId: string): string | undefined {
     if (accountId.includes("_")) {
-      return accountId.split("_")[0];
+      return accountId.split("_")[0]!;
     } else {
-      return null;
+      return;
     } // Handling for older workspaces without region in id
   }
 
@@ -544,7 +544,7 @@ class ReporterUtils {
     let currentSuite: Suite | undefined = suite;
     let depthCount: number = 0;
     let suiteTitle: string = currentSuite.title;
-    const projectName = currentSuite.project().name;
+    const projectName = currentSuite.project()!.name;
     while (currentSuite?.parent && !ReporterUtils.isNullOrEmpty(currentSuite.parent.title)) {
       if (depthCount > 10 || currentSuite.parent.title === projectName) {
         break;
@@ -561,7 +561,7 @@ class ReporterUtils {
       ciInfo.provider === CI_PROVIDERS.GITHUB_ACTIONS &&
       process.env["GITHUB_EVENT_NAME"] === "pull_request"
     ) {
-      const prNumber: string = `${process.env["GITHUB_REF_NAME"].split("/")[0]}`;
+      const prNumber: string = `${process.env["GITHUB_REF_NAME"]?.split("/")[0]}`;
       const prLink: string = `${process.env["GITHUB_REPOSITORY"]}/pull/${prNumber}`;
       return `PR# ${prNumber} on Repo: ${process.env["GITHUB_REPOSITORY"]} (${prLink})`;
     }

@@ -12,7 +12,7 @@ class EntraIdAccessToken {
   private _expiryTimestamp?: number; // in milli seconds
   private _credential?: TokenCredential;
 
-  constructor(credential: TokenCredential = null) {
+  constructor(credential?: TokenCredential) {
     this._credential = credential ?? new DefaultAzureCredential();
     this.setEntraIdAccessTokenFromEnvironment();
   }
@@ -20,7 +20,8 @@ class EntraIdAccessToken {
   public fetchEntraIdAccessToken = async (): Promise<boolean> => {
     try {
       coreLogger.info("Fetching entra id access token");
-      const accessToken = await this._credential.getToken(EntraIdAccessTokenConstants.SCOPE);
+      const accessToken = await this._credential!.getToken(EntraIdAccessTokenConstants.SCOPE);
+      if (!accessToken) throw new Error("Entra id access token is null");
       if (accessToken.token === this.token) {
         // azure identity library can fetch the same token again from cache. 10 mins before expiry, it allows token refresh
         coreLogger.info("Cached access token is returned, will be retried again.");
@@ -67,7 +68,7 @@ class EntraIdAccessToken {
       if (claims.accountId || claims.aid) {
         return;
       } // mpt PAT
-      const expiry = new Date(claims.exp * 1000);
+      const expiry = new Date(claims.exp! * 1000);
       this.token = token;
       this._expiryTimestamp = expiry.getTime();
     } catch (_) {

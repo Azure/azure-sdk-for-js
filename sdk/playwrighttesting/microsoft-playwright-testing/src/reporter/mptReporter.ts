@@ -43,7 +43,6 @@ import { MPTReporterConfig } from "../common/types";
  * ```
  */
 class MPTReporter implements Reporter {
-  private testRun!: TestRun;
   private isTokenValid: boolean = true;
   private enableGitHubSummary = true;
   private isRegionValid: boolean = true;
@@ -53,13 +52,13 @@ class MPTReporter implements Reporter {
   private serviceClient!: ServiceClient;
   private storageClient!: StorageClient;
   private reporterUtils!: ReporterUtils;
-  private envVariables: EnvironmentVariables;
+  private envVariables!: EnvironmentVariables;
   private testRawResults = new MultiMap<string, string>();
-  private promiseOnBegin: Promise<boolean>;
+  private promiseOnBegin!: Promise<boolean>;
   private _testEndPromises: Promise<void>[] = [];
   private testResultBatch: Set<MPTTestResult> = new Set<MPTTestResult>();
   private errorMessages: string[] = [];
-  private sasUri: StorageUri;
+  private sasUri!: StorageUri;
   private uploadMetadata: UploadMetadata = {
     numTestResults: 0,
     numTotalAttachments: 0,
@@ -182,11 +181,12 @@ class MPTReporter implements Reporter {
 
   private async _onBegin(): Promise<boolean> {
     try {
-      const testRunResponse: TestRun = await this.serviceClient.patchTestRun(this.ciInfo);
-      reporterLogger.info(
-        `\nTest run report successfully initialized: ${testRunResponse.displayName}.`,
+      const testRunResponse: TestRun | undefined = await this.serviceClient.patchTestRun(
+        this.ciInfo,
       );
-      this.testRun = testRunResponse;
+      reporterLogger.info(
+        `\nTest run report successfully initialized: ${testRunResponse?.displayName}.`,
+      );
       const shardResponse = await this.serviceClient.patchTestRunShardStart();
       this.shard = shardResponse;
       // Set test report link as environment variable. If/else to check if environment variable defined or not.
@@ -207,18 +207,18 @@ class MPTReporter implements Reporter {
     }
   }
 
-  private async _onTestEnd(test: TestCase, result: TestResult): Promise<string[]> {
+  private async _onTestEnd(test: TestCase, result: TestResult): Promise<undefined> {
     try {
       this.isTestRunStartSuccess = await this.promiseOnBegin;
       if (!this.isTestRunStartSuccess) {
         this._addError(`\nUnable to initialize test run report.`);
-        return [];
+        return;
       }
       this.uploadMetadata.numTestResults++;
       const testResultObject: MPTTestResult = this.reporterUtils.getTestResultObject(
         test,
         result,
-        this.ciInfo.jobId,
+        this.ciInfo.jobId!,
       );
       this.testResultBatch.add(testResultObject);
       // Store test attachments in array
@@ -298,7 +298,7 @@ class MPTReporter implements Reporter {
       }
       this.storageClient.uploadBuffer(
         this.sasUri.uri,
-        rawTestResult[0],
+        rawTestResult[0]!,
         `${testExecutionId}/rawTestResult.json`,
       );
     } catch (err: any) {
@@ -322,8 +322,8 @@ class MPTReporter implements Reporter {
       this.isTokenValid = false;
     } else if (ReporterUtils.hasAudienceClaim(this.envVariables.accessToken)) {
       const result = ReporterUtils.populateValuesFromServiceUrl();
-      this.envVariables.region = result.region;
-      this.envVariables.accountId = result.accountId;
+      this.envVariables.region = result!.region;
+      this.envVariables.accountId = result!.accountId;
       const entraTokenDetails: EntraTokenDetails = ReporterUtils.getTokenDetails<EntraTokenDetails>(
         this.envVariables.accessToken,
         TokenType.ENTRA,
@@ -338,12 +338,12 @@ class MPTReporter implements Reporter {
       this.envVariables.accountId = mptTokenDetails.aid;
       this.envVariables.userId = mptTokenDetails.oid;
       this.envVariables.userName = mptTokenDetails.userName;
-      this.envVariables.region = ReporterUtils.getRegionFromAccountID(this.envVariables.accountId);
+      this.envVariables.region = ReporterUtils.getRegionFromAccountID(this.envVariables.accountId!);
     }
     this.storageClient = new StorageClient();
     if (
       this.envVariables.region !== null &&
-      !Constants.SupportedRegions.includes(this.envVariables.region)
+      !Constants.SupportedRegions.includes(this.envVariables.region!)
     ) {
       process.stdout.write(
         `\nUnsupported region's workspace used to generate the input Access Token; the supported regions are ${Constants.SupportedRegions.join(

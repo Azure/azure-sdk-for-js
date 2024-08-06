@@ -4,10 +4,10 @@
 import { ShardInfo } from "./shard";
 
 export class TestRun {
-  displayName: string;
-  creatorId: string;
+  displayName!: string;
+  creatorId!: string;
   creatorName?: string;
-  startTime: string;
+  startTime!: string;
   ciConfig?: CIConfig;
   testRunConfig?: TestRunConfig;
   cloudReportingEnabled: string = "true"; // Default value set to 'true'

@@ -27,15 +27,15 @@ export const parseJwt = <T = JwtPayload>(token: string): T => {
   if (parts.length !== 3) {
     throw new Error("Invalid JWT token.");
   }
-  const payload = base64UrlDecode(parts[1]);
+  const payload = base64UrlDecode(parts[1]!);
   return JSON.parse(payload) as T;
 };
 
-export const getAccessToken = (): string => {
+export const getAccessToken = (): string | undefined => {
   return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
 };
 
-export const getServiceBaseURL = (): string => {
+export const getServiceBaseURL = (): string | undefined => {
   return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
 };
 
@@ -62,7 +62,7 @@ export const validateMptPAT = (): void => {
     if (!accessToken) {
       exitWithFailureMessage(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }
-    const claims = parseJwt<JwtPayload>(accessToken);
+    const claims = parseJwt<JwtPayload>(accessToken!);
     if (!claims.exp) {
       exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
     }
@@ -75,9 +75,7 @@ export const validateMptPAT = (): void => {
   }
 };
 
-export const fetchOrValidateAccessToken = async (
-  credential: TokenCredential = null,
-): Promise<string> => {
+export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
   const entraIdAccessToken = new EntraIdAccessToken(credential);
   if (entraIdAccessToken.token && entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
@@ -85,14 +83,14 @@ export const fetchOrValidateAccessToken = async (
   if (!getAccessToken()) {
     throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR);
   }
-  return getAccessToken();
+  return getAccessToken()!;
 };
 
 export const emitReportingUrl = (): void => {
   const regex =
     /wss:\/\/(?<region>[\w-]+)\.api\.(?<domain>playwright(?:-test|-int)?\.io|playwright\.microsoft\.com)\//;
   const url = getServiceBaseURL();
-  const match = url.match(regex);
+  const match = url?.match(regex);
   if (match && match.groups) {
     const { region, domain } = match.groups;
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL] =

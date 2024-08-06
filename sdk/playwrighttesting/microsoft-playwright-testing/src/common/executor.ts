@@ -74,6 +74,6 @@ export const loadCustomerGlobalFunction = (
   if (!customerFunctionFileName) {
     return null;
   }
-  const file = path.resolve(rootDir, resolveFile(customerFunctionFileName, rootDir));
+  const file = path.resolve(rootDir, resolveFile(customerFunctionFileName, rootDir) ?? "");
   return requireOrImportDefaultFunction(file);
 };

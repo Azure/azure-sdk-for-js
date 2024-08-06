@@ -68,7 +68,7 @@ export class CIInfoProvider {
         runId: this.getADORunId() || null,
         runAttempt: process.env["RELEASE_ATTEMPTNUMBER"]
           ? parseInt(process.env["RELEASE_ATTEMPTNUMBER"], 10)
-          : parseInt(process.env["SYSTEM_JOBATTEMPT"], 10),
+          : parseInt(process.env["SYSTEM_JOBATTEMPT"] ?? "", 10),
         jobId: process.env["RELEASE_DEPLOYMENTID"]
           ? process.env["RELEASE_DEPLOYMENTID"]
           : process.env["SYSTEM_JOBID"] || null,
@@ -77,14 +77,14 @@ export class CIInfoProvider {
       // Handle unsupported CI provider
       return {
         provider: CI_PROVIDERS.DEFAULT,
-        repo: process.env["REPO"],
-        branch: process.env["BRANCH"],
-        author: process.env["AUTHOR"],
-        commitId: process.env["COMMIT_ID"],
-        revisionUrl: process.env["REVISION_URL"],
-        runId: process.env["RUN_ID"],
+        repo: process.env["REPO"] ?? "",
+        branch: process.env["BRANCH"] ?? "",
+        author: process.env["AUTHOR"] ?? "",
+        commitId: process.env["COMMIT_ID"] ?? "",
+        revisionUrl: process.env["REVISION_URL"] ?? "",
+        runId: process.env["RUN_ID"] ?? "",
         runAttempt: process.env["RUN_ATTEMPT"] ? parseInt(process.env["RUN_ATTEMPT"], 10) : null,
-        jobId: process.env["JOB_ID"],
+        jobId: process.env["JOB_ID"] ?? "",
       };
     }
   }
@@ -111,9 +111,9 @@ export class CIInfoProvider {
       process.env["GITHUB_EVENT_NAME"] === "pull_request" ||
       process.env["GITHUB_EVENT_NAME"] === "pull_request_target"
     ) {
-      return process.env["GITHUB_HEAD_REF"];
+      return process.env["GITHUB_HEAD_REF"]!;
     } else {
-      return process.env["GITHUB_REF_NAME"];
+      return process.env["GITHUB_REF_NAME"]!;
     }
   }
 }

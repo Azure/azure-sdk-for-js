@@ -25,7 +25,7 @@ export class ServiceClient {
     this.reporterUtils = reporterUtils;
   }
 
-  async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
+  async patchTestRun(ciInfo: CIInfo): Promise<TestRun | undefined> {
     const testRun = await this.reporterUtils.getTestRunObject(ciInfo);
     const response: PipelineResponse = await this.httpService.callAPI(
       "PATCH",
@@ -35,7 +35,7 @@ export class ServiceClient {
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
-      return JSON.parse(response.bodyAsText) as TestRun;
+      return JSON.parse(response.bodyAsText!) as TestRun;
     } else if (response.status === 409) {
       process.stdout.write(
         `\n${Constants.CONFLICT_409_ERROR_MESSAGE.replace("{runId}", this.envVariables.runId)}`,
@@ -58,7 +58,7 @@ export class ServiceClient {
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
-      return JSON.parse(response.bodyAsText) as TestRun;
+      return JSON.parse(response.bodyAsText!) as TestRun;
     } else {
       throw new Error(`Received status ${response.status} from service from GET TestRun call.`);
     }
@@ -74,7 +74,7 @@ export class ServiceClient {
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
-      return JSON.parse(response.bodyAsText) as Shard;
+      return JSON.parse(response.bodyAsText!) as Shard;
     } else {
       throw new Error(
         `Received status ${response.status} from service from PATCH TestRun Shard Start call.`,
@@ -103,7 +103,7 @@ export class ServiceClient {
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
-      return JSON.parse(response.bodyAsText) as TestRun;
+      return JSON.parse(response.bodyAsText!) as TestRun;
     } else {
       throw new Error(
         `Received status ${response.status} from service from PATCH TestRun Shard End call.`,
@@ -141,7 +141,7 @@ export class ServiceClient {
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
-      return JSON.parse(response.bodyAsText) as StorageUri;
+      return JSON.parse(response.bodyAsText!) as StorageUri;
     } else {
       throw new Error(`Received status ${response.status} from service from GET StorageUri call.`);
     }

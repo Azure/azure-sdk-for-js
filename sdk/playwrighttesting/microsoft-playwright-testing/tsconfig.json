@@ -11,7 +11,7 @@
     "useUnknownInCatchVariables": true,
     "declaration": true,
     "moduleResolution": "node",
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "strictBindCallApply": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
