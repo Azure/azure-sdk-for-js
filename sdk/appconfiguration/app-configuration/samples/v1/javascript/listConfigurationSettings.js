@@ -66,10 +66,10 @@ async function main() {
 
   // ex: using a tagFilter
   const samplesWithProdTag = client.listConfigurationSettings({
-    tagsFilter: ["production=prod*"],
+    tagsFilter: ["production=prodB"],
   });
 
-  console.log(`Settings matching labelFilter 'development*'`);
+  console.log(`Settings matching tagsFilter 'prodB'`);
 
   for await (const setting of samplesWithProdTag) {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}, tags: ${setting.tags}`);
