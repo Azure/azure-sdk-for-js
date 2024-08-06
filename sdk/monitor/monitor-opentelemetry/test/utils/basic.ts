@@ -99,6 +99,97 @@ export class TraceBasicScenario implements Scenario {
     return Promise.resolve();
   }
 
+    nonExpectation: Expectation[] = [
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          properties: {
+            "service.name": "testServiceName",
+            "k8s.cluster.name": "testClusterName",
+            "k8s.namespace.name": "testNamespaceName",
+            "k8s.node.name": "testNodeName",
+            "k8s.pod.name": "testPodName",
+          },
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Request",
+      data: {
+        baseType: "RequestData",
+        baseData: {
+          version: 2,
+          name: "TraceBasicScenario.Root",
+          responseCode: "0",
+          success: true,
+          properties: {
+            foo: "bar",
+          },
+        } as any,
+      },
+      children: [
+        {
+          name: "Microsoft.ApplicationInsights.RemoteDependency",
+          ...COMMON_ENVELOPE_PARAMS,
+          data: {
+            baseType: "RemoteDependencyData",
+            baseData: {
+              version: 2,
+              name: "TraceBasicScenario.Child.1",
+              success: true,
+              resultCode: "0",
+              properties: {
+                numbers: "123",
+              },
+            } as any,
+          },
+          children: [
+            {
+              name: "Microsoft.ApplicationInsights.Message",
+              ...COMMON_ENVELOPE_PARAMS,
+              data: {
+                baseType: "MessageData",
+                baseData: {
+                  version: 2,
+                  message: "TestEvent",
+                  properties: {
+                    SomeAttribute: "Test",
+                  },
+                } as any,
+              },
+              children: [],
+            },
+          ],
+        },
+        {
+          name: "Microsoft.ApplicationInsights.Exception",
+          ...COMMON_ENVELOPE_PARAMS,
+          data: {
+            baseType: "ExceptionData",
+            baseData: {
+              version: 2,
+              exceptions: [
+                {
+                  typeName: "TestExceptionCode",
+                  message: "TestExceptionMessage",
+                  stack: "TestExceptionStack",
+                  hasFullStack: true,
+                },
+              ],
+            } as any,
+          },
+          children: [],
+        },
+      ],
+    },
+  ];
+
   expectation: Expectation[] = [
     {
       ...COMMON_ENVELOPE_PARAMS,

@@ -54,13 +54,13 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 
     diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
 
-    if (spans.length > 0 && shouldCreateResourceMetric()) {
+    if (spans.length > 0) {
       const envelopes: Envelope[] = [];
       const resourceMetricEnvelope = createResourceMetricEnvelope(
         spans[0].resource,
         this.instrumentationKey,
       );
-      if (resourceMetricEnvelope) {
+      if (resourceMetricEnvelope && shouldCreateResourceMetric()) {
         envelopes.push(resourceMetricEnvelope);
       }
       spans.forEach((span) => {
