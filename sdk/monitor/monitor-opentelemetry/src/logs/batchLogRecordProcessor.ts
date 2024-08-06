@@ -23,6 +23,7 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
     // Trace based sampling for logs
     if (this._options.enableTraceBasedSamplingForLogs) {
       if (logRecord.spanContext && logRecord.spanContext.spanId) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
         if (logRecord.spanContext.traceFlags !== TraceFlags.SAMPLED) {
           // Do not export log for spans that were sampled out
           return;

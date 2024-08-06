@@ -391,6 +391,7 @@ export class LogBasicScenario implements Scenario {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async run(): Promise<void> {
     const logger = logs.getLogger("basic");
 

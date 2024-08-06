@@ -74,7 +74,7 @@ describe("MetricHandler", () => {
     assert.strictEqual(metrics[0].descriptor.description, "testDescription");
   });
 
-  it("should add views", async () => {
+  it("should add views", () => {
     _config.instrumentationOptions = {
       azureSdk: { enabled: true },
       http: { enabled: true },

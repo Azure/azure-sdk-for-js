@@ -148,6 +148,7 @@ export class LiveMetrics {
     const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
@@ -156,6 +157,7 @@ export class LiveMetrics {
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
   }
@@ -179,6 +181,7 @@ export class LiveMetrics {
       } catch (error) {
         this.quickPulseDone(undefined);
       }
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
       this.handle.unref();
     }
@@ -187,6 +190,7 @@ export class LiveMetrics {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   private async quickPulseDone(
     response: PublishResponse | IsSubscribedResponse | undefined,
   ): Promise<void> {
@@ -212,6 +216,7 @@ export class LiveMetrics {
       // If collecting was stoped
       if (!this.isCollectingData && this.meterProvider) {
         this.deactivateMetrics();
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
         this.handle.unref();
       }

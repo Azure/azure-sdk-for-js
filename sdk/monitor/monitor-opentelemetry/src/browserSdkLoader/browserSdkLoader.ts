@@ -72,7 +72,7 @@ export class BrowserSdkLoader {
         iKey = iKeyCode;
       }
     } catch (err) {
-      Logger.getInstance().info("get browser SDK loader ikey error: " + err);
+      Logger.getInstance().info(`get browser SDK loader ikey error: ${err}`);
     }
     return iKey;
   }
@@ -102,6 +102,7 @@ export class BrowserSdkLoader {
       if (originalRequestListener) {
         requestListener = (request: IncomingMessage, response: ServerResponse) => {
           // Patch response write method
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           const originalResponseWrite = response.write;
           const isGetRequest = request.method === "GET";
           // eslint-disable-next-line @typescript-eslint/ban-types
@@ -135,16 +136,17 @@ export class BrowserSdkLoader {
                 }
               }
             } catch (err) {
-              Logger.getInstance().warn("Inject browser sdk loader error: " + err);
+              Logger.getInstance().warn(`Inject browser sdk loader error: ${err}`);
             }
             // eslint-disable-next-line prefer-rest-params
             return originalResponseWrite.apply(response, arguments as any);
           };
 
           // Patch response end method for cases when HTML is added there
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           const originalResponseEnd = response.end;
 
-          // eslint-disable-next-line @typescript-eslint/ban-types
+          // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-redundant-type-constituents
           (response.end as any) = function wrap(a?: Buffer | string | any, b?: Function) {
             if (isGetRequest) {
               try {
@@ -175,7 +177,7 @@ export class BrowserSdkLoader {
                   }
                 }
               } catch (err) {
-                Logger.getInstance().warn("Inject browser sdk loader error: " + err);
+                Logger.getInstance().warn(`Inject browser sdk loader error: ${err}`);
               }
             }
             // eslint-disable-next-line prefer-rest-params
@@ -195,7 +197,7 @@ export class BrowserSdkLoader {
           const isGetHttpsRequest = req.method === "GET";
           const originalHttpsResponseWrite = res.write;
           const originalHttpsResponseEnd = res.end;
-          // eslint-disable-next-line @typescript-eslint/ban-types
+          // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-redundant-type-constituents
           res.write = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {
@@ -216,13 +218,13 @@ export class BrowserSdkLoader {
                 }
               }
             } catch (err) {
-              Logger.getInstance().warn("Inject SDK loader error: " + err);
+              Logger.getInstance().warn(`Inject SDK loader error: ${err}`);
             }
-            // eslint-disable-next-line prefer-rest-params
+            // eslint-disable-next-line prefer-rest-params, @typescript-eslint/no-unsafe-return
             return originalHttpsResponseWrite.apply(res, arguments);
           };
 
-          // eslint-disable-next-line @typescript-eslint/ban-types
+          // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-redundant-type-constituents
           res.end = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {
@@ -248,11 +250,12 @@ export class BrowserSdkLoader {
                 }
               }
             } catch (err) {
-              Logger.getInstance().warn("Inject SDK loader error: " + err);
+              Logger.getInstance().warn(`Inject SDK loader error: ${err}`);
             }
-            // eslint-disable-next-line prefer-rest-params
+            // eslint-disable-next-line prefer-rest-params, @typescript-eslint/no-unsafe-return
             return originalHttpsResponseEnd.apply(res, arguments);
           };
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return originalHttpsRequestListener(req, res);
         };
         return originalHttpsServer(options, httpsRequestListener);
@@ -277,7 +280,7 @@ export class BrowserSdkLoader {
         }
       }
     } catch (err) {
-      Logger.getInstance().info("validate injections error: " + err);
+      Logger.getInstance().info(`validate injections error: ${err}`);
     }
     return false;
   }
@@ -327,7 +330,7 @@ export class BrowserSdkLoader {
       }
     } catch (ex) {
       Logger.getInstance().warn(
-        "Failed to inject browser sdk loader and change content-length headers. Exception:" + ex,
+        `Failed to inject browser sdk loader and change content-length headers. Exception:${ex}`,
       );
     }
     return input;
@@ -375,7 +378,7 @@ export class BrowserSdkLoader {
         }
       }
     } catch (err) {
-      Logger.getInstance().info("get browser SDK loader compress buffer error: " + err);
+      Logger.getInstance().info(`get browser SDK loader compress buffer error: ${err}`);
     }
 
     return input;

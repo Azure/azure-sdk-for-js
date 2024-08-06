@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+
 import * as os from "os";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";

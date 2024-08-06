@@ -83,6 +83,7 @@ describe("Library/AzureFunctionsHook", () => {
       ["3.x", v3Context],
       ["4.x", v4Context],
     ]) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       it(`[${testModelVersion}] Pre Invokation Hook added if running in Azure Functions and context is propagated`, async () => {
         let preInvocationCallback: any;
         let preInvocationCalled = false;
@@ -100,7 +101,7 @@ describe("Library/AzureFunctionsHook", () => {
               },
             };
           }
-          // eslint-disable-next-line prefer-rest-params
+          // eslint-disable-next-line prefer-rest-params, @typescript-eslint/no-unsafe-return
           return originalRequire.apply(this, arguments);
         };
 

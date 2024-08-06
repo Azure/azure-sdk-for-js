@@ -605,24 +605,27 @@ describe("OpenTelemetry Resource", () => {
     assert.ok(config);
 
     // Wait for the async VM resource detector to finish
-    await setTimeout(() => {
-      for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
-        const key = Object.keys(config.resource.attributes)[i];
-        assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
-      }
-      assert.strictEqual(
-        config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
-        "azure",
-      );
-      assert.strictEqual(
-        config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
-        "westus",
-      );
-      assert.strictEqual(
-        config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
-        CloudPlatformValues.AZURE_VM,
-      );
-    }, 150);
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
+          const key = Object.keys(config.resource.attributes)[i];
+          assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
+        }
+        assert.strictEqual(
+          config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+          "azure",
+        );
+        assert.strictEqual(
+          config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
+          "westus",
+        );
+        assert.strictEqual(
+          config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+          CloudPlatformValues.AZURE_VM,
+        );
+        resolve()
+      }, 150);
+    }); 
     scope.done();
   });
 

@@ -50,6 +50,7 @@ export const getBrotliCompressAsync = (zlibObject: any): Function | null => {
 export const getBrotliCompressSync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliCompressSync === "function") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return zlibObject.brotliCompressSync;
   }
   return null;
@@ -68,6 +69,7 @@ export const getBrotliDecompressAsync = (zlibObject: any): Function | null => {
 export const getBrotliDecompressSync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliDecompressSync === "function") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return zlibObject.brotliDecompressSync;
   }
   return null;
@@ -86,8 +88,7 @@ export const isBufferType = (buffer: Buffer, type?: string): boolean | null => {
 
 export const findBufferEncodingType = (buffer: Buffer): string | null => {
   let bufferType = null;
-  for (const key in bufferEncodingTypes) {
-    const type = bufferEncodingTypes[key];
+  for (const type of bufferEncodingTypes) {
     if (Buffer.isEncoding(type) && isBufferType(buffer, type)) {
       bufferType = type;
       break;

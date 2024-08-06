@@ -86,6 +86,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
       sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // Fake file size check
           123,
@@ -121,6 +122,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
       sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // Fake file size check
           123,
@@ -164,7 +166,9 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox
         .stub(fileHelper, "readdirAsync")
         .callsFake(
+          // eslint-disable-next-line @typescript-eslint/require-await
           async () =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             [
               "applicationinsights.log",
               "123.applicationinsights.log",
@@ -188,7 +192,9 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox
         .stub(fileHelper, "readdirAsync")
         .callsFake(
+          // eslint-disable-next-line @typescript-eslint/require-await
           async () =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             [
               "applicationinsights.log",
               "123.applicationinsights.log",

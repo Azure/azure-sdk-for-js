@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable promise/always-return */
+
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { ExportResultCode } from "@opentelemetry/core";

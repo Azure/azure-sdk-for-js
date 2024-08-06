@@ -79,6 +79,7 @@ export class TraceHandler {
   /**
    * Shutdown handler
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
     this._azureFunctionsHook.shutdown();
   }

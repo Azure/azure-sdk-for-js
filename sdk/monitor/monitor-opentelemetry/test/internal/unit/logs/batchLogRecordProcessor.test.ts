@@ -9,8 +9,8 @@ import { ApplicationInsightsSampler } from "../../../../src/traces/sampler";
 import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor";
 
 describe("AzureBatchLogRecordProcessor", () => {
-  describe("#trace based sampling", async () => {
-    it("sampled out", async () => {
+  describe("#trace based sampling", () => {
+    it("sampled out", () => {
       const memoryLogExporter = new InMemoryLogRecordExporter();
       const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
@@ -33,7 +33,7 @@ describe("AzureBatchLogRecordProcessor", () => {
       });
     });
 
-    it("sampled in", async () => {
+    it("sampled in", () => {
       const memoryLogExporter = new InMemoryLogRecordExporter();
       const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
@@ -56,7 +56,7 @@ describe("AzureBatchLogRecordProcessor", () => {
       });
     });
 
-    it("enableTraceBasedSamplingForLogs=false", async () => {
+    it("enableTraceBasedSamplingForLogs=false", () => {
       const memoryLogExporter = new InMemoryLogRecordExporter();
       const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: false,
@@ -79,7 +79,7 @@ describe("AzureBatchLogRecordProcessor", () => {
       });
     });
 
-    it("should serialize nested log attributes", async () => {
+    it("should serialize nested log attributes", () => {
       const memoryLogExporter = new InMemoryLogRecordExporter();
       const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: false,
