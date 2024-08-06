@@ -252,7 +252,7 @@ export interface RemoteDependencyData extends MonitorDomain {
 export interface RequestData extends MonitorDomain {
   /** Identifier of a request call instance. Used for correlation between request and other telemetry items. */
   id: string;
-  /** Name of the request. Represents code path taken to process request. Low cardinality value to allow better grouping of requests. For HTTP requests it represents the HTTP method and URL path template like 'GET /values/{id}'. */
+  /** Name of the request. Represents code path taken to process request. Low cardinality value to allow better grouping of requests. For HTTP requests it represents the HTTP method and URL path template like 'GET /values/\{id\}'. */
   name?: string;
   /** Request duration in format: DD.HH:MM:SS.MMMMMM. Must be less than 1000 days. */
   duration: string;
@@ -279,11 +279,11 @@ export enum KnownDataPointType {
 }
 
 /**
- * Defines values for DataPointType. \
+ * Defines values for DataPointType.
  * {@link KnownDataPointType} can be used interchangeably with DataPointType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Measurement** \
+ * **Measurement**
  * **Aggregation**
  */
 export type DataPointType = string;
@@ -303,14 +303,14 @@ export enum KnownSeverityLevel {
 }
 
 /**
- * Defines values for SeverityLevel. \
+ * Defines values for SeverityLevel.
  * {@link KnownSeverityLevel} can be used interchangeably with SeverityLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Verbose** \
- * **Information** \
- * **Warning** \
- * **Error** \
+ * **Verbose**
+ * **Information**
+ * **Warning**
+ * **Error**
  * **Critical**
  */
 export type SeverityLevel = string;
@@ -376,37 +376,37 @@ export enum KnownContextTagKeys {
 }
 
 /**
- * Defines values for ContextTagKeys. \
+ * Defines values for ContextTagKeys.
  * {@link KnownContextTagKeys} can be used interchangeably with ContextTagKeys,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ai.application.ver** \
- * **ai.device.id** \
- * **ai.device.locale** \
- * **ai.device.model** \
- * **ai.device.oemName** \
- * **ai.device.osVersion** \
- * **ai.device.type** \
- * **ai.location.ip** \
- * **ai.location.country** \
- * **ai.location.province** \
- * **ai.location.city** \
- * **ai.operation.id** \
- * **ai.operation.name** \
- * **ai.operation.parentId** \
- * **ai.operation.syntheticSource** \
- * **ai.operation.correlationVector** \
- * **ai.session.id** \
- * **ai.session.isFirst** \
- * **ai.user.accountId** \
- * **ai.user.id** \
- * **ai.user.authUserId** \
- * **ai.cloud.role** \
- * **ai.cloud.roleVer** \
- * **ai.cloud.roleInstance** \
- * **ai.cloud.location** \
- * **ai.internal.sdkVersion** \
- * **ai.internal.agentVersion** \
+ * **ai.application.ver**
+ * **ai.device.id**
+ * **ai.device.locale**
+ * **ai.device.model**
+ * **ai.device.oemName**
+ * **ai.device.osVersion**
+ * **ai.device.type**
+ * **ai.location.ip**
+ * **ai.location.country**
+ * **ai.location.province**
+ * **ai.location.city**
+ * **ai.operation.id**
+ * **ai.operation.name**
+ * **ai.operation.parentId**
+ * **ai.operation.syntheticSource**
+ * **ai.operation.correlationVector**
+ * **ai.session.id**
+ * **ai.session.isFirst**
+ * **ai.user.accountId**
+ * **ai.user.id**
+ * **ai.user.authUserId**
+ * **ai.cloud.role**
+ * **ai.cloud.roleVer**
+ * **ai.cloud.roleInstance**
+ * **ai.cloud.location**
+ * **ai.internal.sdkVersion**
+ * **ai.internal.agentVersion**
  * **ai.internal.nodeName**
  */
 export type ContextTagKeys = string;

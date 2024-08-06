@@ -13,7 +13,7 @@ export class Logger {
   private logToAzureLogger: boolean;
   private logToOpenTelemetry: boolean;
 
-  static getInstance() {
+  static getInstance(): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger();
     }
@@ -87,7 +87,8 @@ export class Logger {
     };
   }
 
-  public error(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public error(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.error(message, args);
     }
@@ -96,7 +97,8 @@ export class Logger {
     }
   }
 
-  public warn(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public warn(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.warning(message, args);
     }
@@ -105,7 +107,8 @@ export class Logger {
     }
   }
 
-  public info(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public info(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.info(message, args);
     }
@@ -114,7 +117,8 @@ export class Logger {
     }
   }
 
-  public debug(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public debug(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.verbose(message, args);
     }
@@ -123,7 +127,8 @@ export class Logger {
     }
   }
 
-  public verbose(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public verbose(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.verbose(message, args);
     }
@@ -132,11 +137,11 @@ export class Logger {
     }
   }
 
-  public setLogToAzureLogger(value: boolean) {
+  public setLogToAzureLogger(value: boolean): void {
     this.logToAzureLogger = value;
   }
 
-  public setLogToOpenTelemetry(value: boolean) {
+  public setLogToOpenTelemetry(value: boolean): void {
     this.logToOpenTelemetry = value;
   }
 }

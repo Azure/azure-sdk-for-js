@@ -28,6 +28,7 @@ import {
   IsSubscribedResponse,
   PublishResponse,
   RemoteDependency,
+  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
 } from "../../generated";
@@ -159,11 +160,11 @@ export class LiveMetrics {
     this.handle.unref(); // Don't block apps from terminating
   }
 
-  public shutdown() {
+  public shutdown(): void {
     this.meterProvider?.shutdown();
   }
 
-  private async goQuickpulse() {
+  private async goQuickpulse(): Promise<void> {
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
@@ -186,7 +187,9 @@ export class LiveMetrics {
     }
   }
 
-  private async quickPulseDone(response: PublishResponse | IsSubscribedResponse | undefined) {
+  private async quickPulseDone(
+    response: PublishResponse | IsSubscribedResponse | undefined,
+  ): Promise<void> {
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
@@ -228,7 +231,7 @@ export class LiveMetrics {
   }
 
   // Activate live metrics collection
-  public activateMetrics(options?: { collectionInterval: number }) {
+  public activateMetrics(options?: { collectionInterval: number }): void {
     if (this.meterProvider) {
       return;
     }
@@ -335,7 +338,7 @@ export class LiveMetrics {
   /**
    * Deactivate metric collection
    */
-  public deactivateMetrics() {
+  public deactivateMetrics(): void {
     this.documents = [];
     this.meterProvider?.shutdown();
     this.meterProvider = undefined;
@@ -359,7 +362,7 @@ export class LiveMetrics {
     return this.documents;
   }
 
-  private addDocument(document: DocumentIngress) {
+  private addDocument(document: DocumentIngress): void {
     if (document) {
       // Limit risk of memory leak by limiting doc length to something manageable
       if (this.documents.length > 20) {
@@ -419,7 +422,7 @@ export class LiveMetrics {
     }
   }
 
-  private getRequestDuration(observableResult: ObservableResult) {
+  private getRequestDuration(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const requestInterval = this.totalRequestCount - this.lastRequestDuration.count || 0;
     const durationInterval = this.requestDuration - this.lastRequestDuration.duration || 0;
@@ -435,7 +438,7 @@ export class LiveMetrics {
     };
   }
 
-  private getRequestRate(observableResult: ObservableResult) {
+  private getRequestRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalRequests = this.totalRequestCount - this.lastRequestRate.count || 0;
     const elapsedMs = currentTime - this.lastRequestRate.time;
@@ -450,7 +453,7 @@ export class LiveMetrics {
     };
   }
 
-  private getRequestFailedRate(observableResult: ObservableResult) {
+  private getRequestFailedRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalRequests = this.totalFailedRequestCount - this.lastFailedRequestRate.count || 0;
     const elapsedMs = currentTime - this.lastFailedRequestRate.time;
@@ -465,7 +468,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyDuration(observableResult: ObservableResult) {
+  private getDependencyDuration(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const dependencyInterval = this.totalDependencyCount - this.lastDependencyDuration.count || 0;
     const durationInterval = this.dependencyDuration - this.lastDependencyDuration.duration || 0;
@@ -481,7 +484,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyRate(observableResult: ObservableResult) {
+  private getDependencyRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalDependencyCount - this.lastDependencyRate.count || 0;
     const elapsedMs = currentTime - this.lastDependencyRate.time;
@@ -496,7 +499,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyFailedRate(observableResult: ObservableResult) {
+  private getDependencyFailedRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalFailedDependencyCount - this.lastFailedDependencyRate.count || 0;
     const elapsedMs = currentTime - this.lastFailedDependencyRate.time;
@@ -511,7 +514,7 @@ export class LiveMetrics {
     };
   }
 
-  private getExceptionRate(observableResult: ObservableResult) {
+  private getExceptionRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalExceptionCount - this.lastExceptionRate.count || 0;
     const elapsedMs = currentTime - this.lastExceptionRate.time;
@@ -526,13 +529,16 @@ export class LiveMetrics {
     };
   }
 
-  private getCommitedMemory(observableResult: ObservableResult) {
+  private getCommitedMemory(observableResult: ObservableResult): void {
     const freeMem = os.freemem();
     const committedMemory = os.totalmem() - freeMem;
     observableResult.observe(committedMemory);
   }
 
-  private getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {
+  private getTotalCombinedCpu(
+    cpus: os.CpuInfo[],
+    lastCpus: os.CpuInfo[],
+  ): { combinedTotal: number; totalUser: number; totalIdle: number } {
     let totalUser = 0;
     let totalSys = 0;
     let totalNice = 0;
@@ -572,7 +578,7 @@ export class LiveMetrics {
     };
   }
 
-  private getProcessorTime(observableResult: ObservableResult) {
+  private getProcessorTime(observableResult: ObservableResult): void {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
     const cpus = os.cpus();

@@ -15,6 +15,184 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
 
+const vmTestResponse = {
+  additionalCapabilities: {
+    hibernationEnabled: "false",
+  },
+  azEnvironment: "AzurePublicCloud",
+  customData: "",
+  evictionPolicy: "",
+  extendedLocation: {
+    name: "",
+    type: "",
+  },
+  host: {
+    id: "",
+  },
+  hostGroup: {
+    id: "",
+  },
+  isHostCompatibilityLayerVm: "true",
+  licenseType: "Windows_Client",
+  location: "westus",
+  name: "examplevmname",
+  offer: "WindowsServer",
+  osProfile: {
+    adminUsername: "azureuser",
+    computerName: "examplevmname",
+    disablePasswordAuthentication: "true",
+  },
+  osType: "Windows",
+  placementGroupId: "",
+  plan: {
+    name: "",
+    product: "",
+    publisher: "",
+  },
+  platformFaultDomain: "0",
+  platformSubFaultDomain: "",
+  platformUpdateDomain: "0",
+  priority: "",
+  provider: "Microsoft.Compute",
+  publicKeys: [
+    {
+      keyData: "ssh-rsa 0",
+      path: "/home/user/.ssh/authorized_keys0",
+    },
+    {
+      keyData: "ssh-rsa 1",
+      path: "/home/user/.ssh/authorized_keys1",
+    },
+  ],
+  publisher: "RDFE-Test-Microsoft-Windows-Server-Group",
+  resourceGroupName: "macikgo-test-may-23",
+  resourceId:
+    "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname",
+  securityProfile: {
+    encryptionAtHost: "false",
+    secureBootEnabled: "true",
+    securityType: "TrustedLaunch",
+    virtualTpmEnabled: "true",
+  },
+  sku: "2019-Datacenter",
+  storageProfile: {
+    dataDisks: [
+      {
+        bytesPerSecondThrottle: "979202048",
+        caching: "None",
+        createOption: "Empty",
+        diskCapacityBytes: "274877906944",
+        diskSizeGB: "1024",
+        image: {
+          uri: "",
+        },
+        isSharedDisk: "false",
+        isUltraDisk: "true",
+        lun: "0",
+        managedDisk: {
+          id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampledatadiskname",
+          storageAccountType: "StandardSSD_LRS",
+        },
+        name: "exampledatadiskname",
+        opsPerSecondThrottle: "65280",
+        vhd: {
+          uri: "",
+        },
+        writeAcceleratorEnabled: "false",
+      },
+    ],
+    imageReference: {
+      id: "",
+      offer: "WindowsServer",
+      publisher: "MicrosoftWindowsServer",
+      sku: "2019-Datacenter",
+      version: "latest",
+    },
+    osDisk: {
+      caching: "ReadWrite",
+      createOption: "FromImage",
+      diffDiskSettings: {
+        option: "",
+      },
+      diskSizeGB: "30",
+      encryptionSettings: {
+        enabled: "false",
+        diskEncryptionKey: {
+          sourceVault: {
+            id: "/subscriptions/test-source-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
+          },
+          secretUrl:
+            "https://test-disk.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
+        },
+        keyEncryptionKey: {
+          sourceVault: {
+            id: "/subscriptions/test-key-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
+          },
+          keyUrl:
+            "https://test-key.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
+        },
+      },
+      image: {
+        uri: "",
+      },
+      managedDisk: {
+        id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampleosdiskname",
+        storageAccountType: "StandardSSD_LRS",
+      },
+      name: "exampledatadiskname",
+      osType: "Windows",
+      vhd: {
+        uri: "",
+      },
+      writeAcceleratorEnabled: "false",
+    },
+    resourceDisk: {
+      size: "16384",
+    },
+  },
+  subscriptionId: "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
+  tags: "azsecpack:nonprod;platformsettings.host_environment.service.platform_optedin_for_rootcerts:true",
+  userData: "Zm9vYmFy",
+  tagsList: [
+    {
+      name: "azsecpack",
+      value: "nonprod",
+    },
+    {
+      name: "platformsettings.host_environment.service.platform_optedin_for_rootcerts",
+      value: "true",
+    },
+  ],
+  version: "20.04.202307240",
+  virtualMachineScaleSet: {
+    id: "/subscriptions/xxxxxxxx-xxxxx-xxx-xxx-xxxx/resourceGroups/resource-group-name/providers/Microsoft.Compute/virtualMachineScaleSets/virtual-machine-scale-set-name",
+  },
+  vmId: "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
+  vmScaleSetName: "crpteste9vflji9",
+  vmSize: "Standard_A3",
+  zone: "1",
+};
+
+const testAttributes: any = {
+  "azure.vm.scaleset.name": "crpteste9vflji9",
+  "azure.vm.sku": "2019-Datacenter",
+  "cloud.platform": "azure_vm",
+  "cloud.provider": "azure",
+  "cloud.region": "westus",
+  "cloud.resource_id":
+    "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname",
+  "host.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
+  "host.name": "examplevmname",
+  "host.type": "Standard_A3",
+  "os.type": "Windows",
+  "os.version": "20.04.202307240",
+  "service.instance.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
+  "service.name": "unknown_service:node",
+  "telemetry.sdk.language": "nodejs",
+  "telemetry.sdk.name": "opentelemetry",
+  "telemetry.sdk.version": "1.25.1",
+};
+
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
   let sandbox: sinon.SinonSandbox;
@@ -474,181 +652,3 @@ describe("OpenTelemetry Resource", () => {
     );
   });
 });
-
-const vmTestResponse = {
-  additionalCapabilities: {
-    hibernationEnabled: "false",
-  },
-  azEnvironment: "AzurePublicCloud",
-  customData: "",
-  evictionPolicy: "",
-  extendedLocation: {
-    name: "",
-    type: "",
-  },
-  host: {
-    id: "",
-  },
-  hostGroup: {
-    id: "",
-  },
-  isHostCompatibilityLayerVm: "true",
-  licenseType: "Windows_Client",
-  location: "westus",
-  name: "examplevmname",
-  offer: "WindowsServer",
-  osProfile: {
-    adminUsername: "azureuser",
-    computerName: "examplevmname",
-    disablePasswordAuthentication: "true",
-  },
-  osType: "Windows",
-  placementGroupId: "",
-  plan: {
-    name: "",
-    product: "",
-    publisher: "",
-  },
-  platformFaultDomain: "0",
-  platformSubFaultDomain: "",
-  platformUpdateDomain: "0",
-  priority: "",
-  provider: "Microsoft.Compute",
-  publicKeys: [
-    {
-      keyData: "ssh-rsa 0",
-      path: "/home/user/.ssh/authorized_keys0",
-    },
-    {
-      keyData: "ssh-rsa 1",
-      path: "/home/user/.ssh/authorized_keys1",
-    },
-  ],
-  publisher: "RDFE-Test-Microsoft-Windows-Server-Group",
-  resourceGroupName: "macikgo-test-may-23",
-  resourceId:
-    "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname",
-  securityProfile: {
-    encryptionAtHost: "false",
-    secureBootEnabled: "true",
-    securityType: "TrustedLaunch",
-    virtualTpmEnabled: "true",
-  },
-  sku: "2019-Datacenter",
-  storageProfile: {
-    dataDisks: [
-      {
-        bytesPerSecondThrottle: "979202048",
-        caching: "None",
-        createOption: "Empty",
-        diskCapacityBytes: "274877906944",
-        diskSizeGB: "1024",
-        image: {
-          uri: "",
-        },
-        isSharedDisk: "false",
-        isUltraDisk: "true",
-        lun: "0",
-        managedDisk: {
-          id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampledatadiskname",
-          storageAccountType: "StandardSSD_LRS",
-        },
-        name: "exampledatadiskname",
-        opsPerSecondThrottle: "65280",
-        vhd: {
-          uri: "",
-        },
-        writeAcceleratorEnabled: "false",
-      },
-    ],
-    imageReference: {
-      id: "",
-      offer: "WindowsServer",
-      publisher: "MicrosoftWindowsServer",
-      sku: "2019-Datacenter",
-      version: "latest",
-    },
-    osDisk: {
-      caching: "ReadWrite",
-      createOption: "FromImage",
-      diffDiskSettings: {
-        option: "",
-      },
-      diskSizeGB: "30",
-      encryptionSettings: {
-        enabled: "false",
-        diskEncryptionKey: {
-          sourceVault: {
-            id: "/subscriptions/test-source-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
-          },
-          secretUrl:
-            "https://test-disk.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
-        },
-        keyEncryptionKey: {
-          sourceVault: {
-            id: "/subscriptions/test-key-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
-          },
-          keyUrl:
-            "https://test-key.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
-        },
-      },
-      image: {
-        uri: "",
-      },
-      managedDisk: {
-        id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampleosdiskname",
-        storageAccountType: "StandardSSD_LRS",
-      },
-      name: "exampledatadiskname",
-      osType: "Windows",
-      vhd: {
-        uri: "",
-      },
-      writeAcceleratorEnabled: "false",
-    },
-    resourceDisk: {
-      size: "16384",
-    },
-  },
-  subscriptionId: "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
-  tags: "azsecpack:nonprod;platformsettings.host_environment.service.platform_optedin_for_rootcerts:true",
-  userData: "Zm9vYmFy",
-  tagsList: [
-    {
-      name: "azsecpack",
-      value: "nonprod",
-    },
-    {
-      name: "platformsettings.host_environment.service.platform_optedin_for_rootcerts",
-      value: "true",
-    },
-  ],
-  version: "20.04.202307240",
-  virtualMachineScaleSet: {
-    id: "/subscriptions/xxxxxxxx-xxxxx-xxx-xxx-xxxx/resourceGroups/resource-group-name/providers/Microsoft.Compute/virtualMachineScaleSets/virtual-machine-scale-set-name",
-  },
-  vmId: "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
-  vmScaleSetName: "crpteste9vflji9",
-  vmSize: "Standard_A3",
-  zone: "1",
-};
-
-const testAttributes: any = {
-  "azure.vm.scaleset.name": "crpteste9vflji9",
-  "azure.vm.sku": "2019-Datacenter",
-  "cloud.platform": "azure_vm",
-  "cloud.provider": "azure",
-  "cloud.region": "westus",
-  "cloud.resource_id":
-    "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname",
-  "host.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
-  "host.name": "examplevmname",
-  "host.type": "Standard_A3",
-  "os.type": "Windows",
-  "os.version": "20.04.202307240",
-  "service.instance.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
-  "service.name": "unknown_service:node",
-  "telemetry.sdk.language": "nodejs",
-  "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.25.1",
-};

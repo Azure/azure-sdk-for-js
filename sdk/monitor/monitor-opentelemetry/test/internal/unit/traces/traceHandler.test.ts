@@ -16,61 +16,16 @@ import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 describe("Library/TraceHandler", () => {
   let http: any = null;
   let sandbox: sinon.SinonSandbox;
+  /* eslint-disable-next-line no-underscore-dangle */
   let _config: InternalConfig;
   let exportStub: sinon.SinonStub;
   let handler: TraceHandler;
   let metricHandler: MetricHandler;
 
-  before(() => {
-    _config = new InternalConfig();
-    if (_config.azureMonitorExporterOptions) {
-      _config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-    }
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    metricHandler.shutdown();
-    handler.shutdown();
-    metrics.disable();
-    trace.disable();
-    mockHttpServer.close();
-    sandbox.restore();
-    exportStub.resetHistory();
-  });
-
-  after(() => {
-    exportStub.restore();
-  });
-
-  function createHandler(httpConfig: HttpInstrumentationConfig) {
-    _config.instrumentationOptions.http = httpConfig;
-    metricHandler = new MetricHandler(_config);
-    handler = new TraceHandler(_config, metricHandler);
-    exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
-      (spans: any, resultCallback: any) =>
-        new Promise((resolve) => {
-          resultCallback({
-            code: ExportResultCode.SUCCESS,
-          });
-          resolve(spans);
-        }),
-    );
-    const tracerProvider = new NodeTracerProvider();
-    tracerProvider.addSpanProcessor(handler.getAzureMonitorSpanProcessor());
-    tracerProvider.addSpanProcessor(handler.getBatchSpanProcessor());
-    trace.setGlobalTracerProvider(tracerProvider);
-
-    // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
-    http = require("http");
-    createMockServers();
-  }
-
   let mockHttpServer: any;
   const mockHttpServerPort = 8085;
 
-  function createMockServers() {
+  function createMockServers(): void {
     mockHttpServer = http.createServer((req: any, res: any) => {
       if (req) {
         res.statusCode = 200;
@@ -105,6 +60,53 @@ describe("Library/TraceHandler", () => {
       });
       req.end();
     });
+  }
+
+  before(() => {
+    _config = new InternalConfig();
+    if (_config.azureMonitorExporterOptions) {
+      _config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+    }
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    metricHandler.shutdown();
+    handler.shutdown();
+    metrics.disable();
+    trace.disable();
+    mockHttpServer.close();
+    sandbox.restore();
+    exportStub.resetHistory();
+  });
+
+  after(() => {
+    exportStub.restore();
+  });
+
+  function createHandler(httpConfig: HttpInstrumentationConfig): void {
+    _config.instrumentationOptions.http = httpConfig;
+    metricHandler = new MetricHandler(_config);
+    handler = new TraceHandler(_config, metricHandler);
+    exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
+      (spans: any, resultCallback: any) =>
+        new Promise((resolve) => {
+          resultCallback({
+            code: ExportResultCode.SUCCESS,
+          });
+          resolve(spans);
+        }),
+    );
+    const tracerProvider = new NodeTracerProvider();
+    tracerProvider.addSpanProcessor(handler.getAzureMonitorSpanProcessor());
+    tracerProvider.addSpanProcessor(handler.getBatchSpanProcessor());
+    trace.setGlobalTracerProvider(tracerProvider);
+
+    // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    http = require("http");
+    createMockServers();
   }
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {

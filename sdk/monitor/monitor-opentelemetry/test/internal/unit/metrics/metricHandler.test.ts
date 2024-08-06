@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-underscore-dangle*/
+
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { MetricHandler } from "../../../../src/metrics";
@@ -35,7 +37,7 @@ describe("MetricHandler", () => {
     sandbox.restore();
   });
 
-  function createHandler() {
+  function createHandler(): void {
     handler = new MetricHandler(_config, {
       collectionInterval: 100,
     });

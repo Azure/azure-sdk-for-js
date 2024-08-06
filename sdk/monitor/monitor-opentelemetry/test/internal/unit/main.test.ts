@@ -81,11 +81,11 @@ describe("Main functions", () => {
       forceFlush: () => {
         return Promise.resolve();
       },
-      onStart: (span: Span) => {
-        span = span;
+      onStart: (_span: Span) => {
+        /* no-op */
       },
-      onEnd: (span: ReadableSpan) => {
-        span = span;
+      onEnd: (_span: ReadableSpan) => {
+        /* no-op */
       },
       shutdown: () => {
         return Promise.resolve();
@@ -111,9 +111,8 @@ describe("Main functions", () => {
       forceFlush: () => {
         return Promise.resolve();
       },
-      onEmit(logRecord: LogRecord, context?: Context) {
-        logRecord = logRecord;
-        context = context;
+      onEmit(_logRecord: LogRecord, _context?: Context) {
+        /* no-op */
       },
       shutdown: () => {
         return Promise.resolve();

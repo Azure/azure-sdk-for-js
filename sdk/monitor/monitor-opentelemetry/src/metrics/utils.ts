@@ -104,7 +104,7 @@ export function getDependencyTarget(attributes: Attributes): string {
   return "";
 }
 
-export function isExceptionTelemetry(logRecord: LogRecord) {
+export function isExceptionTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "ExceptionData") {
@@ -118,7 +118,7 @@ export function isExceptionTelemetry(logRecord: LogRecord) {
   return false;
 }
 
-export function isTraceTelemetry(logRecord: LogRecord) {
+export function isTraceTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "MessageData") {

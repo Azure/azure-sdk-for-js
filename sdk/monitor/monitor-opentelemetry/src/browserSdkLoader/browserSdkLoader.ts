@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-underscore-dangle*/
+
 import http from "http";
 import https from "https";
 import { webSnippet as sdkLoader } from "@microsoft/applicationinsights-web-snippet";
@@ -47,7 +49,7 @@ export class BrowserSdkLoader {
     }
   }
 
-  public isInitialized() {
+  public isInitialized(): boolean {
     return this._isInitialized;
   }
 
@@ -55,7 +57,7 @@ export class BrowserSdkLoader {
     return BrowserSdkLoader._instance!;
   }
 
-  private _getBrowserSdkLoaderIkey(connectionString: string) {
+  private _getBrowserSdkLoaderIkey(connectionString: string): string | null {
     let iKey = null;
     try {
       const csCode = ConnectionStringParser.parse(connectionString);
@@ -79,15 +81,15 @@ export class BrowserSdkLoader {
    * Gets string to inject into the web page
    * @returns The string to inject into the web page
    */
-  private _getBrowserSdkLoaderReplacedStr() {
+  private _getBrowserSdkLoaderReplacedStr(): string {
     const osStr = prefixHelper.getOsPrefix();
     const rpStr = prefixHelper.getResourceProvider();
-    const sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
+    const sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "${rpStr}${osStr}d_n_`;
     const replacedSdkLoader = sdkLoader.replace("INSTRUMENTATION_KEY", sdkLoaderReplacedStr);
     return replacedSdkLoader;
   }
 
-  private _initialize() {
+  private _initialize(): void {
     this._isInitialized = true;
     BrowserSdkLoader._sdkLoader = this._getBrowserSdkLoaderReplacedStr();
     const originalHttpServer = http.createServer;
@@ -101,7 +103,8 @@ export class BrowserSdkLoader {
         requestListener = (request: IncomingMessage, response: ServerResponse) => {
           // Patch response write method
           const originalResponseWrite = response.write;
-          const isGetRequest = request.method == "GET";
+          const isGetRequest = request.method === "GET";
+          // eslint-disable-next-line @typescript-eslint/ban-types
           response.write = function wrap(a: Buffer | string, b?: Function | string) {
             // only patch GET request
             try {
@@ -113,6 +116,7 @@ export class BrowserSdkLoader {
                 }
                 if (headers === null || headers === undefined) {
                   if (BrowserSdkLoader._instance?.ValidateInjection(response, a)) {
+                    // eslint-disable-next-line prefer-rest-params
                     arguments[0] = BrowserSdkLoader._instance.InjectSdkLoader(
                       response,
                       a,
@@ -122,6 +126,7 @@ export class BrowserSdkLoader {
                   }
                 } else if (headers.length) {
                   const encodeType = headers[0];
+                  // eslint-disable-next-line prefer-rest-params
                   arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                     response,
                     a,
@@ -132,12 +137,14 @@ export class BrowserSdkLoader {
             } catch (err) {
               Logger.getInstance().warn("Inject browser sdk loader error: " + err);
             }
+            // eslint-disable-next-line prefer-rest-params
             return originalResponseWrite.apply(response, arguments as any);
           };
 
           // Patch response end method for cases when HTML is added there
           const originalResponseEnd = response.end;
 
+          // eslint-disable-next-line @typescript-eslint/ban-types
           (response.end as any) = function wrap(a?: Buffer | string | any, b?: Function) {
             if (isGetRequest) {
               try {
@@ -149,6 +156,7 @@ export class BrowserSdkLoader {
                   }
                   if (headers === null || headers === undefined) {
                     if (BrowserSdkLoader._instance?.ValidateInjection(response, a)) {
+                      // eslint-disable-next-line prefer-rest-params
                       arguments[0] = BrowserSdkLoader._instance.InjectSdkLoader(
                         response,
                         a,
@@ -158,6 +166,7 @@ export class BrowserSdkLoader {
                     }
                   } else if (headers.length) {
                     const encodeType = headers[0];
+                    // eslint-disable-next-line prefer-rest-params
                     arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                       response,
                       a,
@@ -169,6 +178,7 @@ export class BrowserSdkLoader {
                 Logger.getInstance().warn("Inject browser sdk loader error: " + err);
               }
             }
+            // eslint-disable-next-line prefer-rest-params
             return originalResponseEnd.apply(response, arguments as any);
           };
 
@@ -182,9 +192,10 @@ export class BrowserSdkLoader {
       const originalHttpsRequestListener = httpsRequestListener;
       if (originalHttpsRequestListener) {
         httpsRequestListener = function (req: any, res: any) {
-          const isGetHttpsRequest = req.method == "GET";
+          const isGetHttpsRequest = req.method === "GET";
           const originalHttpsResponseWrite = res.write;
           const originalHttpsResponseEnd = res.end;
+          // eslint-disable-next-line @typescript-eslint/ban-types
           res.write = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {
@@ -195,19 +206,23 @@ export class BrowserSdkLoader {
                 }
                 if (headers === null || headers === undefined) {
                   if (BrowserSdkLoader._instance?.ValidateInjection(res, a)) {
+                    // eslint-disable-next-line prefer-rest-params
                     arguments[0] = this.InjectSdkLoader(res, a, undefined, writeBufferType);
                   }
                 } else if (headers.length) {
                   const encodeType = headers[0];
+                  // eslint-disable-next-line prefer-rest-params
                   arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(res, a, encodeType);
                 }
               }
             } catch (err) {
               Logger.getInstance().warn("Inject SDK loader error: " + err);
             }
+            // eslint-disable-next-line prefer-rest-params
             return originalHttpsResponseWrite.apply(res, arguments);
           };
 
+          // eslint-disable-next-line @typescript-eslint/ban-types
           res.end = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {
@@ -218,6 +233,7 @@ export class BrowserSdkLoader {
                 }
                 if (headers === null || headers === undefined) {
                   if (BrowserSdkLoader._instance?.ValidateInjection(res, a)) {
+                    // eslint-disable-next-line prefer-rest-params
                     arguments[0] = BrowserSdkLoader._instance.InjectSdkLoader(
                       res,
                       a,
@@ -227,12 +243,14 @@ export class BrowserSdkLoader {
                   }
                 } else if (headers.length) {
                   const encodeType = headers[0];
+                  // eslint-disable-next-line prefer-rest-params
                   arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(res, a, encodeType);
                 }
               }
             } catch (err) {
               Logger.getInstance().warn("Inject SDK loader error: " + err);
             }
+            // eslint-disable-next-line prefer-rest-params
             return originalHttpsResponseEnd.apply(res, arguments);
           };
           return originalHttpsRequestListener(req, res);
@@ -245,9 +263,10 @@ export class BrowserSdkLoader {
   /**
    * Validate response and try to inject Browser SDK Loader
    */
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public ValidateInjection(response: any, input: string | Buffer): boolean {
     try {
-      if (!response || !input || response.statusCode != 200) return false;
+      if (!response || !input || response.statusCode !== 200) return false;
       const isContentHtml = browserSdkLoaderHelper.isContentTypeHeaderHtml(response);
       if (!isContentHtml) return false;
       const inputStr = input.slice().toString();
@@ -267,6 +286,7 @@ export class BrowserSdkLoader {
    * Inject Browser SDK Loader
    */
   public InjectSdkLoader(
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     response: any,
     input: string | Buffer,
     encodeType?: browserSdkLoaderHelper.contentEncodingMethod,
@@ -302,11 +322,7 @@ export class BrowserSdkLoader {
         }
       } else {
         response.removeHeader("Content-Length");
-        input = this._getInjectedCompressBuffer(
-          response,
-          input as Buffer,
-          encodeType,
-        );
+        input = this._getInjectedCompressBuffer(response, input as Buffer, encodeType);
         response.setHeader("Content-Length", input.length);
       }
     } catch (ex) {
@@ -329,21 +345,23 @@ export class BrowserSdkLoader {
   ): Buffer {
     try {
       switch (encodeType) {
-        case browserSdkLoaderHelper.contentEncodingMethod.GZIP:
+        case browserSdkLoaderHelper.contentEncodingMethod.GZIP: {
           const gunzipBuffer = zlib.gunzipSync(input);
           if (this.ValidateInjection(response, gunzipBuffer)) {
             const injectedGunzipBuffer = this.InjectSdkLoader(response, gunzipBuffer);
             input = zlib.gzipSync(injectedGunzipBuffer);
           }
           break;
-        case browserSdkLoaderHelper.contentEncodingMethod.DEFLATE:
+        }
+        case browserSdkLoaderHelper.contentEncodingMethod.DEFLATE: {
           const inflateBuffer = zlib.inflateSync(input);
           if (this.ValidateInjection(response, inflateBuffer)) {
             const injectedInflateBuffer = this.InjectSdkLoader(response, inflateBuffer);
             input = zlib.deflateSync(injectedInflateBuffer);
           }
           break;
-        case browserSdkLoaderHelper.contentEncodingMethod.BR:
+        }
+        case browserSdkLoaderHelper.contentEncodingMethod.BR: {
           const BrotliDecompressSync = browserSdkLoaderHelper.getBrotliDecompressSync(zlib);
           const BrotliCompressSync = browserSdkLoaderHelper.getBrotliCompressSync(zlib);
           if (BrotliDecompressSync && BrotliCompressSync) {
@@ -354,6 +372,7 @@ export class BrowserSdkLoader {
             }
             break;
           }
+        }
       }
     } catch (err) {
       Logger.getInstance().info("get browser SDK loader compress buffer error: " + err);
@@ -362,7 +381,7 @@ export class BrowserSdkLoader {
     return input;
   }
 
-  public dispose() {
+  public dispose(): void {
     BrowserSdkLoader._instance = null;
     this._isInitialized = false;
   }

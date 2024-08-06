@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-underscore-dangle*/
+
 import * as fs from "fs";
 import * as path from "path";
 import {
@@ -41,7 +43,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   private _tempDir: string;
 
   /** Get Singleton instance */
-  public static getInstance() {
+  public static getInstance(): JsonConfig {
     if (!JsonConfig._instance) {
       JsonConfig._instance = new JsonConfig();
     }

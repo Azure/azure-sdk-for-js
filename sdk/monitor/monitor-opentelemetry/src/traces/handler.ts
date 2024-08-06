@@ -86,7 +86,7 @@ export class TraceHandler {
   /**
    * Start auto collection of telemetry
    */
-  private _initializeInstrumentations() {
+  private _initializeInstrumentations(): void {
     if (this._config.instrumentationOptions.http?.enabled) {
       const httpinstrumentationOptions = this._config.instrumentationOptions
         .http as HttpInstrumentationConfig;

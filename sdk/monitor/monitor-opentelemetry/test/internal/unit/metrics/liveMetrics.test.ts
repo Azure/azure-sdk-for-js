@@ -8,6 +8,7 @@ import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics";
 import { InternalConfig } from "../../../../src/shared";
 import { QuickPulseOpenTelemetryMetricNames } from "../../../../src/metrics/quickpulse/types";
+/* eslint-disable-next-line @typescript-eslint/no-redeclare */
 import { Exception, RemoteDependency, Request } from "../../../../src/generated";
 
 describe("#LiveMetrics", () => {

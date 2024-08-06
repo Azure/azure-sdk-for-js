@@ -73,7 +73,7 @@ export class ConnectionStringParser {
     return result;
   }
 
-  public static sanitizeUrl(url: string) {
+  public static sanitizeUrl(url: string): string {
     let newUrl = url.trim();
     if (newUrl.indexOf("https://") < 0) {
       // Try to update http to https

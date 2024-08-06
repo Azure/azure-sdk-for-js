@@ -75,6 +75,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           );
           assert.equal(appendFileAsyncStub.lastCall.args[1], "testMessage\r\n");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -109,6 +110,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           // assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
           assert.equal(writeStub.args[1][1], "backupTestMessage\r\n");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -134,10 +136,12 @@ describe("Library/DiagFileConsoleLogger", () => {
               assert.equal(writeStub.callCount, 4);
               assert.ok(readStub.calledTwice);
               done();
+              return;
             })
             .catch((error: Error) => {
               done(error);
             });
+          return;
         })
 
         .catch((error: Error) => {
@@ -173,6 +177,7 @@ describe("Library/DiagFileConsoleLogger", () => {
         .then(() => {
           assert.ok(unlinkStub.calledTwice, "unlinkStub calledTwice");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -200,6 +205,7 @@ describe("Library/DiagFileConsoleLogger", () => {
             "Oldest file is deleted",
           );
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);

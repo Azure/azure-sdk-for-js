@@ -95,7 +95,7 @@ export class QuickpulseSender {
     return;
   }
 
-  handlePermanentRedirect(location: string | undefined) {
+  handlePermanentRedirect(location: string | undefined): void {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {

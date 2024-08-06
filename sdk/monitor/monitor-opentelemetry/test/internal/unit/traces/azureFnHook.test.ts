@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { Context as AzureFnV3Context } from "@azure/functions-old";
@@ -87,6 +89,7 @@ describe("Library/AzureFunctionsHook", () => {
 
         const Module = require("module");
         Module.prototype.require = function () {
+          // eslint-disable-next-line prefer-rest-params
           if (arguments[0] === "@azure/functions-core") {
             return {
               registerHook(name: string, callback: PreInvocationCallback) {
@@ -97,6 +100,7 @@ describe("Library/AzureFunctionsHook", () => {
               },
             };
           }
+          // eslint-disable-next-line prefer-rest-params
           return originalRequire.apply(this, arguments);
         };
 

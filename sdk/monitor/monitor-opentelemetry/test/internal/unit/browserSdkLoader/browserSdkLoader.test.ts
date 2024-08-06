@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-underscore-dangle*/
+
 import * as assert from "assert";
 import * as http from "http";
 import * as sinon from "sinon";
@@ -124,7 +126,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
       "Instrumentation Key is not set correctly",
@@ -198,7 +200,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf(expectedSdkVersion) >= 0,
       `Expected string does not exist in the snippet. Expected: ${expectedSdkVersion} in ${newHtml}`,
@@ -240,7 +242,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
       "Instrumentation Key is not set correctly",
@@ -323,7 +325,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
       "Instrumentation Key is not set correctly",

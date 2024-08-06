@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 import * as zlib from "zlib";
 import { promisify } from "util";
 import * as http from "http";
@@ -35,6 +37,7 @@ export const gunzipAsync = promisify(zlib.gunzip);
 export const deflateAsync = promisify(zlib.deflate);
 export const inflateAsync = promisify(zlib.inflate);
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliCompressAsync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliCompress === "function") {
@@ -43,6 +46,7 @@ export const getBrotliCompressAsync = (zlibObject: any): Function | null => {
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliCompressSync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliCompressSync === "function") {
@@ -51,6 +55,7 @@ export const getBrotliCompressSync = (zlibObject: any): Function | null => {
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliDecompressAsync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliDecompress === "function") {
@@ -59,6 +64,7 @@ export const getBrotliDecompressAsync = (zlibObject: any): Function | null => {
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliDecompressSync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliDecompressSync === "function") {
