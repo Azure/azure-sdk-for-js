@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the list of access policy assignments associated with this redis cache
  *
  * @summary Gets the list of access policy assignments associated with this redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheAccessPolicyAssignmentList.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyAssignmentList.json
  */
 async function redisCacheAccessPolicyAssignmentList() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

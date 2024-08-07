@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 
-import { AbortController } from "@azure/abort-controller";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -64,7 +63,7 @@ describe("Highlevel", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile1, {
@@ -80,7 +79,7 @@ describe("Highlevel", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {

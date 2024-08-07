@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
 
 import { KeyVaultAccessControlClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";

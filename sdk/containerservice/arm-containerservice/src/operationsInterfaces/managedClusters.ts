@@ -18,8 +18,6 @@ import {
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   MeshUpgradeProfile,
   ManagedClustersListMeshUpgradeProfilesOptionalParams,
-  ManagedClustersGetOSOptionsOptionalParams,
-  ManagedClustersGetOSOptionsResponse,
   ManagedClustersListKubernetesVersionsOptionalParams,
   ManagedClustersListKubernetesVersionsResponse,
   ManagedClustersGetUpgradeProfileOptionalParams,
@@ -118,15 +116,6 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersListMeshUpgradeProfilesOptionalParams,
   ): PagedAsyncIterableIterator<MeshUpgradeProfile>;
-  /**
-   * Gets supported OS options in the specified subscription.
-   * @param location The name of the Azure region.
-   * @param options The options parameters.
-   */
-  getOSOptions(
-    location: string,
-    options?: ManagedClustersGetOSOptionsOptionalParams,
-  ): Promise<ManagedClustersGetOSOptionsResponse>;
   /**
    * Contains extra metadata on the version, including supported patch versions, capabilities, available
    * upgrades, and details on preview status of the version
