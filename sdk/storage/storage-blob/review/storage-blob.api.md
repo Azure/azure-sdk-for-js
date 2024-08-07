@@ -406,6 +406,7 @@ export class BlobClient extends StorageClient {
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
+    generateSasStringToSign(options: BlobGenerateSasUrlOptions): string;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
     getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;
@@ -1121,6 +1122,7 @@ export class BlobServiceClient extends StorageClient {
     findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+    generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
     getBlobBatchClient(): BlobBatchClient;
     getContainerClient(containerName: string): ContainerClient;
@@ -1699,6 +1701,7 @@ export class ContainerClient extends StorageClient {
     deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
     findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
+    generateSasStringToSign(options: ContainerGenerateSasUrlOptions): string;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAccountInfo(options?: ContainerGetAccountInfoOptions): Promise<ContainerGetAccountInfoResponse>;

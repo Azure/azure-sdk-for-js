@@ -80,6 +80,13 @@ export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
+  return generateQueueSASQueryParametersInternal(queueSASSignatureValues, sharedKeyCredential).sasQueryParameters;
+}
+
+export function generateQueueSASQueryParametersInternal(
+  queueSASSignatureValues: QueueSASSignatureValues,
+  sharedKeyCredential: StorageSharedKeyCredential,
+): { sasQueryParameters: SASQueryParameters, stringToSign: string} {
   if (
     !queueSASSignatureValues.identifier &&
     !(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)
@@ -119,7 +126,8 @@ export function generateQueueSASQueryParameters(
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
+  return {
+    sasQueryParameters: new SASQueryParameters(
     version,
     signature,
     verifiedPermissions,
@@ -130,7 +138,8 @@ export function generateQueueSASQueryParameters(
     queueSASSignatureValues.expiresOn,
     queueSASSignatureValues.ipRange,
     queueSASSignatureValues.identifier,
-  );
+  ),
+  stringToSign: stringToSign };
 }
 
 function getCanonicalName(accountName: string, queueName: string): string {
