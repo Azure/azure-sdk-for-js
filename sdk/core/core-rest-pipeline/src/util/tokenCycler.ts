@@ -133,11 +133,14 @@ export function createTokenCycler(
      * window and not already refreshing)
      */
     get shouldRefresh(): boolean {
-      return (
-        !cycler.isRefreshing &&
-        (token.refreshesOnTimestamp && token.refreshesOnTimestamp < Date.now()) &&
-        (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
-      );
+      if (cycler.isRefreshing) {
+        return false;
+      }
+      if (token?.refreshesOnTimestamp && token.refreshesOnTimestamp < Date.now()) {
+        return true;
+      }
+
+      return (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now();
     },
     /**
      * Produces true if the cycler MUST refresh (null or nearly-expired
