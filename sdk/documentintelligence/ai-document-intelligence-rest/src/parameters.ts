@@ -130,13 +130,21 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
    * the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US").
    */
   locale?: string;
-  /** Method used to compute string offset and length. */
+  /**
+   * Method used to compute string offset and length.
+   *
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   */
   stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
   queryFields?: string[];
-  /** Format of the analyze result top-level content. */
+  /**
+   * Format of the analyze result top-level content.
+   *
+   * Possible values: "text", "markdown"
+   */
   outputContentFormat?: ContentFormat;
   /** Additional outputs to generate during analysis. */
   output?: AnalyzeOutputOption[];
@@ -181,13 +189,21 @@ export interface AnalyzeDocumentQueryParamProperties {
    * the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US").
    */
   locale?: string;
-  /** Method used to compute string offset and length. */
+  /**
+   * Method used to compute string offset and length.
+   *
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   */
   stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
   queryFields?: string[];
-  /** Format of the analyze result top-level content. */
+  /**
+   * Format of the analyze result top-level content.
+   *
+   * Possible values: "text", "markdown"
+   */
   outputContentFormat?: ContentFormat;
   /** Additional outputs to generate during analysis. */
   output?: AnalyzeOutputOption[];
@@ -221,13 +237,21 @@ export interface AnalyzeBatchDocumentsQueryParamProperties {
    * the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US").
    */
   locale?: string;
-  /** Method used to compute string offset and length. */
+  /**
+   * Method used to compute string offset and length.
+   *
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   */
   stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
   queryFields?: string[];
-  /** Format of the analyze result top-level content. */
+  /**
+   * Format of the analyze result top-level content.
+   *
+   * Possible values: "text", "markdown"
+   */
   outputContentFormat?: ContentFormat;
   /** Additional outputs to generate during analysis. */
   output?: AnalyzeOutputOption[];
@@ -367,9 +391,17 @@ export interface ClassifyDocumentFromStreamBodyParam {
 }
 
 export interface ClassifyDocumentFromStreamQueryParamProperties {
-  /** Method used to compute string offset and length. */
+  /**
+   * Method used to compute string offset and length.
+   *
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   */
   stringIndexType?: StringIndexType;
-  /** Document splitting mode. */
+  /**
+   * Document splitting mode.
+   *
+   * Possible values: "auto", "none", "perPage"
+   */
   split?: SplitMode;
   /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
@@ -407,9 +439,17 @@ export interface ClassifyDocumentBodyParam {
 }
 
 export interface ClassifyDocumentQueryParamProperties {
-  /** Method used to compute string offset and length. */
+  /**
+   * Method used to compute string offset and length.
+   *
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   */
   stringIndexType?: StringIndexType;
-  /** Document splitting mode. */
+  /**
+   * Document splitting mode.
+   *
+   * Possible values: "auto", "none", "perPage"
+   */
   split?: SplitMode;
   /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;

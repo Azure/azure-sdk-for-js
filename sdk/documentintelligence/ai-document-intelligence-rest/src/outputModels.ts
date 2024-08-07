@@ -7,7 +7,11 @@ import { Paged } from "@azure/core-paging";
 export interface OperationDetailsOutputParent {
   /** Operation ID */
   operationId: string;
-  /** Operation status.  notStarted, running, completed, or failed */
+  /**
+   * Operation status.  notStarted, running, completed, or failed
+   *
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   */
   status: OperationStatusOutput;
   /** Operation progress (0-100). */
   percentCompleted?: number;
@@ -73,7 +77,11 @@ export interface DocumentModelDetailsOutput {
   readonly apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
   tags?: Record<string, string>;
-  /** Custom document model build mode. */
+  /**
+   * Custom document model build mode.
+   *
+   * Possible values: "template", "neural", "generative"
+   */
   readonly buildMode?: DocumentBuildModeOutput;
   /**
    * Azure Blob Storage location containing the training data.  Either
@@ -113,7 +121,11 @@ export interface AzureBlobFileListContentSourceOutput {
 export interface DocumentTypeDetailsOutput {
   /** Document model description. */
   description?: string;
-  /** Custom document model build mode. */
+  /**
+   * Custom document model build mode.
+   *
+   * Possible values: "template", "neural", "generative"
+   */
   buildMode?: DocumentBuildModeOutput;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
   fieldSchema: Record<string, DocumentFieldSchemaOutput>;
@@ -123,7 +135,11 @@ export interface DocumentTypeDetailsOutput {
 
 /** Description of the field semantic schema using a JSON Schema style syntax. */
 export interface DocumentFieldSchemaOutput {
-  /** Semantic data type of the field value. */
+  /**
+   * Semantic data type of the field value.
+   *
+   * Possible values: "string", "date", "time", "phoneNumber", "number", "integer", "selectionMark", "countryRegion", "signature", "array", "object", "currency", "address", "boolean", "selectionGroup"
+   */
   type: DocumentFieldTypeOutput;
   /** Field description. */
   description?: string;
@@ -194,7 +210,11 @@ export interface DocumentClassifierDetailsOutput {
 
 /** Classifier document type info. */
 export interface ClassifierDocumentTypeDetailsOutput {
-  /** Type of training data source. */
+  /**
+   * Type of training data source.
+   *
+   * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
+   */
   sourceKind?: ContentSourceKindOutput;
   /**
    * Azure Blob Storage location containing the training data for a classifier
@@ -241,7 +261,11 @@ export interface CustomDocumentModelsDetailsOutput {
 
 /** Status and result of the analyze operation. */
 export interface AnalyzeResultOperationOutput {
-  /** Operation status.  notStarted, running, succeeded, or failed */
+  /**
+   * Operation status.  notStarted, running, succeeded, or failed
+   *
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   */
   status: OperationStatusOutput;
   /** Date and time (UTC) when the analyze operation was submitted. */
   createdDateTime: string;
@@ -259,9 +283,17 @@ export interface AnalyzeResultOutput {
   apiVersion: string;
   /** Document model ID used to produce this result. */
   modelId: string;
-  /** Method used to compute string offset and length. */
+  /**
+   * Method used to compute string offset and length.
+   *
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   */
   stringIndexType: StringIndexTypeOutput;
-  /** Format of the analyze result top-level content. */
+  /**
+   * Format of the analyze result top-level content.
+   *
+   * Possible values: "text", "markdown"
+   */
   contentFormat?: ContentFormatOutput;
   /**
    * Concatenate string representation of all textual and visual elements in reading
@@ -306,6 +338,8 @@ export interface DocumentPageOutput {
   /**
    * The unit used by the width, height, and polygon properties. For images, the
    * unit is "pixel". For PDF, the unit is "inch".
+   *
+   * Possible values: "pixel", "inch"
    */
   unit?: LengthUnitOutput;
   /** Location of the page in the reading order concatenated content. */
@@ -362,7 +396,11 @@ export interface DocumentWordOutput {
  * elements indicating a selection.
  */
 export interface DocumentSelectionMarkOutput {
-  /** State of the selection mark. */
+  /**
+   * State of the selection mark.
+   *
+   * Possible values: "selected", "unselected"
+   */
   state: DocumentSelectionMarkStateOutput;
   /**
    * Bounding polygon of the selection mark, with coordinates specified relative
@@ -397,7 +435,11 @@ export interface DocumentLineOutput {
 
 /** A barcode object. */
 export interface DocumentBarcodeOutput {
-  /** Barcode kind. */
+  /**
+   * Barcode kind.
+   *
+   * Possible values: "QRCode", "PDF417", "UPCA", "UPCE", "Code39", "Code128", "EAN8", "EAN13", "DataBar", "Code93", "Codabar", "DataBarExpanded", "ITF", "MicroQRCode", "Aztec", "DataMatrix", "MaxiCode"
+   */
   kind: DocumentBarcodeKindOutput;
   /** Barcode value. */
   value: string;
@@ -416,7 +458,11 @@ export interface DocumentBarcodeOutput {
 
 /** A formula object. */
 export interface DocumentFormulaOutput {
-  /** Formula kind. */
+  /**
+   * Formula kind.
+   *
+   * Possible values: "inline", "display"
+   */
   kind: DocumentFormulaKindOutput;
   /** LaTex expression describing the formula. */
   value: string;
@@ -438,7 +484,11 @@ export interface DocumentFormulaOutput {
  * alignment and spacing.
  */
 export interface DocumentParagraphOutput {
-  /** Semantic role of the paragraph. */
+  /**
+   * Semantic role of the paragraph.
+   *
+   * Possible values: "pageHeader", "pageFooter", "pageNumber", "title", "sectionHeading", "footnote", "formulaBlock"
+   */
   role?: ParagraphRoleOutput;
   /** Concatenated content of the paragraph in reading order. */
   content: string;
@@ -481,7 +531,11 @@ export interface DocumentTableOutput {
 
 /** An object representing the location and content of a table cell. */
 export interface DocumentTableCellOutput {
-  /** Table cell kind. */
+  /**
+   * Table cell kind.
+   *
+   * Possible values: "content", "rowHeader", "columnHeader", "stubHead", "description"
+   */
   kind?: DocumentTableCellKindOutput;
   /** Row index of the cell. */
   rowIndex: number;
@@ -581,9 +635,17 @@ export interface DocumentStyleOutput {
    * fallback fonts following CSS convention (ex. 'Arial, sans-serif').
    */
   similarFontFamily?: string;
-  /** Font style. */
+  /**
+   * Font style.
+   *
+   * Possible values: "normal", "italic"
+   */
   fontStyle?: FontStyleOutput;
-  /** Font weight. */
+  /**
+   * Font weight.
+   *
+   * Possible values: "normal", "bold"
+   */
   fontWeight?: FontWeightOutput;
   /** Foreground color in #rrggbb hexadecimal format. */
   color?: string;
@@ -627,7 +689,11 @@ export interface DocumentOutput {
 
 /** An object representing the content and location of a field value. */
 export interface DocumentFieldOutput {
-  /** Data type of the field value. */
+  /**
+   * Data type of the field value.
+   *
+   * Possible values: "string", "date", "time", "phoneNumber", "number", "integer", "selectionMark", "countryRegion", "signature", "array", "object", "currency", "address", "boolean", "selectionGroup"
+   */
   type: DocumentFieldTypeOutput;
   /** String value. */
   valueString?: string;
@@ -641,9 +707,17 @@ export interface DocumentFieldOutput {
   valueNumber?: number;
   /** Integer value. */
   valueInteger?: number;
-  /** Selection mark value. */
+  /**
+   * Selection mark value.
+   *
+   * Possible values: "selected", "unselected"
+   */
   valueSelectionMark?: DocumentSelectionMarkStateOutput;
-  /** Presence of signature. */
+  /**
+   * Presence of signature.
+   *
+   * Possible values: "signed", "unsigned"
+   */
   valueSignature?: DocumentSignatureTypeOutput;
   /** 3-letter country code value (ISO 3166-1 alpha-3). */
   valueCountryRegion?: string;
@@ -716,7 +790,11 @@ export interface AddressValueOutput {
 
 /** Status and result of the analyze batch operation. */
 export interface AnalyzeBatchResultOperationOutput {
-  /** Operation status.  notStarted, running, completed, or failed */
+  /**
+   * Operation status.  notStarted, running, completed, or failed
+   *
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   */
   status: OperationStatusOutput;
   /** Date and time (UTC) when the operation was submitted. */
   createdDateTime: string;
@@ -744,7 +822,11 @@ export interface AnalyzeBatchResultOutput {
 
 /** Operation detail for a document in a batch analysis. */
 export interface AnalyzeBatchOperationDetailOutput {
-  /** Analyze status.  succeeded, failed, or skipped */
+  /**
+   * Analyze status.  succeeded, failed, or skipped
+   *
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   */
   status: OperationStatusOutput;
   /** URL of the source document. */
   sourceUrl: string;

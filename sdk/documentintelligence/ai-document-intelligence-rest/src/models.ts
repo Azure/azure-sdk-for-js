@@ -19,7 +19,11 @@ export interface AzureBlobFileListContentSource {
 
 /** Classifier document type info. */
 export interface ClassifierDocumentTypeDetails {
-  /** Type of training data source. */
+  /**
+   * Type of training data source.
+   *
+   * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
+   */
   sourceKind?: ContentSourceKind;
   /**
    * Azure Blob Storage location containing the training data for a classifier
@@ -72,7 +76,11 @@ export interface BuildDocumentModelRequest {
   modelId: string;
   /** Document model description. */
   description?: string;
-  /** Custom document model build mode. */
+  /**
+   * Custom document model build mode.
+   *
+   * Possible values: "template", "neural", "generative"
+   */
   buildMode: DocumentBuildMode;
   /**
    * Azure Blob Storage location containing the training data.  Either
@@ -104,7 +112,11 @@ export interface ComposeDocumentModelRequest {
   tags?: Record<string, string>;
   /** Custom classifier to split and classify the input file. */
   classifierId?: string;
-  /** File splitting behavior. */
+  /**
+   * File splitting behavior.
+   *
+   * Possible values: "auto", "none", "perPage"
+   */
   split?: SplitMode;
 }
 
