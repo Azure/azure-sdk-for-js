@@ -356,6 +356,7 @@ export class LegacyMsiProvider {
     return {
       token: result.accessToken,
       expiresOnTimestamp: result.expiresOn.getTime(),
+      refreshesOnTimestamp: result.refreshOn?.getTime()
     };
   }
 
@@ -413,9 +414,13 @@ export class LegacyMsiProvider {
           const expiresInSeconds = resultToken?.expiresOnTimestamp
             ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
             : 0;
+          const refreshInSeconds = resultToken?.refreshesOnTimestamp
+            ? Math.floor((resultToken.refreshesOnTimestamp - Date.now()) / 1000)
+            : 0;
           return {
             accessToken: resultToken?.token,
             expiresInSeconds,
+            refreshInSeconds
           };
         } else {
           logger.info(
