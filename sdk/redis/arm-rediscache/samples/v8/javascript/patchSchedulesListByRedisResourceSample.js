@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all patch schedules in the specified redis cache (there is only one).
  *
  * @summary Gets all patch schedules in the specified redis cache (there is only one).
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCachePatchSchedulesList.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCachePatchSchedulesList.json
  */
 async function redisCachePatchSchedulesList() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

@@ -136,72 +136,6 @@ export const CloudErrorBody: coreClient.CompositeMapper = {
   },
 };
 
-export const OSOptionProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OSOptionProfile",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      osOptionPropertyList: {
-        serializedName: "properties.osOptionPropertyList",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OSOptionProperty",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const OSOptionProperty: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OSOptionProperty",
-    modelProperties: {
-      osType: {
-        serializedName: "os-type",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      enableFipsImage: {
-        serializedName: "enable-fips-image",
-        required: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-    },
-  },
-};
-
 export const KubernetesVersionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2196,6 +2130,24 @@ export const ManagedClusterPropertiesAutoScalerProfile: coreClient.CompositeMapp
           serializedName: "balance-similar-node-groups",
           type: {
             name: "String",
+          },
+        },
+        daemonsetEvictionForEmptyNodes: {
+          serializedName: "daemonset-eviction-for-empty-nodes",
+          type: {
+            name: "Boolean",
+          },
+        },
+        daemonsetEvictionForOccupiedNodes: {
+          serializedName: "daemonset-eviction-for-occupied-nodes",
+          type: {
+            name: "Boolean",
+          },
+        },
+        ignoreDaemonsetsUtilization: {
+          serializedName: "ignore-daemonsets-utilization",
+          type: {
+            name: "Boolean",
           },
         },
         expander: {

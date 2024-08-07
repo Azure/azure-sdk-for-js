@@ -2,7 +2,7 @@
   "name": "@azure-rest/health-insights-radiologyinsights",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for Health Insights Radiology Insights Rest",
   "keywords": [
     "node",
@@ -15,7 +15,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/health-insights-radiologyinsights.d.ts",
+  "types": "./types/health-insights-radiologyinsights-rest.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

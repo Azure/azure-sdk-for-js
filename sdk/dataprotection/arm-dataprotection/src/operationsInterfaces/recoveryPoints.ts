@@ -11,7 +11,7 @@ import {
   AzureBackupRecoveryPointResource,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
-  RecoveryPointsGetResponse
+  RecoveryPointsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource>;
   /**
    * Gets a Recovery Point using recoveryPointId for a Datasource.
@@ -43,6 +43,6 @@ export interface RecoveryPoints {
     vaultName: string,
     backupInstanceName: string,
     recoveryPointId: string,
-    options?: RecoveryPointsGetOptionalParams
+    options?: RecoveryPointsGetOptionalParams,
   ): Promise<RecoveryPointsGetResponse>;
 }

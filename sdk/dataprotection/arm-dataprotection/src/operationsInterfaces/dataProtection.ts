@@ -9,7 +9,7 @@
 import {
   FeatureValidationRequestBaseUnion,
   DataProtectionCheckFeatureSupportOptionalParams,
-  DataProtectionCheckFeatureSupportResponse
+  DataProtectionCheckFeatureSupportResponse,
 } from "../models";
 
 /** Interface representing a DataProtection. */
@@ -23,6 +23,6 @@ export interface DataProtection {
   checkFeatureSupport(
     location: string,
     parameters: FeatureValidationRequestBaseUnion,
-    options?: DataProtectionCheckFeatureSupportOptionalParams
+    options?: DataProtectionCheckFeatureSupportOptionalParams,
   ): Promise<DataProtectionCheckFeatureSupportResponse>;
 }

@@ -12,6 +12,7 @@ import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AnalyzeFromImageData {
@@ -66,7 +67,7 @@ export interface AnalyzeFromImageDataQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
-    features: string[];
+    features: VisualFeatures[];
     language?: string;
 }
 
@@ -117,7 +118,7 @@ export interface AnalyzeFromUrlQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
-    features: string[];
+    features: VisualFeatures[];
     language?: string;
 }
 
@@ -128,7 +129,7 @@ export interface CaptionResultOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): ImageAnalysisClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ImageAnalysisClientOptions): ImageAnalysisClient;
 export default createClient;
 
 // @public
@@ -192,6 +193,11 @@ export type ImageAnalysisClient = Client & {
 };
 
 // @public
+export interface ImageAnalysisClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ImageAnalysisResultOutput {
     captionResult?: CaptionResultOutput;
     denseCaptionsResult?: DenseCaptionsResultOutput;
@@ -229,13 +235,11 @@ export interface ImageUrl {
     url: string;
 }
 
-// @public
-export interface ImageUrlOutput {
-    url: string;
-}
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeFromImageData200Response | AnalyzeFromImageDataDefaultResponse): response is AnalyzeFromImageDataDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeFromImageData200Response | AnalyzeFromUrl200Response | AnalyzeFromImageDataDefaultResponse): response is AnalyzeFromImageDataDefaultResponse;
+export function isUnexpected(response: AnalyzeFromUrl200Response | AnalyzeFromUrlDefaultResponse): response is AnalyzeFromUrlDefaultResponse;
 
 // @public
 export interface ObjectsResultOutput {
@@ -266,6 +270,9 @@ export interface SmartCropsResultOutput {
 export interface TagsResultOutput {
     values: Array<DetectedTagOutput>;
 }
+
+// @public
+export type VisualFeatures = string;
 
 // (No @packageDocumentation comment for this package)
 

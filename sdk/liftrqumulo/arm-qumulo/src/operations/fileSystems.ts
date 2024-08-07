@@ -16,7 +16,7 @@ import { QumuloStorage } from "../qumuloStorage";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,8 +35,9 @@ import {
   FileSystemsUpdateOptionalParams,
   FileSystemsUpdateResponse,
   FileSystemsDeleteOptionalParams,
+  FileSystemsDeleteResponse,
   FileSystemsListBySubscriptionNextResponse,
-  FileSystemsListByResourceGroupNextResponse
+  FileSystemsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +58,7 @@ export class FileSystemsImpl implements FileSystems {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: FileSystemsListBySubscriptionOptionalParams
+    options?: FileSystemsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<FileSystemResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +73,13 @@ export class FileSystemsImpl implements FileSystems {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: FileSystemsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FileSystemResource[]> {
     let result: FileSystemsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class FileSystemsImpl implements FileSystems {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: FileSystemsListBySubscriptionOptionalParams
+    options?: FileSystemsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<FileSystemResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +114,7 @@ export class FileSystemsImpl implements FileSystems {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: FileSystemsListByResourceGroupOptionalParams
+    options?: FileSystemsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<FileSystemResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +131,16 @@ export class FileSystemsImpl implements FileSystems {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: FileSystemsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FileSystemResource[]> {
     let result: FileSystemsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +155,7 @@ export class FileSystemsImpl implements FileSystems {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +166,11 @@ export class FileSystemsImpl implements FileSystems {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: FileSystemsListByResourceGroupOptionalParams
+    options?: FileSystemsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<FileSystemResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,11 +181,11 @@ export class FileSystemsImpl implements FileSystems {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: FileSystemsListBySubscriptionOptionalParams
+    options?: FileSystemsListBySubscriptionOptionalParams,
   ): Promise<FileSystemsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -195,11 +196,11 @@ export class FileSystemsImpl implements FileSystems {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: FileSystemsListByResourceGroupOptionalParams
+    options?: FileSystemsListByResourceGroupOptionalParams,
   ): Promise<FileSystemsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -212,11 +213,11 @@ export class FileSystemsImpl implements FileSystems {
   get(
     resourceGroupName: string,
     fileSystemName: string,
-    options?: FileSystemsGetOptionalParams
+    options?: FileSystemsGetOptionalParams,
   ): Promise<FileSystemsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fileSystemName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -231,7 +232,7 @@ export class FileSystemsImpl implements FileSystems {
     resourceGroupName: string,
     fileSystemName: string,
     resource: FileSystemResource,
-    options?: FileSystemsCreateOrUpdateOptionalParams
+    options?: FileSystemsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FileSystemsCreateOrUpdateResponse>,
@@ -240,21 +241,20 @@ export class FileSystemsImpl implements FileSystems {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FileSystemsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -263,8 +263,8 @@ export class FileSystemsImpl implements FileSystems {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -272,15 +272,15 @@ export class FileSystemsImpl implements FileSystems {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, fileSystemName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       FileSystemsCreateOrUpdateResponse,
@@ -288,7 +288,7 @@ export class FileSystemsImpl implements FileSystems {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -305,13 +305,13 @@ export class FileSystemsImpl implements FileSystems {
     resourceGroupName: string,
     fileSystemName: string,
     resource: FileSystemResource,
-    options?: FileSystemsCreateOrUpdateOptionalParams
+    options?: FileSystemsCreateOrUpdateOptionalParams,
   ): Promise<FileSystemsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       fileSystemName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -327,11 +327,11 @@ export class FileSystemsImpl implements FileSystems {
     resourceGroupName: string,
     fileSystemName: string,
     properties: FileSystemResourceUpdate,
-    options?: FileSystemsUpdateOptionalParams
+    options?: FileSystemsUpdateOptionalParams,
   ): Promise<FileSystemsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fileSystemName, properties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -344,25 +344,29 @@ export class FileSystemsImpl implements FileSystems {
   async beginDelete(
     resourceGroupName: string,
     fileSystemName: string,
-    options?: FileSystemsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: FileSystemsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FileSystemsDeleteResponse>,
+      FileSystemsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<FileSystemsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -371,8 +375,8 @@ export class FileSystemsImpl implements FileSystems {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -380,20 +384,23 @@ export class FileSystemsImpl implements FileSystems {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, fileSystemName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      FileSystemsDeleteResponse,
+      OperationState<FileSystemsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -408,12 +415,12 @@ export class FileSystemsImpl implements FileSystems {
   async beginDeleteAndWait(
     resourceGroupName: string,
     fileSystemName: string,
-    options?: FileSystemsDeleteOptionalParams
-  ): Promise<void> {
+    options?: FileSystemsDeleteOptionalParams,
+  ): Promise<FileSystemsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       fileSystemName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -425,11 +432,11 @@ export class FileSystemsImpl implements FileSystems {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: FileSystemsListBySubscriptionNextOptionalParams
+    options?: FileSystemsListBySubscriptionNextOptionalParams,
   ): Promise<FileSystemsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -442,11 +449,11 @@ export class FileSystemsImpl implements FileSystems {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: FileSystemsListByResourceGroupNextOptionalParams
+    options?: FileSystemsListByResourceGroupNextOptionalParams,
   ): Promise<FileSystemsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -458,80 +465,77 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileSystemResourceListResult
+      bodyMapper: Mappers.FileSystemResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileSystemResourceListResult
+      bodyMapper: Mappers.FileSystemResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FileSystemResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.fileSystemName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FileSystemResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.fileSystemName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FileSystemResource
+      bodyMapper: Mappers.FileSystemResource,
     },
     201: {
-      bodyMapper: Mappers.FileSystemResource
+      bodyMapper: Mappers.FileSystemResource,
     },
     202: {
-      bodyMapper: Mappers.FileSystemResource
+      bodyMapper: Mappers.FileSystemResource,
     },
     204: {
-      bodyMapper: Mappers.FileSystemResource
+      bodyMapper: Mappers.FileSystemResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
@@ -539,23 +543,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.fileSystemName
+    Parameters.fileSystemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.FileSystemResource
+      bodyMapper: Mappers.FileSystemResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
@@ -563,71 +566,78 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.fileSystemName
+    Parameters.fileSystemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Qumulo.Storage/fileSystems/{fileSystemName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.FileSystemsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.FileSystemsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.FileSystemsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.FileSystemsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.fileSystemName
+    Parameters.fileSystemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileSystemResourceListResult
+      bodyMapper: Mappers.FileSystemResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileSystemResourceListResult
+      bodyMapper: Mappers.FileSystemResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

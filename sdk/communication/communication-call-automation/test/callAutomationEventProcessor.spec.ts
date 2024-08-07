@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { assert, expect } from "chai";
-import { AbortController } from "@azure/abort-controller";
 import { CallAutomationEventProcessor } from "../src/eventprocessor/callAutomationEventProcessor";
 import { CallConnected, CallDisconnected } from "../src/models/events";
 import {

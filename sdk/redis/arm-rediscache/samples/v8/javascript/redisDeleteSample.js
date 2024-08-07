@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a Redis cache.
  *
  * @summary Deletes a Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheDelete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheDelete.json
  */
 async function redisCacheDelete() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

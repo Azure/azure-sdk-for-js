@@ -70,7 +70,7 @@ export interface ChatCompletionsOutput {
 }
 
 // @public
-export type ChatCompletionsResponseFormat = string | "text" | "json_object";
+export type ChatCompletionsResponseFormat = string;
 
 // @public
 export type ChatCompletionsToolCall = ChatCompletionsToolCallParent | ChatCompletionsFunctionToolCall;
@@ -120,7 +120,7 @@ export interface ChatMessageImageContentItem extends ChatMessageContentItemParen
 }
 
 // @public
-export type ChatMessageImageDetailLevel = string | "auto" | "low" | "high";
+export type ChatMessageImageDetailLevel = string;
 
 // @public
 export interface ChatMessageImageUrl {
@@ -177,13 +177,13 @@ export interface ChatResponseMessageOutput {
 }
 
 // @public
-export type ChatRole = string | "system" | "user" | "assistant" | "tool";
+export type ChatRole = string;
 
 // @public
-export type ChatRoleOutput = string | "system" | "user" | "assistant" | "tool";
+export type ChatRoleOutput = string;
 
 // @public
-export type CompletionsFinishReasonOutput = string | "stop" | "length" | "content_filter" | "tool_calls";
+export type CompletionsFinishReasonOutput = string;
 
 // @public
 export interface CompletionsUsageOutput {
@@ -193,8 +193,37 @@ export interface CompletionsUsageOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): ModelClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ModelClientOptions): ModelClient;
 export default createClient;
+
+// @public
+export type EmbeddingEncodingFormat = string;
+
+// @public
+export type EmbeddingInputType = string;
+
+// @public
+export interface EmbeddingItemOutput {
+    embedding: number[];
+    index: number;
+}
+
+// @public
+export interface EmbeddingsResultOutput {
+    data: Array<EmbeddingItemOutput>;
+    id: string;
+    model: string;
+    usage: EmbeddingsUsageOutput;
+}
+
+// @public
+export interface EmbeddingsUsageOutput {
+    prompt_tokens: number;
+    total_tokens: number;
+}
+
+// @public
+export type ExtraParameters = string;
 
 // @public
 export interface FunctionCall {
@@ -271,11 +300,119 @@ export interface GetChatCompletionsHeaderParam {
 
 // @public (undocumented)
 export interface GetChatCompletionsHeaders {
-    "unknown-parameters"?: UnknownParams;
+    "extra-parameters"?: ExtraParameters;
 }
 
 // @public (undocumented)
 export type GetChatCompletionsParameters = GetChatCompletionsHeaderParam & GetChatCompletionsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface GetEmbeddings {
+    post(options?: GetEmbeddingsParameters): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
+}
+
+// @public
+export interface GetEmbeddings200Response extends HttpResponse {
+    // (undocumented)
+    body: EmbeddingsResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetEmbeddingsBodyParam {
+    // (undocumented)
+    body?: {
+        input: string[];
+        dimensions?: number;
+        encoding_format?: EmbeddingEncodingFormat;
+        input_type?: EmbeddingInputType;
+        model?: string;
+    };
+}
+
+// @public (undocumented)
+export interface GetEmbeddingsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetEmbeddingsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetEmbeddingsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface GetEmbeddingsHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & GetEmbeddingsHeaders;
+}
+
+// @public (undocumented)
+export interface GetEmbeddingsHeaders {
+    "extra-parameters"?: ExtraParameters;
+}
+
+// @public (undocumented)
+export type GetEmbeddingsParameters = GetEmbeddingsHeaderParam & GetEmbeddingsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface GetImageEmbeddings {
+    post(options?: GetImageEmbeddingsParameters): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
+}
+
+// @public
+export interface GetImageEmbeddings200Response extends HttpResponse {
+    // (undocumented)
+    body: EmbeddingsResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetImageEmbeddingsBodyParam {
+    // (undocumented)
+    body?: {
+        input: Array<ImageEmbeddingInput>;
+        dimensions?: number;
+        encoding_format?: EmbeddingEncodingFormat;
+        input_type?: EmbeddingInputType;
+        model?: string;
+    };
+}
+
+// @public (undocumented)
+export interface GetImageEmbeddingsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetImageEmbeddingsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetImageEmbeddingsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface GetImageEmbeddingsHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & GetImageEmbeddingsHeaders;
+}
+
+// @public (undocumented)
+export interface GetImageEmbeddingsHeaders {
+    "extra-parameters"?: ExtraParameters;
+}
+
+// @public (undocumented)
+export type GetImageEmbeddingsParameters = GetImageEmbeddingsHeaderParam & GetImageEmbeddingsBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GetModelInfo {
@@ -308,6 +445,12 @@ export interface GetModelInfoDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type GetModelInfoParameters = RequestParameters;
 
+// @public
+export interface ImageEmbeddingInput {
+    image: string;
+    text?: string;
+}
+
 // @public (undocumented)
 export function isUnexpected(response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse): response is GetChatCompletionsDefaultResponse;
 
@@ -315,9 +458,20 @@ export function isUnexpected(response: GetChatCompletions200Response | GetChatCo
 export function isUnexpected(response: GetModelInfo200Response | GetModelInfoDefaultResponse): response is GetModelInfoDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse): response is GetEmbeddingsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse): response is GetImageEmbeddingsDefaultResponse;
+
+// @public (undocumented)
 export type ModelClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface ModelClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface ModelInfoOutput {
@@ -327,16 +481,15 @@ export interface ModelInfoOutput {
 }
 
 // @public
-export type ModelTypeOutput = string | "embeddings" | "image_generation" | "text_generation" | "image_embeddings" | "audio_generation" | "chat";
+export type ModelTypeOutput = string;
 
 // @public (undocumented)
 export interface Routes {
     (path: "/chat/completions"): GetChatCompletions;
     (path: "/info"): GetModelInfo;
+    (path: "/embeddings"): GetEmbeddings;
+    (path: "/images/embeddings"): GetImageEmbeddings;
 }
-
-// @public
-export type UnknownParams = string | "error" | "drop" | "pass_through";
 
 // (No @packageDocumentation comment for this package)
 

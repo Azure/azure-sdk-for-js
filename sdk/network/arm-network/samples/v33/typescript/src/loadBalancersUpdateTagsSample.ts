@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a load balancer tags.
  *
  * @summary Updates a load balancer tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/LoadBalancerUpdateTags.json
  */
 async function updateLoadBalancerTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

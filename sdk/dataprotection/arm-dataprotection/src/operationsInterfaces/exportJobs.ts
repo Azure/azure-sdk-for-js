@@ -9,7 +9,7 @@
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExportJobsTriggerOptionalParams,
-  ExportJobsTriggerResponse
+  ExportJobsTriggerResponse,
 } from "../models";
 
 /** Interface representing a ExportJobs. */
@@ -23,7 +23,7 @@ export interface ExportJobs {
   beginTrigger(
     resourceGroupName: string,
     vaultName: string,
-    options?: ExportJobsTriggerOptionalParams
+    options?: ExportJobsTriggerOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExportJobsTriggerResponse>,
@@ -39,6 +39,6 @@ export interface ExportJobs {
   beginTriggerAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: ExportJobsTriggerOptionalParams
+    options?: ExportJobsTriggerOptionalParams,
   ): Promise<ExportJobsTriggerResponse>;
 }

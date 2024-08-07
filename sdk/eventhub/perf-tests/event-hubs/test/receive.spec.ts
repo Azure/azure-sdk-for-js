@@ -8,7 +8,7 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/event
 # Instructions
 1. Create an Event Hubs namespace with `Tier=Standard` and `Throughput Units=20`.
 2. Create an Event Hub inside the namespace.
-3. Set env vars `EVENTHUB_CONNECTION_STRING`, `EVENTHUB_NAME` and `CONSUMER_GROUP_NAME` in the .env file.
+3. Set env vars `EVENTHUB_CONNECTION_STRING`, `EVENTHUB_NAME` and `EVENTHUB_CONSUMER_GROUP_NAME` in the .env file.
 4. This test presumes that there are no messages in the event hub.
 5. `ts-node test/receive.spec.ts [eventBodySize] [numberOfEvents]`
 6. Example: `ts-node test/receive.spec.ts 1024 10000`
@@ -35,7 +35,7 @@ let _messages = 0;
 
 const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
 const eventHubName = getEnvVar("EVENTHUB_NAME");
-const consumerGroup = getEnvVar("CONSUMER_GROUP_NAME");
+const consumerGroup = getEnvVar("EVENTHUB_CONSUMER_GROUP_NAME");
 
 async function main(): Promise<void> {
   const eventBodySize = process.argv.length > 2 ? parseInt(process.argv[2]) : 1024;

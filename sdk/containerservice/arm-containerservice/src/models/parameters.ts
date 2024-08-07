@@ -52,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-01",
+    defaultValue: "2024-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -80,16 +80,6 @@ export const location: OperationURLParameter = {
     },
     serializedName: "location",
     required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const resourceType: OperationQueryParameter = {
-  parameterPath: ["options", "resourceType"],
-  mapper: {
-    serializedName: "resource-type",
     type: {
       name: "String",
     },

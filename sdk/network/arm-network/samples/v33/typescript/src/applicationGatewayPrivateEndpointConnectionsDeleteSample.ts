@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified private endpoint connection on application gateway.
  *
  * @summary Deletes the specified private endpoint connection on application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayPrivateEndpointConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ApplicationGatewayPrivateEndpointConnectionDelete.json
  */
 async function deleteApplicationGatewayPrivateEndpointConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

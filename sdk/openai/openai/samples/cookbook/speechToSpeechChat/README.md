@@ -1,18 +1,16 @@
-This is a browser page demonstrating speech to speech chat implementation using the Azure OpenAI JS SDK and [Azure JS Speech SDK](https://github.com/microsoft/cognitive-services-speech-sdk-js) (or optionally the [Web Speech API](https://developer.mozilla.org/docs/Web/API/Web_Speech_API)).
+This is a browser page demonstrating speech to speech chat implementation using the OpenAI JS SDK and [Azure JS Speech SDK](https://github.com/microsoft/cognitive-services-speech-sdk-js) (or optionally the [Web Speech API](https://developer.mozilla.org/docs/Web/API/Web_Speech_API)).
 
 To run:
-1.
-Open command line and change directory to where these files have been downloaded.
+1. Copy the sample.env file to .env and fill in your Azure OpenAI endpoint, deployment, and speech region.
 
-2.
-```
-npm install
-```
+2. Build the project by running 
 
-3.
-```
-webpack --mode=development
+```bash
+npm install && npm run build
 ```
 
-4.
-Open speechToSpeechChat.html in your web browser
+3. Run the web server by running
+
+```bash
+npm start
+```

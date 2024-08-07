@@ -20,8 +20,10 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "types/"
   ],
   "scripts": {
     "build": "tsc -p .",
@@ -51,7 +53,7 @@
   "devDependencies": {
     "@types/node": "^18.0.0",
     "eslint": "^8.50.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "rimraf": "^5.0.0",
     "typescript": "~5.5.3"
   }

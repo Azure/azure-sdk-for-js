@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
-import { BodyTypes, defaultDataTransformer } from "./dataTransformer";
+import { BodyTypes, defaultDataTransformer } from "./dataTransformer.js";
 import {
   DeliveryAnnotations,
   MessageAnnotations,
@@ -13,7 +13,7 @@ import { isDefined, isObjectWithProperties, objectHasProperty } from "@azure/cor
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
-} from "./util/constants";
+} from "./util/constants.js";
 
 /**
  * Describes the delivery annotations.

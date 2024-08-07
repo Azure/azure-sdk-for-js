@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/// <reference lib="esnext.asynciterable" />
 
-export { BlobCheckpointStore } from "./blobCheckpointStore";
-export { ContainerClientLike, BlobClientLike, BlockBlobClientLike } from "./storageBlobInterfaces";
-export { logger } from "./log";
+export { BlobCheckpointStore } from "./blobCheckpointStore.js";
+export {
+  ContainerClientLike,
+  BlobClientLike,
+  BlockBlobClientLike,
+} from "./storageBlobInterfaces.js";
+export { logger } from "./log.js";

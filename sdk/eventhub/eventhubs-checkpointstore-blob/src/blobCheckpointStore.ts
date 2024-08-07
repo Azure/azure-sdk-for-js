@@ -8,9 +8,9 @@ import {
   OperationOptions,
 } from "@azure/event-hubs";
 import { Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
-import { logger, logErrorStackTrace } from "./log";
-import { ContainerClientLike } from "./storageBlobInterfaces";
-import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { logger, logErrorStackTrace } from "./log.js";
+import { ContainerClientLike } from "./storageBlobInterfaces.js";
+import { throwTypeErrorIfParameterMissing } from "./util/error.js";
 
 /**
  * An implementation of CheckpointStore that uses Azure Blob Storage to persist checkpoint data.
@@ -259,16 +259,14 @@ export class BlobCheckpointStore implements CheckpointStore {
       return;
     } catch (err: any) {
       logger.warning(
-        `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
+        `Error occurred while updating the checkpoint for partition: ${checkpoint.partitionId}.`,
         err.message,
       );
       logErrorStackTrace(err);
 
       if (err?.name === "AbortError") throw err;
 
-      throw new Error(
-        `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}, ${err}`,
-      );
+      throw err;
     }
   }
 

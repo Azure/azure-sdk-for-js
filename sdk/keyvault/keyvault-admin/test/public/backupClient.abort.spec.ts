@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
 
 import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "./utils/authentication";

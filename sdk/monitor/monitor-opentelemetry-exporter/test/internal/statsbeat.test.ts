@@ -7,7 +7,7 @@ import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeT
 import { DEFAULT_BREEZE_ENDPOINT, ENV_DISABLE_STATSBEAT } from "../../src/Declarations/Constants";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics";
-// @ts-ignore Need to ignore this while we do not import types
+// @ts-expect-error Need to ignore this while we do not import types
 import sinon from "sinon";
 import { StatsbeatCounter } from "../../src/export/statsbeat/types";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
@@ -101,6 +101,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should add correct network properites to the custom metric", (done) => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
+        // eslint-disable-next-line no-unused-expressions
         statsbeat["statsCollectionShortInterval"];
         statsbeat.countSuccess(100);
         const metric = statsbeat["networkStatsbeatCollection"][0];
@@ -125,7 +126,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         done();
       });
 
-      it("should add correct long interval properties to the custom metric", async () => {
+      it("should add correct long interval properties to the custom metric", () => {
         // const exporter = new TestExporter();
         // const statsbeatMetrics = exporter["sender"]["networkStatsbeatMetrics"];
         const longIntervalStatsbeatMetrics = getInstance(options);
@@ -170,20 +171,21 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Resource provider function", () => {
-      let sandbox: any;
+      let sandboxInner: any;
 
       before(() => {
-        sandbox = sinon.createSandbox();
+        sandboxInner = sinon.createSandbox();
       });
 
       afterEach(() => {
-        sandbox.restore();
+        sandboxInner.restore();
       });
 
       const statsbeat = new NetworkStatsbeatMetrics(options);
 
       it("it should determine if the rp is unknown", (done) => {
         statsbeat["getResourceProvider"]()
+          // eslint-disable-next-line promise/always-return
           .then(() => {
             assert.strictEqual(statsbeat["resourceProvider"], "unknown");
             done();
@@ -200,6 +202,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const originalEnv = process.env;
         process.env = newEnv;
         statsbeat["getResourceProvider"]()
+          // eslint-disable-next-line promise/always-return
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
@@ -218,6 +221,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const originalEnv = process.env;
         process.env = newEnv;
         statsbeat["getResourceProvider"]()
+          // eslint-disable-next-line promise/always-return
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "functions");
@@ -230,7 +234,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should determine if the rp is an Azure VM", (done) => {
-        const getAzureComputeStub = sandbox.stub(statsbeat, "getAzureComputeMetadata");
+        const getAzureComputeStub = sandboxInner.stub(statsbeat, "getAzureComputeMetadata");
         getAzureComputeStub.returns(Promise.resolve(true));
 
         const newEnv = <{ [id: string]: string }>{};
@@ -238,6 +242,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         process.env = newEnv;
 
         statsbeat["getResourceProvider"]()
+          // eslint-disable-next-line promise/always-return
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "vm");
@@ -256,6 +261,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         process.env = newEnv;
 
         statsbeat["getResourceProvider"]()
+          // eslint-disable-next-line promise/always-return
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "aks");
@@ -268,7 +274,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should override OS and VM info", (done) => {
-        const getAzureComputeStub = sandbox.stub(statsbeat, "getAzureComputeMetadata");
+        const getAzureComputeStub = sandboxInner.stub(statsbeat, "getAzureComputeMetadata");
         getAzureComputeStub.returns(Promise.resolve(true));
         statsbeat["vmInfo"]["osType"] = "test";
 
@@ -277,6 +283,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         process.env = newEnv;
 
         statsbeat["getResourceProvider"]()
+          // eslint-disable-next-line promise/always-return
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "vm");
@@ -290,11 +297,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Track data from statsbeats", () => {
-      let sandbox: sinon.SinonSandbox;
+      let sandboxInner: sinon.SinonSandbox;
       let statsbeat: NetworkStatsbeatMetrics;
 
       before(() => {
-        sandbox = sinon.createSandbox();
+        sandboxInner = sinon.createSandbox();
         process.env.WEBSITE_SITE_NAME = "test";
         statsbeat = new NetworkStatsbeatMetrics({
           ...options,
@@ -303,7 +310,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       afterEach(() => {
-        sandbox.restore();
+        sandboxInner.restore();
       });
 
       after(() => {
@@ -312,7 +319,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track duration", async () => {
-        const mockExport = sandbox.stub(statsbeat["networkAzureExporter"], "export");
+        const mockExport = sandboxInner.stub(statsbeat["networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
         statsbeat.countRetry(206);
         statsbeat.countFailure(200, 500);
@@ -338,7 +345,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track statsbeat counts", async () => {
-        const mockExport = sandbox.stub(statsbeat["networkAzureExporter"], "export");
+        const mockExport = sandboxInner.stub(statsbeat["networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
@@ -404,7 +411,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should track long interval statsbeats", async () => {
         const longIntervalStatsbeat = getInstance(options);
-        const mockExport = sandbox.stub(
+        const mockExport = sandboxInner.stub(
           longIntervalStatsbeat["longIntervalAzureExporter"],
           "export",
         );

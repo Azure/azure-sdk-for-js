@@ -10,11 +10,11 @@ import {
   msalNodeTestSetup,
 } from "../../../../identity/test/node/msalNodeTestSetup";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { createPersistence } from "./setup.spec";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
+
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import assert from "assert";
+import { createPersistence } from "./setup.spec";
 
 describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
@@ -27,7 +27,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
+    getTokenSilentSpy = setup.sandbox.spy(PublicClientApplication.prototype, "acquireTokenSilent");
 
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(

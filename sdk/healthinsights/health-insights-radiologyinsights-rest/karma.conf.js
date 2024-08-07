@@ -54,8 +54,8 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "HEALTH_INSIGHTS_ENDPOINT",
-      "HEALTH_INSIGHTS_KEY",
       "RECORDINGS_RELATIVE_PATH",
+      "MANAGED_IDENTITY_CLIENT_ID",
     ],
 
     // test results reporter to use

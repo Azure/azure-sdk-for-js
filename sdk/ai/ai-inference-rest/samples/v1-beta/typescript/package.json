@@ -2,7 +2,7 @@
   "name": "@azure-samples/ai-inference-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure OpenAI client library samples for TypeScript (Beta)",
+  "description": "Azure AI Inference client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
   },

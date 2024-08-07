@@ -6,7 +6,6 @@
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay } from "@azure-tools/test-recorder";
 
-import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "@azure-tools/test-utils";

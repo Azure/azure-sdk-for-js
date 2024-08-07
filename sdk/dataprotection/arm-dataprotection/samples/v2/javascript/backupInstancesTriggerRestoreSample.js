@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Triggers restore for a BackupInstance
  *
  * @summary Triggers restore for a BackupInstance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/TriggerRestore.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestore.json
  */
 async function triggerRestore() {
   const subscriptionId =
@@ -78,7 +78,7 @@ async function triggerRestore() {
  * This sample demonstrates how to Triggers restore for a BackupInstance
  *
  * @summary Triggers restore for a BackupInstance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/TriggerRestoreAsFiles.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestoreAsFiles.json
  */
 async function triggerRestoreAsFiles() {
   const subscriptionId =
@@ -118,7 +118,7 @@ async function triggerRestoreAsFiles() {
  * This sample demonstrates how to Triggers restore for a BackupInstance
  *
  * @summary Triggers restore for a BackupInstance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/TriggerRestoreWithRehydration.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestoreWithRehydration.json
  */
 async function triggerRestoreWithRehydration() {
   const subscriptionId =

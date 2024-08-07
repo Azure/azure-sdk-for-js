@@ -8,7 +8,7 @@
 
 import {
   OperationStatusBackupVaultContextGetOptionalParams,
-  OperationStatusBackupVaultContextGetResponse
+  OperationStatusBackupVaultContextGetResponse,
 } from "../models";
 
 /** Interface representing a OperationStatusBackupVaultContext. */
@@ -24,6 +24,6 @@ export interface OperationStatusBackupVaultContext {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: OperationStatusBackupVaultContextGetOptionalParams
+    options?: OperationStatusBackupVaultContextGetOptionalParams,
   ): Promise<OperationStatusBackupVaultContextGetResponse>;
 }

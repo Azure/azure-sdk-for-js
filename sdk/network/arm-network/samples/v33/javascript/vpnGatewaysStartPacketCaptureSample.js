@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary Starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnGatewayStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VpnGatewayStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnGatewayWithFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -41,7 +41,7 @@ async function startPacketCaptureOnVpnGatewayWithFilter() {
  * This sample demonstrates how to Starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary Starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VpnGatewayStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VpnGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnGatewayWithoutFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

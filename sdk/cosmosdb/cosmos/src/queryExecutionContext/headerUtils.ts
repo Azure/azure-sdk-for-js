@@ -81,4 +81,9 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
     headers[Constants.HttpHeaders.IndexUtilization] =
       toBeMergedHeaders[Constants.HttpHeaders.IndexUtilization];
   }
+
+  if (Constants.HttpHeaders.CorrelatedActivityId in toBeMergedHeaders) {
+    headers[Constants.HttpHeaders.CorrelatedActivityId] =
+      toBeMergedHeaders[Constants.HttpHeaders.CorrelatedActivityId];
+  }
 }

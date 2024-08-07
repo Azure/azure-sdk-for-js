@@ -1,5 +1,22 @@
 # Release History
 
+## 12.1.0 (2024-07-24)
+
+### Features Added
+
+- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/29597) 
+  - Create text queries against vector fields with the `VectorizedTextQuery` variant of `VectorQuery`. Such queries are supported by configuring the corresponding index field with a `VectorSearchVectorizer`. This configuration describes a delegate, which the service uses to generate vector embeddings for the query text. 
+- Added `AzureOpenAIEmbeddingSkill` to allow for `SearchIndexer`s to populate embedding fields at index-time.
+- Added index configuration for vector quantization through `VectorSearchCompression`
+
+### Bugs Fixed
+
+- Improved serialization performance on large payloads [#29597](https://github.com/Azure/azure-sdk-for-js/pull/29597)
+
+### Note
+
+- This GA release introduces bug fixes, convenience improvements, and select features from prior beta releases. Except for the features listed in these release notes, no preview features are being pulled into this release.
+
 ## 12.1.0-beta.2 (2024-05-20)
 
 ### Breaking Changes
@@ -114,6 +131,61 @@
 - Add non-persistent vector usage through `SimpleField.stored` [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
 - Expose the internal HTTP pipeline to allow users to send raw requests with it
 
+## 12.0.0 (2023-11-13)
+
+### Features Added
+
+- Added support for vector search
+- Added support for semantic search and reranking
+- New `SearchIndexerSkill`s
+  - `EntityLinkingSkill`
+  - `EntityRecognitionSkillV3`
+  - `PIIDetectionSkill`
+  - `SentimentSkillV3`
+
+### Breaking Changes
+
+- Minor type changes
+  - All nullable optional properties can no longer be assigned `null`. Use `undefined` instead.
+  - Updated specific property types for enhanced precision, replacing `any` with more defined types.
+- Narrowed some enum property types to the respective string literal union
+  - `BlobIndexerDataToExtract`
+  - `BlobIndexerImageAction`
+  - `BlobIndexerParsingMode`
+  - `BlobIndexerPDFTextRotationAlgorithm`
+  - `CustomEntityLookupSkillLanguage`
+  - `EntityCategory`
+  - `EntityRecognitionSkillLanguage`
+  - `ImageAnalysisSkillLanguage`
+  - `ImageDetail`
+  - `IndexerExecutionEnvironment`
+  - `KeyPhraseExtractionSkillLanguage`
+  - `OcrSkillLanguage`
+  - `RegexFlags`
+  - `SearchIndexerDataSourceType`
+  - `SentimentSkillLanguage`
+  - `SplitSkillLanguage`
+  - `TextSplitMode`
+  - `TextTranslationSkillLanguage`
+  - `VisualFeature`
+- Removed `KnownLexicalAnalyzerName` as a duplicate of `KnownAnalyzerNames`
+- Removed `KnownCharFilterName` as a duplicate of `KnownCharFilterNames`
+- Removed `KnownTokenFilterName` as a duplicate of `KnownTokenFilterNames`
+- Removed `SearchRequest` as a duplicate of `SearchRequestOptions`
+- Added type narrowing for response types based on `select`ed fields
+- For types that are generic on a model type, the model type is now constrained to extend `object`
+
+### Other Changes
+
+- Deprecated `apiVersion` in favor of `serviceVersion` in clients:
+  - `SearchClient`
+  - `SearchIndexClient`
+  - `SearchIndexerClient`
+
+### Note
+
+- This GA release introduces bug fixes, convenience improvements, and select features from prior beta releases. Except for the features listed in these release notes, no preview features are being pulled into this release.
+
 ## 12.0.0-beta.4 (2023-10-11)
 
 ### Features Added
@@ -129,6 +201,12 @@
 - `SearchOptions.vector` has been abstracted into `SearchOptions.vectorQueries` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
 - `SearchField.vectorSearchConfiguration` has been abstracted into `SearchField.vectorSearchProfile` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
 - `VectorSearch.algorithmConfiguration` has been renamed to `VectorSearch.algorithms` [#27338](https://github.com/Azure/azure-sdk-for-js/pull/27338)
+
+## 11.3.3 (2023-09-27)
+
+### Bugs Fixed
+
+- Fix some `SearchIndex` fields being improperly serialized.[#27238](https://github.com/Azure/azure-sdk-for-js/pull/27238)
 
 ## 12.0.0-beta.3 (2023-08-10)
 
@@ -152,6 +230,20 @@
 - Fix compiler errors when using `SearchClient` without defined model. [#25999](https://github.com/Azure/azure-sdk-for-js/pull/25999)
 - Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
 - Fix serializerOptions and onResponse options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
+
+## 11.3.2 (2023-06-06)
+
+### Bugs Fixed
+
+- Fix ISO8601 deserialization. [#25802](https://github.com/Azure/azure-sdk-for-js/pull/25802)
+- Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
+- Fix `serializerOptions` and `onResponse` options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
+- Fix discarded user-defined `onResponse` callback. [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+- Fix type error on `select` statement with nested fields. [#26407](https://github.com/Azure/azure-sdk-for-js/pull/26407)
+
+### Other Changes
+
+- Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 
 ## 12.0.0-beta.1 (2023-05-09)
 
@@ -198,6 +290,31 @@
     - `SearchResult`
     - `SuggestDocumentsResult`
     - `SuggestResult`
+
+- Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
+
+## 11.3.1 (2022-11-18)
+
+### Bugs Fixed
+
+- Addressed an issue where `similarity` settings on indexes wouldn't populate correctly. See [#23811](https://github.com/Azure/azure-sdk-for-js/issues/23811)
+
+## 11.3.0 (2022-09-06)
+
+### Features Added
+
+- Enabled national cloud support for Azure Search SDK. Please refer [#22887](https://github.com/Azure/azure-sdk-for-js/pull/22887) for further details.
+- Support for TokenCredential has been added. With this addition, the Search SDK supports authentication via AAD.
+
+### Bugs Fixed
+
+- Converted the complex fields correctly within the Search Fields. Please refer [#16489](https://github.com/Azure/azure-sdk-for-js/issues/16489) for more details.
+- Fixed the typos `anayzerName` to `analyzerName` in `convertFieldsToPublic` method of `serviceUtils.ts`.
+- Fixed the issue with the presence of recursive structure while uploading documents. Please refer [#15656](https://github.com/Azure/azure-sdk-for-js/issues/15656) for further details.
+
+### Note
+
+- This GA release includes AAD with multi-cloud support and all the bug fixes since the last [11.2.0](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1120-2021-06-08) GA release. Other preview features and breaking changes from the [11.3.0-beta.1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta1-2021-07-07) to [11.3.0-beta.8](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta8-unreleased) releases are not included in this GA release.
 
 - Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 

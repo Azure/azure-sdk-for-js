@@ -93,7 +93,7 @@ export function isLatestPosition(eventPosition: EventPosition): boolean {
  * first event in the partition which has not expired due to the retention policy.
  */
 export const earliestEventPosition: EventPosition = {
-  offset: "-1:-1",
+  offset: "-1",
 };
 
 /**

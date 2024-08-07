@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
  *
  * @summary Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/ListUpdateProtectedItemRequests.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/ListUpdateProtectedItemRequests.json
  */
 async function listOperationsRequestObject() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function listOperationsRequestObject() {
   const resArray = new Array();
   for await (let item of client.resourceGuards.listUpdateProtectedItemRequestsObjects(
     resourceGroupName,
-    resourceGuardsName
+    resourceGuardsName,
   )) {
     resArray.push(item);
   }

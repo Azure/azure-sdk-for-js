@@ -166,17 +166,15 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body };
   }
 
-  const firstType = contentType.split(";")[0];
-
-  if (firstType === "application/json") {
-    return { body: JSON.stringify(body) };
-  }
-
   if (ArrayBuffer.isView(body)) {
     return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
+  const firstType = contentType.split(";")[0];
+
   switch (firstType) {
+    case "application/json":
+      return { body: JSON.stringify(body) };
     case "multipart/form-data":
       if (Array.isArray(body)) {
         return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };

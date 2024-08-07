@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to This operation will resume protection for a stopped backup instance
  *
  * @summary This operation will resume protection for a stopped backup instance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/ResumeProtection.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ResumeProtection.json
  */
 async function resumeProtection() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function resumeProtection() {
   const result = await client.backupInstances.beginResumeProtectionAndWait(
     resourceGroupName,
     vaultName,
-    backupInstanceName
+    backupInstanceName,
   );
   console.log(result);
 }

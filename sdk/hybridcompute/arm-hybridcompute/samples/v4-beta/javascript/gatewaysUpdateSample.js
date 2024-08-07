@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update a gateway.
  *
  * @summary The operation to update a gateway.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/gateway/Gateway_Update.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/gateway/Gateway_Update.json
  */
 async function updateAGateway() {
   const subscriptionId =

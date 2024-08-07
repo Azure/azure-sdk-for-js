@@ -19,7 +19,8 @@ import {
   FileSystemResourceUpdate,
   FileSystemsUpdateOptionalParams,
   FileSystemsUpdateResponse,
-  FileSystemsDeleteOptionalParams
+  FileSystemsDeleteOptionalParams,
+  FileSystemsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +31,7 @@ export interface FileSystems {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: FileSystemsListBySubscriptionOptionalParams
+    options?: FileSystemsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<FileSystemResource>;
   /**
    * List FileSystemResource resources by resource group
@@ -39,7 +40,7 @@ export interface FileSystems {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: FileSystemsListByResourceGroupOptionalParams
+    options?: FileSystemsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<FileSystemResource>;
   /**
    * Get a FileSystemResource
@@ -50,7 +51,7 @@ export interface FileSystems {
   get(
     resourceGroupName: string,
     fileSystemName: string,
-    options?: FileSystemsGetOptionalParams
+    options?: FileSystemsGetOptionalParams,
   ): Promise<FileSystemsGetResponse>;
   /**
    * Create a FileSystemResource
@@ -63,7 +64,7 @@ export interface FileSystems {
     resourceGroupName: string,
     fileSystemName: string,
     resource: FileSystemResource,
-    options?: FileSystemsCreateOrUpdateOptionalParams
+    options?: FileSystemsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FileSystemsCreateOrUpdateResponse>,
@@ -81,7 +82,7 @@ export interface FileSystems {
     resourceGroupName: string,
     fileSystemName: string,
     resource: FileSystemResource,
-    options?: FileSystemsCreateOrUpdateOptionalParams
+    options?: FileSystemsCreateOrUpdateOptionalParams,
   ): Promise<FileSystemsCreateOrUpdateResponse>;
   /**
    * Update a FileSystemResource
@@ -94,7 +95,7 @@ export interface FileSystems {
     resourceGroupName: string,
     fileSystemName: string,
     properties: FileSystemResourceUpdate,
-    options?: FileSystemsUpdateOptionalParams
+    options?: FileSystemsUpdateOptionalParams,
   ): Promise<FileSystemsUpdateResponse>;
   /**
    * Delete a FileSystemResource
@@ -105,8 +106,13 @@ export interface FileSystems {
   beginDelete(
     resourceGroupName: string,
     fileSystemName: string,
-    options?: FileSystemsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: FileSystemsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FileSystemsDeleteResponse>,
+      FileSystemsDeleteResponse
+    >
+  >;
   /**
    * Delete a FileSystemResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -116,6 +122,6 @@ export interface FileSystems {
   beginDeleteAndWait(
     resourceGroupName: string,
     fileSystemName: string,
-    options?: FileSystemsDeleteOptionalParams
-  ): Promise<void>;
+    options?: FileSystemsDeleteOptionalParams,
+  ): Promise<FileSystemsDeleteResponse>;
 }

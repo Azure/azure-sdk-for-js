@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ResourceGuardProxyBaseResource,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or Updates a ResourceGuardProxy
  *
  * @summary Creates or Updates a ResourceGuardProxy
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
  */
 async function createResourceGuardProxy() {
   const subscriptionId =
@@ -34,8 +34,8 @@ async function createResourceGuardProxy() {
   const parameters: ResourceGuardProxyBaseResource = {
     properties: {
       resourceGuardResourceId:
-        "/subscriptions/f9e67185-f313-4e79-aa71-6458d429369d/resourceGroups/ResourceGuardSecurityAdminRG/providers/Microsoft.DataProtection/resourceGuards/ResourceGuardTestResource"
-    }
+        "/subscriptions/f9e67185-f313-4e79-aa71-6458d429369d/resourceGroups/ResourceGuardSecurityAdminRG/providers/Microsoft.DataProtection/resourceGuards/ResourceGuardTestResource",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function createResourceGuardProxy() {
     resourceGroupName,
     vaultName,
     resourceGuardProxyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

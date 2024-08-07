@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Will override/create a new signature overrides for the policy's IDPS
  *
  * @summary Will override/create a new signature overrides for the policy's IDPS
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicySignatureOverridesPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicySignatureOverridesPut.json
  */
 async function putSignatureOverrides() {
   const subscriptionId =

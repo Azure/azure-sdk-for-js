@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the operation status for an operation over a BackupVault's context.
  *
  * @summary Gets the operation status for an operation over a BackupVault's context.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/GetOperationStatusVaultContext.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/GetOperationStatusVaultContext.json
  */
 async function getOperationStatus() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getOperationStatus() {
   const result = await client.operationStatusBackupVaultContext.get(
     resourceGroupName,
     vaultName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

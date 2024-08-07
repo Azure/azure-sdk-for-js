@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController } from "@azure/abort-controller";
 import { AppConfigurationClient } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
 import chai from "chai";
@@ -53,7 +52,7 @@ describe("Should not retry forever", () => {
               value: "added",
             },
             {
-              abortSignal: AbortController.timeout(1000),
+              abortSignal: AbortSignal.timeout(1000),
             },
           ),
         );

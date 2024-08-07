@@ -1,0 +1,41 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/healthdataaiservices
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/healthdataaiservices
+
+parameters:
+  # Switch to canary to test canary 1es branch. 1es template validation will set this parameter
+  # to canary on run.
+  - name: oneESTemplateTag
+    type: string
+    default: release
+    values:
+      - release
+      - canary
+
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    oneESTemplateTag: ${{ parameters.oneESTemplateTag }}
+    ServiceDirectory: healthdataaiservices
+    Artifacts:
+      - name: azure-rest-health-deidentification
+        safeName: azureresthealthdeidentification

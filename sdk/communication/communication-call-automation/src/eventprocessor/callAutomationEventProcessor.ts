@@ -4,7 +4,7 @@
 import { EventEmitter } from "events";
 import { CallAutomationEvent } from "../models/events";
 import { parseCallAutomationEvent } from "../callAutomationEventParser";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Call Automation's EventProcessor for incoming events for ease of use.

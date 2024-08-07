@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ValidateRestoreRequestObject,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validates if Restore can be triggered for a DataSource
  *
  * @summary Validates if Restore can be triggered for a DataSource
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/ValidateRestore.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ValidateRestore.json
  */
 async function validateRestore() {
   const subscriptionId =
@@ -40,8 +40,8 @@ async function validateRestore() {
           objectType: "SecretStoreBasedAuthCredentials",
           secretStoreResource: {
             secretStoreType: "AzureKeyVault",
-            uri: "https://samplevault.vault.azure.net/secrets/credentials"
-          }
+            uri: "https://samplevault.vault.azure.net/secrets/credentials",
+          },
         },
         datasourceInfo: {
           datasourceType: "Microsoft.DBforPostgreSQL/servers/databases",
@@ -51,7 +51,7 @@ async function validateRestore() {
           resourceLocation: "",
           resourceName: "targetdb",
           resourceType: "Microsoft.DBforPostgreSQL/servers/databases",
-          resourceUri: ""
+          resourceUri: "",
         },
         datasourceSetInfo: {
           datasourceType: "Microsoft.DBforPostgreSQL/servers/databases",
@@ -61,16 +61,16 @@ async function validateRestore() {
           resourceLocation: "",
           resourceName: "viveksipgtest",
           resourceType: "Microsoft.DBforPostgreSQL/servers",
-          resourceUri: ""
+          resourceUri: "",
         },
         objectType: "RestoreTargetInfo",
         recoveryOption: "FailIfExists",
-        restoreLocation: "southeastasia"
+        restoreLocation: "southeastasia",
       },
       sourceDataStoreType: "VaultStore",
       sourceResourceId:
-        "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest/providers/Microsoft.DBforPostgreSQL/servers/viveksipgtest/databases/testdb"
-    }
+        "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest/providers/Microsoft.DBforPostgreSQL/servers/viveksipgtest/databases/testdb",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
@@ -78,7 +78,7 @@ async function validateRestore() {
     resourceGroupName,
     vaultName,
     backupInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

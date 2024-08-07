@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the specified virtual network tap.
  *
  * @summary Gets information about the specified virtual network tap.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkTapGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualNetworkTapGet.json
  */
 async function getVirtualNetworkTap() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -288,7 +288,7 @@ export interface VirtualMachineScaleSetVMProfile {
   hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. Minimum api-version: 2022-11-01 */
   serviceArtifactReference?: ServiceArtifactReference;
-  /** Specifies the security posture to be used for all virtual machines in the scale set. Minimum api-version: 2023-03-01 */
+  /** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
   securityPostureReference?: SecurityPostureReference;
   /**
    * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. Minimum API version for this property is 2024-03-01. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile with minimum api-version 2024-03-01.
@@ -810,63 +810,14 @@ export interface ServiceArtifactReference {
   id?: string;
 }
 
-/** Specifies the security posture to be used for all virtual machines in the scale set. Minimum api-version: 2023-03-01 */
+/** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
 export interface SecurityPostureReference {
-  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|{major.*}|latest */
-  id?: string;
-  /** List of virtual machine extensions to exclude when applying the Security Posture. */
-  excludeExtensions?: VirtualMachineExtension[];
-}
-
-/** The instance view of a virtual machine extension. */
-export interface VirtualMachineExtensionInstanceView {
-  /** The virtual machine extension name. */
-  name?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** The resource status information. */
-  substatuses?: InstanceViewStatus[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-/** Instance view status. */
-export interface InstanceViewStatus {
-  /** The status code. */
-  code?: string;
-  /** The level code. */
-  level?: StatusLevelTypes;
-  /** The short localizable label for the status. */
-  displayStatus?: string;
-  /** The detailed status message, including for alerts and error messages. */
-  message?: string;
-  /** The time of the status. */
-  time?: Date;
-}
-
-/** The Resource model definition with location property as optional. */
-export interface ResourceWithOptionalLocation {
-  /** Resource location */
-  location?: string;
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
+  id: string;
+  /** The list of virtual machine extension names to exclude when applying the security posture. */
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
 }
 
 /** Enables or disables a capability on the virtual machine or virtual machine scale set. */
@@ -993,6 +944,8 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
   storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
   /** The virtual machine scale set network profile. */
   networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
+  /** The virtual machine scale set security posture reference. */
+  securityPostureReference?: SecurityPostureReferenceUpdate;
   /** The virtual machine scale set Security profile */
   securityProfile?: SecurityProfile;
   /** The virtual machine scale set diagnostics profile. */
@@ -1128,6 +1081,16 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
   deleteOption?: DeleteOptions;
 }
 
+/** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
+export interface SecurityPostureReferenceUpdate {
+  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
+  id?: string;
+  /** The list of virtual machine extension names to exclude when applying the security posture. */
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
+}
+
 /** The Update Resource model definition. */
 export interface UpdateResource {
   /** Resource tags */
@@ -1202,6 +1165,20 @@ export interface VirtualMachineScaleSetVMExtensionsSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statusesSummary?: VirtualMachineStatusCodeCount[];
+}
+
+/** Instance view status. */
+export interface InstanceViewStatus {
+  /** The status code. */
+  code?: string;
+  /** The level code. */
+  level?: StatusLevelTypes;
+  /** The short localizable label for the status. */
+  displayStatus?: string;
+  /** The detailed status message, including for alerts and error messages. */
+  message?: string;
+  /** The time of the status. */
+  time?: Date;
 }
 
 /** Summary for an orchestration service of a virtual machine scale set. */
@@ -1475,6 +1452,20 @@ export interface OrchestrationServiceStateInput {
   serviceName: OrchestrationServiceNames;
   /** The action to be performed. */
   action: OrchestrationServiceStateAction;
+}
+
+/** The instance view of a virtual machine extension. */
+export interface VirtualMachineExtensionInstanceView {
+  /** The virtual machine extension name. */
+  name?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  type?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** The resource status information. */
+  substatuses?: InstanceViewStatus[];
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
 }
 
 /** The List VMSS VM Extension operation response */
@@ -1844,6 +1835,29 @@ export interface VirtualMachineScaleSetVMProtectionPolicy {
   protectFromScaleIn?: boolean;
   /** Indicates that model updates or actions (including scale-in) initiated on the virtual machine scale set should not be applied to the virtual machine scale set VM. */
   protectFromScaleSetActions?: boolean;
+}
+
+/** The Resource model definition with location property as optional. */
+export interface ResourceWithOptionalLocation {
+  /** Resource location */
+  location?: string;
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Identity for the virtual machine. */
@@ -2970,7 +2984,7 @@ export interface DiskSku {
 }
 
 /** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
-export interface PurchasePlanAutoGenerated {
+export interface DiskPurchasePlan {
   /** The plan ID. */
   name: string;
   /** The publisher ID. */
@@ -3139,7 +3153,7 @@ export interface DiskUpdate {
   /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
   burstingEnabled?: boolean;
   /** Purchase plan information to be added on the OS disk */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities to be added on the OS disk. */
   supportedCapabilities?: SupportedCapabilities;
   /**
@@ -5122,39 +5136,6 @@ export interface DiskRestorePointAttributes extends SubResourceReadOnly {
   sourceDiskRestorePoint?: ApiEntityReference;
 }
 
-/** Describes a Virtual Machine Extension. */
-export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
-  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
-  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: any;
-  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The virtual machine extension instance view. */
-  instanceView?: VirtualMachineExtensionInstanceView;
-  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
-  /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: string[];
-}
-
 /** Describes a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSet extends Resource {
   /** The virtual machine scale set sku. */
@@ -5729,7 +5710,7 @@ export interface Disk extends Resource {
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer} */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities for the image from which the OS disk was created. */
   supportedCapabilities?: SupportedCapabilities;
   /** Disk source information. CreationData information cannot be changed after the disk has been created. */
@@ -5888,7 +5869,7 @@ export interface Snapshot extends Resource {
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the image from which the source disk for the snapshot was originally created. */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities for the image from which the source disk from the snapshot was originally created. */
   supportedCapabilities?: SupportedCapabilities;
   /** Disk source information. CreationData information cannot be changed after the disk has been created. */
@@ -6430,6 +6411,39 @@ export interface VirtualMachineScaleSetVMReimageParameters
   forceUpdateOSDiskForEphemeral?: boolean;
 }
 
+/** Describes a Virtual Machine Extension. */
+export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
+  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
+  forceUpdateTag?: string;
+  /** The name of the extension handler publisher. */
+  publisher?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  typePropertiesType?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
+  autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
+  /** Json formatted public settings for the extension. */
+  settings?: any;
+  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
+  protectedSettings?: any;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The virtual machine extension instance view. */
+  instanceView?: VirtualMachineExtensionInstanceView;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
+  /** The extensions protected settings that are passed by reference, and consumed from key vault */
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  /** Collection of extension names after which this extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
+}
+
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
 export interface DedicatedHostInstanceViewWithName
   extends DedicatedHostInstanceView {
@@ -6525,7 +6539,7 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the the image from which the OS disk was created. */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities for the image from which the OS disk was created. */
   supportedCapabilities?: SupportedCapabilities;
   /**
@@ -9679,14 +9693,14 @@ export type ProtocolTypes = "Http" | "Https";
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 /** Defines values for OperatingSystemTypes. */
 export type OperatingSystemTypes = "Windows" | "Linux";
-/** Defines values for StatusLevelTypes. */
-export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for StatusLevelTypes. */
+export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Defines values for VirtualMachineScaleSetSkuScaleType. */
 export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 /** Defines values for UpgradeState. */
@@ -10570,7 +10584,7 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams
 /** Optional parameters. */
 export interface VirtualMachinesDeallocateOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
+  /** Optional parameter to hibernate a virtual machine. */
   hibernate?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

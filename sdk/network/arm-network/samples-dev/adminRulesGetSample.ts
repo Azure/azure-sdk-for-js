@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerAdminRuleGet.json
  */
 async function getsSecurityAdminRule() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function getsSecurityAdminRule() {
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerDefaultAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerDefaultAdminRuleGet.json
  */
 async function getsSecurityDefaultAdminRule() {
   const subscriptionId =

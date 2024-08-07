@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
  */
 async function createFirewallPolicyNatRuleCollectionGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -62,7 +62,7 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyRuleCollectionGroupPut.json
  */
 async function createFirewallPolicyRuleCollectionGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -105,7 +105,7 @@ async function createFirewallPolicyRuleCollectionGroup() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -151,7 +151,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const subscriptionId =
@@ -194,7 +194,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert() {
   const subscriptionId =

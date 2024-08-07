@@ -14,7 +14,6 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "downlevelIteration": true,
 
     "resolveJsonModule": true,
     "skipLibCheck": true

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FeatureValidationRequest,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validates if a feature is supported
  *
  * @summary Validates if a feature is supported
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CheckfeatureSupport.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CheckfeatureSupport.json
  */
 async function checkAzureVMBackupFeatureSupport() {
   const subscriptionId =
@@ -30,13 +30,13 @@ async function checkAzureVMBackupFeatureSupport() {
   const location = "WestUS";
   const parameters: FeatureValidationRequest = {
     featureType: "DataSourceType",
-    objectType: "FeatureValidationRequest"
+    objectType: "FeatureValidationRequest",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const result = await client.dataProtection.checkFeatureSupport(
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }

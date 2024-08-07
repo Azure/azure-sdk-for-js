@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gives the supported security providers for the virtual wan.
  *
  * @summary Gives the supported security providers for the virtual wan.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualWanSupportedSecurityProviders.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualWanSupportedSecurityProviders.json
  */
 async function supportedSecurityProviders() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

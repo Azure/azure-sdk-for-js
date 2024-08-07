@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
-import { ConnectionContext, createConnectionContext } from "./connectionContext";
+import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor.js";
+import { ConnectionContext, createConnectionContext } from "./connectionContext.js";
 import {
   EventHubConsumerClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   LoadBalancingOptions,
-} from "./models/public";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
+} from "./models/public.js";
+import { EventHubProperties, PartitionProperties } from "./managementClient.js";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import {
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,
-} from "./eventHubConsumerClientModels";
-import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
+} from "./eventHubConsumerClientModels.js";
+import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy.js";
 import { Constants } from "@azure/core-amqp";
-import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
-import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
-import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
-import { PartitionGate } from "./impl/partitionGate";
-import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
-import { isCredential } from "./util/typeGuards";
-import { logger } from "./logger";
-import { validateEventPositions } from "./eventPosition";
-import { getRandomName } from "./util/utils";
+import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy.js";
+import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore.js";
+import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy.js";
+import { PartitionGate } from "./impl/partitionGate.js";
+import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy.js";
+import { isCredential } from "./util/typeGuards.js";
+import { logger } from "./logger.js";
+import { validateEventPositions } from "./eventPosition.js";
+import { getRandomName } from "./util/utils.js";
 
 const defaultConsumerClientOptions: Required<
   Pick<FullEventProcessorOptions, "maxWaitTimeInSeconds" | "maxBatchSize">

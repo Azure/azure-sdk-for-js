@@ -39,7 +39,7 @@ const getCurrentWeather = {
 export async function main() {
   console.log("== Chat Completions Sample With Functions ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential()));
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [{ role: "user", content: "What's the weather like in Boston?" }],

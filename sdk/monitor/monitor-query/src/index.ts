@@ -64,4 +64,8 @@ export { NamespaceClassification } from "./generated/metricsnamespaces/src";
 
 export { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
 export { MetricsClient } from "./metricsClient";
-export { KnownMonitorAudience } from "./constants";
+export {
+  KnownMonitorAudience,
+  KnownMonitorLogsQueryAudience,
+  KnownMonitorMetricsQueryAudience,
+} from "./constants";

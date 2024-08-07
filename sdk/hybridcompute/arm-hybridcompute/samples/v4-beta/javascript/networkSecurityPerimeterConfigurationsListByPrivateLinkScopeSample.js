@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the network security perimeter configurations for a private link scope.
  *
  * @summary Lists the network security perimeter configurations for a private link scope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationList.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationList.json
  */
 async function getsTheListOfNetworkSecurityPerimeterConfigurationsOfThePrivateLinkScope() {
   const subscriptionId =

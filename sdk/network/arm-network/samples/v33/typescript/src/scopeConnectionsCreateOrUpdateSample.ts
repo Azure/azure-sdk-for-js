@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates scope connection from Network Manager
  *
  * @summary Creates or updates scope connection from Network Manager
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerScopeConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerScopeConnectionPut.json
  */
 async function createOrUpdateNetworkManagerScopeConnection() {
   const subscriptionId =

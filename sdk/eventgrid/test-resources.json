@@ -15,6 +15,12 @@
       "metadata": {
         "description": "The location of the resource. By default, this is the same as the resource group."
       }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
@@ -22,7 +28,10 @@
     "cloudEventTopicName": "[concat(parameters('baseName'), '-ce')]",
     "customEventTopicName": "[concat(parameters('baseName'), '-cus')]",
     "serviceBusNamespaceName": "[concat(parameters('baseName'), '-ns')]",
-    "serviceBusQueueName": "[concat(parameters('baseName'), '-queue')]"
+    "egNamespaceName": "[concat(parameters('baseName'), '-egns')]",
+    "serviceBusQueueName": "[concat(parameters('baseName'), '-queue')]",
+    "dataSenderRoleDefinitionId": "d5a91429-5739-47e2-a06b-3470a27159e7",
+    "dataContributorRoleDefinitionId": "1d8c3fe3-8864-474b-8749-01e3783e8157"
   },
   "resources": [
     {
@@ -92,6 +101,71 @@
           "properties": {}
         }
       ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataSender')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataSenderRoleDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(resourceGroup().id, parameters('baseName'), variables('eventGridTopicName'), 'DataContributor')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('dataContributorRoleDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces",
+      "apiVersion": "2024-06-01-preview",
+      "name": "[variables('egNamespaceName')]",
+      "location": "eastus",
+      "sku": {
+        "name": "Standard",
+        "capacity": 1
+      },
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces/topics",
+      "apiVersion": "2024-06-01-preview",
+      "name": "[concat(variables('egNamespaceName'), '/testtopic1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventGrid/namespaces', variables('egNamespaceName'))]"
+      ],
+      "properties": {
+        "publisherType": "Custom",
+        "inputSchema": "CloudEventSchemaV1_0",
+        "eventRetentionInDays": 1
+      }
+    },
+    {
+      "type": "Microsoft.EventGrid/namespaces/topics/eventSubscriptions",
+      "apiVersion": "2024-06-01-preview",
+      "name": "[concat(variables('egNamespaceName'), '/testtopic1/testsubscription1')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventGrid/namespaces/topics', variables('egNamespaceName'), 'testtopic1')]",
+        "[resourceId('Microsoft.EventGrid/namespaces', variables('egNamespaceName'))]"
+      ],
+      "properties": {
+        "deliveryConfiguration": {
+          "deliveryMode": "Queue",
+          "queue": {
+            "receiveLockDurationInSeconds": 60,
+            "maxDeliveryCount": 10,
+            "eventTimeToLive": "P1D"
+          }
+        },
+        "eventDeliverySchema": "CloudEventSchemaV1_0",
+        "filtersConfiguration": {
+          "includedEventTypes": []
+        }
+      }
     }
   ],
   "outputs": {
@@ -99,25 +173,13 @@
       "type": "string",
       "value": "[reference(variables('eventGridTopicName')).endpoint]"
     },
-    "EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY": {
-      "type": "string",
-      "value": "[listKeys(variables('eventGridTopicName'), '2020-06-01').key1]"
-    },
     "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT": {
       "type": "string",
       "value": "[reference(variables('cloudEventTopicName')).endpoint]"
     },
-    "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY": {
-      "type": "string",
-      "value": "[listKeys(variables('cloudEventTopicName'), '2020-06-01').key1]"
-    },
     "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT": {
       "type": "string",
       "value": "[reference(variables('customEventTopicName')).endpoint]"
-    },
-    "EVENT_GRID_CUSTOM_SCHEMA_API_KEY": {
-      "type": "string",
-      "value": "[listKeys(variables('customEventTopicName'), '2020-06-01').key1]"
     },
     "SERVICE_BUS_CONNECTION_STRING": {
       "type": "string",
@@ -126,6 +188,10 @@
     "SERVICE_BUS_QUEUE_NAME": {
       "type": "string",
       "value": "[variables('serviceBusQueueName')]"
+    },
+    "EVENT_GRID_NAMESPACES_ENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', reference(variables('egNamespaceName')).topicsConfiguration.hostname)]"
     }
   }
 }

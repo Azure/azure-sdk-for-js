@@ -38,7 +38,11 @@ export interface InteractiveBrowserCredentialNodeOptions
   tenantId?: string;
 
   /**
-   * The client (application) ID of an App Registration in the tenant.
+   * The Client ID of the Microsoft Entra application that users will sign into.
+   * It is recommended that developers register their applications and assign appropriate roles.
+   * For more information, visit https://aka.ms/identity/AppRegistrationAndRoleAssignment.
+   * If not specified, users will authenticate to an Azure development application,
+   * which is not recommended for production scenarios.
    */
   clientId?: string;
 
@@ -66,8 +70,10 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
   tenantId?: string;
 
   /**
-   * The client (application) ID of an App Registration in the tenant.
+   * The Client ID of the Microsoft Entra application that users will sign into.
    * This parameter is required on the browser.
+   * Developers need to register their applications and assign appropriate roles.
+   * For more information, visit https://aka.ms/identity/AppRegistrationAndRoleAssignment.
    */
   clientId: string;
 

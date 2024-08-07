@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
@@ -24,7 +24,7 @@ import {
   RedisLinkedServerCreateParameters as RedisLinkedServerCreateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   RedisCacheAccessPolicy as RedisCacheAccessPolicyMapper,
-  RedisCacheAccessPolicyAssignment as RedisCacheAccessPolicyAssignmentMapper
+  RedisCacheAccessPolicyAssignment as RedisCacheAccessPolicyAssignmentMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -34,9 +34,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -45,22 +45,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-01",
+    defaultValue: "2024-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -69,10 +69,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -82,28 +82,28 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckNameAvailabilityParametersMapper
+  mapper: CheckNameAvailabilityParametersMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -111,14 +111,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const name: OperationURLParameter = {
@@ -127,9 +127,9 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const history: OperationQueryParameter = {
@@ -138,58 +138,60 @@ export const history: OperationQueryParameter = {
     serializedName: "history",
     required: true,
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisCreateParametersMapper
+  mapper: RedisCreateParametersMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisUpdateParametersMapper
+  mapper: RedisUpdateParametersMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisRegenerateKeyParametersMapper
+  mapper: RedisRegenerateKeyParametersMapper,
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisRebootParametersMapper
+  mapper: RedisRebootParametersMapper,
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ImportRDBParametersMapper
+  mapper: ImportRDBParametersMapper,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ExportRDBParametersMapper
+  mapper: ExportRDBParametersMapper,
 };
 
 export const cacheName: OperationURLParameter = {
   parameterPath: "cacheName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$")
+      Pattern: new RegExp(
+        "^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$",
+      ),
     },
     serializedName: "cacheName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisFirewallRuleMapper
+  mapper: RedisFirewallRuleMapper,
 };
 
 export const ruleName: OperationURLParameter = {
@@ -198,14 +200,14 @@ export const ruleName: OperationURLParameter = {
     serializedName: "ruleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisPatchScheduleMapper
+  mapper: RedisPatchScheduleMapper,
 };
 
 export const defaultParam: OperationURLParameter = {
@@ -214,14 +216,14 @@ export const defaultParam: OperationURLParameter = {
     serializedName: "default",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisLinkedServerCreateParametersMapper
+  mapper: RedisLinkedServerCreateParametersMapper,
 };
 
 export const linkedServerName: OperationURLParameter = {
@@ -230,9 +232,9 @@ export const linkedServerName: OperationURLParameter = {
     serializedName: "linkedServerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -241,14 +243,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -257,9 +259,9 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
@@ -268,14 +270,14 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisCacheAccessPolicyMapper
+  mapper: RedisCacheAccessPolicyMapper,
 };
 
 export const accessPolicyName: OperationURLParameter = {
@@ -283,22 +285,22 @@ export const accessPolicyName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
+        "^([a-zA-Z0-9][a-zA-Z0-9- ]*[a-zA-Z0-9]|[a-zA-Z0-9])$",
       ),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "accessPolicyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RedisCacheAccessPolicyAssignmentMapper
+  mapper: RedisCacheAccessPolicyAssignmentMapper,
 };
 
 export const accessPolicyAssignmentName: OperationURLParameter = {
@@ -306,15 +308,15 @@ export const accessPolicyAssignmentName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
+        "^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$",
       ),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "accessPolicyAssignmentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

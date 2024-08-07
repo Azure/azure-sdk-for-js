@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Redis cache (resource description).
  *
  * @summary Gets a Redis cache (resource description).
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheGet.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheGet.json
  */
 async function redisCacheGet() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

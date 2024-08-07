@@ -7,7 +7,6 @@ extends:
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
-      UseFederatedAuth: true
       AdditionalMatrixConfigs:
          - Name: Keyvault_live_test_base
            Path: sdk/keyvault/keyvault-certificates/platform-matrix.json

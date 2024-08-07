@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
  *
  * @summary Creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpPrefixCreateCustomizedValues.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/PublicIpPrefixCreateCustomizedValues.json
  */
 async function createPublicIPPrefixAllocationMethod() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -42,7 +42,7 @@ async function createPublicIPPrefixAllocationMethod() {
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
  *
  * @summary Creates or updates a static or dynamic public IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PublicIpPrefixCreateDefaults.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/PublicIpPrefixCreateDefaults.json
  */
 async function createPublicIPPrefixDefaults() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -283,7 +283,7 @@ export interface LinkOrganization {
 
 // @public
 export interface MarketplaceDetails {
-    marketplaceSubscriptionId: string;
+    marketplaceSubscriptionId?: string;
     offerDetails: OfferDetails;
 }
 

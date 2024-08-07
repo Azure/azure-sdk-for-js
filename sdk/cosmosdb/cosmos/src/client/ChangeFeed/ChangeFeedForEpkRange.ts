@@ -280,8 +280,8 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
 
     if (partitionSplit) {
       const queryRange = new QueryRange(
-        feedRange.minInclusive,
-        feedRange.maxExclusive,
+        feedRange.epkMinHeader ? feedRange.epkMinHeader : feedRange.minInclusive,
+        feedRange.epkMaxHeader ? feedRange.epkMaxHeader : feedRange.maxExclusive,
         true,
         false,
       );

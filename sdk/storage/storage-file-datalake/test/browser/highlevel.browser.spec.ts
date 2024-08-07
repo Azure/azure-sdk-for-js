@@ -13,7 +13,6 @@ import {
   arrayBufferEqual,
 } from "../utils/index.browser";
 import { MB } from "../../src/utils/constants";
-import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 
 describe("Highlevel browser only", () => {
@@ -79,7 +78,7 @@ describe("Highlevel browser only", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
     try {
       await fileClient.upload(tempFileLarge, {
         abortSignal: aborter,

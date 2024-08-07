@@ -19,13 +19,14 @@ import {
   FetchSecondaryRecoveryPointsListNextOptionalParams,
   FetchSecondaryRecoveryPointsListOptionalParams,
   FetchSecondaryRecoveryPointsListResponse,
-  FetchSecondaryRecoveryPointsListNextResponse
+  FetchSecondaryRecoveryPointsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FetchSecondaryRecoveryPoints operations. */
 export class FetchSecondaryRecoveryPointsImpl
-  implements FetchSecondaryRecoveryPoints {
+  implements FetchSecondaryRecoveryPoints
+{
   private readonly client: DataProtectionClient;
 
   /**
@@ -48,13 +49,13 @@ export class FetchSecondaryRecoveryPointsImpl
     resourceGroupName: string,
     location: string,
     parameters: FetchSecondaryRPsRequestParameters,
-    options?: FetchSecondaryRecoveryPointsListOptionalParams
+    options?: FetchSecondaryRecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       location,
       parameters,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +73,9 @@ export class FetchSecondaryRecoveryPointsImpl
           location,
           parameters,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +84,7 @@ export class FetchSecondaryRecoveryPointsImpl
     location: string,
     parameters: FetchSecondaryRPsRequestParameters,
     options?: FetchSecondaryRecoveryPointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBackupRecoveryPointResource[]> {
     let result: FetchSecondaryRecoveryPointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class FetchSecondaryRecoveryPointsImpl
         resourceGroupName,
         location,
         parameters,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +106,7 @@ export class FetchSecondaryRecoveryPointsImpl
         location,
         parameters,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,13 +119,13 @@ export class FetchSecondaryRecoveryPointsImpl
     resourceGroupName: string,
     location: string,
     parameters: FetchSecondaryRPsRequestParameters,
-    options?: FetchSecondaryRecoveryPointsListOptionalParams
+    options?: FetchSecondaryRecoveryPointsListOptionalParams,
   ): AsyncIterableIterator<AzureBackupRecoveryPointResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       location,
       parameters,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +143,11 @@ export class FetchSecondaryRecoveryPointsImpl
     resourceGroupName: string,
     location: string,
     parameters: FetchSecondaryRPsRequestParameters,
-    options?: FetchSecondaryRecoveryPointsListOptionalParams
+    options?: FetchSecondaryRecoveryPointsListOptionalParams,
   ): Promise<FetchSecondaryRecoveryPointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, parameters, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -163,11 +164,11 @@ export class FetchSecondaryRecoveryPointsImpl
     location: string,
     parameters: FetchSecondaryRPsRequestParameters,
     nextLink: string,
-    options?: FetchSecondaryRecoveryPointsListNextOptionalParams
+    options?: FetchSecondaryRecoveryPointsListNextOptionalParams,
   ): Promise<FetchSecondaryRecoveryPointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, parameters, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -175,52 +176,51 @@ export class FetchSecondaryRecoveryPointsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchSecondaryRecoveryPoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchSecondaryRecoveryPoints",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList
+      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters16,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList
+      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

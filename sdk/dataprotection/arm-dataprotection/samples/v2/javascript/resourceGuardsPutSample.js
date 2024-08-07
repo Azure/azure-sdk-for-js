@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a ResourceGuard resource belonging to a resource group.
  *
  * @summary Creates or updates a ResourceGuard resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/PutResourceGuard.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/PutResourceGuard.json
  */
 async function createResourceGuard() {
   const subscriptionId =

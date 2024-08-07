@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the linked server from a redis cache (requires Premium SKU).
  *
  * @summary Deletes the linked server from a redis cache (requires Premium SKU).
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheLinkedServer_Delete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheLinkedServer_Delete.json
  */
 async function linkedServerDelete() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function linkedServerDelete() {
   const result = await client.linkedServer.beginDeleteAndWait(
     resourceGroupName,
     name,
-    linkedServerName
+    linkedServerName,
   );
   console.log(result);
 }

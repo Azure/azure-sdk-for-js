@@ -5,4 +5,3 @@ extends:
     parameters:
       PackageName: "@azure/schema-registry-json"
       ServiceDirectory: schemaregistry
-      UseFederatedAuth: true

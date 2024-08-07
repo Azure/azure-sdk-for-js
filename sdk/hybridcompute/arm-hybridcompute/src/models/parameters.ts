@@ -19,7 +19,6 @@ import {
   MachineExtensionUpdate as MachineExtensionUpdateMapper,
   MachineExtensionUpgrade as MachineExtensionUpgradeMapper,
   MachineRunCommand as MachineRunCommandMapper,
-  MachineRunCommandUpdate as MachineRunCommandUpdateMapper,
   Gateway as GatewayMapper,
   GatewayUpdate as GatewayUpdateMapper,
   Settings as SettingsMapper,
@@ -72,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-31-preview",
+    defaultValue: "2024-05-20-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -295,11 +294,6 @@ export const runCommandName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const runCommandProperties1: OperationParameter = {
-  parameterPath: "runCommandProperties",
-  mapper: MachineRunCommandUpdateMapper,
 };
 
 export const parameters2: OperationParameter = {

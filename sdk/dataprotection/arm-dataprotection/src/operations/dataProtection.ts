@@ -14,7 +14,7 @@ import { DataProtectionClient } from "../dataProtectionClient";
 import {
   FeatureValidationRequestBaseUnion,
   DataProtectionCheckFeatureSupportOptionalParams,
-  DataProtectionCheckFeatureSupportResponse
+  DataProtectionCheckFeatureSupportResponse,
 } from "../models";
 
 /** Class containing DataProtection operations. */
@@ -38,11 +38,11 @@ export class DataProtectionImpl implements DataProtection {
   checkFeatureSupport(
     location: string,
     parameters: FeatureValidationRequestBaseUnion,
-    options?: DataProtectionCheckFeatureSupportOptionalParams
+    options?: DataProtectionCheckFeatureSupportOptionalParams,
   ): Promise<DataProtectionCheckFeatureSupportResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      checkFeatureSupportOperationSpec
+      checkFeatureSupportOperationSpec,
     );
   }
 }
@@ -50,25 +50,24 @@ export class DataProtectionImpl implements DataProtection {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkFeatureSupportOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/checkFeatureSupport",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/checkFeatureSupport",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.FeatureValidationResponseBase
+      bodyMapper: Mappers.FeatureValidationResponseBase,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

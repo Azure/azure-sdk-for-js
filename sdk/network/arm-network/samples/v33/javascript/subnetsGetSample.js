@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
  *
  * @summary Gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SubnetGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/SubnetGet.json
  */
 async function getSubnet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function getSubnet() {
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
  *
  * @summary Gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SubnetGetWithDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/SubnetGetWithDelegation.json
  */
 async function getSubnetWithADelegation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -50,7 +50,7 @@ async function getSubnetWithADelegation() {
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
  *
  * @summary Gets the specified subnet by virtual network and resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/SubnetGetWithSharingScope.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/SubnetGetWithSharingScope.json
  */
 async function getSubnetWithSharingScope() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

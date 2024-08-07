@@ -8,7 +8,6 @@ import childProcess from "child_process";
 import { assert } from "@azure-tools/test-utils";
 
 import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-util";

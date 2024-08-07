@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Fetches the Cross Region Restore Job
  *
  * @summary Fetches the Cross Region Restore Job
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CrossRegionRestore/FetchCrossRegionRestoreJob.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/FetchCrossRegionRestoreJob.json
  */
 async function getCrossRegionRestoreJob() {
   const subscriptionId =

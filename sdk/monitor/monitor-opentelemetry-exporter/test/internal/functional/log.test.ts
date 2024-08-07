@@ -11,7 +11,7 @@ import { TelemetryItem as Envelope } from "../../../src/generated";
 describe("Log Exporter Scenarios", () => {
   describe(LogBasicScenario.prototype.constructor.name, () => {
     const scenario = new LogBasicScenario();
-    let ingest: Envelope[] = [];
+    const ingest: Envelope[] = [];
 
     before(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
@@ -37,6 +37,7 @@ describe("Log Exporter Scenarios", () => {
         .run()
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
+          // eslint-disable-next-line promise/always-return
           return scenario.flush().then(() => {
             setTimeout(() => {
               assertLogExpectation(ingest, scenario.expectation);

@@ -30,11 +30,11 @@ export class HealthApiImpl implements HealthApi {
    * @param options The options parameters.
    */
   getServiceStatus(
-    options?: HealthApiGetServiceStatusOptionalParams
+    options?: HealthApiGetServiceStatusOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { options },
-      getServiceStatusOperationSpec
+      getServiceStatusOperationSpec,
     );
   }
 }
@@ -47,5 +47,5 @@ const getServiceStatusOperationSpec: coreClient.OperationSpec = {
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  serializer
+  serializer,
 };

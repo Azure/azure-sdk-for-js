@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified private dns zone group.
  *
  * @summary Deletes the specified private dns zone group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointDnsZoneGroupDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/PrivateEndpointDnsZoneGroupDelete.json
  */
 async function deletePrivateDnsZoneGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

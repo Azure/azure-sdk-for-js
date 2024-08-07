@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
  *
  * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/PrivateEndpointGet.json
  */
 async function getPrivateEndpoint() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -37,7 +37,7 @@ async function getPrivateEndpoint() {
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
  *
  * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointGetWithASG.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/PrivateEndpointGetWithASG.json
  */
 async function getPrivateEndpointWithApplicationSecurityGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -56,7 +56,7 @@ async function getPrivateEndpointWithApplicationSecurityGroups() {
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
  *
  * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/PrivateEndpointGetForManualApproval.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/PrivateEndpointGetForManualApproval.json
  */
 async function getPrivateEndpointWithManualApprovalConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

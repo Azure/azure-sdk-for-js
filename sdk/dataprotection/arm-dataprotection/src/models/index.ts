@@ -106,6 +106,13 @@ export interface BackupVault {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly secureScore?: SecureScoreLevel;
+  /**
+   * Security Level of Backup Vault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bcdrSecurityLevel?: BcdrSecurityLevel;
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
+  resourceGuardOperationRequests?: string[];
   /** List of replicated regions for Backup Vault */
   replicatedRegions?: string[];
 }
@@ -141,6 +148,8 @@ export interface SecuritySettings {
   softDeleteSettings?: SoftDeleteSettings;
   /** Immutability Settings at vault level */
   immutabilitySettings?: ImmutabilitySettings;
+  /** Customer Managed Key details of the resource. */
+  encryptionSettings?: EncryptionSettings;
 }
 
 /** Soft delete related settings */
@@ -155,6 +164,32 @@ export interface SoftDeleteSettings {
 export interface ImmutabilitySettings {
   /** Immutability state */
   state?: ImmutabilityState;
+}
+
+/** Customer Managed Key details of the resource. */
+export interface EncryptionSettings {
+  /** Encryption state of the Backup Vault. */
+  state?: EncryptionState;
+  /** The properties of the Key Vault which hosts CMK */
+  keyVaultProperties?: CmkKeyVaultProperties;
+  /** The details of the managed identity used for CMK */
+  kekIdentity?: CmkKekIdentity;
+  /** Enabling/Disabling the Double Encryption state */
+  infrastructureEncryption?: InfrastructureEncryptionState;
+}
+
+/** The properties of the Key Vault which hosts CMK */
+export interface CmkKeyVaultProperties {
+  /** The key uri of the Customer Managed Key */
+  keyUri?: string;
+}
+
+/** The details of the managed identity used for CMK */
+export interface CmkKekIdentity {
+  /** The identity type. 'SystemAssigned' and 'UserAssigned' are mutually exclusive. 'SystemAssigned' will use implicitly created managed identity. */
+  identityType?: IdentityType;
+  /** The managed identity to be used which has access permissions to the Key Vault. Provide a value here in case identity types: 'UserAssigned' only. */
+  identityId?: string;
 }
 
 /** Storage setting */
@@ -359,6 +394,8 @@ export interface PatchBackupVaultInput {
   securitySettings?: SecuritySettings;
   /** Feature Settings */
   featureSettings?: FeatureSettings;
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
+  resourceGuardOperationRequests?: string[];
 }
 
 /** CheckNameAvailability Request */
@@ -489,6 +526,8 @@ export interface BackupInstance {
   dataSourceSetInfo?: DatasourceSet;
   /** Gets or sets the policy information. */
   policyInfo: PolicyInfo;
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
+  resourceGuardOperationRequests?: string[];
   /**
    * Specifies the protection status of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -740,6 +779,8 @@ export interface AzureBackupRestoreRequest {
   sourceDataStoreType: SourceDataStoreType;
   /** Fully qualified Azure Resource Manager ID of the datasource which is being recovered. */
   sourceResourceId?: string;
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
+  resourceGuardOperationRequests?: string[];
   /**
    * Contains information of the Identity Details for the BI.
    * If it is null, default will be considered as System Assigned.
@@ -993,6 +1034,18 @@ export interface AzureBackupRehydrationRequest {
   rehydrationRetentionDuration: string;
 }
 
+/** Request body of Stop protection when MUA is Enabled */
+export interface StopProtectionRequest {
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
+  resourceGuardOperationRequests?: string[];
+}
+
+/** Request body of Suspend backup when MUA is Enabled */
+export interface SuspendBackupRequest {
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
+  resourceGuardOperationRequests?: string[];
+}
+
 /** Sync BackupInstance Request */
 export interface SyncBackupInstanceRequest {
   /** Field indicating sync type e.g. to sync only in case of failure or in all cases */
@@ -1171,6 +1224,7 @@ export interface ResourceGuardOperationDetail {
 
 /** Request body of unlock delete API. */
 export interface UnlockDeleteRequest {
+  /** ResourceGuardOperationRequests on which LAC check will be performed */
   resourceGuardOperationRequests?: string[];
   resourceToBeDeleted?: string;
 }
@@ -1836,6 +1890,8 @@ export interface KubernetesClusterRestoreCriteria
   namespaceMappings?: { [propertyName: string]: string };
   /** Gets or sets the restore hook references. This property sets the hook reference to be executed during restore. */
   restoreHookReferences?: NamespacedNameResource[];
+  /** Gets or sets the resource modifier reference. This property sets the reference for resource modifier during restore. */
+  resourceModifierReference?: NamespacedNameResource;
 }
 
 /** kubernetes Cluster Backup target info for restore operation from vault */
@@ -1867,6 +1923,8 @@ export interface KubernetesClusterVaultTierRestoreCriteria
   stagingResourceGroupId?: string;
   /** Gets or sets the staging Storage Account Id for creating backup extension object store data during restore from vault. */
   stagingStorageAccountId?: string;
+  /** Gets or sets the resource modifier reference. This property sets the reference for resource modifier during restore. */
+  resourceModifierReference?: NamespacedNameResource;
 }
 
 /** Backup Vault Resource */
@@ -2057,7 +2115,7 @@ export enum KnownAlertsState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2081,7 +2139,7 @@ export enum KnownProvisioningState {
   /** Unknown */
   Unknown = "Unknown",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -2118,7 +2176,7 @@ export enum KnownResourceMoveState {
   /** PartialSuccess */
   PartialSuccess = "PartialSuccess",
   /** MoveSucceeded */
-  MoveSucceeded = "MoveSucceeded"
+  MoveSucceeded = "MoveSucceeded",
 }
 
 /**
@@ -2146,7 +2204,7 @@ export enum KnownSoftDeleteState {
   /** Soft Delete is enabled for the BackupVault but can be turned off */
   On = "On",
   /** Soft Delete is permanently enabled for the BackupVault and the setting cannot be changed */
-  AlwaysOn = "AlwaysOn"
+  AlwaysOn = "AlwaysOn",
 }
 
 /**
@@ -2167,7 +2225,7 @@ export enum KnownImmutabilityState {
   /** Unlocked */
   Unlocked = "Unlocked",
   /** Locked */
-  Locked = "Locked"
+  Locked = "Locked",
 }
 
 /**
@@ -2181,6 +2239,63 @@ export enum KnownImmutabilityState {
  */
 export type ImmutabilityState = string;
 
+/** Known values of {@link EncryptionState} that the service accepts. */
+export enum KnownEncryptionState {
+  /** CMK encryption is enabled on the Backup Vault */
+  Enabled = "Enabled",
+  /** CMK encryption is disabled on the Backup Vault. User can not set this state once Encryption State is 'Enabled'. */
+  Disabled = "Disabled",
+  /** CMK encryption is in inconsistent state on the Backup Vault. This state indicates that user needs to retry the encryption settings operation immediately to correct the state. */
+  Inconsistent = "Inconsistent",
+}
+
+/**
+ * Defines values for EncryptionState. \
+ * {@link KnownEncryptionState} can be used interchangeably with EncryptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: CMK encryption is enabled on the Backup Vault \
+ * **Disabled**: CMK encryption is disabled on the Backup Vault. User can not set this state once Encryption State is 'Enabled'. \
+ * **Inconsistent**: CMK encryption is in inconsistent state on the Backup Vault. This state indicates that user needs to retry the encryption settings operation immediately to correct the state.
+ */
+export type EncryptionState = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type IdentityType = string;
+
+/** Known values of {@link InfrastructureEncryptionState} that the service accepts. */
+export enum KnownInfrastructureEncryptionState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for InfrastructureEncryptionState. \
+ * {@link KnownInfrastructureEncryptionState} can be used interchangeably with InfrastructureEncryptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type InfrastructureEncryptionState = string;
+
 /** Known values of {@link StorageSettingStoreTypes} that the service accepts. */
 export enum KnownStorageSettingStoreTypes {
   /** ArchiveStore */
@@ -2188,7 +2303,7 @@ export enum KnownStorageSettingStoreTypes {
   /** OperationalStore */
   OperationalStore = "OperationalStore",
   /** VaultStore */
-  VaultStore = "VaultStore"
+  VaultStore = "VaultStore",
 }
 
 /**
@@ -2209,7 +2324,7 @@ export enum KnownStorageSettingTypes {
   /** LocallyRedundant */
   LocallyRedundant = "LocallyRedundant",
   /** ZoneRedundant */
-  ZoneRedundant = "ZoneRedundant"
+  ZoneRedundant = "ZoneRedundant",
 }
 
 /**
@@ -2230,7 +2345,7 @@ export enum KnownCrossSubscriptionRestoreState {
   /** PermanentlyDisabled */
   PermanentlyDisabled = "PermanentlyDisabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -2249,7 +2364,7 @@ export enum KnownCrossRegionRestoreState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -2273,7 +2388,7 @@ export enum KnownSecureScoreLevel {
   /** Maximum */
   Maximum = "Maximum",
   /** NotSupported */
-  NotSupported = "NotSupported"
+  NotSupported = "NotSupported",
 }
 
 /**
@@ -2289,6 +2404,33 @@ export enum KnownSecureScoreLevel {
  */
 export type SecureScoreLevel = string;
 
+/** Known values of {@link BcdrSecurityLevel} that the service accepts. */
+export enum KnownBcdrSecurityLevel {
+  /** Poor */
+  Poor = "Poor",
+  /** Fair */
+  Fair = "Fair",
+  /** Good */
+  Good = "Good",
+  /** Excellent */
+  Excellent = "Excellent",
+  /** NotSupported */
+  NotSupported = "NotSupported",
+}
+
+/**
+ * Defines values for BcdrSecurityLevel. \
+ * {@link KnownBcdrSecurityLevel} can be used interchangeably with BcdrSecurityLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Poor** \
+ * **Fair** \
+ * **Good** \
+ * **Excellent** \
+ * **NotSupported**
+ */
+export type BcdrSecurityLevel = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -2298,7 +2440,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -2316,7 +2458,7 @@ export type CreatedByType = string;
 /** Known values of {@link ResourcePropertiesObjectType} that the service accepts. */
 export enum KnownResourcePropertiesObjectType {
   /** DefaultResourceProperties */
-  DefaultResourceProperties = "DefaultResourceProperties"
+  DefaultResourceProperties = "DefaultResourceProperties",
 }
 
 /**
@@ -2335,7 +2477,7 @@ export enum KnownDataStoreTypes {
   /** VaultStore */
   VaultStore = "VaultStore",
   /** ArchiveStore */
-  ArchiveStore = "ArchiveStore"
+  ArchiveStore = "ArchiveStore",
 }
 
 /**
@@ -2362,7 +2504,7 @@ export enum KnownStatus {
   /** SoftDeleted */
   SoftDeleted = "SoftDeleted",
   /** SoftDeleting */
-  SoftDeleting = "SoftDeleting"
+  SoftDeleting = "SoftDeleting",
 }
 
 /**
@@ -2404,7 +2546,7 @@ export enum KnownCurrentProtectionState {
   /** SoftDeleted */
   SoftDeleted = "SoftDeleted",
   /** UpdatingProtection */
-  UpdatingProtection = "UpdatingProtection"
+  UpdatingProtection = "UpdatingProtection",
 }
 
 /**
@@ -2432,7 +2574,7 @@ export enum KnownValidationType {
   /** ShallowValidation */
   ShallowValidation = "ShallowValidation",
   /** DeepValidation */
-  DeepValidation = "DeepValidation"
+  DeepValidation = "DeepValidation",
 }
 
 /**
@@ -2448,7 +2590,7 @@ export type ValidationType = string;
 /** Known values of {@link RecoveryOption} that the service accepts. */
 export enum KnownRecoveryOption {
   /** FailIfExists */
-  FailIfExists = "FailIfExists"
+  FailIfExists = "FailIfExists",
 }
 
 /**
@@ -2469,7 +2611,7 @@ export enum KnownSourceDataStoreType {
   /** OperationalStore */
   OperationalStore = "OperationalStore",
   /** VaultStore */
-  VaultStore = "VaultStore"
+  VaultStore = "VaultStore",
 }
 
 /**
@@ -2491,7 +2633,7 @@ export enum KnownRehydrationPriority {
   /** High */
   High = "High",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -2510,7 +2652,7 @@ export enum KnownSyncType {
   /** Default */
   Default = "Default",
   /** ForceResync */
-  ForceResync = "ForceResync"
+  ForceResync = "ForceResync",
 }
 
 /**
@@ -2530,7 +2672,7 @@ export enum KnownRestoreSourceDataStoreType {
   /** VaultStore */
   VaultStore = "VaultStore",
   /** ArchiveStore */
-  ArchiveStore = "ArchiveStore"
+  ArchiveStore = "ArchiveStore",
 }
 
 /**
@@ -2555,7 +2697,7 @@ export enum KnownRehydrationStatus {
   /** Deleted */
   Deleted = "DELETED",
   /** Failed */
-  Failed = "FAILED"
+  Failed = "FAILED",
 }
 
 /**
@@ -2576,7 +2718,7 @@ export enum KnownRecoveryPointCompletionState {
   /** Completed */
   Completed = "Completed",
   /** Partial */
-  Partial = "Partial"
+  Partial = "Partial",
 }
 
 /**
@@ -2594,7 +2736,7 @@ export enum KnownFeatureType {
   /** Invalid */
   Invalid = "Invalid",
   /** DataSourceType */
-  DataSourceType = "DataSourceType"
+  DataSourceType = "DataSourceType",
 }
 
 /**
@@ -2620,7 +2762,7 @@ export enum KnownFeatureSupportStatus {
   /** PublicPreview */
   PublicPreview = "PublicPreview",
   /** GenerallyAvailable */
-  GenerallyAvailable = "GenerallyAvailable"
+  GenerallyAvailable = "GenerallyAvailable",
 }
 
 /**
@@ -2642,7 +2784,7 @@ export enum KnownPersistentVolumeRestoreMode {
   /** RestoreWithVolumeData */
   RestoreWithVolumeData = "RestoreWithVolumeData",
   /** RestoreWithoutVolumeData */
-  RestoreWithoutVolumeData = "RestoreWithoutVolumeData"
+  RestoreWithoutVolumeData = "RestoreWithoutVolumeData",
 }
 
 /**
@@ -2660,7 +2802,7 @@ export enum KnownExistingResourcePolicy {
   /** Skip */
   Skip = "Skip",
   /** Patch */
-  Patch = "Patch"
+  Patch = "Patch",
 }
 
 /**
@@ -2680,7 +2822,7 @@ export enum KnownRestoreTargetLocationType {
   /** AzureBlobs */
   AzureBlobs = "AzureBlobs",
   /** AzureFiles */
-  AzureFiles = "AzureFiles"
+  AzureFiles = "AzureFiles",
 }
 
 /**
@@ -2705,7 +2847,7 @@ export enum KnownAbsoluteMarker {
   /** FirstOfWeek */
   FirstOfWeek = "FirstOfWeek",
   /** FirstOfYear */
-  FirstOfYear = "FirstOfYear"
+  FirstOfYear = "FirstOfYear",
 }
 
 /**
@@ -2736,7 +2878,7 @@ export enum KnownDayOfWeek {
   /** Tuesday */
   Tuesday = "Tuesday",
   /** Wednesday */
-  Wednesday = "Wednesday"
+  Wednesday = "Wednesday",
 }
 
 /**
@@ -2779,7 +2921,7 @@ export enum KnownMonth {
   /** October */
   October = "October",
   /** September */
-  September = "September"
+  September = "September",
 }
 
 /**
@@ -2813,7 +2955,7 @@ export enum KnownWeekNumber {
   /** Second */
   Second = "Second",
   /** Third */
-  Third = "Third"
+  Third = "Third",
 }
 
 /**
@@ -2834,7 +2976,7 @@ export enum KnownSecretStoreType {
   /** Invalid */
   Invalid = "Invalid",
   /** AzureKeyVault */
-  AzureKeyVault = "AzureKeyVault"
+  AzureKeyVault = "AzureKeyVault",
 }
 
 /**
@@ -2871,6 +3013,7 @@ export type BackupVaultsGetResponse = BackupVaultResource;
 /** Optional parameters. */
 export interface BackupVaultsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2892,6 +3035,7 @@ export interface BackupVaultsDeleteOptionalParams
 /** Optional parameters. */
 export interface BackupVaultsUpdateOptionalParams
   extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2906,7 +3050,8 @@ export interface BackupVaultsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type BackupVaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+export type BackupVaultsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface BackupVaultsGetInSubscriptionNextOptionalParams
@@ -2920,7 +3065,8 @@ export interface BackupVaultsGetInResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInResourceGroupNext operation. */
-export type BackupVaultsGetInResourceGroupNextResponse = BackupVaultResourceList;
+export type BackupVaultsGetInResourceGroupNextResponse =
+  BackupVaultResourceList;
 
 /** Optional parameters. */
 export interface OperationResultGetOptionalParams
@@ -2962,7 +3108,8 @@ export interface DataProtectionCheckFeatureSupportOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkFeatureSupport operation. */
-export type DataProtectionCheckFeatureSupportResponse = FeatureValidationResponseBaseUnion;
+export type DataProtectionCheckFeatureSupportResponse =
+  FeatureValidationResponseBaseUnion;
 
 /** Optional parameters. */
 export interface DataProtectionOperationsListOptionalParams
@@ -3027,6 +3174,7 @@ export type BackupInstancesGetResponse = BackupInstanceResource;
 /** Optional parameters. */
 export interface BackupInstancesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3039,6 +3187,7 @@ export type BackupInstancesCreateOrUpdateResponse = BackupInstanceResource;
 /** Optional parameters. */
 export interface BackupInstancesDeleteOptionalParams
   extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3074,7 +3223,8 @@ export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBackupInstanceOperationResult operation. */
-export type BackupInstancesGetBackupInstanceOperationResultResponse = BackupInstanceResource;
+export type BackupInstancesGetBackupInstanceOperationResultResponse =
+  BackupInstanceResource;
 
 /** Optional parameters. */
 export interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
@@ -3086,7 +3236,8 @@ export interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
 }
 
 /** Contains response data for the triggerCrossRegionRestore operation. */
-export type BackupInstancesTriggerCrossRegionRestoreResponse = OperationJobExtendedInfo;
+export type BackupInstancesTriggerCrossRegionRestoreResponse =
+  OperationJobExtendedInfo;
 
 /** Optional parameters. */
 export interface BackupInstancesValidateCrossRegionRestoreOptionalParams
@@ -3098,7 +3249,8 @@ export interface BackupInstancesValidateCrossRegionRestoreOptionalParams
 }
 
 /** Contains response data for the validateCrossRegionRestore operation. */
-export type BackupInstancesValidateCrossRegionRestoreResponse = OperationJobExtendedInfo;
+export type BackupInstancesValidateCrossRegionRestoreResponse =
+  OperationJobExtendedInfo;
 
 /** Optional parameters. */
 export interface BackupInstancesTriggerRehydrateOptionalParams
@@ -3110,11 +3262,13 @@ export interface BackupInstancesTriggerRehydrateOptionalParams
 }
 
 /** Contains response data for the triggerRehydrate operation. */
-export type BackupInstancesTriggerRehydrateResponse = BackupInstancesTriggerRehydrateHeaders;
+export type BackupInstancesTriggerRehydrateResponse =
+  BackupInstancesTriggerRehydrateHeaders;
 
 /** Optional parameters. */
 export interface BackupInstancesTriggerRestoreOptionalParams
   extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3145,6 +3299,9 @@ export interface BackupInstancesResumeProtectionOptionalParams
 /** Optional parameters. */
 export interface BackupInstancesStopProtectionOptionalParams
   extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
+  /** Request body for operation */
+  parameters?: StopProtectionRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3154,6 +3311,9 @@ export interface BackupInstancesStopProtectionOptionalParams
 /** Optional parameters. */
 export interface BackupInstancesSuspendBackupsOptionalParams
   extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
+  /** Request body for operation */
+  parameters?: SuspendBackupRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3179,7 +3339,8 @@ export interface BackupInstancesValidateForRestoreOptionalParams
 }
 
 /** Contains response data for the validateForRestore operation. */
-export type BackupInstancesValidateForRestoreResponse = OperationJobExtendedInfo;
+export type BackupInstancesValidateForRestoreResponse =
+  OperationJobExtendedInfo;
 
 /** Optional parameters. */
 export interface BackupInstancesListNextOptionalParams
@@ -3212,7 +3373,8 @@ export interface RecoveryPointsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type RecoveryPointsListNextResponse = AzureBackupRecoveryPointResourceList;
+export type RecoveryPointsListNextResponse =
+  AzureBackupRecoveryPointResourceList;
 
 /** Optional parameters. */
 export interface FetchSecondaryRecoveryPointsListOptionalParams
@@ -3224,14 +3386,16 @@ export interface FetchSecondaryRecoveryPointsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type FetchSecondaryRecoveryPointsListResponse = AzureBackupRecoveryPointResourceList;
+export type FetchSecondaryRecoveryPointsListResponse =
+  AzureBackupRecoveryPointResourceList;
 
 /** Optional parameters. */
 export interface FetchSecondaryRecoveryPointsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type FetchSecondaryRecoveryPointsListNextResponse = AzureBackupRecoveryPointResourceList;
+export type FetchSecondaryRecoveryPointsListNextResponse =
+  AzureBackupRecoveryPointResourceList;
 
 /** Optional parameters. */
 export interface FetchCrossRegionRestoreJobGetOptionalParams
@@ -3248,14 +3412,32 @@ export interface FetchCrossRegionRestoreJobsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type FetchCrossRegionRestoreJobsListResponse = AzureBackupJobResourceList;
+export type FetchCrossRegionRestoreJobsListResponse =
+  AzureBackupJobResourceList;
 
 /** Optional parameters. */
 export interface FetchCrossRegionRestoreJobsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type FetchCrossRegionRestoreJobsListNextResponse = AzureBackupJobResourceList;
+export type FetchCrossRegionRestoreJobsListNextResponse =
+  AzureBackupJobResourceList;
+
+/** Optional parameters. */
+export interface BackupInstancesExtensionRoutingListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type BackupInstancesExtensionRoutingListResponse =
+  BackupInstanceResourceList;
+
+/** Optional parameters. */
+export interface BackupInstancesExtensionRoutingListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BackupInstancesExtensionRoutingListNextResponse =
+  BackupInstanceResourceList;
 
 /** Optional parameters. */
 export interface JobsListOptionalParams extends coreClient.OperationOptions {}
@@ -3281,7 +3463,8 @@ export interface RestorableTimeRangesFindOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the find operation. */
-export type RestorableTimeRangesFindResponse = AzureBackupFindRestorableTimeRangesResponseResource;
+export type RestorableTimeRangesFindResponse =
+  AzureBackupFindRestorableTimeRangesResponseResource;
 
 /** Optional parameters. */
 export interface ExportJobsTriggerOptionalParams
@@ -3307,7 +3490,8 @@ export interface DeletedBackupInstancesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DeletedBackupInstancesListResponse = DeletedBackupInstanceResourceList;
+export type DeletedBackupInstancesListResponse =
+  DeletedBackupInstanceResourceList;
 
 /** Optional parameters. */
 export interface DeletedBackupInstancesGetOptionalParams
@@ -3330,21 +3514,24 @@ export interface DeletedBackupInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DeletedBackupInstancesListNextResponse = DeletedBackupInstanceResourceList;
+export type DeletedBackupInstancesListNextResponse =
+  DeletedBackupInstanceResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetResourcesInSubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getResourcesInSubscription operation. */
-export type ResourceGuardsGetResourcesInSubscriptionResponse = ResourceGuardResourceList;
+export type ResourceGuardsGetResourcesInSubscriptionResponse =
+  ResourceGuardResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetResourcesInResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getResourcesInResourceGroup operation. */
-export type ResourceGuardsGetResourcesInResourceGroupResponse = ResourceGuardResourceList;
+export type ResourceGuardsGetResourcesInResourceGroupResponse =
+  ResourceGuardResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsPutOptionalParams
@@ -3376,147 +3563,168 @@ export interface ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDisableSoftDeleteRequestsObjects operation. */
-export type ResourceGuardsGetDisableSoftDeleteRequestsObjectsResponse = DppBaseResourceList;
+export type ResourceGuardsGetDisableSoftDeleteRequestsObjectsResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeleteResourceGuardProxyRequestsObjects operation. */
-export type ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsResponse = DppBaseResourceList;
+export type ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBackupSecurityPINRequestsObjects operation. */
-export type ResourceGuardsGetBackupSecurityPINRequestsObjectsResponse = DppBaseResourceList;
+export type ResourceGuardsGetBackupSecurityPINRequestsObjectsResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeleteProtectedItemRequestsObjects operation. */
-export type ResourceGuardsGetDeleteProtectedItemRequestsObjectsResponse = DppBaseResourceList;
+export type ResourceGuardsGetDeleteProtectedItemRequestsObjectsResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpdateProtectionPolicyRequestsObjects operation. */
-export type ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsResponse = DppBaseResourceList;
+export type ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpdateProtectedItemRequestsObjects operation. */
-export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsResponse = DppBaseResourceList;
+export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefaultDisableSoftDeleteRequestsObject operation. */
-export type ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectResponse = DppBaseResource;
+export type ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectResponse =
+  DppBaseResource;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefaultDeleteResourceGuardProxyRequestsObject operation. */
-export type ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectResponse = DppBaseResource;
+export type ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectResponse =
+  DppBaseResource;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefaultBackupSecurityPINRequestsObject operation. */
-export type ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectResponse = DppBaseResource;
+export type ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectResponse =
+  DppBaseResource;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefaultDeleteProtectedItemRequestsObject operation. */
-export type ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectResponse = DppBaseResource;
+export type ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectResponse =
+  DppBaseResource;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefaultUpdateProtectionPolicyRequestsObject operation. */
-export type ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse = DppBaseResource;
+export type ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse =
+  DppBaseResource;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefaultUpdateProtectedItemRequestsObject operation. */
-export type ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse = DppBaseResource;
+export type ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse =
+  DppBaseResource;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetResourcesInSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getResourcesInSubscriptionNext operation. */
-export type ResourceGuardsGetResourcesInSubscriptionNextResponse = ResourceGuardResourceList;
+export type ResourceGuardsGetResourcesInSubscriptionNextResponse =
+  ResourceGuardResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetResourcesInResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getResourcesInResourceGroupNext operation. */
-export type ResourceGuardsGetResourcesInResourceGroupNextResponse = ResourceGuardResourceList;
+export type ResourceGuardsGetResourcesInResourceGroupNextResponse =
+  ResourceGuardResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDisableSoftDeleteRequestsObjectsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDisableSoftDeleteRequestsObjectsNext operation. */
-export type ResourceGuardsGetDisableSoftDeleteRequestsObjectsNextResponse = DppBaseResourceList;
+export type ResourceGuardsGetDisableSoftDeleteRequestsObjectsNextResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeleteResourceGuardProxyRequestsObjectsNext operation. */
-export type ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsNextResponse = DppBaseResourceList;
+export type ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsNextResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetBackupSecurityPINRequestsObjectsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBackupSecurityPINRequestsObjectsNext operation. */
-export type ResourceGuardsGetBackupSecurityPINRequestsObjectsNextResponse = DppBaseResourceList;
+export type ResourceGuardsGetBackupSecurityPINRequestsObjectsNextResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetDeleteProtectedItemRequestsObjectsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeleteProtectedItemRequestsObjectsNext operation. */
-export type ResourceGuardsGetDeleteProtectedItemRequestsObjectsNextResponse = DppBaseResourceList;
+export type ResourceGuardsGetDeleteProtectedItemRequestsObjectsNextResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpdateProtectionPolicyRequestsObjectsNext operation. */
-export type ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextResponse = DppBaseResourceList;
+export type ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpdateProtectedItemRequestsObjectsNext operation. */
-export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse = DppBaseResourceList;
+export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse =
+  DppBaseResourceList;
 
 /** Optional parameters. */
 export interface DppResourceGuardProxyListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
+export type DppResourceGuardProxyListResponse =
+  ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface DppResourceGuardProxyGetOptionalParams
@@ -3530,7 +3738,8 @@ export interface DppResourceGuardProxyCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type DppResourceGuardProxyCreateOrUpdateResponse = ResourceGuardProxyBaseResource;
+export type DppResourceGuardProxyCreateOrUpdateResponse =
+  ResourceGuardProxyBaseResource;
 
 /** Optional parameters. */
 export interface DppResourceGuardProxyDeleteOptionalParams
@@ -3538,7 +3747,9 @@ export interface DppResourceGuardProxyDeleteOptionalParams
 
 /** Optional parameters. */
 export interface DppResourceGuardProxyUnlockDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  xMsAuthorizationAuxiliary?: string;
+}
 
 /** Contains response data for the unlockDelete operation. */
 export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
@@ -3548,7 +3759,8 @@ export interface DppResourceGuardProxyListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
+export type DppResourceGuardProxyListNextResponse =
+  ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface DataProtectionClientOptionalParams

@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for DocumentTranslationClient.",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "keywords": [
     "node",
     "azure",
@@ -88,7 +88,6 @@
     "karma": "^6.2.0",
     "nyc": "^17.0.0",
     "ts-node": "^10.0.0",
-    "prettier": "^3.2.5",
     "tshy": "1.15.1"
   },
   "scripts": {

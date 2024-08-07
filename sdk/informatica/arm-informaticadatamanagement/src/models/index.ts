@@ -163,7 +163,7 @@ export interface InformaticaProperties {
 /** Marketplace details. */
 export interface MarketplaceDetails {
   /** Marketplace Subscription Id */
-  marketplaceSubscriptionId: string;
+  marketplaceSubscriptionId?: string;
   /** Marketplace offer details. */
   offerDetails: OfferDetails;
 }

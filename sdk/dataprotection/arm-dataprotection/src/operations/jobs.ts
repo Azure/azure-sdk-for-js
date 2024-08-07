@@ -20,7 +20,7 @@ import {
   JobsListResponse,
   JobsGetOptionalParams,
   JobsGetResponse,
-  JobsListNextResponse
+  JobsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class JobsImpl implements Jobs {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupJobResource> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -63,9 +63,9 @@ export class JobsImpl implements Jobs {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class JobsImpl implements Jobs {
     resourceGroupName: string,
     vaultName: string,
     options?: JobsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBackupJobResource[]> {
     let result: JobsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class JobsImpl implements Jobs {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class JobsImpl implements Jobs {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): AsyncIterableIterator<AzureBackupJobResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class JobsImpl implements Jobs {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): Promise<JobsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class JobsImpl implements Jobs {
     resourceGroupName: string,
     vaultName: string,
     jobId: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, jobId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class JobsImpl implements Jobs {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: JobsListNextOptionalParams
+    options?: JobsListNextOptionalParams,
   ): Promise<JobsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -172,38 +172,15 @@ export class JobsImpl implements Jobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupJobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupJobResourceList
+      bodyMapper: Mappers.AzureBackupJobResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupJobs/{jobId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AzureBackupJobResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -211,29 +188,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.jobId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupJobs/{jobId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureBackupJobResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.jobId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupJobResourceList
+      bodyMapper: Mappers.AzureBackupJobResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

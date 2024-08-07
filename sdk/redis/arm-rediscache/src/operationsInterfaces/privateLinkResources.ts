@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateLinkResource,
-  PrivateLinkResourcesListByRedisCacheOptionalParams
+  PrivateLinkResourcesListByRedisCacheOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface PrivateLinkResources {
   listByRedisCache(
     resourceGroupName: string,
     cacheName: string,
-    options?: PrivateLinkResourcesListByRedisCacheOptionalParams
+    options?: PrivateLinkResourcesListByRedisCacheOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
 }

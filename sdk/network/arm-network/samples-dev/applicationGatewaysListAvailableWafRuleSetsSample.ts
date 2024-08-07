@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all available web application firewall rule sets.
  *
  * @summary Lists all available web application firewall rule sets.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
  */
 async function getAvailableWafRuleSets() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

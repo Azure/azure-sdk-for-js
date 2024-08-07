@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import { KeyCredential } from "@azure/core-auth";
+import { ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 import { AzureHealthInsightsClient } from "./clientDefinitions";
+import { logger } from "./logger";
 
 /**
  * Initialize a new instance of `AzureHealthInsightsClient`
- * @param endpoint - Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).
+ * @param endpointParam - Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.cognitiveservices.azure.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
-  credentials: KeyCredential,
+  endpointParam: string,
+  credentials: TokenCredential,
   options: ClientOptions = {},
 ): AzureHealthInsightsClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/health-insights`;
-  options.apiVersion = options.apiVersion ?? "2023-09-01-preview";
-  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0-beta.2`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/health-insights`;
+  options.apiVersion = options.apiVersion ?? "2024-04-01";
+  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -33,9 +33,12 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
-  return getClient(baseUrl, credentials, options) as AzureHealthInsightsClient;
+  const client = getClient(endpointUrl, credentials, options) as AzureHealthInsightsClient;
+
+  return client;
 }

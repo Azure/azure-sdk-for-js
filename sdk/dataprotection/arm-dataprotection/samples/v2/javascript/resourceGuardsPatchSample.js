@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/PatchResourceGuard.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/PatchResourceGuard.json
  */
 async function patchResourceGuard() {
   const subscriptionId =

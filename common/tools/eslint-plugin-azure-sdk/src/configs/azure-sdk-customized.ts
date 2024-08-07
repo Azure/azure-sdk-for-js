@@ -3,6 +3,7 @@
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
 import { fixupPluginRules } from "@eslint/compat";
+import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
 import { rules as importRules } from "eslint-plugin-import";
@@ -105,6 +106,24 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/ts-doc-internal": "off",
 };
 
+const nCustomization = {
+  name: "n-azsdk-customized",
+  plugins: {
+    n,
+  },
+  rules: {
+    "n/exports-style": ["error", "module.exports"],
+    "n/no-missing-import": "off",
+    "n/no-missing-require": "off",
+    "n/hashbang": "warn",
+    "n/no-unsupported-features/node-builtins": "warn",
+    "n/no-deprecated-api": "warn",
+    "n/no-process-exit": "warn",
+    "n/no-unpublished-import": "off",
+    "n/no-unpublished-require": "off",
+  },
+}
+
 const noOnlyTestsCustomization = {
   name: "no-only-tests-azsdk-customized",
   plugins: {
@@ -176,6 +195,8 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       main: "src/index.ts",
     },
   },
+  n.configs["flat/recommended"],
+  nCustomization as unknown as FlatConfig.Config,
   noOnlyTestsCustomization as FlatConfig.Config,
   tsdocCustomization as FlatConfig.Config,
   importCustomization as FlatConfig.Config,

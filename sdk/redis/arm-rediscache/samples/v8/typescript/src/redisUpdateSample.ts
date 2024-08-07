@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RedisUpdateParameters,
-  RedisManagementClient
+  RedisManagementClient,
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update an existing Redis cache.
  *
  * @summary Update an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheUpdate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheUpdate.json
  */
 async function redisCacheUpdate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -29,14 +29,14 @@ async function redisCacheUpdate() {
   const name = "cache1";
   const parameters: RedisUpdateParameters = {
     enableNonSslPort: true,
-    replicasPerPrimary: 2
+    replicasPerPrimary: 2,
   };
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const result = await client.redis.beginUpdateAndWait(
     resourceGroupName,
     name,
-    parameters
+    parameters,
   );
   console.log(result);
 }

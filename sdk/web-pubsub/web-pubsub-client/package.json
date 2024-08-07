@@ -68,7 +68,7 @@
   "dependencies": {
     "tslib": "^2.2.0",
     "@azure/logger": "^1.0.0",
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-util": "^1.1.1",
     "ws": "^7.4.5",
     "buffer": "^6.0.0"

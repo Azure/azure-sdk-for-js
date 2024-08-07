@@ -44,7 +44,7 @@ import {
   BackupInstancesSyncBackupInstanceOptionalParams,
   ValidateRestoreRequestObject,
   BackupInstancesValidateForRestoreOptionalParams,
-  BackupInstancesValidateForRestoreResponse
+  BackupInstancesValidateForRestoreResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export interface BackupInstances {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupInstancesListOptionalParams
+    options?: BackupInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupInstanceResource>;
   /**
    * Gets a backup instance with name in a backup vault
@@ -72,7 +72,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesGetOptionalParams
+    options?: BackupInstancesGetOptionalParams,
   ): Promise<BackupInstancesGetResponse>;
   /**
    * Create or update a backup instance in a backup vault
@@ -87,7 +87,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: BackupInstanceResource,
-    options?: BackupInstancesCreateOrUpdateOptionalParams
+    options?: BackupInstancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesCreateOrUpdateResponse>,
@@ -107,7 +107,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: BackupInstanceResource,
-    options?: BackupInstancesCreateOrUpdateOptionalParams
+    options?: BackupInstancesCreateOrUpdateOptionalParams,
   ): Promise<BackupInstancesCreateOrUpdateResponse>;
   /**
    * Delete a backup instance in a backup vault
@@ -120,7 +120,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesDeleteOptionalParams
+    options?: BackupInstancesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a backup instance in a backup vault
@@ -133,7 +133,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesDeleteOptionalParams
+    options?: BackupInstancesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Trigger adhoc backup
@@ -148,7 +148,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: TriggerBackupRequest,
-    options?: BackupInstancesAdhocBackupOptionalParams
+    options?: BackupInstancesAdhocBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesAdhocBackupResponse>,
@@ -168,7 +168,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: TriggerBackupRequest,
-    options?: BackupInstancesAdhocBackupOptionalParams
+    options?: BackupInstancesAdhocBackupOptionalParams,
   ): Promise<BackupInstancesAdhocBackupResponse>;
   /**
    * Validate whether adhoc backup will be successful or not
@@ -181,7 +181,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     parameters: ValidateForBackupRequest,
-    options?: BackupInstancesValidateForBackupOptionalParams
+    options?: BackupInstancesValidateForBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesValidateForBackupResponse>,
@@ -199,7 +199,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     parameters: ValidateForBackupRequest,
-    options?: BackupInstancesValidateForBackupOptionalParams
+    options?: BackupInstancesValidateForBackupOptionalParams,
   ): Promise<BackupInstancesValidateForBackupResponse>;
   /**
    * Get result of backup instance creation operation
@@ -214,7 +214,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     operationId: string,
-    options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams
+    options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   ): Promise<BackupInstancesGetBackupInstanceOperationResultResponse>;
   /**
    * Triggers Cross Region Restore for BackupInstance.
@@ -227,7 +227,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreRequestObject,
-    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>,
@@ -245,7 +245,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreRequestObject,
-    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams,
   ): Promise<BackupInstancesTriggerCrossRegionRestoreResponse>;
   /**
    * Validates whether Cross Region Restore can be triggered for DataSource.
@@ -258,7 +258,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     location: string,
     parameters: ValidateCrossRegionRestoreRequestObject,
-    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesValidateCrossRegionRestoreResponse>,
@@ -276,7 +276,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     location: string,
     parameters: ValidateCrossRegionRestoreRequestObject,
-    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams,
   ): Promise<BackupInstancesValidateCrossRegionRestoreResponse>;
   /**
    * rehydrate recovery point for restore for a BackupInstance
@@ -291,7 +291,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRehydrationRequest,
-    options?: BackupInstancesTriggerRehydrateOptionalParams
+    options?: BackupInstancesTriggerRehydrateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesTriggerRehydrateResponse>,
@@ -311,7 +311,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRehydrationRequest,
-    options?: BackupInstancesTriggerRehydrateOptionalParams
+    options?: BackupInstancesTriggerRehydrateOptionalParams,
   ): Promise<BackupInstancesTriggerRehydrateResponse>;
   /**
    * Triggers restore for a BackupInstance
@@ -326,7 +326,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRestoreRequestUnion,
-    options?: BackupInstancesTriggerRestoreOptionalParams
+    options?: BackupInstancesTriggerRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesTriggerRestoreResponse>,
@@ -346,7 +346,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRestoreRequestUnion,
-    options?: BackupInstancesTriggerRestoreOptionalParams
+    options?: BackupInstancesTriggerRestoreOptionalParams,
   ): Promise<BackupInstancesTriggerRestoreResponse>;
   /**
    * This operation will resume backups for backup instance
@@ -359,7 +359,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeBackupsOptionalParams
+    options?: BackupInstancesResumeBackupsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will resume backups for backup instance
@@ -372,7 +372,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeBackupsOptionalParams
+    options?: BackupInstancesResumeBackupsOptionalParams,
   ): Promise<void>;
   /**
    * This operation will resume protection for a stopped backup instance
@@ -385,7 +385,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeProtectionOptionalParams
+    options?: BackupInstancesResumeProtectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will resume protection for a stopped backup instance
@@ -398,7 +398,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeProtectionOptionalParams
+    options?: BackupInstancesResumeProtectionOptionalParams,
   ): Promise<void>;
   /**
    * This operation will stop protection of a backup instance and data will be held forever
@@ -411,7 +411,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesStopProtectionOptionalParams
+    options?: BackupInstancesStopProtectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will stop protection of a backup instance and data will be held forever
@@ -424,7 +424,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesStopProtectionOptionalParams
+    options?: BackupInstancesStopProtectionOptionalParams,
   ): Promise<void>;
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
@@ -438,7 +438,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesSuspendBackupsOptionalParams
+    options?: BackupInstancesSuspendBackupsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This operation will stop backup for a backup instance and retains the backup data as per the policy
@@ -452,7 +452,7 @@ export interface BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesSuspendBackupsOptionalParams
+    options?: BackupInstancesSuspendBackupsOptionalParams,
   ): Promise<void>;
   /**
    * Sync backup instance again in case of failure
@@ -468,7 +468,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: SyncBackupInstanceRequest,
-    options?: BackupInstancesSyncBackupInstanceOptionalParams
+    options?: BackupInstancesSyncBackupInstanceOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Sync backup instance again in case of failure
@@ -484,7 +484,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: SyncBackupInstanceRequest,
-    options?: BackupInstancesSyncBackupInstanceOptionalParams
+    options?: BackupInstancesSyncBackupInstanceOptionalParams,
   ): Promise<void>;
   /**
    * Validates if Restore can be triggered for a DataSource
@@ -499,7 +499,7 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: ValidateRestoreRequestObject,
-    options?: BackupInstancesValidateForRestoreOptionalParams
+    options?: BackupInstancesValidateForRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesValidateForRestoreResponse>,
@@ -519,6 +519,6 @@ export interface BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: ValidateRestoreRequestObject,
-    options?: BackupInstancesValidateForRestoreOptionalParams
+    options?: BackupInstancesValidateForRestoreOptionalParams,
   ): Promise<BackupInstancesValidateForRestoreResponse>;
 }

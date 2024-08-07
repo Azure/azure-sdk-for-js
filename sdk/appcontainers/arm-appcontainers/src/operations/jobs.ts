@@ -20,6 +20,10 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  Diagnostics,
+  JobsListDetectorsNextOptionalParams,
+  JobsListDetectorsOptionalParams,
+  JobsListDetectorsResponse,
   Job,
   JobsListBySubscriptionNextOptionalParams,
   JobsListBySubscriptionOptionalParams,
@@ -27,8 +31,6 @@ import {
   JobsListByResourceGroupNextOptionalParams,
   JobsListByResourceGroupOptionalParams,
   JobsListByResourceGroupResponse,
-  JobsListDetectorsOptionalParams,
-  JobsListDetectorsResponse,
   JobsGetDetectorOptionalParams,
   JobsGetDetectorResponse,
   JobsProxyGetOptionalParams,
@@ -48,6 +50,7 @@ import {
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
   JobsListSecretsResponse,
+  JobsListDetectorsNextResponse,
   JobsListBySubscriptionNextResponse,
   JobsListByResourceGroupNextResponse,
 } from "../models";
@@ -63,6 +66,86 @@ export class JobsImpl implements Jobs {
    */
   constructor(client: ContainerAppsAPIClient) {
     this.client = client;
+  }
+
+  /**
+   * Get the list of diagnostics for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  public listDetectors(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+  ): PagedAsyncIterableIterator<Diagnostics> {
+    const iter = this.listDetectorsPagingAll(
+      resourceGroupName,
+      jobName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDetectorsPagingPage(
+          resourceGroupName,
+          jobName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listDetectorsPagingPage(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Diagnostics[]> {
+    let result: JobsListDetectorsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDetectors(resourceGroupName, jobName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDetectorsNext(
+        resourceGroupName,
+        jobName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listDetectorsPagingAll(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+  ): AsyncIterableIterator<Diagnostics> {
+    for await (const page of this.listDetectorsPagingPage(
+      resourceGroupName,
+      jobName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -194,7 +277,7 @@ export class JobsImpl implements Jobs {
    * @param jobName Job Name
    * @param options The options parameters.
    */
-  listDetectors(
+  private _listDetectors(
     resourceGroupName: string,
     jobName: string,
     options?: JobsListDetectorsOptionalParams,
@@ -228,15 +311,17 @@ export class JobsImpl implements Jobs {
    * Get the properties of a Container App Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName Job Name
+   * @param apiName Proxy API Name for Container App Job.
    * @param options The options parameters.
    */
   proxyGet(
     resourceGroupName: string,
     jobName: string,
+    apiName: string,
     options?: JobsProxyGetOptionalParams,
   ): Promise<JobsProxyGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, options },
+      { resourceGroupName, jobName, apiName, options },
       proxyGetOperationSpec,
     );
   }
@@ -828,6 +913,25 @@ export class JobsImpl implements Jobs {
   }
 
   /**
+   * ListDetectorsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param nextLink The nextLink from the previous successful call to the ListDetectors method.
+   * @param options The options parameters.
+   */
+  private _listDetectorsNext(
+    resourceGroupName: string,
+    jobName: string,
+    nextLink: string,
+    options?: JobsListDetectorsNextOptionalParams,
+  ): Promise<JobsListDetectorsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, jobName, nextLink, options },
+      listDetectorsNextOperationSpec,
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -1012,7 +1116,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -1066,7 +1170,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -1098,7 +1202,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -1171,6 +1275,27 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.jobName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticsCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],

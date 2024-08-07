@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a BackupVault resource from the resource group.
  *
  * @summary Deletes a BackupVault resource from the resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/VaultCRUD/DeleteBackupVault.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/DeleteBackupVault.json
  */
 async function deleteBackupVault() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deleteBackupVault() {
   const client = new DataProtectionClient(credential, subscriptionId);
   const result = await client.backupVaults.beginDeleteAndWait(
     resourceGroupName,
-    vaultName
+    vaultName,
   );
   console.log(result);
 }

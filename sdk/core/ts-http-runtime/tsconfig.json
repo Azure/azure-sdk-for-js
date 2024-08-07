@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
       "@typespec/ts-http-runtime": ["./src/index.ts"]

@@ -28,6 +28,7 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_USERNAME",
   "AZURE_PASSWORD",
   "AZURE_ADDITIONALLY_ALLOWED_TENANTS",
+  "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN",
 ];
 
 function getAdditionallyAllowedTenants(): string[] {
@@ -37,6 +38,17 @@ function getAdditionallyAllowedTenants(): string[] {
 
 const credentialName = "EnvironmentCredential";
 const logger = credentialLogger(credentialName);
+
+export function getSendCertificateChain(): boolean {
+  const sendCertificateChain = (
+    process.env.AZURE_CLIENT_SEND_CERTIFICATE_CHAIN ?? ""
+  ).toLowerCase();
+  const result = sendCertificateChain === "true" || sendCertificateChain === "1";
+  logger.verbose(
+    `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN: ${process.env.AZURE_CLIENT_SEND_CERTIFICATE_CHAIN}; sendCertificateChain: ${result}`,
+  );
+  return result;
+}
 
 /**
  * Enables authentication to Microsoft Entra ID using a client secret or certificate, or as a user
@@ -61,6 +73,7 @@ export class EnvironmentCredential implements TokenCredential {
    * - `AZURE_CLIENT_SECRET`: A client secret that was generated for the App Registration.
    * - `AZURE_CLIENT_CERTIFICATE_PATH`: The path to a PEM certificate to use during the authentication, instead of the client secret.
    * - `AZURE_CLIENT_CERTIFICATE_PASSWORD`: (optional) password for the certificate file.
+   * - `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN`: (optional) indicates that the certificate chain should be set in x5c header to support subject name / issuer based authentication.
    *
    * Alternatively, users can provide environment variables for username and password authentication:
    * - `AZURE_USERNAME`: Username to authenticate with.
@@ -82,7 +95,8 @@ export class EnvironmentCredential implements TokenCredential {
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     const additionallyAllowedTenantIds = getAdditionallyAllowedTenants();
-    const newOptions = { ...options, additionallyAllowedTenantIds };
+    const sendCertificateChain = getSendCertificateChain();
+    const newOptions = { ...options, additionallyAllowedTenantIds, sendCertificateChain };
 
     if (tenantId) {
       checkTenantId(logger, tenantId);

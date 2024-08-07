@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { isUnexpected } = require("@azure-rest/maps-render");
-const MapsRender = require("@azure-rest/maps-render").default;
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+const { isUnexpected } = require("../src/generated");
+const MapsRender = require("../src/mapsRender").default;
 
 /**
  * @summary How to get the copyright of tiles in a given bounding box.
@@ -13,22 +12,22 @@ async function main() {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
-   * - Azure Active Directory (Azure AD) authentication
+   * - Microsoft Entra ID authentication
    *
-   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
-   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
+   * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
-  /** Shared Key authentication (subscription-key) */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRender(credential);
+  /** Microsoft Entra ID authentication */
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsRender(credential, mapsClientId);
 
-  /** Azure Active Directory (Azure AD) authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = MapsRender(credential, mapsClientId);
+  /** Shared Key authentication (subscription-key) */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsRender(credential);
 
   const response = await client.path("/map/copyright/bounding/{format}", "json").get({
     queryParameters: {

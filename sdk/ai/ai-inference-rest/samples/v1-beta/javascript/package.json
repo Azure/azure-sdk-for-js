@@ -2,7 +2,7 @@
   "name": "@azure-samples/ai-inference-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure OpenAI client library samples for JavaScript (Beta)",
+  "description": "Azure AI Inference client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
   },

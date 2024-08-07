@@ -213,7 +213,7 @@ For examples of how to use managed identity for authentication, see [the example
 
 ## Cloud configuration
 
-Credentials default to authenticating to the Microsoft Entra endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The `AzureAuthorityHosts` interface defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
+Credentials default to authenticating to the Microsoft Entra endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The [`AzureAuthorityHosts`][authority_hosts] enum defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
 
 ```typescript
 import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
@@ -223,6 +223,26 @@ const credential = new ClientSecretCredential(
   "<YOUR_CLIENT_SECRET>",
   {
     authorityHost: AzureAuthorityHosts.AzureGovernment,
+  }
+);
+```
+
+As an alternative to specifying the `authorityHost` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud or when the deployed environment needs to define the target cloud:
+
+```sh
+AZURE_AUTHORITY_HOST=https://login.partner.microsoftonline.cn
+```
+
+The `AzureAuthorityHosts` enum defines authorities for well-known clouds for your convenience; however, if the authority for your cloud isn't listed in `AzureAuthorityHosts`, you may pass any valid authority URL as a string argument. For example:
+
+```typescript
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: "https://login.partner.microsoftonline.cn",
   }
 );
 ```
@@ -369,5 +389,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/mermaidjs/DefaultAzureCredentialAuthFlow.svg
 [azure_identity_broker]: https://www.npmjs.com/package/@azure/identity-broker
 [azure_identity_broker_readme]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
+[authority_hosts]: https://learn.microsoft.com/javascript/api/@azure/identity/azureauthorityhosts
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

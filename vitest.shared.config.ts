@@ -6,7 +6,10 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     testTimeout: 18000,
-    reporters: ["basic", "junit"],
+    typecheck: {
+      enabled: true,
+    },
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.xml",
     },

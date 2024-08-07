@@ -37,7 +37,7 @@ import {
   ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams,
   ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse,
   ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams,
-  ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse
+  ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export interface ResourceGuards {
    * @param options The options parameters.
    */
   listResourcesInSubscription(
-    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams
+    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardResource>;
   /**
    * Returns ResourceGuards collection belonging to a ResourceGroup.
@@ -57,7 +57,7 @@ export interface ResourceGuards {
    */
   listResourcesInResourceGroup(
     resourceGroupName: string,
-    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams
+    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardResource>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -69,7 +69,7 @@ export interface ResourceGuards {
   listDisableSoftDeleteRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -81,7 +81,7 @@ export interface ResourceGuards {
   listDeleteResourceGuardProxyRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -93,7 +93,7 @@ export interface ResourceGuards {
   listBackupSecurityPINRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -105,7 +105,7 @@ export interface ResourceGuards {
   listDeleteProtectedItemRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -117,7 +117,7 @@ export interface ResourceGuards {
   listUpdateProtectionPolicyRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -129,7 +129,7 @@ export interface ResourceGuards {
   listUpdateProtectedItemRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource>;
   /**
    * Creates or updates a ResourceGuard resource belonging to a resource group.
@@ -142,7 +142,7 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     parameters: ResourceGuardResource,
-    options?: ResourceGuardsPutOptionalParams
+    options?: ResourceGuardsPutOptionalParams,
   ): Promise<ResourceGuardsPutResponse>;
   /**
    * Returns a ResourceGuard belonging to a resource group.
@@ -153,7 +153,7 @@ export interface ResourceGuards {
   get(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetOptionalParams
+    options?: ResourceGuardsGetOptionalParams,
   ): Promise<ResourceGuardsGetResponse>;
   /**
    * Deletes a ResourceGuard resource from the resource group.
@@ -164,7 +164,7 @@ export interface ResourceGuards {
   delete(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsDeleteOptionalParams
+    options?: ResourceGuardsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a
@@ -178,7 +178,7 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     parameters: PatchResourceGuardInput,
-    options?: ResourceGuardsPatchOptionalParams
+    options?: ResourceGuardsPatchOptionalParams,
   ): Promise<ResourceGuardsPatchResponse>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -192,7 +192,7 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams
+    options?: ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams,
   ): Promise<ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectResponse>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -206,10 +206,8 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams
-  ): Promise<
-    ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectResponse
-  >;
+    options?: ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams,
+  ): Promise<ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectResponse>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
@@ -222,7 +220,7 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams
+    options?: ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
   ): Promise<ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectResponse>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -236,7 +234,7 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams
+    options?: ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams,
   ): Promise<ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectResponse>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
@@ -250,10 +248,8 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams
-  ): Promise<
-    ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse
-  >;
+    options?: ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams,
+  ): Promise<ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse>;
   /**
    * Returns collection of operation request objects for a critical operation protected by the given
    * ResourceGuard resource.
@@ -266,6 +262,6 @@ export interface ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams
+    options?: ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams,
   ): Promise<ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse>;
 }

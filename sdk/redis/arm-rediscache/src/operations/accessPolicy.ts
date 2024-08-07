@@ -16,7 +16,7 @@ import { RedisManagementClient } from "../redisManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   AccessPolicyDeleteOptionalParams,
   AccessPolicyGetOptionalParams,
   AccessPolicyGetResponse,
-  AccessPolicyListNextResponse
+  AccessPolicyListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class AccessPolicyImpl implements AccessPolicy {
   public list(
     resourceGroupName: string,
     cacheName: string,
-    options?: AccessPolicyListOptionalParams
+    options?: AccessPolicyListOptionalParams,
   ): PagedAsyncIterableIterator<RedisCacheAccessPolicy> {
     const iter = this.listPagingAll(resourceGroupName, cacheName, options);
     return {
@@ -72,9 +72,9 @@ export class AccessPolicyImpl implements AccessPolicy {
           resourceGroupName,
           cacheName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class AccessPolicyImpl implements AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     options?: AccessPolicyListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RedisCacheAccessPolicy[]> {
     let result: AccessPolicyListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class AccessPolicyImpl implements AccessPolicy {
         resourceGroupName,
         cacheName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class AccessPolicyImpl implements AccessPolicy {
   private async *listPagingAll(
     resourceGroupName: string,
     cacheName: string,
-    options?: AccessPolicyListOptionalParams
+    options?: AccessPolicyListOptionalParams,
   ): AsyncIterableIterator<RedisCacheAccessPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       cacheName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,7 +134,7 @@ export class AccessPolicyImpl implements AccessPolicy {
     cacheName: string,
     accessPolicyName: string,
     parameters: RedisCacheAccessPolicy,
-    options?: AccessPolicyCreateUpdateOptionalParams
+    options?: AccessPolicyCreateUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessPolicyCreateUpdateResponse>,
@@ -143,21 +143,20 @@ export class AccessPolicyImpl implements AccessPolicy {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessPolicyCreateUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -166,8 +165,8 @@ export class AccessPolicyImpl implements AccessPolicy {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -175,8 +174,8 @@ export class AccessPolicyImpl implements AccessPolicy {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -187,16 +186,16 @@ export class AccessPolicyImpl implements AccessPolicy {
         cacheName,
         accessPolicyName,
         parameters,
-        options
+        options,
       },
-      spec: createUpdateOperationSpec
+      spec: createUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessPolicyCreateUpdateResponse,
       OperationState<AccessPolicyCreateUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -215,14 +214,14 @@ export class AccessPolicyImpl implements AccessPolicy {
     cacheName: string,
     accessPolicyName: string,
     parameters: RedisCacheAccessPolicy,
-    options?: AccessPolicyCreateUpdateOptionalParams
+    options?: AccessPolicyCreateUpdateOptionalParams,
   ): Promise<AccessPolicyCreateUpdateResponse> {
     const poller = await this.beginCreateUpdate(
       resourceGroupName,
       cacheName,
       accessPolicyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -238,25 +237,24 @@ export class AccessPolicyImpl implements AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyName: string,
-    options?: AccessPolicyDeleteOptionalParams
+    options?: AccessPolicyDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -265,8 +263,8 @@ export class AccessPolicyImpl implements AccessPolicy {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -274,20 +272,20 @@ export class AccessPolicyImpl implements AccessPolicy {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, cacheName, accessPolicyName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -304,13 +302,13 @@ export class AccessPolicyImpl implements AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyName: string,
-    options?: AccessPolicyDeleteOptionalParams
+    options?: AccessPolicyDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       cacheName,
       accessPolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -326,11 +324,11 @@ export class AccessPolicyImpl implements AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyName: string,
-    options?: AccessPolicyGetOptionalParams
+    options?: AccessPolicyGetOptionalParams,
   ): Promise<AccessPolicyGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, accessPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -343,11 +341,11 @@ export class AccessPolicyImpl implements AccessPolicy {
   private _list(
     resourceGroupName: string,
     cacheName: string,
-    options?: AccessPolicyListOptionalParams
+    options?: AccessPolicyListOptionalParams,
   ): Promise<AccessPolicyListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -362,11 +360,11 @@ export class AccessPolicyImpl implements AccessPolicy {
     resourceGroupName: string,
     cacheName: string,
     nextLink: string,
-    options?: AccessPolicyListNextOptionalParams
+    options?: AccessPolicyListNextOptionalParams,
   ): Promise<AccessPolicyListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -374,25 +372,24 @@ export class AccessPolicyImpl implements AccessPolicy {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisCacheAccessPolicy
+      bodyMapper: Mappers.RedisCacheAccessPolicy,
     },
     201: {
-      bodyMapper: Mappers.RedisCacheAccessPolicy
+      bodyMapper: Mappers.RedisCacheAccessPolicy,
     },
     202: {
-      bodyMapper: Mappers.RedisCacheAccessPolicy
+      bodyMapper: Mappers.RedisCacheAccessPolicy,
     },
     204: {
-      bodyMapper: Mappers.RedisCacheAccessPolicy
+      bodyMapper: Mappers.RedisCacheAccessPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -401,15 +398,14 @@ const createUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cacheName,
-    Parameters.accessPolicyName
+    Parameters.accessPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -417,8 +413,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -426,22 +422,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cacheName,
-    Parameters.accessPolicyName
+    Parameters.accessPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisCacheAccessPolicy
+      bodyMapper: Mappers.RedisCacheAccessPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -449,51 +444,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cacheName,
-    Parameters.accessPolicyName
+    Parameters.accessPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisCacheAccessPolicyList
+      bodyMapper: Mappers.RedisCacheAccessPolicyList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisCacheAccessPolicyList
+      bodyMapper: Mappers.RedisCacheAccessPolicyList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

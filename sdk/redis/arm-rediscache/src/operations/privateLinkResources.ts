@@ -15,7 +15,7 @@ import { RedisManagementClient } from "../redisManagementClient";
 import {
   PrivateLinkResource,
   PrivateLinkResourcesListByRedisCacheOptionalParams,
-  PrivateLinkResourcesListByRedisCacheResponse
+  PrivateLinkResourcesListByRedisCacheResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   public listByRedisCache(
     resourceGroupName: string,
     cacheName: string,
-    options?: PrivateLinkResourcesListByRedisCacheOptionalParams
+    options?: PrivateLinkResourcesListByRedisCacheOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listByRedisCachePagingAll(
       resourceGroupName,
       cacheName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
           resourceGroupName,
           cacheName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,13 +72,13 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     cacheName: string,
     options?: PrivateLinkResourcesListByRedisCacheOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesListByRedisCacheResponse;
     result = await this._listByRedisCache(
       resourceGroupName,
       cacheName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -86,12 +86,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByRedisCachePagingAll(
     resourceGroupName: string,
     cacheName: string,
-    options?: PrivateLinkResourcesListByRedisCacheOptionalParams
+    options?: PrivateLinkResourcesListByRedisCacheOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listByRedisCachePagingPage(
       resourceGroupName,
       cacheName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -106,11 +106,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private _listByRedisCache(
     resourceGroupName: string,
     cacheName: string,
-    options?: PrivateLinkResourcesListByRedisCacheOptionalParams
+    options?: PrivateLinkResourcesListByRedisCacheOptionalParams,
   ): Promise<PrivateLinkResourcesListByRedisCacheResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, options },
-      listByRedisCacheOperationSpec
+      listByRedisCacheOperationSpec,
     );
   }
 }
@@ -118,24 +118,23 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByRedisCacheOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

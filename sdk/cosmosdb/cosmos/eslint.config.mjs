@@ -17,6 +17,7 @@ export default [
       "@typescript-eslint/no-extraneous-class": "error",
       "@typescript-eslint/no-duplicate-enum-values": "warn",
       "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-redeclare": "warn",
       "dot-notation": "off",
       "some-rule": "off",
       "@azure/azure-sdk/ts-package-json-types": "warn",

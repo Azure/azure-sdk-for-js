@@ -208,7 +208,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-01",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -775,6 +775,16 @@ export const devicePath: OperationURLParameter = {
   },
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const crossConnectionName: OperationURLParameter = {
   parameterPath: "crossConnectionName",
   mapper: {
@@ -847,16 +857,6 @@ export const linkName: OperationURLParameter = {
 export const authorizationParameters1: OperationParameter = {
   parameterPath: "authorizationParameters",
   mapper: ExpressRoutePortAuthorizationMapper,
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const firewallPolicyName: OperationURLParameter = {

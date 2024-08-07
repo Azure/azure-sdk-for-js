@@ -77,7 +77,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/3.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-search/4.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,7 +131,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01-preview";
+    this.apiVersion = options.apiVersion || "2024-06-01-preview";
     this.operations = new OperationsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);

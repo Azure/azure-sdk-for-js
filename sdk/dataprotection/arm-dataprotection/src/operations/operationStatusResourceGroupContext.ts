@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
 import {
   OperationStatusResourceGroupContextGetOptionalParams,
-  OperationStatusResourceGroupContextGetResponse
+  OperationStatusResourceGroupContextGetResponse,
 } from "../models";
 
 /** Class containing OperationStatusResourceGroupContext operations. */
 export class OperationStatusResourceGroupContextImpl
-  implements OperationStatusResourceGroupContext {
+  implements OperationStatusResourceGroupContext
+{
   private readonly client: DataProtectionClient;
 
   /**
@@ -38,11 +39,11 @@ export class OperationStatusResourceGroupContextImpl
   get(
     resourceGroupName: string,
     operationId: string,
-    options?: OperationStatusResourceGroupContextGetOptionalParams
+    options?: OperationStatusResourceGroupContextGetOptionalParams,
   ): Promise<OperationStatusResourceGroupContextGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,24 +51,23 @@ export class OperationStatusResourceGroupContextImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/operationStatus/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/operationStatus/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResource
+      bodyMapper: Mappers.OperationResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -25,11 +25,9 @@ import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
-import { SDK_VERSION } from "./constants";
+import { KnownMonitorLogsQueryAudience, SDK_VERSION } from "./constants";
 import { tracingClient } from "./tracing";
 import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils";
-
-const defaultMonitorScope = "https://api.loganalytics.io/";
 
 /**
  * Options for the LogsQueryClient.
@@ -62,7 +60,7 @@ export class LogsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
     const scope: string = options?.audience
       ? `${options.audience}/.default`
-      : `${defaultMonitorScope}/.default`;
+      : `${KnownMonitorLogsQueryAudience.AzurePublicCloud}/.default`;
 
     let endpoint = options?.endpoint;
     if (options?.endpoint) {

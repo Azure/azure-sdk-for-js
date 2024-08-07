@@ -14,7 +14,6 @@ import {
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AbortController } from "@azure/abort-controller";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [

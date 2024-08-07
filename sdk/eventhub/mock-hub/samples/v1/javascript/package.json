@@ -1,0 +1,29 @@
+{
+  "name": "@azure-samples/mock-hub-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Internal Mock Hub client library samples for JavaScript",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/eventhub/mock-hub"
+  },
+  "keywords": [
+    "azure",
+    "amqp",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/mock-hub",
+  "dependencies": {
+    "@azure/mock-hub": "latest",
+    "dotenv": "latest"
+  }
+}

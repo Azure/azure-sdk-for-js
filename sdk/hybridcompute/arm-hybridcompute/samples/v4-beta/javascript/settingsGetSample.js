@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the base Settings for the target resource.
  *
  * @summary Returns the base Settings for the target resource.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/settings/SettingsGet.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/settings/SettingsGet.json
  */
 async function networkConfigurationsGet() {
   const subscriptionId =

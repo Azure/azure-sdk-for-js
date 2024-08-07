@@ -12,9 +12,9 @@ import {
 } from "@azure/core-amqp";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { ConnectionContext } from "./connectionContext";
-import { createTimerLoop, TimerLoop } from "./util/timerLoop";
-import { SimpleLogger, logObj } from "./logger";
+import { ConnectionContext } from "./connectionContext.js";
+import { createTimerLoop, TimerLoop } from "./util/timerLoop.js";
+import { SimpleLogger, logObj } from "./logger.js";
 
 /**
  *

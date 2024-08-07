@@ -8,7 +8,7 @@
 
 import {
   ExportJobsOperationResultGetOptionalParams,
-  ExportJobsOperationResultGetResponse
+  ExportJobsOperationResultGetResponse,
 } from "../models";
 
 /** Interface representing a ExportJobsOperationResult. */
@@ -26,6 +26,6 @@ export interface ExportJobsOperationResult {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: ExportJobsOperationResultGetOptionalParams
+    options?: ExportJobsOperationResultGetOptionalParams,
   ): Promise<ExportJobsOperationResultGetResponse>;
 }

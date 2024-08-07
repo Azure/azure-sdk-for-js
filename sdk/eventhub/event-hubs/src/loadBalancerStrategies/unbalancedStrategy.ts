@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LoadBalancingStrategy } from "./loadBalancingStrategy";
-import { PartitionOwnership } from "../eventProcessor";
+import { LoadBalancingStrategy } from "./loadBalancingStrategy.js";
+import { PartitionOwnership } from "../eventProcessor.js";
 
 /**
  * The UnbalancedLoadBalancingStrategy does no actual load balancing.

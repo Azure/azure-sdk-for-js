@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all virtual networks in a subscription.
  *
  * @summary Gets all virtual networks in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualNetworkListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualNetworkListAll.json
  */
 async function listAllVirtualNetworks() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

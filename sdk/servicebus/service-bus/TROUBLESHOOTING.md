@@ -136,7 +136,7 @@ To configure web socket use, see: [Use Proxy sample][ProxySample].
 
 #### "Authentication=Managed Identity" Alternative
 
-To authenticate with Managed Identity, see: [Use AAD Auth sample][IdentitySample]
+To authenticate with Managed Identity, see: [Send Messages sample][IdentitySample]
 
 For more information about the `Azure.Identity` library, see: [Authentication and the Azure SDK][AuthenticationAndTheAzureSDK].
 
@@ -268,7 +268,7 @@ Information about Service Bus quotas can be found [here][ServiceBusQuotas].
 [ServiceBusReceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver
 [ServiceBusSessionReceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussessionreceiver
 [ServiceBusSender]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender
-[IdentitySample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples-dev/usingAadAuth.ts
+[IdentitySample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples-dev/sendMessages.ts
 [AuthenticationAndTheAzureSDK]: https://devblogs.microsoft.com/azure-sdk/authentication-and-the-azure-sdk
 [ServiceBusMessageBatch]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusmessagebatch
 [SendMessages]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender#@azure-service-bus-servicebussender-sendmessages

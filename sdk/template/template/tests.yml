@@ -6,4 +6,3 @@ extends:
   parameters:
     PackageName: "@azure/template"
     ServiceDirectory: template
-    UseFederatedAuth: true

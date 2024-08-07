@@ -10,11 +10,11 @@ import {
   msalNodeTestSetup,
 } from "../../../../identity/test/node/msalNodeTestSetup";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-import { createPersistence } from "./setup.spec";
+
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import assert from "assert";
 import Sinon from "sinon";
+import assert from "assert";
+import { createPersistence } from "./setup.spec";
 
 const scope = "https://graph.microsoft.com/.default";
 
@@ -29,7 +29,10 @@ describe("ClientSecretCredential (internal)", function (this: Mocha.Suite) {
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
+    getTokenSilentSpy = setup.sandbox.spy(
+      ConfidentialClientApplication.prototype,
+      "acquireTokenSilent",
+    );
 
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(

@@ -13,18 +13,19 @@ urlFragment: search-documents-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Search Documents in some common scenarios.
 
-| **File Name**                                                       | **Description**                                                              |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [bufferedSenderAutoFlushSize.ts][bufferedsenderautoflushsize]       | Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.  |
-| [bufferedSenderAutoFlushTimer.ts][bufferedsenderautoflushtimer]     | Demonstrates the SearchIndexingBufferedSender with Autoflush based on timer. |
-| [bufferedSenderManualFlush.ts][bufferedsendermanualflush]           | Demonstrates the SearchIndexingBufferedSender with Manual Flush.             |
-| [dataSourceConnectionOperations.ts][datasourceconnectionoperations] | Demonstrates the DataSource Connection Operations.                           |
-| [indexOperations.ts][indexoperations]                               | Demonstrates the Index Operations.                                           |
-| [indexerOperations.ts][indexeroperations]                           | Demonstrates the Indexer Operations.                                         |
-| [searchClientOperations.ts][searchclientoperations]                 | Demonstrates the SearchClient.                                               |
-| [skillSetOperations.ts][skillsetoperations]                         | Demonstrates the Skillset Operations.                                        |
-| [synonymMapOperations.ts][synonymmapoperations]                     | Demonstrates the SynonymMap Operations.                                      |
-| [vectorSearch.ts][vectorsearch]                                     | Demonstrates vector search                                                   |
+| **File Name**                                                       | **Description**                                                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [bufferedSenderAutoFlushSize.ts][bufferedsenderautoflushsize]       | Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.                             |
+| [bufferedSenderAutoFlushTimer.ts][bufferedsenderautoflushtimer]     | Demonstrates the SearchIndexingBufferedSender with Autoflush based on timer.                            |
+| [bufferedSenderManualFlush.ts][bufferedsendermanualflush]           | Demonstrates the SearchIndexingBufferedSender with Manual Flush.                                        |
+| [dataSourceConnectionOperations.ts][datasourceconnectionoperations] | Demonstrates the DataSource Connection Operations.                                                      |
+| [indexOperations.ts][indexoperations]                               | Demonstrates the Index Operations.                                                                      |
+| [indexerOperations.ts][indexeroperations]                           | Demonstrates the Indexer Operations.                                                                    |
+| [searchClientOperations.ts][searchclientoperations]                 | Demonstrates the SearchClient.                                                                          |
+| [skillSetOperations.ts][skillsetoperations]                         | Demonstrates the Skillset Operations.                                                                   |
+| [stickySession.ts][stickysession]                                   | Demonstrates user sticky sessions, a way to reduce inconsistent behavior by targeting a single replica. |
+| [synonymMapOperations.ts][synonymmapoperations]                     | Demonstrates the SynonymMap Operations.                                                                 |
+| [vectorSearch.ts][vectorsearch]                                     | Demonstrates vector search                                                                              |
 
 ## Prerequisites
 
@@ -71,7 +72,7 @@ node dist/bufferedSenderAutoFlushSize.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" SEARCH_API_ADMIN_KEY="<search api admin key>" node dist/bufferedSenderAutoFlushSize.js
+npx cross-env ENDPOINT="<endpoint>" node dist/bufferedSenderAutoFlushSize.js
 ```
 
 ## Next Steps
@@ -86,6 +87,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [indexeroperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12/typescript/src/indexerOperations.ts
 [searchclientoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12/typescript/src/searchClientOperations.ts
 [skillsetoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12/typescript/src/skillSetOperations.ts
+[stickysession]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12/typescript/src/stickySession.ts
 [synonymmapoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12/typescript/src/synonymMapOperations.ts
 [vectorsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12/typescript/src/vectorSearch.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/search-documents

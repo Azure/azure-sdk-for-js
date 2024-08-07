@@ -7,7 +7,7 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRecord, MsalResult } from "../types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
 import { CredentialLogger, formatSuccess } from "../../util/logging";
-import { MsalFlow, MsalFlowOptions } from "../flows";
+import { MsalFlow, MsalFlowOptions } from "./flows";
 import { ensureValidMsalToken, getAuthority, getKnownAuthorities, msalToPublic } from "../utils";
 import {
   processMultiTenantRequest,

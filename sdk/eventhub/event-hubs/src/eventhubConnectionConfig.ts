@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 
 import { ConnectionConfig } from "@azure/core-amqp";
-import { parseEndpoint } from "./util/parseEndpoint";
+import { parseEndpoint } from "./util/parseEndpoint.js";
 
 /**
  * Describes the connection config object that is created after parsing an EventHub connection

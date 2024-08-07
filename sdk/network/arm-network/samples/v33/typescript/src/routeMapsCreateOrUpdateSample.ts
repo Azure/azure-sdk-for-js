@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a RouteMap if it doesn't exist else updates the existing one.
  *
  * @summary Creates a RouteMap if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteMapPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/RouteMapPut.json
  */
 async function routeMapPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

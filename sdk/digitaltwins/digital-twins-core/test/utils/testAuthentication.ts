@@ -9,11 +9,10 @@ export async function authenticate(that: Mocha.Context): Promise<any> {
   const recorder = new Recorder(that.currentTest);
   await recorder.start({
     envSetupForPlayback: {
-      AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       AZURE_DIGITALTWINS_URL: "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net",
     },
+    // .id in the body request is not a secret
+    removeCentralSanitizers: ["AZSDK3430"],
   });
   const credential = createTestCredential();
   const AZURE_DIGITALTWINS_URL = env.AZURE_DIGITALTWINS_URL || "";

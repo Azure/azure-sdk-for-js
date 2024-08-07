@@ -101,7 +101,7 @@ export function createModelFromSchema(
         ...baseResult,
         documents: hasDocuments
           ? baseResult.documents?.map(toDocument)
-          : baseResult.documents ?? [],
+          : (baseResult.documents ?? []),
       };
 
       function toDocument(document: AnalyzedDocument): unknown {

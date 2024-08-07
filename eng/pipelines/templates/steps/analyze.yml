@@ -58,13 +58,21 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
-  - template: /eng/pipelines/templates/steps/run-eslint.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
+
+  - script: |
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
+    displayName: "Build libraries"
+
+  - template: /eng/pipelines/templates/steps/run-eslint.yml
+    parameters:
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - pwsh: |
       node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose

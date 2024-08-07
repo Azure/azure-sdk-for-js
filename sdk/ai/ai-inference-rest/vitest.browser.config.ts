@@ -11,6 +11,7 @@ export default defineConfig({
     "process.env": process.env,
   },
   test: {
+    testTimeout: 50000,
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",

@@ -24,7 +24,7 @@ import {
   PatchSchedulesDeleteOptionalParams,
   PatchSchedulesGetOptionalParams,
   PatchSchedulesGetResponse,
-  PatchSchedulesListByRedisResourceNextResponse
+  PatchSchedulesListByRedisResourceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,12 +49,12 @@ export class PatchSchedulesImpl implements PatchSchedules {
   public listByRedisResource(
     resourceGroupName: string,
     cacheName: string,
-    options?: PatchSchedulesListByRedisResourceOptionalParams
+    options?: PatchSchedulesListByRedisResourceOptionalParams,
   ): PagedAsyncIterableIterator<RedisPatchSchedule> {
     const iter = this.listByRedisResourcePagingAll(
       resourceGroupName,
       cacheName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class PatchSchedulesImpl implements PatchSchedules {
           resourceGroupName,
           cacheName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
     resourceGroupName: string,
     cacheName: string,
     options?: PatchSchedulesListByRedisResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RedisPatchSchedule[]> {
     let result: PatchSchedulesListByRedisResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
       result = await this._listByRedisResource(
         resourceGroupName,
         cacheName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +101,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
         resourceGroupName,
         cacheName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class PatchSchedulesImpl implements PatchSchedules {
   private async *listByRedisResourcePagingAll(
     resourceGroupName: string,
     cacheName: string,
-    options?: PatchSchedulesListByRedisResourceOptionalParams
+    options?: PatchSchedulesListByRedisResourceOptionalParams,
   ): AsyncIterableIterator<RedisPatchSchedule> {
     for await (const page of this.listByRedisResourcePagingPage(
       resourceGroupName,
       cacheName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class PatchSchedulesImpl implements PatchSchedules {
   private _listByRedisResource(
     resourceGroupName: string,
     cacheName: string,
-    options?: PatchSchedulesListByRedisResourceOptionalParams
+    options?: PatchSchedulesListByRedisResourceOptionalParams,
   ): Promise<PatchSchedulesListByRedisResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, options },
-      listByRedisResourceOperationSpec
+      listByRedisResourceOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class PatchSchedulesImpl implements PatchSchedules {
     name: string,
     defaultParam: DefaultName,
     parameters: RedisPatchSchedule,
-    options?: PatchSchedulesCreateOrUpdateOptionalParams
+    options?: PatchSchedulesCreateOrUpdateOptionalParams,
   ): Promise<PatchSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, defaultParam, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class PatchSchedulesImpl implements PatchSchedules {
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,
-    options?: PatchSchedulesDeleteOptionalParams
+    options?: PatchSchedulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, defaultParam, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -192,11 +192,11 @@ export class PatchSchedulesImpl implements PatchSchedules {
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,
-    options?: PatchSchedulesGetOptionalParams
+    options?: PatchSchedulesGetOptionalParams,
   ): Promise<PatchSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, defaultParam, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -211,11 +211,11 @@ export class PatchSchedulesImpl implements PatchSchedules {
     resourceGroupName: string,
     cacheName: string,
     nextLink: string,
-    options?: PatchSchedulesListByRedisResourceNextOptionalParams
+    options?: PatchSchedulesListByRedisResourceNextOptionalParams,
   ): Promise<PatchSchedulesListByRedisResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, nextLink, options },
-      listByRedisResourceNextOperationSpec
+      listByRedisResourceNextOperationSpec,
     );
   }
 }
@@ -223,41 +223,39 @@ export class PatchSchedulesImpl implements PatchSchedules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByRedisResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/patchSchedules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/patchSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisPatchScheduleListResult
+      bodyMapper: Mappers.RedisPatchScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisPatchSchedule
+      bodyMapper: Mappers.RedisPatchSchedule,
     },
     201: {
-      bodyMapper: Mappers.RedisPatchSchedule
+      bodyMapper: Mappers.RedisPatchSchedule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -266,22 +264,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.defaultParam
+    Parameters.defaultParam,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -289,22 +286,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.defaultParam
+    Parameters.defaultParam,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisPatchSchedule
+      bodyMapper: Mappers.RedisPatchSchedule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -312,29 +308,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.defaultParam
+    Parameters.defaultParam,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByRedisResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisPatchScheduleListResult
+      bodyMapper: Mappers.RedisPatchScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

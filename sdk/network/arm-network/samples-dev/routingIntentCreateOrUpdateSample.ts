@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
  *
  * @summary Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RoutingIntentPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/RoutingIntentPut.json
  */
 async function routeTablePut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

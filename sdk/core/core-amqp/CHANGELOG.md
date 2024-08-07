@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
+
 ### Other Changes
 
 ## 4.4.0-beta.1 (2024-06-06)

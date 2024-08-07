@@ -21,6 +21,8 @@ import {
   InboundSecurityRule,
   InboundSecurityRuleCreateOrUpdateOptionalParams,
   InboundSecurityRuleCreateOrUpdateResponse,
+  InboundSecurityRuleGetOptionalParams,
+  InboundSecurityRuleGetResponse,
 } from "../models";
 
 /** Class containing InboundSecurityRuleOperations operations. */
@@ -144,6 +146,30 @@ export class InboundSecurityRuleOperationsImpl
     );
     return poller.pollUntilDone();
   }
+
+  /**
+   * Retrieves the available specified Network Virtual Appliance Inbound Security Rules Collection.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param ruleCollectionName The name of security rule collection.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    ruleCollectionName: string,
+    options?: InboundSecurityRuleGetOptionalParams,
+  ): Promise<InboundSecurityRuleGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        networkVirtualApplianceName,
+        ruleCollectionName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -179,5 +205,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InboundSecurityRule,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.ruleCollectionName,
+    Parameters.networkVirtualApplianceName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };

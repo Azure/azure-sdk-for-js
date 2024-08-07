@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PartitionOwnership } from "../eventProcessor";
-import { logger } from "../logger";
+import { PartitionOwnership } from "../eventProcessor.js";
+import { logger } from "../logger.js";
 
 /**
  * Determines which partitions to claim as part of load balancing.

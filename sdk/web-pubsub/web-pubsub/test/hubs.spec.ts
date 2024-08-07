@@ -305,5 +305,17 @@ describe("HubClient", function () {
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
     });
+
+    it("can generate client MQTT tokens", async () => {
+      const res = await client.getClientAccessToken({
+        userId: "brian",
+        groups: ["group1"],
+        clientProtocol: "mqtt",
+      });
+      const url = new URL(res.url);
+      assert.ok(url.searchParams.has("access_token"));
+      assert.equal(url.host, new URL(client.endpoint).host);
+      assert.equal(url.pathname, `/clients/mqtt/hubs/${client.hubName}`);
+    });
   });
 });

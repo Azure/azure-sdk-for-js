@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/VaultCRUD/GetOperationResultPatch.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/GetOperationResultPatch.json
  */
 async function getOperationResultPatch() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getOperationResultPatch() {
   const result = await client.backupVaultOperationResults.get(
     resourceGroupName,
     vaultName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Recovery Point using recoveryPointId for a Datasource.
  *
  * @summary Gets a Recovery Point using recoveryPointId for a Datasource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/GetRecoveryPoint.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/GetRecoveryPoint.json
  */
 async function getRecoveryPoint() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getRecoveryPoint() {
     resourceGroupName,
     vaultName,
     backupInstanceName,
-    recoveryPointId
+    recoveryPointId,
   );
   console.log(result);
 }

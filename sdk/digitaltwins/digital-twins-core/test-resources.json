@@ -15,22 +15,17 @@
         "description": "The tenant ID to which the application and resources belong. You may copy it from the one available on the overview page of the Azure Active Directory section of the Azure portal, or obtain it from the overview page of a recently created Azure Application."
       }
     },
-    "testApplicationId": {
+    "testApplicationOid": {
       "type": "string",
       "metadata": {
-        "description": "The application client ID used to run tests. You may get it from the overview page of a recently created Azure application."
-      }
-    },
-    "testApplicationSecret": {
-      "type": "string",
-      "metadata": {
-        "description": "The application client secret used to run tests."
+        "description": "The client OID to grant access to test resources."
       }
     }
   },
   "variables": {
     "location": "westus2",
-    "azureDigitalTwins": "[parameters('baseName')]"
+    "azureDigitalTwins": "[parameters('baseName')]",
+    "contributorRole": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c')]"
   },
   "resources": [
     {
@@ -39,6 +34,15 @@
       "name": "[variables('azureDigitalTwins')]",
       "location": "[variables('location')]",
       "properties": {}
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(resourceGroup().id, 'roleAssignment')]",
+      "properties": {
+        "roleDefinitionId": "[variables('contributorRole')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
     }
   ],
   "outputs": {

@@ -113,6 +113,44 @@ export interface ModelInfoOutput {
 }
 
 /**
+ * Representation of the response data from an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsResultOutput {
+  /** Unique identifier for the embeddings result. */
+  id: string;
+  /** Embedding values for the prompts submitted in the request. */
+  data: Array<EmbeddingItemOutput>;
+  /** Usage counts for tokens input using the embeddings API. */
+  usage: EmbeddingsUsageOutput;
+  /** The model ID used to generate this result. */
+  model: string;
+}
+
+/** Representation of a single embeddings relatedness comparison. */
+export interface EmbeddingItemOutput {
+  /**
+   * List of embeddings value for the input prompt. These represent a measurement of the
+   * vector-based relatedness of the provided input.
+   */
+  embedding: number[];
+  /** Index of the prompt to which the EmbeddingItem corresponds. */
+  index: number;
+}
+
+/** Measurement of the amount of tokens used in this request and response. */
+export interface EmbeddingsUsageOutput {
+  /** Number of tokens in the request. */
+  prompt_tokens: number;
+  /**
+   * Total number of tokens transacted in this request/response. Should equal the
+   * number of tokens in the request.
+   */
+  total_tokens: number;
+}
+
+/**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
@@ -120,20 +158,8 @@ export type ChatCompletionsToolCallOutput =
   | ChatCompletionsToolCallOutputParent
   | ChatCompletionsFunctionToolCallOutput;
 /** Alias for ChatRoleOutput */
-export type ChatRoleOutput = string | "system" | "user" | "assistant" | "tool";
+export type ChatRoleOutput = string;
 /** Alias for CompletionsFinishReasonOutput */
-export type CompletionsFinishReasonOutput =
-  | string
-  | "stop"
-  | "length"
-  | "content_filter"
-  | "tool_calls";
+export type CompletionsFinishReasonOutput = string;
 /** Alias for ModelTypeOutput */
-export type ModelTypeOutput =
-  | string
-  | "embeddings"
-  | "image_generation"
-  | "text_generation"
-  | "image_embeddings"
-  | "audio_generation"
-  | "chat";
+export type ModelTypeOutput = string;

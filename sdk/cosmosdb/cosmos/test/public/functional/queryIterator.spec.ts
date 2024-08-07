@@ -3,15 +3,19 @@
 
 // Import the required modules
 import assert from "assert";
-import { Container, CosmosClient, FeedOptions, OperationType } from "../../../src";
+import { Container, CosmosClient, FeedOptions, OperationType, ResourceType } from "../../../src";
 import { endpoint } from "../../public/common/_testConfig";
 import { masterKey } from "../../public/common/_fakeTestSecrets";
-import { getTestContainer, removeAllDatabases } from "../../public/common/TestHelpers";
+import {
+  getTestContainer,
+  isValidV4UUID,
+  removeAllDatabases,
+} from "../../public/common/TestHelpers";
 
 describe("Correlated Activity Id", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);
   let container: Container;
-  let capturedCorrelatedActivityIds: string[];
+  let capturedCorrelatedActivityIds: any[];
   const client = new CosmosClient({
     endpoint,
     key: masterKey,
@@ -21,7 +25,7 @@ describe("Correlated Activity Id", function () {
         plugin: async (context, _diagNode, next) => {
           if (
             context.operationType === OperationType.Query &&
-            typeof context.headers["x-ms-cosmos-correlated-activityid"] === "string"
+            context.resourceType === ResourceType.item
           ) {
             capturedCorrelatedActivityIds.push(
               context.headers["x-ms-cosmos-correlated-activityid"],
@@ -47,19 +51,20 @@ describe("Correlated Activity Id", function () {
     ]);
   });
 
-  beforeEach(async () => {
-    capturedCorrelatedActivityIds = [];
-  });
-
   it("fetchNext and fetchAll should have different correlated id with same iterator", async () => {
     const queryIterator = container.items.readAll();
-    await queryIterator.fetchNext();
-    assert.ok(capturedCorrelatedActivityIds.length);
-    const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
-    await queryIterator.fetchAll();
+    const fetchNextResult = await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
+    assert.equal(fetchNextResult.correlatedActivityId, correlatedIdFetchNext);
+    capturedCorrelatedActivityIds = [];
+    const fetchAllResult = await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
+    assert.equal(fetchAllResult.correlatedActivityId, correlatedIdFetchAll);
     assert.ok(correlatedIdFetchAll !== correlatedIdFetchNext);
   });
 
@@ -69,10 +74,12 @@ describe("Correlated Activity Id", function () {
     };
     const options: FeedOptions = { maxItemCount: 2 };
     const queryIterator = container.items.query(querySpec, options);
+    capturedCorrelatedActivityIds = [];
     while (queryIterator.hasMoreResults()) {
       await queryIterator.fetchNext();
     }
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -86,8 +93,10 @@ describe("Correlated Activity Id", function () {
     };
     const options: FeedOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(querySpec, options);
+    capturedCorrelatedActivityIds = [];
     await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -101,8 +110,10 @@ describe("Correlated Activity Id", function () {
     };
     const options: FeedOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(querySpec, options);
+    capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -115,8 +126,10 @@ describe("Correlated Activity Id", function () {
       query: "SELECT c.name FROM c ORDER BY c.name ASC",
     };
     const queryIterator = container.items.query(querySpec);
+    capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -129,8 +142,10 @@ describe("Correlated Activity Id", function () {
       query: "SELECT c.name FROM c GROUP BY c.name",
     };
     const queryIterator = container.items.query(querySpec);
+    capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -138,13 +153,14 @@ describe("Correlated Activity Id", function () {
     );
   });
 
-  it("getAsyncIterator should pass correlation Id to request header", async () => {
+  it("getAsyncIterator should pass correlation ID to request header", async () => {
     const queryIterator = container.items.readAll();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for await (const _ of queryIterator.getAsyncIterator()) {
-      // The loop is intentionally empty
+    capturedCorrelatedActivityIds = [];
+    for await (const response of queryIterator.getAsyncIterator()) {
+      assert.equal(response.correlatedActivityId, capturedCorrelatedActivityIds[0]);
     }
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     assert.ok(
       capturedCorrelatedActivityIds.every(
         (element) => element === capturedCorrelatedActivityIds[0],
@@ -154,8 +170,10 @@ describe("Correlated Activity Id", function () {
 
   it("fetchAll and getAsyncIterator should have different correlated id with same iterator", async () => {
     const queryIterator = container.items.readAll();
+    capturedCorrelatedActivityIds = [];
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -163,14 +181,17 @@ describe("Correlated Activity Id", function () {
       // The loop is intentionally empty
     }
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
     assert.ok(correlatedIdFetchAll !== correlatedIdAsyncIterator);
   });
 
   it("fetchNext and getAsyncIterator should have different correlated id with same iterator", async () => {
     const queryIterator = container.items.readAll();
+    capturedCorrelatedActivityIds = [];
     await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -178,10 +199,55 @@ describe("Correlated Activity Id", function () {
       // The loop is intentionally empty
     }
     assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
     assert.ok(correlatedIdFetchNext !== correlatedIdAsyncIterator);
   });
 
+  it("error response should have correlated activity id header", async () => {
+    // wrong query format to trigger error
+    const query = "SELECT * frm c";
+    const queryIterator = container.items.query(query);
+    capturedCorrelatedActivityIds = [];
+    // fetchNext
+    try {
+      await queryIterator.fetchNext();
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+    queryIterator.reset();
+    capturedCorrelatedActivityIds = [];
+    // fetchAll
+    try {
+      await queryIterator.fetchAll();
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+    queryIterator.reset();
+    capturedCorrelatedActivityIds = [];
+    // getAsyncIterator
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      for await (const _ of queryIterator.getAsyncIterator()) {
+        // The loop is intentionally empty
+      }
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+  });
   after(async function () {
     await removeAllDatabases();
   });

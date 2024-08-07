@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to install patches on a hybrid machine identity in Azure.
  *
  * @summary The operation to install patches on a hybrid machine identity in Azure.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/machine/Machine_InstallPatches.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/machine/Machine_InstallPatches.json
  */
 async function installPatchStateOfAMachine() {
   const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

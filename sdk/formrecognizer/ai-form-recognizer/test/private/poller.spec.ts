@@ -4,7 +4,7 @@
 import { assert } from "@azure-tools/test-utils";
 import { lro } from "../../src/lro/util/poller";
 import { PollOperationState } from "@azure/core-lro";
-import { AbortController, AbortError } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 
 describe("custom poller", function () {
   it("abort signal correctly cancels polling", async function () {

@@ -12,7 +12,7 @@ Create an event-hubs namespace and populate the `.env` file with the following v
 
 - `EVENTHUB_CONNECTION_STRING`,
 - `EVENTHUB_NAME` and
-- `CONSUMER_GROUP_NAME`
+- `EVENTHUB_CONSUMER_GROUP_NAME`
 
 ## Running the tests
 

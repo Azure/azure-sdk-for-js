@@ -8,7 +8,7 @@
 
 import {
   AsyncOperationStatusGetOptionalParams,
-  AsyncOperationStatusGetResponse
+  AsyncOperationStatusGetResponse,
 } from "../models";
 
 /** Interface representing a AsyncOperationStatus. */
@@ -22,6 +22,6 @@ export interface AsyncOperationStatus {
   get(
     location: string,
     operationId: string,
-    options?: AsyncOperationStatusGetOptionalParams
+    options?: AsyncOperationStatusGetOptionalParams,
   ): Promise<AsyncOperationStatusGetResponse>;
 }

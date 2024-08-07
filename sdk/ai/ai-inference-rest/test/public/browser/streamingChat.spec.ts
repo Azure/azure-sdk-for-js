@@ -12,7 +12,7 @@ describe("chat test suite", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = await createModelClient(recorder);
+    client = await createModelClient("completions", recorder);
   });
 
   afterEach(async () => {

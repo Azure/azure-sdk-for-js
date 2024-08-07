@@ -6796,7 +6796,7 @@ export const AcsEmailDeliveryReportReceivedEventData: coreClient.CompositeMapper
         }
       },
       deliveryAttemptTimestamp: {
-        serializedName: "deliveryAttemptTimeStamp",
+        serializedName: "deliveryAttemptTimestamp",
         required: true,
         type: {
           name: "String"
@@ -6849,7 +6849,7 @@ export const AcsEmailEngagementTrackingReportReceivedEventData: coreClient.Compo
         }
       },
       userActionTimestamp: {
-        serializedName: "userActionTimeStamp",
+        serializedName: "userActionTimestamp",
         required: true,
         type: {
           name: "String"

@@ -14,7 +14,7 @@ import {
   FirewallRulesCreateOrUpdateResponse,
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse,
-  FirewallRulesDeleteOptionalParams
+  FirewallRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface FirewallRules {
   list(
     resourceGroupName: string,
     cacheName: string,
-    options?: FirewallRulesListOptionalParams
+    options?: FirewallRulesListOptionalParams,
   ): PagedAsyncIterableIterator<RedisFirewallRule>;
   /**
    * Create or update a redis cache firewall rule
@@ -44,7 +44,7 @@ export interface FirewallRules {
     cacheName: string,
     ruleName: string,
     parameters: RedisFirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse>;
   /**
    * Gets a single firewall rule in a specified redis cache.
@@ -57,7 +57,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     ruleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse>;
   /**
    * Deletes a single firewall rule in a specified redis cache.
@@ -70,6 +70,6 @@ export interface FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     ruleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<void>;
 }

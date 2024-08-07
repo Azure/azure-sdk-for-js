@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the redis cache.
  *
  * @summary Gets the specified private endpoint connection associated with the redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheGetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheGetPrivateEndpointConnection.json
  */
 async function redisCacheGetPrivateEndpointConnection() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function redisCacheGetPrivateEndpointConnection() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     cacheName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

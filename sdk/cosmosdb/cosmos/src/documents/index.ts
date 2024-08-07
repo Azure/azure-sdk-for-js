@@ -21,3 +21,4 @@ export * from "./TriggerType";
 export * from "./UserDefinedFunctionType";
 export * from "./GeospatialType";
 export * from "./ComputedProperty";
+export * from "./VectorEmbeddingPolicy";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List network usages for a subscription.
  *
  * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/UsageList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/UsageList.json
  */
 async function listUsages() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function listUsages() {
  * This sample demonstrates how to List network usages for a subscription.
  *
  * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/UsageListSpacedLocation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/UsageListSpacedLocation.json
  */
 async function listUsagesSpacedLocation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

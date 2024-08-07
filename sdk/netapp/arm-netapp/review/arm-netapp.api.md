@@ -2063,6 +2063,7 @@ export interface VolumePatch {
     isDefaultQuotaEnabled?: boolean;
     location?: string;
     readonly name?: string;
+    protocolTypes?: string[];
     serviceLevel?: ServiceLevel;
     smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbNonBrowsable?: SmbNonBrowsable;

@@ -28,6 +28,9 @@ export class FeedResponse<TResource> {
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
   }
+  public get correlatedActivityId(): string {
+    return this.headers[Constants.HttpHeaders.CorrelatedActivityId];
+  }
   public get indexMetrics(): string {
     const writer = new IndexMetricWriter();
     const indexUtilizationInfo = IndexUtilizationInfo.createFromString(

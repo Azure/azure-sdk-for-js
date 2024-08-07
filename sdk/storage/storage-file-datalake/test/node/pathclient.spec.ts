@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController } from "@azure/abort-controller";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";

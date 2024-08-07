@@ -4,27 +4,28 @@
 /**
  * Displays the critical results of the Radiology Insights request.
  */
-import { AzureKeyCredential } from "@azure/core-auth";
-
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
+
 import AzureHealthInsightsClient, {
+  ClinicalDocumentTypeEnum,
   CreateJobParameters,
+  RadiologyInsightsJobOutput,
   getLongRunningPoller,
-  isUnexpected,
-  RadiologyInsightsResultOutput,
+  isUnexpected
 } from "../src";
 
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["AZURE_HEALTH_INSIGHTS_KEY"] || "";
-const endpoint = process.env["AZURE_HEALTH_INSIGHTS_ENDPOINT"] || "";
+
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
     * Print the critical result inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
+function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
@@ -76,8 +77,8 @@ function createRequestBody(): CreateJobParameters {
   };
 
   const authorData = {
-    "id": "authorid1",
-    "name": "authorname1"
+    id: "authorid1",
+    fullName: "authorname1",
   };
 
   const orderedProceduresData = {
@@ -92,45 +93,48 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: "CLINICAL HISTORY:   "
-      + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-      + "\r\n "
-      + "\r\nCOMPARISON:   "
-      + "\r\nRight upper quadrant sonographic performed 1 day prior."
-      + "\r\n "
-      + "\r\nTECHNIQUE:   "
-      + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-      + "\r\nand spectral waveform analysis of the ovaries."
-      + "\r\n "
-      + "\r\nFINDINGS:   "
-      + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-      + "\r\nendometrial echo complex within physiologic normal limits. The "
-      + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-      + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-      + "\r\n "
-      + "\r\nIMPRESSION:   "
-      + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-      + "\r\n\nA new US pelvis within the next 6 months is recommended."
-      + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-      + "\r\n"
+    value: `CLINICAL HISTORY:
+    20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+    
+    COMPARISON:
+    Right upper quadrant sonographic performed 1 day prior.
+    
+    TECHNIQUE:
+    Transabdominal grayscale pelvic sonography with duplex color Doppler
+    and spectral waveform analysis of the ovaries.
+    
+    FINDINGS:
+    The uterus is unremarkable given the transabdominal technique with
+    endometrial echo complex within physiologic normal limits. The
+    ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
+    left measuring 2.8 x 1.5 x 1.9 cm.
+    
+    On duplex imaging, Doppler signal is symmetric.
+    
+    IMPRESSION:
+    1. Normal pelvic sonography. Findings of testicular torsion.
+    A new US pelvis within the next 6 months is recommended.
+
+    These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
   };
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdDateTime: new Date("2021-06-01T00:00:00.000"),
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
     orderedProceduresAsCsv: "US PELVIS COMPLETE"
   };
 
+
   const patientData = {
     id: "Samantha Jones",
-    info: patientInfo,
+    details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData]
   };
@@ -173,25 +177,30 @@ function createRequestBody(): CreateJobParameters {
   };
 
   // create RI Data
-  const radiologyInsightsData = {
-    patients: [patientData],
-    configuration: configuration
+  const RadiologyInsightsJob = {
+    jobData: {
+      patients: [patientData],
+      configuration: configuration,
+    }
   };
 
   return {
-    body: radiologyInsightsData
-  }
+    body: RadiologyInsightsJob,
+  };
+
 }
 
 export async function main() {
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
-  const initialResponse = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+  const dateString = Date.now();
+  const jobID = "jobId-" + dateString;
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }

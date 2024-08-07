@@ -237,6 +237,11 @@ export interface HubHasPermissionOptions extends OperationOptions {
 }
 
 /**
+ * The type of client endpoint that is being requested.
+ */
+export type WebPubSubClientProtocol = "default" | "mqtt";
+
+/**
  * Options for generating a token to connect a client to the Azure Web Pubsub service.
  */
 export interface GenerateClientTokenOptions extends OperationOptions {
@@ -266,6 +271,13 @@ export interface GenerateClientTokenOptions extends OperationOptions {
    * The groups to join when the client connects
    */
   groups?: string[];
+
+  /**
+   * The protocol type of the client
+   * * `default`: Default WebPubSub Client. Example Client Connection URL: _wss://exampleHost.com/client/hubs/exampleHub_
+   * * `mqtt`: MQTT Client. Example Client Connection URL:  _wss://exampleHost.com/client/mqtt/hubs/exampleHub_
+   */
+  clientProtocol?: WebPubSubClientProtocol;
 }
 
 /**
@@ -301,7 +313,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2023-07-01";
+  public readonly apiVersion: string = "2024-01-01";
 
   /**
    * The Web PubSub endpoint this client is connected to
@@ -946,7 +958,12 @@ export class WebPubSubServiceClient {
       async (updatedOptions) => {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-        const baseUrl = `${clientEndpoint}client/hubs/${this.hubName}`;
+        const clientProtocol = updatedOptions.clientProtocol;
+        const clientPath =
+          clientProtocol && clientProtocol === "mqtt"
+            ? `clients/mqtt/hubs/${this.hubName}`
+            : `client/hubs/${this.hubName}`;
+        const baseUrl = clientEndpoint + clientPath;
 
         let token: string;
         if (isTokenCredential(this.credential)) {
@@ -957,18 +974,21 @@ export class WebPubSubServiceClient {
           token = response.token!;
         } else {
           const key = this.credential.key;
-          const audience = `${endpoint}client/hubs/${this.hubName}`;
-          const payload = { role: options?.roles, "webpubsub.group": options?.groups };
+          const audience = endpoint + clientPath;
+          const payload = {
+            role: updatedOptions?.roles,
+            "webpubsub.group": updatedOptions?.groups,
+          };
           const signOptions: jwt.SignOptions = {
             audience: audience,
             expiresIn:
-              options?.expirationTimeInMinutes === undefined
+              updatedOptions?.expirationTimeInMinutes === undefined
                 ? "1h"
-                : `${options.expirationTimeInMinutes}m`,
+                : `${updatedOptions.expirationTimeInMinutes}m`,
             algorithm: "HS256",
           };
-          if (options?.userId) {
-            signOptions.subject = options?.userId;
+          if (updatedOptions?.userId) {
+            signOptions.subject = updatedOptions?.userId;
           }
           token = jwt.sign(payload, key, signOptions);
         }

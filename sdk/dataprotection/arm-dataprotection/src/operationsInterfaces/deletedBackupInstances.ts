@@ -13,7 +13,7 @@ import {
   DeletedBackupInstancesListOptionalParams,
   DeletedBackupInstancesGetOptionalParams,
   DeletedBackupInstancesGetResponse,
-  DeletedBackupInstancesUndeleteOptionalParams
+  DeletedBackupInstancesUndeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface DeletedBackupInstances {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedBackupInstancesListOptionalParams
+    options?: DeletedBackupInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedBackupInstanceResource>;
   /**
    * Gets a deleted backup instance with name in a backup vault
@@ -41,7 +41,7 @@ export interface DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: DeletedBackupInstancesGetOptionalParams
+    options?: DeletedBackupInstancesGetOptionalParams,
   ): Promise<DeletedBackupInstancesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -53,7 +53,7 @@ export interface DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: DeletedBackupInstancesUndeleteOptionalParams
+    options?: DeletedBackupInstancesUndeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -65,6 +65,6 @@ export interface DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: DeletedBackupInstancesUndeleteOptionalParams
+    options?: DeletedBackupInstancesUndeleteOptionalParams,
   ): Promise<void>;
 }

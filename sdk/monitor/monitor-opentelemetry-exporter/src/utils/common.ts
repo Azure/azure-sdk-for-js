@@ -137,7 +137,7 @@ function getCloudRoleInstance(resource: Resource): string {
   return os && os.hostname();
 }
 
-export function isSqlDB(dbSystem: string) {
+export function isSqlDB(dbSystem: string): boolean {
   return (
     dbSystem === DBSYSTEMVALUES_DB2 ||
     dbSystem === DBSYSTEMVALUES_DERBY ||

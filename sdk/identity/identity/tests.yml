@@ -9,6 +9,7 @@ extends:
       SupportedClouds: 'Public,UsGov,China,Canary'
       CloudConfig:
         Public:
+          ServiceConnection: azure-sdk-tests
           SubscriptionConfigurations:
             - $(sub-config-azure-cloud-test-resources)
             # Contains alternate tenant, AAD app and cert info for testing
@@ -26,4 +27,3 @@ extends:
         AZURE_CLIENT_ID: $(IDENTITY_CLIENT_ID)
         AZURE_CLIENT_SECRET: $(IDENTITY_CLIENT_SECRET)
         AZURE_TENANT_ID: $(IDENTITY_TENANT_ID)
-        SYSTEM_ACCESSTOKEN: $(System.AccessToken)

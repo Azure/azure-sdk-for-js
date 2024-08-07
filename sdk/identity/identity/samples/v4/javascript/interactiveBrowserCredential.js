@@ -6,6 +6,7 @@
  */
 
 const { InteractiveBrowserCredential } = require("@azure/identity");
+
 require("dotenv").config();
 
 const clientId = process.env.AZURE_CLIENT_ID; // The app registration client Id in the Microsoft Entra tenant
@@ -21,7 +22,10 @@ async function main() {
   });
 
   const token = await credential.getToken("https://storage.azure.com/.default");
-  console.log(`Token: ${token}`);
+  console.log(
+    "InteractiveBrowserCredential: Successfully got a token with expiry time:",
+    token.expiresOnTimestamp,
+  );
 }
 
 main().catch((err) => {

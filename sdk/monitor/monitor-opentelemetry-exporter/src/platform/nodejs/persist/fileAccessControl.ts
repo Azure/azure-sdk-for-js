@@ -16,7 +16,7 @@ export class FileAccessControl {
   public static USE_ICACLS = os.type() === "Windows_NT";
 
   // Check if file access control could be enabled
-  public static checkFileProtection() {
+  public static checkFileProtection(): void {
     if (
       !FileAccessControl.OS_PROVIDES_FILE_PROTECTION &&
       !FileAccessControl.OS_FILE_PROTECTION_CHECKED
@@ -71,7 +71,7 @@ export class FileAccessControl {
     }
   }
 
-  public static applyACLRulesSync(directory: string) {
+  public static applyACLRulesSync(directory: string): void {
     if (FileAccessControl.USE_ICACLS) {
       // For performance, only run ACL rules if we haven't already during this session
       if (FileAccessControl.ACLED_DIRECTORIES[directory] === undefined) {
@@ -103,7 +103,7 @@ export class FileAccessControl {
     });
   }
 
-  private static _runICACLSSync(args: string[]) {
+  private static _runICACLSSync(args: string[]): void {
     // Some very old versions of Node (< 0.11) don't have this
     if (child_process.spawnSync) {
       const aclProc = child_process.spawnSync(FileAccessControl.ICACLS_PATH, args, <any>{
@@ -148,7 +148,7 @@ export class FileAccessControl {
     });
   }
 
-  private static _getACLIdentitySync() {
+  private static _getACLIdentitySync(): string {
     if (FileAccessControl.ACL_IDENTITY) {
       return FileAccessControl.ACL_IDENTITY;
     }
@@ -174,7 +174,7 @@ export class FileAccessControl {
     }
   }
 
-  private static _getACLArguments(directory: string, identity: string) {
+  private static _getACLArguments(directory: string, identity: string): string[] {
     return [
       directory,
       "/grant",

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a VirtualHubRouteTableV2.
  *
  * @summary Deletes a VirtualHubRouteTableV2.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/VirtualHubRouteTableV2Delete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualHubRouteTableV2Delete.json
  */
 async function virtualHubRouteTableV2Delete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

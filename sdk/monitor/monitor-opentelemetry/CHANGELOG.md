@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Live Metrics instrumentation key should be set when env var is used to set the connection string.
+
 ### Other Changes
 
 ## 1.6.0 (2024-06-13)

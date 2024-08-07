@@ -99,6 +99,7 @@ export class FileSystemPersist implements PersistentStorage {
       try {
         const buffer = await this._getFirstFileOnDisk();
         if (buffer) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return JSON.parse(buffer.toString("utf8"));
         }
       } catch (e: any) {
@@ -191,6 +192,7 @@ export class FileSystemPersist implements PersistentStorage {
         if (files.length === 0) {
           return false;
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           files.forEach(async (file) => {
             // Check expiration
             const fileCreationDate: Date = new Date(

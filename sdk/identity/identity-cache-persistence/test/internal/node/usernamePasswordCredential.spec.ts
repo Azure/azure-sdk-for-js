@@ -8,13 +8,13 @@ import {
   MsalTestCleanup,
   msalNodeTestSetup,
 } from "../../../../identity/test/node/msalNodeTestSetup";
-import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "../../../../identity/src";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-import { PublicClientApplication } from "@azure/msal-node";
-import { createPersistence } from "./setup.spec";
 import { Recorder, env } from "@azure-tools/test-recorder";
+import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "../../../../identity/src";
+
+import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import assert from "assert";
+import { createPersistence } from "./setup.spec";
 
 describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
@@ -27,7 +27,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
+    getTokenSilentSpy = setup.sandbox.spy(PublicClientApplication.prototype, "acquireTokenSilent");
 
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(

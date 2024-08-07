@@ -13,22 +13,22 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
-import { ContainerClient } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
 import "dotenv/config";
 
 const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
 const consumerGroup =
-  process.env["EVENTHUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
-const storageContainerUrl =
-  process.env["STORAGE_CONTAINER_URL"] ||
-  "https://<storageaccount>.blob.core.windows.net/<containername>";
+  process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || EventHubConsumerClient.defaultConsumerGroupName;
+const storageEndpoint =
+  process.env["STORAGE_ENDPOINT"] || "https://<storageaccount>.blob.core.windows.net";
 
 export async function main() {
   const credential = new DefaultAzureCredential();
   // This client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
-  const containerClient = new ContainerClient(storageContainerUrl, credential);
+  const storageClient = new BlobServiceClient(storageEndpoint, credential);
+  const containerClient = storageClient.getContainerClient("checkpointstore");
 
   if (!(await containerClient.exists())) {
     await containerClient.create();

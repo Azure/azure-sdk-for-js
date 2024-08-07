@@ -15,14 +15,9 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  AppResiliencyOperationsImpl,
   ContainerAppsAuthConfigsImpl,
   AvailableWorkloadProfilesImpl,
   BillingMetersImpl,
-  BuildersImpl,
-  BuildsByBuilderResourceImpl,
-  BuildsImpl,
-  BuildAuthTokenImpl,
   ConnectedEnvironmentsImpl,
   ConnectedEnvironmentsCertificatesImpl,
   ConnectedEnvironmentsDaprComponentsImpl,
@@ -40,25 +35,16 @@ import {
   CertificatesImpl,
   ManagedCertificatesImpl,
   NamespacesImpl,
-  DaprComponentResiliencyPoliciesImpl,
   DaprComponentsImpl,
-  DaprSubscriptionsImpl,
   ManagedEnvironmentsStoragesImpl,
   ContainerAppsSourceControlsImpl,
   UsagesImpl,
   ManagedEnvironmentUsagesImpl,
-  JavaComponentsImpl,
-  DotNetComponentsImpl,
 } from "./operations";
 import {
-  AppResiliencyOperations,
   ContainerAppsAuthConfigs,
   AvailableWorkloadProfiles,
   BillingMeters,
-  Builders,
-  BuildsByBuilderResource,
-  Builds,
-  BuildAuthToken,
   ConnectedEnvironments,
   ConnectedEnvironmentsCertificates,
   ConnectedEnvironmentsDaprComponents,
@@ -76,15 +62,11 @@ import {
   Certificates,
   ManagedCertificates,
   Namespaces,
-  DaprComponentResiliencyPolicies,
   DaprComponents,
-  DaprSubscriptions,
   ManagedEnvironmentsStorages,
   ContainerAppsSourceControls,
   Usages,
   ManagedEnvironmentUsages,
-  JavaComponents,
-  DotNetComponents,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -104,7 +86,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ContainerAppsAPIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -128,7 +110,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/2.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-appcontainers/2.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -182,15 +164,10 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-02-preview";
-    this.appResiliencyOperations = new AppResiliencyOperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
     this.billingMeters = new BillingMetersImpl(this);
-    this.builders = new BuildersImpl(this);
-    this.buildsByBuilderResource = new BuildsByBuilderResourceImpl(this);
-    this.builds = new BuildsImpl(this);
-    this.buildAuthToken = new BuildAuthTokenImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
     this.connectedEnvironmentsCertificates =
       new ConnectedEnvironmentsCertificatesImpl(this);
@@ -217,10 +194,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.certificates = new CertificatesImpl(this);
     this.managedCertificates = new ManagedCertificatesImpl(this);
     this.namespaces = new NamespacesImpl(this);
-    this.daprComponentResiliencyPolicies =
-      new DaprComponentResiliencyPoliciesImpl(this);
     this.daprComponents = new DaprComponentsImpl(this);
-    this.daprSubscriptions = new DaprSubscriptionsImpl(this);
     this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
       this,
     );
@@ -229,8 +203,6 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     );
     this.usages = new UsagesImpl(this);
     this.managedEnvironmentUsages = new ManagedEnvironmentUsagesImpl(this);
-    this.javaComponents = new JavaComponentsImpl(this);
-    this.dotNetComponents = new DotNetComponentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -294,14 +266,9 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     );
   }
 
-  appResiliencyOperations: AppResiliencyOperations;
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
   availableWorkloadProfiles: AvailableWorkloadProfiles;
   billingMeters: BillingMeters;
-  builders: Builders;
-  buildsByBuilderResource: BuildsByBuilderResource;
-  builds: Builds;
-  buildAuthToken: BuildAuthToken;
   connectedEnvironments: ConnectedEnvironments;
   connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
@@ -319,15 +286,11 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   certificates: Certificates;
   managedCertificates: ManagedCertificates;
   namespaces: Namespaces;
-  daprComponentResiliencyPolicies: DaprComponentResiliencyPolicies;
   daprComponents: DaprComponents;
-  daprSubscriptions: DaprSubscriptions;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSourceControls: ContainerAppsSourceControls;
   usages: Usages;
   managedEnvironmentUsages: ManagedEnvironmentUsages;
-  javaComponents: JavaComponents;
-  dotNetComponents: DotNetComponents;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

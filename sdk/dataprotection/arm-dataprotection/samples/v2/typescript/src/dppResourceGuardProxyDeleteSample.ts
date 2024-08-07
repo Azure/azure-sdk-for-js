@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the ResourceGuardProxy
  *
  * @summary Deletes the ResourceGuardProxy
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardProxyCRUD/DeleteResourceGuardProxy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardProxyCRUD/DeleteResourceGuardProxy.json
  */
 async function deleteResourceGuardProxy() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function deleteResourceGuardProxy() {
   const result = await client.dppResourceGuardProxy.delete(
     resourceGroupName,
     vaultName,
-    resourceGuardProxyName
+    resourceGuardProxyName,
   );
   console.log(result);
 }

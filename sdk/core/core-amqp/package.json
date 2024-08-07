@@ -32,6 +32,7 @@
   },
   "main": "./dist/commonjs/index.js",
   "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
   "keywords": [

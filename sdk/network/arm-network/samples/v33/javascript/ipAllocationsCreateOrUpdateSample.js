@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an IpAllocation in the specified resource group.
  *
  * @summary Creates or updates an IpAllocation in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/IpAllocationCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/IpAllocationCreate.json
  */
 async function createIPAllocation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

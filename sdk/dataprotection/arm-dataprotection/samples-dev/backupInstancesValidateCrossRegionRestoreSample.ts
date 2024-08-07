@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ValidateCrossRegionRestoreRequestObject,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validates whether Cross Region Restore can be triggered for DataSource.
  *
  * @summary Validates whether Cross Region Restore can be triggered for DataSource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CrossRegionRestore/ValidateCrossRegionRestore.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/ValidateCrossRegionRestore.json
  */
 async function validateCrossRegionRestore() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function validateCrossRegionRestore() {
     crossRegionRestoreDetails: {
       sourceBackupInstanceId:
         "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/backupVaults/PratikPrivatePreviewVault1/BackupInstances/harshitbi1",
-      sourceRegion: "east asia"
+      sourceRegion: "east asia",
     },
     restoreRequestObject: {
       objectType: "AzureBackupRecoveryPointBasedRestoreRequest",
@@ -44,8 +44,8 @@ async function validateCrossRegionRestore() {
           objectType: "SecretStoreBasedAuthCredentials",
           secretStoreResource: {
             secretStoreType: "AzureKeyVault",
-            uri: "https://samplevault.vault.azure.net/secrets/credentials"
-          }
+            uri: "https://samplevault.vault.azure.net/secrets/credentials",
+          },
         },
         datasourceInfo: {
           datasourceType: "Microsoft.DBforPostgreSQL/servers/databases",
@@ -55,7 +55,7 @@ async function validateCrossRegionRestore() {
           resourceLocation: "",
           resourceName: "targetdb",
           resourceType: "Microsoft.DBforPostgreSQL/servers/databases",
-          resourceUri: ""
+          resourceUri: "",
         },
         datasourceSetInfo: {
           datasourceType: "Microsoft.DBforPostgreSQL/servers/databases",
@@ -65,24 +65,25 @@ async function validateCrossRegionRestore() {
           resourceLocation: "",
           resourceName: "viveksipgtest",
           resourceType: "Microsoft.DBforPostgreSQL/servers",
-          resourceUri: ""
+          resourceUri: "",
         },
         objectType: "RestoreTargetInfo",
         recoveryOption: "FailIfExists",
-        restoreLocation: "southeastasia"
+        restoreLocation: "southeastasia",
       },
       sourceDataStoreType: "VaultStore",
       sourceResourceId:
-        "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest/providers/Microsoft.DBforPostgreSQL/servers/viveksipgtest/databases/testdb"
-    }
+        "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest/providers/Microsoft.DBforPostgreSQL/servers/viveksipgtest/databases/testdb",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupInstances.beginValidateCrossRegionRestoreAndWait(
-    resourceGroupName,
-    location,
-    parameters
-  );
+  const result =
+    await client.backupInstances.beginValidateCrossRegionRestoreAndWait(
+      resourceGroupName,
+      location,
+      parameters,
+    );
   console.log(result);
 }
 

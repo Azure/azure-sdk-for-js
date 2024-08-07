@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of hybrid compute operations.
  *
  * @summary Gets a list of hybrid compute operations.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/Operations_List.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/Operations_List.json
  */
 async function listHybridComputeProviderOperations() {
   const subscriptionId =

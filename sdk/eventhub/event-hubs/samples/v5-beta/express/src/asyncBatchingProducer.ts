@@ -12,7 +12,7 @@
   between sending batches.
 */
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { EventData, EventDataBatch, EventHubProducerClient } from "@azure/event-hubs";
 
 export interface AsyncBatchingProducerOptions {

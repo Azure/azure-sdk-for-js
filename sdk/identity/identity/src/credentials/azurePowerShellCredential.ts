@@ -166,13 +166,8 @@ export class AzurePowerShellCredential implements TokenCredential {
       ]);
 
       const result = results[1];
-      try {
-        return JSON.parse(result);
-      } catch (e: any) {
-        throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
-      }
+      return parseJsonToken(result);
     }
-
     throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);
   }
 
@@ -225,4 +220,37 @@ export class AzurePowerShellCredential implements TokenCredential {
       }
     });
   }
+}
+
+/**
+ *
+ * @internal
+ */
+export async function parseJsonToken(
+  result: string,
+): Promise<{ Token: string; ExpiresOn: string }> {
+  const jsonRegex = /{[^{}]*}/g;
+  const matches = result.match(jsonRegex);
+  let resultWithoutToken = result;
+  if (matches) {
+    try {
+      for (const item of matches) {
+        try {
+          const jsonContent = JSON.parse(item);
+          if (jsonContent?.Token) {
+            resultWithoutToken = resultWithoutToken.replace(item, "");
+            if (resultWithoutToken) {
+              logger.getToken.warning(resultWithoutToken);
+            }
+            return jsonContent;
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+    } catch (e: any) {
+      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
+    }
+  }
+  throw new Error(`No access token found in the output. Received output: ${result}`);
 }

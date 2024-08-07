@@ -11,6 +11,8 @@ import {
   InboundSecurityRule,
   InboundSecurityRuleCreateOrUpdateOptionalParams,
   InboundSecurityRuleCreateOrUpdateResponse,
+  InboundSecurityRuleGetOptionalParams,
+  InboundSecurityRuleGetResponse,
 } from "../models";
 
 /** Interface representing a InboundSecurityRuleOperations. */
@@ -52,4 +54,17 @@ export interface InboundSecurityRuleOperations {
     parameters: InboundSecurityRule,
     options?: InboundSecurityRuleCreateOrUpdateOptionalParams,
   ): Promise<InboundSecurityRuleCreateOrUpdateResponse>;
+  /**
+   * Retrieves the available specified Network Virtual Appliance Inbound Security Rules Collection.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param ruleCollectionName The name of security rule collection.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    ruleCollectionName: string,
+    options?: InboundSecurityRuleGetOptionalParams,
+  ): Promise<InboundSecurityRuleGetResponse>;
 }

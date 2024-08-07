@@ -99,7 +99,7 @@
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-client": "^1.5.0",
     "@azure/core-http-compat": "^2.0.1",
     "@azure/core-rest-pipeline": "^1.8.0",

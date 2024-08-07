@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the details of a ConfigurationPolicyGroup.
  *
  * @summary Retrieves the details of a ConfigurationPolicyGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ConfigurationPolicyGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ConfigurationPolicyGroupGet.json
  */
 async function configurationPolicyGroupGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
