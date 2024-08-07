@@ -151,7 +151,10 @@
     "usgovtexas",
     "usgovvirginia",
     "vectorizer",
-    "westus"
+    "westus",
+    "reimaging",
+    "upgradingos",
+    "Cifs"
   ],
   "allowCompoundWords": true,
   "overrides": [
