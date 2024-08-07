@@ -246,3 +246,68 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 });
+
+describe.only("FileServiceClient Premium Node.js only", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", { fileRequestIntent: 'backup' });
+    } catch (error: any) {
+      console.log(error);
+      this.skip();
+    }
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("Paid Bursting", async function (this: Context) {
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    // create share
+    await shareClient.create({
+      paidBurstingEnabled: true,
+      paidBurstingMaxIops: 5000,
+      paidBurstingMaxBandwidthMibps: 1000
+    });
+
+    // get properties
+    const getRes = await shareClient.getProperties();
+    assert.equal(getRes.paidBurstingEnabled, true);
+    assert.deepStrictEqual(getRes.paidBurstingMaxBandwidthMibps, 1000);
+    assert.deepStrictEqual(getRes.paidBurstingMaxIops, 5000);
+
+    // list share
+    for await (const share of serviceClient.listShares()) {
+      if (share.name === shareName) {
+        assert.equal(share.properties.paidBurstingEnabled, true);
+        assert.deepStrictEqual(share.properties.paidBurstingMaxBandwidthMibps, 1000);
+        assert.deepStrictEqual(share.properties.paidBurstingMaxIops, 5000);
+      }
+    }
+
+    await shareClient.setProperties({ 
+      paidBurstingEnabled: false});
+    
+    const getRes2 = await shareClient.getProperties();
+    assert.equal(getRes2.paidBurstingEnabled, false);
+    assert.deepStrictEqual(getRes2.paidBurstingMaxBandwidthMibps, undefined);
+    assert.deepStrictEqual(getRes2.paidBurstingMaxIops, undefined);
+
+    // list share
+    for await (const share of serviceClient.listShares()) {
+      if (share.name === shareName) {
+        assert.equal(share.properties.paidBurstingEnabled, false);
+        assert.deepStrictEqual(share.properties.paidBurstingMaxBandwidthMibps, undefined);
+        assert.deepStrictEqual(share.properties.paidBurstingMaxIops, undefined);
+      }
+    }
+  });
+});
