@@ -18,10 +18,10 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AccessScope = string | "job";
+export type AccessScope = string;
 
 // @public
-export type AccessScopeOutput = string | "job";
+export type AccessScopeOutput = string;
 
 // @public
 export interface AffinityInfo {
@@ -34,7 +34,7 @@ export interface AffinityInfoOutput {
 }
 
 // @public
-export type AllocationStateOutput = string | "steady" | "resizing" | "stopping";
+export type AllocationStateOutput = string;
 
 // @public
 export interface AuthenticationTokenSettings {
@@ -77,10 +77,10 @@ export interface AutoScaleRunOutput {
 }
 
 // @public
-export type AutoUserScope = string | "task" | "pool";
+export type AutoUserScope = string;
 
 // @public
-export type AutoUserScopeOutput = string | "task" | "pool";
+export type AutoUserScopeOutput = string;
 
 // @public
 export interface AutoUserSpecification {
@@ -187,6 +187,11 @@ export type BatchClient = Client & {
 };
 
 // @public
+export interface BatchClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface BatchErrorDetailOutput {
     key?: string;
     value?: string;
@@ -217,10 +222,10 @@ export interface BatchJob {
 }
 
 // @public
-export type BatchJobAction = string | "none" | "disable" | "terminate";
+export type BatchJobAction = string;
 
 // @public
-export type BatchJobActionOutput = string | "none" | "disable" | "terminate";
+export type BatchJobActionOutput = string;
 
 // @public
 export interface BatchJobConstraints {
@@ -418,7 +423,7 @@ export interface BatchJobPreparationTaskOutput {
 }
 
 // @public
-export type BatchJobPreparationTaskStateOutput = string | "running" | "completed";
+export type BatchJobPreparationTaskStateOutput = string;
 
 // @public
 export interface BatchJobReleaseTask {
@@ -458,7 +463,7 @@ export interface BatchJobReleaseTaskOutput {
 }
 
 // @public
-export type BatchJobReleaseTaskStateOutput = string | "running" | "completed";
+export type BatchJobReleaseTaskStateOutput = string;
 
 // @public
 export interface BatchJobSchedule {
@@ -532,10 +537,10 @@ export interface BatchJobScheduleOutput {
 }
 
 // @public
-export type BatchJobScheduleState = string | "active" | "completed" | "disabled" | "terminating" | "deleting";
+export type BatchJobScheduleState = string;
 
 // @public
-export type BatchJobScheduleStateOutput = string | "active" | "completed" | "disabled" | "terminating" | "deleting";
+export type BatchJobScheduleStateOutput = string;
 
 // @public
 export interface BatchJobScheduleStatistics {
@@ -635,10 +640,10 @@ export interface BatchJobSpecificationOutput {
 }
 
 // @public
-export type BatchJobState = string | "active" | "disabling" | "disabled" | "enabling" | "terminating" | "completed" | "deleting";
+export type BatchJobState = string;
 
 // @public
-export type BatchJobStateOutput = string | "active" | "disabling" | "disabled" | "enabling" | "terminating" | "completed" | "deleting";
+export type BatchJobStateOutput = string;
 
 // @public
 export interface BatchJobStatistics {
@@ -699,10 +704,10 @@ export interface BatchNodeAgentInfoOutput {
 }
 
 // @public
-export type BatchNodeCommunicationMode = string | "default" | "classic" | "simplified";
+export type BatchNodeCommunicationMode = string;
 
 // @public
-export type BatchNodeCommunicationModeOutput = string | "default" | "classic" | "simplified";
+export type BatchNodeCommunicationModeOutput = string;
 
 // @public
 export interface BatchNodeCountsOutput {
@@ -724,7 +729,7 @@ export interface BatchNodeCountsOutput {
 }
 
 // @public
-export type BatchNodeDeallocationOption = string | "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeDeallocationOption = string;
 
 // @public
 export interface BatchNodeDisableSchedulingContent {
@@ -732,7 +737,7 @@ export interface BatchNodeDisableSchedulingContent {
 }
 
 // @public
-export type BatchNodeDisableSchedulingOption = string | "requeue" | "terminate" | "taskcompletion";
+export type BatchNodeDisableSchedulingOption = string;
 
 // @public
 export interface BatchNodeEndpointConfigurationOutput {
@@ -761,10 +766,10 @@ export interface BatchNodeFileOutput {
 }
 
 // @public
-export type BatchNodeFillType = string | "spread" | "pack";
+export type BatchNodeFillType = string;
 
 // @public
-export type BatchNodeFillTypeOutput = string | "spread" | "pack";
+export type BatchNodeFillTypeOutput = string;
 
 // @public
 export interface BatchNodeIdentityReference {
@@ -839,10 +844,10 @@ export interface BatchNodePlacementConfigurationOutput {
 }
 
 // @public
-export type BatchNodePlacementPolicyType = string | "regional" | "zonal";
+export type BatchNodePlacementPolicyType = string;
 
 // @public
-export type BatchNodePlacementPolicyTypeOutput = string | "regional" | "zonal";
+export type BatchNodePlacementPolicyTypeOutput = string;
 
 // @public
 export interface BatchNodeRebootContent {
@@ -850,7 +855,7 @@ export interface BatchNodeRebootContent {
 }
 
 // @public
-export type BatchNodeRebootOption = string | "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeRebootOption = string;
 
 // @public
 export interface BatchNodeRemoteLoginSettingsOutput {
@@ -866,7 +871,7 @@ export interface BatchNodeRemoveContent {
 }
 
 // @public
-export type BatchNodeStateOutput = string | "idle" | "rebooting" | "reimaging" | "running" | "unusable" | "creating" | "starting" | "waitingforstarttask" | "starttaskfailed" | "unknown" | "leavingpool" | "offline" | "preempted" | "upgradingos";
+export type BatchNodeStateOutput = string;
 
 // @public
 export interface BatchNodeUserCreateContent {
@@ -951,7 +956,7 @@ export interface BatchPoolIdentityOutput {
 }
 
 // @public
-export type BatchPoolIdentityTypeOutput = string | "UserAssigned" | "None";
+export type BatchPoolIdentityTypeOutput = string;
 
 // @public
 export interface BatchPoolInfo {
@@ -966,10 +971,10 @@ export interface BatchPoolInfoOutput {
 }
 
 // @public
-export type BatchPoolLifetimeOption = string | "jobschedule" | "job";
+export type BatchPoolLifetimeOption = string;
 
 // @public
-export type BatchPoolLifetimeOptionOutput = string | "jobschedule" | "job";
+export type BatchPoolLifetimeOptionOutput = string;
 
 // @public
 export interface BatchPoolListResultOutput {
@@ -1121,7 +1126,7 @@ export interface BatchPoolSpecificationOutput {
 }
 
 // @public
-export type BatchPoolStateOutput = string | "active" | "deleting";
+export type BatchPoolStateOutput = string;
 
 // @public
 export interface BatchPoolStatisticsOutput {
@@ -1192,7 +1197,7 @@ export interface BatchStartTaskOutput {
 }
 
 // @public
-export type BatchStartTaskStateOutput = string | "running" | "completed";
+export type BatchStartTaskStateOutput = string;
 
 // @public
 export interface BatchSubtaskOutput {
@@ -1211,7 +1216,7 @@ export interface BatchSubtaskOutput {
 }
 
 // @public
-export type BatchSubtaskStateOutput = string | "preparing" | "running" | "completed";
+export type BatchSubtaskStateOutput = string;
 
 // @public
 export interface BatchSupportedImageOutput {
@@ -1244,7 +1249,7 @@ export interface BatchTaskAddResultOutput {
 }
 
 // @public
-export type BatchTaskAddStatusOutput = string | "success" | "clienterror" | "servererror";
+export type BatchTaskAddStatusOutput = string;
 
 // @public
 export interface BatchTaskConstraints {
@@ -1366,10 +1371,10 @@ export interface BatchTaskExecutionInfoOutput {
 }
 
 // @public
-export type BatchTaskExecutionResult = string | "success" | "failure";
+export type BatchTaskExecutionResult = string;
 
 // @public
-export type BatchTaskExecutionResultOutput = string | "success" | "failure";
+export type BatchTaskExecutionResultOutput = string;
 
 // @public
 export interface BatchTaskFailureInfo {
@@ -1477,10 +1482,10 @@ export interface BatchTaskSlotCountsOutput {
 }
 
 // @public
-export type BatchTaskState = string | "active" | "preparing" | "running" | "completed";
+export type BatchTaskState = string;
 
 // @public
-export type BatchTaskStateOutput = string | "active" | "preparing" | "running" | "completed";
+export type BatchTaskStateOutput = string;
 
 // @public
 export interface BatchTaskStatistics {
@@ -1513,10 +1518,10 @@ export interface BatchTaskStatisticsOutput {
 }
 
 // @public
-export type CachingType = string | "none" | "readonly" | "readwrite";
+export type CachingType = string;
 
 // @public
-export type CachingTypeOutput = string | "none" | "readonly" | "readwrite";
+export type CachingTypeOutput = string;
 
 // @public
 export interface CifsMountConfiguration {
@@ -1567,22 +1572,22 @@ export interface ContainerRegistryReferenceOutput {
 }
 
 // @public
-export type ContainerType = string | "dockerCompatible" | "criCompatible";
+export type ContainerType = string;
 
 // @public
-export type ContainerTypeOutput = string | "dockerCompatible" | "criCompatible";
+export type ContainerTypeOutput = string;
 
 // @public
-export type ContainerWorkingDirectory = string | "taskWorkingDirectory" | "containerImageDefault";
+export type ContainerWorkingDirectory = string;
 
 // @public
-export type ContainerWorkingDirectoryOutput = string | "taskWorkingDirectory" | "containerImageDefault";
+export type ContainerWorkingDirectoryOutput = string;
 
 // @public (undocumented)
 export function createBatchSharedKeyCredentialsPolicy(credentials: AzureNamedKeyCredential): PipelinePolicy;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, options?: ClientOptions): BatchClient;
+function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
 export default createClient;
 
 // @public (undocumented)
@@ -2413,16 +2418,16 @@ export interface DeleteTaskQueryParamProperties {
 }
 
 // @public
-export type DependencyAction = string | "satisfy" | "block";
+export type DependencyAction = string;
 
 // @public
-export type DependencyActionOutput = string | "satisfy" | "block";
+export type DependencyActionOutput = string;
 
 // @public
-export type DiffDiskPlacement = string | "cachedisk";
+export type DiffDiskPlacement = string;
 
 // @public
-export type DiffDiskPlacementOutput = string | "cachedisk";
+export type DiffDiskPlacementOutput = string;
 
 // @public
 export interface DiffDiskSettings {
@@ -2435,7 +2440,7 @@ export interface DiffDiskSettingsOutput {
 }
 
 // @public
-export type DisableBatchJobOption = string | "requeue" | "terminate" | "wait";
+export type DisableBatchJobOption = string;
 
 // @public (undocumented)
 export interface DisableJob {
@@ -2704,22 +2709,22 @@ export interface DiskEncryptionConfigurationOutput {
 }
 
 // @public
-export type DiskEncryptionTarget = string | "osdisk" | "temporarydisk";
+export type DiskEncryptionTarget = string;
 
 // @public
-export type DiskEncryptionTargetOutput = string | "osdisk" | "temporarydisk";
+export type DiskEncryptionTargetOutput = string;
 
 // @public
-export type DynamicVNetAssignmentScope = string | "none" | "job";
+export type DynamicVNetAssignmentScope = string;
 
 // @public
-export type DynamicVNetAssignmentScopeOutput = string | "none" | "job";
+export type DynamicVNetAssignmentScopeOutput = string;
 
 // @public
-export type ElevationLevel = string | "nonadmin" | "admin";
+export type ElevationLevel = string;
 
 // @public
-export type ElevationLevelOutput = string | "nonadmin" | "admin";
+export type ElevationLevelOutput = string;
 
 // @public (undocumented)
 export interface EnableJob {
@@ -2984,10 +2989,10 @@ export interface EnvironmentSettingOutput {
 }
 
 // @public
-export type ErrorCategory = string | "usererror" | "servererror";
+export type ErrorCategory = string;
 
 // @public
-export type ErrorCategoryOutput = string | "usererror" | "servererror";
+export type ErrorCategoryOutput = string;
 
 // @public (undocumented)
 export interface EvaluatePoolAutoScale {
@@ -3116,7 +3121,7 @@ export interface ExitOptionsOutput {
 
 // @public
 export interface FilePropertiesOutput {
-    contentLength: number;
+    contentLength: string;
     contentType?: string;
     creationTime?: string;
     fileMode?: string;
@@ -3453,7 +3458,8 @@ export interface GetNodeExtensionQueryParamProperties {
 // @public (undocumented)
 export interface GetNodeFile200Headers {
     "client-request-id"?: string;
-    "content-length": number;
+    "content-length": string;
+    "content-type": "application/octet-stream";
     "last-modified"?: string;
     "ocp-batch-file-isdirectory": boolean;
     "ocp-batch-file-mode": string;
@@ -3502,7 +3508,7 @@ export type GetNodeFileParameters = GetNodeFileQueryParam & GetNodeFileHeaderPar
 // @public (undocumented)
 export interface GetNodeFileProperties200Headers {
     "client-request-id"?: string;
-    "content-length": number;
+    "content-length": string;
     "last-modified"?: string;
     "ocp-batch-file-isdirectory": boolean;
     "ocp-batch-file-mode": string;
@@ -3749,7 +3755,8 @@ export interface GetTaskDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export interface GetTaskFile200Headers {
     "client-request-id"?: string;
-    "content-length": number;
+    "content-length": string;
+    "content-type": "application/octet-stream";
     "last-modified"?: string;
     "ocp-batch-file-isdirectory": boolean;
     "ocp-batch-file-mode": string;
@@ -3798,7 +3805,7 @@ export type GetTaskFileParameters = GetTaskFileQueryParam & GetTaskFileHeaderPar
 // @public (undocumented)
 export interface GetTaskFileProperties200Headers {
     "client-request-id"?: string;
-    "content-length": number;
+    "content-length": string;
     "last-modified"?: string;
     "ocp-batch-file-isdirectory": boolean;
     "ocp-batch-file-mode": string;
@@ -3929,7 +3936,7 @@ export interface ImageReferenceOutput {
 }
 
 // @public
-export type ImageVerificationTypeOutput = string | "verified" | "unverified";
+export type ImageVerificationTypeOutput = string;
 
 // @public
 export interface InboundEndpointOutput {
@@ -3942,10 +3949,10 @@ export interface InboundEndpointOutput {
 }
 
 // @public
-export type InboundEndpointProtocol = string | "tcp" | "udp";
+export type InboundEndpointProtocol = string;
 
 // @public
-export type InboundEndpointProtocolOutput = string | "tcp" | "udp";
+export type InboundEndpointProtocolOutput = string;
 
 // @public
 export interface InboundNatPool {
@@ -3977,10 +3984,10 @@ export interface InstanceViewStatusOutput {
 }
 
 // @public
-export type IpAddressProvisioningType = string | "batchmanaged" | "usermanaged" | "nopublicipaddresses";
+export type IpAddressProvisioningType = string;
 
 // @public
-export type IpAddressProvisioningTypeOutput = string | "batchmanaged" | "usermanaged" | "nopublicipaddresses";
+export type IpAddressProvisioningTypeOutput = string;
 
 // @public (undocumented)
 export function isUnexpected(response: ListApplications200Response | ListApplicationsDefaultResponse): response is ListApplicationsDefaultResponse;
@@ -5168,10 +5175,10 @@ export interface ListTasksQueryParamProperties {
 }
 
 // @public
-export type LoginMode = string | "batch" | "interactive";
+export type LoginMode = string;
 
 // @public
-export type LoginModeOutput = string | "batch" | "interactive";
+export type LoginModeOutput = string;
 
 // @public
 export interface ManagedDisk {
@@ -5264,10 +5271,10 @@ export interface NetworkSecurityGroupRule {
 }
 
 // @public
-export type NetworkSecurityGroupRuleAccess = string | "allow" | "deny";
+export type NetworkSecurityGroupRuleAccess = string;
 
 // @public
-export type NetworkSecurityGroupRuleAccessOutput = string | "allow" | "deny";
+export type NetworkSecurityGroupRuleAccessOutput = string;
 
 // @public
 export interface NetworkSecurityGroupRuleOutput {
@@ -5292,16 +5299,16 @@ export interface NfsMountConfigurationOutput {
 }
 
 // @public
-export type OnAllBatchTasksComplete = string | "noaction" | "terminatejob";
+export type OnAllBatchTasksComplete = string;
 
 // @public
-export type OnAllBatchTasksCompleteOutput = string | "noaction" | "terminatejob";
+export type OnAllBatchTasksCompleteOutput = string;
 
 // @public
-export type OnBatchTaskFailure = string | "noaction" | "performexitoptionsjobaction";
+export type OnBatchTaskFailure = string;
 
 // @public
-export type OnBatchTaskFailureOutput = string | "noaction" | "performexitoptionsjobaction";
+export type OnBatchTaskFailureOutput = string;
 
 // @public
 export interface OSDisk {
@@ -5322,7 +5329,7 @@ export interface OSDiskOutput {
 }
 
 // @public
-export type OSTypeOutput = string | "linux" | "windows";
+export type OSTypeOutput = string;
 
 // @public
 export interface OutputFile {
@@ -5365,10 +5372,10 @@ export interface OutputFileOutput {
 }
 
 // @public
-export type OutputFileUploadCondition = string | "tasksuccess" | "taskfailure" | "taskcompletion";
+export type OutputFileUploadCondition = string;
 
 // @public
-export type OutputFileUploadConditionOutput = string | "tasksuccess" | "taskfailure" | "taskcompletion";
+export type OutputFileUploadConditionOutput = string;
 
 // @public
 export interface OutputFileUploadConfig {
@@ -6181,7 +6188,7 @@ export interface Routes {
 }
 
 // @public
-export type SchedulingStateOutput = string | "enabled" | "disabled";
+export type SchedulingStateOutput = string;
 
 // @public
 export interface SecurityProfile {
@@ -6198,10 +6205,10 @@ export interface SecurityProfileOutput {
 }
 
 // @public
-export type SecurityTypes = string | "trustedLaunch";
+export type SecurityTypes = string;
 
 // @public
-export type SecurityTypesOutput = string | "trustedLaunch";
+export type SecurityTypesOutput = string;
 
 // @public
 export interface ServiceArtifactReference {
@@ -6214,7 +6221,7 @@ export interface ServiceArtifactReferenceOutput {
 }
 
 // @public
-export type StatusLevelTypesOutput = string | "Error" | "Info" | "Warning";
+export type StatusLevelTypesOutput = string;
 
 // @public (undocumented)
 export interface StopPoolResize {
@@ -6278,10 +6285,10 @@ export interface StopPoolResizeQueryParamProperties {
 }
 
 // @public
-export type StorageAccountType = string | "standard_lrs" | "premium_lrs" | "standardssd_lrs";
+export type StorageAccountType = string;
 
 // @public
-export type StorageAccountTypeOutput = string | "standard_lrs" | "premium_lrs" | "standardssd_lrs";
+export type StorageAccountTypeOutput = string;
 
 // @public (undocumented)
 export interface TerminateJob {
@@ -6687,10 +6694,10 @@ export interface UpdatePoolQueryParamProperties {
 }
 
 // @public
-export type UpgradeMode = string | "automatic" | "manual" | "rolling";
+export type UpgradeMode = string;
 
 // @public
-export type UpgradeModeOutput = string | "automatic" | "manual" | "rolling";
+export type UpgradeModeOutput = string;
 
 // @public
 export interface UpgradePolicy {
