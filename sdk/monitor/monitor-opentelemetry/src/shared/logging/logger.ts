@@ -76,7 +76,7 @@ export class Logger {
         setLogLevel("error");
         break;
       default:
-        setLogLevel((process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "warning");
+        setLogLevel(process.env.AZURE_LOG_LEVEL || "warning");
         break;
     }
     // Override Azure logger
