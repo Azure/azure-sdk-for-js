@@ -154,7 +154,8 @@
     "westus",
     "reimaging",
     "upgradingos",
-    "Cifs"
+    "Cifs",
+    "dataserviceid"
   ],
   "allowCompoundWords": true,
   "overrides": [
