@@ -406,7 +406,6 @@ export class BlobClient extends StorageClient {
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
-    generateSasStringToSign(options: BlobGenerateSasUrlOptions): string;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
     getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;

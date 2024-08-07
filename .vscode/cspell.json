@@ -409,6 +409,10 @@
       "words": ["Uncommited"]
     },
     {
+      "filename": "sdk/storage/storage-file-share/review/storage-file-share.api.md",
+      "words": ["SDDL"]
+    },
+    {
       "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
       "words": ["Abgr", "Argb", "Bgra", "Grpc", "Onvif", "abgr", "argb", "bgra", "onvif"]
     },
