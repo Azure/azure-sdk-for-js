@@ -155,7 +155,9 @@
     "reimaging",
     "upgradingos",
     "Cifs",
-    "dataserviceid"
+    "dataserviceid",
+    "uefi",
+    "Uefi"
   ],
   "allowCompoundWords": true,
   "overrides": [
