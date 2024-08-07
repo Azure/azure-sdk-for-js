@@ -42,8 +42,9 @@ import { Tags } from "../types";
 import { getInstance } from "../platform";
 import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
 import { Resource } from "@opentelemetry/resources";
-import { Attributes, HrTime } from "@opentelemetry/api";
+import { Attributes, AttributeValue, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
+import { AnyValue } from "@opentelemetry/api-logs";
 
 export function hrTimeToDate(hrTime: HrTime): Date {
   return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
@@ -253,4 +254,22 @@ export function createResourceMetricEnvelope(
     }
   }
   return;
+}
+
+export function serializeAttribute(attribute: AttributeValue | AnyValue | undefined) {
+  if (attribute != undefined) {
+    if (
+      typeof attribute === "string" ||
+      typeof attribute === "number" ||
+      typeof attribute === "boolean"
+    ) {
+      return String(attribute);
+    }
+    if (attribute instanceof Error) {
+      return `{ stack: '${attribute.stack}', message: '${attribute.message}', name: '${attribute.name}'`;
+    } else {
+      return JSON.stringify(attribute);
+    }
+  }
+  return "";
 }
