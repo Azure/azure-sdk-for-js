@@ -1812,7 +1812,7 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 /** Defines values for DeleteSnapshotsOptionType. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
 /** Defines values for FilePermissionFormat. */
-export type FilePermissionFormat = "SDDL" | "binary";
+export type FilePermissionFormat = "Sddl" | "Binary";
 /** Defines values for ListFilesIncludeType. */
 export type ListFilesIncludeType =
   | "Timestamps"
@@ -2183,6 +2183,8 @@ export interface DirectoryCreateOptionalParams
   fileRequestIntent?: ShareTokenIntent;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */

@@ -550,7 +550,7 @@ export const filePermissionFormat: OperationParameter = {
     xmlName: "x-ms-file-permission-format",
     type: {
       name: "Enum",
-      allowedValues: ["SDDL", "binary"]
+      allowedValues: ["Sddl", "Binary"]
     }
   }
 };

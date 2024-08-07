@@ -196,6 +196,48 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
+  
+  it("create with all parameters configured setting filePermission format", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!,
+      {
+        filePermissionFormat: "Binary"
+      }
+    );
+
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName)),
+    );
+    const metadata = { key: "value" };
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    await dirClient2.create({
+      metadata: metadata,
+      creationTime: now,
+      lastWriteTime: now,
+      filePermissionFormat: "Binary",
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullDirAttributes,
+    });
+
+    const result = await dirClient2.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
 
   it("createIfNotExists", async () => {
     const res = await dirClient.createIfNotExists();
@@ -294,6 +336,21 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
+  });
+
+  it("setProperties with binary permissions", async function () {
+    const filePermission =
+      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
+    await dirClient.setProperties(
+      {
+        filePermissionFormat: "Binary",
+        filePermission: filePermission
+      }
+    );
+    const result = await dirClient.getProperties();
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(result.filePermissionKey);
   });
 
   it("delete", (done) => {
@@ -1318,6 +1375,36 @@ describe("DirectoryClient", () => {
     await sourceDirClient.create();
 
     const result = await sourceDirClient.rename(destDirName, {
+      filePermission: filePermission,
+    });
+
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected",
+    );
+
+    const properties = await result.destinationDirectoryClient.getProperties();
+    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+
+    try {
+      await sourceDirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err: any) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - with binary permission", async () => {
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
+    const filePermission =
+      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
+
+    const sourceDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
+    const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
+    await sourceDirClient.create();
+
+    const result = await sourceDirClient.rename(destDirName, {
+      filePermissionFormat: 'Binary',
       filePermission: filePermission,
     });
 

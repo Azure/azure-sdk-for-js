@@ -247,7 +247,7 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   });
 });
 
-describe.only("FileServiceClient Premium Node.js only", () => {
+describe("FileServiceClient Premium Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 

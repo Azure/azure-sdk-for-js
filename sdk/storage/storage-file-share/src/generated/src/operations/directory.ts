@@ -195,6 +195,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,

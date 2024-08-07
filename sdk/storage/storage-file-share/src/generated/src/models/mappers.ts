@@ -584,7 +584,7 @@ export const SharePermission: coreClient.CompositeMapper = {
         xmlName: "format",
         type: {
           name: "Enum",
-          allowedValues: ["SDDL", "binary"]
+          allowedValues: ["Sddl", "Binary"]
         }
       }
     }

@@ -170,6 +170,50 @@ describe("FileClient", () => {
     assert.ok(properties.fileId!);
     assert.ok(properties.fileParentId!);
   });
+  
+  it("create with sddl permission format", async function () {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!,
+      {
+        filePermissionFormat: "Sddl"
+      }
+    );
+
+    await fileClient.create(512, {
+      filePermissionFormat: "Sddl",
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullFileAttributes,
+    });
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+    assert.ok(result.filePermissionKey!);
+
+    const properties = await fileClient.getProperties();
+    assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+  });
+
+  it("create with binary permission format", async function () {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!,
+      {
+        filePermissionFormat: "Binary"
+      }
+    );
+
+    await fileClient.create(512, {
+      filePermissionFormat: "Binary",
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullFileAttributes,
+    });
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+    assert.ok(result.filePermissionKey!);
+
+    const properties = await fileClient.getProperties();
+    assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+  });
 
   it("create largest file", async function () {
     const fileSize = FILE_MAX_SIZE_BYTES;
@@ -390,6 +434,38 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.contentEncoding, headers.fileContentEncoding);
     assert.deepStrictEqual(result.contentLanguage, headers.fileContentLanguage);
     assert.deepStrictEqual(result.contentDisposition, headers.fileContentDisposition);
+  });
+
+  it("setHTTPHeaders with sddl permissions", async function () {
+    const filePermission =
+      "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
+    await fileClient.create(content.length);
+    await fileClient.setHttpHeaders({},
+      {
+        filePermissionFormat: "Sddl",
+        filePermission: filePermission
+      }
+    );
+    const result = await fileClient.getProperties();
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(result.filePermissionKey);
+  });
+
+  it("setHTTPHeaders with binary permissions", async function () {
+    const filePermission =
+      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
+    await fileClient.create(content.length);
+    await fileClient.setHttpHeaders({},
+      {
+        filePermissionFormat: "Binary",
+        filePermission: filePermission
+      }
+    );
+    const result = await fileClient.getProperties();
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(result.filePermissionKey);
   });
 
   it("delete", async function () {
@@ -1481,6 +1557,36 @@ describe("FileClient", () => {
     }
   });
 
+  it("rename - with binary file permission", async function () {
+    const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
+    const filePermission =
+      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
+
+    const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(2048);
+
+    const result = await sourceFileClient.rename(destFileName, {
+      filePermissionFormat: 'Binary',
+      filePermission: filePermission,
+    });
+
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected",
+    );
+
+    const properties = await result.destinationFileClient.getProperties();
+    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err: any) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+  
   it("rename - SMB properties", async function () {
     const destFileName = recorder.variable("destfile", getUniqueName("destfile"));
     const filePermission =
