@@ -5,8 +5,16 @@ import {
   KnownPredicateType,
   CollectionConfigurationError,
   DocumentStreamInfo,
+  FilterConjunctionGroupInfo,
+  KeyValuePairString,
 } from "../../generated";
-import { TelemetryData } from "./types";
+import {
+  RequestData,
+  TelemetryData,
+  DependencyData,
+  ExceptionData,
+  TraceData
+} from "./types";
 import {
   isRequestData,
   isDependencyData,
@@ -32,6 +40,12 @@ export class DuplicateMetricIdError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "DuplicateMetricIdError";
+  }
+}
+export class MetricFailureToCreateError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "MetricFailureToCreateError";
   }
 }
 
@@ -208,6 +222,14 @@ export class CollectionConfigurationErrorTracker {
 
 export class Filter {
 
+  public static renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo: FilterConjunctionGroupInfo): void {
+    filterConjunctionGroupInfo.filters.forEach((filter) => {
+      if (filter.fieldName.startsWith("Exception.")) {
+        filter.fieldName = filter.fieldName.replace("Exception.", "");
+      }
+    });
+  }
+
   public static checkMetricFilters(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): boolean {
     // Haven't yet seen any case where there is more than one filter group in a derived metric info.
     // Just to be safe, handling the multiple filter conjunction group case as an or operation.
@@ -239,22 +261,108 @@ export class Filter {
     } else if (filter.fieldName.startsWith("CustomDimensions.")) {
       return this.checkCustomDimFilter(filter, data);
     } else {
-      let dataValue: string | number | boolean;
+      let dataValue: string | number | boolean | KeyValuePairString[];
       // use filter.fieldname to get the property of data to query
-      // query that property to get its value
-      // depending on the filter name & predicate, try a certain comparison function
+      if (isRequestData(data)) {
+        data as RequestData;
+        dataValue = data[filter.fieldName as keyof RequestData];
+      } else if (isDependencyData(data)) {
+        data as DependencyData;
+        dataValue = data[filter.fieldName as keyof DependencyData];
+      } else if (isExceptionData(data)) {
+        data as ExceptionData;
+        dataValue = data[filter.fieldName as keyof ExceptionData];
+      } else if (isTraceData(data)) {
+        data as TraceData;
+        dataValue = data[filter.fieldName as keyof TraceData];
+      } else {
+        return false; // should not reach here
+      }
 
-      return false;
+      if (filter.fieldName === KnownRequestColumns.Success) {
+        if (filter.predicate === KnownPredicateType.Equal) {
+          return dataValue === (filter.comparand.toLowerCase() === "true");
+        } else if (filter.predicate === KnownPredicateType.NotEqual) {
+          return dataValue !== (filter.comparand.toLowerCase() === "true");
+        }
+      } else if (filter.fieldName === KnownDependencyColumns.ResultCode ||
+        filter.fieldName === KnownRequestColumns.ResponseCode ||
+        filter.fieldName === KnownDependencyColumns.Duration) {
+        let comparand: number = filter.fieldName === KnownDependencyColumns.Duration ?
+          new Date(filter.comparand).getTime() : parseFloat(filter.comparand);
+        switch (filter.predicate) {
+          case KnownPredicateType.Equal:
+            return dataValue === comparand;
+          case KnownPredicateType.NotEqual:
+            return dataValue !== comparand;
+          case KnownPredicateType.GreaterThan:
+            return dataValue as number > comparand;
+          case KnownPredicateType.GreaterThanOrEqual:
+            return dataValue as number >= comparand;
+          case KnownPredicateType.LessThan:
+            return dataValue as number < comparand;
+          case KnownPredicateType.LessThanOrEqual:
+            return dataValue as number <= comparand;
+          default:
+            return false;
+        }
+      } else { // string fields
+        return this.stringCompare(dataValue as string, filter.comparand, filter.predicate);
+      }
     }
+    return false;
   }
 
   private static checkAnyFieldFilter(filter: FilterInfo, data: TelemetryData): boolean {
-    return true; // to be implemented
+    let properties: string[] = Object.keys(data);
+    // At this point, the only predicates possible to pass in are Contains and DoesNotContain
+    // At config validation time the predicate is checked to be one of these two.
+    properties.forEach((property) => {
+      if (property === "CustomDimensions") {
+        data.CustomDimensions.forEach((customDim) => {
+          if (this.stringCompare(customDim.value, filter.comparand, filter.predicate)) {
+            return true;
+          }
+        });
+      } else {
+        //@ts-ignore
+        let value: string = String(data[property]);
+        if (this.stringCompare(value, filter.comparand, filter.predicate)) {
+          return true;
+        }
+      }
+    });
+    return false;
   }
 
   private static checkCustomDimFilter(filter: FilterInfo, data: TelemetryData): boolean {
-    return true;
-    // to be implemented
+    let fieldName: string = filter.fieldName.replace("CustomDimensions.", "");
+    let value: string | undefined;
+    data.CustomDimensions.forEach((customDim) => {
+      if (customDim.key === fieldName) {
+        value = customDim.value;
+      }
+    });
+    if (!value) {
+      return false; // the asked for field is not present in the custom dimensions
+    } else {
+      return this.stringCompare(value, filter.comparand, filter.predicate);
+    }
+  }
+
+  private static stringCompare(dataValue: string, comparand: string, predicate: string): boolean {
+    switch (predicate) {
+      case KnownPredicateType.Equal:
+        return dataValue === comparand;
+      case KnownPredicateType.NotEqual:
+        return dataValue !== comparand;
+      case KnownPredicateType.Contains:
+        return dataValue.includes(comparand);
+      case KnownPredicateType.DoesNotContain:
+        return !dataValue.includes(comparand);
+      default:
+        return false;
+    }
   }
 }
 

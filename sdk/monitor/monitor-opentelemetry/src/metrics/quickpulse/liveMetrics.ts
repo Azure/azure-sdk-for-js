@@ -62,6 +62,7 @@ import {
   Validator,
   DuplicateMetricIdError,
   CollectionConfigurationErrorTracker,
+  Filter,
 } from "./filtering";
 
 const POST_INTERVAL = 1000;
@@ -662,6 +663,10 @@ export class LiveMetrics {
           Validator.validateTelemetryType(derivedMetricInfo);
           Validator.checkCustomMetricProjection(derivedMetricInfo);
           Validator.validateFilters(derivedMetricInfo);
+          derivedMetricInfo.filterGroups.forEach((filterConjunctionGroupInfo) => {
+            Filter.renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo);
+          });
+
           // implementation note: create a DerivedMetric obj & valid map should contain a list of those instead of the derivedMetricInfo
           if (this.validDerivedMetrics.has(derivedMetricInfo.telemetryType)) {
             this.validDerivedMetrics.get(derivedMetricInfo.telemetryType)?.push(derivedMetricInfo);
