@@ -1,10 +1,17 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
-    "declarationDir": "./typings",
-    "outDir": "./dist-esm",
-    "downlevelIteration": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@azure/eventhubs-checkpointstore-table": ["./src/index"]
+    }
   },
-  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts"
+  ]
 }

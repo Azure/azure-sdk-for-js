@@ -117,4 +117,19 @@ export interface FeedOptions extends SharedOptions {
    * @hidden
    *  containerRid for setting CollectionRidHeader */
   containerRid?: string;
+  /**
+   * Specifies a custom maximum buffer size for storing final results for nonStreamingOrderBy queries.
+   * This value is ignored if the query includes top/offset+limit clauses.
+   */
+  vectorSearchBufferSize?: number;
+  /**
+   * Disable the nonStreamingOrderBy query feature in supported query features.
+   * Default: false. Set to true to avoid error from an old gateway that doesn't support this feature.
+   */
+  disableNonStreamingOrderByQuery?: boolean;
+  /**
+   * Valid only for non streaming order by query.
+   * Default: false; When set to true, it allows queries to bypass the default behavior that blocks nonStreaming queries without top or limit clauses.
+   */
+  allowUnboundedNonStreamingQueries?: boolean;
 }

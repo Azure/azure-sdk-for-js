@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Message, types } from "rhea";
+import rhea from "rhea";
 
 export interface CreateCbsAcceptedOptions {
   correlationId?: string;
   toLinkName?: string;
 }
 
-export function createCbsAccepted(options: CreateCbsAcceptedOptions = {}): Message {
-  const amqpMessage: Message = {
+export function createCbsAccepted(options: CreateCbsAcceptedOptions = {}): rhea.Message {
+  const amqpMessage: rhea.Message = {
     body: undefined,
     application_properties: {
-      "status-code": types.wrap_int(202),
+      "status-code": rhea.types.wrap_int(202),
       "status-description": "Accepted",
     },
   };

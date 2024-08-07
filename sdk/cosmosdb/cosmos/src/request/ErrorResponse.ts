@@ -45,11 +45,15 @@ export interface QueryInfo {
   rewrittenQuery?: any;
   distinctType: string;
   hasSelectValue: boolean;
+  /**
+   * determines whether the query is of non streaming orderby type.
+   */
+  hasNonStreamingOrderBy: boolean;
 }
 
 export type GroupByExpressions = string[];
 
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 export interface GroupByAliasToAggregateType {
   [key: string]: AggregateType;

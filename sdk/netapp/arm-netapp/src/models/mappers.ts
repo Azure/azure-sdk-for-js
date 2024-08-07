@@ -1881,6 +1881,17 @@ export const VolumePatch: coreClient.CompositeMapper = {
           className: "VolumePatchPropertiesExportPolicy",
         },
       },
+      protocolTypes: {
+        serializedName: "properties.protocolTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
       throughputMibps: {
         serializedName: "properties.throughputMibps",
         type: {
@@ -3295,7 +3306,7 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
       coolnessPeriod: {
         constraints: {
           InclusiveMaximum: 183,
-          InclusiveMinimum: 7,
+          InclusiveMinimum: 2,
         },
         serializedName: "properties.coolnessPeriod",
         type: {
@@ -4801,7 +4812,7 @@ export const Volume: coreClient.CompositeMapper = {
       coolnessPeriod: {
         constraints: {
           InclusiveMaximum: 183,
-          InclusiveMinimum: 7,
+          InclusiveMinimum: 2,
         },
         serializedName: "properties.coolnessPeriod",
         type: {

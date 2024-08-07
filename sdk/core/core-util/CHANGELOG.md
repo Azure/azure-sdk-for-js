@@ -1,6 +1,6 @@
 # Release History
 
-## 1.9.2 (Unreleased)
+## 1.9.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.2 (2024-08-01)
+
+### Other Changes
+
+- Adding React-Native support at top level [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
 
 ## 1.9.1 (2024-07-10)
 

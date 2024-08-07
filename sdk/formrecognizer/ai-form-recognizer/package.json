@@ -79,7 +79,7 @@
   "autoPublish": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
@@ -119,7 +119,7 @@
     "magic-string": "~0.30.10",
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "rollup": "^4.0.0",
     "sinon": "^17.0.0",

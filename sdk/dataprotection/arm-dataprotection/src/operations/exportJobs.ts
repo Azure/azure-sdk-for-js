@@ -14,12 +14,12 @@ import { DataProtectionClient } from "../dataProtectionClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   ExportJobsTriggerOptionalParams,
-  ExportJobsTriggerResponse
+  ExportJobsTriggerResponse,
 } from "../models";
 
 /** Class containing ExportJobs operations. */
@@ -43,7 +43,7 @@ export class ExportJobsImpl implements ExportJobs {
   async beginTrigger(
     resourceGroupName: string,
     vaultName: string,
-    options?: ExportJobsTriggerOptionalParams
+    options?: ExportJobsTriggerOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExportJobsTriggerResponse>,
@@ -52,21 +52,20 @@ export class ExportJobsImpl implements ExportJobs {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExportJobsTriggerResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -75,8 +74,8 @@ export class ExportJobsImpl implements ExportJobs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -84,15 +83,15 @@ export class ExportJobsImpl implements ExportJobs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, options },
-      spec: triggerOperationSpec
+      spec: triggerOperationSpec,
     });
     const poller = await createHttpPoller<
       ExportJobsTriggerResponse,
@@ -100,7 +99,7 @@ export class ExportJobsImpl implements ExportJobs {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -115,12 +114,12 @@ export class ExportJobsImpl implements ExportJobs {
   async beginTriggerAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: ExportJobsTriggerOptionalParams
+    options?: ExportJobsTriggerOptionalParams,
   ): Promise<ExportJobsTriggerResponse> {
     const poller = await this.beginTrigger(
       resourceGroupName,
       vaultName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -129,33 +128,32 @@ export class ExportJobsImpl implements ExportJobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const triggerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/exportBackupJobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/exportBackupJobs",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ExportJobsTriggerHeaders
+      headersMapper: Mappers.ExportJobsTriggerHeaders,
     },
     201: {
-      headersMapper: Mappers.ExportJobsTriggerHeaders
+      headersMapper: Mappers.ExportJobsTriggerHeaders,
     },
     202: {
-      headersMapper: Mappers.ExportJobsTriggerHeaders
+      headersMapper: Mappers.ExportJobsTriggerHeaders,
     },
     204: {
-      headersMapper: Mappers.ExportJobsTriggerHeaders
+      headersMapper: Mappers.ExportJobsTriggerHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

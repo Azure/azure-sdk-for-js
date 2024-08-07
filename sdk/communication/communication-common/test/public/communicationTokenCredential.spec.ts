@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert, use } from "chai";
-import { AbortSignal } from "@azure/abort-controller";
 import { AzureCommunicationTokenCredential } from "../../src";
 import chaiAsPromised from "chai-as-promised";
 import { isNode } from "@azure/core-util";
@@ -139,7 +138,8 @@ describe("CommunicationTokenCredential", function () {
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
     });
-    const options = { abortSignal: AbortSignal.none };
+    const aborter = new AbortController();
+    const options = { abortSignal: aborter.signal };
     tokenCredential.getToken(options);
     sinon.assert.calledOnceWithExactly(tokenRefresher, options.abortSignal);
   });

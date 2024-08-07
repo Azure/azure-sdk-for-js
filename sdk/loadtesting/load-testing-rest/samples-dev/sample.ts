@@ -9,7 +9,6 @@
  */
 
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
-import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
@@ -61,7 +60,7 @@ async function main() {
   const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
   try {
     fileValidateResult = await fileValidatePoller.pollUntilDone({
-      abortSignal: AbortController.timeout(120 * 1000), // timeout of 120 seconds
+      abortSignal: AbortSignal.timeout(120 * 1000), // timeout of 120 seconds
     });
   } catch (ex: any) {
     new Error("Error in polling file Validation" + ex.message); //polling timed out
@@ -119,7 +118,7 @@ async function main() {
 
   try {
     testRunResult = await testRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(300 * 1000), // timeout of 5 minutes
+      abortSignal: AbortSignal.timeout(300 * 1000), // timeout of 5 minutes
     });
   } catch (ex: any) {
     new Error("Error in polling test run completion" + ex.message); //polling timed out

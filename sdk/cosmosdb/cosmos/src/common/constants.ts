@@ -210,7 +210,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.0.1",
+  SDKVersion: "4.1.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
@@ -267,6 +267,7 @@ export const Constants = {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF",
   },
+
   // Default TTL for caches related to Encryption
   DefaultEncryptionCacheTimeToLive: 2,
   // Changefeed AllVersionsAndDeletesMode formatting version
@@ -484,4 +485,19 @@ export enum SasTokenPermissionKind {
   TriggerRead = PermissionScopeValues.ScopeTriggerReadValue,
   TriggerReplace = PermissionScopeValues.ScopeTriggerReplaceValue,
   TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue,
+}
+
+export enum QueryFeature {
+  NonValueAggregate = "NonValueAggregate",
+  Aggregate = "Aggregate",
+  Distinct = "Distinct",
+  MultipleOrderBy = "MultipleOrderBy",
+  OffsetAndLimit = "OffsetAndLimit",
+  OrderBy = "OrderBy",
+  Top = "Top",
+  CompositeAggregate = "CompositeAggregate",
+  GroupBy = "GroupBy",
+  MultipleAggregates = "MultipleAggregates",
+  NonStreamingOrderBy = "NonStreamingOrderBy",
+  ListAndSetAggregate = "ListAndSetAggregate",
 }

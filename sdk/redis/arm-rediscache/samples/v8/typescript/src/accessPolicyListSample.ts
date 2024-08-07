@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the list of access policies associated with this redis cache
  *
  * @summary Gets the list of access policies associated with this redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheAccessPolicyList.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyList.json
  */
 async function redisCacheAccessPolicyList() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function redisCacheAccessPolicyList() {
   const resArray = new Array();
   for await (let item of client.accessPolicy.list(
     resourceGroupName,
-    cacheName
+    cacheName,
   )) {
     resArray.push(item);
   }

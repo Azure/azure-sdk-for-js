@@ -1,18 +1,17 @@
 {
+  "extends": "../../../tsconfig",
   "compilerOptions": {
-    "target": "es2015",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "declarationDir": "./types",
-    "downlevelIteration": true,
-    "sourceMap": true,
-    "strict": true,
-    "declaration": true,
-    /* Advanced Options */
-    "skipLibCheck": true,
-    "noUnusedLocals": false,
-    "forceConsistentCasingInFileNames": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@azure/mock-hub": ["./src/index"]
+    }
   },
-  "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts"
+  ]
 }
