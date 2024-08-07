@@ -250,7 +250,7 @@ export async function getHeaders({
   if (
     resourceType === ResourceType.item &&
     isWriteOperation(operationType) &&
-    options.hasOwnProperty("contentResponseOnWriteEnabled") &&
+    Object.prototype.hasOwnProperty.call(options, "contentResponseOnWriteEnabled") &&
     !options.contentResponseOnWriteEnabled
   ) {
     headers[Constants.HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
