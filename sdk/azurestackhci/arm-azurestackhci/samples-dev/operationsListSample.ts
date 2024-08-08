@@ -15,26 +15,23 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List all the supported operations.
+ * This sample demonstrates how to List all available Microsoft.AzureStackHCI provider operations
  *
- * @summary List all the supported operations.
- * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/ListOperations.json
+ * @summary List all available Microsoft.AzureStackHCI provider operations
+ * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/operations/stable/2024-04-01/examples/ListOperations.json
  */
-async function listOperations() {
+async function createCluster() {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new AzureStackHCIClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.operations.list()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.operations.list();
+  console.log(result);
 }
 
 async function main() {
-  listOperations();
+  createCluster();
 }
 
 main().catch(console.error);
