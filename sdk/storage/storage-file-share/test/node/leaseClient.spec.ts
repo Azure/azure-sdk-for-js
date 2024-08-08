@@ -2,11 +2,16 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { recorderEnvSetup, uriSanitizers, getUniqueName, getTokenBSUWithDefaultCredential, bodyToString } from "../utils";
+import {
+  recorderEnvSetup,
+  uriSanitizers,
+  getUniqueName,
+  getTokenBSUWithDefaultCredential,
+  bodyToString,
+} from "../utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { Context } from "mocha";
-
 
 // for file
 describe("LeaseClient Node.js only - OAuth", () => {
@@ -34,7 +39,9 @@ describe("LeaseClient Node.js only - OAuth", () => {
       },
       ["record", "playback"],
     );
-    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", { fileRequestIntent: "backup"});
+    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
+      fileRequestIntent: "backup",
+    });
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -113,7 +120,7 @@ describe("LeaseClient Node.js only - OAuth", () => {
 
     await leaseClient.releaseLease();
   });
-  
+
   // lease id in request is required if the file has an active lease:
   it("create file", async () => {
     const leaseClient = fileClient.getShareLeaseClient(guid);
@@ -159,7 +166,9 @@ describe("LeaseClient with ShareClient Node.js Only - OAuth", () => {
       },
       ["record", "playback"],
     );
-    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", { fileRequestIntent: "backup"});
+    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
+      fileRequestIntent: "backup",
+    });
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();

@@ -767,17 +767,16 @@ export function removeEmptyString(value: string | undefined): string | undefined
   return value ? value : undefined;
 }
 
-
 export function asSharePermission(value: string | SharePermission): SharePermission {
   const castSharePermission = value as SharePermission;
   if (castSharePermission["permission"] !== undefined) {
     return {
       permission: castSharePermission.permission,
-      format: castSharePermission.format
+      format: castSharePermission.format,
     };
   }
 
   return {
-    permission: value as string
+    permission: value as string,
   };
 }

@@ -786,7 +786,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
 }
 
 // @public
-export type FilePermissionFormat = "SDDL" | "binary";
+export type FilePermissionFormat = "Sddl" | "Binary";
 
 // @public
 export type FilePermissionInheritType = "inherit";

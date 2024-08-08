@@ -63,10 +63,15 @@ export function getBlobServiceClient(recorder: Recorder): BlobServiceClient {
 export function getSoftDeleteBSUWithDefaultCredential(
   recorder: Recorder,
   accountNameSuffix: string = "",
-  shareClientConfig?: ShareClientConfig)
-  {
-    return getTokenBSUWithDefaultCredential(recorder, "SOFT_DELETE_", accountNameSuffix, shareClientConfig);
-  }
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  return getTokenBSUWithDefaultCredential(
+    recorder,
+    "SOFT_DELETE_",
+    accountNameSuffix,
+    shareClientConfig,
+  );
+}
 
 export function getTokenBSUWithDefaultCredential(
   recorder: Recorder,

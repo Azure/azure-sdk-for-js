@@ -219,18 +219,18 @@ export interface ShareCreateOptions extends CommonOptions {
    */
   enableSnapshotVirtualDirectoryAccess?: boolean;
 
-  /** 
-   * Optional. Boolean. Default if not specified is false. This property enables paid bursting. 
+  /**
+   * Optional. Boolean. Default if not specified is false. This property enables paid bursting.
    */
   paidBurstingEnabled?: boolean;
 
-  /** 
-   * Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec. 
+  /**
+   * Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec.
    */
   paidBurstingMaxBandwidthMibps?: number;
 
-  /** 
-   * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS. 
+  /**
+   * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
 }
@@ -383,18 +383,18 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    */
   enableSnapshotVirtualDirectoryAccess?: boolean;
 
-  /** 
-   * Optional. Boolean. Default if not specified is false. This property enables paid bursting. 
+  /**
+   * Optional. Boolean. Default if not specified is false. This property enables paid bursting.
    */
   paidBurstingEnabled?: boolean;
 
-  /** 
-   * Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec. 
+  /**
+   * Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec.
    */
   paidBurstingMaxBandwidthMibps?: number;
 
-  /** 
-   * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS. 
+  /**
+   * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
 }
@@ -479,11 +479,10 @@ export interface ShareCreatePermissionOptions extends CommonOptions {
  * Options to configure the {@link ShareClient.getPermission} operation.
  */
 export interface ShareGetPermissionOptions extends CommonOptions {
-
-  /** 
-   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. 
-   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. 
-   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission 
+  /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
    */
   filePermissionFormat?: FilePermissionFormat;
   /**
@@ -1202,7 +1201,8 @@ export class ShareClient extends StorageClient {
       return assertResponse<ShareCreateSnapshotHeaders, ShareCreateSnapshotHeaders>(
         await this.context.createSnapshot({
           ...updatedOptions,
-          ...this.shareClientConfig}),
+          ...this.shareClientConfig,
+        }),
       );
     });
   }
@@ -1266,10 +1266,12 @@ export class ShareClient extends StorageClient {
         ShareGetStatisticsHeaders & ShareStats,
         ShareGetStatisticsHeaders,
         ShareStats
-      >(await this.context.getStatistics({
-        ...updatedOptions,
-        ...this.shareClientConfig,
-      }));
+      >(
+        await this.context.getStatistics({
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        }),
+      );
 
       const GBBytes = 1024 * 1024 * 1024;
       return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
@@ -1293,13 +1295,10 @@ export class ShareClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ShareCreatePermissionHeaders, ShareCreatePermissionHeaders>(
-          await this.context.createPermission(
-            asSharePermission(filePermission),
-            {
-              ...updatedOptions,
-              ...this.shareClientConfig,
-            },
-          ),
+          await this.context.createPermission(asSharePermission(filePermission), {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );
@@ -3458,10 +3457,10 @@ export interface FileRenameOptions extends CommonOptions {
    */
   filePermission?: string;
 
-  /** 
-   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. 
-   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. 
-   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission 
+  /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
    */
   filePermissionFormat?: FilePermissionFormat;
 
@@ -3534,10 +3533,10 @@ export interface DirectoryRenameOptions extends CommonOptions {
    */
   filePermission?: string;
 
-  /** 
-   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. 
-   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. 
-   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission 
+  /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
    */
   filePermissionFormat?: FilePermissionFormat;
 
@@ -5434,11 +5433,10 @@ export class ShareLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.releaseLease(this._leaseId, 
-            {
-              ...updatedOptions,
-              ...this.shareClientConfig,
-            }),
+          await this.fileOrShare.releaseLease(this._leaseId, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );
@@ -5458,7 +5456,8 @@ export class ShareLeaseClient {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
           await this.fileOrShare.breakLease({
             ...updatedOptions,
-            ...this.shareClientConfig}),
+            ...this.shareClientConfig,
+          }),
         );
       },
     );
@@ -5481,11 +5480,10 @@ export class ShareLeaseClient {
           throw new RangeError("The renewLease operation is not available for lease on file.");
         }
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.renewLease(this._leaseId, 
-            {
-              ...updatedOptions,
-              ...this.shareClientConfig,
-            }),
+          await this.fileOrShare.renewLease(this._leaseId, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );

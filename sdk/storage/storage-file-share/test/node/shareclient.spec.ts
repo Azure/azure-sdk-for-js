@@ -256,7 +256,6 @@ describe("ShareClient Node.js only", () => {
   });
 });
 
-
 describe("ShareClient Node.js only - OAuth", () => {
   let serviceClient: ShareServiceClient;
   let shareName: string;
@@ -268,7 +267,9 @@ describe("ShareClient Node.js only - OAuth", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", { fileRequestIntent: "backup"});
+    serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
+      fileRequestIntent: "backup",
+    });
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -411,7 +412,7 @@ describe("ShareClient Node.js only - OAuth", () => {
     assert.ok(getRes.accessTierChangeTime);
     assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
     assert.equal(getRes.quota, quotaInGB);
-  });  
+  });
 
   it("setAccessPolicy", async () => {
     const yesterday = new Date(recorder.variable("now", new Date().toISOString()));

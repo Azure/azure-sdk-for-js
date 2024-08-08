@@ -116,7 +116,9 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   });
 
   it("ListShares with default parameters", async () => {
-    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", { fileRequestIntent: "backup" });
+    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
+      fileRequestIntent: "backup",
+    });
 
     const result = (await serviceClient.listShares().byPage().next()).value;
 
@@ -137,7 +139,9 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   });
 
   it("Undelete should work", async function () {
-    const serviceClient = getSoftDeleteBSUWithDefaultCredential(recorder, "", { fileRequestIntent: "backup" });
+    const serviceClient = getSoftDeleteBSUWithDefaultCredential(recorder, "", {
+      fileRequestIntent: "backup",
+    });
     const shareClient = serviceClient.getShareClient(
       recorder.variable("share", getUniqueName("share")),
     );
@@ -173,7 +177,9 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   });
 
   it("GetProperties", async () => {
-    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", { fileRequestIntent: "backup" });;
+    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
+      fileRequestIntent: "backup",
+    });
     const result = await serviceClient.getProperties();
 
     assert.ok(typeof result.requestId);
@@ -191,7 +197,9 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   });
 
   it("SetProperties", async () => {
-    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", { fileRequestIntent: "backup" });
+    const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
+      fileRequestIntent: "backup",
+    });
 
     const serviceProperties = await serviceClient.getProperties();
 
@@ -256,7 +264,9 @@ describe("FileServiceClient Premium Node.js only", () => {
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     try {
-      serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", { fileRequestIntent: 'backup' });
+      serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", {
+        fileRequestIntent: "backup",
+      });
     } catch (error: any) {
       console.log(error);
       this.skip();
@@ -267,7 +277,8 @@ describe("FileServiceClient Premium Node.js only", () => {
     await recorder.stop();
   });
 
-  it("Paid Bursting", async function (this: Context) {
+  // STG95 will enable it when it's enabled on service
+  it.skip("Paid Bursting", async function (this: Context) {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -275,7 +286,7 @@ describe("FileServiceClient Premium Node.js only", () => {
     await shareClient.create({
       paidBurstingEnabled: true,
       paidBurstingMaxIops: 5000,
-      paidBurstingMaxBandwidthMibps: 1000
+      paidBurstingMaxBandwidthMibps: 1000,
     });
 
     // get properties
@@ -293,9 +304,10 @@ describe("FileServiceClient Premium Node.js only", () => {
       }
     }
 
-    await shareClient.setProperties({ 
-      paidBurstingEnabled: false});
-    
+    await shareClient.setProperties({
+      paidBurstingEnabled: false,
+    });
+
     const getRes2 = await shareClient.getProperties();
     assert.equal(getRes2.paidBurstingEnabled, false);
     assert.deepStrictEqual(getRes2.paidBurstingMaxBandwidthMibps, undefined);

@@ -638,24 +638,21 @@ describe("ShareClient", () => {
 
   it("create and get binary permission", async () => {
     const filePermission =
-    "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
+      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
-    const createPermResp = await shareClient.createPermission(
-      { 
-        permission: filePermission,
-        format: 'Binary'
-      });
+    const createPermResp = await shareClient.createPermission({
+      permission: filePermission,
+      format: "Binary",
+    });
     assert.ok(createPermResp.filePermissionKey!);
     assert.ok(createPermResp.date!);
     assert.equal(createPermResp.errorCode, undefined);
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
 
-    const getPermissionResp = await shareClient.getPermission(createPermResp.filePermissionKey!,
-      {
-        filePermissionFormat: 'Binary'
-      }
-    );
+    const getPermissionResp = await shareClient.getPermission(createPermResp.filePermissionKey!, {
+      filePermissionFormat: "Binary",
+    });
     assert.ok(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
     assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");

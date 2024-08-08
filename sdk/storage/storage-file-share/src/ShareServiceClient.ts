@@ -410,10 +410,12 @@ export class ShareServiceClient extends StorageClient {
           ServiceGetPropertiesHeaders & FileServiceProperties,
           ServiceGetPropertiesHeaders,
           FileServiceProperties
-        >(await this.serviceContext.getProperties({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        }));
+        >(
+          await this.serviceContext.getProperties({
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
+        );
       },
     );
   }
@@ -436,11 +438,10 @@ export class ShareServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, 
-            {
-              ...updatedOptions,
-              ...this.shareClientConfig,
-            }),
+          await this.serviceContext.setProperties(properties, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );

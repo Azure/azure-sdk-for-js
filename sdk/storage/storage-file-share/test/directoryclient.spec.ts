@@ -196,13 +196,13 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
-  
+
   it("create with all parameters configured setting filePermission format", async () => {
     const getPermissionResp = await shareClient.getPermission(
       defaultDirCreateResp.filePermissionKey!,
       {
-        filePermissionFormat: "Binary"
-      }
+        filePermissionFormat: "Binary",
+      },
     );
 
     const dirClient2 = shareClient.getDirectoryClient(
@@ -341,12 +341,10 @@ describe("DirectoryClient", () => {
   it("setProperties with binary permissions", async function () {
     const filePermission =
       "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
-    await dirClient.setProperties(
-      {
-        filePermissionFormat: "Binary",
-        filePermission: filePermission
-      }
-    );
+    await dirClient.setProperties({
+      filePermissionFormat: "Binary",
+      filePermission: filePermission,
+    });
     const result = await dirClient.getProperties();
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
@@ -1404,7 +1402,7 @@ describe("DirectoryClient", () => {
     await sourceDirClient.create();
 
     const result = await sourceDirClient.rename(destDirName, {
-      filePermissionFormat: 'Binary',
+      filePermissionFormat: "Binary",
       filePermission: filePermission,
     });
 

@@ -670,10 +670,10 @@ describe("LeaseClient with ShareClient", () => {
       assert.equal(err.statusCode, 412);
     }
 
-    await shareClient.getProperties({ leaseAccessConditions: { leaseId: leaseClient.leaseId } });    
+    await shareClient.getProperties({ leaseAccessConditions: { leaseId: leaseClient.leaseId } });
     await leaseClient.releaseLease();
   });
-  
+
   it("setQuota", async () => {
     const leaseClient = shareClient.getShareLeaseClient(guid);
     await leaseClient.acquireLease();
@@ -685,15 +685,13 @@ describe("LeaseClient with ShareClient", () => {
     } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
-    await shareClient.setQuota(quotaInGB,
-      { leaseAccessConditions: { leaseId: guid } }
-    );
+    await shareClient.setQuota(quotaInGB, { leaseAccessConditions: { leaseId: guid } });
     const propertiesResponse = await shareClient.getProperties();
     assert.equal(propertiesResponse.quota, quotaInGB);
     await leaseClient.releaseLease();
   });
 
-  it("getStatistics", async () => {    
+  it("getStatistics", async () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
@@ -704,23 +702,22 @@ describe("LeaseClient with ShareClient", () => {
     const leaseResponse = await leaseClient.acquireLease();
 
     try {
-      await shareClient.getStatistics(
-        { leaseAccessConditions: { leaseId: guid } });
+      await shareClient.getStatistics({ leaseAccessConditions: { leaseId: guid } });
       assert.fail("lease id required if the file has an active lease");
     } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
-    const statisticsResponse = await shareClient.getStatistics(
-      { leaseAccessConditions: { leaseId: leaseResponse.leaseId } }
-    );
-    assert.notEqual(statisticsResponse.shareUsage, undefined);    
+    const statisticsResponse = await shareClient.getStatistics({
+      leaseAccessConditions: { leaseId: leaseResponse.leaseId },
+    });
+    assert.notEqual(statisticsResponse.shareUsage, undefined);
     await leaseClient.releaseLease();
   });
 
   it("setAccessPolicy", async function () {
     if (!isNode) {
       this.skip();
-    }   
+    }
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
@@ -751,17 +748,19 @@ describe("LeaseClient with ShareClient", () => {
     } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
-    await shareClient.setAccessPolicy(identifiers,      
-      { leaseAccessConditions: { leaseId: leaseResponse.leaseId } }
-    );
+    await shareClient.setAccessPolicy(identifiers, {
+      leaseAccessConditions: { leaseId: leaseResponse.leaseId },
+    });
 
     try {
-      await shareClient.getAccessPolicy({ leaseAccessConditions: { leaseId: guid } })
+      await shareClient.getAccessPolicy({ leaseAccessConditions: { leaseId: guid } });
       assert.fail("lease id required if the file has an active lease");
     } catch (err: any) {
       assert.equal(err.statusCode, 412);
     }
-    const getAccessPolicyResponse = await shareClient.getAccessPolicy({ leaseAccessConditions: { leaseId: leaseResponse.leaseId } });
+    const getAccessPolicyResponse = await shareClient.getAccessPolicy({
+      leaseAccessConditions: { leaseId: leaseResponse.leaseId },
+    });
 
     assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
     assert.equal(
