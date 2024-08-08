@@ -4,7 +4,7 @@
 /**
  * @internal
  */
-export const packageVersion = "1.7.0";
+export const packageVersion = "1.7.1";
 
 /**
  * @internal
