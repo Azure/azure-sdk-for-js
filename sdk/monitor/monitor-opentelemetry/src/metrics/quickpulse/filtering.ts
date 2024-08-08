@@ -372,8 +372,42 @@ export class Projection {
   constructor() {
     this.projectionMap = new Map<string, number>();
   }
+  // add counts map to use for avg & a way to clear it per second.
 
-  public calculateProjection(derivedMetricInfo: DerivedMetricInfo): void {
+  public calculateProjection(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): void {
+    let incrementBy: number;
+    if (derivedMetricInfo.projection === "Count()") {
+      incrementBy = 1;
+    } else if (derivedMetricInfo.projection === "Duration") {
+      if (isRequestData(data) || isDependencyData(data)) {
+        incrementBy = data.Duration;
+      } else {
+        throw new MetricFailureToCreateError('The projection Duration is not supported for the telemetry type Exception or Trace.');
+      }
+    } else if (derivedMetricInfo.projection.startsWith("CustomDimensions.")) {
+      let customDimKey: string = derivedMetricInfo.projection.replace("CustomDimensions.", "");
+      let customDimValue: number | undefined;
+      data.CustomDimensions.forEach((customDim) => {
+        if (customDim.key === customDimKey) {
+          let parsedValue = parseFloat(customDim.value);
+          if (isNaN(parsedValue)) {
+            throw new MetricFailureToCreateError(`Could not calculate the projection because the custom dimension value '${customDim.value}' for the dimension '${customDimKey}' is not a valid number.`);
+          } else {
+            customDimValue = parsedValue;
+          }
+        }
+      });
+      if (!customDimValue) {
+        throw new MetricFailureToCreateError(`Could not calculate the projection because the custom dimension '${customDimKey}' was not found in the telemetry data.`);
+      } else {
+        incrementBy = customDimValue;
+      }
+    } else {
+      throw new MetricFailureToCreateError(`The projection '${derivedMetricInfo.projection}' is not supported in this SDK.`);
+    }
+
+    let projection: number = this.calculateAggregation(derivedMetricInfo.aggregation, derivedMetricInfo.id, incrementBy);
+    this.projectionMap.set(derivedMetricInfo.id, projection);
 
   }
 
@@ -383,5 +417,23 @@ export class Projection {
 
   public clearProjection(): void {
     this.projectionMap.clear();
+  }
+
+  private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
+    let prevValue: number = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : 0;
+    switch (aggregation) {
+      case "Sum":
+        return prevValue + incrementBy;
+      case "Min":
+        return Math.min(prevValue, incrementBy);
+      case "Max":
+        return Math.max(prevValue, incrementBy);
+      case "Avg":
+        let count: number = this.projectionMap.has("Count") ? this.projectionMap.get("Count") as number : 0;
+        let sum: number = this.projectionMap.has("Sum") ? this.projectionMap.get("Sum") as number : 0;
+        return (sum + incrementBy) / (count + 1);
+      default:
+        throw new MetricFailureToCreateError(`The aggregation '${aggregation}' is not supported in this SDK.`);
+    }
   }
 }
