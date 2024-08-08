@@ -50,7 +50,7 @@ describe("Sql test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new SqlManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "westus";
     resourceGroup = "myjstest";
     databaseName = "mydatabasezzzz";
     serverName = "myserverppp";
@@ -62,7 +62,7 @@ describe("Sql test", () => {
 
   it("servers create test", async function () {
     const res = await client.servers.beginCreateOrUpdateAndWait(resourceGroup, serverName, {
-      location: "eastus",
+      location,
       administratorLogin: "dummylogin",
       administratorLoginPassword: "Placeholder123",
       version: "12.0"
@@ -72,7 +72,7 @@ describe("Sql test", () => {
 
   it("databases create test", async function () {
     const res = await client.databases.beginCreateOrUpdateAndWait(resourceGroup, serverName, databaseName, {
-      location: "eastus",
+      location,
       readScale: "Disabled"
     }, testPollingOptions)
     assert.equal(res.name, databaseName);

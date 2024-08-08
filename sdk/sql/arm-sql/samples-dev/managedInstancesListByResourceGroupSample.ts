@@ -18,12 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of managed instances in a resource group.
  *
  * @summary Gets a list of managed instances in a resource group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceListByResourceGroup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceListByResourceGroup.json
  */
 async function listManagedInstancesByResourceGroup() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
+    "20D7082A-0FC7-4468-82BD-542694D5042B";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Test1";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -40,12 +40,12 @@ async function listManagedInstancesByResourceGroup() {
  * This sample demonstrates how to Gets a list of managed instances in a resource group.
  *
  * @summary Gets a list of managed instances in a resource group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceListByResourceGroupWithExpandEqualsAdministrators.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceListByResourceGroupWithExpandEqualsAdministrators.json
  */
 async function listManagedInstancesByResourceGroupWithExpandAdministratorsOrActivedirectory() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
+    "20D7082A-0FC7-4468-82BD-542694D5042B";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Test1";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);

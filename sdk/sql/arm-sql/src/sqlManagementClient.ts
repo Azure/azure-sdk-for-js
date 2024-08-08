@@ -122,7 +122,6 @@ import {
   ManagedServerDnsAliasesImpl,
   ManagedDatabaseAdvancedThreatProtectionSettingsImpl,
   ManagedInstanceAdvancedThreatProtectionSettingsImpl,
-  ReplicationLinksImpl,
   ManagedDatabaseMoveOperationsImpl,
   ManagedInstanceDtcsImpl,
   SynapseLinkWorkspacesImpl,
@@ -131,6 +130,7 @@ import {
   ManagedDatabaseRestoreDetailsImpl,
   DatabaseEncryptionProtectorsImpl,
   ManagedDatabasesImpl,
+  ManagedInstancesImpl,
   ManagedLedgerDigestUploadsOperationsImpl,
   RecoverableDatabasesImpl,
   RestorableDroppedDatabasesImpl,
@@ -158,8 +158,8 @@ import {
   InstancePoolsImpl,
   LongTermRetentionBackupsImpl,
   LongTermRetentionPoliciesImpl,
-  ManagedInstancesImpl,
   ServersImpl,
+  ReplicationLinksImpl,
 } from "./operations";
 import {
   DataMaskingPolicies,
@@ -274,7 +274,6 @@ import {
   ManagedServerDnsAliases,
   ManagedDatabaseAdvancedThreatProtectionSettings,
   ManagedInstanceAdvancedThreatProtectionSettings,
-  ReplicationLinks,
   ManagedDatabaseMoveOperations,
   ManagedInstanceDtcs,
   SynapseLinkWorkspaces,
@@ -283,6 +282,7 @@ import {
   ManagedDatabaseRestoreDetails,
   DatabaseEncryptionProtectors,
   ManagedDatabases,
+  ManagedInstances,
   ManagedLedgerDigestUploadsOperations,
   RecoverableDatabases,
   RestorableDroppedDatabases,
@@ -310,8 +310,8 @@ import {
   InstancePools,
   LongTermRetentionBackups,
   LongTermRetentionPolicies,
-  ManagedInstances,
   Servers,
+  ReplicationLinks,
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -575,7 +575,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       new ManagedDatabaseAdvancedThreatProtectionSettingsImpl(this);
     this.managedInstanceAdvancedThreatProtectionSettings =
       new ManagedInstanceAdvancedThreatProtectionSettingsImpl(this);
-    this.replicationLinks = new ReplicationLinksImpl(this);
     this.managedDatabaseMoveOperations = new ManagedDatabaseMoveOperationsImpl(
       this,
     );
@@ -590,6 +589,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this,
     );
     this.managedDatabases = new ManagedDatabasesImpl(this);
+    this.managedInstances = new ManagedInstancesImpl(this);
     this.managedLedgerDigestUploadsOperations =
       new ManagedLedgerDigestUploadsOperationsImpl(this);
     this.recoverableDatabases = new RecoverableDatabasesImpl(this);
@@ -635,8 +635,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.instancePools = new InstancePoolsImpl(this);
     this.longTermRetentionBackups = new LongTermRetentionBackupsImpl(this);
     this.longTermRetentionPolicies = new LongTermRetentionPoliciesImpl(this);
-    this.managedInstances = new ManagedInstancesImpl(this);
     this.servers = new ServersImpl(this);
+    this.replicationLinks = new ReplicationLinksImpl(this);
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -751,7 +751,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedServerDnsAliases: ManagedServerDnsAliases;
   managedDatabaseAdvancedThreatProtectionSettings: ManagedDatabaseAdvancedThreatProtectionSettings;
   managedInstanceAdvancedThreatProtectionSettings: ManagedInstanceAdvancedThreatProtectionSettings;
-  replicationLinks: ReplicationLinks;
   managedDatabaseMoveOperations: ManagedDatabaseMoveOperations;
   managedInstanceDtcs: ManagedInstanceDtcs;
   synapseLinkWorkspaces: SynapseLinkWorkspaces;
@@ -760,6 +759,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedDatabaseRestoreDetails: ManagedDatabaseRestoreDetails;
   databaseEncryptionProtectors: DatabaseEncryptionProtectors;
   managedDatabases: ManagedDatabases;
+  managedInstances: ManagedInstances;
   managedLedgerDigestUploadsOperations: ManagedLedgerDigestUploadsOperations;
   recoverableDatabases: RecoverableDatabases;
   restorableDroppedDatabases: RestorableDroppedDatabases;
@@ -787,6 +787,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   instancePools: InstancePools;
   longTermRetentionBackups: LongTermRetentionBackups;
   longTermRetentionPolicies: LongTermRetentionPolicies;
-  managedInstances: ManagedInstances;
   servers: Servers;
+  replicationLinks: ReplicationLinks;
 }

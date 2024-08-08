@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the failover groups in a server.
  *
  * @summary Lists the failover groups in a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/FailoverGroupList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverGroupList.json
  */
 async function listFailoverGroup() {
   const subscriptionId =

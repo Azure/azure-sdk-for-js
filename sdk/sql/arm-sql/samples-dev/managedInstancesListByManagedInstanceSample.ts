@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get top resource consuming queries of a managed instance.
  *
  * @summary Get top resource consuming queries of a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceTopQueriesList.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceTopQueriesList.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueries() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
  * This sample demonstrates how to Get top resource consuming queries of a managed instance.
  *
  * @summary Get top resource consuming queries of a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceTopQueriesListMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceTopQueriesListMax.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAndResponse() {
   const subscriptionId =
@@ -91,7 +91,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
  * This sample demonstrates how to Get top resource consuming queries of a managed instance.
  *
  * @summary Get top resource consuming queries of a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceTopQueriesListMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceTopQueriesListMin.json
  */
 async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndResponse() {
   const subscriptionId =
