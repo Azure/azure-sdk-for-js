@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * @summary Demonstrates how to resume a long running request.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
-// import { DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
@@ -25,16 +24,16 @@ dotenv.config();
  * But the same approach can be used in:
  *  - "/route/matrix/"
  */
-async function main() {
+async function main(): Promise<void> {
+  /** Or use Microsoft Entra ID authentication */
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsRoute(credential, mapsClientId);
+  
   /** Use subscription key authentication */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRoute(credential);
-
-  /** Or use Azure AD authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = new MapsRoute(credential, mapsClientId);
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsRoute(credential);
 
   const request = createRouteDirectionsBatchRequest([
     {
@@ -89,14 +88,15 @@ async function main() {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {
       console.log(`Request ${index} success!`);
-      item.response.routes.forEach(({ summary, legs }) => {
+      item.response.routes.forEach(({ summary: routeSummary, legs }) => {
         console.log(
-          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+          `The total distance is ${routeSummary.lengthInMeters} meters, and it takes ${routeSummary.travelTimeInSeconds} seconds.`,
         );
-        legs.forEach(({ summary, points }, idx) => {
+        legs.forEach(({ summary: legSummary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
-            } seconds. Followings are the first 10 points: `
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
+              legSummary.travelTimeInSeconds
+            } seconds. Followings are the first 10 points: `,
           );
           console.table(points.slice(0, 10));
         });

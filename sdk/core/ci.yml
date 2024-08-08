@@ -50,8 +50,6 @@ extends:
         safeName: azurerestcoreclient
       - name: azure-core-rest-pipeline
         safeName: azurecorerestpipeline
-        # TODO: Remove when REX validation tool is integrated: https://github.com/Azure/azure-sdk-for-js/issues/26770
-        skipPublishDocMs: true
       - name: azure-core-lro
         safeName: azurecorelro
       - name: azure-core-paging

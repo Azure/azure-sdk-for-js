@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets any upgrade notifications for a Redis cache.
  *
  * @summary Gets any upgrade notifications for a Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheListUpgradeNotifications.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheListUpgradeNotifications.json
  */
 async function redisCacheListUpgradeNotifications() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

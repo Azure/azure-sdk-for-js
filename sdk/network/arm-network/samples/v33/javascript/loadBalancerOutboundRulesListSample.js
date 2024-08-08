@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all the outbound rules in a load balancer.
  *
  * @summary Gets all the outbound rules in a load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/LoadBalancerOutboundRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/LoadBalancerOutboundRuleList.json
  */
 async function loadBalancerOutboundRuleList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

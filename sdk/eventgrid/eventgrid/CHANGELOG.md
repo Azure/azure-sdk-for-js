@@ -1,6 +1,6 @@
 # Release History
 
-## 5.5.1 (Unreleased)
+## 5.5.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,13 @@
 
 ### Other Changes
 
-## 5.5.0 (2026-06-11)
+## 5.5.1 (2024-07-16)
+
+### Bugs Fixed
+
+- Fixed deserialization bugs in `AcsEmailEngagementTrackingReportReceivedEventData` and `AcsEmailDeliveryReportReceivedEventData` system events that caused the `DeliveryAttemptTimestamp` and `UserActionTimeStamp` properties to be null.
+
+## 5.5.0 (2024-06-11)
 
 ### Features Added
 

@@ -30,6 +30,12 @@ const recorderEnvSetup: RecorderStartOptions = {
       },
     ],
   },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3478", // .accountname in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2030", // .operation-location in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 /**
