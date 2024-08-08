@@ -8,10 +8,10 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
 - Added top level `browser` and `react-native` support in the `package.json` and a common implementation for WebCrypto for both.
   - [#30697]((https://github.com/Azure/azure-sdk-for-js/issues/30697)
-
-### Other Changes
 
 ## 1.2.3 (2024-05-21)
 
