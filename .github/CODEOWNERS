@@ -61,7 +61,7 @@
 
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds
+/sdk/batch/ @wiboris @wanghoppe @dpwatrous @cRui861 @skapur12
 
 # PRLabel: %Communication
 # ServiceLabel: %Communication
@@ -114,7 +114,7 @@
 # AzureSdkOwners: @timovv @jeremymeng
 
 # ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners: @sajeetharan @simorenoh 
+# ServiceOwners: @sajeetharan @simorenoh
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @amanrao23 @aditishree1 @sajeetharan @topshot99
