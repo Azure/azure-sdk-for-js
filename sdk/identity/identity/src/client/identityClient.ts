@@ -123,7 +123,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         accessToken: {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
-          refreshOnTimestamp: parseRefreshTimestamp(parsedBody),
+          refreshesOnTimestamp: parseRefreshTimestamp(parsedBody),
         },
         refreshToken: parsedBody.refresh_token,
       };
