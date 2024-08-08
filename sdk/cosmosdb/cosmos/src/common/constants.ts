@@ -184,6 +184,9 @@ export const Constants = {
     PriorityLevel: "x-ms-cosmos-priority-level",
   },
 
+  // HttpHeaders Values
+  PREFER_RETURN_MINIMAL: "return=minimal",
+
   // GlobalDB related constants
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",

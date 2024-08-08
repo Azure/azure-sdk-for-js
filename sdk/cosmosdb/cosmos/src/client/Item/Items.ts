@@ -341,8 +341,8 @@ export class Items {
 
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -420,8 +420,8 @@ export class Items {
 
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
