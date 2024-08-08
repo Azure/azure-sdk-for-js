@@ -75,7 +75,6 @@ export function parseExpirationTimestamp(body: TokenResponseParsedBody): number 
   );
 }
 
-
 /**
  * Given a token response, return the expiration timestamp as the number of milliseconds from the Unix epoch.
  * @param body - A parsed response body from the authentication endpoint.
