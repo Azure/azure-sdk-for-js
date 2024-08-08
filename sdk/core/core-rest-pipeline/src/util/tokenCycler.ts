@@ -136,7 +136,7 @@ export function createTokenCycler(
       if (cycler.isRefreshing) {
         return false;
       }
-      if (token?.refreshesOnTimestamp && token.refreshesOnTimestamp < Date.now()) {
+      if (token?.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
         return true;
       }
 
