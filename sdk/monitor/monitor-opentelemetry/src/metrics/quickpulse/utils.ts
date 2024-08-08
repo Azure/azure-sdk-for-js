@@ -67,7 +67,8 @@ export function getSdkVersion(): string {
   return internalSdkVersion;
 }
 
-/** Set the version prefix to a string in the format "\{ResourceProvider\}\{OS\}m_ */
+// eslint-disable-next-line tsdoc/syntax
+/** Set the version prefix to a string in the format "{ResourceProvider}{OS}m_ */
 export function setSdkPrefix(): void {
   if (!process.env[AZURE_MONITOR_PREFIX]) {
     const prefixAttachType: string =
