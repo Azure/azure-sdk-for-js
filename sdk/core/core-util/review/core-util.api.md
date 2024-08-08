@@ -18,7 +18,7 @@ export interface AbortOptions {
 }
 
 // @public
-export function calculateExponentialDelayInterval(retryAttempt: number, config: {
+export function calculateRetryDelay(retryAttempt: number, config: {
     retryDelayInMs: number;
     maxRetryDelayInMs: number;
 }): {

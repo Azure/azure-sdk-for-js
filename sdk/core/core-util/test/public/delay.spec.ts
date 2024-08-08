@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { afterEach, assert, describe, it, vi } from "vitest";
-import { calculateExponentialDelayInterval, delay } from "../../src/index.js";
+import { calculateRetryDelay, delay } from "../../src/index.js";
 
 describe("delay", function () {
   afterEach(function () {
@@ -38,14 +38,14 @@ describe("delay", function () {
     }
   });
 
-  describe("#calculateExponentialDelayInterval", function () {
+  describe("#calculateRetryDelay", function () {
     it("should calculate the correct delay for the first retry attempt", function () {
       const retryAttempt = 1;
       const config = {
         retryDelayInMs: 1000,
         maxRetryDelayInMs: 10000,
       };
-      const result = calculateExponentialDelayInterval(retryAttempt, config);
+      const result = calculateRetryDelay(retryAttempt, config);
       assert.isAtLeast(result.retryAfterInMs, config.retryDelayInMs);
       assert.isAtMost(result.retryAfterInMs, config.retryDelayInMs * 2);
     });
@@ -56,7 +56,7 @@ describe("delay", function () {
         retryDelayInMs: 1000,
         maxRetryDelayInMs: 10000,
       };
-      const result = calculateExponentialDelayInterval(retryAttempt, config);
+      const result = calculateRetryDelay(retryAttempt, config);
       const expectedMin = config.retryDelayInMs * Math.pow(2, retryAttempt - 1);
       const expectedMax = config.retryDelayInMs * Math.pow(2, retryAttempt);
       assert.isAtLeast(result.retryAfterInMs, expectedMin);
@@ -69,7 +69,7 @@ describe("delay", function () {
         retryDelayInMs: 1000,
         maxRetryDelayInMs: 5000,
       };
-      const result = calculateExponentialDelayInterval(retryAttempt, config);
+      const result = calculateRetryDelay(retryAttempt, config);
       assert.isAtMost(result.retryAfterInMs, config.maxRetryDelayInMs);
     });
 
@@ -79,7 +79,7 @@ describe("delay", function () {
         retryDelayInMs: 0,
         maxRetryDelayInMs: 10000,
       };
-      const result = calculateExponentialDelayInterval(retryAttempt, config);
+      const result = calculateRetryDelay(retryAttempt, config);
       assert.strictEqual(result.retryAfterInMs, 0);
     });
   });

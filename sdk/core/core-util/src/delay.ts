@@ -39,7 +39,7 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
  * @param config - The exponential retry configuration.
  * @returns An object containing the calculated retry delay.
  */
-export function calculateExponentialDelayInterval(
+export function calculateRetryDelay(
   retryAttempt: number,
   config: {
     retryDelayInMs: number;
