@@ -1,14 +1,31 @@
 # Release History
 
-## 1.6.2 (Unreleased)
+## 1.7.0 (2024-08-06)
 
 ### Features Added
 
-### Breaking Changes
+- Support `listLabels` method to list all the labels in the configuration setting store. 
 
-### Bugs Fixed
+Example:
 
-### Other Changes
+```typescript
+const allLabels = client.listLabels();
+```
+
+See [`listLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listLabels.ts) for more information now how to use this feature
+
+- Add `tagsFilter` in the option bag for `listConfigurationSettings` method. This feature allows you to filter configuration settings by specifying tags.
+
+Example:
+
+```typescript
+const allProdTags = client.listConfigurationSettings({
+  tagsFilter: ["production=prod*"],
+});
+```
+See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts) for more information now how to use this feature.
+- Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
+
 
 ## 1.6.1 (2024-07-11)
 
