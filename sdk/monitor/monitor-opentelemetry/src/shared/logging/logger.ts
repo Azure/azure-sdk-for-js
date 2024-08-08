@@ -60,26 +60,24 @@ export class Logger {
       suppressOverrideMessage: true,
     });
 
-    const azureLogLevelEnv =
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL || process.env.AZURE_LOG_LEVEL;
-    let azureLogLevel: AzureLogLevel = "warning"; // default
+    const azureLogLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
     switch (azureLogLevelEnv) {
       // Application Insights levels
       case "VERBOSE":
-        azureLogLevel = "verbose";
+        setLogLevel("verbose");
         break;
       case "INFO":
-        azureLogLevel = "info";
+        setLogLevel("info");
         break;
       case "WARN":
-        azureLogLevel = "warning";
+        setLogLevel("warning");
         break;
       case "ERROR":
-        azureLogLevel = "error";
+        setLogLevel("error");
         break;
-    }
-    if (azureLogLevel) {
-      setLogLevel(azureLogLevel);
+      default:
+        setLogLevel((process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "warning");
+        break;
     }
     // Override Azure logger
     AzureLogger.log = (...args) => {

@@ -103,6 +103,14 @@ export interface BodyPart {
 }
 
 // @public
+export function calculateRetryDelay(retryAttempt: number, config: {
+    retryDelayInMs: number;
+    maxRetryDelayInMs: number;
+}): {
+    retryAfterInMs: number;
+};
+
+// @public
 export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
     abortSignal?: AbortSignalLike;
 }): Promise<T[number]>;

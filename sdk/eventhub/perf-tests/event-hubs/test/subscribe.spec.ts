@@ -26,7 +26,7 @@ interface ReceiverOptions {
 
 const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
 const eventHubName = getEnvVar("EVENTHUB_NAME");
-const consumerGroup = process.env.CONSUMER_GROUP_NAME || "$Default";
+const consumerGroup = process.env.EVENTHUB_CONSUMER_GROUP_NAME || "$Default";
 
 const consumer = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 

@@ -35,6 +35,7 @@ describe("Metric Exporter Scenarios", () => {
         .run()
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
+          // eslint-disable-next-line promise/always-return
           return scenario.flush().then(() => {
             assertMetricExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);

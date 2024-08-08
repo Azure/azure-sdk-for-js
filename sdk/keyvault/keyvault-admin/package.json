@@ -115,7 +115,6 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/abort-controller": "^1.0.0",
     "@azure/core-util": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
