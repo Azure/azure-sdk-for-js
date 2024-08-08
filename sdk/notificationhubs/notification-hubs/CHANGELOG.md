@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Added `pushChannelExpired` and `pushVariables` to the `Installation` type.
+  - [#30439](https://github.com/Azure/azure-sdk-for-js/issues/30439)
+
 ### Other Changes
 
 ## 1.2.3 (2024-05-21)
