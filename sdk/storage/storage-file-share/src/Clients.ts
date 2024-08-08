@@ -163,7 +163,10 @@ import {
 } from "./utils/utils.node";
 import { FileSetHttpHeadersHeaders, StorageClient as StorageClientContext } from "./generated/src/";
 import { randomUUID } from "@azure/core-util";
-import { generateFileSASQueryParameters, generateFileSASQueryParametersInternal } from "./FileSASSignatureValues";
+import {
+  generateFileSASQueryParameters,
+  generateFileSASQueryParametersInternal,
+} from "./FileSASSignatureValues";
 import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
@@ -1312,6 +1315,7 @@ export class ShareClient extends StorageClient {
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   public generateSasStringToSign(options: ShareGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
@@ -5075,6 +5079,7 @@ export class ShareFileClient extends StorageClient {
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   public generateSasStringToSign(options: FileGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(

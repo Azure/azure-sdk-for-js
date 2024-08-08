@@ -9,9 +9,8 @@ export * from "./sas/AccountSASResourceTypes";
 export * from "./sas/AccountSASServices";
 export {
   AccountSASSignatureValues,
-  generateAccountSASQueryParameters
-}
-from "./sas/AccountSASSignatureValues";
+  generateAccountSASQueryParameters,
+} from "./sas/AccountSASSignatureValues";
 export * from "./sas/DataLakeSASPermissions";
 export {
   DataLakeSASSignatureValues,

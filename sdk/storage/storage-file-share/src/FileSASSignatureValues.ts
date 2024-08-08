@@ -111,15 +111,14 @@ export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
-  return generateFileSASQueryParametersInternal(fileSASSignatureValues,
-    sharedKeyCredential
-  ).sasQueryParameters;
+  return generateFileSASQueryParametersInternal(fileSASSignatureValues, sharedKeyCredential)
+    .sasQueryParameters;
 }
 
 export function generateFileSASQueryParametersInternal(
   fileSASSignatureValues: FileSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
-): { sasQueryParameters: SASQueryParameters, stringToSign: string } {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   if (
     !fileSASSignatureValues.identifier &&
     !(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)
@@ -178,24 +177,25 @@ export function generateFileSASQueryParametersInternal(
 
   return {
     sasQueryParameters: new SASQueryParameters(
-    version,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    fileSASSignatureValues.protocol,
-    fileSASSignatureValues.startsOn,
-    fileSASSignatureValues.expiresOn,
-    fileSASSignatureValues.ipRange,
-    fileSASSignatureValues.identifier,
-    resource,
-    fileSASSignatureValues.cacheControl,
-    fileSASSignatureValues.contentDisposition,
-    fileSASSignatureValues.contentEncoding,
-    fileSASSignatureValues.contentLanguage,
-    fileSASSignatureValues.contentType,
-  ),
-  stringToSign: stringToSign};
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      fileSASSignatureValues.protocol,
+      fileSASSignatureValues.startsOn,
+      fileSASSignatureValues.expiresOn,
+      fileSASSignatureValues.ipRange,
+      fileSASSignatureValues.identifier,
+      resource,
+      fileSASSignatureValues.cacheControl,
+      fileSASSignatureValues.contentDisposition,
+      fileSASSignatureValues.contentEncoding,
+      fileSASSignatureValues.contentLanguage,
+      fileSASSignatureValues.contentType,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 function getCanonicalName(accountName: string, shareName: string, filePath?: string): string {

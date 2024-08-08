@@ -35,7 +35,10 @@ import { isNode } from "@azure/core-util";
 import { tracingClient } from "./utils/tracing";
 import { ShareClientConfig, ShareClientOptions, ShareProtocols, toShareProtocols } from "./models";
 import { AccountSASPermissions } from "./AccountSASPermissions";
-import { generateAccountSASQueryParameters, generateAccountSASQueryParametersInternal } from "./AccountSASSignatureValues";
+import {
+  generateAccountSASQueryParameters,
+  generateAccountSASQueryParametersInternal,
+} from "./AccountSASSignatureValues";
 import { AccountSASServices } from "./AccountSASServices";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";

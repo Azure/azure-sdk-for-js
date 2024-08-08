@@ -69,7 +69,10 @@ import {
   RemovePathAccessControlItem,
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
-import { generateDataLakeSASQueryParameters, generateDataLakeSASQueryParametersInternal } from "./sas/DataLakeSASSignatureValues";
+import {
+  generateDataLakeSASQueryParameters,
+  generateDataLakeSASQueryParametersInternal,
+} from "./sas/DataLakeSASSignatureValues";
 import { StorageClient } from "./StorageClient";
 import {
   toAccessControlChangeFailureArray,
@@ -1896,20 +1899,21 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   public generateSasStringToSign(options: FileGenerateSasUrlOptions): string {
-      if (!(this.credential instanceof StorageSharedKeyCredential)) {
-        throw RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential",
-        );
-      }
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
 
-      return generateDataLakeSASQueryParametersInternal(
-        {
-          fileSystemName: this.fileSystemName,
-          pathName: this.name,
-          ...options,
-        },
-        this.credential,
-      ).stringToSign;
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

@@ -13,7 +13,7 @@ export * from "./sas/AccountSASResourceTypes";
 export * from "./sas/AccountSASServices";
 export {
   AccountSASSignatureValues,
-  generateAccountSASQueryParameters
+  generateAccountSASQueryParameters,
 } from "./sas/AccountSASSignatureValues";
 export * from "./BlobBatch";
 export * from "./BlobBatchClient";

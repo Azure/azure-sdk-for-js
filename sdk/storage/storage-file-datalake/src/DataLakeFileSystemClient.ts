@@ -53,7 +53,10 @@ import {
   windowsFileTimeTicksToTime,
 } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
-import { generateDataLakeSASQueryParameters, generateDataLakeSASQueryParametersInternal } from "./sas/DataLakeSASSignatureValues";
+import {
+  generateDataLakeSASQueryParameters,
+  generateDataLakeSASQueryParametersInternal,
+} from "./sas/DataLakeSASSignatureValues";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
 import { PathClientInternal } from "./utils/PathClientInternal";
 
@@ -791,7 +794,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       resolve(appendToURLQuery(this.url, sas));
     });
   }
-  
+
   /**
    * Only available for DataLakeFileSystemClient constructed with a shared key credential.
    *
@@ -803,19 +806,20 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   public generateSasStringToSign(options: FileSystemGenerateSasUrlOptions): string {
-      if (!(this.credential instanceof StorageSharedKeyCredential)) {
-        throw RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential",
-        );
-      }
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
 
-      return generateDataLakeSASQueryParametersInternal(
-        {
-          fileSystemName: this.name,
-          ...options,
-        },
-        this.credential,
-      ).stringToSign;
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

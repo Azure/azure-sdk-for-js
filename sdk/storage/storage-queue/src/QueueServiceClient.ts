@@ -35,7 +35,10 @@ import { AnonymousCredential } from "../../storage-blob/src/credentials/Anonymou
 import { tracingClient } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 import { AccountSASPermissions } from "./AccountSASPermissions";
-import { generateAccountSASQueryParameters, generateAccountSASQueryParametersInternal } from "./AccountSASSignatureValues";
+import {
+  generateAccountSASQueryParameters,
+  generateAccountSASQueryParametersInternal,
+} from "./AccountSASSignatureValues";
 import { AccountSASServices } from "./AccountSASServices";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";

@@ -46,7 +46,10 @@ import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/S
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { tracingClient } from "./utils/tracing";
 import { Metadata } from "./models";
-import { generateQueueSASQueryParameters, generateQueueSASQueryParametersInternal } from "./QueueSASSignatureValues";
+import {
+  generateQueueSASQueryParameters,
+  generateQueueSASQueryParametersInternal,
+} from "./QueueSASSignatureValues";
 import { SasIPRange } from "./SasIPRange";
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
@@ -1184,6 +1187,7 @@ export class QueueClient extends StorageClient {
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
   public generateSasStringToSign(options: QueueGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(

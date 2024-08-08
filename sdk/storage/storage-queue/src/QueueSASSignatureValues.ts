@@ -80,13 +80,14 @@ export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
-  return generateQueueSASQueryParametersInternal(queueSASSignatureValues, sharedKeyCredential).sasQueryParameters;
+  return generateQueueSASQueryParametersInternal(queueSASSignatureValues, sharedKeyCredential)
+    .sasQueryParameters;
 }
 
 export function generateQueueSASQueryParametersInternal(
   queueSASSignatureValues: QueueSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
-): { sasQueryParameters: SASQueryParameters, stringToSign: string} {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   if (
     !queueSASSignatureValues.identifier &&
     !(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)
@@ -128,18 +129,19 @@ export function generateQueueSASQueryParametersInternal(
 
   return {
     sasQueryParameters: new SASQueryParameters(
-    version,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    queueSASSignatureValues.protocol,
-    queueSASSignatureValues.startsOn,
-    queueSASSignatureValues.expiresOn,
-    queueSASSignatureValues.ipRange,
-    queueSASSignatureValues.identifier,
-  ),
-  stringToSign: stringToSign };
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      queueSASSignatureValues.protocol,
+      queueSASSignatureValues.startsOn,
+      queueSASSignatureValues.expiresOn,
+      queueSASSignatureValues.ipRange,
+      queueSASSignatureValues.identifier,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 function getCanonicalName(accountName: string, queueName: string): string {

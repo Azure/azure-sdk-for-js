@@ -51,7 +51,10 @@ import { CommonOptions, StorageClient } from "./StorageClient";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
-import { generateAccountSASQueryParameters, generateAccountSASQueryParametersInternal } from "./sas/AccountSASSignatureValues";
+import {
+  generateAccountSASQueryParameters,
+  generateAccountSASQueryParametersInternal,
+} from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
 import {
   ContainerRenameHeaders,
@@ -1267,7 +1270,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Only available for BlobServiceClient constructed with a shared key credential.
    *
-   * Generates string to sign for a Blob account Shared Access Signature (SAS) URI based on 
+   * Generates string to sign for a Blob account Shared Access Signature (SAS) URI based on
    * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas

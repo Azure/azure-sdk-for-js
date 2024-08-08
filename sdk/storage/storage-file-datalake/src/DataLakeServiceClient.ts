@@ -36,7 +36,10 @@ import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./tran
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
 import { tracingClient } from "./utils/tracing";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import { generateAccountSASQueryParameters, generateAccountSASQueryParametersInternal } from "./sas/AccountSASSignatureValues";
+import {
+  generateAccountSASQueryParameters,
+  generateAccountSASQueryParametersInternal,
+} from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
 import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
 

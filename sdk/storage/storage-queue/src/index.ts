@@ -8,7 +8,7 @@ export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
 export {
   AccountSASSignatureValues,
-  generateAccountSASQueryParameters
+  generateAccountSASQueryParameters,
 } from "./AccountSASSignatureValues";
 export * from "../../storage-blob/src/credentials/AnonymousCredential";
 export * from "../../storage-blob/src/credentials/Credential";
@@ -43,7 +43,7 @@ export * from "./QueueClient";
 export * from "./QueueSASPermissions";
 export {
   QueueSASSignatureValues,
-  generateQueueSASQueryParameters
+  generateQueueSASQueryParameters,
 } from "./QueueSASSignatureValues";
 export * from "./QueueServiceClient";
 export * from "./SASQueryParameters";

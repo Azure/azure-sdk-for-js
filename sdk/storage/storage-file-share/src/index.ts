@@ -8,13 +8,10 @@ export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
 export {
   AccountSASSignatureValues,
-  generateAccountSASQueryParameters
+  generateAccountSASQueryParameters,
 } from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
-export {
-  FileSASSignatureValues,
-  generateFileSASQueryParameters
-} from "./FileSASSignatureValues";
+export { FileSASSignatureValues, generateFileSASQueryParameters } from "./FileSASSignatureValues";
 export * from "./Clients";
 export * from "./ShareSASPermissions";
 export * from "../../storage-blob/src/credentials/AnonymousCredential";
