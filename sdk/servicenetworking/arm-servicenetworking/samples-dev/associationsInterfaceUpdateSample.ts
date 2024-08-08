@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AssociationUpdate,
-  ServiceNetworkingManagementClient
+  ServiceNetworkingManagementClient,
 } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a Association
  *
  * @summary Update a Association
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/AssociationPatch.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/AssociationPatch.json
  */
 async function updateAssociation() {
   const subscriptionId =
@@ -34,21 +34,20 @@ async function updateAssociation() {
     properties: {
       associationType: "subnets",
       subnet: {
-        id:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet"
-      }
-    }
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.associationsInterface.update(
     resourceGroupName,
     trafficControllerName,
     associationName,
-    properties
+    properties,
   );
   console.log(result);
 }

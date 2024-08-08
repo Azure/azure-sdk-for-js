@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List TrafficController resources by subscription ID
  *
  * @summary List TrafficController resources by subscription ID
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/TrafficControllersGetList.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/TrafficControllersGetList.json
  */
 async function getTrafficControllersList() {
   const subscriptionId =
@@ -26,7 +26,7 @@ async function getTrafficControllersList() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.trafficControllerInterface.listBySubscription()) {

@@ -6,7 +6,7 @@ Traffic Controller Provider management API.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicenetworking/arm-servicenetworking) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicenetworking) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicenetworking) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

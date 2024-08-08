@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TrafficControllerUpdate,
-  ServiceNetworkingManagementClient
+  ServiceNetworkingManagementClient,
 } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a TrafficController
  *
  * @summary Update a TrafficController
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/TrafficControllerPatch.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/TrafficControllerPatch.json
  */
 async function patchTrafficController() {
   const subscriptionId =
@@ -33,12 +33,12 @@ async function patchTrafficController() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.trafficControllerInterface.update(
     resourceGroupName,
     trafficControllerName,
-    properties
+    properties,
   );
   console.log(result);
 }

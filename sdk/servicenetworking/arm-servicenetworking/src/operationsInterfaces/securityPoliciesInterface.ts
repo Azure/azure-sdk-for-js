@@ -9,24 +9,24 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  Association,
-  AssociationsInterfaceListByTrafficControllerOptionalParams,
-  AssociationsInterfaceGetOptionalParams,
-  AssociationsInterfaceGetResponse,
-  AssociationsInterfaceCreateOrUpdateOptionalParams,
-  AssociationsInterfaceCreateOrUpdateResponse,
-  AssociationUpdate,
-  AssociationsInterfaceUpdateOptionalParams,
-  AssociationsInterfaceUpdateResponse,
-  AssociationsInterfaceDeleteOptionalParams,
-  AssociationsInterfaceDeleteResponse,
+  SecurityPolicy,
+  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  SecurityPoliciesInterfaceGetOptionalParams,
+  SecurityPoliciesInterfaceGetResponse,
+  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  SecurityPoliciesInterfaceCreateOrUpdateResponse,
+  SecurityPolicyUpdate,
+  SecurityPoliciesInterfaceUpdateOptionalParams,
+  SecurityPoliciesInterfaceUpdateResponse,
+  SecurityPoliciesInterfaceDeleteOptionalParams,
+  SecurityPoliciesInterfaceDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AssociationsInterface. */
-export interface AssociationsInterface {
+/** Interface representing a SecurityPoliciesInterface. */
+export interface SecurityPoliciesInterface {
   /**
-   * List Association resources by TrafficController
+   * List SecurityPolicy resources by TrafficController
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param options The options parameters.
@@ -34,100 +34,100 @@ export interface AssociationsInterface {
   listByTrafficController(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
-  ): PagedAsyncIterableIterator<Association>;
+    options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  ): PagedAsyncIterableIterator<SecurityPolicy>;
   /**
-   * Get a Association
+   * Get a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param associationName Name of Association
+   * @param securityPolicyName SecurityPolicy
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     trafficControllerName: string,
-    associationName: string,
-    options?: AssociationsInterfaceGetOptionalParams,
-  ): Promise<AssociationsInterfaceGetResponse>;
+    securityPolicyName: string,
+    options?: SecurityPoliciesInterfaceGetOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceGetResponse>;
   /**
-   * Create a Association
+   * Create a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param associationName Name of Association
+   * @param securityPolicyName SecurityPolicy
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     trafficControllerName: string,
-    associationName: string,
-    resource: Association,
-    options?: AssociationsInterfaceCreateOrUpdateOptionalParams,
+    securityPolicyName: string,
+    resource: SecurityPolicy,
+    options?: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<AssociationsInterfaceCreateOrUpdateResponse>,
-      AssociationsInterfaceCreateOrUpdateResponse
+      OperationState<SecurityPoliciesInterfaceCreateOrUpdateResponse>,
+      SecurityPoliciesInterfaceCreateOrUpdateResponse
     >
   >;
   /**
-   * Create a Association
+   * Create a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param associationName Name of Association
+   * @param securityPolicyName SecurityPolicy
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     trafficControllerName: string,
-    associationName: string,
-    resource: Association,
-    options?: AssociationsInterfaceCreateOrUpdateOptionalParams,
-  ): Promise<AssociationsInterfaceCreateOrUpdateResponse>;
+    securityPolicyName: string,
+    resource: SecurityPolicy,
+    options?: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceCreateOrUpdateResponse>;
   /**
-   * Update a Association
+   * Update a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param associationName Name of Association
+   * @param securityPolicyName SecurityPolicy
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     trafficControllerName: string,
-    associationName: string,
-    properties: AssociationUpdate,
-    options?: AssociationsInterfaceUpdateOptionalParams,
-  ): Promise<AssociationsInterfaceUpdateResponse>;
+    securityPolicyName: string,
+    properties: SecurityPolicyUpdate,
+    options?: SecurityPoliciesInterfaceUpdateOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceUpdateResponse>;
   /**
-   * Delete a Association
+   * Delete a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param associationName Name of Association
+   * @param securityPolicyName SecurityPolicy
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     trafficControllerName: string,
-    associationName: string,
-    options?: AssociationsInterfaceDeleteOptionalParams,
+    securityPolicyName: string,
+    options?: SecurityPoliciesInterfaceDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<AssociationsInterfaceDeleteResponse>,
-      AssociationsInterfaceDeleteResponse
+      OperationState<SecurityPoliciesInterfaceDeleteResponse>,
+      SecurityPoliciesInterfaceDeleteResponse
     >
   >;
   /**
-   * Delete a Association
+   * Delete a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param associationName Name of Association
+   * @param securityPolicyName SecurityPolicy
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     trafficControllerName: string,
-    associationName: string,
-    options?: AssociationsInterfaceDeleteOptionalParams,
-  ): Promise<AssociationsInterfaceDeleteResponse>;
+    securityPolicyName: string,
+    options?: SecurityPoliciesInterfaceDeleteOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceDeleteResponse>;
 }

@@ -15,33 +15,34 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a Frontend
+ * This sample demonstrates how to List SecurityPolicy resources by TrafficController
  *
- * @summary Get a Frontend
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/FrontendGet.json
+ * @summary List SecurityPolicy resources by TrafficController
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/SecurityPoliciesGetList.json
  */
-async function getFrontend() {
+async function getSecurityPolicies() {
   const subscriptionId =
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
   const trafficControllerName = "tc1";
-  const frontendName = "fe1";
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
     subscriptionId,
   );
-  const result = await client.frontendsInterface.get(
+  const resArray = new Array();
+  for await (let item of client.securityPoliciesInterface.listByTrafficController(
     resourceGroupName,
     trafficControllerName,
-    frontendName,
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  getFrontend();
+  getSecurityPolicies();
 }
 
 main().catch(console.error);

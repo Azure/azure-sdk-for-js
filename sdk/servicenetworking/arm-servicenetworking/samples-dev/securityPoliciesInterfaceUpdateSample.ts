@@ -8,40 +8,51 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
+import {
+  SecurityPolicyUpdate,
+  ServiceNetworkingManagementClient,
+} from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a Frontend
+ * This sample demonstrates how to Update a SecurityPolicy
  *
- * @summary Get a Frontend
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/FrontendGet.json
+ * @summary Update a SecurityPolicy
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/SecurityPolicyPatch.json
  */
-async function getFrontend() {
+async function updateSecurityPolicy() {
   const subscriptionId =
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
   const trafficControllerName = "tc1";
-  const frontendName = "fe1";
+  const securityPolicyName = "sp1";
+  const properties: SecurityPolicyUpdate = {
+    properties: {
+      wafPolicy: {
+        id: "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Networking/applicationGatewayWebApplicationFirewallPolicies/wp-0",
+      },
+    },
+  };
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
     subscriptionId,
   );
-  const result = await client.frontendsInterface.get(
+  const result = await client.securityPoliciesInterface.update(
     resourceGroupName,
     trafficControllerName,
-    frontendName,
+    securityPolicyName,
+    properties,
   );
   console.log(result);
 }
 
 async function main() {
-  getFrontend();
+  updateSecurityPolicy();
 }
 
 main().catch(console.error);

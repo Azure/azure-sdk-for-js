@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a TrafficController
  *
  * @summary Get a TrafficController
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/TrafficControllerGet.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/TrafficControllerGet.json
  */
 async function getTrafficController() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function getTrafficController() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.trafficControllerInterface.get(
     resourceGroupName,
-    trafficControllerName
+    trafficControllerName,
   );
   console.log(result);
 }

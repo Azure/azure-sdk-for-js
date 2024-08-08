@@ -15,33 +15,33 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a Frontend
+ * This sample demonstrates how to Delete a SecurityPolicy
  *
- * @summary Get a Frontend
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/FrontendGet.json
+ * @summary Delete a SecurityPolicy
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/SecurityPolicyDelete.json
  */
-async function getFrontend() {
+async function deleteSecurityPolicy() {
   const subscriptionId =
     process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
   const trafficControllerName = "tc1";
-  const frontendName = "fe1";
+  const securityPolicyName = "sp1";
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
     subscriptionId,
   );
-  const result = await client.frontendsInterface.get(
+  const result = await client.securityPoliciesInterface.beginDeleteAndWait(
     resourceGroupName,
     trafficControllerName,
-    frontendName,
+    securityPolicyName,
   );
   console.log(result);
 }
 
 async function main() {
-  getFrontend();
+  deleteSecurityPolicy();
 }
 
 main().catch(console.error);

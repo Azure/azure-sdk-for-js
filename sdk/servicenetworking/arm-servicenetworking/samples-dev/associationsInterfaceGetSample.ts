@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Association
  *
  * @summary Get a Association
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/AssociationGet.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/AssociationGet.json
  */
 async function getAssociation() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function getAssociation() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.associationsInterface.get(
     resourceGroupName,
     trafficControllerName,
-    associationName
+    associationName,
   );
   console.log(result);
 }
