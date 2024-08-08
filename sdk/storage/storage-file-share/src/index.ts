@@ -6,9 +6,12 @@ import { RestError } from "@azure/core-rest-pipeline";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
-export * from "./AccountSASSignatureValues";
+export {
+  AccountSASSignatureValues,
+  generateAccountSASQueryParameters,
+} from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
-export * from "./FileSASSignatureValues";
+export { FileSASSignatureValues, generateFileSASQueryParameters } from "./FileSASSignatureValues";
 export * from "./Clients";
 export * from "./ShareSASPermissions";
 export * from "../../storage-blob/src/credentials/AnonymousCredential";
