@@ -26,6 +26,8 @@ describe("DirectoryClient", () => {
   fullDirAttributes.offline = true;
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
+  const filePermissionInBinaryFormat =
+    "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -239,6 +241,27 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
+  it("create with filePermission with Sddl format", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!,
+      {
+        filePermissionFormat: "Sddl",
+      },
+    );
+
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName)),
+    );
+    await dirClient2.create({
+      filePermissionFormat: "Sddl",
+      filePermission: getPermissionResp.permission,
+    });
+
+    const result = await dirClient2.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.ok(result.filePermissionKey!);
+  });
+
   it("createIfNotExists", async () => {
     const res = await dirClient.createIfNotExists();
     assert.ok(!res.succeeded);
@@ -339,11 +362,9 @@ describe("DirectoryClient", () => {
   });
 
   it("setProperties with binary permissions", async function () {
-    const filePermission =
-      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
     await dirClient.setProperties({
       filePermissionFormat: "Binary",
-      filePermission: filePermission,
+      filePermission: filePermissionInBinaryFormat,
     });
     const result = await dirClient.getProperties();
     assert.ok(result.lastModified);
@@ -1394,8 +1415,6 @@ describe("DirectoryClient", () => {
 
   it("rename - with binary permission", async () => {
     const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
-    const filePermission =
-      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
     const sourceDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
     const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
@@ -1403,7 +1422,7 @@ describe("DirectoryClient", () => {
 
     const result = await sourceDirClient.rename(destDirName, {
       filePermissionFormat: "Binary",
-      filePermission: filePermission,
+      filePermission: filePermissionInBinaryFormat,
     });
 
     assert.ok(
