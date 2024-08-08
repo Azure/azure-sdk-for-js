@@ -1,16 +1,19 @@
 # Release History
 
-## 1.6.1 (Unreleased)
+## 1.7.0 (2024-08-05)
 
 ### Features Added
 
-### Breaking Changes
+- Add support for Azure Functions v4 types.
 
 ### Bugs Fixed
 
 - Live Metrics instrumentation key should be set when env var is used to set the connection string.
+- Fix high cardinality issue with dependency stanadard metrics.
 
 ### Other Changes
+
+- Update applicationinsights-web-snippet version to 1.2.1.
 
 ## 1.6.0 (2024-06-13)
 
