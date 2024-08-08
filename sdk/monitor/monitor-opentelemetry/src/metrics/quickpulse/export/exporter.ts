@@ -56,7 +56,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
-    let optionalParams: PublishOptionalParams = {
+    const optionalParams: PublishOptionalParams = {
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
         metrics,
         this.baseMonitoringDataPoint,
@@ -67,7 +67,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
       try {
-        let postResponse = await this.sender.publish(optionalParams);
+        const postResponse = await this.sender.publish(optionalParams);
         this.postCallback(postResponse);
         resultCallback({ code: ExportResultCode.SUCCESS });
       } catch (error) {
