@@ -4,7 +4,6 @@
 
 ```ts
 
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
@@ -290,7 +289,6 @@ export interface AnalyzeResultOutput {
     figures?: Array<DocumentFigureOutput>;
     keyValuePairs?: Array<DocumentKeyValuePairOutput>;
     languages?: Array<DocumentLanguageOutput>;
-    lists?: Array<DocumentListOutput>;
     modelId: string;
     pages: Array<DocumentPageOutput>;
     paragraphs?: Array<DocumentParagraphOutput>;
@@ -1004,15 +1002,6 @@ export interface DocumentFieldOutput {
 }
 
 // @public
-export interface DocumentFieldSchema {
-    description?: string;
-    example?: string;
-    items?: DocumentFieldSchema;
-    properties?: Record<string, DocumentFieldSchema>;
-    type: DocumentFieldType;
-}
-
-// @public
 export interface DocumentFieldSchemaOutput {
     description?: string;
     example?: string;
@@ -1020,9 +1009,6 @@ export interface DocumentFieldSchemaOutput {
     properties?: Record<string, DocumentFieldSchemaOutput>;
     type: DocumentFieldTypeOutput;
 }
-
-// @public
-export type DocumentFieldType = string;
 
 // @public
 export type DocumentFieldTypeOutput = string;
@@ -1096,21 +1082,6 @@ export interface DocumentLineOutput {
 }
 
 // @public
-export interface DocumentListItemOutput {
-    boundingRegions?: Array<BoundingRegionOutput>;
-    content: string;
-    elements?: string[];
-    level: number;
-    spans: Array<DocumentSpanOutput>;
-}
-
-// @public
-export interface DocumentListOutput {
-    items: Array<DocumentListItemOutput>;
-    spans: Array<DocumentSpanOutput>;
-}
-
-// @public
 export interface DocumentModelBuildOperationDetailsOutput extends OperationDetailsOutputParent {
     kind: "documentModelBuild";
     result?: DocumentModelDetailsOutput;
@@ -1129,13 +1100,6 @@ export interface DocumentModelCopyToOperationDetailsOutput extends OperationDeta
 }
 
 // @public
-export interface DocumentModelDetails {
-    description?: string;
-    modelId: string;
-    tags?: Record<string, string>;
-}
-
-// @public
 export interface DocumentModelDetailsOutput {
     readonly apiVersion?: string;
     readonly azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
@@ -1150,9 +1114,6 @@ export interface DocumentModelDetailsOutput {
     readonly trainingHours?: number;
     readonly warnings?: Array<WarningOutput>;
 }
-
-// @public
-export type DocumentModelDetailsResourceMergeAndPatch = Partial<DocumentModelDetails>;
 
 // @public
 export interface DocumentOutput {
@@ -1249,14 +1210,6 @@ export interface DocumentTableOutput {
     footnotes?: Array<DocumentFootnoteOutput>;
     rowCount: number;
     spans: Array<DocumentSpanOutput>;
-}
-
-// @public
-export interface DocumentTypeDetails {
-    buildMode?: DocumentBuildMode;
-    description?: string;
-    fieldConfidence?: Record<string, number>;
-    fieldSchema: Record<string, DocumentFieldSchema>;
 }
 
 // @public
@@ -1696,7 +1649,6 @@ export function getLongRunningPoller<TResult extends ClassifyDocumentFromStreamL
 export interface GetModel {
     delete(options?: DeleteModelParameters): StreamableMethod<DeleteModel204Response | DeleteModelDefaultResponse>;
     get(options?: GetModelParameters): StreamableMethod<GetModel200Response | GetModelDefaultResponse>;
-    patch(options: PatchModelParameters): StreamableMethod<PatchModel200Response | PatchModelDefaultResponse>;
 }
 
 // @public (undocumented)
@@ -1857,9 +1809,6 @@ export function isUnexpected(response: AnalyzeBatchDocuments202Response | Analyz
 
 // @public (undocumented)
 export function isUnexpected(response: GetModel200Response | GetModelDefaultResponse): response is GetModelDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: PatchModel200Response | PatchModelDefaultResponse): response is PatchModelDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DeleteModel204Response | DeleteModelDefaultResponse): response is DeleteModelDefaultResponse;
@@ -2086,53 +2035,6 @@ export interface PagingOptions<TResponse> {
 // @public
 export type ParagraphRoleOutput = string;
 
-// @public (undocumented)
-export interface PatchModel200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public
-export interface PatchModel200Response extends HttpResponse {
-    // (undocumented)
-    body: DocumentModelDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & PatchModel200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface PatchModelBodyParam {
-    body: DocumentModelDetailsResourceMergeAndPatch;
-}
-
-// @public (undocumented)
-export interface PatchModelDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface PatchModelHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & PatchModelHeaders;
-}
-
-// @public (undocumented)
-export interface PatchModelHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export interface PatchModelMediaTypesParam {
-    contentType: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type PatchModelParameters = PatchModelHeaderParam & PatchModelMediaTypesParam & PatchModelBodyParam & RequestParameters;
-
 // @public
 export interface ResourceDetailsOutput {
     customDocumentModels: CustomDocumentModelsDetailsOutput;
@@ -2194,13 +2096,6 @@ export type StringIndexType = string;
 
 // @public
 export type StringIndexTypeOutput = string;
-
-// @public
-export interface Warning {
-    code: string;
-    message: string;
-    target?: string;
-}
 
 // @public
 export interface WarningOutput {
