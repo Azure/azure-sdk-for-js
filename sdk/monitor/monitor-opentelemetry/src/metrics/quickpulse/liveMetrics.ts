@@ -33,6 +33,7 @@ import {
   KnownCollectionConfigurationErrorType,
   KeyValuePairString,
   DerivedMetricInfo,
+  KnownTelemetryType,
 } from "../../generated";
 import {
   getCloudRole,
@@ -40,8 +41,11 @@ import {
   getLogDocument,
   getSdkVersion,
   getSpanColumns,
+  getLogColumns,
   getSpanDocument,
   getTransmissionTime,
+  isRequestData,
+  isTraceData,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
@@ -51,7 +55,10 @@ import {
   QuickPulseOpenTelemetryMetricNames,
   QuickpulseExporterOptions,
   RequestData,
-  DependencyData
+  DependencyData,
+  TraceData,
+  ExceptionData,
+  TelemetryData,
 } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 import { getInstance } from "../../utils/statsbeat";
@@ -63,7 +70,10 @@ import {
   DuplicateMetricIdError,
   CollectionConfigurationErrorTracker,
   Filter,
+  Projection,
+  MetricFailureToCreateError,
 } from "./filtering";
+import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -135,6 +145,7 @@ export class LiveMetrics {
   // For tracking of duplicate metric ids in the same configuration.
   private seenMetricIds: Set<string> = new Set();
   private validDerivedMetrics: Map<string, DerivedMetricInfo[]> = new Map();
+  private derivedMetricProjection: Projection = new Projection();
   // implementation note: add configuration info or some list representation of filters
   /**
    * Initializes a new instance of the StandardMetrics class.
@@ -172,6 +183,7 @@ export class LiveMetrics {
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
       getErrorsFn: this.getErrors.bind(this),
+      getDerivedMetricValuesFn: this.derivedMetricProjection.getMetricValues.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
     };
     this.quickpulseExporter = new QuickpulseMetricExporter(exporterOptions);
@@ -371,6 +383,7 @@ export class LiveMetrics {
     this.errorTracker.clearRunTimeErrors();
     this.errorTracker.clearValidationTimeErrors();
     this.validDerivedMetrics.clear();
+    this.derivedMetricProjection.clearProjectionMaps();
     this.seenMetricIds.clear();
     this.meterProvider?.shutdown();
     this.meterProvider = undefined;
@@ -414,27 +427,16 @@ export class LiveMetrics {
    */
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
-      // Add document and calculate metrics
+      console.log(span); // implementation note: remove
 
-      // implementation note: apply metric filter logic here for request, dependency, and exception
-      console.log(span);
       let columns: RequestData | DependencyData = getSpanColumns(span);
-      /**
-       * If request, get derived metric infos for request
-       * If dependency, get derived metric infos for dependency
-       * 
-       * for each derived metric info:
-       *  Does the given data match all of the filters? If yes,
-       *    Use this to calculate value for a metric projection
-       * 
-       * ____
-       * 
-       * 
-       * 
-       * Projection class:
-       *  private Map<string, number> metricValues
-       *  
-       */
+      let derivedMetricInfos: DerivedMetricInfo[];
+      if (isRequestData(columns)) {
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
+      } else {
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Dependency) || [];
+      }
+      this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
 
       let document: Request | RemoteDependency = getSpanDocument(columns);
       this.addDocument(document);
@@ -472,7 +474,16 @@ export class LiveMetrics {
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
       // implementation note: apply filtering logic here for exception, trace 
-      let document: Trace | Exception = getLogDocument(logRecord);
+      let columns: TraceData | ExceptionData = getLogColumns(logRecord);
+      let derivedMetricInfos: DerivedMetricInfo[];
+      if (isTraceData(columns)) {
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
+      } else { // exception
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+      }
+      this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
+      let exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]) || "";
+      let document: Trace | Exception = getLogDocument(columns, exceptionType);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
         this.totalExceptionCount++;
@@ -654,6 +665,7 @@ export class LiveMetrics {
     this.quickpulseExporter.setEtag(this.etag);
     this.errorTracker.clearValidationTimeErrors();
     this.validDerivedMetrics.clear();
+    this.derivedMetricProjection.clearProjectionMaps();
     this.seenMetricIds.clear();
 
     response.metrics.forEach((derivedMetricInfo) => {
@@ -667,7 +679,6 @@ export class LiveMetrics {
             Filter.renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo);
           });
 
-          // implementation note: create a DerivedMetric obj & valid map should contain a list of those instead of the derivedMetricInfo
           if (this.validDerivedMetrics.has(derivedMetricInfo.telemetryType)) {
             this.validDerivedMetrics.get(derivedMetricInfo.telemetryType)?.push(derivedMetricInfo);
           } else {
@@ -701,7 +712,37 @@ export class LiveMetrics {
         configError.data = data;
         this.errorTracker.addValidationError(configError);
       }
+    });
 
+  }
+
+  private checkMetricFilterAndCreateProjection(derivedMetricInfoList: DerivedMetricInfo[], data: TelemetryData) {
+    derivedMetricInfoList.forEach((derivedMetricInfo: DerivedMetricInfo) => {
+      if (Filter.checkMetricFilters(derivedMetricInfo, data)) {
+        try {
+          this.derivedMetricProjection.calculateProjection(derivedMetricInfo, data);
+        } catch (error) {
+          let configError: CollectionConfigurationError = {
+            collectionConfigurationErrorType: "",
+            message: "",
+            fullException: "",
+            data: [],
+          };
+          if (error instanceof MetricFailureToCreateError) {
+            configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.MetricFailureToCreate;
+
+            if (error instanceof Error) {
+              configError.message = error.message;
+              configError.fullException = error.stack || "";
+            }
+            const data: KeyValuePairString[] = [];
+            data.push({ key: "MetricId", value: derivedMetricInfo.id });
+            data.push({ key: "ETag", value: this.etag });
+            configError.data = data;
+            this.errorTracker.addRunTimeError(configError);
+          }
+        }
+      }
     });
   }
 

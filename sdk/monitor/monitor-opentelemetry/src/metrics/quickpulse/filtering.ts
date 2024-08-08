@@ -7,6 +7,7 @@ import {
   DocumentStreamInfo,
   FilterConjunctionGroupInfo,
   KeyValuePairString,
+  KnownAggregationType,
 } from "../../generated";
 import {
   RequestData,
@@ -261,7 +262,7 @@ export class Filter {
     } else if (filter.fieldName.startsWith("CustomDimensions.")) {
       return this.checkCustomDimFilter(filter, data);
     } else {
-      let dataValue: string | number | boolean | KeyValuePairString[];
+      let dataValue: string | number | boolean | Map<string, string>;
       // use filter.fieldname to get the property of data to query
       if (isRequestData(data)) {
         data as RequestData;
@@ -319,11 +320,11 @@ export class Filter {
     // At config validation time the predicate is checked to be one of these two.
     properties.forEach((property) => {
       if (property === "CustomDimensions") {
-        data.CustomDimensions.forEach((customDim) => {
-          if (this.stringCompare(customDim.value, filter.comparand, filter.predicate)) {
+        for (let value of data.CustomDimensions.values()) {
+          if (this.stringCompare(value, filter.comparand, filter.predicate)) {
             return true;
           }
-        });
+        }
       } else {
         //@ts-ignore
         let value: string = String(data[property]);
@@ -338,16 +339,12 @@ export class Filter {
   private static checkCustomDimFilter(filter: FilterInfo, data: TelemetryData): boolean {
     let fieldName: string = filter.fieldName.replace("CustomDimensions.", "");
     let value: string | undefined;
-    data.CustomDimensions.forEach((customDim) => {
-      if (customDim.key === fieldName) {
-        value = customDim.value;
-      }
-    });
-    if (!value) {
-      return false; // the asked for field is not present in the custom dimensions
+    if (data.CustomDimensions.has(fieldName)) {
+      value = data.CustomDimensions.get(fieldName) as string;
     } else {
-      return this.stringCompare(value, filter.comparand, filter.predicate);
+      return false; // the asked for field is not present in the custom dimensions
     }
+    return this.stringCompare(value, filter.comparand, filter.predicate);
   }
 
   private static stringCompare(dataValue: string, comparand: string, predicate: string): boolean {
@@ -367,14 +364,21 @@ export class Filter {
 }
 
 export class Projection {
+  // contains the projections for all the derived metrics
   private projectionMap: Map<string, number>;
+  // for calculation of avgs
+  private countMap: Map<string, number>;
 
   constructor() {
     this.projectionMap = new Map<string, number>();
+    this.countMap = new Map<string, number>();
   }
-  // add counts map to use for avg & a way to clear it per second.
 
   public calculateProjection(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): void {
+    if (!this.countMap.has(derivedMetricInfo.id)) {
+      this.countMap.set(derivedMetricInfo.id, 0);
+    }
+
     let incrementBy: number;
     if (derivedMetricInfo.projection === "Count()") {
       incrementBy = 1;
@@ -386,52 +390,61 @@ export class Projection {
       }
     } else if (derivedMetricInfo.projection.startsWith("CustomDimensions.")) {
       let customDimKey: string = derivedMetricInfo.projection.replace("CustomDimensions.", "");
-      let customDimValue: number | undefined;
-      data.CustomDimensions.forEach((customDim) => {
-        if (customDim.key === customDimKey) {
-          let parsedValue = parseFloat(customDim.value);
-          if (isNaN(parsedValue)) {
-            throw new MetricFailureToCreateError(`Could not calculate the projection because the custom dimension value '${customDim.value}' for the dimension '${customDimKey}' is not a valid number.`);
-          } else {
-            customDimValue = parsedValue;
-          }
+      let customDimValue: number;
+      if (data.CustomDimensions.has(customDimKey)) {
+        let parsedValue = parseFloat(data.CustomDimensions.get(customDimKey) as string);
+        if (isNaN(parsedValue)) {
+          throw new MetricFailureToCreateError(`Could not calculate the projection because the custom dimension value '${data.CustomDimensions.get(customDimKey)}' for the dimension '${customDimKey}' is not a valid number.`);
+        } else {
+          customDimValue = parsedValue;
         }
-      });
-      if (!customDimValue) {
-        throw new MetricFailureToCreateError(`Could not calculate the projection because the custom dimension '${customDimKey}' was not found in the telemetry data.`);
       } else {
-        incrementBy = customDimValue;
+        throw new MetricFailureToCreateError(`Could not calculate the projection because the custom dimension '${customDimKey}' was not found in the telemetry data.`);
       }
+      incrementBy = customDimValue;
     } else {
       throw new MetricFailureToCreateError(`The projection '${derivedMetricInfo.projection}' is not supported in this SDK.`);
     }
 
     let projection: number = this.calculateAggregation(derivedMetricInfo.aggregation, derivedMetricInfo.id, incrementBy);
     this.projectionMap.set(derivedMetricInfo.id, projection);
-
   }
 
   public getMetricValues(): Map<string, number> {
-    return this.projectionMap;
+    let result = this.projectionMap;
+    this.resetProjectionValues();
+    return result;
   }
 
-  public clearProjection(): void {
+  private resetProjectionValues(): void {
+    for (let key of this.projectionMap.keys()) {
+      this.projectionMap.set(key, 0);
+    }
+
+    for (let key of this.countMap.keys()) {
+      this.countMap.set(key, 0);
+    }
+  }
+
+  public clearProjectionMaps(): void {
     this.projectionMap.clear();
+    this.countMap.clear();
   }
 
   private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
     let prevValue: number = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : 0;
     switch (aggregation) {
-      case "Sum":
+      case KnownAggregationType.Sum:
         return prevValue + incrementBy;
-      case "Min":
+      case KnownAggregationType.Min:
         return Math.min(prevValue, incrementBy);
-      case "Max":
+      case KnownAggregationType.Max:
         return Math.max(prevValue, incrementBy);
-      case "Avg":
-        let count: number = this.projectionMap.has("Count") ? this.projectionMap.get("Count") as number : 0;
-        let sum: number = this.projectionMap.has("Sum") ? this.projectionMap.get("Sum") as number : 0;
-        return (sum + incrementBy) / (count + 1);
+      case KnownAggregationType.Avg:
+        // add this telemetry to count when we know it's valid
+        this.countMap.set(id, (this.countMap.get(id) as number) + 1);
+        let count: number = this.countMap.get(id) as number;
+        return (prevValue + incrementBy) / count;
       default:
         throw new MetricFailureToCreateError(`The aggregation '${aggregation}' is not supported in this SDK.`);
     }

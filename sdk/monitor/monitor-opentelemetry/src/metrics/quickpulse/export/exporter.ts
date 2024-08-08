@@ -30,6 +30,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
   private baseMonitoringDataPoint: MonitoringDataPoint;
   private etag: string;
   private getErrorsFn: () => CollectionConfigurationError[];
+  private getDerivedMetricValuesFn: () => Map<string, number>;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
@@ -48,6 +49,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     this.baseMonitoringDataPoint = options.baseMonitoringDataPoint;
     this.getErrorsFn = options.getErrorsFn;
     this.etag = "";
+    this.getDerivedMetricValuesFn = options.getDerivedMetricValuesFn;
     diag.debug("QuickpulseMetricExporter was successfully setup");
   }
 
@@ -67,6 +69,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
         this.baseMonitoringDataPoint,
         this.getDocumentsFn(),
         this.getErrorsFn(),
+        this.getDerivedMetricValuesFn(),
       ),
       transmissionTime: getTransmissionTime(),
       configurationEtag: this.etag,

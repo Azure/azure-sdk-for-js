@@ -29,6 +29,8 @@ export interface QuickpulseExporterOptions {
   getDocumentsFn: () => DocumentIngress[];
 
   getErrorsFn: () => CollectionConfigurationError[];
+
+  getDerivedMetricValuesFn: () => Map<string, number>;
 }
 
 export enum QuickPulseOpenTelemetryMetricNames {
@@ -60,7 +62,7 @@ export enum QuickPulseMetricNames {
   EXCEPTION_RATE = "\\ApplicationInsights\\Exceptions/Sec",
 }
 export interface TelemetryData {
-  CustomDimensions: KeyValuePairString[];
+  CustomDimensions: Map<string, string>;
 }
 export interface RequestData extends TelemetryData {
   Url: string;

@@ -40,6 +40,7 @@ import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_TELEMETRY_SDK_VERSION,
+  SEMATTRS_EXCEPTION_STACKTRACE,
 } from "@opentelemetry/semantic-conventions";
 import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
@@ -153,14 +154,15 @@ export function resourceMetricsToQuickpulseDataPoint(
   metrics: ResourceMetrics,
   baseMonitoringDataPoint: MonitoringDataPoint,
   documents: DocumentIngress[],
-  errors: CollectionConfigurationError[]
+  errors: CollectionConfigurationError[],
+  derivedMetricValues: Map<string, number>,
 ): MonitoringDataPoint[] {
   let metricPoints: MetricPoint[] = [];
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
         let metricPoint: MetricPoint = {
-          weight: 4,
+          weight: 1,
           name: "",
           value: 0,
         };
@@ -210,6 +212,16 @@ export function resourceMetricsToQuickpulseDataPoint(
       });
     });
   });
+
+  derivedMetricValues.forEach((value, id) => {
+    let metricPoint: MetricPoint = {
+      weight: 1,
+      name: id,
+      value: value,
+    };
+    metricPoints.push(metricPoint);
+  });
+
   let quickpulseDataPoint: MonitoringDataPoint = {
     ...baseMonitoringDataPoint,
     timestamp: new Date(),
@@ -230,7 +242,7 @@ export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   let url = getUrl(span.attributes);
   let code = 0;
-  let customDims = createPropertiesFromAttributes(span.attributes);
+  let customDims = createCustomDimsFromAttributes(span.attributes);
   let duration = hrTimeToMilliseconds(span.duration);
 
   if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
@@ -269,9 +281,65 @@ export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData
       CustomDimensions: customDims,
     };
   }
-
-
 }
+
+export function getLogColumns(log: LogRecord): ExceptionData | TraceData {
+  const exceptionType = log.attributes[SEMATTRS_EXCEPTION_TYPE];
+  let customDims = createCustomDimsFromAttributes(log.attributes);
+  if (exceptionType) {
+    return {
+      Message: String(log.attributes[SEMATTRS_EXCEPTION_MESSAGE]),
+      StackTrace: String(log.attributes[SEMATTRS_EXCEPTION_STACKTRACE]),
+      CustomDimensions: customDims,
+    };
+  } else {
+    return {
+      Message: String(log.body),
+      CustomDimensions: customDims,
+    };
+  }
+}
+
+export function getLogDocument(data: TelemetryData, exceptionType: string): Trace | Exception {
+  if (isExceptionData(data)) {
+    return {
+      documentType: KnownDocumentType.Exception,
+      exceptionMessage: data.Message,
+      exceptionType: exceptionType,
+      properties: mapToKeyValuePairList(data.CustomDimensions),
+    };
+  } else { // trace
+    return {
+      documentType: KnownDocumentType.Trace,
+      message: (data as TraceData).Message,
+      properties: mapToKeyValuePairList(data.CustomDimensions),
+    };
+  }
+}
+
+/**
+ * 
+ * @param data   let document: Trace | Exception = {
+    documentType: KnownDocumentType.Exception,
+  };
+  const exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]);
+  if (exceptionType) {
+    const exceptionMessage = String(logRecord.attributes[SEMATTRS_EXCEPTION_MESSAGE]);
+    document = {
+      documentType: KnownDocumentType.Exception,
+      exceptionType: exceptionType,
+      exceptionMessage: exceptionMessage,
+    };
+  } else {
+    document = {
+      documentType: KnownDocumentType.Trace,
+      message: String(logRecord.body),
+    };
+  }
+  document.properties = createPropertiesFromAttributes(logRecord.attributes);
+  return document;
+ * @returns 
+ */
 
 export function isRequestData(data: TelemetryData): data is RequestData {
   return (data as RequestData).Url !== undefined;
@@ -312,7 +380,7 @@ export function getSpanDocument(telemetryData: TelemetryData): Request | RemoteD
     };
   }
 
-  document.properties = telemetryData.CustomDimensions;
+  document.properties = mapToKeyValuePairList(telemetryData.CustomDimensions);
   return document;
 }
 
@@ -361,10 +429,7 @@ export function getSpanDocument(telemetryData: TelemetryData): Request | RemoteD
   return document;
 }*/
 
-// implementation note: create new util function for getting RequestMetric & RemoteDependencyMetric columns w/ customdims
-// implementation note: create new util function for getting TraceMetric & ExceptionMetric columns w/ customdims
-
-export function getLogDocument(logRecord: LogRecord): Trace | Exception {
+/*export function getLogDocument(logRecord: LogRecord): Trace | Exception {
   let document: Trace | Exception = {
     documentType: KnownDocumentType.Exception,
   };
@@ -384,7 +449,7 @@ export function getLogDocument(logRecord: LogRecord): Trace | Exception {
   }
   document.properties = createPropertiesFromAttributes(logRecord.attributes);
   return document;
-}
+}*/
 
 function createPropertiesFromAttributes(
   attributes?: Attributes | LogAttributes,
@@ -413,6 +478,42 @@ function createPropertiesFromAttributes(
   }
   return properties;
 }
+
+function createCustomDimsFromAttributes(
+  attributes?: Attributes | LogAttributes,
+): Map<string, string> {
+  const customDims = new Map<string, string>();
+  if (attributes) {
+    for (const key of Object.keys(attributes)) {
+      if (
+        !(
+          key.startsWith("_MS.") ||
+          key === SEMATTRS_NET_PEER_IP ||
+          key === SEMATTRS_NET_PEER_NAME ||
+          key === SEMATTRS_HTTP_METHOD ||
+          key === SEMATTRS_HTTP_URL ||
+          key === SEMATTRS_HTTP_STATUS_CODE ||
+          key === SEMATTRS_HTTP_HOST ||
+          key === SEMATTRS_HTTP_URL ||
+          key === SEMATTRS_EXCEPTION_TYPE ||
+          key === SEMATTRS_EXCEPTION_MESSAGE
+        )
+      ) {
+        customDims.set(key, String(attributes[key]));
+      }
+    }
+  }
+  return customDims;
+}
+
+function mapToKeyValuePairList(map: Map<string, string>): KeyValuePairString[] {
+  const list: KeyValuePairString[] = [];
+  map.forEach((value, key) => {
+    list.push({ key, value });
+  });
+  return list;
+}
+
 
 function getUrl(attributes: Attributes): string {
   if (!attributes) {
