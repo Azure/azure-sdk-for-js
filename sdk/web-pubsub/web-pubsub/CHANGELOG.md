@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.1.3 (2024-08-09)
 
 ### Features Added
 - Added a `messageTtlSeconds` option to `serviceClient.sendToAll`, `serviceClient.sendToUser`, `serviceClient.sendToConnection` and `groupClient.sendToAll`. This option defines the expiration time for a message. Messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter helps when the client's bandwidth is limited.
