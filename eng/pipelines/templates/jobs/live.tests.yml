@@ -170,6 +170,7 @@ jobs:
             pwsh: true
             ScriptType: InlineScript
             Inline: |
+              Dir Env: | Select Name
               Start-Process "node" -ArgumentList "launch.js run start-browser-relay" -NoNewWindow -WorkingDirectory "$(Build.SourcesDirectory)/common/tools/dev-tool"
               for ($i = 0; $i -lt 10; $i++) {
                   try {
@@ -186,6 +187,7 @@ jobs:
           condition: and(succeeded(), eq(variables['TestType'], 'browser'))
           env:
             TEST_MODE: "live"
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
       - ${{ else }}:
