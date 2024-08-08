@@ -21,7 +21,7 @@ import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
   parseExpirationTimestamp,
-  parseRefreshTimestamp
+  parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
@@ -123,7 +123,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         accessToken: {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
-          refreshOnTimestamp: parseRefreshTimestamp(parsedBody)
+          refreshOnTimestamp: parseRefreshTimestamp(parsedBody),
         },
         refreshToken: parsedBody.refresh_token,
       };

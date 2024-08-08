@@ -356,7 +356,7 @@ export class LegacyMsiProvider {
     return {
       token: result.accessToken,
       expiresOnTimestamp: result.expiresOn.getTime(),
-      refreshesOnTimestamp: result.refreshOn?.getTime()
+      refreshesOnTimestamp: result.refreshOn?.getTime(),
     };
   }
 
@@ -420,7 +420,7 @@ export class LegacyMsiProvider {
           return {
             accessToken: resultToken?.token,
             expiresInSeconds,
-            refreshInSeconds
+            refreshInSeconds,
           };
         } else {
           logger.info(
