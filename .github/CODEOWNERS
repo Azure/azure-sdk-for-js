@@ -302,6 +302,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
 
+# Cosmos API review files
+/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
+
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
 
