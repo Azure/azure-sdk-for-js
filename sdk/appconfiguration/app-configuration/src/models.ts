@@ -543,5 +543,5 @@ export {
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
-  SettingLabel
+  SettingLabel,
 } from "./generated/src";
