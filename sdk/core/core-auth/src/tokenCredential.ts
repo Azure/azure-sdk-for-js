@@ -78,7 +78,7 @@ export interface AccessToken {
   /**
    * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
    */
-  refreshesOnTimestamp?: number;
+  refreshAfterTimestamp?: number;
 }
 
 /**

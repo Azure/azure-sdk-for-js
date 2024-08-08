@@ -537,7 +537,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     if (response.refreshOn) {
       return {
         ...accessToken,
-        refreshesOnTimestamp: response.refreshOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn.getTime(),
       };
     }
     return accessToken;
@@ -570,7 +570,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (response.refreshOn) {
         return {
           ...accessToken,
-          refreshesOnTimestamp: response.refreshOn.getTime(),
+          refreshAfterTimestamp: response.refreshOn.getTime(),
         };
       }
       return accessToken;
@@ -609,7 +609,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (response.refreshOn) {
         return {
           ...accessToken,
-          refreshesOnTimestamp: response.refreshOn.getTime(),
+          refreshAfterTimestamp: response.refreshOn.getTime(),
         };
       }
       return accessToken;
@@ -646,7 +646,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (response.refreshOn) {
         return {
           ...accessToken,
-          refreshesOnTimestamp: response.refreshOn.getTime(),
+          refreshAfterTimestamp: response.refreshOn.getTime(),
         };
       }
       return accessToken;
@@ -783,7 +783,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (response.refreshOn) {
         return {
           ...accessToken,
-          refreshesOnTimestamp: response.refreshOn.getTime(),
+          refreshAfterTimestamp: response.refreshOn.getTime(),
         };
       }
       return accessToken;
