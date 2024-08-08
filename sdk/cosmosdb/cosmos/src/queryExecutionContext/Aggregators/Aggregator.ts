@@ -3,5 +3,5 @@
 /** @hidden */
 export interface Aggregator {
   aggregate: (other: any) => void;
-  getResult: () => number;
+  getResult: () => any;
 }

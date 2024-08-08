@@ -9,7 +9,7 @@
       "@azure/event-hubs": ["./src/index"]
     }
   },
-  "exclude": ["test/perf/track-1/", "test/stress*"],
+  "exclude": ["test/stress*"],
   "include": [
     "./src/**/*.ts",
     "./src/**/*.mts",

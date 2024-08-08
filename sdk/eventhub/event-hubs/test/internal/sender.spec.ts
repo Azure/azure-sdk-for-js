@@ -11,7 +11,6 @@ import {
 } from "../../src/index.js";
 import { EventDataBatchImpl } from "../../src/eventDataBatch.js";
 import { should } from "../utils/chai.js";
-import { assert } from "@azure-tools/test-utils";
 import { SubscriptionHandlerForTests } from "../utils/subscriptionHandlerForTests.js";
 import { getStartingPositionsForTests } from "../utils/testUtils.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
@@ -19,11 +18,6 @@ import debugModule from "debug";
 import { createConsumer, createProducer } from "../utils/clients.js";
 
 const debug = debugModule("azure:event-hubs:sender-spec");
-
-// TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
-// The supportsTracing assertion from chaiAzure can be used to verify that
-// the `getEventHubProperties` method is being traced correctly, that the
-// tracing span is properly parented and closed.
 
 describe("EventHub Sender", function () {
   let producerClient: EventHubProducerClient;
@@ -277,25 +271,6 @@ describe("EventHub Sender", function () {
       );
     });
 
-    it.skip("can be manually traced", async function () {
-      const list = [{ name: "Albert" }, { name: "Marie" }];
-
-      await assert.supportsTracing(
-        async (options) => {
-          const eventDataBatch = await producerClient.createBatch({
-            partitionId: "0",
-            tracingOptions: options.tracingOptions,
-          });
-
-          for (let i = 0; i < 2; i++) {
-            eventDataBatch.tryAdd({ body: `${list[i].name}` }, options);
-          }
-          return producerClient.sendBatch(eventDataBatch, options);
-        },
-        ["message", "EventHubProducerClient.sendBatch"],
-      );
-    });
-
     it("doesn't create empty spans when tracing is disabled", async function () {
       const events: EventData[] = [{ body: "foo" }, { body: "bar" }];
       const eventDataBatch = await producerClient.createBatch();
@@ -309,39 +284,6 @@ describe("EventHub Sender", function () {
         (eventDataBatch as EventDataBatchImpl)._messageSpanContexts.length,
         0,
         "Unexpected number of span contexts in batch.",
-      );
-    });
-
-    it.skip("supports tracing", async function () {
-      const list = [{ name: "Albert" }, { name: "Marie" }];
-      const eventDataBatch = await producerClient.createBatch({
-        partitionId: "0",
-      });
-
-      await assert.supportsTracing(
-        (options) => {
-          for (let i = 0; i < 2; i++) {
-            eventDataBatch.tryAdd({ body: `${list[i].name}` }, options);
-          }
-          return producerClient.sendBatch(eventDataBatch, options);
-        },
-        ["message", "EventHubProducerClient.sendBatch"],
-      );
-    });
-
-    it.skip("supports tracing multiple events", async function () {
-      const events: EventData[] = [];
-      for (let i = 0; i < 5; i++) {
-        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
-      }
-
-      await assert.supportsTracing(
-        (options) =>
-          producerClient.sendBatch(events, {
-            partitionId: "0",
-            tracingOptions: options.tracingOptions,
-          }),
-        ["message", "EventHubProducerClient.sendBatch"],
       );
     });
 
