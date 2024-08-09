@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-underscore-dangle*/
+
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { MetricHandler } from "../../../../src/metrics";
@@ -35,7 +37,7 @@ describe("MetricHandler", () => {
     sandbox.restore();
   });
 
-  function createHandler() {
+  function createHandler(): void {
     handler = new MetricHandler(_config, {
       collectionInterval: 100,
     });
@@ -57,7 +59,7 @@ describe("MetricHandler", () => {
 
   it("should observe instruments during collection", async () => {
     createHandler();
-    let counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+    const counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
       description: "testDescription",
     });
     counter.add(2);
@@ -72,7 +74,7 @@ describe("MetricHandler", () => {
     assert.strictEqual(metrics[0].descriptor.description, "testDescription");
   });
 
-  it("should add views", async () => {
+  it("should add views", () => {
     _config.instrumentationOptions = {
       azureSdk: { enabled: true },
       http: { enabled: true },
