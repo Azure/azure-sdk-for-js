@@ -41,7 +41,6 @@ export interface TokenResponseParsedBody {
   refresh_token?: string;
   expires_in: number;
   expires_on?: number | string;
-  refresh_in?: number;
   refresh_on?: number | string;
 }
 
@@ -94,10 +93,6 @@ export function parseRefreshTimestamp(body: TokenResponseParsedBody): number {
     if (!isNaN(asDate)) {
       return asDate;
     }
-  }
-
-  if (typeof body.refresh_in === "number") {
-    return Date.now() + body.refresh_in * 1000;
   }
 
   throw new Error(
