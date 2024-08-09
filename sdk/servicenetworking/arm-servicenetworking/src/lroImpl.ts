@@ -28,15 +28,15 @@ export function createLroSpec<T>(inputs: {
     sendInitialRequest: () => sendOperationFn(args, spec),
     sendPollRequest: (
       path: string,
-      options?: { abortSignal?: AbortSignalLike }
+      options?: { abortSignal?: AbortSignalLike },
     ) => {
       const { requestBody, ...restSpec } = spec;
       return sendOperationFn(args, {
         ...restSpec,
         httpMethod: "GET",
         path,
-        abortSignal: options?.abortSignal
+        abortSignal: options?.abortSignal,
       });
-    }
+    },
   };
 }

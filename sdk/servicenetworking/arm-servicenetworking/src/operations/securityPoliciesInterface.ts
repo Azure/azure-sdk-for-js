@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FrontendsInterface } from "../operationsInterfaces";
+import { SecurityPoliciesInterface } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,29 +20,31 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Frontend,
-  FrontendsInterfaceListByTrafficControllerNextOptionalParams,
-  FrontendsInterfaceListByTrafficControllerOptionalParams,
-  FrontendsInterfaceListByTrafficControllerResponse,
-  FrontendsInterfaceGetOptionalParams,
-  FrontendsInterfaceGetResponse,
-  FrontendsInterfaceCreateOrUpdateOptionalParams,
-  FrontendsInterfaceCreateOrUpdateResponse,
-  FrontendUpdate,
-  FrontendsInterfaceUpdateOptionalParams,
-  FrontendsInterfaceUpdateResponse,
-  FrontendsInterfaceDeleteOptionalParams,
-  FrontendsInterfaceDeleteResponse,
-  FrontendsInterfaceListByTrafficControllerNextResponse,
+  SecurityPolicy,
+  SecurityPoliciesInterfaceListByTrafficControllerNextOptionalParams,
+  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  SecurityPoliciesInterfaceListByTrafficControllerResponse,
+  SecurityPoliciesInterfaceGetOptionalParams,
+  SecurityPoliciesInterfaceGetResponse,
+  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  SecurityPoliciesInterfaceCreateOrUpdateResponse,
+  SecurityPolicyUpdate,
+  SecurityPoliciesInterfaceUpdateOptionalParams,
+  SecurityPoliciesInterfaceUpdateResponse,
+  SecurityPoliciesInterfaceDeleteOptionalParams,
+  SecurityPoliciesInterfaceDeleteResponse,
+  SecurityPoliciesInterfaceListByTrafficControllerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FrontendsInterface operations. */
-export class FrontendsInterfaceImpl implements FrontendsInterface {
+/** Class containing SecurityPoliciesInterface operations. */
+export class SecurityPoliciesInterfaceImpl
+  implements SecurityPoliciesInterface
+{
   private readonly client: ServiceNetworkingManagementClient;
 
   /**
-   * Initialize a new instance of the class FrontendsInterface class.
+   * Initialize a new instance of the class SecurityPoliciesInterface class.
    * @param client Reference to the service client
    */
   constructor(client: ServiceNetworkingManagementClient) {
@@ -50,7 +52,7 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * List Frontend resources by TrafficController
+   * List SecurityPolicy resources by TrafficController
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param options The options parameters.
@@ -58,8 +60,8 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   public listByTrafficController(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
-  ): PagedAsyncIterableIterator<Frontend> {
+    options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  ): PagedAsyncIterableIterator<SecurityPolicy> {
     const iter = this.listByTrafficControllerPagingAll(
       resourceGroupName,
       trafficControllerName,
@@ -89,10 +91,10 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   private async *listByTrafficControllerPagingPage(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
+    options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Frontend[]> {
-    let result: FrontendsInterfaceListByTrafficControllerResponse;
+  ): AsyncIterableIterator<SecurityPolicy[]> {
+    let result: SecurityPoliciesInterfaceListByTrafficControllerResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByTrafficController(
@@ -122,8 +124,8 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   private async *listByTrafficControllerPagingAll(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
-  ): AsyncIterableIterator<Frontend> {
+    options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  ): AsyncIterableIterator<SecurityPolicy> {
     for await (const page of this.listByTrafficControllerPagingPage(
       resourceGroupName,
       trafficControllerName,
@@ -134,7 +136,7 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * List Frontend resources by TrafficController
+   * List SecurityPolicy resources by TrafficController
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
    * @param options The options parameters.
@@ -142,8 +144,8 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   private _listByTrafficController(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
-  ): Promise<FrontendsInterfaceListByTrafficControllerResponse> {
+    options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceListByTrafficControllerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trafficControllerName, options },
       listByTrafficControllerOperationSpec,
@@ -151,48 +153,48 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Get a Frontend
+   * Get a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param frontendName Frontends
+   * @param securityPolicyName SecurityPolicy
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     trafficControllerName: string,
-    frontendName: string,
-    options?: FrontendsInterfaceGetOptionalParams,
-  ): Promise<FrontendsInterfaceGetResponse> {
+    securityPolicyName: string,
+    options?: SecurityPoliciesInterfaceGetOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, trafficControllerName, frontendName, options },
+      { resourceGroupName, trafficControllerName, securityPolicyName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a Frontend
+   * Create a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param frontendName Frontends
+   * @param securityPolicyName SecurityPolicy
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     trafficControllerName: string,
-    frontendName: string,
-    resource: Frontend,
-    options?: FrontendsInterfaceCreateOrUpdateOptionalParams,
+    securityPolicyName: string,
+    resource: SecurityPolicy,
+    options?: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<FrontendsInterfaceCreateOrUpdateResponse>,
-      FrontendsInterfaceCreateOrUpdateResponse
+      OperationState<SecurityPoliciesInterfaceCreateOrUpdateResponse>,
+      SecurityPoliciesInterfaceCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<FrontendsInterfaceCreateOrUpdateResponse> => {
+    ): Promise<SecurityPoliciesInterfaceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -232,15 +234,15 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
       args: {
         resourceGroupName,
         trafficControllerName,
-        frontendName,
+        securityPolicyName,
         resource,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      FrontendsInterfaceCreateOrUpdateResponse,
-      OperationState<FrontendsInterfaceCreateOrUpdateResponse>
+      SecurityPoliciesInterfaceCreateOrUpdateResponse,
+      OperationState<SecurityPoliciesInterfaceCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -251,24 +253,24 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Create a Frontend
+   * Create a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param frontendName Frontends
+   * @param securityPolicyName SecurityPolicy
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     trafficControllerName: string,
-    frontendName: string,
-    resource: Frontend,
-    options?: FrontendsInterfaceCreateOrUpdateOptionalParams,
-  ): Promise<FrontendsInterfaceCreateOrUpdateResponse> {
+    securityPolicyName: string,
+    resource: SecurityPolicy,
+    options?: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       trafficControllerName,
-      frontendName,
+      securityPolicyName,
       resource,
       options,
     );
@@ -276,25 +278,25 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Update a Frontend
+   * Update a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param frontendName Frontends
+   * @param securityPolicyName SecurityPolicy
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     trafficControllerName: string,
-    frontendName: string,
-    properties: FrontendUpdate,
-    options?: FrontendsInterfaceUpdateOptionalParams,
-  ): Promise<FrontendsInterfaceUpdateResponse> {
+    securityPolicyName: string,
+    properties: SecurityPolicyUpdate,
+    options?: SecurityPoliciesInterfaceUpdateOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         trafficControllerName,
-        frontendName,
+        securityPolicyName,
         properties,
         options,
       },
@@ -303,27 +305,27 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Delete a Frontend
+   * Delete a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param frontendName Frontends
+   * @param securityPolicyName SecurityPolicy
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     trafficControllerName: string,
-    frontendName: string,
-    options?: FrontendsInterfaceDeleteOptionalParams,
+    securityPolicyName: string,
+    options?: SecurityPoliciesInterfaceDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<FrontendsInterfaceDeleteResponse>,
-      FrontendsInterfaceDeleteResponse
+      OperationState<SecurityPoliciesInterfaceDeleteResponse>,
+      SecurityPoliciesInterfaceDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<FrontendsInterfaceDeleteResponse> => {
+    ): Promise<SecurityPoliciesInterfaceDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -360,12 +362,17 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, trafficControllerName, frontendName, options },
+      args: {
+        resourceGroupName,
+        trafficControllerName,
+        securityPolicyName,
+        options,
+      },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      FrontendsInterfaceDeleteResponse,
-      OperationState<FrontendsInterfaceDeleteResponse>
+      SecurityPoliciesInterfaceDeleteResponse,
+      OperationState<SecurityPoliciesInterfaceDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -376,22 +383,22 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
   }
 
   /**
-   * Delete a Frontend
+   * Delete a SecurityPolicy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param trafficControllerName traffic controller name for path
-   * @param frontendName Frontends
+   * @param securityPolicyName SecurityPolicy
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     trafficControllerName: string,
-    frontendName: string,
-    options?: FrontendsInterfaceDeleteOptionalParams,
-  ): Promise<FrontendsInterfaceDeleteResponse> {
+    securityPolicyName: string,
+    options?: SecurityPoliciesInterfaceDeleteOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       trafficControllerName,
-      frontendName,
+      securityPolicyName,
       options,
     );
     return poller.pollUntilDone();
@@ -409,8 +416,8 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     nextLink: string,
-    options?: FrontendsInterfaceListByTrafficControllerNextOptionalParams,
-  ): Promise<FrontendsInterfaceListByTrafficControllerNextResponse> {
+    options?: SecurityPoliciesInterfaceListByTrafficControllerNextOptionalParams,
+  ): Promise<SecurityPoliciesInterfaceListByTrafficControllerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trafficControllerName, nextLink, options },
       listByTrafficControllerNextOperationSpec,
@@ -421,11 +428,11 @@ export class FrontendsInterfaceImpl implements FrontendsInterface {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByTrafficControllerOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicy",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontendListResult,
+      bodyMapper: Mappers.SecurityPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -442,11 +449,11 @@ const listByTrafficControllerOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicy/{securityPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Frontend,
+      bodyMapper: Mappers.SecurityPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -458,83 +465,83 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.frontendName,
+    Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicy/{securityPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Frontend,
+      bodyMapper: Mappers.SecurityPolicy,
     },
     201: {
-      bodyMapper: Mappers.Frontend,
+      bodyMapper: Mappers.SecurityPolicy,
     },
     202: {
-      bodyMapper: Mappers.Frontend,
+      bodyMapper: Mappers.SecurityPolicy,
     },
     204: {
-      bodyMapper: Mappers.Frontend,
+      bodyMapper: Mappers.SecurityPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource2,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.frontendName,
+    Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicy/{securityPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Frontend,
+      bodyMapper: Mappers.SecurityPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties2,
+  requestBody: Parameters.properties3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.frontendName,
+    Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicy/{securityPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.FrontendsInterfaceDeleteHeaders,
+      headersMapper: Mappers.SecurityPoliciesInterfaceDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.FrontendsInterfaceDeleteHeaders,
+      headersMapper: Mappers.SecurityPoliciesInterfaceDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.FrontendsInterfaceDeleteHeaders,
+      headersMapper: Mappers.SecurityPoliciesInterfaceDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.FrontendsInterfaceDeleteHeaders,
+      headersMapper: Mappers.SecurityPoliciesInterfaceDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -546,7 +553,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.frontendName,
+    Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -556,7 +563,7 @@ const listByTrafficControllerNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontendListResult,
+      bodyMapper: Mappers.SecurityPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

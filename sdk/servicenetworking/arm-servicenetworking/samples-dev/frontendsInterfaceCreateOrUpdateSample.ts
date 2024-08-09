@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Frontend,
-  ServiceNetworkingManagementClient
+  ServiceNetworkingManagementClient,
 } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a Frontend
  *
  * @summary Create a Frontend
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/FrontendPut.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/FrontendPut.json
  */
 async function putFrontend() {
   const subscriptionId =
@@ -34,13 +34,13 @@ async function putFrontend() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.frontendsInterface.beginCreateOrUpdateAndWait(
     resourceGroupName,
     trafficControllerName,
     frontendName,
-    resource
+    resource,
   );
   console.log(result);
 }

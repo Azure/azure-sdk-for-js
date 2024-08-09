@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Association,
-  ServiceNetworkingManagementClient
+  ServiceNetworkingManagementClient,
 } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a Association
  *
  * @summary Create a Association
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/AssociationPut.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/AssociationPut.json
  */
 async function putAssociation() {
   const subscriptionId =
@@ -35,21 +35,20 @@ async function putAssociation() {
     properties: {
       associationType: "subnets",
       subnet: {
-        id:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet"
-      }
-    }
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.associationsInterface.beginCreateOrUpdateAndWait(
     resourceGroupName,
     trafficControllerName,
     associationName,
-    resource
+    resource,
   );
   console.log(result);
 }

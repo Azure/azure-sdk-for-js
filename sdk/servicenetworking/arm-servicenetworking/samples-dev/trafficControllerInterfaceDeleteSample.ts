@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a TrafficController
  *
  * @summary Delete a TrafficController
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/TrafficControllerDelete.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/TrafficControllerDelete.json
  */
 async function deleteTrafficController() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function deleteTrafficController() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.trafficControllerInterface.beginDeleteAndWait(
     resourceGroupName,
-    trafficControllerName
+    trafficControllerName,
   );
   console.log(result);
 }
