@@ -90,6 +90,14 @@ export function generateAccountSASQueryParameters(
   accountSASSignatureValues: AccountSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
+  return generateAccountSASQueryParametersInternal(accountSASSignatureValues, sharedKeyCredential)
+    .sasQueryParameters;
+}
+
+export function generateAccountSASQueryParametersInternal(
+  accountSASSignatureValues: AccountSASSignatureValues,
+  sharedKeyCredential: StorageSharedKeyCredential,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   const version = accountSASSignatureValues.version
     ? accountSASSignatureValues.version
     : SERVICE_VERSION;
@@ -139,28 +147,31 @@ export function generateAccountSASQueryParameters(
 
   const signature: string = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
-    version,
-    signature,
-    parsedPermissions.toString(),
-    parsedServices,
-    parsedResourceTypes,
-    accountSASSignatureValues.protocol,
-    accountSASSignatureValues.startsOn,
-    accountSASSignatureValues.expiresOn,
-    accountSASSignatureValues.ipRange,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    accountSASSignatureValues.encryptionScope,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      version,
+      signature,
+      parsedPermissions.toString(),
+      parsedServices,
+      parsedResourceTypes,
+      accountSASSignatureValues.protocol,
+      accountSASSignatureValues.startsOn,
+      accountSASSignatureValues.expiresOn,
+      accountSASSignatureValues.ipRange,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      accountSASSignatureValues.encryptionScope,
+    ),
+    stringToSign: stringToSign,
+  };
 }

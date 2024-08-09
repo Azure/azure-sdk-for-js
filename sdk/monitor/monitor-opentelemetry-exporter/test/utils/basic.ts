@@ -95,6 +95,7 @@ export class TraceBasicScenario implements Scenario {
   }
 
   flush(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._processor.forceFlush();
   }
 
@@ -479,6 +480,7 @@ export class LogBasicScenario implements Scenario {
     this._provider.addLogRecordProcessor(this._processor);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async run(): Promise<void> {
     const logger = this._provider.getLogger("basic");
 
@@ -506,6 +508,7 @@ export class LogBasicScenario implements Scenario {
   }
 
   flush(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._processor.forceFlush();
   }
 
